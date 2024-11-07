@@ -29,7 +29,7 @@ export default function App() {
           <div className="hero-content">
             <span className="sub-head">{hero.span}</span>
             <h1>
-              Find Your Perfect Student Apartment — Right from Your{" "}
+              Find Your Perfect Student Apartment — Right from from Your{" "}
               <span>
                 Comfort{" "}
                 <svg
