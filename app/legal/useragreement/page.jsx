@@ -3,7 +3,7 @@ import "../legal.css";
 
 const UserAgreement = () => {
   return (
-    <div className="user-agreement">
+    <section className="user-agreement">
       <div className="container">
         <h3>User Agreement</h3>
         <p>Last Updated: [Date]</p>
@@ -43,12 +43,12 @@ const UserAgreement = () => {
 
         <h4>5. Contact Us</h4>
         <p>
-          For any questions or concerns, contact us at: contactkampusabode@gmail.com.
+          For any questions or concerns, contact us at:
+          contactkampusabode@gmail.com.
         </p>
       </div>
-    </div>
+    </section>
   );
 };
-
 
 export default UserAgreement;

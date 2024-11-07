@@ -111,7 +111,7 @@ const PropertiesPage = () => {
   };
 
   return (
-    <div className="listings-page">
+    <section className="listings-page">
       {/* <div className="search-filters">
         <select name="type" value={filters.type} onChange={handleInputChange}>
           <option value="">Select Type</option>
@@ -227,7 +227,7 @@ const PropertiesPage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

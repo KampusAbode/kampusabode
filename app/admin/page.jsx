@@ -2,12 +2,12 @@ import AdminDashboard from "../components/admin/AdminDashboard";
 
 const AdminPage = () => {
   return (
-    <div clasName="admin-dashboard">
+    <section clasName="admin-dashboard">
       <div className="container">
         <h3>Admin Dashboard</h3>
         <AdminDashboard />
       </div>
-    </div>
+    </section>
   );
 };
 

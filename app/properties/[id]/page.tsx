@@ -90,7 +90,7 @@ const PropertyDetails = ({ params }: Params) => {
 
   return (
     <SaveVisitedProperty  id={id}>
-      <div className="properties-details-page">
+      <section className="properties-details-page">
           {/* <BackButton/> */}
 
         <div className="container">
@@ -218,7 +218,7 @@ const PropertyDetails = ({ params }: Params) => {
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </SaveVisitedProperty>
   );
 };

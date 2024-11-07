@@ -107,7 +107,7 @@ export default function App() {
                 <div className="ct">
                   <p>{prop.description}</p>
                   <div>
-                    <h6>{prop.title}</h6>
+                    <h5>{prop.title}</h5>
                     <Link href={prop.url} className="btn">
                       check out <FaArrowRightLong />
                     </Link>

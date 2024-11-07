@@ -14,8 +14,8 @@ export const metadata: Metadata = {
 
 const ContactPage = () => {
   return (
-    <>
-      <div className="contact-page">
+    
+      <section className="contact-page">
         <div className="header">
           <h1>Contact Us</h1>
           <p>Get in touch with us</p>
@@ -43,8 +43,8 @@ const ContactPage = () => {
             </div>
           </div>
         </div>
-      </div>
-    </>
+      </section>
+    
   );
 }
 

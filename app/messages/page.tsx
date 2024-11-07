@@ -9,7 +9,7 @@ const Messages = () => {
   const user = useSelector((state: RootState) => state.user.isAuthenticated);
 
   return (
-    <div className="messages-page">
+    <section className="messages-page">
       <div className="container">
         <h2>Messages</h2>
 
@@ -26,7 +26,7 @@ const Messages = () => {
           </>
         )}
       </div>
-    </div>
+    </section>
   );
 }
 

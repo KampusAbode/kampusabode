@@ -9,7 +9,7 @@ import "./profile.css";
 const ProfilePage = () => {
   const user = useSelector((state: RootState) => state.userdata);
   return (
-    <div className="profile-page">
+    <section className="profile-page">
       <div className="container">
         <h2>Profile</h2>
         {user ? (
@@ -25,7 +25,7 @@ const ProfilePage = () => {
           </>
         ) : <p>login to access your profile page</p> }
       </div>
-    </div>
+    </section>
   );
 };
 

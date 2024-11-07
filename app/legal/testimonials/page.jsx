@@ -3,7 +3,7 @@ import "../legal.css";
 
 const Testimonials = () => {
   return (
-    <div className="testimonials">
+    <section className="testimonials">
       <div className="container">
         <h2>What Students and Agents Are Saying</h2>
 
@@ -30,7 +30,7 @@ const Testimonials = () => {
       </div>
 
       </div>
-    </div>
+    </section>
   );
 };
 

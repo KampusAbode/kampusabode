@@ -3,7 +3,7 @@ import "../legal.css";
 
 const TermsAndConditions = () => {
   return (
-    <div className="terms-and-conditions">
+    <section className="terms-and-conditions">
       <div className="container">
         <h2>Terms and Conditions</h2>
         <p>Last Updated: [Date]</p>
@@ -25,7 +25,7 @@ const TermsAndConditions = () => {
           contactkampusabode@gmail.com.
         </p>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -204,14 +204,14 @@ export const logoutUser = async () => {
         process.env.NEXT_PUBLIC__SECRET_KEY
       ).toString(CryptoJS.enc.Utf8);
 
-      let userData = JSON.parse(decryptedUserData);
-
-      // Clear user authentication data upon logout
-      userData.userAuth = {
-        username: "",
-        email: "",
-        userType: "",
-        isAuthenticated: false, // User logged out
+      const userData = {
+        ...JSON.parse(decryptedUserData),
+        userAuth : {
+          username: "",
+          email: "",
+          userType: "",
+          isAuthenticated: false, // User logged out
+        }
       };
 
       // Encrypt the updated user data and store it back in localStorage

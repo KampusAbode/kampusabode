@@ -13,22 +13,16 @@ import { RootState } from "../redux/store";
 const SavedPage = () => {
   const [currentTab, setCurrentTab] = useState("properties");
   const [savedProperties, setsavedProperties] = useState([]);
+  const userData = useSelector((state: RootState) => state.userdata);
   const isAuthenticated = useSelector(
     (state: RootState) => state.user.isAuthenticated
   );
 
   useEffect(() => {
-    const savedsavedProperties =
-      JSON.parse(localStorage.getItem("savedProperties")) || [];
-
-    if (isAuthenticated) {
+    if (isAuthenticated && userData.userType === "student") {
+      const savedsavedProperties = userData?.userInfo.savedProperties;
       const updatedsavedProperties = [...savedsavedProperties];
 
-      // Update localStorage with the new list
-      localStorage.setItem(
-        "savedProperties",
-        JSON.stringify(updatedsavedProperties)
-      );
       setsavedProperties(updatedsavedProperties);
     }
   }, []);
@@ -46,7 +40,7 @@ const SavedPage = () => {
           );
         });
     } else {
-      if (savedProperties) {
+      if (tab === 'properties' && savedProperties) {
         return (
           <div className="saved-props">
             {properties
@@ -74,7 +68,7 @@ const SavedPage = () => {
   }
 
   return (
-    <div className="saved-page">
+    <section className="saved-page">
       <div className="tabs">
         <div className="container">
           <span
@@ -93,7 +87,7 @@ const SavedPage = () => {
       <div className="saved-items">
         <div className="container">{savedTab(currentTab)}</div>
       </div>
-    </div>
+    </section>
   );
 };
 

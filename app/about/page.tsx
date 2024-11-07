@@ -12,8 +12,8 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <>
-      <div className="about-page">
+    
+      <section className="about-page">
         <div className="header">
           <h1>Our Mission</h1>
           <p>Know about us and what we do</p>
@@ -136,7 +136,7 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-      </div>
-    </>
+      </section>
+    
   );
 }

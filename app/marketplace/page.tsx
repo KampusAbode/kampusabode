@@ -5,7 +5,7 @@ import "./marketplace.css";
 
 function MarketPlace() {
   return (
-    <div className="marketplace">
+    <section className="marketplace">
       <div className="container">
         <h2>Market Place</h2>
 
@@ -19,7 +19,7 @@ function MarketPlace() {
           )}
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 

@@ -18,6 +18,8 @@ const { links } = data;
 
 export default function Header() {
   const pathname = usePathname().split("/");
+  console.log(pathname);
+  
 
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);

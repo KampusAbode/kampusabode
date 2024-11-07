@@ -33,7 +33,7 @@ const Dashboard = () => {
   const userRole = userData.userType;
 
   return (
-    <div className="dashboard">
+    <section className="dashboard">
       <div className="container">
         <h2>Dashboard</h2>
 
@@ -55,7 +55,7 @@ const Dashboard = () => {
           <div>Unknown user role</div>
         )}
       </div>
-    </div>
+    </section>
   );
 };
 

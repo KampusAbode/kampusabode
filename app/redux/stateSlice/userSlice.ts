@@ -1,12 +1,9 @@
 // redux/slices/userSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-
-
-
 // Define a type for the slice state
 interface UserState {
-  id: string,
+  id: string;
   username: string;
   email: string;
   userType: string;
@@ -35,6 +32,7 @@ const userSlice = createSlice({
       state.isAuthenticated = true; // Update state to log in
     },
     clearUser: (state) => {
+      state.id = "";
       state.username = "";
       state.email = "";
       state.userType = "";
