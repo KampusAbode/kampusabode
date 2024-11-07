@@ -20,7 +20,7 @@
       }
     }
     .fm {
-      padding-top: var(--spacing-5x);
+      padding-top: var(--spacing-s);
 
       h4 {
         margin-bottom: var(--spacing-2x);

@@ -1,6 +1,3 @@
-.articles-page {
-  padding-block: var(--spacing);
-}
 .articles-page .container .articles {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
