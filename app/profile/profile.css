@@ -1,0 +1,31 @@
+.profile-page {
+  padding-block: var(--spacing);
+  margin-bottom: var(--spacing-3x);
+}
+.profile-page .container h2 {
+  margin-bottom: var(--spacing-2x);
+}
+.profile-page .container .profile-overview {
+  background: var(--light-gray);
+  border-radius: var(--border-radius);
+  padding: var(--spacing);
+}
+.profile-page .container .profile-overview .dt {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: var(--spacing);
+  align-items: center;
+}
+.profile-page .container .profile-overview .dt .img img {
+  width: 100px;
+  height: 100px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.profile-page .container .profile-overview .dt .tdt span {
+  display: block;
+  margin-block: var(--spacing-h);
+}
+.profile-page .container .cp {
+  margin-top: var(--spacing-2x);
+}/*# sourceMappingURL=profile.css.map */

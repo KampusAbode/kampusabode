@@ -1,0 +1,72 @@
+/* ========== footer section open ========== */
+.footer {
+  background-color: var(--light-gray);
+  color: var(--font-color-p);
+  padding: var(--spacing-5x) 0 var(--spacing);
+}
+.footer .container {
+  /* Footer Bottom */
+}
+.footer .container .footer-sections {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-2x);
+  /* Footer Columns */
+}
+.footer .container .footer-sections .footer-column h5 {
+  margin-bottom: var(--spacing);
+}
+.footer .container .footer-sections .footer-column ul li {
+  margin-bottom: var(--spacing-h);
+}
+.footer .container .footer-sections .footer-column ul li a {
+  text-transform: capitalize;
+  font-size: var(--font-size-sm);
+  transition: var(--transition);
+}
+.footer .container .footer-sections .footer-column ul li a:hover {
+  color: var(--primary-color);
+}
+.footer .container .footer-sections .footer-column .social-links a {
+  font-size: var(--font-size-lg);
+  margin-right: var(--spacing);
+  color: var(--primary-color);
+  transition: color 0.3s ease;
+}
+.footer .container .footer-sections .footer-column .social-links a:hover {
+  color: var(--primary-color);
+}
+.footer .container .footer-bottom {
+  border-top: var(--border);
+  margin: var(--spacing-2x) 0 0;
+  padding: var(--spacing-2x) 0 0;
+  text-align: center;
+  border-top: var(--border);
+}
+.footer .container .footer-bottom p {
+  font-size: var(--font-size-xs);
+}
+.footer .container .footer-bottom p a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+.footer .container .footer-bottom p a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer {
+    padding-top: var(--spacing-3x);
+  }
+  .footer .container .footer-sections {
+    grid-template-columns: 1fr;
+  }
+  .footer .container .footer-sections .footer-column .social-links {
+    justify-content: center;
+  }
+  .footer .container .footer-sections .footer-bottom {
+    padding-bottom: var(--spacing);
+  }
+}
+/* ========== footer section close ========== *//*# sourceMappingURL=footer.css.map */

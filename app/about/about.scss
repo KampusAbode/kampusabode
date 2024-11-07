@@ -1,0 +1,158 @@
+.about-page {
+  .header {
+    background: url("/assets/deal-2.jpg") center/cover no-repeat;
+    color: var(--white);
+    padding: calc(4 * var(--spacing)) var(--spacing);
+    text-align: center;
+    margin-bottom: var(--spacing-2x);
+    position: relative;
+    z-index: 1;
+
+    &:before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgb(0, 0, 0, 0.5);
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    h1,
+    p {
+      color: var(--white);
+    }
+  }
+  .container {
+    margin-bottom: var(--spacing-s);
+    .mf {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-3x);
+      width: 80%;
+      margin-inline: auto;
+      margin-block: var(--spacing-5x);
+      & > div {
+        padding: var(--spacing-2x) var(--spacing-2x) 0px;
+        border-radius: var(--border-radius);
+        position: relative;
+        overflow: hidden;
+
+        &.mf1 {
+          background: #fff6de;
+        }
+        &.mf2 {
+          background: #0a43d526;
+        }
+
+        h5 {
+          margin-bottom: var(--spacing-h);
+        }
+        span {
+          color: var(--primary-color);
+          font-size: inherit;
+        }
+
+        .image {
+          margin-top: var(--spacing);
+
+          img {
+            width: auto;
+            height: 300px;
+            margin: 0 auto -10px;
+          }
+        }
+
+        .dot {
+          position: absolute;
+          width: auto;
+          height: auto;
+          bottom: 0;
+          right: var(--spacing-2x);
+        }
+      }
+    }
+
+    .about {
+      text-align: center;
+
+      p {
+        width: 60%;
+        margin: 0 auto;
+        margin-top: var(--spacing-2x);
+      }
+    }
+
+    .journey {
+      .path {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: var(--spacing-2x);
+        margin-top: calc(2 * var(--spacing-2x));
+
+        &.switch {
+          .content {
+            order: 2;
+          }
+        }
+
+        .content {
+          span {
+            padding: var(--spacing-h) var(--spacing);
+            background-color: var(--primary-color);
+            border-radius: var(--border-radius-r);
+            color: var(--white);
+            display: inline-block;
+          }
+
+          h3 {
+            margin-block: var(--spacing);
+          }
+        }
+
+        .image {
+          height: 280px;
+          img {
+            max-width: 100%;
+            height: 100%;
+            border-radius: var(--border-radius-r);
+            object-fit: cover;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .about-page {
+    .container {
+      padding: var(--spacing);
+
+      .mf {
+        grid-template-columns: 1fr;
+        width: 100%;
+      }
+      .about {
+        p {
+          width: 100%;
+        }
+      }
+      .journey {
+        .path {
+          grid-template-columns: 1fr;
+
+          .content {
+            order: 2;
+          }
+          .image {
+            order: 1;
+            height: 240px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,128 @@
+.user-search {
+  padding-top: var(--spacing);
+  padding-bottom: 0;
+  margin-top: var(--spacing-2x);
+
+  .container {
+    border-radius: var(--border-radius-r);
+    max-width: 750px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 8fr .8fr;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    input {
+      border: none;
+      padding: var(--spacing);
+    }
+    .search-icon {
+      color: var(--font-color-p);
+      border-top-right-radius: var(--border-radius-r);
+      border-bottom-right-radius: var(--border-radius-r);
+      display: grid;
+      place-content: center;
+      cursor: pointer;
+      background-color: var(--light-gray);
+      svg {
+        width: 25px;
+        height: 25px;
+      }
+    }
+  }
+}
+
+.filter {
+  background: var(--background-white);
+  border-radius: var(--border-radius);
+  width: fit-content;
+  max-width: 90%;
+  margin: var(--spacing) auto;
+  padding-block: var(--spacing);
+  position: sticky;
+  top: 10;
+
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    width: auto;
+    gap: var(--spacing);
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    span {
+      padding: var(--spacing);
+      border-radius: var(--border-radius);
+      border: var(--border);
+      text-transform: capitalize;
+      white-space: nowrap;
+      font-size: var(--font-size-sm);
+      cursor: pointer;
+      transition: var(--transition);
+
+      &:hover,
+      &.active {
+        border: var(--border-hover);
+      }
+    }
+  }
+}
+.property-listings {
+  margin-bottom: var(--spacing-5x);
+  .properties {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing);
+
+    span,
+    svg path {
+      color: var(--font-color-p);
+    }
+  }
+}
+@media screen and (max-width: 1400px) {
+  .property-listings {
+    .properties {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .user-search {
+    padding-top: var(--spacing);
+    .container{
+      
+    grid-template-columns: 8fr 1.5fr;
+
+     .search-icon {
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+    }
+  }
+  .filter {
+    .container {
+      justify-content: left;
+    }
+  }
+  .property-listings {
+    .properties {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+}
+@media screen and (max-width: 560px) {
+  .property-listings {
+    .properties {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-2x);
+    }
+  }
+}

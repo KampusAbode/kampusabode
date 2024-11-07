@@ -1,0 +1,137 @@
+.dashboard {
+  padding-block: var(--spacing);
+  margin-bottom: var(--spacing-3x);
+
+  .welcome {
+    padding: var(--spacing-2x);
+    margin-top: var(--spacing-2x);
+    text-align: center;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+
+    img {
+      width: 90px;
+      height: 90px;
+      border-radius: 100%;
+      object-fit: cover;
+      margin-bottom: var(--spacing);
+    }
+  }
+
+  .student-dashboard,
+  .agent-dashboard {
+    margin-block: var(--spacing-2x);
+
+    h4 {
+      margin-bottom: var(--spacing);
+    }
+
+    & > div {
+      margin-block: var(--spacing-5x);
+    }
+
+    .bookmarked-properties {
+      ul {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing);
+        li {
+          background: var(--light-gray);
+          border-radius: var(--border-radius);
+          border: var(--border-hover);
+          border-color: transparent;
+          cursor: pointer;
+          overflow: hidden;
+
+          &:hover {
+            border: var(--border-hover);
+          }
+          a {
+            display: grid;
+            grid-template-columns: 30% 1fr;
+            align-items: center;
+            width: 100%;
+
+            img {
+              width: 100%;
+              height: 70px;
+              object-fit: cover;
+            }
+
+            div {
+              padding-inline: var(--spacing);
+              span,
+              p {
+                color: var(--text-color-h);
+                display: block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                line-clamp: 1;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+              }
+              span {
+                margin-top: var(--spacing-h);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .viewed-properties {
+      .display-viewed-properties {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: var(--spacing);
+        overflow-x: scroll;
+        align-items: center;
+        text-align: center;
+
+        img {
+          width: 90px;
+          height: 90px;
+          border-radius: 100%;
+          object-fit: cover;
+        }
+        span{
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .dashboard {
+    .student-dashboard,
+    .agent-dashboard {
+      .bookmarked-properties {
+        ul {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .dashboard {
+    .student-dashboard,
+    .agent-dashboard {
+      .bookmarked-properties {
+        ul {
+          grid-template-columns: 1fr;
+          li {
+            a {
+              img {
+                height: 70px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

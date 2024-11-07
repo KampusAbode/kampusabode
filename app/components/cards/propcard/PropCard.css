@@ -1,0 +1,87 @@
+.prop-card {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+.prop-card a {
+  outline: none;
+}
+.prop-card .prop-image {
+  position: relative;
+}
+.prop-card .prop-image .actions {
+  position: absolute;
+  top: var(--spacing);
+  right: var(--spacing);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-h);
+  z-index: 2;
+}
+.prop-card .prop-image .actions svg {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+}
+.prop-card .swiper {
+  height: 290px;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  box-shadow: var(--shadow);
+}
+.prop-card .swiper img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.prop-card .swiper .swiper-pagination-bullet {
+  background-color: var(--white);
+  opacity: 0.6;
+}
+.prop-card .swiper .swiper-pagination-bullet-active {
+  opacity: 1;
+}
+.prop-card .card-details {
+  padding: var(--spacing) 0;
+}
+.prop-card .card-details .type-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing);
+}
+.prop-card .card-details .type-price .price {
+  color: var(--font-color-h);
+  font-weight: 600;
+}
+.prop-card .card-details .brief {
+  margin-block: var(--spacing-h);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-3x);
+}
+.prop-card .card-details .brief h4 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  margin-block: var(--spacing-h);
+  line-height: var(--line-height-xs);
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  text-transform: capitalize;
+}
+.prop-card .card-details p {
+  display: flex;
+  gap: var(--spacing);
+  align-items: center;
+  text-transform: capitalize;
+}
+
+@media screen and (max-width: 786px) {
+  .prop-card .card-details .brief {
+    gap: var(--spacing-2x);
+  }
+}/*# sourceMappingURL=PropCard.css.map */

@@ -1,0 +1,20 @@
+.back {
+  display: none;
+
+  margin-top: var(--spacing-2x);
+}
+.back .container {
+  border: var(--border);
+  border-radius: var(--border-radius);
+}
+.back span {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-h);
+}
+
+@media screen and (max-width: 768px) {
+  .back {
+    display: block;
+  }
+}

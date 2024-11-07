@@ -1,0 +1,32 @@
+'use client'
+
+import React from "react";
+import ProfileOverview from "../components/userdashboard/ProfileOverview";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import "./profile.css";
+
+const ProfilePage = () => {
+  const user = useSelector((state: RootState) => state.userdata);
+  return (
+    <div className="profile-page">
+      <div className="container">
+        <h2>Profile</h2>
+        {user ? (
+          <>
+          <ProfileOverview user={user} />
+
+        <div className="cp">
+          <div className="btn">
+            create profile
+          </div>
+        </div>
+          
+          </>
+        ) : <p>login to access your profile page</p> }
+      </div>
+    </div>
+  );
+};
+
+export default ProfilePage;

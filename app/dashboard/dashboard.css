@@ -1,0 +1,123 @@
+.dashboard {
+  padding-block: var(--spacing);
+  margin-bottom: var(--spacing-3x);
+}
+.dashboard .welcome {
+  padding: var(--spacing-2x);
+  margin-top: var(--spacing-2x);
+  text-align: center;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+.dashboard .welcome img {
+  width: 90px;
+  height: 90px;
+  border-radius: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-bottom: var(--spacing);
+}
+.dashboard .student-dashboard,
+.dashboard .agent-dashboard {
+  margin-block: var(--spacing-2x);
+}
+.dashboard .student-dashboard h4,
+.dashboard .agent-dashboard h4 {
+  margin-bottom: var(--spacing);
+}
+.dashboard .student-dashboard > div,
+.dashboard .agent-dashboard > div {
+  margin-block: var(--spacing-5x);
+}
+.dashboard .student-dashboard .bookmarked-properties ul,
+.dashboard .agent-dashboard .bookmarked-properties ul {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing);
+}
+.dashboard .student-dashboard .bookmarked-properties ul li,
+.dashboard .agent-dashboard .bookmarked-properties ul li {
+  background: var(--light-gray);
+  border-radius: var(--border-radius);
+  border: var(--border-hover);
+  border-color: transparent;
+  cursor: pointer;
+  overflow: hidden;
+}
+.dashboard .student-dashboard .bookmarked-properties ul li:hover,
+.dashboard .agent-dashboard .bookmarked-properties ul li:hover {
+  border: var(--border-hover);
+}
+.dashboard .student-dashboard .bookmarked-properties ul li a,
+.dashboard .agent-dashboard .bookmarked-properties ul li a {
+  display: grid;
+  grid-template-columns: 30% 1fr;
+  align-items: center;
+  width: 100%;
+}
+.dashboard .student-dashboard .bookmarked-properties ul li a img,
+.dashboard .agent-dashboard .bookmarked-properties ul li a img {
+  width: 100%;
+  height: 70px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.dashboard .student-dashboard .bookmarked-properties ul li a div,
+.dashboard .agent-dashboard .bookmarked-properties ul li a div {
+  padding-inline: var(--spacing);
+}
+.dashboard .student-dashboard .bookmarked-properties ul li a div span,
+.dashboard .student-dashboard .bookmarked-properties ul li a div p,
+.dashboard .agent-dashboard .bookmarked-properties ul li a div span,
+.dashboard .agent-dashboard .bookmarked-properties ul li a div p {
+  color: var(--text-color-h);
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.dashboard .student-dashboard .bookmarked-properties ul li a div span,
+.dashboard .agent-dashboard .bookmarked-properties ul li a div span {
+  margin-top: var(--spacing-h);
+}
+.dashboard .student-dashboard .viewed-properties .display-viewed-properties,
+.dashboard .agent-dashboard .viewed-properties .display-viewed-properties {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--spacing);
+  overflow-x: scroll;
+  align-items: center;
+  text-align: center;
+}
+.dashboard .student-dashboard .viewed-properties .display-viewed-properties img,
+.dashboard .agent-dashboard .viewed-properties .display-viewed-properties img {
+  width: 90px;
+  height: 90px;
+  border-radius: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.dashboard .student-dashboard .viewed-properties .display-viewed-properties span,
+.dashboard .agent-dashboard .viewed-properties .display-viewed-properties span {
+  display: block;
+}
+
+@media screen and (max-width: 768px) {
+  .dashboard .student-dashboard .bookmarked-properties ul,
+  .dashboard .agent-dashboard .bookmarked-properties ul {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media screen and (max-width: 480px) {
+  .dashboard .student-dashboard .bookmarked-properties ul,
+  .dashboard .agent-dashboard .bookmarked-properties ul {
+    grid-template-columns: 1fr;
+  }
+  .dashboard .student-dashboard .bookmarked-properties ul li a img,
+  .dashboard .agent-dashboard .bookmarked-properties ul li a img {
+    height: 70px;
+  }
+}/*# sourceMappingURL=dashboard.css.map */

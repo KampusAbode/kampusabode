@@ -1,0 +1,33 @@
+"use client"
+
+import { useSelector } from "react-redux";
+import type { RootState } from "../redux/store";
+import Link from "next/link";
+import './messages.css'
+
+const Messages = () => {
+  const user = useSelector((state: RootState) => state.user.isAuthenticated);
+
+  return (
+    <div className="messages-page">
+      <div className="container">
+        <h2>Messages</h2>
+
+        {user ? (
+          <div className="messages">
+            Messages from the Kampus Abode will appear here.
+          </div>
+        ) : (
+          <>
+            <p>you have to login to view messages.</p>
+            <Link href={"/auth/login"} className="btn">
+              Log in
+            </Link>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default Messages;

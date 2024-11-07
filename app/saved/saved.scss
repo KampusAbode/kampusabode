@@ -1,0 +1,100 @@
+.saved-page {
+  margin-bottom: var(--spacing-5x);
+  .tabs {
+    margin-bottom: var(--spacing);
+    background: var(--background-white);
+    position: sticky;
+    top: 10px;
+    padding: var(--spacing);
+    z-index: 10;
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      text-align: center;
+      width: 75%;
+      max-width: 500px;
+      text-transform: capitalize;
+      border: var(--border);
+      border-radius: var(--border-radius-r);
+
+      span {
+        padding: var(--spacing-h);
+        border: var(--border);
+        color: var(--font-color-p);
+        font-size: var(--font-size-nd);
+        border-color: transparent;
+        cursor: pointer;
+        &:first-child {
+          border-top-left-radius: var(--border-radius-r);
+          border-bottom-left-radius: var(--border-radius-r);
+        }
+        &:last-child {
+          border-top-right-radius: var(--border-radius-r);
+          border-bottom-right-radius: var(--border-radius-r);
+        }
+        &.active {
+          background-color: var(--light-gray);
+          color: var(--font-color-p);
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .saved-items {
+    .container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--spacing-2x);
+
+      img {
+        border-top-right-radius: var(--border-radius);
+      }
+      .saved-props {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: var(--spacing-2x);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1400px) {
+  .saved-page {
+    .saved-items {
+      .container {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .saved-props {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .saved-page {
+    .saved-items {
+      .container {
+        grid-template-columns: 1fr 1fr;
+        .saved-props {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 560px) {
+  .saved-page {
+    .saved-items {
+      .container {
+        grid-template-columns: 1fr;
+        .saved-props {
+          grid-template-columns: repeat(2, 1fr);
+          gap: var(--spacing);
+        }
+      }
+    }
+  }
+}

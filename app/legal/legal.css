@@ -1,0 +1,13 @@
+/* section:not(.footer){
+    padding-block: var(--spacing-2x);
+} */
+.h3{
+    margin-block:var(--spacing-2x);
+}
+h4{
+    margin-bottom: var(--spacing);
+    margin-top: var(--spacing-3x);
+}
+p{
+    margin-bottom: var(--spacing);
+}

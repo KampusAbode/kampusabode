@@ -1,0 +1,113 @@
+.login,
+.signup {
+  display: grid;
+  
+  .container {
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    .im {
+      background: #FF5E5E;
+
+      display: grid;
+      place-items: center;
+      img {
+        width: 60%;
+        height: auto;
+      }
+    }
+    .fm {
+      padding-top: var(--spacing-5x);
+
+      h4 {
+        margin-bottom: var(--spacing-2x);
+        text-align: center;
+      }
+
+      form {
+        width: 80%;
+        margin: 0 auto;
+        .input-box {
+          position: relative;
+          margin-bottom: var(--spacing-2x);
+
+          label {
+            display: block;
+            padding-left: var(--spacing);
+            letter-spacing: 1px;
+          }
+          input,
+          select {
+            width: 100%;
+            border: var(--border);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-h) var(--spacing);
+            font-size: var(--font-size-nm);
+            color: var(--font-color-p);
+
+            &:focus {
+              border: var(--border-hover);
+            }
+          }
+
+          span {
+            position: absolute;
+            bottom: -30%;
+            left: var(--spacing);
+            color: #f10909;
+          }
+        }
+        button {
+          margin: var(--spacing) auto;
+          width: 100%;
+          display: block;
+          text-align: center;
+          /* text-decoration: ; */
+
+          &.disable {
+            user-select: none;
+          }
+        }
+      }
+      & > span {
+        display: block;
+        margin-top: var(--spacing-2x);
+        padding-inline: var(--spacing);
+        text-align: center;
+        a {
+          color: var(--primary-color);
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .login,
+  .signup {
+    .container {
+      grid-template-columns: 1fr;
+
+      .im {
+        display: none;
+      }
+
+      .fm {
+      padding: var(--spacing-3x);
+
+      h4 {
+        margin-bottom: var(--spacing-2x);
+        text-align: center;
+      }
+
+      form {
+        width: 100%;
+      }
+    }
+    }
+  }
+}
