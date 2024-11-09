@@ -125,7 +125,7 @@ const PropertyDetails = ({ params }: Params) => {
               <div>
                 <div className="agent-details">
                   <Image
-                    src={agentDetails.avatar}
+                    src={agentDetails.userInfo.avatar}
                     width={500}
                     height={500}
                     alt={`${agentDetails.name} profile picture`}
@@ -143,7 +143,7 @@ const PropertyDetails = ({ params }: Params) => {
                 <div className="bio">
                   <p>
                     <strong>Bio: </strong>
-                    {agentDetails.bio}
+                    {agentDetails.userInfo.bio}
                   </p>
                 </div>
               </div>

@@ -48,6 +48,8 @@ export const signupUser = async (userData: UserSignupInput) => {
       additionalUserData = {
         userType: "student",
         userInfo: {
+          bio: "",
+          avatar: "",
           university: "Not Provided",
           department: userData.studentInfo?.department,
           yearOfStudy: 1,
@@ -59,9 +61,9 @@ export const signupUser = async (userData: UserSignupInput) => {
     } else if (userType === "agent") {
       additionalUserData = {
         userType: "agent",
-        bio: "",
-        avatar: "",
         userInfo: {
+          bio: "",
+          avatar: "",
           agencyName: userData.agentInfo?.agencyName,
           phoneNumber: userData.agentInfo?.phoneNumber,
           propertiesListed: [], // Initially empty

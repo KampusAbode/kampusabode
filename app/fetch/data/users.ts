@@ -7,6 +7,8 @@ export const users: UserType[] = [
     email: "johndoe@gmail.com",
     userType: "student",
     userInfo: {
+      bio: 'Just a student searching for an apartment.',
+      avatar: "/assets/person1.jpg",
       university: "University of Lagos",
       department: "Computer Science",
       yearOfStudy: 3,
@@ -25,6 +27,8 @@ export const users: UserType[] = [
     email: "sarahakin@yahoo.com",
     userType: "student",
     userInfo: {
+      bio: 'I am a stduent of the prestiguous obafemi awolowo university.',
+      avatar: "/assets/person1.jpg",
       university: "Obafemi Awolowo University",
       department: "Estate Management",
       yearOfStudy: 2,
@@ -38,9 +42,9 @@ export const users: UserType[] = [
     name: "Michael Brown",
     email: "michaelbrown@gmail.com",
     userType: "agent",
-    bio: "As a property manager specializing in student housing, I am committed to providing comfortable and convenient living spaces near major campuses. My goal is to offer properties that are not only affordable but also foster a conducive environment for academic success.",
-    avatar: "/assets/person1.jpg",
     userInfo: {
+      bio: "As a property manager specializing in student housing, I am committed to providing comfortable and convenient living spaces near major campuses. My goal is to offer properties that are not only affordable but also foster a conducive environment for academic success.",
+      avatar: "/assets/person1.jpg",
       agencyName: "Campus Living Realty",
       phoneNumber: "+23470 1234 5678",
       propertiesListed: [
@@ -60,9 +64,9 @@ export const users: UserType[] = [
     name: "Anita Williams",
     email: "anitawilliams@outlook.com",
     userType: "agent",
-    bio: "I manage student properties with a focus on providing a home-like atmosphere that combines academic focus with comfort and style. My Victorian properties offer a unique living experience, blending historic elegance with modern amenities.",
-    avatar: "/assets/person2.jpg",
     userInfo: {
+      bio: "I manage student properties with a focus on providing a home-like atmosphere that combines academic focus with comfort and style. My Victorian properties offer a unique living experience, blending historic elegance with modern amenities.",
+      avatar: "/assets/person2.jpg",
       agencyName: "Student Homes & Co.",
       phoneNumber: "+23470 1234 5678",
       propertiesListed: [
@@ -82,9 +86,9 @@ export const users: UserType[] = [
     name: "David Adeoye",
     email: "davidadeoye@domain.com",
     userType: "agent",
-    bio: "As a property manager with extensive experience in family and group housing, I offer homes that cater to students seeking a balance between study and social life. My properties are located in safe, friendly neighborhoods with easy access to universities.",
-    avatar: "/assets/person3.jpg",
     userInfo: {
+      bio: "As a property manager with extensive experience in family and group housing, I offer homes that cater to students seeking a balance between study and social life. My properties are located in safe, friendly neighborhoods with easy access to universities.",
+      avatar: "/assets/person3.jpg",
       agencyName: "Prime Rentals",
       phoneNumber: "+23470 1234 5678",
       propertiesListed: [
@@ -104,9 +108,9 @@ export const users: UserType[] = [
     name: "Grace Eze",
     email: "graceeze@hotmail.com",
     userType: "agent",
-    bio: "With a background in student housing management, I focus on creating welcoming environments where students can thrive academically and socially. My properties are tailored to meet the needs of today’s students.",
-    avatar: "/assets/service1.jpg",
     userInfo: {
+      bio: "With a background in student housing management, I focus on creating welcoming environments where students can thrive academically and socially. My properties are tailored to meet the needs of today’s students.",
+      avatar: "/assets/service1.jpg",
       agencyName: "Smart Properties",
       phoneNumber: "+23470 1234 5678",
       propertiesListed: [

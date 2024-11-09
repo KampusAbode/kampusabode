@@ -1,5 +1,4 @@
 .dashboard {
-  padding-block: var(--spacing);
   margin-bottom: var(--spacing-3x);
 
   .welcome {
@@ -97,6 +96,7 @@
         }
         span{
           display: block;
+          text-transform: capitalize
         }
       }
     }

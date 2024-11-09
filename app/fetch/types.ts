@@ -95,6 +95,8 @@ export interface StudentType {
   email: string;
   userType: "student";
   userInfo: {
+    bio: string;
+    avatar: string;
     university: string;
     department: string;
     yearOfStudy: number;
@@ -110,9 +112,9 @@ export interface AgentType {
   name: string;
   email: string;
   userType: "agent";
-  bio: string;
-  avatar: string;
   userInfo: {
+    bio: string;
+    avatar: string;
     agencyName: string;
     phoneNumber: string;
     propertiesListed: {
