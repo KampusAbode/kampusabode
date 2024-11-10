@@ -12,6 +12,8 @@
   .property-images {
     display: grid;
     grid-template-columns: 1.5fr 1fr;
+    width: 90%;
+    margin: 0 auto;
     .display-image {
       height: 70vh;
       display: flex;
@@ -321,6 +323,7 @@
     .property-images {
       grid-template-columns: 1fr;
       gap: var(--spacing);
+      width: 100%;
       .display-image {
         height: 48vh;
         padding-block: 0;

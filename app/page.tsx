@@ -4,16 +4,19 @@ import Image from "next/image";
 import "./home.css";
 import data from "./fetch/contents";
 import { articles } from "./fetch/data/articles";
-import { properties } from "./fetch/data/properties";
 import Quotes from "./components/quotes/Quotes";
 import Link from "next/link";
 
 import { FaArrowRightLong } from "react-icons/fa6";
+import { RootState } from "./redux/store";
+import { useSelector } from "react-redux";
 
 const { homeSection } = data;
 const { hero, about, testimonials } = homeSection;
 
+
 export default function App() {
+  const properties  = useSelector((state: RootState) => state.properties.properties);
   return (
     <>
       <section className="hero-section">

@@ -1,6 +1,6 @@
 //   app/utils/api.js
 
-import axios from "axios";
+// import axios from "axios";
 import { db, auth } from "../lib/firebaseConfig";
 import {
   createUserWithEmailAndPassword,
@@ -10,11 +10,17 @@ import {
   collection,
   doc,
   setDoc,
+  updateDoc,
   query,
   where,
   getDocs,
+  deleteField,
+  Timestamp,
 } from "firebase/firestore";
+
+import { v4 as uuidv4 } from "uuid";
 import CryptoJS from "crypto-js";
+import { PropertyType } from "../fetch/types";
 
 // TypeScript type for user input (based on your example)
 interface UserSignupInput {
@@ -147,13 +153,11 @@ export const loginUser = async (userData: UserLoginInput) => {
       isAuthenticated: true, // User logged in
     };
 
-    
     const userStore = {
       token: token,
       userAuth: userAuth,
       userFromDB: userDataFromDB,
     };
-    
 
     // Convert userStore object to JSON string before encrypting
     const encryptedData = CryptoJS.AES.encrypt(
@@ -208,12 +212,12 @@ export const logoutUser = async () => {
 
       const userData = {
         ...JSON.parse(decryptedUserData),
-        userAuth : {
+        userAuth: {
           username: "",
           email: "",
           userType: "",
           isAuthenticated: false, // User logged out
-        }
+        },
       };
 
       // Encrypt the updated user data and store it back in localStorage
@@ -226,7 +230,6 @@ export const logoutUser = async () => {
       localStorage.setItem("hasSeenWelcome", JSON.stringify(false));
       localStorage.setItem("AIzaSyDsz5edn22pVbHW", encryptedData);
     }
-
 
     return { message: "Successfully logged out" };
   } catch (error) {
@@ -246,6 +249,50 @@ export const logoutUser = async () => {
     }
   }
 };
+
+
+
+export const getProperties = async (): Promise<PropertyType[]> => {
+  try {
+    const propertiesCollection = collection(db, "properties");
+    const snapshot = await getDocs(propertiesCollection);
+
+    // Map each document to a PropertyType object
+    const propertiesList: PropertyType[] = snapshot.docs.map((doc) => {
+      const data = doc.data() as PropertyType;
+
+      // Ensure the data returned from Firebase matches PropertyType
+      const property: PropertyType = {
+        id: data.id || 0,
+        url: data.url || "",
+        agentId: data.agentId || 0,
+        title: data.title || "",
+        description: data.description || "",
+        price: data.price || "",
+        location: data.location || "",
+        neighborhood_overview: data.neighborhood_overview || "",
+        type: data.type || "",
+        bedrooms: data.bedrooms || 0,
+        bathrooms: data.bathrooms || 0,
+        area: data.area || 0,
+        amenities: data.amenities || [],
+        images: data.images || [],
+        saved: data.saved || false,
+        available: data.available || false,
+      };
+
+      return property;
+    });
+
+    return propertiesList;
+  } catch (error) {
+    throw {
+      message: (error as Error).message || "Error fetching properties",
+      statusCode: 500,
+    };
+  }
+};
+
 
 // Sample user data structure
 const users = [
@@ -335,214 +382,76 @@ export const compatibilyCheck = (userId: string) => {
   return { message: "Your match", matches };
 };
 
-// Fetch user data API call
-export const getUserData = async (token) => {
-  try {
-    const response = await axios.get("/api/user");
+// Function to generate a random timestamp within the past year
+function generateRandomTimestamp() {
+  const now = new Date();
+  const pastYear = new Date(
+    now.getFullYear() - 1,
+    now.getMonth(),
+    now.getDate()
+  );
+  const randomDate = new Date(
+    pastYear.getTime() + Math.random() * (now.getTime() - pastYear.getTime())
+  );
+  return Timestamp.fromDate(randomDate);
+}
 
-    return response;
+// Function to add multiple properties with unique IDs and random timestamps
+export const addPropertiesToFirestore = async (properties) => {
+  try {
+    const propertiesCollection = collection(db, "properties");
+
+    await Promise.all(
+      properties.map(async (property) => {
+        // Generate a unique ID for each property
+        const uniqueId = uuidv4();
+
+        // Create the property object with id, url, and timestamp
+        const propertyWithExtras = {
+          ...property,
+          id: uniqueId,
+          url: `/properties/${uniqueId}`, // Dynamic URL based on unique ID
+          timestamp: generateRandomTimestamp(),
+        };
+
+        // Use setDoc with the specified document ID
+        const docRef = doc(propertiesCollection, uniqueId);
+        await setDoc(docRef, propertyWithExtras);
+      })
+    );
+
+    console.log(
+      "All properties with unique IDs, URLs, and random timestamps uploaded successfully!"
+    );
   } catch (error) {
-    throw {
-      message: "Error fetching user data",
-      statusCode: 500,
-    };
+    console.error("Error uploading properties:", error);
   }
 };
 
-// GET - Fetch all bookmarks
-export const fetchBookmarks = async () => {
+export const updateAllProperties = async () => {
   try {
-    const response = await axios.get("/api/bookmarks");
-    return response.data;
-  } catch (error) {
-    console.error("Failed to fetch bookmarks:", error);
-    throw error;
-  }
-};
+    // Reference to the 'properties' collection
+    const propertiesCollection = collection(db, "properties");
 
-// DELETE - Delete a bookmark by ID
-export const deleteBookmark = async (bookmarkId) => {
-  try {
-    const response = await axios.delete(`/api/bookmarks/${bookmarkId}`);
-    return response.data;
-  } catch (error) {
-    console.error("Failed to delete bookmark:", error);
-    throw error;
-  }
-};
+    // Fetch all documents in the 'properties' collection
+    const snapshot = await getDocs(propertiesCollection);
 
-// POST - Add a new student
-export const addStudent = async (student) => {
-  try {
-    const response = await axios.post("/api/students", student);
-    return response.data;
-  } catch (error) {
-    console.error("Failed to add student:", error);
-    throw error;
-  }
-};
+    // Loop through each document to update it
+    snapshot.forEach(async (doc) => {
+      const docRef = doc.ref;
 
-// GET - Fetch all students
-export const fetchStudents = async () => {
-  try {
-    const response = await axios.get("/api/students");
-    return response.data;
-  } catch (error) {
-    console.error("Failed to fetch students:", error);
-    throw error;
-  }
-};
+      // Update the document to add or modify fields
+      await updateDoc(docRef, {
+        // Example: Adding a new field 'agentLocation'
+        agentLocation: "City Center", // Change this value as needed
 
-// DELETE - Delete a student by ID
-export const deleteStudent = async (studentId) => {
-  try {
-    const response = await axios.delete(`/api/students/${studentId}`);
-    return response.data;
-  } catch (error) {
-    console.error("Failed to delete student:", error);
-    throw error;
-  }
-};
+        // Example: Removing the 'location' field
+        location: deleteField(),
+      });
+    });
 
-// POST - Add a new agent
-export const addAgent = async (agent) => {
-  try {
-    const response = await axios.post("/api/agents", agent);
-    return response.data;
+    console.log("All properties updated successfully!");
   } catch (error) {
-    console.error("Failed to add agent:", error);
-    throw error;
-  }
-};
-
-// GET - Fetch all agents
-export const fetchAgents = async () => {
-  try {
-    const response = await axios.get("/api/agents");
-    return response.data;
-  } catch (error) {
-    console.error("Failed to fetch agents:", error);
-    throw error;
-  }
-};
-
-// DELETE - Delete an agent by ID
-export const deleteAgent = async (agentId) => {
-  try {
-    const response = await axios.delete(`/api/agents/${agentId}`);
-    return response.data;
-  } catch (error) {
-    console.error("Failed to delete agent:", error);
-    throw error;
-  }
-};
-
-// POST - Add a new property
-export const addProperty = async (property) => {
-  try {
-    const response = await axios.post("/api/properties", property);
-    return response.data;
-  } catch (error) {
-    console.error("Failed to add property:", error);
-    throw error;
-  }
-};
-
-// GET - Fetch all properties
-export const fetchProperties = async () => {
-  try {
-    const response = await axios.get("/api/properties");
-    return response.data;
-  } catch (error) {
-    console.error("Failed to fetch properties:", error);
-    throw error;
-  }
-};
-
-// DELETE - Delete a property by ID
-export const deleteProperty = async (propertyId) => {
-  try {
-    const response = await axios.delete(`/api/properties/${propertyId}`);
-    return response.data;
-  } catch (error) {
-    console.error("Failed to delete property:", error);
-    throw error;
-  }
-};
-
-// POST - Add a new review
-export const addReview = async (review) => {
-  try {
-    const response = await axios.post("/api/reviews", review);
-    return response.data;
-  } catch (error) {
-    console.error("Failed to add review:", error);
-    throw error;
-  }
-};
-
-// GET - Fetch all reviews
-export const fetchReviews = async () => {
-  try {
-    const response = await axios.get("/api/reviews");
-    return response.data;
-  } catch (error) {
-    console.error("Failed to fetch reviews:", error);
-    throw error;
-  }
-};
-
-// DELETE - Delete a review by ID
-export const deleteReview = async (reviewId) => {
-  try {
-    const response = await axios.delete(`/api/reviews/${reviewId}`);
-    return response.data;
-  } catch (error) {
-    console.error("Failed to delete review:", error);
-    throw error;
-  }
-};
-
-// POST - Add a new comment
-export const addComment = async (comment) => {
-  try {
-    const response = await axios.post("/api/comments", comment);
-    return response.data;
-  } catch (error) {
-    console.error("Failed to add comment:", error);
-    throw error;
-  }
-};
-
-// GET - Fetch all comments
-export const fetchComments = async () => {
-  try {
-    const response = await axios.get("/api/comments");
-    return response.data;
-  } catch (error) {
-    console.error("Failed to fetch comments:", error);
-    throw error;
-  }
-};
-
-// DELETE - Delete a comment by ID
-export const deleteComment = async (commentId) => {
-  try {
-    const response = await axios.delete(`/api/comments/${commentId}`);
-    return response.data;
-  } catch (error) {
-    console.error("Failed to delete comment:", error);
-    throw error;
-  }
-};
-
-// Function to fetch analytics data
-export const fetchAnalytics = async () => {
-  try {
-    const response = await axios.get(`/api/analytics`);
-    return response.data;
-  } catch (error) {
-    console.error("Failed to fetch analytics data:", error);
-    throw error;
+    console.error("Error updating properties:", error);
   }
 };

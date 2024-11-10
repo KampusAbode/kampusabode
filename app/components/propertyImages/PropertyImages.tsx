@@ -12,7 +12,7 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 function PropertyImages({ propertyDetails }: { propertyDetails: PropertyType }) {
   const [imageCount, setImageCount] = useState(0);
-  const maxImageCount: number = propertyDetails.images.length;
+  const maxImageCount: number = propertyDetails?.images?.length;
 
   const increamentImageCount = () => {
     if (imageCount < maxImageCount - 1) {
@@ -34,13 +34,13 @@ function PropertyImages({ propertyDetails }: { propertyDetails: PropertyType }) 
       <div className="display-image">
         <div className="features">
           <ShareButton />
-          <BookmarkButton propertyId={propertyDetails.id} />
+          <BookmarkButton propertyId={propertyDetails?.id} />
         </div>
         <img
-          src={propertyDetails.images[imageCount]}
+          src={propertyDetails?.images[imageCount]}
           width={1000}
           height={1000}
-          alt={`${propertyDetails.title} image`}
+          alt={`${propertyDetails?.title} image`}
         
         />
         <div className="image-pagination">
@@ -56,7 +56,7 @@ function PropertyImages({ propertyDetails }: { propertyDetails: PropertyType }) 
         </div>
       </div>
       <div className="control-image">
-        {propertyDetails.images.map((img: string, index: number) => (
+        {propertyDetails?.images?.map((img: string, index: number) => (
           <img
             key={index + img}
             src={img}

@@ -23,6 +23,7 @@
       padding-top: var(--spacing-s);
 
       h4 {
+        margin-top: var(--spacing-4x);
         margin-bottom: var(--spacing-2x);
         text-align: center;
       }

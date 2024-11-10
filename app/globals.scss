@@ -66,12 +66,10 @@
   list-style-type: none;
   text-decoration: none;
 
-  
-
-  &:focus{
+  &:focus {
     outline: none;
   }
-  &:focus-visible{
+  &:focus-visible {
     border: var(--border);
   }
 }
@@ -97,7 +95,7 @@ a {
   font-size: var(--font-size-nm);
   color: var(--font-color-p);
   text-decoration: none;
-    line-height: var(--line-height-sm);
+  line-height: var(--line-height-sm);
 
   &:hover {
     color: var(--primary-color);
@@ -116,29 +114,28 @@ h6 {
   user-select: none;
 }
 h1 {
-  font-size: calc(1.35rem + 1.8vw); 
+  font-size: calc(1.35rem + 1.8vw);
 }
 
 h2 {
-  font-size: calc(1.125rem + 1.35vw); 
+  font-size: calc(1.125rem + 1.35vw);
 }
 
 h3 {
-  font-size: calc(1.08rem + 0.9vw); 
+  font-size: calc(1.08rem + 0.9vw);
 }
 
 h4 {
-  font-size: calc(0.9rem + 0.675vw); 
+  font-size: calc(0.9rem + 0.675vw);
 }
 
 h5 {
-  font-size: calc(0.7875rem + 0.45vw);  
+  font-size: calc(0.7875rem + 0.45vw);
 }
 
 h6 {
-  font-size: calc(0.675rem + 0.225vw); 
+  font-size: calc(0.675rem + 0.225vw);
 }
-
 
 p {
   font-size: calc(0.875rem + 0.25vw);
@@ -150,14 +147,12 @@ section {
   padding-block: var(--spacing-5x);
 }
 main {
- 
   min-height: 100vh;
 }
 .container {
-  width: 90%;
+  width: 85%;
   margin: 0 auto;
 }
-
 
 input,
 textarea {
@@ -285,7 +280,6 @@ img {
     line-height: var(--line-height-sm);
   }
 
-
   h1 {
     font-size: 2rem; /* Approx. 32px on mobile */
   }
@@ -314,7 +308,6 @@ img {
     font-size: 1rem; /* Consistent text size on mobile for readability */
   }
 
-  
   button {
     font-size: var(--font-size-nm);
   }
@@ -343,5 +336,8 @@ img {
       width: 100%;
     }
   }
- 
+
+  .container {
+    width: 90%;
+  }
 }

@@ -18,7 +18,7 @@ const { links } = data;
 
 export default function Header() {
   const pathname = usePathname().split("/");
-  console.log(pathname);
+  // console.log(pathname);
   
 
   const dispatch = useDispatch();

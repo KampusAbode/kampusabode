@@ -1,98 +1,119 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import PropStats from "../../components/propertyStats/propStats";
 import SaveVisitedProperty from "../../components/functions/SaveVIsitedProperties";
-import { properties } from "../../fetch/data/properties";
 import { agentUsers } from "../../fetch/data/users";
 import reviews from "../../fetch/data/reviews";
 import Image from "next/image";
-import "./property.css";
 import Link from "next/link";
 import PropertyImages from "../../components/propertyImages/PropertyImages";
 import ContactAgent from "../../components/contactagent/ContactAgent";
-// import BackButton from "../../components/features/backbutton/BackButton";
+// import {getProperties} from '../../fetch/data/properties';
+import type { Metadata } from "next";
+import type { PropertyType } from "../../fetch/types";
+import { getProperties } from "../../utils/api";
+import './property.css';
 
 type Params = {
   params: { id: string };
 };
 
-export function generateMetadata({ params }: Params) {
-  // Fetch the dynamic data based on the property ID
-  const { id } = params;
-  const propertyDetails = properties.find((prop) => prop.id.toString() === id);
+// export const  metadata: Metadata =  {
+//   const { id } = params;
+//   const properties =  getProperties();
+//   console.log(properties);
+//   const propertyDetails = properties.filter((prop) => prop.id.toString() === id)[0];
 
-  return {
-    title: `${propertyDetails.title} - Kampus Abode`,
-    description: propertyDetails.description,
-    keywords: "property listings, real estate, apartments, houses",
-    openGraph: {
-      title: propertyDetails.title,
-      description: propertyDetails.description,
-      images: [
-        {
-          url: propertyDetails.images[0],
-          width: 800,
-          height: 600,
-          alt: propertyDetails.title,
-        },
-      ],
-    },
-    // Add the favicon link here
-    link: [
-      {
-        rel: "icon",
-        href: propertyDetails.images[0], // Path to your favicon
-        type: "image/x-icon",
-      },
-    ],
-  };
-}
+//   if (!propertyDetails) return {
+//     title: "Property Not Found",
+//     description: "Sorry, the property you're looking for does not exist.",
+//     openGraph: {
+//       title: "Property Not Found",
+//       description: "Sorry, the property you're looking for does not exist.",
+//       images: [
+//         {
+//           url: "/LOGO/logo_O.png",
+//           width: 800,
+//           height: 600,
+//           alt: "Property Not Found",
+//         },
+//       ],
+//     },
+//   }; // Ensure safety
+
+//   return {
+//     title: `${propertyDetails?.title} - Kampus Abode`,
+//     description: propertyDetails?.description,
+//     keywords: "property listings, real estate, apartments, houses",
+//     openGraph: {
+//       title: propertyDetails?.title,
+//       description: propertyDetails?.description,
+//       images: [
+//         {
+//           url: propertyDetails?.images[0],
+//           width: 800,
+//           height: 600,
+//           alt: propertyDetails?.title,
+//         },
+//       ],
+//     },
+//     link: [
+//       {
+//         rel: "icon",
+//         href: propertyDetails?.images[0], // Favicon
+//         type: "image/x-icon",
+//       },
+//     ],
+//   };
+// }
 
 const PropertyDetails = ({ params }: Params) => {
   const id = params.id;
-  const propertyDetails = properties.find((prop) => prop.id.toString() === id);
-  const agentDetails = agentUsers.find((agent) =>
-    agent.userInfo.propertiesListed.some(
+  const [properties, setProperties] = useState<PropertyType[]>([]);
+  console.log(properties);
+  const propertyDetails = properties.filter(
+    (prop) => prop.id.toString() === id
+  )[0];
+  console.log(propertyDetails);
+  const agentDetails = agentUsers.filter((agent) =>
+    agent.userInfo?.propertiesListed.some(
       (propList) => propList.id.toString() === id
     )
-  );
+  )[0];
 
-  if (!propertyDetails || !agentDetails) {
-    return <p>Property or agent not found.</p>;
-  }
-
+  useEffect(() => {
+    const fetchProperties = async () => {
+      const fetchedProperties: PropertyType[] = await getProperties();
+      setProperties(fetchedProperties);
+    };
+    fetchProperties();
+  }, []);
 
   const agentPropertyListings = properties.filter((prop) =>
-    agentDetails.userInfo.propertiesListed.some(
+    agentDetails?.userInfo?.propertiesListed.some(
       (propList) =>
         propList.id.toString() === prop.id.toString() &&
         propList.id.toString() !== id
     )
   );
+
   const propertyReviews = reviews.filter(
     (review) => review.propertyId.toString() === id
   );
 
   function calculatePropertyRating() {
-    // Check if there are any reviews for the property
-    if (propertyReviews.length === 0) {
-      return 0; // Return 0 if no reviews found
-    }
-
-    // Calculate the average rating
+    if (propertyReviews.length === 0) return 0;
     const averageRating =
       propertyReviews.reduce((sum, review) => sum + review.rating, 0) /
       propertyReviews.length;
-
     return averageRating;
   }
 
   const rating = calculatePropertyRating();
 
   return (
-    <SaveVisitedProperty  id={id}>
+    <SaveVisitedProperty id={id}>
       <section className="properties-details-page">
-          {/* <BackButton/> */}
-
         <div className="container">
           <PropertyImages propertyDetails={propertyDetails} />
         </div>
@@ -100,18 +121,18 @@ const PropertyDetails = ({ params }: Params) => {
         <div className="container">
           <div className="top">
             <div className="pq">
-              <h2>{propertyDetails.title}</h2>
+              <h2>{propertyDetails?.title}</h2>
               <div className="features">
-                <span>{propertyDetails.bedrooms} bedrooms</span>
-                <span>{propertyDetails.bathrooms} bathrooms</span>
-                <span>{propertyDetails.area} sqft</span>
+                <span>{propertyDetails?.bedrooms} bedrooms</span>
+                <span>{propertyDetails?.bathrooms} bathrooms</span>
+                <span>{propertyDetails?.area} sqft</span>
               </div>
-              <p>{propertyDetails.description}</p>
+              <p>{propertyDetails?.description}</p>
 
               <div className="amenities">
                 <span>amenities :</span>
-                {propertyDetails.amenities?.length > 0 ? (
-                  propertyDetails.amenities.map((amenity, index) => (
+                {propertyDetails?.amenities?.length > 0 ? (
+                  propertyDetails?.amenities.map((amenity, index) => (
                     <span key={amenity + index}>{amenity}</span>
                   ))
                 ) : (
@@ -125,16 +146,16 @@ const PropertyDetails = ({ params }: Params) => {
               <div>
                 <div className="agent-details">
                   <Image
-                    src={agentDetails.userInfo.avatar}
+                    src={agentDetails?.userInfo?.avatar}
                     width={500}
                     height={500}
-                    alt={`${agentDetails.name} profile picture`}
-                    
+                    alt={`${agentDetails?.name} profile picture`}
                   />
-                  <h5>{agentDetails.name}</h5>
-                  <p>{agentDetails.userInfo.agencyName}</p>
+                  <h5>{agentDetails?.name}</h5>
+                  <p>{agentDetails?.userInfo?.agencyName}</p>
                   <span>
-                    properties: {agentDetails.userInfo.propertiesListed.length}
+                    properties:{" "}
+                    {agentDetails?.userInfo?.propertiesListed.length}
                   </span>
                 </div>
                 <div className="agent-stats">
@@ -143,7 +164,7 @@ const PropertyDetails = ({ params }: Params) => {
                 <div className="bio">
                   <p>
                     <strong>Bio: </strong>
-                    {agentDetails.userInfo.bio}
+                    {agentDetails?.userInfo?.bio}
                   </p>
                 </div>
               </div>
@@ -166,22 +187,22 @@ const PropertyDetails = ({ params }: Params) => {
           </div>
 
           <div className="agent-listings">
-            <h5>{agentDetails.name}'s Listed properties</h5>
+            <h5>{agentDetails?.name}'s Listed properties</h5>
             <div>
-              {agentPropertyListings.map((listings) => (
-                <Link key={listings.id} href={`/properties/${listings.id}`}>
+              {agentPropertyListings.map((listing) => (
+                <Link key={listing.id} href={`/properties/${listing.id}`}>
                   <div className="list-prop">
                     <div className="list-image">
                       <Image
-                        src={listings.images[0]}
+                        src={listing.images[0]}
                         width={500}
                         height={500}
-                        alt={listings.title}
+                        alt={listing.title}
                       />
                     </div>
                     <div className="list-details">
-                      <p>{listings.title}</p>
-                      <span>{listings.description}</span>
+                      <p>{listing.title}</p>
+                      <span>{listing.description}</span>
                     </div>
                   </div>
                 </Link>
@@ -200,20 +221,14 @@ const PropertyDetails = ({ params }: Params) => {
                 through WhatsApp using the link below.
               </p>
               <p>
-                Connect with <strong>{agentDetails.name}</strong> on WhatsApp{" "}
+                Connect with <strong>{agentDetails?.name}</strong> on WhatsApp{" "}
                 <ContactAgent
-                  name={agentDetails.name}
+                  name={agentDetails?.name}
                   content={"Click here"}
                   href={`https://wa.me/2347050721686?text=${encodeURIComponent(
                     `Hello, I’m interested in your listing on Kampus Abode. \n\n Here is the property link: https://kampusabode.vercel.app/properties/${id}`
                   )}`}
                 />
-                {/* <a
-                href={`https://wa.me/${agentDetails.userInfo.phoneNumber}?text=${encodeURIComponent(`Hello, I’m interested in the property listing on Kampus Abode.%0A%0AHere is the property link: https://kampusabode.vercel.app/properties/${id}`)}`}
-                target="_blank"
-                rel="noopener noreferrer">
-                click here
-              </a> */}
               </p>
             </div>
           </div>
