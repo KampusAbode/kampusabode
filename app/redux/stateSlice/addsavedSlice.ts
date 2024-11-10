@@ -1,12 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {properties} from "../../fetch/data/properties";
+import { getProperties } from "../../utils/api";
 import {articles} from "../../fetch/data/articles";
 import { PropertyType } from "../../fetch/types";
 import { ArticleType } from "../../fetch/types";
 import { AddSavedState } from "../../fetch/types";
 
 
+let properties;
+
+async () => {
+  const fetchedProperties: PropertyType[] = await getProperties();
+  properties = fetchedProperties;
+};
+
 const initialState: AddSavedState = {
+  
   savedProperties: properties
     ? properties.filter((prop: { saved: boolean }) => prop.saved === true)
     : [],

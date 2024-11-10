@@ -166,7 +166,6 @@ export const loginUser = async (userData: UserLoginInput) => {
       process.env.NEXT_PUBLIC__SECRET_KEY
     ).toString();
 
-    console.log(JSON.stringify(userStore));
     // Store the encrypted data in localStorage
     localStorage.setItem("AIzaSyDsz5edn22pVbHW", encryptedData);
 
@@ -227,7 +226,6 @@ export const logoutUser = async () => {
         process.env.NEXT_PUBLIC__SECRET_KEY
       ).toString();
 
-      console.log(JSON.stringify(userData));
       localStorage.setItem("hasSeenWelcome", JSON.stringify(false));
       localStorage.setItem("AIzaSyDsz5edn22pVbHW", encryptedData);
     }
@@ -318,6 +316,7 @@ export const addProperty = async (property: PropertyType): Promise<void> => {
       available: property.available,
     });
   } catch (error) {
+    
     throw {
       message: (error as Error).message || "Error adding property",
       statusCode: 500,
@@ -415,51 +414,8 @@ export const compatibilyCheck = (userId: string) => {
   return { message: "Your match", matches };
 };
 
-// Function to generate a random timestamp within the past year
-function generateRandomTimestamp() {
-  const now = new Date();
-  const pastYear = new Date(
-    now.getFullYear() - 1,
-    now.getMonth(),
-    now.getDate()
-  );
-  const randomDate = new Date(
-    pastYear.getTime() + Math.random() * (now.getTime() - pastYear.getTime())
-  );
-  return Timestamp.fromDate(randomDate);
-}
 
-// Function to add multiple properties with unique IDs and random timestamps
-export const addPropertiesToFirestore = async (properties) => {
-  try {
-    const propertiesCollection = collection(db, "properties");
 
-    await Promise.all(
-      properties.map(async (property) => {
-        // Generate a unique ID for each property
-        const uniqueId = uuidv4();
-
-        // Create the property object with id, url, and timestamp
-        const propertyWithExtras = {
-          ...property,
-          id: uniqueId,
-          url: `/properties/${uniqueId}`, // Dynamic URL based on unique ID
-          timestamp: generateRandomTimestamp(),
-        };
-
-        // Use setDoc with the specified document ID
-        const docRef = doc(propertiesCollection, uniqueId);
-        await setDoc(docRef, propertyWithExtras);
-      })
-    );
-
-    console.log(
-      "All properties with unique IDs, URLs, and random timestamps uploaded successfully!"
-    );
-  } catch (error) {
-    console.error("Error uploading properties:", error);
-  }
-};
 
 export const updateAllProperties = async () => {
   try {

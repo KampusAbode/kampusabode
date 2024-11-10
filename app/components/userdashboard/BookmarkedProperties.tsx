@@ -1,16 +1,20 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-
-import { properties } from "../../fetch/data/properties";
+import { useState } from "react";
+import { getProperties } from "../../utils/api";
+import { PropertyType } from "../../fetch/types";
 import Link from "next/link";
 import Image from "next/image";
 
 const BookmarkedProperties = ({ user }) => {
-  useEffect(() => {}, []);
 
   const bookmarkedIds = user?.userInfo.savedProperties;
+  const [properties, setProperties] = useState<PropertyType[]>([]);
 
+  async () => {
+    const fetchedProperties: PropertyType[] = await getProperties();
+    setProperties(fetchedProperties);
+  };
   // Filter properties based on bookmarkedIds
   const bookmarkedProperties = properties.filter((property) =>
     bookmarkedIds.includes(property.id)

@@ -8,11 +8,10 @@ import Image from "next/image";
 import Link from "next/link";
 import PropertyImages from "../../components/propertyImages/PropertyImages";
 import ContactAgent from "../../components/contactagent/ContactAgent";
-// import {getProperties} from '../../fetch/data/properties';
 import type { Metadata } from "next";
 import type { PropertyType } from "../../fetch/types";
 import { getProperties } from "../../utils/api";
-import './property.css';
+import "./property.css";
 
 type Params = {
   params: { id: string };
@@ -70,11 +69,11 @@ type Params = {
 const PropertyDetails = ({ params }: Params) => {
   const id = params.id;
   const [properties, setProperties] = useState<PropertyType[]>([]);
-  console.log(properties);
+
   const propertyDetails = properties.filter(
     (prop) => prop.id.toString() === id
   )[0];
-  console.log(propertyDetails);
+
   const agentDetails = agentUsers.filter((agent) =>
     agent.userInfo?.propertiesListed.some(
       (propList) => propList.id.toString() === id

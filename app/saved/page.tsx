@@ -2,15 +2,16 @@
 
 import React, { useState, useEffect } from "react";
 import { articles } from "../fetch/data/articles";
-import { properties } from "../fetch/data/properties";
+import { getProperties } from "../utils/api";
 import "./saved.css";
 import ArticleCard from "../components/cards/articleCard/ArticleCard";
-import { ArticleType } from "../fetch/types";
+import { ArticleType, PropertyType } from "../fetch/types";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 
 const SavedPage = () => {
+  const [properties, setProperties] = useState([]);
   const [currentTab, setCurrentTab] = useState("properties");
   const [savedProperties, setsavedProperties] = useState([]);
   const userData = useSelector((state: RootState) => state.userdata);
@@ -18,14 +19,16 @@ const SavedPage = () => {
     (state: RootState) => state.user.isAuthenticated
   );
 
-  useEffect(() => {
+  async () => {
     if (isAuthenticated && userData.userType === "student") {
       const savedsavedProperties = userData?.userInfo.savedProperties;
       const updatedsavedProperties = [...savedsavedProperties];
+      const fetchedProperties: PropertyType[] = await getProperties();
+      setProperties(fetchedProperties);
 
       setsavedProperties(updatedsavedProperties);
     }
-  }, []);
+  };
 
   function savedTab(tab: string) {
     if (tab === "articles") {
@@ -40,7 +43,7 @@ const SavedPage = () => {
           );
         });
     } else {
-      if (tab === 'properties' && savedProperties) {
+      if (tab === "properties" && savedProperties) {
         return (
           <div className="saved-props">
             {properties

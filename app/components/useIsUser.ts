@@ -29,8 +29,6 @@ const UseIsUser = ({ children }: { children: React.ReactNode }) => {
       const userData = JSON.parse(decryptedUserData);
 
 
-      console.log(userData);
-
       if (userData) {
         dispatch(setUser(userData.userAuth));
         dispatch(setUserData(userData.userFromDB));
@@ -45,8 +43,6 @@ const UseIsUser = ({ children }: { children: React.ReactNode }) => {
     (state: RootState) => state.user.isAuthenticated
   );
   
-console.log(isAuthenticated);
-
 
   useEffect(() => {
     if (isInitialized && isAuthenticated) {

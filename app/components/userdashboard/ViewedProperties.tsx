@@ -1,5 +1,6 @@
 import React from "react";
-import { properties } from "../../fetch/data/properties";
+import { getProperties } from "../../utils/api";
+import { PropertyType } from "../../fetch/types";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -11,9 +12,12 @@ function ViewedProperties() {
   let checkProperties = [];
 
   if (visitedProperties) {
-    checkProperties = properties.filter((property) =>
-      visitedProperties.includes(property.id.toString())
-    );
+    async () => {
+      const fetchedProperties: PropertyType[] = await getProperties();
+      checkProperties = fetchedProperties.filter((property) =>
+        visitedProperties.includes(property.id.toString())
+      );
+    };
   } else {
     checkProperties = [];
   }

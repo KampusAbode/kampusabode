@@ -1,14 +1,16 @@
-import { properties } from "../../fetch/data/properties";
-import { AgentType } from '../../fetch/types';
+import { getProperties } from "../../utils/api";
+import { AgentType, PropertyType } from '../../fetch/types';
 
 
-const ListedProperties = ({ user }: {user: AgentType}) => {
+const ListedProperties = async ({ user }: {user: AgentType}) => {
   const { propertiesListed } = user.userInfo; 
 
   // Filter properties based on IDs in propertiesListed
-  const filteredProperties = properties.filter((property) =>
+  const fetchedProperties: PropertyType[] = await getProperties();
+  const filteredProperties = fetchedProperties.filter((property) =>
     propertiesListed.some((listedProperty) => listedProperty.id === property.id)
   );
+
 
   return (
     <div className="listed-properties">
