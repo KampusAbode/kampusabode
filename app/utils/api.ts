@@ -16,6 +16,7 @@ import {
   getDocs,
   deleteField,
   Timestamp,
+  addDoc,
 } from "firebase/firestore";
 
 import { v4 as uuidv4 } from "uuid";
@@ -292,6 +293,38 @@ export const getProperties = async (): Promise<PropertyType[]> => {
     };
   }
 };
+
+export const addProperty = async (property: PropertyType): Promise<void> => {
+  try {
+    const propertiesCollection = collection(db, "properties");
+
+    // Add the new property to the properties collection
+    await addDoc(propertiesCollection, {
+      id: property.id,
+      url: property.url,
+      agentId: property.agentId,
+      title: property.title,
+      description: property.description,
+      price: property.price,
+      location: property.location,
+      neighborhood_overview: property.neighborhood_overview,
+      type: property.type,
+      bedrooms: property.bedrooms,
+      bathrooms: property.bathrooms,
+      area: property.area,
+      amenities: property.amenities,
+      images: property.images,
+      saved: property.saved,
+      available: property.available,
+    });
+  } catch (error) {
+    throw {
+      message: (error as Error).message || "Error adding property",
+      statusCode: 500,
+    };
+  }
+};
+
 
 
 // Sample user data structure
