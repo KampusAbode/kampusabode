@@ -49,11 +49,11 @@ export const users: UserType[] = [
       phoneNumber: "+23470 1234 5678",
       propertiesListed: [
         {
-          id: 8726491537,
+          id: "06c3d949-6811-47ac-8ee6-aa56e76bf090",
           available: true,
         },
         {
-          id: 1234567890,
+          id: "18d21246-02af-4636-ab6c-3155b13f8883",
           available: false,
         },
       ],
@@ -71,11 +71,11 @@ export const users: UserType[] = [
       phoneNumber: "+23470 1234 5678",
       propertiesListed: [
         {
-          id: 82664625176,
+          id: "2305e352-5378-45ab-9357-7161bc92c0a3",
           available: true,
         },
         {
-          id: 9928265424,
+          id: "33891025-29e5-4e6e-bc0f-d30ca70cd5d6",
           available: true,
         },
       ],
@@ -93,11 +93,11 @@ export const users: UserType[] = [
       phoneNumber: "+23470 1234 5678",
       propertiesListed: [
         {
-          id: 4862310975,
+          id: "5b2c6693-0f0b-48cc-8f8c-e1437d5e1cda",
           available: true,
         },
         {
-          id: 5748392014,
+          id: "89d796b0-6c3b-4378-b00d-02fef7424efa",
           available: true,
         },
       ],
@@ -115,7 +115,7 @@ export const users: UserType[] = [
       phoneNumber: "+23470 1234 5678",
       propertiesListed: [
         {
-          id: 661635725344,
+          id: "b144908f-e220-49c7-9e2e-eb45d77addaf",
           available: false,
         },
       ],

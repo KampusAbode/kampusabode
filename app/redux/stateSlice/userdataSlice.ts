@@ -12,6 +12,7 @@ const userdataSlice = createSlice({
       const savedPropertiesFromLocalStorage = localSavedProperties
         ? JSON.parse(localSavedProperties)
         : [];
+      console.log(localSavedProperties);
 
 
       // Merge savedProperties from localStorage with state

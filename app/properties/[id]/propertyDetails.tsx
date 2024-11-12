@@ -20,7 +20,7 @@ const PropertyDetails = ({ id }) => {
 
   const agentDetails = agentUsers.find((agent) =>
     agent.userInfo?.propertiesListed.some(
-      (propList) => propList.id.toString() === id
+      (propList) => propList.id === id
     )
   );
 

@@ -118,7 +118,7 @@ export interface AgentType {
     agencyName: string;
     phoneNumber: string;
     propertiesListed: {
-      id: number;
+      id: string;
       available: boolean;
     }[]; // List of properties listed by the agent with availability
   };
