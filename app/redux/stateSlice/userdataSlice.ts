@@ -68,7 +68,7 @@ const userdataSlice = createSlice({
     ) => {
       if (state?.userType === "agent") {
         const property = state.userInfo.propertiesListed.find(
-          (p) => p.id === action.payload.propertyId
+          (p) => p.id === String(action.payload.propertyId)
         );
 
         if (property) {
@@ -77,7 +77,7 @@ const userdataSlice = createSlice({
           state.userInfo.propertiesListed = [
             ...state.userInfo.propertiesListed,
             {
-              id: action.payload.propertyId,
+              id: String(action.payload.propertyId),
               available: action.payload.available,
             },
           ];

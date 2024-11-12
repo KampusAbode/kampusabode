@@ -8,7 +8,7 @@ const ListedProperties = async ({ user }: {user: AgentType}) => {
   // Filter properties based on IDs in propertiesListed
   const fetchedProperties: PropertyType[] = await getProperties();
   const filteredProperties = fetchedProperties.filter((property) =>
-    propertiesListed.some((listedProperty) => listedProperty.id === property.id)
+    propertiesListed.some((listedProperty) => listedProperty.id === property.id.toString())
   );
 
 
