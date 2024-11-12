@@ -8,9 +8,11 @@ import Link from "next/link";
 
 function ViewedProperties() {
   const [properties, setProperties] = useState<PropertyType[]>([]);
+  
   const visitedProperties = JSON.parse(
     localStorage.getItem("visitedProperties")
   );
+
 
   let checkProperties = [];
 
