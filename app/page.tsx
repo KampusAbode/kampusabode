@@ -6,17 +6,26 @@ import data from "./fetch/contents";
 import { articles } from "./fetch/data/articles";
 import Quotes from "./components/quotes/Quotes";
 import Link from "next/link";
+import { PropertyType } from "./fetch/types";
+import { getProperties } from "./utils/api";
 
 import { FaArrowRightLong } from "react-icons/fa6";
-import { RootState } from "./redux/store";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 
 const { homeSection } = data;
 const { hero, about, testimonials } = homeSection;
 
-
 export default function App() {
-  const properties  = useSelector((state: RootState) => state.properties.properties);
+  const [properties, setProperties] = useState<PropertyType[]>([]);
+
+  useEffect(() => {
+    const fetchProperties = async () => {
+      const fetchedProperties: PropertyType[] = await getProperties();
+      setProperties(fetchedProperties);
+    };
+    fetchProperties();
+  }, []);
+
   return (
     <>
       <section className="hero-section">

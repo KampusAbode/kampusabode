@@ -13,15 +13,15 @@ const { locations } = data;
 
 const PropertiesPage: React.FC = () => {
   const [properties, setProperties] = useState<PropertyType[]>([]);
-  const [filteredProperties, setFilteredProperties] = useState<PropertyType[]>(
-    []
-  );
+  const [filteredProperties, setFilteredProperties] = useState<PropertyType[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [activeLocation, setActiveLocation] = useState<string>("all");
   const [loading, setLoading] = useState<boolean>(true);
 
+  // Fetch properties on mount
   useEffect(() => {
     const fetchProperties = async () => {
+      setLoading(true);
       const fetchedProperties: PropertyType[] = await getProperties();
       setProperties(fetchedProperties);
       setFilteredProperties(fetchedProperties);
@@ -30,42 +30,44 @@ const PropertiesPage: React.FC = () => {
     fetchProperties();
   }, []);
 
-  const searchProperties = (query: string, properties: PropertyType[]) => {
+  // Function to filter properties by search query
+  const searchProperties = (query: string) => {
     const words = query.toLowerCase().trim().split(" ");
-    return properties.filter((property) => {
-      const propertyString =
-        `${property.title} ${property.location} ${property.type}`.toLowerCase();
+    const filtered = properties.filter((property) => {
+      const propertyString = `${property.title} ${property.location} ${property.type}`.toLowerCase();
       return words.every((word) => propertyString.includes(word));
     });
-  };
-
-  const applyFilters = () => {
-    const filtered = searchProperties(searchQuery, properties).filter(
-      (property) =>
-        activeLocation === "all" || property.location === activeLocation
-    );
     setFilteredProperties(filtered);
   };
 
-  const handleSearch = () => {
-    setLoading(true);
-    setTimeout(() => {
-      applyFilters();
-      setLoading(false);
-    }, 500);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") handleSearch();
-  };
-
-  const handleLocationClick = (location: string) => {
+  // Function to filter properties by location
+  const filterByLocation = (location: string) => {
     setActiveLocation(location);
-    setLoading(true);
-    setTimeout(() => {
-      applyFilters();
-      setLoading(false);
-    }, 500);
+    if (location === "all") {
+      setFilteredProperties(properties);
+    } else {
+      const filtered = properties.filter((property) => property.location === location);
+      setFilteredProperties(filtered);
+    }
+  };
+
+  // Handle search input change
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    searchProperties(query); // Run search function whenever the query changes
+  };
+
+  // Handle search on Enter key press
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      searchProperties(searchQuery);
+    }
+  };
+
+  // Handle location click
+  const handleLocationClick = (location: string) => {
+    filterByLocation(location); // Run location filter whenever location changes
   };
 
   return (
@@ -75,11 +77,11 @@ const PropertiesPage: React.FC = () => {
           <input
             type="text"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Search for properties..."
+            onChange={handleSearchChange}
+            onKeyDown={handleKeyDown} // Run search on Enter press
+            placeholder="Search by title, type, location ..."
           />
-          <div className="search-icon" onClick={handleSearch}>
+          <div className="search-icon" onClick={() => searchProperties(searchQuery)}>
             <FaSearch />
           </div>
         </div>
@@ -92,9 +94,9 @@ const PropertiesPage: React.FC = () => {
             onClick={() => handleLocationClick("all")}>
             all
           </span>
-          {locations.map((location, index) => (
+          {locations.map((location) => (
             <span
-              key={index}
+              key={location}  // Use location name as key
               className={`${activeLocation === location ? "active" : ""}`}
               onClick={() => handleLocationClick(location)}>
               {location}
