@@ -1,23 +1,34 @@
-import React from "react";
+'use client'
+
+import React, { useState, useEffect } from "react";
 import { getProperties } from "../../utils/api";
 import { PropertyType } from "../../fetch/types";
 import Image from "next/image";
 import Link from "next/link";
 
 function ViewedProperties() {
+  const [properties, setProperties] = useState<PropertyType[]>([]);
   const visitedProperties = JSON.parse(
     localStorage.getItem("visitedProperties")
   );
 
   let checkProperties = [];
 
+
+  useEffect(() => {
+    const fetchProperties = async () => {
+      const fetchedProperties = await getProperties();
+      setProperties(fetchedProperties);
+    };
+    fetchProperties();
+  }, []);
+
   if (visitedProperties) {
-    async () => {
-      const fetchedProperties: PropertyType[] = await getProperties();
-      checkProperties = fetchedProperties.filter((property) =>
+    
+      checkProperties = properties.filter((property) =>
         visitedProperties.includes(property.id.toString())
       );
-    };
+  
   } else {
     checkProperties = [];
   }
