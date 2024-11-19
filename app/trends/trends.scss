@@ -1,6 +1,6 @@
-.articles-page {
+.trends-page {
   .container {
-    .articles {
+    .trends {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: var(--spacing);
@@ -10,9 +10,9 @@
 }
 
 @media screen and (max-width: 1400px) {
-  .articles-page {
+  .trends-page {
     .container {
-      .articles {
+      .trends {
         grid-template-columns: repeat(3, 1fr);
         gap: var(--spacing-2x);
       }
@@ -20,18 +20,18 @@
   }
 }
 @media screen and (max-width: 900px) {
-  .articles-page {
+  .trends-page {
     .container {
-      .articles {
+      .trends {
         grid-template-columns: 1fr 1fr;
       }
     }
   }
 }
 @media screen and (max-width: 768px) {
-  .articles-page {
+  .trends-page {
     .container {
-      .articles {
+      .trends {
         grid-template-columns: 1fr;
       }
     }

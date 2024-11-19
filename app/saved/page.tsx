@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { articles } from "../fetch/data/articles";
+import { trends } from "../fetch/data/trends";
 import { getProperties } from "../utils/api";
 import "./saved.css";
 import ArticleCard from "../components/cards/articleCard/ArticleCard";
@@ -31,8 +31,8 @@ const SavedPage = () => {
   };
 
   function savedTab(tab: string) {
-    if (tab === "articles") {
-      return articles
+    if (tab === "trends") {
+      return trends
         .filter((filter) => filter.saved === true)
         .map((article) => {
           return (
@@ -80,9 +80,9 @@ const SavedPage = () => {
             properties
           </span>
           <span
-            onClick={() => setCurrentTab("articles")}
-            className={currentTab === "articles" ? "active" : ""}>
-            articles
+            onClick={() => setCurrentTab("trends")}
+            className={currentTab === "trends" ? "active" : ""}>
+            trends
           </span>
         </div>
       </div>

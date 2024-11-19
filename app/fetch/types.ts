@@ -81,7 +81,7 @@ export interface LinkType {
 
 export interface AddSavedState {
   savedProperties: PropertyType[];
-  savedArticles: ArticleType[];
+  savedTrends: ArticleType[];
 }
 
 export interface BookmarkState {
