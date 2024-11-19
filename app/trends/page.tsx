@@ -15,7 +15,7 @@ export default function trendsPage() {
   return (
     <section className="trends-page">
       <div className="container">
-        <h2>trends</h2>
+        <h2>Trends</h2>
 
         <div className="trends">
           {trends.map((read) => (
