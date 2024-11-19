@@ -1,23 +1,22 @@
 "use client";
 
 import { useState } from "react";
-// import { useDispatch } from "react-redux";
 import { toast } from "react-hot-toast";
 import { loginUser } from "../../utils/api";
-import { useRouter } from "next/navigation"; // Import useRouter for client-side redirection
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import "../auth.css";
-// import { setUser } from "../../redux/stateSlice/userSlice";
 import Image from "next/image";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; 
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State to toggle password visibility
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({ email: "", password: "" });
 
-  // const dispatch = useDispatch();
-  const router = useRouter(); // Initialize the useRouter hook for navigation
+  const router = useRouter();
 
   const validateForm = () => {
     let formErrors = { email: "", password: "" };
@@ -53,22 +52,14 @@ const LoginPage = () => {
     try {
       const response = await loginUser({ email, password });
 
-      // Show success toast
-      
-      if (response.message == 'Email not found') {
+      if (response.message === "Email not found") {
         toast.error(response.message);
-        
       } else {
         toast.success(`${response.message} 👌`);
-        
       }
 
-
-      // Refresh the page
-      window.location.reload()
-      
+      window.location.reload();
     } catch (error) {
-      // Show error toast
       toast.error(error.message || "An unexpected error occurred.");
     }
     setIsSubmitting(false);
@@ -102,13 +93,23 @@ const LoginPage = () => {
 
             <div className="input-box">
               <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
-              />
+              <div className="password-wrapper">
+                <input
+                  type={isPasswordVisible ? "text" : "password"}
+                  name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                />
+                <span
+                  onClick={() => setIsPasswordVisible((prev) => !prev)}
+                  className="toggle-password"
+                  role="button"
+                  aria-label="Toggle password visibility"
+                >
+                  {isPasswordVisible ? <FaEye /> : <FaEyeSlash />}
+                </span>
+              </div>
               {errors.password && (
                 <span className="error">{errors.password}</span>
               )}
@@ -119,7 +120,7 @@ const LoginPage = () => {
             </button>
           </form>
           <span>
-            Don't have an account? <Link href={"/auth/signup"}>Sign Up</Link>{" "}
+            Don't have an account? <Link href={"/auth/signup"}>Sign Up</Link>
           </span>
         </div>
       </div>
