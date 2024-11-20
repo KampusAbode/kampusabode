@@ -43,7 +43,7 @@
 
           input,
           select {
-            width: 80%;
+            width: 100%;
             border: var(--border);
             border-radius: var(--border-radius);
             padding: var(--spacing-h) var(--spacing);
