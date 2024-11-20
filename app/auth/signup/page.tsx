@@ -206,13 +206,22 @@ const SignupPage = () => {
                   onChange={handleInputChange}
                   placeholder="Enter your password"
                 />
-                <span
-                  onClick={() => setIsPasswordVisible((prev) => !prev)}
-                  className="toggle-password"
-                  role="button"
-                  aria-label="Toggle password visibility">
-                  {isPasswordVisible ? <FaEye /> : <FaEyeSlash />}
-                </span>
+
+                {isPasswordVisible ? (
+                  <FaEye
+                    onClick={() => setIsPasswordVisible((prev) => !prev)}
+                    className="toggle-password"
+                    role="button"
+                    aria-label="Toggle password visibility"
+                  />
+                ) : (
+                  <FaEyeSlash
+                    onClick={() => setIsPasswordVisible((prev) => !prev)}
+                    className="toggle-password"
+                    role="button"
+                    aria-label="Toggle password visibility"
+                  />
+                )}
               </div>
               {errors.password && (
                 <span className="error">{errors.password}</span>
