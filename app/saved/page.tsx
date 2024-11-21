@@ -19,7 +19,7 @@ const SavedPage = () => {
     (state: RootState) => state.user.isAuthenticated
   );
 
-  async () => {
+  (async () => {
     if (isAuthenticated && userData.userType === "student") {
       const savedsavedProperties = userData?.userInfo.savedProperties;
       const updatedsavedProperties = [...savedsavedProperties];
@@ -28,7 +28,7 @@ const SavedPage = () => {
 
       setsavedProperties(updatedsavedProperties);
     }
-  };
+  })
 
   function savedTab(tab: string) {
     if (tab === "trends") {
