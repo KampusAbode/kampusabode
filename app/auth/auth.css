@@ -45,7 +45,7 @@
             width: 100%;
             border: var(--border);
             border-radius: var(--border-radius);
-            padding: var(--spacing-h) var(--spacing);
+            padding: var(--spacing);
             font-size: var(--font-size-nm);
             color: var(--font-color-p);
 

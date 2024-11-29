@@ -1,0 +1,19 @@
+.upload-page .container form {
+  margin-top: var(--spacing-3x);
+}
+.upload-page .container form > div {
+  margin-block: var(--spacing);
+}
+.upload-page .container form > div label {
+  display: block;
+  margin-bottom: var(--spacing-h);
+}
+.upload-page .container form > div imput, .upload-page .container form > div select, .upload-page .container form > div textarea {
+  padding: var(--spacing);
+  width: 100%;
+  max-width: 450px;
+}
+.upload-page .container form > div .error {
+  font-size: var(--font-size-sm);
+  color: var(--primary-color);
+}/*# sourceMappingURL=upload.css.map */

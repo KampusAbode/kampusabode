@@ -131,7 +131,7 @@ export default function Header() {
             </Link>
           </li>
 
-          <hr />
+
 
           <li>
             <Link
@@ -162,7 +162,6 @@ export default function Header() {
           </li>
         </ul>
 
-        <hr />
 
         <ul>
           <li>

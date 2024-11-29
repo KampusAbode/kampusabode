@@ -6,7 +6,7 @@ const Disclaimer = () => {
     <section className="disclaimer">
       <div className="container">
         <h3>Disclaimer</h3>
-        <p>Last Updated: [Date]</p>
+        <p>Last Updated: 01-22-2024</p>
 
         <p>
           KampusAbode provides this platform as a service to connect students

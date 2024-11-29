@@ -105,7 +105,7 @@ header {
     background: var(--white);
     right: -100%;
     top: 0;
-    padding: var(--spacing) 5%;
+    padding: var(--spacing);
     opacity: 0;
     transition: var(--transition);
     box-shadow: var(--shadow);
@@ -118,7 +118,8 @@ header {
     }
 
     .close {
-      text-align: right;
+      position: relative;
+
       margin-bottom: var(--spacing-2x);
       cursor: pointer;
 
@@ -127,11 +128,14 @@ header {
       svg {
         width: 24px;
         height: 24px;
+        position: absolute;
+        right: 0;
+        top: 0;
       }
     }
 
     hr {
-      margin-block: var(--spacing);
+      margin-top: var(--spacing-4x);
     }
 
     ul {
@@ -146,7 +150,7 @@ header {
         }
 
         a {
-          padding: var(--spacing-h) var(--spacing);
+          padding: var(--spacing);
           text-transform: capitalize;
           color: var(--font-color-p);
 
@@ -159,7 +163,7 @@ header {
 
     .logout {
       line-height: var(--line-height-xs);
-      padding-top: var(--spacing-4x);
+      padding-top: var(--spacing-2x);
       span {
         a,
         span {

@@ -6,7 +6,7 @@ const UserAgreement = () => {
     <section className="user-agreement">
       <div className="container">
         <h3>User Agreement</h3>
-        <p>Last Updated: [Date]</p>
+        <p>Last Updated: 01-22-2024</p>
 
         <p>
           This User Agreement sets forth the terms of your relationship with

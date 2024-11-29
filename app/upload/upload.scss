@@ -1,0 +1,26 @@
+.upload-page{
+    .container{
+
+        form{
+            margin-top: var(--spacing-3x);
+
+            &>div{
+                margin-block: var(--spacing);
+
+                label{
+                    display: block;
+                    margin-bottom: var(--spacing-h);
+                }
+                imput,select,textarea{
+                    padding: var(--spacing);
+                    width: 100%;
+                    max-width: 450px;
+                }
+                .error{
+                    font-size: var(--font-size-sm);
+                    color: var(--primary-color);
+                }
+            }
+        }
+    }
+}

@@ -7,7 +7,7 @@ const CookiePolicy = () => {
       <div className="container">
         <div className="privacy-policy" id="privacypolicy">
           <h3>Privacy Policy</h3>
-          <p>Last Updated: [Insert Date]</p>
+          <p>Last Updated: 01-22-2024</p>
 
           <h4>1. Information We Collect</h4>
           <p>
@@ -18,43 +18,42 @@ const CookiePolicy = () => {
           <ul>
             <li>
               <p>
-              Account Information: Username, email address,
-              password, and user type (student or agent).
-            </p>
+                Account Information: Username, email address, password, and user
+                type (student or agent).
+              </p>
             </li>
             <li>
               <p>
-              Profile Information: Personal details like
-              school, program (for students), or agency name (for agents), and
-              any other profile information you choose to share.
-            </p>
+                Profile Information: Personal details like school, program (for
+                students), or agency name (for agents), and any other profile
+                information you choose to share.
+              </p>
             </li>
             <li>
               <p>
-              Property Information: Details of properties
-              listed by agents, including location, rent, property features, and
-              images.
-            </p>
+                Property Information: Details of properties listed by agents,
+                including location, rent, property features, and images.
+              </p>
             </li>
             <li>
               <p>
-              Communication Data: Messages between you and
-              other users, feedback, or inquiries sent through the platform.
-            </p>
+                Communication Data: Messages between you and other users,
+                feedback, or inquiries sent through the platform.
+              </p>
             </li>
             <li>
               <p>
-              Payment Information: If applicable, we may
-              collect payment details and billing information when transactions
-              are made through the platform.
-            </p>
+                Payment Information: If applicable, we may collect payment
+                details and billing information when transactions are made
+                through the platform.
+              </p>
             </li>
             <li>
               <p>
-              Usage Data: Information about how you interact
-              with the platform, such as browsing behavior, pages viewed, and
-              features accessed.
-            </p>
+                Usage Data: Information about how you interact with the
+                platform, such as browsing behavior, pages viewed, and features
+                accessed.
+              </p>
             </li>
           </ul>
 
@@ -66,43 +65,41 @@ const CookiePolicy = () => {
           <ul>
             <li>
               <p>
-              Account Creation and Authentication: To register
-              your account and manage logins.
-            </p>
+                Account Creation and Authentication: To register your account
+                and manage logins.
+              </p>
             </li>
             <li>
               <p>
-              Property Listings: To enable agents to list
-              properties and students to browse properties, interact with
-              agents, and bookmark listings.
-            </p>
+                Property Listings: To enable agents to list properties and
+                students to browse properties, interact with agents, and
+                bookmark listings.
+              </p>
             </li>
             <li>
               <p>
-              Personalization: To customize your experience
-              based on your user type and preferences, including showing
-              recommended properties.
-            </p>
+                Personalization: To customize your experience based on your user
+                type and preferences, including showing recommended properties.
+              </p>
             </li>
             <li>
               <p>
-              Communication: To send important notifications,
-              respond to inquiries, and facilitate communication between
-              students and agents.
-            </p>
+                Communication: To send important notifications, respond to
+                inquiries, and facilitate communication between students and
+                agents.
+              </p>
             </li>
             <li>
               <p>
-              Security: To protect your account and the
-              platform from fraud and misuse, including monitoring suspicious
-              activity.
-            </p>
+                Security: To protect your account and the platform from fraud
+                and misuse, including monitoring suspicious activity.
+              </p>
             </li>
             <li>
               <p>
-              Analytics: To analyze usage patterns and improve
-              the overall performance and user experience of the platform.
-            </p>
+                Analytics: To analyze usage patterns and improve the overall
+                performance and user experience of the platform.
+              </p>
             </li>
           </ul>
 
@@ -114,31 +111,30 @@ const CookiePolicy = () => {
           <ul>
             <li>
               <p>
-              With Service Providers: We may share your
-              information with trusted third-party vendors who help us operate
-              the platform, such as hosting providers or payment processors.
-            </p>
+                With Service Providers: We may share your information with
+                trusted third-party vendors who help us operate the platform,
+                such as hosting providers or payment processors.
+              </p>
             </li>
             <li>
               <p>
-              With Other Users: Agents and students will be
-              able to see certain information you choose to share, such as
-              property listings, reviews, and public profile details.
-            </p>
+                With Other Users: Agents and students will be able to see
+                certain information you choose to share, such as property
+                listings, reviews, and public profile details.
+              </p>
             </li>
             <li>
               <p>
-              For Legal Reasons: We may share your information
-              to comply with legal obligations, resolve disputes, or enforce our
-              agreements.
-            </p>
+                For Legal Reasons: We may share your information to comply with
+                legal obligations, resolve disputes, or enforce our agreements.
+              </p>
             </li>
             <li>
               <p>
-              Business Transfers: In the event of a merger,
-              acquisition, or asset sale, your information may be transferred to
-              the new entity.
-            </p>
+                Business Transfers: In the event of a merger, acquisition, or
+                asset sale, your information may be transferred to the new
+                entity.
+              </p>
             </li>
           </ul>
 
@@ -159,23 +155,23 @@ const CookiePolicy = () => {
           <ul>
             <li>
               <p>
-              Access and Update: You can access and update your
-              personal information through your account settings at any time.
-            </p>
+                Access and Update: You can access and update your personal
+                information through your account settings at any time.
+              </p>
             </li>
             <li>
               <p>
-              Delete Account: You may request to delete your
-              account and all associated data by contacting our support team.
-              Once deleted, your information cannot be recovered.
-            </p>
+                Delete Account: You may request to delete your account and all
+                associated data by contacting our support team. Once deleted,
+                your information cannot be recovered.
+              </p>
             </li>
             <li>
               <p>
-              Opt-Out of Communications: You can opt out of
-              receiving promotional emails and other communications by following
-              the unsubscribe instructions in our emails.
-            </p>
+                Opt-Out of Communications: You can opt out of receiving
+                promotional emails and other communications by following the
+                unsubscribe instructions in our emails.
+              </p>
             </li>
           </ul>
 
@@ -196,15 +192,6 @@ const CookiePolicy = () => {
             under 16. If we become aware that we have collected personal
             information from a child, we will take steps to delete the
             information as soon as possible.
-          </p>
-
-          <h4>Changes to This Privacy Policy</h4>
-          <p>
-            We may update this Privacy Policy from time to time to reflect
-            changes in our practices, technology, or legal requirements. If we
-            make significant changes, we will notify you through the platform or
-            by other means. Your continued use of the platform after the changes
-            take effect constitutes acceptance of the revised policy.
           </p>
         </div>
 
@@ -239,12 +226,6 @@ const CookiePolicy = () => {
             You can manage your cookie preferences in your browser settings.
             However, disabling cookies may affect the functionality of the
             platform.
-          </p>
-
-          <h4>Changes to This Cookie Policy</h4>
-          <p>
-            We may update this Cookie Policy periodically. The most current
-            version will be available on our website.
           </p>
         </div>
 
@@ -285,12 +266,6 @@ const CookiePolicy = () => {
             Include your account details and reason for the request. Refunds are
             processed within [X] days of approval.
           </p>
-
-          <h4>Changes to This Refund Policy</h4>
-          <p>
-            We may update this Refund Policy periodically. The most current
-            version will be available on our website.
-          </p>
         </div>
 
         <h3>Contact Us</h3>
@@ -299,7 +274,6 @@ const CookiePolicy = () => {
           practices, please contact us at:
         </p>
         <p>Email: contactkampusabode@gmail.com</p>
-        
       </div>
     </section>
   );
