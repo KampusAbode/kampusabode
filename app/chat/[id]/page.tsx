@@ -7,21 +7,21 @@ import {
   fetchMessagesWithKampusAbode,
 } from "../../utils/api";
 
-const UserChat = ({ userId }) => {
+const Chat = ({ id }) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
   // Fetch messages for this user
   useEffect(() => {
-    fetchMessagesWithKampusAbode(userId, (fetchedMessages) => {
+    fetchMessagesWithKampusAbode(id, (fetchedMessages) => {
       setMessages(fetchedMessages);
     });
-  }, [userId]);
+  }, [id]);
 
   // Send a message
   const handleSendMessage = async () => {
     if (message.trim() !== "") {
-      const res = await sendMessageToKampusAbode(userId, userId, message);
+      const res = await sendMessageToKampusAbode(id, id, message);
       toast.success(res.success);
       setMessage(""); // Clear the input field
     }
@@ -40,7 +40,7 @@ const UserChat = ({ userId }) => {
         }}>
         {messages.map((msg, index) => (
           <p key={index}>
-            <strong>{msg.sender === userId ? "You" : "Kampus Abode"}:</strong>{" "}
+            <strong>{msg.sender === id ? "You" : "Kampus Abode"}:</strong>{" "}
             {msg.text}
           </p>
         ))}
@@ -61,4 +61,4 @@ const UserChat = ({ userId }) => {
 
 
 
-export default UserChat;
+export default Chat;
