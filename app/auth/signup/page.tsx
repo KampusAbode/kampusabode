@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-<<<<<<< HEAD
 
 import { toast } from "react-hot-toast";
 import { signupUser } from "../../utils/api";
@@ -10,8 +9,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-=======
->>>>>>> 53d010e7337436bb045ea4507fd7077db798da20
 
 type UserSignupInput = {
   username: string;
@@ -26,17 +23,8 @@ type UserSignupInput = {
     phoneNumber: string;
   };
 };
-<<<<<<< HEAD
 
-=======
-import { toast } from "react-hot-toast";
-import { signupUser } from "../../utils/api";
-import "../auth.css";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
->>>>>>> 53d010e7337436bb045ea4507fd7077db798da20
+
 
 const SignupPage = () => {
   const router = useRouter();

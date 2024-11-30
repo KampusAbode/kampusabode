@@ -3,19 +3,13 @@
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { loginUser } from "../../utils/api";
-<<<<<<< HEAD
+
 // import { useRouter } from "next/navigation";
 import Link from "next/link";
 import "../auth.css";
 import Image from "next/image";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-=======
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import "../auth.css";
-import Image from "next/image";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; 
->>>>>>> 53d010e7337436bb045ea4507fd7077db798da20
+
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -24,11 +18,8 @@ const LoginPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({ email: "", password: "" });
 
-<<<<<<< HEAD
+
   // const router = useRouter();
-=======
-  const router = useRouter();
->>>>>>> 53d010e7337436bb045ea4507fd7077db798da20
 
   const validateForm = () => {
     let formErrors = { email: "", password: "" };
