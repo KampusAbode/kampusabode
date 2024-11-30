@@ -24,7 +24,7 @@ const PropertyDetails = ({ id }) => {
   const user = useSelector(
     (state: RootState) => state.user
   );
-  console.log(user);
+  // console.log(user);
   
 
   const agentDetails = agentUsers.find((agent) =>
