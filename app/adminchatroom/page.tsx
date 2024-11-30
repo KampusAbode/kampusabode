@@ -12,17 +12,14 @@ const AdminChat = () => {
   const [users, setUsers] = useState([]);
 
   // Fetch all users with messages
-  useEffect(() => {
     useEffect(() => {
       // Fetch the users with messages
-      const unsubscribe = fetchUsersWithMessages((fetchedUsers) => {
+      fetchUsersWithMessages("kampusabode").then((fetchedUsers) => {
         setUsers(fetchedUsers);
       });
 
-      // Cleanup subscription on component unmount
-      return () => unsubscribe();
+      // No cleanup needed as fetchUsersWithMessages does not return a subscription
     }, []);
-  }, []);
 
   // Fetch messages for the selected user
   useEffect(() => {
