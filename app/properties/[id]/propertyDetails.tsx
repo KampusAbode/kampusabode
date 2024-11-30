@@ -171,7 +171,7 @@ const PropertyDetails = ({ id }) => {
                 information, feel free to contact the listing agent directly
                 through WhatsApp using the link below.
               </p>
-              {user.userType === "student" ? <p>Start a conversation with us <Link href={"/upload"} className="btn">chat now</Link></p> : <p>{user.userType}</p> }
+              {user.userType === "student" ? <p>Start a conversation with us <Link href={`/chat/${user.id}`} className="btn">chat now</Link></p> : <p>{user.userType}</p> }
              
               {/* <p>
                 Connect with <strong>{agentDetails?.name}</strong> on WhatsApp{" "}

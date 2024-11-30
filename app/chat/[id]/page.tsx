@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import {
   sendMessageToKampusAbode,
   fetchMessagesWithKampusAbode,
-} from "../utils/api";
+} from "../../utils/api";
 
 const UserChat = ({ userId }) => {
   const [message, setMessage] = useState("");
@@ -59,9 +59,6 @@ const UserChat = ({ userId }) => {
   );
 };
 
-// Example: Pass userId as a prop
-UserChat.getInitialProps = async () => {
-  return { userId: "user1" }; // Replace with the logged-in user's ID
-};
+
 
 export default UserChat;
