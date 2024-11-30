@@ -328,24 +328,24 @@ export const addProperty = async (property: PropertyType): Promise<void> => {
   }
 };
 
-export const fetchUsersWithMessages = async (userId) => {
-  const conversationsRef = collection(db, `messages/${userId}/conversations`);
-  const q = query(conversationsRef);
+export const fetchUsersWithMessages = async (sender) => {
+  const messagesRef = collection(db, "messages");
+  const q = query(messagesRef, where("sender", "==", sender));
+  const snapshot = await getDocs(q);
 
-  const querySnapshot = await getDocs(q);
-  const conversations = querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
+  const userIds = new Set();
+  snapshot.forEach((doc) => {
+    userIds.add(doc.data().receiver);
+  });
 
-  return conversations;
+  return Array.from(userIds); // Return unique user IDs
 };
 
 // Fetch messages between a user and Kampus Abode
-export const fetchMessagesWithKampusAbode = async (userId, conversationId) => {
+export const fetchMessagesWithKampusAbode = async () => {
   const messagesRef = collection(
     db,
-    `messages/${userId}/conversations/${conversationId}/messages`
+    "messages"
   );
   const q = query(messagesRef, orderBy("timestamp"));
 
@@ -361,7 +361,6 @@ export const fetchMessagesWithKampusAbode = async (userId, conversationId) => {
 // Add a message to a user's conversation
 export const sendMessageToKampusAbode = async (
   userId,
-  conversationId,
   messageContent
 ) => {
   try {
@@ -377,22 +376,11 @@ export const sendMessageToKampusAbode = async (
     // Step 2: Reference to the messages sub-collection for the conversation
     const messagesRef = collection(
       db,
-      `messages/${userId}/conversations/${conversationId}/messages`
+      "messages",
     );
 
     // Step 3: Add the message to Firestore
-    const docRef = await addDoc(messagesRef, messageData);
-
-    // Step 4: Update the lastMessage in the conversation metadata
-    const conversationRef = doc(
-      db,
-      `messages/${userId}/conversations/${conversationId}`
-    );
-    await updateDoc(conversationRef, {
-      participants: [userId, "kampusAbode"],
-      lastMessage: messageContent,
-      timestamp: serverTimestamp(), // Update timestamp of the last message
-    });
+    await addDoc(messagesRef, messageData);
 
     return { success: "Message sent" };
   } catch (error) {
