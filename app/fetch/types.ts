@@ -46,7 +46,7 @@ export interface HomeType {
 }
 
 export interface PropertyType {
-  id: number;
+  id: string;
   url: string;
   agentId: number;
   title: string;

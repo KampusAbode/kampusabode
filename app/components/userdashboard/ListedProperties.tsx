@@ -14,7 +14,7 @@ const ListedProperties = async ({ user }: {user: AgentType}) => {
 
   return (
     <div className="listed-properties">
-      <h4>Your Listed Properties</h4>
+      <h4>Your Listed Properties <Link href={"/upload"} className="btn">Upload apartment</Link></h4>
       <div className="property-list">
         <ul>
           {filteredProperties && filteredProperties.length > 0 ? (

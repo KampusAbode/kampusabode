@@ -7,16 +7,24 @@ import reviews from "../../fetch/data/reviews";
 import Image from "next/image";
 import Link from "next/link";
 import PropertyImages from "../../components/propertyImages/PropertyImages";
-import ContactAgent from "../../components/contactagent/ContactAgent";
+// import ContactAgent from "../../components/contactagent/ContactAgent";
 import type { PropertyType } from "../../fetch/types";
 import { getProperties } from "../../utils/api";
 import "./property.css";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 
 
 const PropertyDetails = ({ id }) => {
   const [properties, setProperties] = useState<PropertyType[]>([]);
   const propertyDetails = properties.find((prop) => prop.id.toString() === id);
+
+  const user = useSelector(
+    (state: RootState) => state.user
+  );
+  console.log(user);
+  
 
   const agentDetails = agentUsers.find((agent) =>
     agent.userInfo?.propertiesListed.some(
@@ -158,7 +166,9 @@ const PropertyDetails = ({ id }) => {
                 information, feel free to contact the listing agent directly
                 through WhatsApp using the link below.
               </p>
-              <p>
+              {user.userType === "student" ? <p>Start a conversation with us <Link href={"/upload"}></Link></p> : <p>{user.userType}</p> }
+             
+              {/* <p>
                 Connect with <strong>{agentDetails?.name}</strong> on WhatsApp{" "}
                 <ContactAgent
                   name={agentDetails?.name}
@@ -167,7 +177,7 @@ const PropertyDetails = ({ id }) => {
                     `Hello, I’m interested in your listing on Kampus Abode. \n\n Here is the property link: https://kampusabode.vercel.app/properties/${id}`
                   )}`}
                 />
-              </p>
+              </p> */}
             </div>
           </div>
         </div>

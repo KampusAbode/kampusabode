@@ -1,7 +1,7 @@
 .login,
 .signup {
   display: grid;
-  
+
   .container {
     width: 100%;
     min-height: 100vh;
@@ -10,7 +10,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     .im {
-      background: #FF5E5E;
+      background: #ff5e5e;
 
       display: grid;
       place-items: center;
@@ -40,6 +40,7 @@
             padding-left: var(--spacing);
             letter-spacing: 1px;
           }
+
           input,
           select {
             width: 100%;
@@ -60,9 +61,26 @@
             left: var(--spacing);
             color: #f10909;
           }
+
+          .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+          }
+
+          .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: var(--spacing);
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 1rem;
+            color: #555;
+          }
         }
         button {
           margin: var(--spacing) auto;
+          padding: var(--spacing);
           width: 100%;
           display: block;
           text-align: center;
@@ -98,17 +116,17 @@
       }
 
       .fm {
-      padding: var(--spacing-3x);
+        padding: var(--spacing-3x);
 
-      h4 {
-        margin-bottom: var(--spacing-2x);
-        text-align: center;
-      }
+        h4 {
+          margin-bottom: var(--spacing-2x);
+          text-align: center;
+        }
 
-      form {
-        width: 100%;
+        form {
+          width: 100%;
+        }
       }
-    }
     }
   }
 }

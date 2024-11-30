@@ -49,6 +49,7 @@ const validationSchema = Yup.object().shape({
 
 const UploadProperty = () => {
   const initialValues: PropertyType = {
+    id: null,
     url: "",
     agentId: 0,
     title: "",

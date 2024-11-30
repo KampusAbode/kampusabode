@@ -15,11 +15,14 @@ import {
   where,
   getDocs,
   deleteField,
-  Timestamp,
   addDoc,
+  CollectionReference,
+  DocumentData,
+  onSnapshot,
+  orderBy,
+  serverTimestamp,
 } from "firebase/firestore";
 
-import { v4 as uuidv4 } from "uuid";
 import CryptoJS from "crypto-js";
 import { PropertyType } from "../fetch/types";
 
@@ -249,8 +252,6 @@ export const logoutUser = async () => {
   }
 };
 
-
-
 export const getProperties = async (): Promise<PropertyType[]> => {
   try {
     const propertiesCollection = collection(db, "properties");
@@ -262,7 +263,7 @@ export const getProperties = async (): Promise<PropertyType[]> => {
 
       // Ensure the data returned from Firebase matches PropertyType
       const property: PropertyType = {
-        id: data.id || 0,
+        id: data.id || null,
         url: data.url || "",
         agentId: data.agentId || 0,
         title: data.title || "",
@@ -296,10 +297,14 @@ export const addProperty = async (property: PropertyType): Promise<void> => {
   try {
     const propertiesCollection = collection(db, "properties");
 
-    // Add the new property to the properties collection
+    // Generate a unique ID for the property
+    const newDocRef = doc(propertiesCollection);
+    const uid = newDocRef.id;
+
+    // Add the new property to the properties collection with the unique ID
     await addDoc(propertiesCollection, {
-      id: property.id,
-      url: property.url,
+      id: uid,
+      url: `/property/${uid}`,
       agentId: property.agentId,
       title: property.title,
       description: property.description,
@@ -316,7 +321,6 @@ export const addProperty = async (property: PropertyType): Promise<void> => {
       available: property.available,
     });
   } catch (error) {
-    
     throw {
       message: (error as Error).message || "Error adding property",
       statusCode: 500,
@@ -324,7 +328,80 @@ export const addProperty = async (property: PropertyType): Promise<void> => {
   }
 };
 
+export const fetchUsersWithMessages = async (userId) => {
+  const conversationsRef = collection(db, `messages/${userId}/conversations`);
+  const q = query(conversationsRef);
 
+  const querySnapshot = await getDocs(q);
+  const conversations = querySnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+
+  return conversations;
+};
+
+// Fetch messages between a user and Kampus Abode
+export const fetchMessagesWithKampusAbode = async (userId, conversationId) => {
+  const messagesRef = collection(
+    db,
+    `messages/${userId}/conversations/${conversationId}/messages`
+  );
+  const q = query(messagesRef, orderBy("timestamp"));
+
+  const querySnapshot = await getDocs(q);
+  const messages = querySnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+
+  return messages;
+};
+
+// Add a message to a user's conversation
+export const sendMessageToKampusAbode = async (
+  userId,
+  conversationId,
+  messageContent
+) => {
+  try {
+    // Step 1: Prepare message data
+    const messageData = {
+      senderId: userId,
+      receiverId: "kampusAbode", // Assuming you are messaging Kampus Abode; modify as needed
+      content: messageContent,
+      timestamp: serverTimestamp(),
+      status: "sent", // You can set it to "sent" initially
+    };
+
+    // Step 2: Reference to the messages sub-collection for the conversation
+    const messagesRef = collection(
+      db,
+      `messages/${userId}/conversations/${conversationId}/messages`
+    );
+
+    // Step 3: Add the message to Firestore
+    const docRef = await addDoc(messagesRef, messageData);
+
+    // Step 4: Update the lastMessage in the conversation metadata
+    const conversationRef = doc(
+      db,
+      `messages/${userId}/conversations/${conversationId}`
+    );
+    await updateDoc(conversationRef, {
+      participants: [userId, "kampusAbode"],
+      lastMessage: messageContent,
+      timestamp: serverTimestamp(), // Update timestamp of the last message
+    });
+
+    return { success: "Message sent" };
+  } catch (error) {
+    throw {
+      message: (error as Error).message || "Error sending message",
+      statusCode: 500,
+    };
+  }
+};
 
 // Sample user data structure
 const users = [
@@ -414,9 +491,6 @@ export const compatibilyCheck = (userId: string) => {
   return { message: "Your match", matches };
 };
 
-
-
-
 export const updateAllProperties = async () => {
   try {
     // Reference to the 'properties' collection
@@ -444,3 +518,10 @@ export const updateAllProperties = async () => {
     console.error("Error updating properties:", error);
   }
 };
+
+function onValue(
+  userMessagesRef: CollectionReference<DocumentData, DocumentData>,
+  arg1: (snapshot: any) => void
+) {
+  throw new Error("Function not implemented.");
+}
