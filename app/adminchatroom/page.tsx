@@ -41,8 +41,9 @@ const AdminChat = () => {
   };
 
   return (
-    <div style={{ padding: "1rem" }}>
-      <h1>Kampus Abode Admin Chat</h1>
+   <section className="adminchat-page">
+    <div className="container" style={{ padding: "1rem" }}>
+      <h2>Kampus Abode Admin Chat</h2>
       <div style={{ display: "flex" }}>
         <div style={{ width: "30%", borderRight: "1px solid #ccc" }}>
           <h3>Users</h3>
@@ -98,6 +99,7 @@ const AdminChat = () => {
         </div>
       </div>
     </div>
+   </section>
   );
 };
 

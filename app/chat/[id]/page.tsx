@@ -21,12 +21,16 @@ const Chat = ({ params }: Params) => {
 
   // Fetch messages for this user
   useEffect(() => {
-    setIsLoading(true);
-    const conversationId = `${userId}_kampusabode`
-    fetchMessagesWithKampusAbode(userId,  (fetchedMessages) => {
+    const fetchMessages = async () => {
+      setIsLoading(true);
+      const conversationId = `${userId}_kampusabode`;
+      const fetchedMessages = await fetchMessagesWithKampusAbode(userId, conversationId);
+
       setMessages(fetchedMessages || []);
       setIsLoading(false);
-    });
+    };
+
+    fetchMessages();
   }, [userId]);
 
   // Scroll to the latest message
@@ -54,66 +58,72 @@ const Chat = ({ params }: Params) => {
   };
 
   return (
-    <div style={{ padding: "1rem", fontFamily: "Arial, sans-serif" }}>
-      <h1 style={{ textAlign: "center", marginBottom: "1rem" }}>
-        Chat with Kampus Abode
-      </h1>
+    <section className="chat-page">
       <div
-        style={{
-          border: "1px solid #ccc",
-          padding: "1rem",
-          height: "300px",
-          overflowY: "scroll",
-          marginBottom: "1rem",
-          borderRadius: "8px",
-          backgroundColor: "#f9f9f9",
-        }}>
-        {isLoading ? (
-          <p style={{ textAlign: "center" }}>Loading messages...</p>
-        ) : messages.length > 0 ? (
-          messages.map((msg, index) => (
-            <p key={index} style={{ margin: "0.5rem 0" }}>
-              <strong>{msg.sender === userId ? "You" : "Kampus Abode"}:</strong>{" "}
-              {msg.text}
-            </p>
-          ))
-        ) : (
-          <p style={{ textAlign: "center" }}>No messages yet. Say hello!</p>
-        )}
-        <div ref={messagesEndRef} />
-      </div>
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <input
-          type="text"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Type your message..."
-          ref={inputRef}
+        className="container"
+        style={{ padding: "1rem", fontFamily: "Arial, sans-serif" }}>
+        <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>
+          Chat with Kampus Abode
+        </h2>
+        <div
           style={{
-            flex: 1,
-            padding: "0.5rem",
             border: "1px solid #ccc",
-            borderRadius: "4px",
-            marginRight: "1rem",
-          }}
-          aria-label="Message Input"
-        />
-        <button
-          onClick={handleSendMessage}
-          style={{
-            padding: "0.5rem 1rem",
-            backgroundColor: "#007bff",
-            color: "#fff",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-          disabled={isLoading || message.trim() === ""}
-          aria-label="Send Message">
-          Send
-        </button>
+            padding: "1rem",
+            height: "300px",
+            overflowY: "scroll",
+            marginBottom: "1rem",
+            borderRadius: "8px",
+            backgroundColor: "#f9f9f9",
+          }}>
+          {isLoading ? (
+            <p style={{ textAlign: "center" }}>Loading messages...</p>
+          ) : messages.length > 0 ? (
+            messages.map((msg, index) => (
+              <p key={index} style={{ margin: "0.5rem 0" }}>
+                <strong>
+                  {msg.sender === userId ? "You" : "Kampus Abode"}:
+                </strong>{" "}
+                {msg.text}
+              </p>
+            ))
+          ) : (
+            <p style={{ textAlign: "center" }}>No messages yet. Say hello!</p>
+          )}
+          <div ref={messagesEndRef} />
+        </div>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <input
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Type your message..."
+            ref={inputRef}
+            style={{
+              flex: 1,
+              padding: "0.5rem",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              marginRight: "1rem",
+            }}
+            aria-label="Message Input"
+          />
+          <button
+            onClick={handleSendMessage}
+            style={{
+              padding: "0.5rem 1rem",
+              backgroundColor: "#007bff",
+              color: "#fff",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+            disabled={isLoading || message.trim() === ""}
+            aria-label="Send Message">
+            Send
+          </button>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
