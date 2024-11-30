@@ -29,7 +29,7 @@ const userdataSlice = createSlice({
       }
     },
 
-    updateSavedProperties: (state, action: PayloadAction<number>) => {
+    updateSavedProperties: (state, action: PayloadAction<string>) => {
       if (state?.userType === "student") {
         state.userInfo.savedProperties = state.userInfo.savedProperties || [];
         state.userInfo.savedProperties = [
@@ -45,7 +45,7 @@ const userdataSlice = createSlice({
       }
     },
 
-    removeSavedProperty: (state, action: PayloadAction<number>) => {
+    removeSavedProperty: (state, action: PayloadAction<string>) => {
       if (state?.userType === "student") {
         if (state.userInfo.savedProperties) {
           state.userInfo.savedProperties =

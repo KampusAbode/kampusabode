@@ -90,7 +90,7 @@ export interface BookmarkState {
 
 // Type for student users
 export interface StudentType {
-  id: number;
+  id: string;
   name: string;
   email: string;
   userType: "student";
@@ -100,7 +100,7 @@ export interface StudentType {
     university: string;
     department: string;
     yearOfStudy: number;
-    savedProperties: number[]; // List of saved property IDs
+    savedProperties: string[]; // List of saved property IDs
     wishlist: string[]; // List of wishlist items (strings)
     phoneNumber: string;
   };
@@ -108,7 +108,7 @@ export interface StudentType {
 
 // Type for agent users
 export interface AgentType {
-  id: number;
+  id: string;
   name: string;
   email: string;
   userType: "agent";

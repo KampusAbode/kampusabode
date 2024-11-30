@@ -1,5 +1,6 @@
 import { getProperties } from "../../utils/api";
 import { AgentType, PropertyType } from '../../fetch/types';
+import Link from "next/link";
 
 
 const ListedProperties = async ({ user }: {user: AgentType}) => {

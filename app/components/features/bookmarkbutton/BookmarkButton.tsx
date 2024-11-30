@@ -6,7 +6,7 @@ import type { RootState } from "../../../redux/store";
 import { toast } from "react-hot-toast";
 import { removeSavedProperty, updateSavedProperties } from "../../../redux/stateSlice/userdataSlice";
 
-const BookmarkButton = ({ propertyId }: { propertyId: number }) => {
+const BookmarkButton = ({ propertyId }: { propertyId: string }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const dispatch = useDispatch();
 

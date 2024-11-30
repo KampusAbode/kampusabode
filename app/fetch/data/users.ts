@@ -2,17 +2,21 @@ import { StudentType, AgentType, UserType } from "../types";
 
 export const users: UserType[] = [
   {
-    id: 1829475,
+    id: "0f0b-48cc-8f8c-e1437d5e1cda",
     name: "John Doe",
     email: "johndoe@gmail.com",
     userType: "student",
     userInfo: {
-      bio: 'Just a student searching for an apartment.',
+      bio: "Just a student searching for an apartment.",
       avatar: "/assets/person1.jpg",
       university: "University of Lagos",
       department: "Computer Science",
       yearOfStudy: 3,
-      savedProperties: [8726491537, 82664625176, 4862310975],
+      savedProperties: [
+        "06c3d949-6811-47ac-8ee6-aa56e76bf090",
+        "18d21246-02af-4636-ab6c-3155b13f8883",
+        "2305e352-5378-45ab-9357-7161bc92c0a3",
+      ],
       wishlist: [
         "Two-bedroom apartment near campus",
         "Furnished studio apartment",
@@ -22,23 +26,26 @@ export const users: UserType[] = [
     },
   },
   {
-    id: 2843651,
+    id: "5b2c6693-0f0b-8f8c-e1437d5e1cda",
     name: "Sarah Akin",
     email: "sarahakin@yahoo.com",
     userType: "student",
     userInfo: {
-      bio: 'I am a stduent of the prestiguous obafemi awolowo university.',
+      bio: "I am a stduent of the prestiguous obafemi awolowo university.",
       avatar: "/assets/person1.jpg",
       university: "Obafemi Awolowo University",
       department: "Estate Management",
       yearOfStudy: 2,
-      savedProperties: [661635725344, 1234567890],
+      savedProperties: [
+        "33891025-29e5-4e6e-bc0f-d30ca70cd5d6",
+        "5b2c6693-0f0b-48cc-8f8c-e1437d5e1cda",
+      ],
       wishlist: ["Single room self-contained", "Shared apartment"],
       phoneNumber: "+23470 1234 5678",
     },
   },
   {
-    id: 3728492,
+    id: "5b2c6693-0f0b-48cc-8f8c",
     name: "Michael Brown",
     email: "michaelbrown@gmail.com",
     userType: "agent",
@@ -60,7 +67,7 @@ export const users: UserType[] = [
     },
   },
   {
-    id: 4893716,
+    id: "2c6693-0f0b-48cc-8f8c-e1435e1cda",
     name: "Anita Williams",
     email: "anitawilliams@outlook.com",
     userType: "agent",
@@ -82,7 +89,7 @@ export const users: UserType[] = [
     },
   },
   {
-    id: 7892430,
+    id: "5c6693-0f0b-48c-e1437d5e1cda",
     name: "David Adeoye",
     email: "davidadeoye@domain.com",
     userType: "agent",
@@ -104,7 +111,7 @@ export const users: UserType[] = [
     },
   },
   {
-    id: 1023489,
+    id: "548cc-c6693-0f0b-8f8c-e1437d5e1cda",
     name: "Grace Eze",
     email: "graceeze@hotmail.com",
     userType: "agent",
