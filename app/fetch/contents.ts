@@ -86,7 +86,7 @@ const homeSection: HomeType = {
     company: [
       { name: "about", to: "/about" },
       { name: "properties", to: "/properties" },
-      { name: "articles", to: "/articles" },
+      { name: "trends", to: "/trends" },
       { name: "marketplace", to: "/marketplace" },
       { name: "FAQs", to: "/legal/faqs" },
       { name: "testimonials", to: "/legal/testimonials" },

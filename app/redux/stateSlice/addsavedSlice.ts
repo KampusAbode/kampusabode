@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getProperties } from "../../utils/api";
-import {articles} from "../../fetch/data/articles";
+import {trends} from "../../fetch/data/trends";
 import { PropertyType } from "../../fetch/types";
 import { ArticleType } from "../../fetch/types";
 import { AddSavedState } from "../../fetch/types";
@@ -18,8 +18,8 @@ const initialState: AddSavedState = {
   savedProperties: properties
     ? properties.filter((prop: { saved: boolean }) => prop.saved === true)
     : [],
-  savedArticles: articles
-    ? articles.filter((prop: { saved: boolean }) => prop.saved === true)
+  savedTrends: trends
+    ? trends.filter((prop: { saved: boolean }) => prop.saved === true)
     : [],
 };
 
@@ -37,11 +37,11 @@ export const addsavedSlice = createSlice({
           state.savedProperties.push(data as PropertyType);
         }
       } else if (propType === "article") {
-        const isSaved = state.savedArticles.some(
+        const isSaved = state.savedTrends.some(
           (article) => article.title === data.title
         );
         if (!isSaved) {
-          state.savedArticles.push(data as ArticleType);
+          state.savedTrends.push(data as ArticleType);
         }
       }
     },
@@ -53,7 +53,7 @@ export const addsavedSlice = createSlice({
           (prop) => prop.id !== data.id
         );
       } else if (propType === "article") {
-        state.savedArticles = state.savedArticles.filter(
+        state.savedTrends = state.savedTrends.filter(
           (article) => article.title !== data.title
         );
       }

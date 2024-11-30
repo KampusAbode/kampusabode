@@ -20,12 +20,16 @@ const PropertyDetails = ({ id }) => {
   const [properties, setProperties] = useState<PropertyType[]>([]);
   const propertyDetails = properties.find((prop) => prop.id.toString() === id);
 
+<<<<<<< HEAD
   const user = useSelector(
     (state: RootState) => state.user
   );
   console.log(user);
   
 
+=======
+    
+>>>>>>> 53d010e7337436bb045ea4507fd7077db798da20
   const agentDetails = agentUsers.find((agent) =>
     agent.userInfo?.propertiesListed.some(
       (propList) => propList.id === id
@@ -56,6 +60,10 @@ const PropertyDetails = ({ id }) => {
     ? propertyReviews.reduce((sum, review) => sum + review.rating, 0) /
       propertyReviews.length
     : 0;
+  
+  if (propertyDetails === undefined) {
+      return null;
+  }
 
   return (
     <SaveVisitedProperty id={id}>

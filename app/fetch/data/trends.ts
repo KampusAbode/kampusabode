@@ -1,6 +1,6 @@
 import { ArticleType } from "../types";
 
-export const articles: ArticleType[] = [
+export const trends: ArticleType[] = [
   {
     title: "10 Tips for First-Time Homebuyers",
     description:

@@ -49,6 +49,7 @@
         font-size: var(--font-size-xs);
       color: var(--font-color-h);
         font-weight: 600;
+        text-transform: capitalize;
       }
       
       &.active {

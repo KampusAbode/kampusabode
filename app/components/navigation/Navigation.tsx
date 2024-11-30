@@ -68,11 +68,11 @@ export default function Navigator() {
 
         <li>
           <Link
-            href="/articles"
-            className={pathname === "/articles" ? "active" : ""}>
+            href="/trends"
+            className={pathname === "/trends" ? "active" : ""}>
             <FaBookReader />
 
-            <span>articles</span>
+            <span>trends</span>
           </Link>
         </li>
 
@@ -98,8 +98,7 @@ export default function Navigator() {
                 ? "active"
                 : ""
             }>
-            {user ? <FaShoppingCart /> : <FaUser/>}
-            
+            {user ? <FaShoppingCart /> : <FaUser />}
 
             {user ? <span>market</span> : <span>login</span>}
           </Link>

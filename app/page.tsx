@@ -3,7 +3,7 @@
 import Image from "next/image";
 import "./home.css";
 import data from "./fetch/contents";
-import { articles } from "./fetch/data/articles";
+import { trends } from "./fetch/data/trends";
 import Quotes from "./components/quotes/Quotes";
 import Link from "next/link";
 import { PropertyType } from "./fetch/types";
@@ -41,7 +41,7 @@ export default function App() {
           <div className="hero-content">
             <span className="sub-head">{hero.span}</span>
             <h1>
-              Find Your Perfect Student Apartment — Right from from Your{" "}
+              Find Your Perfect Student Apartment — Right from Your{" "}
               <span>
                 Comfort{" "}
                 <svg
@@ -203,13 +203,13 @@ export default function App() {
           <div className="heading-section">
             <h2 className="heading">quick guide</h2>
             <p>
-              Explore articles on essential housing tips, student living hacks,
+              Explore trends on essential housing tips, student living hacks,
               and expert advice to help you make informed decisions while
               searching for the perfect apartment near your campus.
             </p>
           </div>
           <div className="guides">
-            {articles.slice(0, 4).map((guide) => {
+            {trends.slice(0, 4).map((guide) => {
               return (
                 <div key={guide.title} className="blog">
                   <h5>{guide.title}</h5>
