@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import {
   fetchUsersWithMessages,
@@ -12,14 +14,14 @@ const AdminChat = () => {
   const [users, setUsers] = useState([]);
 
   // Fetch all users with messages
-    useEffect(() => {
-      // Fetch the users with messages
-      fetchUsersWithMessages("kampusabode").then((fetchedUsers) => {
-        setUsers(fetchedUsers);
-      });
+  useEffect(() => {
+    // Fetch the users with messages
+    fetchUsersWithMessages("kampusabode").then((fetchedUsers) => {
+      setUsers(fetchedUsers);
+    });
 
-      // No cleanup needed as fetchUsersWithMessages does not return a subscription
-    }, []);
+    // No cleanup needed as fetchUsersWithMessages does not return a subscription
+  }, []);
 
   // Fetch messages for the selected user
   useEffect(() => {

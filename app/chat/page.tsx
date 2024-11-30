@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import {
@@ -20,7 +22,7 @@ const UserChat = ({ userId }) => {
   const handleSendMessage = async () => {
     if (message.trim() !== "") {
       const res = await sendMessageToKampusAbode(userId, userId, message);
-      toast.success(res.success)
+      toast.success(res.success);
       setMessage(""); // Clear the input field
     }
   };
@@ -35,8 +37,7 @@ const UserChat = ({ userId }) => {
           height: "300px",
           overflowY: "scroll",
           marginBottom: "1rem",
-        }}
-      >
+        }}>
         {messages.map((msg, index) => (
           <p key={index}>
             <strong>{msg.sender === userId ? "You" : "Kampus Abode"}:</strong>{" "}
