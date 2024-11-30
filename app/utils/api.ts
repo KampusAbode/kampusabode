@@ -507,9 +507,3 @@ export const updateAllProperties = async () => {
   }
 };
 
-function onValue(
-  userMessagesRef: CollectionReference<DocumentData, DocumentData>,
-  arg1: (snapshot: any) => void
-) {
-  throw new Error("Function not implemented.");
-}

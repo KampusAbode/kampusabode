@@ -22,11 +22,13 @@ const AdminChat = () => {
 
   // Fetch messages for the selected user
   useEffect(() => {
-    if (selectedUser) {
-      fetchMessagesWithKampusAbode(selectedUser, (fetchedMessages) => {
+    const fetchMessages = async () => {
+      if (selectedUser) {
+        const fetchedMessages = await fetchMessagesWithKampusAbode();
         setMessages(fetchedMessages);
-      });
-    }
+      }
+    };
+    fetchMessages();
   }, [selectedUser]);
 
   // Send a message to the selected user

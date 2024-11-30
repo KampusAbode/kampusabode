@@ -23,8 +23,8 @@ const Chat = ({ params }: Params) => {
   useEffect(() => {
     const fetchMessages = async () => {
       setIsLoading(true);
-      const conversationId = `${userId}_kampusabode`;
-      const fetchedMessages = await fetchMessagesWithKampusAbode(userId, conversationId);
+      // const conversationId = `${userId}_kampusabode`;
+      const fetchedMessages = await fetchMessagesWithKampusAbode();
 
       setMessages(fetchedMessages || []);
       setIsLoading(false);
@@ -42,7 +42,7 @@ const Chat = ({ params }: Params) => {
   const handleSendMessage = async () => {
     if (message.trim() !== "") {
       try {
-        const res = await sendMessageToKampusAbode(userId, userId, message);
+        const res = await sendMessageToKampusAbode(userId, message);
         if (res.success) {
           toast.success("Message sent!");
           setMessage(""); // Clear the input field
