@@ -81,9 +81,9 @@ const Chat = ({ params }: Params) => {
             messages.map((msg, index) => (
               <p key={index} style={{ margin: "0.5rem 0" }}>
                 <strong>
-                  {msg.sender === userId ? "You" : "Kampus Abode"}:
+                  {msg.senderId === userId ? "You" : "Kampus Abode"}:
                 </strong>{" "}
-                {msg.text}
+                {msg.content}
               </p>
             ))
           ) : (
