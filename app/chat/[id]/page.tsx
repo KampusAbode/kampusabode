@@ -90,7 +90,13 @@ const Chat = ({ params }: Params) => {
           ) : messages.length > 0 ? (
             messages.map((msg, index) => (
               <p key={index} style={{ margin: "0.5rem 0" }}>
+<<<<<<< HEAD
                 <strong>{msg.sender === userId ? "You" : "Kampabode"}:</strong>{" "}
+=======
+                <strong>
+                  {msg.senderId === userId ? "You" : "Kampus Abode"}:
+                </strong>{" "}
+>>>>>>> fed83f60e199aae7b5c08cc8d3aa8e5fc3e37705
                 {msg.content}
               </p>
             ))
