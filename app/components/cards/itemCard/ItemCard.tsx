@@ -18,7 +18,7 @@ const ItemCard = ({ item }: { item: MarketplaceItem }) => {
           name={item.sellerContact.name}
           content={`Contact ${item.sellerContact.name.split(" ")[0]}`}
           href={`https://wa.me/2347050721686?text=${encodeURIComponent(
-            `Hello ${item.sellerContact.name}, I’m interested in one of your items on Kampus Abode. The ${item.name}.`
+            `Hello ${item.sellerContact.name}, I’m interested in one of your items on Kampabode. The ${item.name}.`
           )}`}
         />
       </div>

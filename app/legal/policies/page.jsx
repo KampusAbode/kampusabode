@@ -13,7 +13,7 @@ const CookiePolicy = () => {
           <p>
             We collect information that you provide directly to us when you
             create an account, list a property, interact with other users, or
-            use the Kampus Abode platform. This includes:
+            use the Kampabode platform. This includes:
           </p>
           <ul>
             <li>
@@ -187,7 +187,7 @@ const CookiePolicy = () => {
 
           <h4>7. Children's Privacy</h4>
           <p>
-            Kampus Abode is not intended for use by individuals under the age of
+            Kampabode is not intended for use by individuals under the age of
             16. We do not knowingly collect personal information from children
             under 16. If we become aware that we have collected personal
             information from a child, we will take steps to delete the
@@ -214,7 +214,7 @@ const CookiePolicy = () => {
           </p>
           <p>
             Performance Cookies: Help us understand how users interact with
-            KampusAbode, enabling us to improve performance.
+            Kampabode, enabling us to improve performance.
           </p>
           <p>
             Advertising Cookies: Used to deliver relevant ads based on your
@@ -234,10 +234,9 @@ const CookiePolicy = () => {
           <p>Last Updated: [Date]</p>
 
           <p>
-            At KampusAbode, we strive to provide a seamless experience for
-            agents and students alike. This Refund Policy explains the
-            conditions under which refunds are issued for premium services
-            purchased by agents.
+            At Kampabode, we strive to provide a seamless experience for agents
+            and students alike. This Refund Policy explains the conditions under
+            which refunds are issued for premium services purchased by agents.
           </p>
 
           <h4>1. Eligibility for Refunds</h4>
@@ -262,7 +261,7 @@ const CookiePolicy = () => {
 
           <h4>3. How to Request a Refund</h4>
           <p>
-            To request a refund, please contact us at: contactkampusabode.com.
+            To request a refund, please contact us at: contactKampabode.com.
             Include your account details and reason for the request. Refunds are
             processed within [X] days of approval.
           </p>
@@ -273,7 +272,7 @@ const CookiePolicy = () => {
           If you have any questions about this Privacy Policy or our data
           practices, please contact us at:
         </p>
-        <p>Email: contactkampusabode@gmail.com</p>
+        <p>Email: contactKampabode@gmail.com</p>
       </div>
     </section>
   );

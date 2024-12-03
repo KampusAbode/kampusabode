@@ -328,68 +328,73 @@ export const addProperty = async (property: PropertyType): Promise<void> => {
   }
 };
 
-export const fetchUsersWithMessages = async (sender) => {
-  const messagesRef = collection(db, "messages");
-  const q = query(messagesRef, where("sender", "==", sender));
-  const snapshot = await getDocs(q);
 
-  const userIds = new Set();
-  snapshot.forEach((doc) => {
-    userIds.add(doc.data().receiver);
-  });
-
-  return Array.from(userIds); // Return unique user IDs
-};
-
-// Fetch messages between a user and Kampus Abode
-export const fetchMessagesWithKampusAbode = async () => {
-  const messagesRef = collection(
-    db,
-    "messages"
-  );
-  const q = query(messagesRef, orderBy("timestamp"));
-
-  const querySnapshot = await getDocs(q);
-  const messages = querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
-
-  return messages;
-};
-
-// Add a message to a user's conversation
-export const sendMessageToKampusAbode = async (
-  userId,
-  messageContent
+export const sendMessage = async (
+  senderId,
+  receiverId,
+  messageContent,
+  isAdmin = false
 ) => {
   try {
-    // Step 1: Prepare message data
+    const conversationId = isAdmin ? receiverId : senderId; // Use userId as conversationId
+
+    // Message data
     const messageData = {
-      senderId: userId,
-      receiverId: "kampusAbode", // Assuming you are messaging Kampus Abode; modify as needed
+      senderId: isAdmin ? "kampusAbode" : senderId,
+      receiverId: isAdmin ? receiverId : "kampusAbode",
       content: messageContent,
       timestamp: serverTimestamp(),
-      status: "sent", // You can set it to "sent" initially
+      status: "sent",
     };
 
-    // Step 2: Reference to the messages sub-collection for the conversation
+    // Update conversation metadata
+    const conversationRef = doc(db, `conversations/${conversationId}`);
+    const conversationData = {
+      userId: conversationId,
+      userName: "User's Name", // Replace with actual user name if available
+      lastMessage: messageContent,
+      lastSenderId: messageData.senderId,
+      lastMessageTimestamp: messageData.timestamp,
+    };
+    await setDoc(conversationRef, conversationData, { merge: true });
+
+    // Add message to messages sub-collection
     const messagesRef = collection(
       db,
-      "messages",
+      `conversations/${conversationId}/messages`
     );
-
-    // Step 3: Add the message to Firestore
     await addDoc(messagesRef, messageData);
 
-    return { success: "Message sent" };
+    return { success: true };
   } catch (error) {
+    console.error("Error sending message:", error);
     throw {
-      message: (error as Error).message || "Error sending message",
+      message: error.message || "Failed to send the message.",
       statusCode: 500,
     };
   }
 };
+
+export const getAllConversations = async () => {
+  const conversationsRef = collection(db, "conversations");
+  const snapshot = await getDocs(conversationsRef);
+  const conversations = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  return conversations;
+};
+
+export const getMessagesForConversation = async (conversationId) => {
+  const messagesRef = collection(
+    db,
+    `conversations/${conversationId}/messages`
+  );
+  const snapshot = await getDocs(messagesRef);
+  const messages = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  return messages;
+};
+
 
 // Sample user data structure
 const users = [
@@ -506,4 +511,3 @@ export const updateAllProperties = async () => {
     console.error("Error updating properties:", error);
   }
 };
-

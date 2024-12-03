@@ -1,6 +1,5 @@
 # Real Estate Web Application
 
-
 ## Table of Contents
 
 - [Introduction](#introduction)
@@ -40,13 +39,13 @@ Welcome to our Real Estate Web Application! This application is designed to help
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/aj-tolulope/kampusabode.git
+   git clone https://github.com/aj-tolulope/Kampabode.git
    ```
 
 2. Navigate to the project directory:
 
    ```bash
-   cd kampusabode
+   cd Kampabode
    ```
 
 3. Install dependencies:
@@ -86,4 +85,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Contact
 
-If you have any questions or suggestions, feel free to contact us at [kampusabode@gmail.com](mailto:kampusabode@gmail.com).
+If you have any questions or suggestions, feel free to contact us at [Kampabode@gmail.com](mailto:Kampabode@gmail.com).

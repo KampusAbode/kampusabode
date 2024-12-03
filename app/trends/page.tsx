@@ -4,11 +4,11 @@ import ArticleCard from "../components/cards/articleCard/ArticleCard";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Real Estate Insights and News - Kampus Abode",
+  title: "Real Estate Insights and News - Kampabode",
   description:
-    "Explore the latest trends and insights about real estate. Stay informed with Kampus Abode's curated content to navigate the property landscape confidently.",
+    "Explore the latest trends and insights about real estate. Stay informed with Kampabode's curated content to navigate the property landscape confidently.",
   keywords:
-    "real estate trends, property news, student real estate, real estate insights, Kampus Abode trends,",
+    "real estate trends, property news, student real estate, real estate insights, Kampabode trends,",
 };
 
 export default function trendsPage() {

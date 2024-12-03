@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   }
 
   return {
-    title: `${propertyDetails.title} - Kampus Abode`,
+    title: `${propertyDetails.title} - Kampabode`,
     description: propertyDetails.description,
     keywords: "property listings, real estate, apartments, houses",
     openGraph: {

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import Header from "./components/header/Header";
@@ -11,9 +11,9 @@ import UseIsUser from "./components/useIsUser";
 
 // Default metadata
 export const metadata: Metadata = {
-  title: "Kampus Abode App - Property Listing Site",
+  title: "Kampabode App - Property Listing Site",
   description:
-    "Find your ideal property with KampusAbode. Explore a wide range of listings and discover your next apartment.",
+    "Find your ideal property with Kampabode. Explore a wide range of listings and discover your next apartment.",
   keywords:
     "property listings, real estate, apartments, houses, rentals, buy property, sell property",
 };
@@ -23,7 +23,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
   return (
     <html lang="en">
       <body>
@@ -32,16 +31,13 @@ export default function RootLayout({
 
         <ReduxProvider>
           <UseIsUser>
-
-          <Header />
-          <WelcomeMessage />
+            <Header />
+            <WelcomeMessage />
             <main>{children}</main>
-          <Navigator />
-          <Footer />
-
+            <Navigator />
+            <Footer />
           </UseIsUser>
         </ReduxProvider>
-        
       </body>
     </html>
   );

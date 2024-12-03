@@ -10,10 +10,10 @@ function FAQs() {
 
         <h4>1. General Questions</h4>
         <div className="qa">
-          <p>Q: What is KampusAbode?</p>
+          <p>Q: What is Kampabode?</p>
           <p>
-            A: KampusAbode is a property listing platform specifically designed
-            to help students find affordable and convenient accommodation near
+            A: Kampabode is a property listing platform specifically designed to
+            help students find affordable and convenient accommodation near
             their campus. We connect students with trusted property agents and
             landlords who offer various rental options.
           </p>
@@ -29,7 +29,7 @@ function FAQs() {
         </div>
 
         <div className="qa">
-          <p>Q: Is KampusAbode free to use?</p>
+          <p>Q: Is Kampabode free to use?</p>
           <p>
             A: Yes, students can browse properties, save listings, and contact
             agents for free. Some premium features for agents (such as boosting
@@ -74,7 +74,7 @@ function FAQs() {
 
         <h4>3. For Agents</h4>
         <div className="qa">
-          <p>Q: How do I list a property on KampusAbode?</p>
+          <p>Q: How do I list a property on Kampabode?</p>
           <p>
             A: After creating an agent account, go to the "List a Property"
             section in your dashboard. Fill in the required details, including
@@ -168,7 +168,7 @@ function FAQs() {
           <p>Q: Are all the property listings verified?</p>
           <p>
             A: We do our best to verify property agents and landlords who list
-            on KampusAbode. However, we recommend that students always visit a
+            on Kampabode. However, we recommend that students always visit a
             property in person and verify its details before making any
             payments.
           </p>
@@ -185,10 +185,10 @@ function FAQs() {
 
         <h4>7. Support and Contact</h4>
         <div className="qa">
-          <p>Q: How do I contact KampusAbode support?</p>
+          <p>Q: How do I contact Kampabode support?</p>
           <p>
             A: You can contact our support team via email at
-            contackampusabode@gmail.com or by using the in-app chat feature
+            contacKampabode@gmail.com or by using the in-app chat feature
             available in your dashboard.
           </p>
         </div>
@@ -206,9 +206,7 @@ function FAQs() {
           <p>Q: Where can I find your Terms and Conditions?</p>
           <p>
             A: You can view our{" "}
-            <Link href="/legal/termsandconditions">
-              Terms and Conditions{" "}
-            </Link>{" "}
+            <Link href="/legal/termsandconditions">Terms and Conditions </Link>{" "}
             here. We encourage all users to read them carefully before using the
             platform.
           </p>

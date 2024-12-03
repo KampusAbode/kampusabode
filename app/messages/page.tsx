@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
 import { useSelector } from "react-redux";
 import type { RootState } from "../redux/store";
 import Link from "next/link";
-import './messages.css'
+import "./messages.css";
 
 const Messages = () => {
   const user = useSelector((state: RootState) => state.user.isAuthenticated);
@@ -15,7 +15,7 @@ const Messages = () => {
 
         {user ? (
           <div className="messages">
-            Messages from the Kampus Abode will appear here.
+            Messages from the Kampabode will appear here.
           </div>
         ) : (
           <>
@@ -28,6 +28,6 @@ const Messages = () => {
       </div>
     </section>
   );
-}
+};
 
 export default Messages;

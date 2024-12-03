@@ -13,39 +13,40 @@ import { getProperties } from "../../utils/api";
 import "./property.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import toast from "react-hot-toast";
 
+interface PropertyDetailsProps {
+  id: string;
+}
 
-
-const PropertyDetails = ({ id }) => {
+const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   const [properties, setProperties] = useState<PropertyType[]>([]);
+  const user = useSelector((state: RootState) => state.user);
+
   const propertyDetails = properties.find((prop) => prop.id.toString() === id);
-
-
-  const user = useSelector(
-    (state: RootState) => state.user
-  );
-  // console.log(user);
-  
-
   const agentDetails = agentUsers.find((agent) =>
-    agent.userInfo?.propertiesListed.some(
-      (propList) => propList.id === id
-    )
+    agent.userInfo?.propertiesListed.some((propList) => propList.id === id)
   );
 
   useEffect(() => {
     const fetchProperties = async () => {
-      const fetchedProperties = await getProperties();
-      setProperties(fetchedProperties);
+      try {
+        const fetchedProperties = await getProperties();
+        setProperties(fetchedProperties);
+      } catch (error) {
+        toast.error("Failed to fetch properties:", error)
+      }
     };
     fetchProperties();
   }, []);
 
+  if (!propertyDetails) {
+    return <div>Property not found. Please check the listing ID.</div>;
+  }
+
   const agentPropertyListings = properties.filter((prop) =>
     agentDetails?.userInfo?.propertiesListed.some(
-      (propList) =>
-        propList.id.toString() === prop.id.toString() &&
-        propList.id.toString() !== id
+      (propList) => propList.id === prop.id && propList.id !== id
     )
   );
 
@@ -57,10 +58,6 @@ const PropertyDetails = ({ id }) => {
     ? propertyReviews.reduce((sum, review) => sum + review.rating, 0) /
       propertyReviews.length
     : 0;
-  
-  if (propertyDetails === undefined) {
-      return null;
-  }
 
   return (
     <SaveVisitedProperty id={id}>
@@ -162,24 +159,32 @@ const PropertyDetails = ({ id }) => {
           </div>
 
           <div className="contact">
-            <h5>From kampus Abode</h5>
+            <h5>From Kampabode</h5>
             <div>
               <p>
                 We're excited to help you find your ideal property! For most
                 listings, pricing is non-negotiable to maintain fairness and
                 transparency. However, if you have any inquiries or need further
-                information, feel free to contact the listing agent directly
-                through WhatsApp using the link below.
+                information, feel free to contact us.
               </p>
-              {user.userType === "student" ? <p>Start a conversation with us <Link href={`/chat/${user.id}`} className="btn">chat now</Link></p> : <p>{user.userType}</p> }
-             
+              {user.userType === "student" ? (
+                <p>
+                  Start a conversation with us{" "}
+                  <Link href={`/chat/${user.id}`} className="btn">
+                    chat now
+                  </Link>
+                </p>
+              ) : (
+                <p>{user.userType}</p>
+              )}
+
               {/* <p>
                 Connect with <strong>{agentDetails?.name}</strong> on WhatsApp{" "}
                 <ContactAgent
                   name={agentDetails?.name}
                   content={"Click here"}
                   href={`https://wa.me/2347050721686?text=${encodeURIComponent(
-                    `Hello, I’m interested in your listing on Kampus Abode. \n\n Here is the property link: https://kampusabode.vercel.app/properties/${id}`
+                    `Hello, I’m interested in your listing on Kampabode. \n\n Here is the property link: https://Kampabode.vercel.app/properties/${id}`
                   )}`}
                 />
               </p> */}

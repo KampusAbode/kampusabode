@@ -19,7 +19,6 @@ const { links } = data;
 export default function Header() {
   const pathname = usePathname().split("/");
   // console.log(pathname);
-  
 
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
@@ -91,9 +90,15 @@ export default function Header() {
                 {user.isAuthenticated ? "get in touch" : "signup"}
               </Link>
               {user.isAuthenticated ? (
-                <span className="btn" onClick={() => logOut()}>
-                  logout
-                </span>
+                user.userType === 'student' ? (
+                  <span className="btn" onClick={() => logOut()}>
+                    logout
+                  </span>
+                ) : user.userType === 'agent' ? (
+                  <Link href="/upload" className="sign-up-btn btn">
+                    upload
+                  </Link>
+                ) : null
               ) : (
                 <Link href="/auth/login" className="sign-up-btn btn">
                   login
@@ -131,8 +136,6 @@ export default function Header() {
             </Link>
           </li>
 
-
-
           <li>
             <Link
               href={"/about"}
@@ -140,6 +143,14 @@ export default function Header() {
                 setNavMenu(false);
               }}>
               about
+            </Link>
+          </li>
+          <li>
+            <Link href={`/chat/${user.id}`} 
+              onClick={() => {
+                setNavMenu(false);
+              }}>
+              chat
             </Link>
           </li>
           <li>
@@ -161,7 +172,6 @@ export default function Header() {
             </Link>
           </li>
         </ul>
-
 
         <ul>
           <li>
@@ -206,7 +216,7 @@ export default function Header() {
 
         <div className="logout">
           <span>
-            ©️ copyright 2024 Kampus Abode. All right reserved.{" "}
+            ©️ copyright 2024 Kampabode. All right reserved.{" "}
             {user.isAuthenticated ? (
               <span
                 onClick={() => {
