@@ -218,7 +218,7 @@ export default function Header() {
 
         <div className="logout">
           <span>
-            ©️ copyright 2024 Kampabode. All right reserved.{" "}
+            ©️ copyright 2024 Kampusabode. All right reserved.{" "}
             {user.isAuthenticated ? (
               <span
                 onClick={() => {

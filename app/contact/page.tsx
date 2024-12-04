@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import "./contact.css";
 
 export const metadata: Metadata = {
-  title: "Contact - Kampabode",
+  title: "Contact - Kampusabode",
   description:
     "Feel free to contact us through whatapp or send a mail if possible",
   keywords:
-    "contact, Kampabode, real estate, property listings, student real estate, real estate insights, Kampabode contact page,",
+    "contact, Kampusabode, real estate, property listings, student real estate, real estate insights, Kampusabode contact page,",
 };
 
 const ContactPage = () => {

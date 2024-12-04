@@ -148,7 +148,7 @@ export default function App() {
             <h2 className="heading">testimonials</h2>
             <p>
               Read real experiences from fellow students who successfully
-              secured their ideal housing through Kampabode, and see how the
+              secured their ideal housing through Kampusabode, and see how the
               platform made their journey stress-free.
             </p>
           </div>

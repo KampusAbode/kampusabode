@@ -2,7 +2,11 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
-import { sendMessage, getMessagesForConversation, getAllConversations } from "../../utils/api";
+import {
+  sendMessage,
+  getMessagesForConversation,
+  getAllConversations,
+} from "../../utils/api";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { useRouter } from "next/navigation";
@@ -24,7 +28,7 @@ const Chat = ({ params }: Params) => {
 
   // Redirect if not authenticated
   useEffect(() => {
-    if (!(user.id === userId )) {
+    if (!(user.id === userId)) {
       router.push("/auth/login");
     }
   }, [user, userId, router]);
@@ -36,7 +40,7 @@ const Chat = ({ params }: Params) => {
       try {
         const fetchedMessages = await getMessagesForConversation(userId);
         console.log(fetchedMessages);
-        
+
         setMessages(fetchedMessages || []);
       } catch (error) {
         toast.error("Failed to load messages.");
@@ -86,12 +90,11 @@ const Chat = ({ params }: Params) => {
     }
   };
 
-
   return (
     <section className="chat-page">
       <div className="container" style={{ padding: "1rem" }}>
         <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>
-          Chat with Kampabode
+          Chat with Kampusabode
         </h2>
 
         <div
@@ -118,7 +121,7 @@ const Chat = ({ params }: Params) => {
           ) : (
             <p style={{ textAlign: "center" }}>No messages yet. Say hello!</p>
           )}
-           {/* <div ref={messagesEndRef} /> */}
+          {/* <div ref={messagesEndRef} /> */}
         </div>
 
         <div style={{ display: "flex", alignItems: "center" }}>

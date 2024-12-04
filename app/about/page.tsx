@@ -3,11 +3,11 @@ import "./about.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Us - Kampabode | Leading Real Estate Platform for Students",
+  title: "About Us - Kampusabode | Leading Real Estate Platform for Students",
   description:
-    "Discover Kampabode's mission to simplify real estate for students. Explore our journey and commitment to providing comprehensive property listings on campuses.",
+    "Discover Kampusabode's mission to simplify real estate for students. Explore our journey and commitment to providing comprehensive property listings on campuses.",
   keywords:
-    "about Kampabode, student real estate, campus apartments, real estate platform, property listing",
+    "about Kampusabode, student real estate, campus apartments, real estate platform, property listing",
 };
 
 export default function AboutPage() {
@@ -62,7 +62,7 @@ export default function AboutPage() {
         <div className="about">
           <h2 className="heading">Journey with us</h2>
           <p>
-            At Kampabode, we understand that finding the best apartment or the
+            At Kampusabode, we understand that finding the best apartment or the
             perfect investment property can be an overwhelming task. That's why
             we're here to simplify the process and guide you every step of the
             way.
@@ -102,7 +102,7 @@ export default function AboutPage() {
               <span>Top-notch</span>
               <h3>Personalized Services</h3>
               <p>
-                At Kampabode, we believe in delivering personalized service
+                At Kampusabode, we believe in delivering personalized service
                 tailored to each client's unique needs. Whether you're buying,
                 selling, or renting, we take the time to understand your goals
                 and preferences.

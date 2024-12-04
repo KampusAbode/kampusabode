@@ -2,7 +2,7 @@ import { HomeType, LinkType } from "./types";
 
 const homeSection: HomeType = {
   hero: {
-    span: "Kampabode : Making Deals With Ease",
+    span: "Kampusabode : Making Deals With Ease",
     p: "All you need is to search through the listing property and with a click of a botton you will be step ahead to securing an apartment",
     btn: "listing property",
   },

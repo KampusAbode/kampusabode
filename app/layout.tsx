@@ -11,9 +11,9 @@ import UseIsUser from "./components/useIsUser";
 
 // Default metadata
 export const metadata: Metadata = {
-  title: "Kampabode App - Property Listing Site",
+  title: "Kampusabode App - Property Listing Site",
   description:
-    "Find your ideal property with Kampabode. Explore a wide range of listings and discover your next apartment.",
+    "Find your ideal property with Kampusabode. Explore a wide range of listings and discover your next apartment.",
   keywords:
     "property listings, real estate, apartments, houses, rentals, buy property, sell property",
 };

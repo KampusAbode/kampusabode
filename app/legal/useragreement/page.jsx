@@ -10,7 +10,7 @@ const UserAgreement = () => {
 
         <p>
           This User Agreement sets forth the terms of your relationship with
-          Kampabode. By using the platform, you agree to the following:
+          Kampusabode. By using the platform, you agree to the following:
         </p>
 
         <h4>1. Acceptable Use</h4>
@@ -23,9 +23,10 @@ const UserAgreement = () => {
 
         <h4>2. Content Ownership</h4>
         <p>
-          You retain ownership of the content you upload to Kampabode. However,
-          by posting content, you grant us a non-exclusive, royalty-free license
-          to use, distribute, and display it on the platform.
+          You retain ownership of the content you upload to Kampusabode.
+          However, by posting content, you grant us a non-exclusive,
+          royalty-free license to use, distribute, and display it on the
+          platform.
         </p>
 
         <h4>3. Account Termination</h4>
@@ -43,7 +44,7 @@ const UserAgreement = () => {
         <h4>5. Contact Us</h4>
         <p>
           For any questions or concerns, contact us at:
-          contactKampabode@gmail.com.
+          contactKampusabode@gmail.com.
         </p>
       </div>
     </section>

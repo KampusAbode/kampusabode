@@ -16,7 +16,7 @@ const AdminChat = () => {
       const fetchedUsers = await getAllConversations();
       setUsers(fetchedUsers);
 
-      console.log(fetchedUsers)
+      console.log(fetchedUsers);
     };
     fetchUsers();
   }, []);
@@ -55,7 +55,8 @@ const AdminChat = () => {
                   key={index}
                   style={{
                     marginBottom: "1rem",
-                    textAlign: msg.sender === "Kampabode" ? "right" : "left",
+                    textAlign:
+                      msg.senderId === "Kampusabode" ? "right" : "left",
                   }}>
                   <p
                     style={{
@@ -63,11 +64,11 @@ const AdminChat = () => {
                       padding: "0.5rem 1rem",
                       borderRadius: "10px",
                       backgroundColor:
-                        msg.sender === "Kampabode" ? "#d1e7dd" : "#f8d7da",
+                        msg.senderId === "Kampusabode" ? "#d1e7dd" : "#f8d7da",
                       color: "#000",
                     }}>
                     <strong>
-                      {msg.sender === "Kampabode" ? "You" : selectedUser}:
+                      {msg.senderId === "Kampusabode" ? "You" : selectedUser}:
                     </strong>{" "}
                     {msg.text}
                   </p>

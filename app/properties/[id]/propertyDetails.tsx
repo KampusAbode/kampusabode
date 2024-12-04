@@ -34,7 +34,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
         const fetchedProperties = await getProperties();
         setProperties(fetchedProperties);
       } catch (error) {
-        toast.error("Failed to fetch properties:", error)
+        toast.error("Failed to fetch properties:", error);
       }
     };
     fetchProperties();
@@ -159,7 +159,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
           </div>
 
           <div className="contact">
-            <h5>From Kampabode</h5>
+            <h5>From Kampusabode</h5>
             <div>
               <p>
                 We're excited to help you find your ideal property! For most
@@ -184,7 +184,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                   name={agentDetails?.name}
                   content={"Click here"}
                   href={`https://wa.me/2347050721686?text=${encodeURIComponent(
-                    `Hello, I’m interested in your listing on Kampabode. \n\n Here is the property link: https://Kampabode.vercel.app/properties/${id}`
+                    `Hello, I’m interested in your listing on Kampusabode. \n\n Here is the property link: https://Kampusabode.vercel.app/properties/${id}`
                   )}`}
                 />
               </p> */}

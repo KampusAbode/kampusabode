@@ -15,7 +15,7 @@ const Messages = () => {
 
         {user ? (
           <div className="messages">
-            Messages from the Kampabode will appear here.
+            Messages from the Kampusabode will appear here.
           </div>
         ) : (
           <>
