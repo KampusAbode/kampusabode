@@ -15,6 +15,8 @@ const AdminChat = () => {
     const fetchUsers = async () => {
       const fetchedUsers = await getAllConversations();
       setUsers(fetchedUsers);
+
+      console.log(fetchedUsers)
     };
     fetchUsers();
   }, []);

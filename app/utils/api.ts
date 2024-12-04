@@ -327,20 +327,20 @@ export const addProperty = async (property: PropertyType): Promise<void> => {
     };
   }
 };
-
-
 export const sendMessage = async (
-  senderId,
+  sender,
   receiverId,
   messageContent,
   isAdmin = false
 ) => {
   try {
-    const conversationId = isAdmin ? receiverId : senderId; // Use userId as conversationId
+    const { userId, userName } = sender;
+    const conversationId = isAdmin ? "kampusAbode" : userId;
 
     // Message data
-    const messageData = {
-      senderId: isAdmin ? "kampusAbode" : senderId,
+    const conversationData = {
+      userName: userName,
+      senderId: isAdmin ? "kampusAbode" : userId,
       receiverId: isAdmin ? receiverId : "kampusAbode",
       content: messageContent,
       timestamp: serverTimestamp(),
@@ -349,21 +349,20 @@ export const sendMessage = async (
 
     // Update conversation metadata
     const conversationRef = doc(db, `conversations/${conversationId}`);
-    const conversationData = {
-      userId: conversationId,
-      userName: "User's Name", // Replace with actual user name if available
+    
+    const metadataUpdate = {
       lastMessage: messageContent,
-      lastSenderId: messageData.senderId,
-      lastMessageTimestamp: messageData.timestamp,
+      lastSenderId: conversationData.senderId,
+      lastMessageTimestamp: serverTimestamp(),
     };
-    await setDoc(conversationRef, conversationData, { merge: true });
+    await setDoc(conversationRef, conversationData);
 
     // Add message to messages sub-collection
     const messagesRef = collection(
       db,
       `conversations/${conversationId}/messages`
     );
-    await addDoc(messagesRef, messageData);
+    await addDoc(messagesRef, conversationData);
 
     return { success: true };
   } catch (error) {
@@ -374,6 +373,7 @@ export const sendMessage = async (
     };
   }
 };
+
 
 export const getAllConversations = async () => {
   const conversationsRef = collection(db, "conversations");

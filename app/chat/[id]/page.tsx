@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
-import { sendMessage, getMessagesForConversation } from "../../utils/api";
+import { sendMessage, getMessagesForConversation, getAllConversations } from "../../utils/api";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { useRouter } from "next/navigation";
@@ -16,65 +16,84 @@ const Chat = ({ params }: Params) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const inputRef = useRef(null); // For managing focus on the input field
-  const messagesEndRef = useRef(null); // To scroll to the latest message
+  // const inputRef = useRef<HTMLInputElement>(null);
+  // const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const router = useRouter();
+  const user = useSelector((state: RootState) => state.userdata);
 
-  const user = useSelector((state: RootState) => state.user);
-
-  if (!(user.id === userId && user.isAuthenticated)) {
-    router.push("/auth/login");
-  }
+  // Redirect if not authenticated
+  useEffect(() => {
+    if (!(user.id === userId )) {
+      router.push("/auth/login");
+    }
+  }, [user, userId, router]);
 
   // Fetch messages for this user
   useEffect(() => {
     const fetchMessages = async () => {
       setIsLoading(true);
-      // const conversationId = `${userId}_Kampabode`;
-      const fetchedMessages = await getMessagesForConversation(userId);
-
-      setMessages(fetchedMessages || []);
-      setIsLoading(false);
+      try {
+        const fetchedMessages = await getMessagesForConversation(userId);
+        console.log(fetchedMessages);
+        
+        setMessages(fetchedMessages || []);
+      } catch (error) {
+        toast.error("Failed to load messages.");
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchMessages();
   }, [userId]);
 
   // Scroll to the latest message
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  // useEffect(() => {
+  //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  // }, [messages]);
 
   // Send a message
   const handleSendMessage = async () => {
-    if (message.trim() !== "") {
-      try {
-        const userName = user.username;
-        const sender = { userId, userName };
-        const res = await sendMessage(sender, false, message);
-        if (res.success) {
-          toast.success("Message sent!");
-          setMessage(""); // Clear the input field
-          inputRef.current?.focus(); // Focus back on the input
-        } else {
-          toast.error("Failed to send message. Try again.");
-        }
-      } catch (error) {
-        console.error("Error sending message:", error);
-        toast.error("An error occurred. Please try again.");
+    if (!user.name) {
+      toast.error("User information is incomplete. Please log in again.");
+      return;
+    }
+
+    if (message.trim() === "") return;
+
+    setIsLoading(true);
+    try {
+      const sender = { userId, userName: user.name };
+      const res = await sendMessage(sender, false, message);
+
+      if (res.success) {
+        toast.success("Message sent!");
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { senderId: userId, content: message, timestamp: new Date() },
+        ]);
+        setMessage("");
+        // inputRef.current?.focus();
+        setIsLoading(false);
+      } else {
+        toast.error("Failed to send message. Try again.");
       }
+    } catch (error) {
+      toast.error("An error occurred. Please try again.");
+      console.error(error);
     }
   };
 
+
   return (
     <section className="chat-page">
-      <div
-        className="container"
-        style={{ padding: "1rem", fontFamily: "Arial, sans-serif" }}>
+      <div className="container" style={{ padding: "1rem" }}>
         <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>
           Chat with Kampabode
         </h2>
+
         <div
           style={{
             border: "1px solid #ccc",
@@ -87,10 +106,9 @@ const Chat = ({ params }: Params) => {
           }}>
           {isLoading ? (
             <p style={{ textAlign: "center" }}>Loading messages...</p>
-          ) : messages.length > 0 ? (
+          ) : messages && messages.length > 0 ? (
             messages.map((msg, index) => (
               <p key={index} style={{ margin: "0.5rem 0" }}>
-                <strong>{msg.sender === userId ? "You" : "Kampabode"}:</strong>{" "}
                 <strong>
                   {msg.senderId === userId ? "You" : "Kampus Abode"}:
                 </strong>{" "}
@@ -100,15 +118,16 @@ const Chat = ({ params }: Params) => {
           ) : (
             <p style={{ textAlign: "center" }}>No messages yet. Say hello!</p>
           )}
-          <div ref={messagesEndRef} />
+           {/* <div ref={messagesEndRef} /> */}
         </div>
+
         <div style={{ display: "flex", alignItems: "center" }}>
           <input
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Type your message..."
-            ref={inputRef}
+            // ref={inputRef}
             style={{
               flex: 1,
               padding: "0.5rem",
