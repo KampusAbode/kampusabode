@@ -22,6 +22,7 @@ export default function Header() {
 
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
+  const userData = useSelector((state: RootState) => state.userdata);
 
   // Move the useRouter hook here (at the top of the component)
   const router = useRouter();
@@ -90,11 +91,11 @@ export default function Header() {
                 {user.isAuthenticated ? "get in touch" : "signup"}
               </Link>
               {user.isAuthenticated ? (
-                user.userType === 'student' ? (
+                userData.userType === "student" ? (
                   <span className="btn" onClick={() => logOut()}>
                     logout
                   </span>
-                ) : user.userType === 'agent' ? (
+                ) : userData.userType === "agent" ? (
                   <Link href="/upload" className="sign-up-btn btn">
                     upload
                   </Link>
@@ -146,7 +147,8 @@ export default function Header() {
             </Link>
           </li>
           <li>
-            <Link href={`/chat/${user.id}`} 
+            <Link
+              href={`/chat/${user.id}`}
               onClick={() => {
                 setNavMenu(false);
               }}>
