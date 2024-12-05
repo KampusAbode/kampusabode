@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 // import { getAllConversations, getMessagesForConversation, sendMessage } from "../utils/api";
 import { getAllConversations, sendMessage } from "../utils/api";
+import Link from "next/link";
 
 const AdminChat = () => {
   const [selectedUser, setSelectedUser] = useState(null); // Selected user ID
@@ -20,6 +21,8 @@ const AdminChat = () => {
     };
     fetchUsers();
   }, []);
+
+  
 
   // Fetch messages for the selected user
   // useEffect(() => {
@@ -48,7 +51,7 @@ const AdminChat = () => {
         {/* Left Sidebar: Users List */}
         <div>
           <h3>Users Message</h3>
-          <ul style={{ listStyle: "none", padding: 0 }}>
+          <ul style={{ listStyle: "none", padding: 0, marginTop: "2rem" }}>
             {users.length > 0 ? (
               users.map((msg, index) => (
                 <div
@@ -58,7 +61,7 @@ const AdminChat = () => {
                     textAlign:
                       msg.senderId === "Kampusabode" ? "right" : "left",
                   }}>
-                  <p
+                  <Link
                     style={{
                       display: "inline-block",
                       padding: "0.5rem 1rem",
@@ -66,12 +69,14 @@ const AdminChat = () => {
                       backgroundColor:
                         msg.senderId === "Kampusabode" ? "#d1e7dd" : "#f8d7da",
                       color: "#000",
-                    }}>
+                    }}
+                    href={`/adminchatroom/${msg.senderId}`}
+                    >
                     <strong>
-                      {msg.senderId === "Kampusabode" ? "You" : selectedUser}:
+                      {msg.userName}:
                     </strong>{" "}
-                    {msg.text}
-                  </p>
+                    {msg.content}
+                  </Link>
                 </div>
               ))
             ) : (

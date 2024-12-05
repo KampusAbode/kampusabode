@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/react";
+// import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import Header from "./components/header/Header";
@@ -27,7 +27,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Toaster />
-        <Analytics />
+        {/* <Analytics /> */}
 
         <ReduxProvider>
           <UseIsUser>

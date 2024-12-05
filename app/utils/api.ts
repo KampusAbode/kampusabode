@@ -339,7 +339,7 @@ export const sendMessage = async (
 
     // Message data
     const conversationData = {
-      userName: userName,
+      userName: isAdmin ? "kampusAbode" : userName,
       senderId: isAdmin ? "kampusAbode" : userId,
       receiverId: isAdmin ? receiverId : "kampusAbode",
       content: messageContent,
