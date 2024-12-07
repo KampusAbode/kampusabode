@@ -1,0 +1,34 @@
+.chat-page{
+    .container{
+        max-width: 900px;
+        
+        .display{
+            height: 300px;
+            overflow-y: scroll;
+            margin-bottom: var(--spacing-2x);
+            margin-top: var(--spacing-4x);
+
+            .message-box{
+                padding: var(--spacing);
+                margin-right: 0;
+                margin-bottom: var(--spacing-2x);
+                background-color: var(--light-gray);
+                border-radius: var(--spacing);
+                border-top-left-radius: 0;
+                width: 60%;
+
+                
+
+                .message-detaile{
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+                
+                .message-content{
+                    margin-top: var(--spacing);
+                }
+            }
+        }
+    }
+}

@@ -327,21 +327,27 @@ export const addProperty = async (property: PropertyType): Promise<void> => {
     };
   }
 };
+
+type Sender = {
+  senderId: string;
+  userName: string;
+};
 export const sendMessage = async (
-  sender,
-  receiverId,
-  messageContent,
-  isAdmin = false
+  sender: Sender,
+  receiverId: string,
+  messageContent: string,
+  isAdmin: boolean = false
 ) => {
   try {
-    const { userId, userName } = sender;
-    const conversationId = isAdmin ? "kampusAbode" : userId;
+    const { senderId, userName } = sender;
+    const conversationId = isAdmin ? receiverId : senderId;
 
+    const senderUId = senderId+receiverId;
     // Message data
     const conversationData = {
-      userName: isAdmin ? "kampusAbode" : userName,
-      senderId: isAdmin ? "kampusAbode" : userId,
-      receiverId: isAdmin ? receiverId : "kampusAbode",
+      userName: userName,
+      senderId: isAdmin ? senderUId : senderId,
+      receiverId: isAdmin ? receiverId : senderId,
       content: messageContent,
       timestamp: serverTimestamp(),
       status: "sent",
@@ -349,12 +355,12 @@ export const sendMessage = async (
 
     // Update conversation metadata
     const conversationRef = doc(db, `conversations/${conversationId}`);
-    
-    const metadataUpdate = {
-      lastMessage: messageContent,
-      lastSenderId: conversationData.senderId,
-      lastMessageTimestamp: serverTimestamp(),
-    };
+
+    // const metadataUpdate = {
+    //   lastMessage: messageContent,
+    //   lastSenderId: conversationData.senderId,
+    //   lastMessageTimestamp: serverTimestamp(),
+    // };
     await setDoc(conversationRef, conversationData);
 
     // Add message to messages sub-collection
@@ -374,7 +380,6 @@ export const sendMessage = async (
   }
 };
 
-
 export const getAllConversations = async () => {
   const conversationsRef = collection(db, "conversations");
   const snapshot = await getDocs(conversationsRef);
@@ -391,10 +396,9 @@ export const getMessagesForConversation = async (conversationId) => {
     `conversations/${conversationId}/messages`
   );
   const snapshot = await getDocs(messagesRef);
-  const messages = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  const messages = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })); 
   return messages;
 };
-
 
 // Sample user data structure
 const users = [

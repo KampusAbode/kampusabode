@@ -16,23 +16,22 @@ type Params = {
 };
 
 const Chat = ({ params }: Params) => {
-  const userId = params.id;
+  const receiverId = params.id;
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  // const inputRef = useRef<HTMLInputElement>(null);
-  // const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const router = useRouter();
+  // const router = useRouter();
   const user = useSelector((state: RootState) => state.userdata);
-
 
   // Fetch messages for this user
   useEffect(() => {
     const fetchMessages = async () => {
       setIsLoading(true);
       try {
-        const fetchedMessages = await getMessagesForConversation(userId);
+        const fetchedMessages = await getMessagesForConversation(receiverId);
         console.log(fetchedMessages);
 
         setMessages(fetchedMessages || []);
@@ -45,22 +44,29 @@ const Chat = ({ params }: Params) => {
     };
 
     fetchMessages();
-  }, [userId]);
+  }, [receiverId]);
 
   // Scroll to the latest message
-  // useEffect(() => {
-  //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  // }, [messages]);
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
+  type Sender = {
+    senderId: string;
+    userName: string;
+  };
   // Send a message
   const handleSendMessage = async () => {
-   
     if (message.trim() === "") return;
 
     setIsLoading(true);
     try {
-      const sender = { userId: "Kampusabode", userName: "Kampusabode" };
-      const res = await sendMessage(sender, userId, message, true);
+      const sender: Sender = {
+        senderId: "Kampusabode",
+        userName: "Kampusabode",
+      };
+
+      const res = await sendMessage(sender, receiverId, message, true);
 
       if (res.success) {
         toast.success("Message sent!");
@@ -69,14 +75,15 @@ const Chat = ({ params }: Params) => {
           { senderId: "Kampusabode", content: message, timestamp: new Date() },
         ]);
         setMessage("");
-        // inputRef.current?.focus();
+        inputRef.current?.focus();
         setIsLoading(false);
       } else {
         toast.error("Failed to send message. Try again.");
       }
     } catch (error) {
       toast.error("An error occurred. Please try again.");
-      console.error(error);
+      console.log(error);
+      setIsLoading(false);
     }
   };
 
@@ -84,7 +91,7 @@ const Chat = ({ params }: Params) => {
     <section className="chat-page">
       <div className="container" style={{ padding: "1rem" }}>
         <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>
-          Chat with Kampusabode
+          Chat with users
         </h2>
 
         <div
@@ -103,7 +110,7 @@ const Chat = ({ params }: Params) => {
             messages.map((msg, index) => (
               <p key={index} style={{ margin: "0.5rem 0" }}>
                 <strong>
-                  {msg.senderId === userId ? "You" : "Kampus Abode"}:
+                  {msg.senderId === receiverId ? "Kampusabode" : "You"}:
                 </strong>{" "}
                 {msg.content}
               </p>

@@ -7,9 +7,11 @@ import {
   getMessagesForConversation,
   getAllConversations,
 } from "../../utils/api";
+import { format } from "date-fns";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { useRouter } from "next/navigation";
+import './chat.css'
 
 type Params = {
   params: { id: string };
@@ -58,6 +60,11 @@ const Chat = ({ params }: Params) => {
   //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   // }, [messages]);
 
+   type Sender = {
+     senderId: string;
+     userName: string;
+   };
+
   // Send a message
   const handleSendMessage = async () => {
     if (!user.name) {
@@ -69,8 +76,10 @@ const Chat = ({ params }: Params) => {
 
     setIsLoading(true);
     try {
-      const sender = { userId, userName: user.name };
-      const res = await sendMessage(sender, false, message);
+      const senderId = userId;
+      const sender: Sender = { senderId, userName: user.name };
+      
+      const res = await sendMessage(sender, "kampusabode", message);
 
       if (res.success) {
         toast.success("Message sent!");
@@ -96,34 +105,39 @@ const Chat = ({ params }: Params) => {
         <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>
           Chat with Kampusabode
         </h2>
-
-        <div
-          style={{
-            border: "1px solid #ccc",
-            padding: "1rem",
-            height: "300px",
-            overflowY: "scroll",
-            marginBottom: "1rem",
-            borderRadius: "8px",
-            backgroundColor: "#f9f9f9",
-          }}>
+        <div className="display">
           {isLoading ? (
             <p style={{ textAlign: "center" }}>Loading messages...</p>
           ) : messages && messages.length > 0 ? (
-            messages.map((msg, index) => (
-              <p key={index} style={{ margin: "0.5rem 0" }}>
-                <strong>
-                  {msg.senderId === userId ? "You" : "Kampus Abode"}:
-                </strong>{" "}
-                {msg.content}
-              </p>
-            ))
+            messages.map((msg, index) => {
+              const timestamp = msg.timestamp?.toDate
+                ? msg.timestamp.toDate()
+                : new Date(); 
+              const formattedTime = format(timestamp, "hh:mm a");
+
+              return (
+                <div
+                  key={index}
+                  className={
+                    msg.senderId === userId ? "message-box" : "message-box left"
+                  }>
+                  <div className="message-detaile">
+                    <span>
+                      {msg.senderId === userId ? "You" : "Kampus Abode"}
+                    </span>
+                    <span>{formattedTime}</span>
+                  </div>
+                  <div className="message-content">
+                    <span>{msg.content}</span>
+                  </div>
+                </div>
+              );
+            })
           ) : (
             <p style={{ textAlign: "center" }}>No messages yet. Say hello!</p>
           )}
-          {/* <div ref={messagesEndRef} /> */}
         </div>
-
+        ;
         <div style={{ display: "flex", alignItems: "center" }}>
           <input
             type="text"
