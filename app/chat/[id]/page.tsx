@@ -11,7 +11,7 @@ import { format } from "date-fns";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { useRouter } from "next/navigation";
-import './chat.css'
+import "./chat.css";
 
 type Params = {
   params: { id: string };
@@ -60,10 +60,10 @@ const Chat = ({ params }: Params) => {
   //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   // }, [messages]);
 
-   type Sender = {
-     senderId: string;
-     userName: string;
-   };
+  type Sender = {
+    senderId: string;
+    userName: string;
+  };
 
   // Send a message
   const handleSendMessage = async () => {
@@ -78,7 +78,7 @@ const Chat = ({ params }: Params) => {
     try {
       const senderId = userId;
       const sender: Sender = { senderId, userName: user.name };
-      
+
       const res = await sendMessage(sender, "kampusabode", message);
 
       if (res.success) {
@@ -112,7 +112,7 @@ const Chat = ({ params }: Params) => {
             messages.map((msg, index) => {
               const timestamp = msg.timestamp?.toDate
                 ? msg.timestamp.toDate()
-                : new Date(); 
+                : new Date();
               const formattedTime = format(timestamp, "hh:mm a");
 
               return (
@@ -137,26 +137,20 @@ const Chat = ({ params }: Params) => {
             <p style={{ textAlign: "center" }}>No messages yet. Say hello!</p>
           )}
         </div>
-        
-        <div className="input-box">
+
+        <div className="message-input">
           <input
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Type your message..."
             // ref={inputRef}
-            style={{
-              flex: 1,
-              padding: "0.5rem",
-              border: "1px solid #ccc",
-              borderRadius: "4px",
-              marginRight: "1rem",
-            }}
+
             aria-label="Message Input"
           />
           <button
             onClick={handleSendMessage}
-           className="btn"
+            className="btn"
             disabled={isLoading || message.trim() === ""}
             aria-label="Send Message">
             Send

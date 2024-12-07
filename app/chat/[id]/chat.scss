@@ -19,7 +19,20 @@
                 background-color: var(--light-gray);
                 border-radius: var(--border-radius);
                 border-top-left-radius: 0;
-                width: 60%;
+                width: 70%;
+
+                position: relative;
+
+                &::after{
+                    content: '';
+                    position: absolute;
+                    width: 10px;
+                    height: 10px;
+                    border: 5px solid var(--light-gray);
+                    border-radius: 100%;
+                    top: 0;
+                    left: -10px;
+                }
 
                 
 
@@ -36,7 +49,7 @@
             }
         }
 
-        .input-box{
+        .message-input{
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -45,7 +58,7 @@
             padding: var(--spacing);
             margin-top: var(--spacing-2x);
 
-            .input{
+            input{
                 width: 80%;
                 padding: var(--spacing);
                 border: none;
