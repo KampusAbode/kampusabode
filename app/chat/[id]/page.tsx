@@ -137,8 +137,8 @@ const Chat = ({ params }: Params) => {
             <p style={{ textAlign: "center" }}>No messages yet. Say hello!</p>
           )}
         </div>
-        ;
-        <div style={{ display: "flex", alignItems: "center" }}>
+        
+        <div className="input-box">
           <input
             type="text"
             value={message}
@@ -156,14 +156,7 @@ const Chat = ({ params }: Params) => {
           />
           <button
             onClick={handleSendMessage}
-            style={{
-              padding: "0.5rem 1rem",
-              backgroundColor: "#007bff",
-              color: "#fff",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-            }}
+           className="btn"
             disabled={isLoading || message.trim() === ""}
             aria-label="Send Message">
             Send
