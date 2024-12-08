@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import { format } from "date-fns";
-import { getMessagesForConversation, sendMessage } from "../../utils/api";
+import { getMessagesForConversation, sendMessage } from "../../../utils/api";
 import "./chat.css";
 
 type ChatProps = {
