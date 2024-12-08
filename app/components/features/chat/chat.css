@@ -32,12 +32,12 @@
 .chat-page .container .chat-display .message-box::after {
   content: "";
   position: absolute;
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background-color: var(--light-gray);
   top: 10px;
-  left: -5px;
+  left: -10px;
 }
 .chat-page .container .chat-display .message-box .message-detail {
   display: flex;
@@ -48,7 +48,7 @@
   border-radius: var(--border-radius);
   border-top-left-radius: 0;
   border: var(--border);
-  border-color: var(--light-gray);
+  border-color: var(--gray);
 }
 .chat-page .container .chat-display .message-box .message-detail span {
   color: var(--font-color-h);
@@ -57,7 +57,6 @@
 }
 .chat-page .container .chat-display .message-box .message-content {
   padding: var(--spacing);
-  line-height: 1.5;
   color: var(--font-color-p);
 }
 .chat-page .container .chat-display.right {

@@ -57,7 +57,6 @@ const ChatComponent: React.FC<ChatProps> = ({
   const handleSendMessage = async () => {
     if (message.trim() === "") return;
 
-    setIsLoading(true);
     try {
       const sender = { senderId: currentUserId, userName: currentUserName };
       const res = await sendMessage(sender, receiverId, message);
@@ -75,9 +74,7 @@ const ChatComponent: React.FC<ChatProps> = ({
       }
     } catch (error) {
       toast.error("An error occurred. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
+    } 
   };
 
   return (

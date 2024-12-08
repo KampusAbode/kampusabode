@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { getAllConversations } from "../utils/api";
 import Link from "next/link";
 import { format } from "date-fns";
+import  './adminchat.css';
 
 const AdminChat = () => {
   const [users, setUsers] = useState(null);
@@ -48,7 +49,7 @@ const AdminChat = () => {
                     }`}>
                     <p className="content"> {msg.content}</p>
                     <span className="timestamp">{formattedTime}</span>
-                    <span className="username">{msg.userName} : </span>
+                    <span className="username">{msg.userName}</span>
                   </Link>
                 );
               })

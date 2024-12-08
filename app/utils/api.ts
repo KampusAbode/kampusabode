@@ -342,7 +342,7 @@ export const sendMessage = async (
     const { senderId, userName } = sender;
     const conversationId = isAdmin ? receiverId : senderId;
 
-    const senderUId = senderId+receiverId;
+    const senderUId = senderId + receiverId;
     // Message data
     const conversationData = {
       userName: userName,
@@ -354,14 +354,10 @@ export const sendMessage = async (
     };
 
     // Update conversation metadata
-    const conversationRef = doc(db, `conversations/${conversationId}`);
-
-    // const metadataUpdate = {
-    //   lastMessage: messageContent,
-    //   lastSenderId: conversationData.senderId,
-    //   lastMessageTimestamp: serverTimestamp(),
-    // };
-    await setDoc(conversationRef, conversationData);
+    if (!isAdmin) {
+      const conversationRef = doc(db, `conversations/${conversationId}`);
+      await setDoc(conversationRef, conversationData);
+    }
 
     // Add message to messages sub-collection
     const messagesRef = collection(
@@ -396,7 +392,7 @@ export const getMessagesForConversation = async (conversationId) => {
     `conversations/${conversationId}/messages`
   );
   const snapshot = await getDocs(messagesRef);
-  const messages = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })); 
+  const messages = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   return messages;
 };
 
