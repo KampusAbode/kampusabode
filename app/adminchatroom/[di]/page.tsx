@@ -6,8 +6,8 @@ import {
   sendMessage,
   getMessagesForConversation,
 } from "../../utils/api";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+// import { useSelector } from "react-redux";
+// import { RootState } from "../../redux/store";
 // import { useRouter } from "next/navigation";
 import "./adminchat.css";
 import { format } from "date-fns";
@@ -21,11 +21,11 @@ const Chat = ({ params }: Params) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  // const inputRef = useRef<HTMLInputElement>(null);
+  // const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // const router = useRouter();
-  const user = useSelector((state: RootState) => state.userdata);
+  // const user = useSelector((state: RootState) => state.userdata);
 
   // Fetch messages for this user
   useEffect(() => {
@@ -33,12 +33,10 @@ const Chat = ({ params }: Params) => {
       setIsLoading(true);
       try {
         const fetchedMessages = await getMessagesForConversation(receiverId);
-        console.log(fetchedMessages);
 
         setMessages(fetchedMessages || []);
       } catch (error) {
         toast.error("Failed to load messages.");
-        console.error(error);
       } finally {
         setIsLoading(false);
       }
@@ -48,9 +46,9 @@ const Chat = ({ params }: Params) => {
   }, [receiverId]);
 
   // Scroll to the latest message
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  // useEffect(() => {
+  //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  // }, [messages]);
 
   type Sender = {
     senderId: string;
@@ -76,14 +74,13 @@ const Chat = ({ params }: Params) => {
           { senderId: "Kampusabode", content: message, timestamp: new Date() },
         ]);
         setMessage("");
-        inputRef.current?.focus();
+        // inputRef.current?.focus();
         setIsLoading(false);
       } else {
         toast.error("Failed to send message. Try again.");
       }
     } catch (error) {
       toast.error("An error occurred. Please try again.");
-      console.log(error);
       setIsLoading(false);
     }
   };

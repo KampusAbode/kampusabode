@@ -42,7 +42,6 @@ const Chat = ({ params }: Params) => {
       setIsLoading(true);
       try {
         const fetchedMessages = await getMessagesForConversation(userId);
-        console.log(fetchedMessages);
 
         setMessages(fetchedMessages || []);
       } catch (error) {
@@ -96,7 +95,6 @@ const Chat = ({ params }: Params) => {
       }
     } catch (error) {
       toast.error("An error occurred. Please try again.");
-      console.error(error);
     }
   };
 
