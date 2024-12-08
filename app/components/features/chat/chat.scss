@@ -4,12 +4,13 @@
 
     .chat-display {
       height: 300px;
-      overflow-y: auto; // Enable scrolling
+      overflow-y: auto;
       margin-bottom: var(--spacing-2x);
       margin-top: var(--spacing-4x);
       padding: var(--spacing);
-      background-color: var(--background-color); // Enhance visibility
-      border: 1px solid var(--light-border); // Subtle border for clarity
+      background-color: var(--background-color);
+      border: var(--border);
+      border-color: var(--light-gray);
       border-radius: var(--border-radius);
 
       .loading-text {
@@ -18,16 +19,16 @@
       }
 
       &::-webkit-scrollbar {
-        display: none; // Hide the scrollbar
+        display: none;
       }
 
       .message-box {
         margin-bottom: var(--spacing-2x);
         background-color: var(--light-gray);
         border-radius: var(--border-radius);
-        border-top-left-radius: 0; // Rounded corners for the bubble effect
-        width: fit-content; // Adjust width based on message content
-        max-width: 70%; // Limit width to 70% of the container
+        border-top-left-radius: 0;
+        width: fit-content;
+        max-width: 70%;
         position: relative;
 
         &::after {
@@ -36,7 +37,7 @@
           width: 10px;
           height: 10px;
           border-radius: 50%;
-          background-color: var(--light-gray); // Match message bubble
+          background-color: var(--light-gray);
           top: 10px;
           left: -5px;
         }
@@ -44,7 +45,7 @@
         &.right {
           margin-left: auto;
           background-color: var(--primary-color);
-          color: var(--font-color-light); // Use light font for contrast
+          color: var(--font-color-light);
           border-radius: var(--border-radius);
           border-top-right-radius: 0;
 
@@ -80,35 +81,24 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: var(--spacing);
       background-color: var(--light-gray);
       border-radius: var(--border-radius);
       padding: var(--spacing);
-      margin-top: var(--spacing-2x);
-      border: 1px solid var(--light-border); // Consistent border style
+      margin-top: var(--spacing);
 
       input {
-        flex: 1; // Adjust input to take up available space
+        flex: 1;
         padding: var(--spacing);
         border: none;
         border-radius: var(--border-radius);
-        background-color: var(--input-background);
-        margin-right: var(--spacing);
-        font-size: 1rem; // Standard font size
+        color: var(--font-light-h);
       }
 
       button {
-        padding: var(--spacing);
-        background-color: var(--primary-color);
-        color: var(--font-color-light);
-        border: none;
-        border-radius: var(--border-radius);
-        cursor: pointer;
-        font-weight: bold;
 
         &:hover {
-          background-color: var(
-            --primary-color-dark
-          ); // Slightly darker on hover
+          background-color: var(--primary-color-hover);
         }
       }
     }
