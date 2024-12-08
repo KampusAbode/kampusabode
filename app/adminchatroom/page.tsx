@@ -40,12 +40,12 @@ const AdminChat = () => {
                 const formattedTime = format(timestamp, "hh:mm a");
 
                 return (
-                  <Link href={`/adminchatroom/${msg.userName}/${msg.senderId}`}>
+                  <Link
+                    href={`/adminchatroom/${msg.userName}/${msg.senderId}`}
                     key={index}
-                    className=
-                    {`message ${
+                    className={`message ${
                       msg.senderId === ADMIN_ID ? "sender" : "receiver"
-                    }`}
+                    }`}>
                     <p className="content"> {msg.content}</p>
                     <span className="timestamp">{formattedTime}</span>
                     <span className="username">{msg.userName} : </span>
