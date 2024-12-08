@@ -1,31 +1,37 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-// import { getAllConversations, getMessagesForConversation, sendMessage } from "../utils/api";
 import { getAllConversations } from "../utils/api";
 import Link from "next/link";
 import { format } from "date-fns";
 
 const AdminChat = () => {
-  const [users, setUsers] = useState([]); // Users list with messages
+  const [users, setUsers] = useState(null); 
 
-  // Fetch all users with messages
   useEffect(() => {
     const fetchUsers = async () => {
-      const fetchedUsers = await getAllConversations();
-      setUsers(fetchedUsers);
+      try {
+        const fetchedUsers = await getAllConversations();
+        setUsers(fetchedUsers);
+      } catch (error) {
+        console.error("Failed to fetch conversations:", error);
+        setUsers([]);
+      }
     };
     fetchUsers();
   }, []);
 
+  const ADMIN_ID = "Kampusabode";
+
   return (
     <section className="admin-chat-page">
       <div className="container">
-        {/* Left Sidebar: Users List */}
         <div>
           <h3>Users Messages</h3>
           <ul style={{ listStyle: "none", padding: 0, marginTop: "2rem" }}>
-            {users.length > 0 ? (
+            {users === null ? (
+              <p>Loading messages...</p>
+            ) : users.length > 0 ? (
               users.map((msg, index) => {
                 const timestamp = msg.timestamp?.toDate
                   ? msg.timestamp.toDate()
@@ -35,26 +41,17 @@ const AdminChat = () => {
                 return (
                   <div
                     key={index}
-                    style={{
-                      marginBottom: "2rem",
-                      textAlign:
-                        msg.senderId === "Kampusabode" ? "right" : "left",
-                    }}>
+                    className={`message ${
+                      msg.senderId === ADMIN_ID ? "sender" : "receiver"
+                    }`}>
                     <Link
-                      style={{
-                        display: "inline-block",
-                        padding: "1rem",
-                        borderRadius: "5px",
-                        backgroundColor:
-                          msg.senderId === "Kampusabode"
-                            ? "#d1e7dd"
-                            : "#f8d7da",
-                        color: "#000",
-                      }}
                       href={`/adminchatroom/${msg.userName}/${msg.senderId}`}>
-                      <strong>{msg.userName}:</strong> {msg.content}
-                      {"  "}
-                      <span>{formattedTime}</span>
+                      <a>
+                        <div>
+                          <strong>{msg.userName} : </strong> {msg.content}{" "}
+                          <span>{formattedTime}</span>
+                        </div>
+                      </a>
                     </Link>
                   </div>
                 );
