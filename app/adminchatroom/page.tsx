@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { getAllConversations } from "../utils/api";
 import Link from "next/link";
 import { format } from "date-fns";
-import  './adminchat.css';
+import  './admin.css';
 
 const AdminChat = () => {
   const [users, setUsers] = useState(null);
