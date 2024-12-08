@@ -41,7 +41,6 @@
 }
 .chat-page .container .chat-display .message-box.right {
   margin-left: auto;
-  background-color: var(--primary-color);
   color: var(--font-color-light);
   border-radius: var(--border-radius);
   border-top-right-radius: 0;
@@ -49,7 +48,6 @@
 .chat-page .container .chat-display .message-box.right::after {
   left: auto;
   right: -5px;
-  background-color: var(--primary-color);
 }
 .chat-page .container .chat-display .message-box .message-detail {
   display: flex;
@@ -83,7 +81,4 @@
   border: none;
   border-radius: var(--border-radius);
   color: var(--font-light-h);
-}
-.chat-page .container .message-input button:hover {
-  background-color: var(--primary-color-hover);
 }/*# sourceMappingURL=chat.css.map */

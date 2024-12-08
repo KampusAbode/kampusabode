@@ -44,7 +44,6 @@
 
         &.right {
           margin-left: auto;
-          background-color: var(--primary-color);
           color: var(--font-color-light);
           border-radius: var(--border-radius);
           border-top-right-radius: 0;
@@ -52,7 +51,6 @@
           &::after {
             left: auto;
             right: -5px;
-            background-color: var(--primary-color);
           }
         }
 
@@ -95,12 +93,7 @@
         color: var(--font-light-h);
       }
 
-      button {
-
-        &:hover {
-          background-color: var(--primary-color-hover);
-        }
-      }
+     
     }
   }
 }

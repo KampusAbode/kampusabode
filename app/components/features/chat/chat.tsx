@@ -136,6 +136,7 @@ const ChatComponent: React.FC<ChatProps> = ({
             ref={inputRef}
           />
           <button
+            className="btn"
             onClick={handleSendMessage}
             disabled={isLoading || message.trim() === ""}>
             Send
