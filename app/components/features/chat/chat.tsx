@@ -1,16 +1,19 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+
+import { useSelector } from "react-redux";
+import { RootState } from '../../../redux/store';
 import toast from "react-hot-toast";
 import { format } from "date-fns";
 import { getMessagesForConversation, sendMessage } from "../../../utils/api";
 import "./chat.css";
 
 type ChatProps = {
-  currentUserId: string; // ID of the current user (e.g., admin or student)
-  receiverId: string; // ID of the chat receiver
-  currentUserName: string; // Name of the current user
-  receiverName: string; // Name of the receiver (admin or user)
+  currentUserId: string; 
+  receiverId: string; 
+  currentUserName: string; 
+  receiverName: string; 
 };
 
 const ChatComponent: React.FC<ChatProps> = ({
@@ -24,13 +27,16 @@ const ChatComponent: React.FC<ChatProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  
+  const user = useSelector((state: RootState) => state.user);
 
   // Fetch messages
   useEffect(() => {
     const fetchMessages = async () => {
+      const userId = user.id === currentUserId ? currentUserId : receiverId
       setIsLoading(true);
       try {
-        const fetchedMessages = await getMessagesForConversation(receiverId);
+        const fetchedMessages = await getMessagesForConversation(userId);
         setMessages(fetchedMessages || []);
       } catch (error) {
         toast.error("Failed to load messages.");
