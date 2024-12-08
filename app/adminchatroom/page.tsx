@@ -7,9 +7,6 @@ import Link from "next/link";
 import { format } from "date-fns";
 
 const AdminChat = () => {
-  // const [selectedUser, setSelectedUser] = useState(null); // Selected user ID
-  // const [message, setMessage] = useState(""); // Current message input
-  // const [messages, setMessages] = useState([]); // Messages for selected user
   const [users, setUsers] = useState([]); // Users list with messages
 
   // Fetch all users with messages
@@ -54,7 +51,7 @@ const AdminChat = () => {
                             : "#f8d7da",
                         color: "#000",
                       }}
-                      href={`/adminchatroom/${msg.senderId}`}>
+                      href={`/adminchatroom/${msg.userName}/${msg.senderId}`}>
                       <strong>{msg.userName}:</strong> {msg.content}
                       {"  "}
                       <span>{formattedTime}</span>
