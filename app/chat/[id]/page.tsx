@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { useRouter } from "next/navigation";
 import "./chat.css";
+import { Span } from "next/dist/trace";
 
 type Params = {
   params: { id: string };
@@ -119,13 +120,19 @@ const Chat = ({ params }: Params) => {
                 <div
                   key={index}
                   className={
-                    msg.senderId === userId ? "message-box" : "message-box left"
+                    msg.senderId === userId ? "message-box" : "message-box right"
                   }>
                   <div className="message-detaile">
-                    <span>
-                      {msg.senderId === userId ? "You" : "Kampus Abode"}
-                    </span>
-                    <span>{formattedTime}</span>
+                    {msg.senderId === userId ? (
+                      <>
+                        <span>{formattedTime}</span>
+                        <span>YOU</span>{" "}
+                      </>
+                    ) : (
+                      <>
+                        <span>Kampusabode</span> <span>{formattedTime}</span>
+                      </>
+                    )}
                   </div>
                   <div className="message-content">
                     <span>{msg.content}</span>

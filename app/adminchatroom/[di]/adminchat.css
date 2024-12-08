@@ -28,7 +28,7 @@
   border: 5px solid var(--light-gray);
   border-radius: 100%;
   top: 0;
-  left: -15px;
+  left: -10px;
 }
 .chat-page .container .display .message-box .message-detaile {
   display: flex;
@@ -54,4 +54,4 @@
   border: none;
   border-radius: var(--border-radius);
   background-color: var(--light-gray);
-}/*# sourceMappingURL=chat.css.map */
+}/*# sourceMappingURL=adminchat.css.map */

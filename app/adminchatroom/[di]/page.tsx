@@ -5,11 +5,12 @@ import toast from "react-hot-toast";
 import {
   sendMessage,
   getMessagesForConversation,
-  getAllConversations,
 } from "../../utils/api";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
+import "./adminchat.css";
+import { format } from "date-fns";
 
 type Params = {
   params: { id: string };
@@ -94,59 +95,60 @@ const Chat = ({ params }: Params) => {
           Chat with users
         </h2>
 
-        <div
-          style={{
-            border: "1px solid #ccc",
-            padding: "1rem",
-            height: "300px",
-            overflowY: "scroll",
-            marginBottom: "1rem",
-            borderRadius: "8px",
-            backgroundColor: "#f9f9f9",
-          }}>
+        <div className="display">
           {isLoading ? (
             <p style={{ textAlign: "center" }}>Loading messages...</p>
           ) : messages && messages.length > 0 ? (
-            messages.map((msg, index) => (
-              <p key={index} style={{ margin: "0.5rem 0" }}>
-                <strong>
-                  {msg.senderId === receiverId ? "Kampusabode" : "You"}:
-                </strong>{" "}
-                {msg.content}
-              </p>
-            ))
+            messages.map((msg, index) => {
+              const timestamp = msg.timestamp?.toDate
+                ? msg.timestamp.toDate()
+                : new Date();
+              const formattedTime = format(timestamp, "hh:mm a");
+
+              return (
+                <div
+                  key={index}
+                  className={
+                    msg.senderId === receiverId
+                      ? "message-box"
+                      : "message-box right"
+                  }>
+                  <div className="message-detaile">
+                    {msg.senderId === receiverId ? (
+                      <>
+                        <span>Kampusabode</span> <span>{formattedTime}</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>{formattedTime}</span>
+                        <span>YOU</span>{" "}
+                      </>
+                    )}
+                  </div>
+                  <div className="message-content">
+                    <span>{msg.content}</span>
+                  </div>
+                </div>
+              );
+            })
           ) : (
             <p style={{ textAlign: "center" }}>No messages yet. Say hello!</p>
           )}
-          {/* <div ref={messagesEndRef} /> */}
         </div>
 
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <div className="message-input">
           <input
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Type your message..."
             // ref={inputRef}
-            style={{
-              flex: 1,
-              padding: "0.5rem",
-              border: "1px solid #ccc",
-              borderRadius: "4px",
-              marginRight: "1rem",
-            }}
+
             aria-label="Message Input"
           />
           <button
             onClick={handleSendMessage}
-            style={{
-              padding: "0.5rem 1rem",
-              backgroundColor: "#007bff",
-              color: "#fff",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-            }}
+            className="btn"
             disabled={isLoading || message.trim() === ""}
             aria-label="Send Message">
             Send
