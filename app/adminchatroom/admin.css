@@ -1,0 +1,22 @@
+.admin-chat-page .container {
+  max-width: 900px;
+}
+.admin-chat-page .container ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing);
+  margin-top: var(--spacing-2x);
+}
+.admin-chat-page .container ul .message {
+  padding: var(--spacing);
+  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius);
+  border: var(--border);
+  border-color: var(--light-gray);
+  background-color: var(--light-gray);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing);
+  margin-bottom: var(--spacing-2x);
+}/*# sourceMappingURL=admin.css.map */

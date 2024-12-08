@@ -1,20 +1,21 @@
 "use client";
-
-import ChatComponent from '../../components/features/chat/chat';
+import ChatComponent from '../../../components/features/chat/chat';
 
 type ChatProps = {
   params: {
-    id: string[];
+    username: string;
+    userid: string;
   };
 };
 
+
 const Chat = ({ params }: ChatProps) => {
-  const [username, userId] = params.id;
+  const { username, userid } = params; 
  
 
   return (
     <ChatComponent
-      currentUserId={userId}
+      currentUserId={userid}
       receiverId="kampusabode"
       currentUserName={username} 
       receiverName="Kampusabode"

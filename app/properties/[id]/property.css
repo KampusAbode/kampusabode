@@ -283,6 +283,10 @@
   font-size: inherit;
   cursor: pointer;
 }
+.properties-details-page .container .contact div a {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
 
 @media screen and (max-width: 768px) {
   .properties-details-page .property-images {

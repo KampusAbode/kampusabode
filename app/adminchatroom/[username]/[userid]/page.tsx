@@ -2,19 +2,20 @@
 
 import ChatComponent from "../../../components/features/chat/chat";
 
-
 type ChatProps = {
   params: {
-    id: string[];
+    username: string;
+    userid: string;
   };
 };
 
 const Chat = ({ params }: ChatProps) => {
-  const [username, userId] = params.id;
+  const { username, userid } = params; 
+
   return (
     <ChatComponent
       currentUserId="kampusabode"
-      receiverId={userId}
+      receiverId={userid} // Use the corrected property
       currentUserName="Kampusabode"
       receiverName={username}
     />

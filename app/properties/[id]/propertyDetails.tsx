@@ -170,7 +170,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
               {user.userType === "student" ? (
                 <p>
                   Start a conversation with us{" "}
-                  <Link href={`/chat/${user.id}`} className="btn">
+                  <Link href={`/chat/${user.id}/${user.username}`} >
                     chat now
                   </Link>
                 </p>

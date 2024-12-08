@@ -6,7 +6,7 @@ import Link from "next/link";
 import { format } from "date-fns";
 
 const AdminChat = () => {
-  const [users, setUsers] = useState(null); 
+  const [users, setUsers] = useState(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -26,9 +26,10 @@ const AdminChat = () => {
   return (
     <section className="admin-chat-page">
       <div className="container">
-        <div>
-          <h3>Users Messages</h3>
-          <ul style={{ listStyle: "none", padding: 0, marginTop: "2rem" }}>
+    
+        <h3>Users Messages</h3>
+        <p>Click on a user to view messages</p>
+          <ul>
             {users === null ? (
               <p>Loading messages...</p>
             ) : users.length > 0 ? (
@@ -39,28 +40,23 @@ const AdminChat = () => {
                 const formattedTime = format(timestamp, "hh:mm a");
 
                 return (
-                  <div
+                  <Link href={`/adminchatroom/${msg.userName}/${msg.senderId}`}>
                     key={index}
-                    className={`message ${
+                    className=
+                    {`message ${
                       msg.senderId === ADMIN_ID ? "sender" : "receiver"
-                    }`}>
-                    <Link
-                      href={`/adminchatroom/${msg.userName}/${msg.senderId}`}>
-                      <a>
-                        <div>
-                          <strong>{msg.userName} : </strong> {msg.content}{" "}
-                          <span>{formattedTime}</span>
-                        </div>
-                      </a>
-                    </Link>
-                  </div>
+                    }`}
+                    <p className="content"> {msg.content}</p>
+                    <span className="timestamp">{formattedTime}</span>
+                    <span className="username">{msg.userName} : </span>
+                  </Link>
                 );
               })
             ) : (
               <p>No messages yet.</p>
             )}
           </ul>
-        </div>
+      
       </div>
     </section>
   );
