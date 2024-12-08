@@ -17,11 +17,9 @@ const AdminChat = () => {
     const fetchUsers = async () => {
       const fetchedUsers = await getAllConversations();
       setUsers(fetchedUsers);
-
     };
     fetchUsers();
   }, []);
-
 
   return (
     <section className="admin-chat-page">
@@ -41,7 +39,7 @@ const AdminChat = () => {
                   <div
                     key={index}
                     style={{
-                      marginBottom: "1.5rem",
+                      marginBottom: "2rem",
                       textAlign:
                         msg.senderId === "Kampusabode" ? "right" : "left",
                     }}>
@@ -49,7 +47,7 @@ const AdminChat = () => {
                       style={{
                         display: "inline-block",
                         padding: "1rem",
-                        borderRadius: "1px",
+                        borderRadius: "5px",
                         backgroundColor:
                           msg.senderId === "Kampusabode"
                             ? "#d1e7dd"
@@ -58,6 +56,7 @@ const AdminChat = () => {
                       }}
                       href={`/adminchatroom/${msg.senderId}`}>
                       <strong>{msg.userName}:</strong> {msg.content}
+                      {"  "}
                       <span>{formattedTime}</span>
                     </Link>
                   </div>

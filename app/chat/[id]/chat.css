@@ -6,6 +6,7 @@
   overflow-y: scroll;
   margin-bottom: var(--spacing-2x);
   margin-top: var(--spacing-4x);
+  padding: var(--spacing);
 }
 .chat-page .container .display::-webkit-scrollbar {
   display: none;
@@ -29,6 +30,14 @@
   border-radius: 100%;
   top: 0;
   left: -15px;
+}
+.chat-page .container .display .message-box.right {
+  border-radius: var(--border-radius);
+  border-top-left-radius: 0;
+}
+.chat-page .container .display .message-box.right::after {
+  border-color: var(--primary-color);
+  right: -15px;
 }
 .chat-page .container .display .message-box .message-detaile {
   display: flex;
