@@ -2,7 +2,7 @@
   max-width: 900px;
 }
 .chat-page .container .chat-display {
-  height: 300px;
+  height: 400px;
   overflow-y: auto;
   margin-bottom: var(--spacing-2x);
   margin-top: var(--spacing-4x);
@@ -32,40 +32,48 @@
 .chat-page .container .chat-display .message-box::after {
   content: "";
   position: absolute;
-  width: 10px;
-  height: 10px;
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
   background-color: var(--light-gray);
   top: 10px;
   left: -5px;
 }
-.chat-page .container .chat-display .message-box.right {
-  margin-left: auto;
-  color: var(--font-color-light);
-  border-radius: var(--border-radius);
-  border-top-right-radius: 0;
-}
-.chat-page .container .chat-display .message-box.right::after {
-  left: auto;
-  right: -5px;
-}
 .chat-page .container .chat-display .message-box .message-detail {
   display: flex;
   justify-content: space-between;
-  color: var(--font-light);
+  align-items: center;
+  gap: var(--spacing-2x);
   padding: var(--spacing);
   border-radius: var(--border-radius);
-  background-color: var(--gray);
+  border-top-left-radius: 0;
+  border: var(--border);
+  border-color: var(--light-gray);
 }
 .chat-page .container .chat-display .message-box .message-detail span {
+  color: var(--font-color-h);
   font-weight: bold;
   font-size: var(--font-size-sm);
 }
 .chat-page .container .chat-display .message-box .message-content {
   padding: var(--spacing);
   line-height: 1.5;
+  color: var(--font-color-p);
 }
-.chat-page .container .message-input {
+.chat-page .container .chat-display.right {
+  margin-left: auto;
+  color: var(--font-color-light);
+  border-radius: var(--border-radius);
+  border-top-right-radius: 0;
+}
+.chat-page .container .chat-display.right::after {
+  left: auto;
+  right: -5px;
+}
+.chat-page .container .chat-display.right .message-detail {
+  border-top-right-radius: 0;
+}
+.chat-page .container .chat-input {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -75,10 +83,13 @@
   padding: var(--spacing);
   margin-top: var(--spacing);
 }
-.chat-page .container .message-input input {
+.chat-page .container .chat-input input {
   flex: 1;
   padding: var(--spacing);
-  border: none;
+  border: var(--border);
   border-radius: var(--border-radius);
-  color: var(--font-light-h);
+  color: var(--font-light-p);
+}
+.chat-page .container .chat-input button {
+  padding: var(--spacing);
 }/*# sourceMappingURL=chat.css.map */
