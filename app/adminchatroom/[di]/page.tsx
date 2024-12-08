@@ -1,21 +1,20 @@
 "use client";
 
 import ChatComponent from "../../components/features/chat/chat";
-import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 
 
 const Chat = () => {
-  const router = useRouter();
-  const { params } = router.query;
-  const username = params?.[0];
-  const receiverId = params?.[1]; 
-  
+   const params = useParams()
+   const username = params?.[0];
+   const userId = params?.[1]; 
+
   return (
     <ChatComponent
       currentUserId="kampusabode"
-      receiverId={receiverId}
+      receiverId={userId}
       currentUserName="Kampusabode"
-      receiverName={username} 
+      receiverName={username}
     />
   );
 };

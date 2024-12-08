@@ -1,12 +1,11 @@
 "use client";
 
 import ChatComponent from '../../components/features/chat/chat';
-import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 
 
-const ChatPage = () => {
-   const router = useRouter();
-   const { params } = router.query;
+const Chat = () => {
+   const params = useParams()
    const username = params?.[0];
    const userId = params?.[1]; 
  
@@ -21,4 +20,4 @@ const ChatPage = () => {
   );
 };
 
-export default ChatPage;
+export default Chat;
