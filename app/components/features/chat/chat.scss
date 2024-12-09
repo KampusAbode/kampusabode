@@ -28,6 +28,7 @@
         border-radius: var(--border-radius);
         border-top-left-radius: 0;
         width: fit-content;
+        box-shadow: var(--shadow);
         max-width: 70%;
         position: relative;
 
@@ -37,6 +38,7 @@
           width: 20px;
           height: 20px;
           border-radius: 50%;
+          border: var(--border);
           background-color: var(--light-gray);
           top: 10px;
           left: -10px;
@@ -47,11 +49,10 @@
           justify-content: space-between;
           align-items: center;
           gap: var(--spacing-2x);
-          padding: var(--spacing);
+          padding: var(--spacing-h) var(--spacing);
           border-radius: var(--border-radius);
           border-top-left-radius: 0;
-        border: var(--border);
-      border-color: var(--gray);
+          border: var(--border);
 
           span {
             color: var(--font-color-h);
@@ -100,7 +101,7 @@
         border-radius: var(--border-radius);
         color: var(--font-light-p);
       }
-      button{
+      button {
         padding: var(--spacing);
       }
     }

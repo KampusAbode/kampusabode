@@ -148,7 +148,7 @@ export default function Header() {
           </li>
           <li>
             <Link
-              href={`/chat/${user.id}/${user.username}`}
+              href={`/chat/${userData.id}/${userData.name}`}
               onClick={() => {
                 setNavMenu(false);
               }}>

@@ -28,7 +28,7 @@ const ChatComponent: React.FC<ChatProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: RootState) => state.userdata);
 
   // Fetch messages
   useEffect(() => {
@@ -75,6 +75,13 @@ const ChatComponent: React.FC<ChatProps> = ({
     } catch (error) {
       toast.error("An error occurred. Please try again.");
     } 
+  };
+
+  // Handle search on Enter key press
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSendMessage()
+    }
   };
 
   return (
@@ -129,6 +136,7 @@ const ChatComponent: React.FC<ChatProps> = ({
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="Type your message..."
             ref={inputRef}
           />

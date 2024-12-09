@@ -21,7 +21,7 @@ interface PropertyDetailsProps {
 
 const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   const [properties, setProperties] = useState<PropertyType[]>([]);
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: RootState) => state.userdata);
 
   const propertyDetails = properties.find((prop) => prop.id.toString() === id);
   const agentDetails = agentUsers.find((agent) =>
@@ -170,7 +170,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
               {user.userType === "student" ? (
                 <p>
                   Start a conversation with us{" "}
-                  <Link href={`/chat/${user.id}/${user.username}`} >
+                  <Link href={`/chat/${user.id}/${user.name}`} >
                     chat now
                   </Link>
                 </p>
