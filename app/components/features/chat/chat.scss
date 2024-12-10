@@ -29,8 +29,6 @@
         box-shadow: var(--shadow);
         max-width: 70%;
 
-      
-
         .message-detail {
           display: flex;
           justify-content: space-between;
@@ -44,7 +42,7 @@
           span {
             color: var(--font-color-h);
             font-weight: bold;
-            font-size: var(--font-size-sm); 
+            font-size: var(--font-size-sm);
           }
         }
 
@@ -52,17 +50,16 @@
           padding: var(--spacing);
           color: var(--font-color-p);
         }
-      }
 
-      &.right {
-        margin-left: auto;
-        color: var(--font-color-light);
-        border-radius: var(--border-radius);
-        border-top-right-radius: 0;
-
-
-        .message-detail {
+        &.right {
+          margin-left: auto;
+          color: var(--font-color-light);
+          border-radius: var(--border-radius);
           border-top-right-radius: 0;
+
+          .message-detail {
+            border-top-right-radius: 0;
+          }
         }
       }
     }

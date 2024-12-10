@@ -48,13 +48,13 @@
   padding: var(--spacing);
   color: var(--font-color-p);
 }
-.chat-page .container .chat-display.right {
+.chat-page .container .chat-display .message-box.right {
   margin-left: auto;
   color: var(--font-color-light);
   border-radius: var(--border-radius);
   border-top-right-radius: 0;
 }
-.chat-page .container .chat-display.right .message-detail {
+.chat-page .container .chat-display .message-box.right .message-detail {
   border-top-right-radius: 0;
 }
 .chat-page .container .chat-input {

@@ -30,6 +30,14 @@ const ChatComponent: React.FC<ChatProps> = ({
   
   const user = useSelector((state: RootState) => state.userdata);
 
+  console.log({
+  currentUserId,
+  receiverId,
+  currentUserName,
+  receiverName,
+})
+
+  
   // Fetch messages
   useEffect(() => {
     const fetchMessages = async () => {
@@ -59,13 +67,15 @@ const ChatComponent: React.FC<ChatProps> = ({
 
     try {
       const sender = { senderId: currentUserId, userName: currentUserName };
-      const res = await sendMessage(sender, receiverId, message);
+      let res = await sendMessage(sender, receiverId, message);
+
+      currentUserId === "kampusabode" ? res = await sendMessage(sender, receiverId, message, true) : res = await sendMessage(sender, receiverId, message);
 
       if (res.success) {
         toast.success("Message sent!");
         setMessages((prevMessages) => [
           ...prevMessages,
-          { senderId: currentUserId, content: message, timestamp: new Date() },
+          { senderId: currentUserId, content: message, status: "sent", timestamp: new Date() },
         ]);
         setMessage("");
         inputRef.current?.focus();

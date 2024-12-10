@@ -13,7 +13,7 @@ export default function Footer() {
   const { footer } = homeSection;
 
   // Render the footer only if the pathname contains any of the excluded paths
-  const excludedPaths = ["login", "signup", "dashboard", "chat"];
+  const excludedPaths = ["login", "signup", "dashboard", "chat", "adminchatroom"];
   if (excludedPaths.some((path) => pathname.includes(`/${path}`))) {
     return null;
   }

@@ -22,7 +22,6 @@ const AdminChat = () => {
     fetchUsers();
   }, []);
 
-  const ADMIN_ID = "Kampusabode";
 
   return (
     <section className="admin-chat-page">
@@ -44,12 +43,10 @@ const AdminChat = () => {
                   <Link
                     href={`/adminchatroom/${msg.userName}/${msg.senderId}`}
                     key={index}
-                    className={`message ${
-                      msg.senderId === ADMIN_ID ? "sender" : "receiver"
-                    }`}>
+                    className="message">
+                    <span className="username">{msg.userName}</span>
                     <p className="content"> {msg.content}</p>
                     <span className="timestamp">{formattedTime}</span>
-                    <span className="username">{msg.userName}</span>
                   </Link>
                 );
               })
