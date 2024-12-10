@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import toast from "react-hot-toast";
-import { format } from "date-fns";
+import { isToday, isYesterday, format } from "date-fns";
 import {
   getMessagesForConversation,
   sendMessage,
@@ -35,28 +35,23 @@ const ChatComponent: React.FC<ChatProps> = ({
   const user = useSelector((state: RootState) => state.userdata);
 
   // Fetch messages
-  // useEffect(() => {
-  //   const fetchMessages = async () => {
-  //     const userId = user.id === currentUserId ? currentUserId : receiverId;
-
-  //     try {
-  //       const fetchedMessages = await getMessagesForConversation(userId);
-  //       setMessages(fetchedMessages || []);
-  //     } catch (error) {
-  //       toast.error("Failed to load messages.");
-  //     }
-  //   };
-
-  //   fetchMessages();
-  // }, [receiverId]);
-
   useEffect(() => {
     // Set up the listener
     const userId = user.id === currentUserId ? currentUserId : receiverId;
     const unsubscribe = listenToMessagesForConversation(
       userId,
       (fetchedMessages) => {
-        setMessages(fetchedMessages);
+        // Sort messages by timestamp in ascending order
+        const sortedMessages = fetchedMessages.sort((a, b) => {
+          const timestampA = a.timestamp?.toDate
+            ? a.timestamp.toDate()
+            : new Date(a.timestamp);
+          const timestampB = b.timestamp?.toDate
+            ? b.timestamp.toDate()
+            : new Date(b.timestamp);
+          return timestampA - timestampB; // Ascending order
+        });
+        setMessages(sortedMessages);
       }
     );
 
@@ -123,7 +118,16 @@ const ChatComponent: React.FC<ChatProps> = ({
               const timestamp = msg.timestamp?.toDate
                 ? msg.timestamp.toDate()
                 : new Date();
-              const formattedTime = format(timestamp, "hh:mm a");
+
+              const formattedTime = (() => {
+                if (isToday(timestamp)) {
+                  return format(timestamp, "hh:mm a");
+                } else if (isYesterday(timestamp)) {
+                  return "Yesterday";
+                } else {
+                  return format(timestamp, "dd-MM-yyyy");
+                }
+              })();
 
               return (
                 <div
