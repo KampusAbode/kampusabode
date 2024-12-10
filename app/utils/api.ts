@@ -396,6 +396,25 @@ export const getMessagesForConversation = async (conversationId) => {
   return messages;
 };
 
+export const listenToMessagesForConversation = (conversationId, callback) => {
+  const messagesRef = collection(
+    db,
+    `conversations/${conversationId}/messages`
+  );
+
+  // Real-time listener
+  const unsubscribe = onSnapshot(messagesRef, (snapshot) => {
+    const messages = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    callback(messages);
+  });
+
+  // Return the unsubscribe function to clean up the listener when no longer needed
+  return unsubscribe;
+};
+
 // Sample user data structure
 const users = [
   {
