@@ -7,22 +7,18 @@ import data from "../../fetch/contents";
 import "./footer.css";
 
 export default function Footer() {
-  const pathname = usePathname().split("/").at(-1);
+  const pathname = usePathname();
 
   const { homeSection } = data;
   const { footer } = homeSection;
 
+  // Render the footer only if the pathname contains any of the excluded paths
+  const excludedPaths = ["login", "signup", "dashboard", "chat"];
+  if (excludedPaths.some((path) => pathname.includes(`/${path}`))) {
+    return null;
+  }
 
-  // Render the footer only if the pathname is not defined
- if (
-   pathname === "login" ||
-   pathname === "signup" ||
-   pathname === "dashboard"
- ) {
-   return null;
- }
 
-  
   return (
     <footer className="footer">
       <div className="container">
@@ -55,30 +51,45 @@ export default function Footer() {
           <div className="footer-column">
             <h5>Follow Us</h5>
             <div className="social-links">
-              <a href="https://facebook.com">
+              <Link
+                href="https://facebook.com"
+                aria-label="Facebook"
+                title="Facebook">
                 <FaFacebook />
-              </a>
-              <a href="https://instagram.com">
+              </Link>
+              <Link
+                href="https://instagram.com"
+                aria-label="Instagram"
+                title="Instagram">
                 <FaInstagram />
-              </a>
-              <a href="https://twitter.com">
+              </Link>
+              <Link
+                href="https://twitter.com"
+                aria-label="Twitter"
+                title="Twitter">
                 <FaTwitter />
-              </a>
-              <a href="https://linkedin.com">
+              </Link>
+              <Link
+                href="https://linkedin.com"
+                aria-label="Linkedin"
+                title="Linkedin">
                 <FaLinkedin />
-              </a>
+              </Link>
             </div>
           </div>
         </div>
 
         <div className="footer-bottom">
-          <p>
+          <address>
             &copy; 2024 created by{" "}
-            <Link href="https://aj-tolulope.github.io/portfolio">
+            <Link
+              href="https://aj-tolulope.github.io/portfolio"
+              aria-label="Portfolio"
+              title="Portfolio">
               <span>thewebedits</span>
             </Link>
             , designed by aj.tolulope
-          </p>
+          </address>
         </div>
       </div>
     </footer>

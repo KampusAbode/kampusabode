@@ -17,8 +17,7 @@ import { RootState } from "../../redux/store";
 const { links } = data;
 
 export default function Header() {
-  const pathname = usePathname().split("/");
-  // console.log(pathname);
+  const pathname = usePathname();
 
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
@@ -55,10 +54,11 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY, navMenu]);
 
-  const excludedPaths = ["login", "signup", "properties"];
-  pathname.forEach((ele) => {
-    if (excludedPaths.includes(ele)) return null;
-  });
+  // Render the header only if the pathname contains any of the excluded paths
+  const excludedPaths = ["login", "signup", "dashboard", "chat"];
+  if (excludedPaths.some((path) => pathname.includes(`/${path}`))) {
+    return null;
+  }
 
   return (
     <>

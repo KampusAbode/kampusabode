@@ -5,6 +5,7 @@ import ProfileOverview from "../components/userdashboard/ProfileOverview";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import "./profile.css";
+import Link from "next/link";
 
 const ProfilePage = () => {
   const user = useSelector((state: RootState) => state.userdata);
@@ -22,7 +23,7 @@ const ProfilePage = () => {
             </div>
           </>
         ) : (
-          <p>login to access your profile page</p>
+          <p>login to access your profile page. <Link href={"/auth/login"}>login</Link></p>
         )}
       </div>
     </section>
