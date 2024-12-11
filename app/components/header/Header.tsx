@@ -55,7 +55,7 @@ export default function Header() {
   }, [lastScrollY, navMenu]);
 
   // Render the header only if the pathname contains any of the excluded paths
-  const excludedPaths = ["login", "signup", "dashboard", "chat"];
+  const excludedPaths = ["login", "signup", "dashboard", "profile", "chat"];
   if (excludedPaths.some((path) => pathname.includes(`/${path}`))) {
     return null;
   }
