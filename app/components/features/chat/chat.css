@@ -24,6 +24,7 @@
   background-color: var(--light-gray);
   border-radius: var(--border-radius);
   border-top-left-radius: 0;
+  border: var(--border);
   width: -moz-fit-content;
   width: fit-content;
   box-shadow: var(--shadow);
@@ -37,10 +38,9 @@
   padding: var(--spacing-h) var(--spacing);
   border-radius: var(--border-radius);
   border-top-left-radius: 0;
-  border: var(--border);
 }
 .chat-page .container .chat-display .message-box .message-detail span {
-  color: var(--font-color-h);
+  color: var(--font-color-p);
   font-weight: bold;
   font-size: var(--font-size-sm);
 }
