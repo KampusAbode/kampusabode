@@ -42,7 +42,7 @@
   font-size: var(--font-size-xs);
 }
 .chat-page .container .chat-display .message-box .message-content {
-  padding: var(--spacing);
+  padding-inline: var(--spacing);
   color: var(--font-color-p);
   size: var(--font-size-sm);
 }
