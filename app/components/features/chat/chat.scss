@@ -1,12 +1,12 @@
 .chat-page {
   height: 100vh;
   max-height: 100vh;
-  padding-bottom: var(--spacing-2x);
+ 
   .container {
     max-width: 900px;
 
     .chat-display {
-      height: 370px;
+      height: 70vh;
       overflow-y: auto;
       margin-bottom: var(--spacing-2x);
       margin-top: var(--spacing-2x);
@@ -22,13 +22,12 @@
 
 
       .message-box {
+        padding: var(--spacing-h);
         margin-bottom: var(--spacing-2x);
-        background-color: var(--light-gray);
         border-radius: var(--border-radius);
         border-top-left-radius: 0;
         border: var(--border);
         width: fit-content;
-        box-shadow: var(--shadow);
         max-width: 70%;
 
 
@@ -39,12 +38,11 @@
           gap: var(--spacing-2x);
           padding: var(--spacing-h) var(--spacing);
           border-radius: var(--border-radius);
-          border-top-left-radius: 0;
+           background-color: var(--light-gray);
 
           span {
             color: var(--font-color-p);
-            font-weight: bold;
-            font-size: var(--font-size-sm);
+            font-size: var(--font-size-xs);
           }
         }
 
@@ -69,6 +67,11 @@
     }
 
     .chat-input {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
