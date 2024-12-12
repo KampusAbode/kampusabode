@@ -39,6 +39,13 @@ export default function Navigator() {
     };
   }, [lastScrollY]);
 
+
+  // Render the header only if the pathname contains any of the excluded paths
+  const excludedPaths = ["login", "signup", "profile", "chat", "dashboard", "about"];
+  if (excludedPaths.some((path) => pathname.includes(`/${path}`))) {
+    return null;
+  }
+
   return (
     <nav className={`navigation ${showNav ? "show" : "hide"}`}>
       <ul className={` ${user ? "grid" : "flex"}`}>

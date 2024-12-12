@@ -24,6 +24,9 @@ header .container {
   align-items: center;
   position: relative;
 }
+header .container .page-title {
+  display: none;
+}
 header .container .logo {
   background: var(--background);
 }
@@ -61,6 +64,13 @@ header .container .menu {
 /* ========== header section close ========== */
 @media screen and (max-width: 768px) {
   /* ========== header section open ========== */
+  header .container .page-title {
+    display: block;
+    text-transform: capitalize;
+    font-size: var(--font-size-lg);
+    font-weight: bold;
+    color: var(--font-color-h);
+  }
   header .container nav {
     display: none;
   }

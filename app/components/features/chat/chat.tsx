@@ -108,7 +108,7 @@ const ChatComponent: React.FC<ChatProps> = ({
     <section className="chat-page">
       <div className="container">
         <div className="chat-header">
-          <h2>Chat with {receiverName}</h2>
+          <h4>{receiverName}</h4>
         </div>
 
         <div className="chat-display">
@@ -138,14 +138,17 @@ const ChatComponent: React.FC<ChatProps> = ({
                   <div className="message-detail">
                     {isSentByCurrentUser ? (
                       <>
-                        <span>{formattedTime}</span>
-                        <span>YOU</span>
+                      <span></span>
+                      <span>{formattedTime}</span>
+                      
                       </>
                     ) : (
                       <>
-                        <span>{receiverName}</span>
-                        <span>{formattedTime}</span>
+                      <span>{formattedTime}</span>
+                      <span></span>
+                      
                       </>
+                      
                     )}
                   </div>
                   <div className="message-content">{msg.content}</div>

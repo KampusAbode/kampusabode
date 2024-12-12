@@ -13,7 +13,7 @@ const ProfilePage = () => {
   return (
     <section className="profile-page">
       <div className="container">
-        <h2>Profile</h2>
+        
         {isAuthenticated ? (
           <>
             <ProfileOverview user={user} />

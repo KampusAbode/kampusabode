@@ -22,7 +22,7 @@ const homeSection: HomeType = {
       },
       {
         heading: "options for all",
-        text: "Providing our client with the best option posible",
+        text: "Provdetailing our client with the best option posible",
         icon: "/icons/dial-high.svg",
       },
     ],

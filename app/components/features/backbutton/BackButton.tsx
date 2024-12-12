@@ -18,6 +18,7 @@ const BackButton = () => {
         <span
           onClick={handleBack}
           className="back-button"
+          aria-label="Go Back"
           style={{ cursor: "pointer" }}>
           <FaArrowLeft /> Back
         </span>

@@ -7,7 +7,6 @@ function MarketPlace() {
   return (
     <section className="marketplace">
       <div className="container">
-        <h2>Market Place</h2>
 
         <div className="items">
           {marketplaceItems[0] ? (

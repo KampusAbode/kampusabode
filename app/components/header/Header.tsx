@@ -8,11 +8,12 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../redux/stateSlice/userSlice";
 import { logoutUser } from "../../utils/api";
-import { FaTimes, FaBars } from "react-icons/fa";
+import { FaTimes, FaBars, FaArrowLeft } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { RootState } from "../../redux/store";
+import BackButton from "../features/backbutton/BackButton";
 
 const { links } = data;
 
@@ -54,8 +55,20 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY, navMenu]);
 
+  // Pages where the header will show the back button and page name
+  const pagesWithBackButton = ["profile", "chat", "dashboard", "marketplace", "about"];
+
+  const showBackButton = pagesWithBackButton.some((path) =>
+    pathname.includes(`/${path}`)
+  );
+  
+ const pageName =
+   pagesWithBackButton.find((path) => pathname.includes(`/${path}`)) || "";
+
+
+
   // Render the header only if the pathname contains any of the excluded paths
-  const excludedPaths = ["login", "signup", "dashboard", "profile", "chat"];
+  const excludedPaths = ["login", "signup"];
   if (excludedPaths.some((path) => pathname.includes(`/${path}`))) {
     return null;
   }
@@ -64,16 +77,24 @@ export default function Header() {
     <>
       <header className={isHeader ? "show" : "hide"}>
         <div className="container">
-          <div className="logo">
-            <Link href="/">
-              <img
-                src={"/LOGO/logo_O.png"}
-                width={150}
-                height={150}
-                alt="logo"
-              />
-            </Link>
-          </div>
+          {showBackButton ? (
+            <>
+              <BackButton />
+              <div className="page-title">{pageName}</div>
+            </>
+          ) : (
+            <div className="logo">
+              <Link href="/">
+                <img
+                  src={"/LOGO/logo_O.png"}
+                  width={150}
+                  height={150}
+                  alt="logo"
+                />
+              </Link>
+            </div>
+          )}
+
           <nav>
             <ul className="nav-links">
               {links.map((link) => (

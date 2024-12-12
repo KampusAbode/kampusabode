@@ -26,6 +26,10 @@ header {
     align-items: center;
     position: relative;
 
+    .page-title {
+      display: none;
+    }
+
     .logo {
       background: var(--background);
 
@@ -74,6 +78,13 @@ header {
   /* ========== header section open ========== */
   header {
     .container {
+      .page-title {
+        display: block;
+        text-transform: capitalize;
+        font-size: var(--font-size-lg);
+        font-weight: bold;
+        color: var(--font-color-h);
+      }
       nav {
         display: none;
       }
@@ -122,8 +133,6 @@ header {
 
       margin-bottom: var(--spacing-2x);
       cursor: pointer;
-
-      
 
       svg {
         width: 24px;

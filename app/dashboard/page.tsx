@@ -35,7 +35,6 @@ const Dashboard = () => {
   return (
     <section className="dashboard">
       <div className="container">
-        <h2>Dashboard</h2>
 
         <div className="welcome">
           <Image
