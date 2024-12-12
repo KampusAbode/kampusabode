@@ -2,7 +2,7 @@
   .header {
     background: url("/assets/deal-2.jpg") center/cover no-repeat;
     color: var(--white);
-    padding: calc(4 * var(--spacing)) var(--spacing);
+    padding: var(--spacing-5x) var(--spacing);
     text-align: center;
     margin-bottom: var(--spacing-2x);
     position: relative;
