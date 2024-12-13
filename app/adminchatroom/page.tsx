@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { getAllConversations } from "../utils/api";
 import Link from "next/link";
-import { format } from "date-fns";
+import { format, isToday, isYesterday } from "date-fns";
 import  './admin.css';
 
 const AdminChat = () => {
@@ -37,7 +37,16 @@ const AdminChat = () => {
                 const timestamp = msg.timestamp?.toDate
                   ? msg.timestamp.toDate()
                   : new Date();
-                const formattedTime = format(timestamp, "hh:mm a");
+
+                const formattedTime = (() => {
+                  if (isToday(timestamp)) {
+                    return format(timestamp, "hh:mm a");
+                  } else if (isYesterday(timestamp)) {
+                    return "Yesterday";
+                  } else {
+                    return format(timestamp, "dd-MM-yyyy");
+                  }
+                })();
 
                 return (
                   <Link

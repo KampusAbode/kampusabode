@@ -33,6 +33,10 @@ const UseIsUser = ({ children }: { children: React.ReactNode }) => {
         dispatch(setUser(userData.userAuth));
         dispatch(setUserData(userData.userFromDB));
       }
+    } else {
+
+      dispatch(setUser(null));
+      dispatch(setUserData(null));
     }
 
     setIsInitialized(true);

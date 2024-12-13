@@ -56,7 +56,7 @@ export default function Header() {
   }, [lastScrollY, navMenu]);
 
   // Pages where the header will show the back button and page name
-  const pagesWithBackButton = ["profile", "chat", "dashboard", "marketplace", "about"];
+  const pagesWithBackButton = ["profile", "chat", "adminchatroom", "dashboard", "marketplace", "about"];
 
   const showBackButton = pagesWithBackButton.some((path) =>
     pathname.includes(`/${path}`)
@@ -128,6 +128,7 @@ export default function Header() {
               )}
             </div>
           </nav>
+
           <div className="menu" onClick={() => setNavMenu(!navMenu)}>
             <FaBars />
           </div>
@@ -139,6 +140,27 @@ export default function Header() {
           <FaTimes />
         </div>
         <ul>
+          {userData.id === "PlcpjfOsQ5NYUBgqC3DMMVj2kRj2" ? (
+            <li>
+              <Link
+                href="/adminchatroom"
+                onClick={() => {
+                  setNavMenu(false);
+                }}>
+                adminchatroom
+              </Link>
+            </li>
+          ) : null}
+
+          <li>
+            <Link
+              href={"/properties"}
+              onClick={() => {
+                setNavMenu(false);
+              }}>
+              properties
+            </Link>
+          </li>
           <li>
             <Link
               href={user.isAuthenticated ? "/dashboard" : "/"}
@@ -167,15 +189,17 @@ export default function Header() {
               about
             </Link>
           </li>
-          <li>
-            <Link
-              href={`/chat/${userData.id}/${userData.name}`}
-              onClick={() => {
-                setNavMenu(false);
-              }}>
-              chat
-            </Link>
-          </li>
+          {userData ? (
+            <li>
+              <Link
+                href={`/chat/${userData.id}/${userData.name}`}
+                onClick={() => {
+                  setNavMenu(false);
+                }}>
+                chat
+              </Link>
+            </li>
+          ) : null}
           <li>
             <Link
               href={"/legal/faqs"}

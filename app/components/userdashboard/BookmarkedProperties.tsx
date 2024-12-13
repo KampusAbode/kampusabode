@@ -9,7 +9,6 @@ import Image from "next/image";
 const BookmarkedProperties = ({ user }) => {
 
   const bookmarkedIds = user?.userInfo.savedProperties;
-  console.log(bookmarkedIds);
   const [properties, setProperties] = useState<PropertyType[]>([]);
 
   useEffect(() => {

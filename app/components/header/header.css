@@ -1,6 +1,6 @@
 /* ========== header section open ========== */
 header {
-  padding-block: var(--spacing-h);
+  padding-block: var(--spacing);
   position: fixed;
   top: 0;
   left: 0;

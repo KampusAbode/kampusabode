@@ -39,9 +39,15 @@ export default function Navigator() {
     };
   }, [lastScrollY]);
 
-
   // Render the header only if the pathname contains any of the excluded paths
-  const excludedPaths = ["login", "signup", "profile", "chat", "dashboard", "about"];
+  const excludedPaths = [
+    "login",
+    "signup",
+    "profile",
+    "chat",
+    "dashboard",
+    "about",
+  ];
   if (excludedPaths.some((path) => pathname.includes(`/${path}`))) {
     return null;
   }
@@ -69,9 +75,7 @@ export default function Navigator() {
               <span>messages</span>
             </Link>
           </li>
-        ) : (
-          ""
-        )}
+        ) : null}
 
         <li>
           <Link
@@ -93,9 +97,7 @@ export default function Navigator() {
               <span>saved</span>
             </Link>
           </li>
-        ) : (
-          ""
-        )}
+        ) : null}
 
         <li>
           <Link
