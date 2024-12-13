@@ -34,8 +34,8 @@ header .container .logo a {
   cursor: pointer;
 }
 header .container .logo a img {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
 }
 header .container nav {
   display: flex;
