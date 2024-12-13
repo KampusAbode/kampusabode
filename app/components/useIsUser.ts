@@ -13,9 +13,7 @@ const UseIsUser = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const pathname = usePathname();
 
-
   const [isInitialized, setIsInitialized] = useState(false);
-
 
   useEffect(() => {
     const encryptedUserData = localStorage.getItem("AIzaSyDsz5edn22pVbHW");
@@ -27,26 +25,24 @@ const UseIsUser = ({ children }: { children: React.ReactNode }) => {
       ).toString(CryptoJS.enc.Utf8);
 
       const userData = JSON.parse(decryptedUserData);
-
+      console.log(userData);
 
       if (userData) {
         dispatch(setUser(userData.userAuth));
         dispatch(setUserData(userData.userFromDB));
       }
+      setIsInitialized(true);
     } else {
-
       dispatch(setUser(null));
       dispatch(setUserData(null));
+      setIsInitialized(false);
     }
 
-    setIsInitialized(true);
-    
   }, [router]);
 
   const isAuthenticated = useSelector(
     (state: RootState) => state.user.isAuthenticated
   );
-  
 
   useEffect(() => {
     if (isInitialized && isAuthenticated) {

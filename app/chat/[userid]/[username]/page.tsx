@@ -16,7 +16,7 @@ const Chat = ({ params }: ChatProps) => {
   return (
     <ChatComponent
       currentUserId={userid}
-      receiverId="kampusabode"
+      receiverId={`Kampusabode${userid}`}
       currentUserName={username} 
       receiverName="Kampusabode"
     />

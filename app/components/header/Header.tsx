@@ -56,16 +56,21 @@ export default function Header() {
   }, [lastScrollY, navMenu]);
 
   // Pages where the header will show the back button and page name
-  const pagesWithBackButton = ["profile", "chat", "adminchatroom", "dashboard", "marketplace", "about"];
+  const pagesWithBackButton = [
+    "profile",
+    "chat",
+    "adminchatroom",
+    "dashboard",
+    "marketplace",
+    "about",
+  ];
 
   const showBackButton = pagesWithBackButton.some((path) =>
     pathname.includes(`/${path}`)
   );
-  
- const pageName =
-   pagesWithBackButton.find((path) => pathname.includes(`/${path}`)) || "";
 
-
+  const pageName =
+    pagesWithBackButton.find((path) => pathname.includes(`/${path}`)) || "";
 
   // Render the header only if the pathname contains any of the excluded paths
   const excludedPaths = ["login", "signup"];
@@ -140,16 +145,18 @@ export default function Header() {
           <FaTimes />
         </div>
         <ul>
-          {userData.id === "PlcpjfOsQ5NYUBgqC3DMMVj2kRj2" ? (
-            <li>
-              <Link
-                href="/adminchatroom"
-                onClick={() => {
-                  setNavMenu(false);
-                }}>
-                adminchatroom
-              </Link>
-            </li>
+          {userData ? (
+            userData.id === "PlcpjfOsQ5NYUBgqC3DMMVj2kRj2" ? (
+              <li>
+                <Link
+                  href="/adminchatroom"
+                  onClick={() => {
+                    setNavMenu(false);
+                  }}>
+                  adminchatroom
+                </Link>
+              </li>
+            ) : null
           ) : null}
 
           <li>
