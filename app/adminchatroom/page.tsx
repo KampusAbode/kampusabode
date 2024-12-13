@@ -10,16 +10,24 @@ const AdminChat = () => {
   const [users, setUsers] = useState(null);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const fetchedUsers = await getAllConversations();
-        setUsers(fetchedUsers);
-      } catch (error) {
-        console.error("Failed to fetch conversations:", error);
-        setUsers([]);
+    const unsubscribe = getAllConversations(
+      (fetchedMessages) => {
+        // Sort messages by timestamp in ascending order
+        const sortedMessages = fetchedMessages.sort((a, b) => {
+          const timestampA = a.timestamp?.toDate
+            ? a.timestamp.toDate()
+            : new Date(a.timestamp);
+          const timestampB = b.timestamp?.toDate
+            ? b.timestamp.toDate()
+            : new Date(b.timestamp);
+          return timestampA - timestampB; // Ascending order
+        });
+        setUsers(sortedMessages);
       }
-    };
-    fetchUsers();
+    );
+
+    // Clean up the listener on unmount
+    return () => unsubscribe();
   }, []);
 
 

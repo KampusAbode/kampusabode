@@ -72,7 +72,7 @@ const ChatComponent: React.FC<ChatProps> = ({
       const sender = { senderId: currentUserId, userName: currentUserName };
       let res = await sendMessage(sender, receiverId, message);
 
-      currentUserId === "kampusabode"
+      currentUserId === "kampusabode2384719744"
         ? (res = await sendMessage(sender, receiverId, message, true))
         : (res = await sendMessage(sender, receiverId, message));
 

@@ -342,29 +342,35 @@ export const sendMessage = async (
     const { senderId, userName } = sender;
     const conversationId = isAdmin ? receiverId : senderId;
 
-    const senderUId = senderId + receiverId;
     // Message data
     const conversationData = {
-      userName: userName,
-      senderId: isAdmin ? senderUId : senderId,
-      receiverId: isAdmin ? receiverId : senderId,
+      userName,
+      senderId,
+      receiverId,
       content: messageContent,
       timestamp: serverTimestamp(),
       status: "sent",
     };
 
-    // Update conversation metadata
-    if (!isAdmin) {
+    if (isAdmin) {
+      // Add message to messages sub-collection
+      const messagesRef = collection(
+        db,
+        `conversations/${conversationId}/messages`
+      );
+      await addDoc(messagesRef, conversationData);
+    } else {
+      // Update conversation metadata
       const conversationRef = doc(db, `conversations/${conversationId}`);
       await setDoc(conversationRef, conversationData);
-    }
 
-    // Add message to messages sub-collection
-    const messagesRef = collection(
-      db,
-      `conversations/${conversationId}/messages`
-    );
-    await addDoc(messagesRef, conversationData);
+      // Add message to messages sub-collection
+      const messagesRef = collection(
+        db,
+        `conversations/${conversationId}/messages`
+      );
+      await addDoc(messagesRef, conversationData);
+    }
 
     return { success: true };
   } catch (error) {
@@ -376,14 +382,21 @@ export const sendMessage = async (
   }
 };
 
-export const getAllConversations = async () => {
+export const getAllConversations = (callback) => {
+
   const conversationsRef = collection(db, "conversations");
-  const snapshot = await getDocs(conversationsRef);
-  const conversations = snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
-  return conversations;
+
+  // Real-time listener
+  const unsubscribe = onSnapshot(conversationsRef, (snapshot) => {
+    const conversations = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    callback(conversations);
+  });
+
+  // Return the unsubscribe function to clean up the listener when no longer needed
+  return unsubscribe;
 };
 
 export const getMessagesForConversation = async (conversationId) => {
