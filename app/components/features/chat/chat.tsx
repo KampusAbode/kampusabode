@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
@@ -8,6 +6,7 @@ import { isToday, isYesterday, format } from "date-fns";
 import {
   sendMessage,
   listenToMessagesForConversation,
+  deleteMessageFromFirebase, // Ensure you create this in your Firebase utility
 } from "../../../utils/api";
 import "./chat.css";
 
@@ -29,6 +28,8 @@ const ChatComponent: React.FC<ChatProps> = ({
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [longPressedMessage, setLongPressedMessage] = useState(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -42,7 +43,6 @@ const ChatComponent: React.FC<ChatProps> = ({
     const unsubscribe = listenToMessagesForConversation(
       userId,
       (fetchedMessages) => {
-        // Ensure timestamps are properly formatted and sort messages
         const sortedMessages = fetchedMessages
           .map((msg) => ({
             ...msg,
@@ -63,96 +63,68 @@ const ChatComponent: React.FC<ChatProps> = ({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const sendNotification = (currentUserName, message) => {
-    if (!("Notification" in window)) {
-      console.error("This browser does not support desktop notifications.");
-      return;
-    }
-
-    Notification.requestPermission().then((permission) => {
-      if (permission === "granted") {
-        new Notification(`Message from ${currentUserName}`, {
-          body: message,
-          icon: "/LOGO/logo_O.png",
-          tag: "message-notification", // Prevent duplicate notifications
-        });
-      } else {
-        console.log("Notification permission denied.");
-      }
-    });
-  };
-
-  // Handle message send
   const handleSendMessage = async () => {
     if (message.trim() === "") return;
-
     setIsLoading(true);
-
     const sender = {
       senderId: currentUserId,
       userName: currentUserName,
       role: currentUserRole,
     };
-
     try {
       const res = await sendMessage(sender, receiverId, message);
-
       if (res?.success) {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          {
-            senderId: currentUserId,
-            content: message,
-            status: "sent",
-            timestamp: new Date(),
-          },
+        setMessages((prev) => [
+          ...prev,
+          { senderId: currentUserId, content: message, timestamp: new Date() },
         ]);
         setMessage("");
-        inputRef.current?.focus();
         toast.success("Message sent!");
-
-        sendNotification(currentUserName, message);
-        
       } else {
-        toast.error("Failed to send message. Please try again.");
+        toast.error("Failed to send message.");
       }
-    } catch (error) {
-      console.error("Message send error:", error);
-      toast.error("An error occurred. Please try again.");
+    } catch {
+      toast.error("An error occurred.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Handle "Enter" key press to send the message
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      handleSendMessage();
+  const formatTimestamp = (timestamp: Date) => {
+    const now = new Date();
+    const diffInMinutes = Math.floor((now.getTime() - timestamp.getTime()) / 60000);
+    if (diffInMinutes < 1) return "Now";
+    if (diffInMinutes < 60) return `${diffInMinutes}m`;
+    if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}h`;
+    if (isYesterday(timestamp)) return "Yesterday";
+    if (isToday(timestamp)) return format(timestamp, "hh:mm a");
+    return format(timestamp, "dd-MM-yyyy");
+  };
+
+  const handleLongPress = (message) => {
+    if (message.senderId === currentUserId || currentUserRole === "admin") {
+      setLongPressedMessage(message);
+      setShowDeleteDialog(true);
+    } else {
+      toast.error("You can only delete your messages.");
     }
   };
 
-  // Format timestamp
-  const formatTimestamp = (timestamp: Date) => {
-  const now = new Date();
-  const diffInMs = now.getTime() - timestamp.getTime();
-  const diffInMinutes = Math.floor(diffInMs / 60000);
-  const diffInHours = Math.floor(diffInMinutes / 60);
-
-  if (diffInMinutes < 1) {
-    return "Now";
-  } else if (diffInMinutes < 60) {
-    return `${diffInMinutes}m`;
-  } else if (diffInHours < 2) {
-    return `${diffInHours}h`; // e.g., "3h"
-  } else if (isYesterday(timestamp)) {
-    return "Yesterday";
-  } else if (isToday(timestamp)) {
-    return format(timestamp, "hh:mm a");
-  } else {
-    return format(timestamp, "dd-MM-yyyy");
-  }
-};
-
+  const confirmDeleteMessage = async () => {
+    if (!longPressedMessage) return;
+    try {
+      await deleteMessageFromFirebase(longPressedMessage.id);
+      setMessages((prev) =>
+        prev.filter((msg) => msg.id !== longPressedMessage.id)
+      );
+      toast.success("Message deleted successfully.");
+    } catch {
+      toast.error("Failed to delete the message.");
+    } finally {
+      setShowDeleteDialog(false);
+      setLongPressedMessage(null);
+    }
+  };
 
   return (
     <section className="chat-page">
@@ -160,59 +132,63 @@ const ChatComponent: React.FC<ChatProps> = ({
         <div className="chat-header">
           <h4>{receiverName}</h4>
         </div>
-
         <div className="chat-display">
           {messages.length > 0 ? (
-            messages.map((msg, index) => {
-              const isSentByCurrentUser = msg.senderId === currentUserId;
-              const formattedTime = formatTimestamp(msg.timestamp);
-
-              return (
-                <div
-                  key={index}
-                  className={`message-box ${
-                    isSentByCurrentUser ? "right" : "left"
-                  }`}>
-                  <div className="message-detail">
-                    {isSentByCurrentUser ? (
-                      <>
-                        <span></span>
-                        <span>{formattedTime}</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>{formattedTime}</span>
-                        <span></span>
-                      </>
-                    )}
-                  </div>
-                  <div className="message-content">{msg.content}</div>
+            messages.map((msg) => (
+              <div
+                key={msg.id}
+                className={`message-box ${msg.senderId === currentUserId ? "right" : "left"}`}
+                onContextMenu={(e) => {
+                  e.preventDefault();
+                  handleLongPress(msg);
+                }}
+              >
+                <div className="message-detail">
+                  <span>{formatTimestamp(msg.timestamp)}</span>
                 </div>
-              );
-            })
+                <div className="message-content">{msg.content}</div>
+              </div>
+            ))
           ) : (
             <p className="no-messages">No messages yet. Say hello!</p>
           )}
           <div ref={messagesEndRef}></div>
         </div>
-
         <div className="chat-input">
           <input
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            onKeyDown={handleKeyDown}
             placeholder="Type your message..."
             ref={inputRef}
           />
           <button
-            className="btn"
             onClick={handleSendMessage}
-            disabled={isLoading || message.trim() === ""}>
+            disabled={isLoading || message.trim() === ""}
+          >
             {isLoading ? "Sending..." : "Send"}
           </button>
         </div>
       </div>
+
+      {showDeleteDialog && (
+        <div className="delete-dialog">
+          <div className="dialog-box">
+            <p>Are you sure you want to delete this message?</p>
+         <div className="btn-group">
+           <button onClick={confirmDeleteMessage}>Yes</button>
+          <button
+            onClick={() => {
+              setShowDeleteDialog(false);
+              setLongPressedMessage(null);
+            }}
+          >
+            No
+          </button>
+         </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

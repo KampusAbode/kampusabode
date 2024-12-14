@@ -22,6 +22,7 @@ import {
 
 import CryptoJS from "crypto-js";
 import { PropertyType } from "../fetch/types";
+import { decodeBase64 } from "bcryptjs";
 
 // TypeScript type for user input (based on your example)
 interface UserSignupInput {
@@ -380,6 +381,15 @@ export const sendMessage = async (
   }
 };
 
+export const deleteMessageFromFirebase = async (messageId) => {
+ const messagesRef = collection(
+    db,
+    `conversations/${conversationId}`
+  );
+  await messageRef.delete();
+};
+
+
 export const getAllConversations = (callback) => {
 
   const conversationsRef = collection(db, "conversations");
@@ -397,15 +407,15 @@ export const getAllConversations = (callback) => {
   return unsubscribe;
 };
 
-export const getMessagesForConversation = async (conversationId) => {
-  const messagesRef = collection(
-    db,
-    `conversations/${conversationId}/messages`
-  );
-  const snapshot = await getDocs(messagesRef);
-  const messages = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-  return messages;
-};
+// export const getMessagesForConversation = async (conversationId) => {
+//   const messagesRef = collection(
+//     db,
+//     `conversations/${conversationId}/messages`
+//   );
+//   const snapshot = await getDocs(messagesRef);
+//   const messages = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+//   return messages;
+// };
 
 export const listenToMessagesForConversation = (conversationId, callback) => {
   const messagesRef = collection(

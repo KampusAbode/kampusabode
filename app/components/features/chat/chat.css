@@ -2,6 +2,46 @@
   height: 100vh;
   max-height: 100vh;
 }
+.chat-page .delete-dialog {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+}
+.chat-page .delete-dialog .dialog-box {
+  background-color: var(--light-gray);
+  padding: var(--spacing-3x);
+  border-radius: var(--border-radius);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2x);
+  max-width: 400px;
+  width: 100%;
+}
+.chat-page .delete-dialog .dialog-box p {
+  font-size: var(--font-size-sm);
+  color: var(--font-color-p);
+}
+.chat-page .delete-dialog .dialog-box .btn-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-2x);
+}
+.chat-page .delete-dialog .dialog-box .btn-group button {
+  padding: var(--spacing);
+  border: none;
+  border-radius: var(--border-radius);
+  background-color: var(--primary-color);
+  color: var(--font-color-p);
+  cursor: pointer;
+}
 .chat-page .container {
   max-width: 900px;
 }
@@ -44,6 +84,9 @@
   padding-block: var(--spacing);
   color: var(--font-color-p);
   size: var(--font-size-sm);
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 .chat-page .container .chat-display .message-box.right {
   margin-left: auto;
