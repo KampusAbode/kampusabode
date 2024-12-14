@@ -113,7 +113,8 @@ const ChatComponent: React.FC<ChatProps> = ({
   const confirmDeleteMessage = async () => {
     if (!longPressedMessage) return;
     try {
-      await deleteMessageFromFirebase(longPressedMessage.id);
+       const userId = user?.id === currentUserId ? currentUserId : receiverId;
+      await deleteMessageFromFirebase( userId ,longPressedMessage.id);
       setMessages((prev) =>
         prev.filter((msg) => msg.id !== longPressedMessage.id)
       );

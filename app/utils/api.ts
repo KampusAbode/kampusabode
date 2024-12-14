@@ -382,8 +382,8 @@ export const sendMessage = async (
   }
 };
 
-export const deleteMessageFromFirebase = async (messageId) => {
- const messageRef = doc(db, `conversations/${messageId}`);
+export const deleteMessageFromFirebase = async (userId,messageId) => {
+ const messageRef = doc(db, `conversations/${userId}/messages/${messageId}`);
   await deleteDoc(messageRef);
 };
 
