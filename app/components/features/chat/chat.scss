@@ -2,9 +2,7 @@
   height: 100vh;
   max-height: 100vh;
 
-
-
-  .delete-dialog{
+  .delete-dialog {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,8 +24,6 @@
       gap: var(--spacing-2x);
       max-width: 400px;
       width: 100%;
-
-   
 
       p {
         font-size: var(--font-size-sm);
@@ -51,7 +47,6 @@
     }
   }
 
-
   .container {
     max-width: 900px;
 
@@ -69,7 +64,6 @@
         display: none;
       }
 
-
       .message-box {
         padding: var(--spacing-h);
         margin-bottom: var(--spacing-2x);
@@ -79,7 +73,6 @@
         width: fit-content;
         max-width: 70%;
 
-
         .message-detail {
           display: flex;
           justify-content: space-between;
@@ -87,14 +80,13 @@
           gap: var(--spacing-2x);
           padding: var(--spacing-h) var(--spacing);
           border-radius: var(--border-radius);
-           background-color: var(--light-gray);
+          background-color: var(--light-gray);
 
           span {
             color: var(--font-color-p);
             font-size: var(--font-size-xs);
           }
         }
-
 
         .message-content {
           padding-block: var(--spacing);
@@ -121,7 +113,7 @@
       max-width: 900px;
       position: fixed;
       bottom: var(--spacing);
-     left: 50%;
+      left: 50%;
       transform: translateX(-50%);
       width: 100%;
       display: flex;
