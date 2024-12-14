@@ -63,6 +63,25 @@ const ChatComponent: React.FC<ChatProps> = ({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  const sendNotification = (currentUserName, message) => {
+    if (!("Notification" in window)) {
+      console.error("This browser does not support desktop notifications.");
+      return;
+    }
+
+    Notification.requestPermission().then((permission) => {
+      if (permission === "granted") {
+        new Notification(`Message from ${currentUserName}`, {
+          body: message,
+          icon: "/LOGO/logo_O.png",
+          tag: "message-notification", // Prevent duplicate notifications
+        });
+      } else {
+        console.log("Notification permission denied.");
+      }
+    });
+  };
+
   // Handle message send
   const handleSendMessage = async () => {
     if (message.trim() === "") return;
@@ -92,17 +111,8 @@ const ChatComponent: React.FC<ChatProps> = ({
         inputRef.current?.focus();
         toast.success("Message sent!");
 
-        () => {
-          Notification.requestPermission().then((perm) => {
-            if (perm === "granted") {
-              new Notification(`Message from ${currentUserName}`, {
-                body: message,
-                icon: "/LOGO/logo_O.png",
-                tag: "message-notification",
-              });
-            }
-          });
-        };
+        sendNotification(currentUserName, message);
+        
       } else {
         toast.error("Failed to send message. Please try again.");
       }
