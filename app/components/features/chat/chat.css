@@ -123,4 +123,6 @@
 }
 .chat-page .container .chat-input button {
   padding: var(--spacing);
+  border: var(--border);
+  border-radius: var(--border-radius);
 }/*# sourceMappingURL=chat.css.map */

@@ -92,7 +92,9 @@ const ChatComponent: React.FC<ChatProps> = ({
 
   const formatTimestamp = (timestamp: Date) => {
     const now = new Date();
-    const diffInMinutes = Math.floor((now.getTime() - timestamp.getTime()) / 60000);
+    const diffInMinutes = Math.floor(
+      (now.getTime() - timestamp.getTime()) / 60000
+    );
     if (diffInMinutes < 1) return "Now";
     if (diffInMinutes < 60) return `${diffInMinutes}m`;
     if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}h`;
@@ -113,8 +115,8 @@ const ChatComponent: React.FC<ChatProps> = ({
   const confirmDeleteMessage = async () => {
     if (!longPressedMessage) return;
     try {
-       const userId = user?.id === currentUserId ? currentUserId : receiverId;
-      await deleteMessageFromFirebase( userId ,longPressedMessage.id);
+      const userId = user?.id === currentUserId ? currentUserId : receiverId;
+      await deleteMessageFromFirebase(userId, longPressedMessage.id);
       setMessages((prev) =>
         prev.filter((msg) => msg.id !== longPressedMessage.id)
       );
@@ -138,12 +140,13 @@ const ChatComponent: React.FC<ChatProps> = ({
             messages.map((msg) => (
               <div
                 key={msg.id}
-                className={`message-box ${msg.senderId === currentUserId ? "right" : "left"}`}
+                className={`message-box ${
+                  msg.senderId === currentUserId ? "right" : "left"
+                }`}
                 onContextMenu={(e) => {
                   e.preventDefault();
                   handleLongPress(msg);
-                }}
-              >
+                }}>
                 <div className="message-detail">
                   <span>{formatTimestamp(msg.timestamp)}</span>
                 </div>
@@ -165,8 +168,7 @@ const ChatComponent: React.FC<ChatProps> = ({
           />
           <button
             onClick={handleSendMessage}
-            disabled={isLoading || message.trim() === ""}
-          >
+            disabled={isLoading || message.trim() === ""}>
             {isLoading ? "Sending..." : "Send"}
           </button>
         </div>
@@ -176,17 +178,16 @@ const ChatComponent: React.FC<ChatProps> = ({
         <div className="delete-dialog">
           <div className="dialog-box">
             <p>Are you sure you want to delete this message?</p>
-         <div className="btn-group">
-           <button onClick={confirmDeleteMessage}>Yes</button>
-          <button
-            onClick={() => {
-              setShowDeleteDialog(false);
-              setLongPressedMessage(null);
-            }}
-          >
-            No
-          </button>
-         </div>
+            <div className="btn-group">
+              <button onClick={confirmDeleteMessage}>Yes</button>
+              <button
+                onClick={() => {
+                  setShowDeleteDialog(false);
+                  setLongPressedMessage(null);
+                }}>
+                No
+              </button>
+            </div>
           </div>
         </div>
       )}
