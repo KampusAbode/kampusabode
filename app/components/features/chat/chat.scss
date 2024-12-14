@@ -1,15 +1,15 @@
 .chat-page {
   height: 100vh;
   max-height: 100vh;
- 
+
+  
   .container {
     max-width: 900px;
 
     .chat-display {
       height: 70vh;
       overflow-y: auto;
-      margin-bottom: var(--spacing-2x);
-      margin-top: var(--spacing-2x);
+      margin-block: var(--spacing-3x);
 
       .loading-text {
         text-align: center;
@@ -95,16 +95,3 @@
     }
   }
 }
-
-
-@media screen and (min-width: 786px) {
-  .chat-page{
-    .container{
-      .chat-display{
-
-      }
-    }
-  }
-}
-
-

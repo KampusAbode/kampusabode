@@ -8,8 +8,7 @@
 .chat-page .container .chat-display {
   height: 70vh;
   overflow-y: auto;
-  margin-bottom: var(--spacing-2x);
-  margin-top: var(--spacing-2x);
+  margin-block: var(--spacing-3x);
 }
 .chat-page .container .chat-display .loading-text {
   text-align: center;
