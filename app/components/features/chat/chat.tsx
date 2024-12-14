@@ -141,8 +141,8 @@ const ChatComponent: React.FC<ChatProps> = ({
   if (diffInMinutes < 1) {
     return "Now";
   } else if (diffInMinutes < 60) {
-    return `${diffInMinutes}m`; // e.g., "5m"
-  } else if (diffInHours < 24) {
+    return `${diffInMinutes}m`;
+  } else if (diffInHours < 2) {
     return `${diffInHours}h`; // e.g., "3h"
   } else if (isYesterday(timestamp)) {
     return "Yesterday";
