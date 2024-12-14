@@ -16,10 +16,7 @@ import {
   getDocs,
   deleteField,
   addDoc,
-  CollectionReference,
-  DocumentData,
   onSnapshot,
-  orderBy,
   serverTimestamp,
 } from "firebase/firestore";
 
@@ -331,16 +328,16 @@ export const addProperty = async (property: PropertyType): Promise<void> => {
 type Sender = {
   senderId: string;
   userName: string;
+  role: string;
 };
 export const sendMessage = async (
   sender: Sender,
   receiverId: string,
   messageContent: string,
-  isAdmin: boolean = false
 ) => {
   try {
-    const { senderId, userName } = sender;
-    const conversationId = isAdmin ? receiverId : senderId;
+    const { senderId, userName, role } = sender;
+    const conversationId = role === "admin" ? receiverId : senderId;
 
     // Message data
     const conversationData = {
@@ -352,14 +349,15 @@ export const sendMessage = async (
       status: "sent",
     };
 
-    if (isAdmin) {
+ 
+    if (role === "admin") {
       // Add message to messages sub-collection
       const messagesRef = collection(
         db,
         `conversations/${conversationId}/messages`
       );
       await addDoc(messagesRef, conversationData);
-    } else {
+    } else if (role === "user") {
       // Update conversation metadata
       const conversationRef = doc(db, `conversations/${conversationId}`);
       await setDoc(conversationRef, conversationData);

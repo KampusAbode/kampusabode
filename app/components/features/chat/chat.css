@@ -56,10 +56,10 @@
   border-top-right-radius: 0;
 }
 .chat-page .container .chat-input {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
+  position: fixed;
+  bottom: var(--spacing);
+  right: var(--spacing);
+  left: var(--spacing);
   width: 100%;
   display: flex;
   justify-content: space-between;

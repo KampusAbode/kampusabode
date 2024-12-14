@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import toast from "react-hot-toast";
@@ -17,6 +16,7 @@ type ChatProps = {
   receiverId: string;
   currentUserName: string;
   receiverName: string;
+  currentUserRole: "admin" | "user";
 };
 
 const ChatComponent: React.FC<ChatProps> = ({
@@ -24,9 +24,10 @@ const ChatComponent: React.FC<ChatProps> = ({
   receiverId,
   currentUserName,
   receiverName,
+  currentUserRole,
 }) => {
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -35,49 +36,49 @@ const ChatComponent: React.FC<ChatProps> = ({
 
   // Fetch messages
   useEffect(() => {
-    // Set up the listener
+    if (!currentUserId || !receiverId) return;
     const userId = user?.id === currentUserId ? currentUserId : receiverId;
+    
     const unsubscribe = listenToMessagesForConversation(
       userId,
       (fetchedMessages) => {
-        // Sort messages by timestamp in ascending order
-        const sortedMessages = fetchedMessages.sort((a, b) => {
-          const timestampA = a.timestamp?.toDate
-            ? a.timestamp.toDate()
-            : new Date(a.timestamp);
-          const timestampB = b.timestamp?.toDate
-            ? b.timestamp.toDate()
-            : new Date(b.timestamp);
-          return timestampA - timestampB; // Ascending order
-        });
+        // Ensure timestamps are properly formatted and sort messages
+        const sortedMessages = fetchedMessages
+          .map((msg) => ({
+            ...msg,
+            timestamp: msg.timestamp?.toDate
+              ? msg.timestamp.toDate()
+              : new Date(msg.timestamp),
+          }))
+          .sort((a, b) => a.timestamp - b.timestamp);
         setMessages(sortedMessages);
       }
     );
 
-    // Clean up the listener on unmount
     return () => unsubscribe();
-  }, [receiverId]);
+  }, [currentUserId, receiverId]);
 
   // Scroll to the latest message
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-
   // Handle message send
   const handleSendMessage = async () => {
     if (message.trim() === "") return;
 
+    setIsLoading(true);
+
+    const sender = {
+      senderId: currentUserId,
+      userName: currentUserName,
+      role: currentUserRole,
+    };
+
     try {
-      const sender = { senderId: currentUserId, userName: currentUserName };
-      let res = await sendMessage(sender, receiverId, message);
+      const res = await sendMessage(sender, receiverId, message);
 
-      currentUserId === "kampusabode2384719744"
-        ? (res = await sendMessage(sender, receiverId, message, true))
-        : (res = await sendMessage(sender, receiverId, message));
-
-      if (res.success) {
-        toast.success("Message sent!");
+      if (res?.success) {
         setMessages((prevMessages) => [
           ...prevMessages,
           {
@@ -89,18 +90,33 @@ const ChatComponent: React.FC<ChatProps> = ({
         ]);
         setMessage("");
         inputRef.current?.focus();
+        toast.success("Message sent!");
       } else {
-        toast.error("Failed to send message. Try again.");
+        toast.error("Failed to send message. Please try again.");
       }
     } catch (error) {
+      console.error("Message send error:", error);
       toast.error("An error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Handle search on Enter key press
+  // Handle "Enter" key press to send the message
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSendMessage();
+    }
+  };
+
+  // Format timestamp
+  const formatTimestamp = (timestamp: Date) => {
+    if (isToday(timestamp)) {
+      return format(timestamp, "hh:mm a");
+    } else if (isYesterday(timestamp)) {
+      return "Yesterday";
+    } else {
+      return format(timestamp, "dd-MM-yyyy");
     }
   };
 
@@ -115,40 +131,25 @@ const ChatComponent: React.FC<ChatProps> = ({
           {messages.length > 0 ? (
             messages.map((msg, index) => {
               const isSentByCurrentUser = msg.senderId === currentUserId;
-              const timestamp = msg.timestamp?.toDate
-                ? msg.timestamp.toDate()
-                : new Date();
-
-              const formattedTime = (() => {
-                if (isToday(timestamp)) {
-                  return format(timestamp, "hh:mm a");
-                } else if (isYesterday(timestamp)) {
-                  return "Yesterday";
-                } else {
-                  return format(timestamp, "dd-MM-yyyy");
-                }
-              })();
+              const formattedTime = formatTimestamp(msg.timestamp);
 
               return (
                 <div
                   key={index}
                   className={`message-box ${
-                    isSentByCurrentUser ? "right" : ""
+                    isSentByCurrentUser ? "right" : "left"
                   }`}>
                   <div className="message-detail">
                     {isSentByCurrentUser ? (
                       <>
-                      <span></span>
-                      <span>{formattedTime}</span>
-                      
+                        <span></span>
+                        <span>{formattedTime}</span>
                       </>
                     ) : (
                       <>
-                      <span>{formattedTime}</span>
-                      <span></span>
-                      
+                        <span>{formattedTime}</span>
+                        <span></span>
                       </>
-                      
                     )}
                   </div>
                   <div className="message-content">{msg.content}</div>
@@ -174,7 +175,7 @@ const ChatComponent: React.FC<ChatProps> = ({
             className="btn"
             onClick={handleSendMessage}
             disabled={isLoading || message.trim() === ""}>
-            Send
+            {isLoading ? "Sending..." : "Send"}
           </button>
         </div>
       </div>
