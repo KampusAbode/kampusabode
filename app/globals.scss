@@ -19,7 +19,7 @@
   --font-white: #ffffff;
 
   --border: 1px solid #999999;
-  --border-hover: 1px solid #353535;
+  --border-hover: 1px solid #212121;
 
   /* Border Radius */
   --border-radius: 8px;
@@ -37,8 +37,8 @@
   --padding-b: 0.5rem 1rem;
 
   /* Shadow & Transition */
-  --shadow: 0px 3px 10px rgba(38, 38, 38, 0.04),
-    -0px -3px 8px rgba(22, 22, 22, 0.01);
+  --shadow: 0px 3px 10px rgba(38, 38, 38, 0.05),
+    -0px -3px 8px rgba(22, 22, 22, 0.025);
   --transition: all 0.3s ease;
 
   /* Fonts */

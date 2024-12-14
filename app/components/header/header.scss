@@ -130,8 +130,6 @@ header {
 
     .close {
       position: relative;
-
-      margin-bottom: var(--spacing-2x);
       cursor: pointer;
 
       svg {
@@ -144,10 +142,11 @@ header {
     }
 
     hr {
-      margin-top: var(--spacing-4x);
+      margin-block: var(--spacing-2x);
     }
 
     ul {
+      padding-top: var(--spacing);
       p {
         color: var(--font-color-h);
         padding: var(--spacing);
@@ -172,7 +171,6 @@ header {
 
     .logout {
       line-height: var(--line-height-xs);
-      padding-top: var(--spacing-2x);
       span {
         a,
         span {

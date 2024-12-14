@@ -45,7 +45,7 @@ export default function Navigator() {
     "signup",
     "profile",
     "chat",
-    "adminchatroon",
+    "adminchatroom",
     "dashboard",
     "about",
   ];

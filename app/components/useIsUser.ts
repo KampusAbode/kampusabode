@@ -76,6 +76,7 @@ const UseIsUser = ({ children }: { children: React.ReactNode }) => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.user.isAuthenticated
   );
+  console.log(isAuthenticated)
 
   useEffect(() => {
     if (isInitialized && isAuthenticated) {
