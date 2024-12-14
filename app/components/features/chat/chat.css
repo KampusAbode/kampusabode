@@ -39,7 +39,7 @@
   padding: var(--spacing);
   border: none;
   border-radius: var(--border-radius);
-  color: var(--font-color-h);
+  color: var(--font-color-p);
   cursor: pointer;
 }
 .chat-page .delete-dialog .dialog-box .btn-group button.confirm {
