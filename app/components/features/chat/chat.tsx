@@ -38,7 +38,7 @@ const ChatComponent: React.FC<ChatProps> = ({
   useEffect(() => {
     if (!currentUserId || !receiverId) return;
     const userId = user?.id === currentUserId ? currentUserId : receiverId;
-    
+
     const unsubscribe = listenToMessagesForConversation(
       userId,
       (fetchedMessages) => {
@@ -91,6 +91,18 @@ const ChatComponent: React.FC<ChatProps> = ({
         setMessage("");
         inputRef.current?.focus();
         toast.success("Message sent!");
+
+        () => {
+          Notification.requestPermission().then((perm) => {
+            if (perm === "granted") {
+              new Notification(`Message from ${currentUserName}`, {
+                body: message,
+                icon: "/LOGO/logo_O.png",
+                tag: "message-notification",
+              });
+            }
+          });
+        };
       } else {
         toast.error("Failed to send message. Please try again.");
       }
@@ -111,14 +123,26 @@ const ChatComponent: React.FC<ChatProps> = ({
 
   // Format timestamp
   const formatTimestamp = (timestamp: Date) => {
-    if (isToday(timestamp)) {
-      return format(timestamp, "hh:mm a");
-    } else if (isYesterday(timestamp)) {
-      return "Yesterday";
-    } else {
-      return format(timestamp, "dd-MM-yyyy");
-    }
-  };
+  const now = new Date();
+  const diffInMs = now.getTime() - timestamp.getTime();
+  const diffInMinutes = Math.floor(diffInMs / 60000);
+  const diffInHours = Math.floor(diffInMinutes / 60);
+
+  if (diffInMinutes < 1) {
+    return "Now";
+  } else if (diffInMinutes < 60) {
+    return `${diffInMinutes}m`; // e.g., "5m"
+  } else if (diffInHours < 24) {
+    return `${diffInHours}h`; // e.g., "3h"
+  } else if (isYesterday(timestamp)) {
+    return "Yesterday";
+  } else if (isToday(timestamp)) {
+    return format(timestamp, "hh:mm a");
+  } else {
+    return format(timestamp, "dd-MM-yyyy");
+  }
+};
+
 
   return (
     <section className="chat-page">
