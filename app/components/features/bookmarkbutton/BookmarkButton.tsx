@@ -4,7 +4,10 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../../../redux/store";
 import { toast } from "react-hot-toast";
-import { removeSavedProperty, updateSavedProperties } from "../../../redux/stateSlice/userdataSlice";
+import {
+  removeSavedProperty,
+  updateSavedProperties,
+} from "../../../redux/stateSlice/userdataSlice";
 
 const BookmarkButton = ({ propertyId }: { propertyId: string }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -14,21 +17,26 @@ const BookmarkButton = ({ propertyId }: { propertyId: string }) => {
   const userData = useSelector((state: RootState) => state.userdata);
 
   useEffect(() => {
-    if (userData?.userType === "student") {
-      // Safely access savedProperties using optional chaining
-      const savedProperties = userData.userInfo?.savedProperties || [];
+    // Narrow down userInfo to StudentUserInfo
+    if (
+      userData?.userType === "student" &&
+      "savedProperties" in userData.userInfo
+    ) {
+      const savedProperties = userData.userInfo.savedProperties || [];
       setIsBookmarked(savedProperties.includes(propertyId));
     }
   }, [propertyId, userData]);
 
   const toggleBookmark = () => {
-    
     if (!userData) {
       toast.error("Please log in to bookmark properties.");
       return;
     }
 
-    if (userData.userType !== "student") {
+    if (
+      userData.userType !== "student" ||
+      !("savedProperties" in userData.userInfo)
+    ) {
       toast.error("Only students can bookmark properties.");
       return;
     }

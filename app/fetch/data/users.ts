@@ -1,4 +1,4 @@
-import { StudentType, AgentType, UserType } from "../types";
+import {UserType } from "../types";
 
 export const users: UserType[] = [
   {
@@ -131,11 +131,11 @@ export const users: UserType[] = [
 ];
 
 // Separate users into studentUsers and agentUsers
-const studentUsers: StudentType[] = users.filter(
-  (user): user is StudentType => user.userType === "student"
+const studentUsers: UserType[] = users.filter(
+  (user): user is UserType => user.userType === "student"
 );
-const agentUsers: AgentType[] = users.filter(
-  (user): user is AgentType => user.userType === "agent"
+const agentUsers: UserType[] = users.filter(
+  (user): user is UserType => user.userType === "agent"
 );
 
 export { studentUsers, agentUsers };

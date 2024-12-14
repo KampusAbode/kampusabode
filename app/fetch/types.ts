@@ -88,41 +88,29 @@ export interface BookmarkState {
   items: PropertyType[];
 }
 
-// Type for student users
-export interface StudentType {
+export interface StudentUserInfo {
+  bio: string;
+  avatar: string;
+  university: string;
+  department: string;
+  yearOfStudy: number;
+  savedProperties: string[];
+  wishlist: string[];
+  phoneNumber: string;
+}
+
+export interface AgentUserInfo {
+  bio: string;
+  avatar: string;
+  agencyName: string;
+  phoneNumber: string;
+  propertiesListed: { id: string; available: boolean }[];
+}
+
+export interface UserType {
   id: string;
   name: string;
   email: string;
-  userType: "student";
-  userInfo: {
-    bio: string;
-    avatar: string;
-    university: string;
-    department: string;
-    yearOfStudy: number;
-    savedProperties: string[]; // List of saved property IDs
-    wishlist: string[]; // List of wishlist items (strings)
-    phoneNumber: string;
-  };
+  userType: "student" | "agent" | '';
+  userInfo: StudentUserInfo | AgentUserInfo;
 }
-
-// Type for agent users
-export interface AgentType {
-  id: string;
-  name: string;
-  email: string;
-  userType: "agent";
-  userInfo: {
-    bio: string;
-    avatar: string;
-    agencyName: string;
-    phoneNumber: string;
-    propertiesListed: {
-      id: string;
-      available: boolean;
-    }[]; // List of properties listed by the agent with availability
-  };
-}
-
-// Combined user type (could be either student or agent)
-export type UserType = StudentType | AgentType;

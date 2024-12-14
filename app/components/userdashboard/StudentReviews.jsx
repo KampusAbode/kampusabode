@@ -11,11 +11,9 @@ const StudentReviews = ({ user }) => {
       <h3>Student Reviews</h3>
       <ul>
         {filteredReviews.length > 0 ? (
-          filteredReviews.map((review) => (
-            <li key={review.id}></li>
-          ))
+          filteredReviews.map((review) => <li key={review.id}></li>)
         ) : (
-          <li>No reviews found for this user.</li>
+          <li>No reviews found for this user?.</li>
         )}
       </ul>
     </div>

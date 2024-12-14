@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React from "react";
 import ProfileOverview from "../components/userdashboard/ProfileOverview";
@@ -9,11 +9,12 @@ import Link from "next/link";
 
 const ProfilePage = () => {
   const user = useSelector((state: RootState) => state.userdata);
-  const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.user?.isAuthenticated
+  );
   return (
     <section className="profile-page">
       <div className="container">
-        
         {isAuthenticated ? (
           <>
             <ProfileOverview user={user} />
@@ -23,7 +24,10 @@ const ProfilePage = () => {
             </div>
           </>
         ) : (
-          <p>login to access your profile page. <Link href={"/auth/login"}>login</Link></p>
+          <p>
+            login to access your profile page.{" "}
+            <Link href={"/auth/login"}>login</Link>
+          </p>
         )}
       </div>
     </section>

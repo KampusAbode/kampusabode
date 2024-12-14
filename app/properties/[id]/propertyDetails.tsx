@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import PropertyImages from "../../components/propertyImages/PropertyImages";
 // import ContactAgent from "../../components/contactagent/ContactAgent";
-import type { PropertyType } from "../../fetch/types";
+import type { AgentUserInfo, PropertyType } from "../../fetch/types";
 import { getProperties } from "../../utils/api";
 import "./property.css";
 import { useSelector } from "react-redux";
@@ -24,8 +24,10 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   const user = useSelector((state: RootState) => state.userdata);
 
   const propertyDetails = properties.find((prop) => prop.id.toString() === id);
-  const agentDetails = agentUsers.find((agent) =>
-    agent.userInfo?.propertiesListed.some((propList) => propList.id === id)
+  const agentDetails = agentUsers.find(
+    (agent) =>
+      "propertiesListed" in agent.userInfo &&
+      (agent.userInfo as AgentUserInfo).propertiesListed?.some((propList) => propList.id === id)
   );
 
   useEffect(() => {
@@ -45,7 +47,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   }
 
   const agentPropertyListings = properties.filter((prop) =>
-    agentDetails?.userInfo?.propertiesListed.some(
+    (agentDetails?.userInfo as AgentUserInfo).propertiesListed?.some(
       (propList) => propList.id === prop.id && propList.id !== id
     )
   );
@@ -100,10 +102,10 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                     alt={`${agentDetails?.name} profile picture`}
                   />
                   <h5>{agentDetails?.name}</h5>
-                  <p>{agentDetails?.userInfo?.agencyName}</p>
+                  <p>{(agentDetails?.userInfo as AgentUserInfo)?.agencyName}</p>
                   <span>
                     properties:{" "}
-                    {agentDetails?.userInfo?.propertiesListed.length}
+                    {(agentDetails?.userInfo as AgentUserInfo)?.propertiesListed?.length}
                   </span>
                 </div>
                 <div className="agent-stats">
@@ -167,20 +169,19 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                 transparency. However, if you have any inquiries or need further
                 information, feel free to contact us.
               </p>
-              {user.userType === "student" ? (
+              {user?.userType === "student" ? (
                 <p>
                   Start a conversation with us{" "}
                   {user ? (
-
-                  <Link href={`/chat/${user?.id}/${user.name}`} >
-                    chat now
-                  </Link>
+                    <Link href={`/chat/${user?.id}/${user?.name}`}>
+                      chat now
+                    </Link>
                   ) : (
-                    <Link href="/auth/signup">signup</Link> 
+                    <Link href="/auth/signup">signup</Link>
                   )}
                 </p>
               ) : (
-                <p>{user.userType}</p>
+                <p>{user?.userType}</p>
               )}
 
               {/* <p>

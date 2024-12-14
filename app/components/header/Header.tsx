@@ -112,16 +112,16 @@ export default function Header() {
             </ul>
             <div className="cta">
               <Link
-                href={user.isAuthenticated ? "/contact" : "/auth/signup"}
+                href={user?.isAuthenticated ? "/contact" : "/auth/signup"}
                 className="btn btn-secondary">
-                {user.isAuthenticated ? "get in touch" : "signup"}
+                {user?.isAuthenticated ? "get in touch" : "signup"}
               </Link>
-              {user.isAuthenticated ? (
-                userData.userType === "student" ? (
+              {user?.isAuthenticated ? (
+                userData?.userType === "student" ? (
                   <span className="btn" onClick={() => logOut()}>
                     logout
                   </span>
-                ) : userData.userType === "agent" ? (
+                ) : userData?.userType === "agent" ? (
                   <Link href="/upload" className="sign-up-btn btn">
                     upload
                   </Link>
@@ -146,7 +146,7 @@ export default function Header() {
         </div>
         <ul>
           {userData ? (
-            userData.id === "PlcpjfOsQ5NYUBgqC3DMMVj2kRj2" ? (
+            userData?.id === "PlcpjfOsQ5NYUBgqC3DMMVj2kRj2" ? (
               <li>
                 <Link
                   href="/adminchatroom"
@@ -170,11 +170,11 @@ export default function Header() {
           </li>
           <li>
             <Link
-              href={user.isAuthenticated ? "/dashboard" : "/"}
+              href={user?.isAuthenticated ? "/dashboard" : "/"}
               onClick={() => {
                 setNavMenu(false);
               }}>
-              {user.isAuthenticated ? "dashboard" : "home"}
+              {user?.isAuthenticated ? "dashboard" : "home"}
             </Link>
           </li>
           <li>
@@ -199,7 +199,7 @@ export default function Header() {
           {userData ? (
             <li>
               <Link
-                href={`/chat/${userData.id}/${userData.name}`}
+                href={`/chat/${userData?.id}/${userData?.name}`}
                 onClick={() => {
                   setNavMenu(false);
                 }}>
@@ -271,7 +271,7 @@ export default function Header() {
         <div className="logout">
           <span>
             ©️ copyright 2024 Kampusabode. All right reserved.{" "}
-            {user.isAuthenticated ? (
+            {user?.isAuthenticated ? (
               <span
                 onClick={() => {
                   logOut();

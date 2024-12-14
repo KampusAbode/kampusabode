@@ -6,7 +6,7 @@ import Link from "next/link";
 import "./messages.css";
 
 const Messages = () => {
-  const user = useSelector((state: RootState) => state.user.isAuthenticated);
+  const user = useSelector((state: RootState) => state.user?.isAuthenticated);
 
   return (
     <section className="messages-page">

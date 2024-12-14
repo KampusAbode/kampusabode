@@ -16,19 +16,19 @@ const SavedPage = () => {
   const [savedProperties, setsavedProperties] = useState([]);
   const userData = useSelector((state: RootState) => state.userdata);
   const isAuthenticated = useSelector(
-    (state: RootState) => state.user.isAuthenticated
+    (state: RootState) => state.user?.isAuthenticated
   );
 
-  (async () => {
-    if (isAuthenticated && userData.userType === "student") {
-      const savedsavedProperties = userData?.userInfo.savedProperties;
+  async () => {
+    if (isAuthenticated && userData.userType === "student" && 'savedProperties' in userData.userInfo) {
+      const savedsavedProperties = userData.userInfo.savedProperties;
       const updatedsavedProperties = [...savedsavedProperties];
       const fetchedProperties: PropertyType[] = await getProperties();
       setProperties(fetchedProperties);
 
       setsavedProperties(updatedsavedProperties);
     }
-  })
+  };
 
   function savedTab(tab: string) {
     if (tab === "trends") {

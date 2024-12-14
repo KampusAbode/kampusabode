@@ -2,7 +2,7 @@
 import React from "react";
 import StudentDashboard from "../components/userdashboard/StudentDashboard";
 import AgentDashboard from "../components/userdashboard/AgentDashboard";
-import { AgentType, StudentType } from "../fetch/types";
+import { UserType } from "../fetch/types";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import Image from "next/image";
@@ -11,7 +11,7 @@ import "./dashboard.css";
 const Dashboard = () => {
   const userData = useSelector((state: RootState) => state.userdata);
   const isAuthenticated = useSelector(
-    (state: RootState) => state.user.isAuthenticated
+    (state: RootState) => state.user?.isAuthenticated
   );
 
   if (!isAuthenticated) {
@@ -35,7 +35,6 @@ const Dashboard = () => {
   return (
     <section className="dashboard">
       <div className="container">
-
         <div className="welcome">
           <Image
             src={"/assets/person3.jpg"}
@@ -47,9 +46,9 @@ const Dashboard = () => {
         </div>
 
         {userRole === "student" ? (
-          <StudentDashboard user={userData as StudentType} />
+          <StudentDashboard user={userData as UserType} />
         ) : userRole === "agent" ? (
-          <AgentDashboard user={userData as AgentType} />
+          <AgentDashboard user={userData as UserType} />
         ) : (
           <div>Unknown user role</div>
         )}

@@ -2,26 +2,28 @@
 
 import { useState, useEffect } from "react";
 import { getProperties } from "../../utils/api";
-import { AgentType, PropertyType } from "../../fetch/types";
+import { UserType, PropertyType } from "../../fetch/types";
 import Link from "next/link";
 
-const ListedProperties = ({ user }: { user: AgentType }) => {
+const ListedProperties = ({ user }: { user: UserType }) => {
   const [filteredProperties, setFilteredProperties] = useState<PropertyType[]>(
     []
   );
 
   useEffect(() => {
     const fetchProperties = async () => {
-      const { propertiesListed } = user.userInfo;
+      if ('propertiesListed' in user.userInfo) {
+        const propertiesListed = user.userInfo.propertiesListed || [];
 
-      const fetchedProperties: PropertyType[] = await getProperties();
-      const filtered = fetchedProperties.filter((property) =>
-        propertiesListed.some(
-          (listedProperty) => listedProperty.id === property.id.toString()
-        )
-      );
+        const fetchedProperties: PropertyType[] = await getProperties();
+        const filtered = fetchedProperties.filter((property) =>
+          propertiesListed.some(
+            (listedProperty) => listedProperty.id === property.id.toString()
+          )
+        );
 
-      setFilteredProperties(filtered);
+        setFilteredProperties(filtered);
+      }
     };
 
     fetchProperties();

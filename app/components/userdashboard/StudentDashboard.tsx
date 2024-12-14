@@ -3,13 +3,13 @@
 import BookmarkedProperties from "./BookmarkedProperties";
 import RecentReviews from "./RecentReviews";
 import ViewedProperties from "./ViewedProperties"
-import { StudentType } from "../../fetch/types";
+import { UserType } from "../../fetch/types";
 // import AvailableProperties from "./AvailableProperties";
 // import Notifications from "./Notifications";
 
 
 type StudentDashboardProps = {
-  user: StudentType,
+  user: UserType,
 };
 
 const StudentDashboard = ({ user }: StudentDashboardProps) => {

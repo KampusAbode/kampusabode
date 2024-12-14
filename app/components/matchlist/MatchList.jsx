@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 export default function MatchList({ userId }) {
   const [matches, setMatches] = useState([]);
@@ -12,7 +12,7 @@ export default function MatchList({ userId }) {
         const data = await response.json();
         setMatches(data);
       } catch (error) {
-        console.error('Error fetching matches:', error);
+        console.error("Error fetching matches:", error);
       } finally {
         setLoading(false);
       }
@@ -29,20 +29,20 @@ export default function MatchList({ userId }) {
       <h2>Top Matches</h2>
       <ul>
         {matches.map((match) => (
-          <li key={match.user.id}>
-            <h3>{match.user.name}</h3>
+          <li key={match.user?.id}>
+            <h3>{match.user?.name}</h3>
             <p>Compatibility Score: {match.score}</p>
-            <p>Cleanliness: {match.user.cleanliness}</p>
-            <p>Noise Tolerance: {match.user.noiseTolerance}</p>
-            <p>Bedtime: {match.user.bedtime}</p>
-            <p>Social Preference: {match.user.socialPreference}</p>
+            <p>Cleanliness: {match.user?.cleanliness}</p>
+            <p>Noise Tolerance: {match.user?.noiseTolerance}</p>
+            <p>Bedtime: {match.user?.bedtime}</p>
+            <p>Social Preference: {match.user?.socialPreference}</p>
             <p>
-              Budget Range: ₦{match.user.budgetRange.min} - ₦
-              {match.user.budgetRange.max}
+              Budget Range: ₦{match.user?.budgetRange.min} - ₦
+              {match.user?.budgetRange.max}
             </p>
-            <p>Smoking: {match.user.smoking ? "Yes" : "No"}</p>
-            <p>Drinking: {match.user.drinking ? "Yes" : "No"}</p>
-            <p>Shared Interests: {match.user.interests.join(", ")}</p>
+            <p>Smoking: {match.user?.smoking ? "Yes" : "No"}</p>
+            <p>Drinking: {match.user?.drinking ? "Yes" : "No"}</p>
+            <p>Shared Interests: {match.user?.interests.join(", ")}</p>
           </li>
         ))}
       </ul>

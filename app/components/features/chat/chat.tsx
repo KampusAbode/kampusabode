@@ -7,7 +7,6 @@ import { RootState } from "../../../redux/store";
 import toast from "react-hot-toast";
 import { isToday, isYesterday, format } from "date-fns";
 import {
-  getMessagesForConversation,
   sendMessage,
   listenToMessagesForConversation,
 } from "../../../utils/api";
@@ -37,7 +36,7 @@ const ChatComponent: React.FC<ChatProps> = ({
   // Fetch messages
   useEffect(() => {
     // Set up the listener
-    const userId = user.id === currentUserId ? currentUserId : receiverId;
+    const userId = user?.id === currentUserId ? currentUserId : receiverId;
     const unsubscribe = listenToMessagesForConversation(
       userId,
       (fetchedMessages) => {
@@ -63,6 +62,7 @@ const ChatComponent: React.FC<ChatProps> = ({
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
 
   // Handle message send
   const handleSendMessage = async () => {

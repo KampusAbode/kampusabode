@@ -6,10 +6,10 @@ import StudentReviews from "./StudentReviews";
 import AddNewProperty from "./AddNewProperty";
 // import Notifications from "./Notifications";
 // import PerformanceMetrics from "./PerformanceMetrics";
-import { AgentType } from "../../fetch/types";
+import { UserType } from "../../fetch/types";
 
 type AgentDashboardProps = {
-  user: AgentType;
+  user: UserType;
 };
 
 const AgentDashboard = ({ user }: AgentDashboardProps) => {
