@@ -67,10 +67,11 @@
     }
 
     .chat-input {
+      max-width: 900px;
       position: fixed;
       bottom: var(--spacing);
-      right: var(--spacing);
-      left: var(--spacing);
+     left: 50%;
+      transform: translateX(-50%);
       width: 100%;
       display: flex;
       justify-content: space-between;
@@ -90,6 +91,17 @@
       }
       button {
         padding: var(--spacing);
+      }
+    }
+  }
+}
+
+
+@media screen and (min-width: 786px) {
+  .chat-page{
+    .container{
+      .chat-display{
+
       }
     }
   }
