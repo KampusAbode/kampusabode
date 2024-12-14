@@ -18,6 +18,7 @@ import {
   addDoc,
   onSnapshot,
   serverTimestamp,
+  deleteDoc,
 } from "firebase/firestore";
 
 import CryptoJS from "crypto-js";
@@ -382,11 +383,8 @@ export const sendMessage = async (
 };
 
 export const deleteMessageFromFirebase = async (messageId) => {
- const messagesRef = collection(
-    db,
-    `conversations/${conversationId}`
-  );
-  await messageRef.delete();
+ const messageRef = doc(db, `conversations/${messageId}`);
+  await deleteDoc(messageRef);
 };
 
 
