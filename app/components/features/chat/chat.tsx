@@ -90,6 +90,13 @@ const ChatComponent: React.FC<ChatProps> = ({
     }
   };
 
+  // Handle "Enter" key press to send the message
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSendMessage();
+    }
+  };
+
   const formatTimestamp = (timestamp: Date) => {
     const now = new Date();
     const diffInMinutes = Math.floor(
@@ -163,13 +170,14 @@ const ChatComponent: React.FC<ChatProps> = ({
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="Type your message..."
             ref={inputRef}
           />
           <button
             onClick={handleSendMessage}
             disabled={isLoading || message.trim() === ""}>
-            {isLoading ? "Sending..." : "Send"}
+            {isLoading ? "Sending" : "Send"}
           </button>
         </div>
       </div>
@@ -179,13 +187,14 @@ const ChatComponent: React.FC<ChatProps> = ({
           <div className="dialog-box">
             <p>Are you sure you want to delete this message?</p>
             <div className="btn-group">
-              <button onClick={confirmDeleteMessage}>Yes</button>
+              <button className="confirm" onClick={confirmDeleteMessage}>confirm</button>
               <button
+                className="cancel"
                 onClick={() => {
                   setShowDeleteDialog(false);
                   setLongPressedMessage(null);
                 }}>
-                No
+                cancel
               </button>
             </div>
           </div>

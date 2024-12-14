@@ -23,24 +23,30 @@
   flex-direction: column;
   gap: var(--spacing-2x);
   max-width: 400px;
-  width: 100%;
+  width: 80%;
 }
 .chat-page .delete-dialog .dialog-box p {
+  text-align: center;
   font-size: var(--font-size-sm);
-  color: var(--font-color-p);
+  color: var(--font-color-h);
 }
 .chat-page .delete-dialog .dialog-box .btn-group {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   gap: var(--spacing-2x);
 }
 .chat-page .delete-dialog .dialog-box .btn-group button {
   padding: var(--spacing);
   border: none;
   border-radius: var(--border-radius);
-  background-color: var(--primary-color);
-  color: var(--font-color-p);
+  color: var(--font-color-h);
   cursor: pointer;
+}
+.chat-page .delete-dialog .dialog-box .btn-group button.confirm {
+  background-color: var(--primary-color);
+}
+.chat-page .delete-dialog .dialog-box .btn-group button.cancel {
+  border: var(--border);
 }
 .chat-page .container {
   max-width: 900px;
