@@ -73,10 +73,10 @@
 
       .message-box {
         padding: var(--spacing-h);
+        border: var(--border);
         margin-bottom: var(--spacing-2x);
         border-radius: var(--border-radius);
         border-top-left-radius: 0;
-        border: var(--border);
         width: fit-content;
         max-width: 70%;
 
@@ -86,8 +86,10 @@
           align-items: center;
           gap: var(--spacing-2x);
           padding: var(--spacing-h) var(--spacing);
+          border-left: var(--border);
           border-radius: var(--border-radius);
           background-color: var(--light-gray);
+          border-top-left-radius: 0;
 
           span {
             color: var(--font-color-p);
@@ -107,9 +109,11 @@
           color: var(--font-color-light);
           border-radius: var(--border-radius);
           border-top-right-radius: 0;
-          border-color: var(--primary-color);
-
+          
           .message-detail {
+            border-left: none;
+            border-right: var(--border);
+            border-color: var(--primary-color);
             border-top-right-radius: 0;
           }
         }

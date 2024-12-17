@@ -25,6 +25,7 @@ export const marketplaceItems: MarketplaceItem[] = [
       whatsappNumber: "2347012345678",
     },
     category: "Furniture",
+      
   },
   {
     id: 2,
@@ -38,6 +39,7 @@ export const marketplaceItems: MarketplaceItem[] = [
       whatsappNumber: "2347087654321",
     },
     category: "Electronics",
+      
   },
   {
     id: 3,
@@ -51,6 +53,7 @@ export const marketplaceItems: MarketplaceItem[] = [
       whatsappNumber: "2347012349876",
     },
     category: "Electronics",
+      
   },
   {
     id: 4,
@@ -64,6 +67,7 @@ export const marketplaceItems: MarketplaceItem[] = [
       whatsappNumber: "2348098765432",
     },
     category: "Furniture",
+      
   },
   {
     id: 5,
@@ -77,5 +81,6 @@ export const marketplaceItems: MarketplaceItem[] = [
       whatsappNumber: "2347065432109",
     },
     category: "Electronics",
+      
   },
 ];

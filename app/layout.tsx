@@ -7,7 +7,7 @@ import WelcomeMessage from "./components/welcome/WelcomeMessage";
 import Navigator from "./components/navigation/Navigation";
 import { ReduxProvider } from "./redux/provider";
 import Footer from "./components/footer/Footer";
-import UseIsUser from "./components/useIsUser";
+import UseIsUser from "./hooks/useIsUser";
 
 // Default metadata
 export const metadata: Metadata = {

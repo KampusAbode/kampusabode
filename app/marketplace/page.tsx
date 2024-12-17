@@ -1,18 +1,28 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import ItemCard from "../components/cards/itemCard/ItemCard";
-import { marketplaceItems } from "../fetch/data/marketplaceItems";
+import { allMarketplaceItems } from "../utils/api";
 import "./marketplace.css";
+// import toast from "react-hot-toast";
 
 function MarketPlace() {
+  const [martketItems, setMarketItems] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = allMarketplaceItems((fetchedMarketItems) => {
+      setMarketItems(fetchedMarketItems);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
     <section className="marketplace">
       <div className="container">
-
         <div className="items">
-          {marketplaceItems[0] ? (
-            marketplaceItems.map((item) => (
-              <ItemCard key={item.id} item={item} />
-            ))
+          {martketItems[0] ? (
+            martketItems.map((item) => <ItemCard key={item.id} item={item} />)
           ) : (
             <p style={{ textAlign: "center" }}>No item available</p>
           )}

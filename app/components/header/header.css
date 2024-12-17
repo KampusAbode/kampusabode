@@ -142,7 +142,7 @@ header .container .menu {
     gap: var(--spacing);
   }
   .nav-menu .logout {
-    line-height: var(--line-height-xs);
+    line-height: var(--line-height-sm);
   }
   .nav-menu .logout span a,
   .nav-menu .logout span span {

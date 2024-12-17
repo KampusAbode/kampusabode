@@ -19,11 +19,11 @@ import {
   onSnapshot,
   serverTimestamp,
   deleteDoc,
+  orderBy,
 } from "firebase/firestore";
 
 import CryptoJS from "crypto-js";
 import { PropertyType } from "../fetch/types";
-import { decodeBase64 } from "bcryptjs";
 
 // TypeScript type for user input (based on your example)
 interface UserSignupInput {
@@ -139,41 +139,25 @@ export const loginUser = async (userData: UserLoginInput) => {
     const userDataFromDB = userRef.docs[0].data();
 
     // Sign in with email and password using Firebase Auth
-    const userCredential = await signInWithEmailAndPassword(
+    await signInWithEmailAndPassword(
       auth,
       email,
       password
     );
-    const user = userCredential.user;
 
-    const token = await user.getIdToken();
-
-    const userAuth = {
-      id: user.uid,
-      email: user.email,
-      username: userDataFromDB.username,
-      userType: userDataFromDB.userType,
-      isAuthenticated: true, // User logged in
-    };
-
-    const userStore = {
-      token: token,
-      userAuth: userAuth,
-      userFromDB: userDataFromDB,
-    };
+  
 
     // Convert userStore object to JSON string before encrypting
     const encryptedData = CryptoJS.AES.encrypt(
-      JSON.stringify(userStore), // Convert to string
+      JSON.stringify(userDataFromDB), // Convert to string
       process.env.NEXT_PUBLIC__SECRET_KEY
     ).toString();
 
     // Store the encrypted data in localStorage
-    localStorage.setItem("AIzaSyDsz5edn22pVbHW", encryptedData);
+    localStorage.setItem(process.env.NEXT_PUBLIC__STORAGE_KEY, encryptedData);
 
-    return { message: "Logged in successfully", user: userAuth };
+    return { message: `You've successfully logged in, ${userDataFromDB.username}` };
   } catch (error) {
-    console.error(error); // Add console error logging to debug
 
     // Check for Firebase Auth error codes
     if (error.code === "auth/invalid-credential") {
@@ -202,35 +186,8 @@ export const logoutUser = async () => {
     // Sign out the user from Firebase Authentication
     await auth.signOut();
 
-    // Get the encrypted user data from localStorage
-    const encryptedUserData = localStorage.getItem("AIzaSyDsz5edn22pVbHW");
-
-    if (encryptedUserData) {
-      // Decrypt the user data
-      const decryptedUserData = CryptoJS.AES.decrypt(
-        encryptedUserData,
-        process.env.NEXT_PUBLIC__SECRET_KEY
-      ).toString(CryptoJS.enc.Utf8);
-
-      const userData = {
-        ...JSON.parse(decryptedUserData),
-        userAuth: {
-          username: "",
-          email: "",
-          userType: "",
-          isAuthenticated: false, // User logged out
-        },
-      };
-
-      // Encrypt the updated user data and store it back in localStorage
-      const encryptedData = CryptoJS.AES.encrypt(
-        JSON.stringify(userData),
-        process.env.NEXT_PUBLIC__SECRET_KEY
-      ).toString();
-
-      localStorage.setItem("hasSeenWelcome", JSON.stringify(false));
-      localStorage.setItem("AIzaSyDsz5edn22pVbHW", encryptedData);
-    }
+    localStorage.setItem("hasSeenWelcome", JSON.stringify(false));
+    localStorage.removeItem(process.env.NEXT_PUBLIC__STORAGE_KEY);
 
     return { message: "Successfully logged out" };
   } catch (error) {
@@ -335,7 +292,7 @@ type Sender = {
 export const sendMessage = async (
   sender: Sender,
   receiverId: string,
-  messageContent: string,
+  messageContent: string
 ) => {
   try {
     const { senderId, userName, role } = sender;
@@ -351,7 +308,6 @@ export const sendMessage = async (
       status: "sent",
     };
 
- 
     if (role === "admin") {
       // Add message to messages sub-collection
       const messagesRef = collection(
@@ -382,14 +338,12 @@ export const sendMessage = async (
   }
 };
 
-export const deleteMessageFromFirebase = async (userId,messageId) => {
- const messageRef = doc(db, `conversations/${userId}/messages/${messageId}`);
+export const deleteMessageFromFirebase = async (userId, messageId) => {
+  const messageRef = doc(db, `conversations/${userId}/messages/${messageId}`);
   await deleteDoc(messageRef);
 };
 
-
 export const getAllConversations = (callback) => {
-
   const conversationsRef = collection(db, "conversations");
 
   // Real-time listener
@@ -404,16 +358,6 @@ export const getAllConversations = (callback) => {
   // Return the unsubscribe function to clean up the listener when no longer needed
   return unsubscribe;
 };
-
-// export const getMessagesForConversation = async (conversationId) => {
-//   const messagesRef = collection(
-//     db,
-//     `conversations/${conversationId}/messages`
-//   );
-//   const snapshot = await getDocs(messagesRef);
-//   const messages = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-//   return messages;
-// };
 
 export const listenToMessagesForConversation = (conversationId, callback) => {
   const messagesRef = collection(
@@ -432,6 +376,49 @@ export const listenToMessagesForConversation = (conversationId, callback) => {
 
   // Return the unsubscribe function to clean up the listener when no longer needed
   return unsubscribe;
+};
+
+export const allMarketplaceItems = (callback) => {
+  const itemsRef = query(
+    collection(db, "Marketitems"),
+    orderBy("timestamp", "asc")
+  );
+  // Real-time listener
+  const unsubscribe = onSnapshot(itemsRef, (snapshot) => {
+    const items = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    callback(items);
+  });
+
+  // Return the unsubscribe function to clean up the listener when no longer needed
+  return unsubscribe;
+};
+
+export const updateAllMartketplaceItems = async (items) => {
+  const itemsRef = collection(db, "Marketitems");
+
+  try {
+    items.map(async (item) => {
+      await addDoc(itemsRef, {
+        name: item.name,
+        description: item.description,
+        price: item.price,
+        condition: item.condition,
+        imageUrl: item.imageUrl,
+        sellerContact: {
+          name: item.sellerContact.name,
+          whatsappNumber: item.sellerContact.whatsappNumber,
+        },
+        category: item.category,
+        timestamp: new Date(),
+      });
+    });
+    return { status: "success", message: "All Items added successfully" };
+  } catch (error) {
+    return { status: "error", message: "Error uploading marketplace items" };
+  }
 };
 
 // Sample user data structure

@@ -1,47 +1,29 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../lib/firebaseConfig";
+import { useDispatch } from "react-redux";
 import { setUser } from "../redux/stateSlice/userSlice";
-import { RootState } from "../redux/store";
-import { useRouter, usePathname } from "next/navigation";
-import { setUserData } from "../redux/stateSlice/userdataSlice";
-import CryptoJS from "crypto-js";
 
-const UseIsUser = ({ children }: { children: React.ReactNode }) => {
+const UseIsUser = () => {
+  const [userLogged, loading, error] = useAuthState(auth);
   const dispatch = useDispatch();
-  const router = useRouter();
-  const pathname = usePathname();
-  const [isInitialized, setIsInitialized] = useState(false);
-  // const userData = useSelector((state: RootState) => state.userdata);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const secretKey = process.env.NEXT_PUBLIC__SECRET_KEY;
-    if (!secretKey) {
-      console.error("Missing encryption key");
-      return;
-    }
-
-    const encryptedUserData = localStorage.getItem("AIzaSyDsz5edn22pVbHW");
-
-    if (encryptedUserData) {
-      try {
-        const decryptedUserData = CryptoJS.AES.decrypt(
-          encryptedUserData,
-          secretKey
-        ).toString(CryptoJS.enc.Utf8);
-
-        const userData = JSON.parse(decryptedUserData);
-        if (userData) {
-          dispatch(setUser(userData.userAuth));
-          dispatch(setUserData(userData.userFromDB));
-        }
-      } catch (error) {
-        console.error("Failed to decrypt or parse user data", error);
-      }
+    if (userLogged) {
+      // Update user state when logged in
+      dispatch(
+        setUser({
+          id: userLogged.uid,
+          username: userLogged.displayName || "",
+          email: userLogged.email || "",
+          userType: "student", // Add logic to fetch userType from Firestore if needed
+          isAuthenticated: true,
+        })
+      );
     } else {
+      // Reset user state when logged out
       dispatch(
         setUser({
           id: "",
@@ -51,46 +33,10 @@ const UseIsUser = ({ children }: { children: React.ReactNode }) => {
           isAuthenticated: false,
         })
       );
-      dispatch(
-        setUserData({
-          id: "",
-          name: "",
-          email: "",
-          userType: "",
-          userInfo: {
-            bio: "",
-            avatar: "",
-            university: "",
-            department: "",
-            yearOfStudy: 0,
-            savedProperties: [],
-            wishlist: [],
-            phoneNumber: "",
-          },
-        })
-      );
     }
-    setIsInitialized(true);
-  }, []);
+  }, [userLogged, dispatch]);
 
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.user.isAuthenticated
-  );
-  console.log(isAuthenticated)
-
-  useEffect(() => {
-    if (isInitialized && isAuthenticated) {
-      if (["/auth/login", "/auth/signup", "/"].includes(pathname)) {
-        router.push("/properties");
-      }
-    }
-  }, [isInitialized, isAuthenticated, pathname, router]);
-
-  if (!isInitialized) {
-    return null;
-  }
-
-  return children;
+  return { user: userLogged, loading, error };
 };
 
 export default UseIsUser;
