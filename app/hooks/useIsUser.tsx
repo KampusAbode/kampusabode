@@ -62,7 +62,7 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
     dispatch(
       setUser({
         id: userId,
-        username: userData.username,
+        username: userData.name,
         email: userData.email,
         userType: userData.userType || "student",
         isAuthenticated: true,
@@ -71,7 +71,7 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
     dispatch(
       setUserData({
         id: userId,
-        name: userData.username,
+        name: userData.name,
         email: userData.email,
         userType: userData.userType || "student",
         userInfo: userData.userInfo || {},
@@ -120,7 +120,7 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
     if (loading) return;
 
     if (pathname === "/") {
-      router.push(isAuthenticated ? "/properties" : "/auth/signup");
+      router.push(isAuthenticated && "/properties");
     } else if (pathname === "/auth/login" && !isAuthenticated) {
       router.push("/auth/login");
     }

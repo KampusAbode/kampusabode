@@ -81,7 +81,7 @@
   padding: var(--spacing-h) var(--spacing);
   border-left: var(--border);
   border-radius: var(--border-radius);
-  background-color: var(--light-gray);
+  background-color: var(--gray);
   border-top-left-radius: 0;
 }
 .chat-page .container .chat-display .message-box .message-detail span {
@@ -106,6 +106,7 @@
   border-left: none;
   border-right: var(--border);
   border-color: var(--primary-color);
+  border-radius: var(--border-radius);
   border-top-right-radius: 0;
 }
 .chat-page .container .chat-input {
