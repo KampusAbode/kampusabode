@@ -105,7 +105,10 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                   <p>{(agentDetails?.userInfo as AgentUserInfo)?.agencyName}</p>
                   <span>
                     properties:{" "}
-                    {(agentDetails?.userInfo as AgentUserInfo)?.propertiesListed?.length}
+                    {
+                      (agentDetails?.userInfo as AgentUserInfo)
+                        ?.propertiesListed?.length
+                    }
                   </span>
                 </div>
                 <div className="agent-stats">
@@ -181,7 +184,9 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                   )}
                 </p>
               ) : (
-                <p>{user?.userType}</p>
+                <p>
+                  {user?.userType} {user?.name}
+                </p>
               )}
 
               {/* <p>
