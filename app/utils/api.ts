@@ -260,7 +260,7 @@ export const addProperty = async (property: PropertyType): Promise<void> => {
     // Add the new property to the properties collection with the unique ID
     await addDoc(propertiesCollection, {
       id: uid,
-      url: `/property/${uid}`,
+      url: `/properties/${uid}`,
       agentId: property.agentId,
       title: property.title,
       description: property.description,

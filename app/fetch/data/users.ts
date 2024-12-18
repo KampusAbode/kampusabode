@@ -123,7 +123,11 @@ export const users: UserType[] = [
       propertiesListed: [
         {
           id: "b144908f-e220-49c7-9e2e-eb45d77addaf",
-          available: false,
+          available: true,
+        },
+        {
+          id: "bQHHp7RzA3vueUXyN7rS",
+          available: true,
         },
       ],
     },
