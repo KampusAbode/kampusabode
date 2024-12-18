@@ -140,7 +140,6 @@ header {
         width: 34px;
         height: 34px;
         border-radius: 50%;
-        background-color: var(--light-gray);
         display: grid;
         place-content: center;
 
@@ -148,9 +147,9 @@ header {
           width: 24px;
           height: 24px;
         }
-
+        
         &:hover {
-          background-color: var(--gray);
+          background-color: var(--light-gray);
         }
       }
     }

@@ -120,7 +120,6 @@ header .container .menu {
     width: 34px;
     height: 34px;
     border-radius: 50%;
-    background-color: var(--light-gray);
     display: grid;
     place-content: center;
   }
@@ -129,7 +128,7 @@ header .container .menu {
     height: 24px;
   }
   .nav-menu .close span:hover {
-    background-color: var(--gray);
+    background-color: var(--light-gray);
   }
   .nav-menu hr {
     margin-block: var(--spacing-2x);
