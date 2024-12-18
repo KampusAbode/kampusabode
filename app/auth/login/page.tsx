@@ -58,7 +58,7 @@ const LoginPage = () => {
       if (response.message === "Email not found") {
         toast.error(response.message);
       } else {
-        toast.success(`${response.message} 👌`);
+        toast.success(`${response.message} 👋`);
       }
 
       router.push("/properties");
