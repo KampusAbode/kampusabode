@@ -145,7 +145,7 @@ export default function Header() {
         </div>
         <ul>
           {user?.isAuthenticated ? (
-            user?.id === "PlcpjfOsQ5NYUBgqC3DMMVj2kRj2" ? (
+            user?.id === "PlcpjfOsQ5NYUBgqC3DMMVj2kRj2" || "P9IfqO0q3ZXTCOVS77ytSd8k8Oo2" ? (
               <li>
                 <Link
                   href="/adminchatroom"
