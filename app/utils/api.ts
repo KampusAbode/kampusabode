@@ -156,7 +156,7 @@ export const loginUser = async (userData: UserLoginInput) => {
     // Store the encrypted data in localStorage
     localStorage.setItem(process.env.NEXT_PUBLIC__STORAGE_KEY, encryptedData);
 
-    return { message: `You've successfully logged in, ${userDataFromDB.username}` };
+    return { message: `Welcome abode! ${userDataFromDB.name}` };
   } catch (error) {
 
     // Check for Firebase Auth error codes
