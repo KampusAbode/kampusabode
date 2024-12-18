@@ -141,12 +141,15 @@ export default function Header() {
 
       <div className={`nav-menu ${navMenu ? "open" : ""}`}>
         <div className="close" onClick={() => setNavMenu(false)}>
-          <FaTimes />
+          <span>
+            <FaTimes />
+          </span>
         </div>
         <ul>
           {user?.isAuthenticated ? (
-            user?.id === "PlcpjfOsQ5NYUBgqC3DMMVj2kRj2" || "P9IfqO0q3ZXTCOVS77ytSd8k8Oo2" ? (
-              <li>
+            user?.id === "PlcpjfOsQ5NYUBgqC3DMMVj2kRj2" ||
+            "P9IfqO0q3ZXTCOVS77ytSd8k8Oo2" ? (
+              <li className={pathname === "/adminchatroom" && "active"}>
                 <Link
                   href="/adminchatroom"
                   onClick={() => {
@@ -158,7 +161,7 @@ export default function Header() {
             ) : null
           ) : null}
 
-          <li>
+          <li className={pathname === "/properties" && "active"}>
             <Link
               href={"/properties"}
               onClick={() => {
@@ -167,7 +170,10 @@ export default function Header() {
               properties
             </Link>
           </li>
-          <li>
+          <li
+            className={`${
+              pathname === "/dashboard" || pathname === "/" ? "active" : ""
+            }`}>
             <Link
               href={user?.isAuthenticated ? "/dashboard" : "/"}
               onClick={() => {
@@ -176,7 +182,7 @@ export default function Header() {
               {user?.isAuthenticated ? "dashboard" : "home"}
             </Link>
           </li>
-          <li>
+          <li className={pathname === "/profile" && "active"}>
             <Link
               href={"/profile"}
               onClick={() => {
@@ -186,7 +192,7 @@ export default function Header() {
             </Link>
           </li>
 
-          <li>
+          <li className={pathname === "/about" && "active"}>
             <Link
               href={"/about"}
               onClick={() => {
@@ -196,7 +202,10 @@ export default function Header() {
             </Link>
           </li>
           {user?.isAuthenticated ? (
-            <li>
+            <li
+              className={
+                pathname === `/chat/${user?.id}/${user?.username}` && "active"
+              }>
               <Link
                 href={`/chat/${user?.id}/${user?.username}`}
                 onClick={() => {
@@ -206,7 +215,7 @@ export default function Header() {
               </Link>
             </li>
           ) : null}
-          <li>
+          <li className={pathname === "/legal/faqs" && "active"}>
             <Link
               href={"/legal/faqs"}
               onClick={() => {
@@ -215,7 +224,7 @@ export default function Header() {
               FAQs
             </Link>
           </li>
-          <li>
+          <li className={pathname === "/contact" && "active"}>
             <Link
               href={"/contact"}
               onClick={() => {
@@ -227,7 +236,7 @@ export default function Header() {
         </ul>
 
         <ul>
-          <li>
+          <li className={pathname === "/legal/policies" && "active"}>
             <Link
               href={"/legal/policies"}
               onClick={() => {
@@ -236,7 +245,7 @@ export default function Header() {
               policies
             </Link>
           </li>
-          <li>
+          <li className={pathname === "/legal/termsandconditions" && "active"}>
             <Link
               href={"/legal/termsandconditions"}
               onClick={() => {
@@ -245,7 +254,7 @@ export default function Header() {
               terms
             </Link>
           </li>
-          <li>
+          <li className={pathname === "/legal/disclaimer" && "active"}>
             <Link
               href={"/legal/disclaimer"}
               onClick={() => {
@@ -254,7 +263,7 @@ export default function Header() {
               disclaimer
             </Link>
           </li>
-          <li>
+          <li className={pathname === "/legal/useragreement" && "active"}>
             <Link
               href={"/legal/useragreement"}
               onClick={() => {

@@ -98,6 +98,7 @@ header .container .menu {
     right: -100%;
     top: 0;
     padding: var(--spacing);
+    padding-top: var(--spacing-2x);
     opacity: 0;
     transition: var(--transition);
     box-shadow: var(--shadow);
@@ -112,12 +113,21 @@ header .container .menu {
     position: relative;
     cursor: pointer;
   }
-  .nav-menu .close svg {
-    width: 24px;
-    height: 24px;
+  .nav-menu .close span {
     position: absolute;
     right: 0;
     top: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--light-gray);
+  }
+  .nav-menu .close span svg {
+    width: 24px;
+    height: 24px;
+  }
+  .nav-menu .close span:hover {
+    background-color: var(--gray);
   }
   .nav-menu hr {
     margin-block: var(--spacing-2x);
@@ -129,7 +139,7 @@ header .container .menu {
     color: var(--font-color-h);
     padding: var(--spacing);
   }
-  .nav-menu ul li:hover {
+  .nav-menu ul li:hover, .nav-menu ul li.active {
     background: var(--light-gray);
     border-radius: var(--border-radius);
   }

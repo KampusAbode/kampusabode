@@ -40,7 +40,7 @@ const LoginPage = () => {
       formErrors.password = "Password must be at least 8 characters";
       valid = false;
     }
-
+    
     setErrors(formErrors);
     return valid;
   };
