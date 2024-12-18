@@ -4,7 +4,7 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { loginUser } from "../../utils/api";
 
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import "../auth.css";
 import Image from "next/image";
@@ -19,7 +19,7 @@ const LoginPage = () => {
   const [errors, setErrors] = useState({ email: "", password: "" });
 
 
-  // const router = useRouter();
+  const router = useRouter();
 
   const validateForm = () => {
     let formErrors = { email: "", password: "" };
@@ -61,7 +61,7 @@ const LoginPage = () => {
         toast.success(`${response.message} 👌`);
       }
 
-      window.location.reload();
+      router.push("/properties");
     } catch (error) {
       toast.error(error.message || "An unexpected error occurred.");
     }
