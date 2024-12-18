@@ -117,10 +117,12 @@ header .container .menu {
     position: absolute;
     right: 0;
     top: 0;
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     background-color: var(--light-gray);
+    display: grid;
+    place-content: center;
   }
   .nav-menu .close span svg {
     width: 24px;
@@ -133,11 +135,14 @@ header .container .menu {
     margin-block: var(--spacing-2x);
   }
   .nav-menu ul {
-    padding-top: var(--spacing);
+    padding-top: var(--spacing-2x);
   }
   .nav-menu ul p {
     color: var(--font-color-h);
     padding: var(--spacing);
+  }
+  .nav-menu ul li {
+    margin-bottom: var(--spacing);
   }
   .nav-menu ul li:hover, .nav-menu ul li.active {
     background: var(--light-gray);

@@ -160,16 +160,6 @@ export default function Header() {
               </li>
             ) : null
           ) : null}
-
-          <li className={pathname === "/properties" && "active"}>
-            <Link
-              href={"/properties"}
-              onClick={() => {
-                setNavMenu(false);
-              }}>
-              properties
-            </Link>
-          </li>
           <li
             className={`${
               pathname === "/dashboard" || pathname === "/" ? "active" : ""
@@ -191,14 +181,13 @@ export default function Header() {
               profile
             </Link>
           </li>
-
-          <li className={pathname === "/about" && "active"}>
+          <li className={pathname === "/properties" && "active"}>
             <Link
-              href={"/about"}
+              href={"/properties"}
               onClick={() => {
                 setNavMenu(false);
               }}>
-              about
+              properties
             </Link>
           </li>
           {user?.isAuthenticated ? (
@@ -215,27 +204,7 @@ export default function Header() {
               </Link>
             </li>
           ) : null}
-          <li className={pathname === "/legal/faqs" && "active"}>
-            <Link
-              href={"/legal/faqs"}
-              onClick={() => {
-                setNavMenu(false);
-              }}>
-              FAQs
-            </Link>
-          </li>
-          <li className={pathname === "/contact" && "active"}>
-            <Link
-              href={"/contact"}
-              onClick={() => {
-                setNavMenu(false);
-              }}>
-              contact
-            </Link>
-          </li>
-        </ul>
-
-        <ul>
+    
           <li className={pathname === "/legal/policies" && "active"}>
             <Link
               href={"/legal/policies"}
@@ -254,15 +223,7 @@ export default function Header() {
               terms
             </Link>
           </li>
-          <li className={pathname === "/legal/disclaimer" && "active"}>
-            <Link
-              href={"/legal/disclaimer"}
-              onClick={() => {
-                setNavMenu(false);
-              }}>
-              disclaimer
-            </Link>
-          </li>
+          
           <li className={pathname === "/legal/useragreement" && "active"}>
             <Link
               href={"/legal/useragreement"}

@@ -137,10 +137,12 @@ header {
         position: absolute;
         right: 0;
         top: 0;
-        width: 32px;
-        height: 32px;
+        width: 34px;
+        height: 34px;
         border-radius: 50%;
         background-color: var(--light-gray);
+        display: grid;
+        place-content: center;
 
         svg {
           width: 24px;
@@ -158,12 +160,13 @@ header {
     }
 
     ul {
-      padding-top: var(--spacing);
+      padding-top: var(--spacing-2x);
       p {
         color: var(--font-color-h);
         padding: var(--spacing);
       }
       li {
+        margin-bottom: var(--spacing);
         &:hover,
         &.active {
           background: var(--light-gray);
