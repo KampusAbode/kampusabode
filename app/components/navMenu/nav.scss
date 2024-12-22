@@ -7,18 +7,7 @@
   padding: var(--spacing);
   box-shadow: var(--shadow);
   overflow-y: scroll;
-  z-index: 999;
-
-  &.fadeOut {
-    position: fixed;
-    right: -100%;
-    top: 0;
-    opacity: 0;
-    transition: var(--transition);
-  }
-  &.fadeIn {
-    right: 0;
-  }
+  z-index: 9999;
 
   // &::-webkit-scrollbar {
   //   width: 0;
@@ -30,6 +19,18 @@
 
   @media screen and (min-width: 786px) {
     position: relative;
+
+    &.fadeOut {
+      position: fixed;
+      right: -100%;
+      top: 0;
+      width: 100%;
+      opacity: 0;
+      transition: var(--transition);
+    }
+    &.fadeIn {
+      right: 0;
+    }
   }
 
   .close {
@@ -89,9 +90,9 @@
         align-items: center;
         gap: var(--spacing);
 
-        svg{
+        svg {
           width: 24px;
-        height: 24px;
+          height: 24px;
         }
       }
     }

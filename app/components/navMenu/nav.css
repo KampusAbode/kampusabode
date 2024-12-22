@@ -7,21 +7,22 @@
   padding: var(--spacing);
   box-shadow: var(--shadow);
   overflow-y: scroll;
-  z-index: 999;
-}
-.nav-menu.fadeOut {
-  position: fixed;
-  right: -100%;
-  top: 0;
-  opacity: 0;
-  transition: var(--transition);
-}
-.nav-menu.fadeIn {
-  right: 0;
+  z-index: 9999;
 }
 @media screen and (min-width: 786px) {
   .nav-menu {
     position: relative;
+  }
+  .nav-menu.fadeOut {
+    position: fixed;
+    right: -100%;
+    top: 0;
+    width: 100%;
+    opacity: 0;
+    transition: var(--transition);
+  }
+  .nav-menu.fadeIn {
+    right: 0;
   }
 }
 .nav-menu .close {
