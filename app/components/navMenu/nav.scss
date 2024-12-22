@@ -17,22 +17,6 @@
 
   // }
 
-  @media screen and (min-width: 786px) {
-    position: relative;
-
-    &.fadeOut {
-      position: fixed;
-      right: -100%;
-      top: 0;
-      width: 100%;
-      opacity: 0;
-      transition: var(--transition);
-    }
-    &.fadeIn {
-      right: 0;
-    }
-  }
-
   .close {
     cursor: pointer;
     text-align: right;
@@ -106,6 +90,22 @@
         font-size: inherit;
         text-decoration: underline;
       }
+    }
+  }
+}
+
+@media screen and (max-width: 786px) {
+  .nav-menu {
+    &.fadeOut {
+      position: fixed;
+      right: -100%;
+      top: 0;
+      width: 100%;
+      opacity: 0;
+      transition: var(--transition);
+    }
+    &.fadeIn {
+      right: 0;
     }
   }
 }
