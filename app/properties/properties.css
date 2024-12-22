@@ -80,14 +80,13 @@
 
 .filter {
   background: var(--background-white);
-  border-radius: var(--border-radius);
   width: -moz-fit-content;
   width: fit-content;
   max-width: 90%;
   margin: var(--spacing) auto;
   padding-block: var(--spacing-2x);
   position: sticky;
-  top: 80px;
+  top: 50px;
   z-index: 999;
 }
 .filter .container {
