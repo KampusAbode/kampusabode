@@ -19,6 +19,11 @@
 .nav-menu.fadeIn {
   right: 0;
 }
+@media screen and (min-width: 786px) {
+  .nav-menu {
+    position: relative;
+  }
+}
 .nav-menu .close {
   cursor: pointer;
   text-align: right;
@@ -30,6 +35,7 @@
   border-radius: 50%;
   display: grid;
   place-content: center;
+  float: right;
 }
 .nav-menu .close span svg {
   width: 24px;
@@ -66,9 +72,10 @@
   display: flex;
   align-items: center;
   gap: var(--spacing);
-  display: flex;
-  gap: var(--spacing);
-  align-items: center;
+}
+.nav-menu ul li a svg {
+  width: 24px;
+  height: 24px;
 }
 .nav-menu .logout {
   line-height: var(--line-height-sm);
