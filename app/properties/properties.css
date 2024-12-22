@@ -1,25 +1,51 @@
 .banner {
   position: relative;
+  overflow: hidden;
+}
+@media screen and (min-width: 786px) {
+  .banner {
+    overflow: visible;
+  }
 }
 .banner .container {
+  border-radius: var(--border-radius);
   background: var(--primary-color);
   color: var(--white);
   padding: var(--spacing-2x);
 }
 .banner .container span {
   margin-bottom: var(--spacing);
+  color: var(--light-gray);
+}
+.banner .container h2 {
+  color: var(--white);
 }
 .banner .container h2 {
   position: relative;
+  text-transform: capitalize;
 }
 .banner .container h2 svg {
   position: absolute;
   top: 0;
 }
+.banner .dots {
+  width: 109px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 .banner .building {
+  width: 38px;
+  height: 253px;
   position: absolute;
   bottom: 0;
   right: 20%;
+}
+@media screen and (max-width: 786px) {
+  .banner .building {
+    display: none;
+  }
 }
 
 .user-search {

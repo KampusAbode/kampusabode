@@ -1,28 +1,54 @@
-.banner{
+.banner {
   position: relative;
-  .container{
+  overflow: hidden;
+
+  @media screen and (min-width: 786px) {
+    overflow: visible;
+  }
+
+  .container {
+    border-radius: var(--border-radius);
     background: var(--primary-color);
     color: var(--white);
     padding: var(--spacing-2x);
 
-    span{
-    margin-bottom: var(--spacing);
-  }
+    span {
+      margin-bottom: var(--spacing);
+      color: var(--light-gray);
+    }
+    h2 {
+      color: var(--white);
+    }
 
-  h2{
-    position: relative;
+    h2 {
+      position: relative;
+      text-transform: capitalize;
 
-    svg{
-      position: absolute;
-      top: 0;
+      svg {
+        position: absolute;
+        top: 0;
+      }
     }
   }
+
+  .dots {
+    width: 109px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 
-  .building{
+  .building {
+    width: 38px;
+    height: 253px;
     position: absolute;
     bottom: 0;
     right: 20%;
+
+    @media screen and (max-width: 786px) {
+      display: none;
+    }
   }
 }
 
@@ -34,7 +60,7 @@
     max-width: 750px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 8fr .8fr;
+    grid-template-columns: 8fr 0.8fr;
     overflow: hidden;
     box-shadow: var(--shadow);
     input {
@@ -56,8 +82,8 @@
     }
   }
 
-  @media screen and (max-width: 786px){
-    padding-top: var(--spacing)
+  @media screen and (max-width: 786px) {
+    padding-top: var(--spacing);
   }
 }
 
@@ -127,16 +153,15 @@
 @media screen and (max-width: 768px) {
   .user-search {
     padding-top: var(--spacing);
-    .container{
-      
-    grid-template-columns: 8fr 1.5fr;
+    .container {
+      grid-template-columns: 8fr 1.5fr;
 
-     .search-icon {
-      svg {
-        width: 20px;
-        height: 20px;
+      .search-icon {
+        svg {
+          width: 20px;
+          height: 20px;
+        }
       }
-    }
     }
   }
   .filter {
