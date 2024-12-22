@@ -82,7 +82,7 @@ const PropertiesPage: React.FC = () => {
         <div className="container">
           <span>your comfort</span>
           <h2>
-            our prority
+            our priority
             <svg
               width="50"
               height="49"

@@ -1,107 +1,107 @@
 .properties-details-page {
-  .container.image-details{
-  
+  .container.prop-image-details {
     .property-images {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    .display-image {
-      height: 70vh;
-      display: flex;
-      place-items: center;
-      padding-block: var(--spacing);
-      position: relative;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
 
-      img {
-        height: 100%;
-        object-fit: cover;
-        border-radius: var(--border-radius);
-        transition: var(--transition);
-      }
+      .display-image {
+        height: 70vh;
+        display: flex;
+        place-items: center;
+        padding-block: var(--spacing);
+        position: relative;
 
-      .image-pagination {
-        .left,
-        .right {
-          position: absolute;
-          width: 45px;
-          height: 45px;
-          background-color: #fff;
-          transform: translateY(-50%);
-          top: 50%;
-          display: grid;
-          place-items: center;
-          color: var(--font-color-h);
-          border-radius: 100%;
-          cursor: pointer;
-          box-shadow: var(--shadow);
+        img {
+          height: 100%;
+          object-fit: cover;
+          border-radius: var(--border-radius);
           transition: var(--transition);
+        }
 
-          &:hover {
-            transform: translateY(-50%) scale(1.125);
+        .image-pagination {
+          .left,
+          .right {
+            position: absolute;
+            width: 45px;
+            height: 45px;
+            background-color: #fff;
+            transform: translateY(-50%);
+            top: 50%;
+            display: grid;
+            place-items: center;
+            color: var(--font-color-h);
+            border-radius: 100%;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+
+            &:hover {
+              transform: translateY(-50%) scale(1.125);
+            }
+          }
+
+          .left {
+            left: 30px;
+          }
+
+          .right {
+            right: 30px;
           }
         }
 
-        .left {
-          left: 30px;
-        }
-
-        .right {
-          right: 30px;
-        }
-      }
-
-      .image-counter {
-        font-size: var(--font-size-sm);
-        position: absolute;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: #fff;
-        border-radius: var(--border-radius);
-        text-align: center;
-        letter-spacing: 5px;
-        padding-inline: var(--spacing);
-        box-shadow: var(--shadow);
-        user-select: none;
-      }
-
-      .features {
-        position: absolute;
-        top: 35px;
-        right: 35px;
-        display: flex;
-        gap: var(--spacing);
-        align-items: center;
-        border-color: var(--white);
-        box-shadow: var(--shadow);
-        z-index: 2;
-
-        svg {
-          cursor: pointer;
-          width: 25px;
-          height: 25px;
-        }
-      }
-    }
-    .control-image {
-      padding: var(--spacing);
-
-      img {
-        width: 70px;
-        height: 70px;
-        border-radius: var(--border-radius);
-        object-fit: cover;
-        cursor: pointer;
-        opacity: 0.4;
-        transition: var(--transition);
-        margin-right: var(--spacing);
-
-        &.active {
-          opacity: 1;
+        .image-counter {
+          font-size: var(--font-size-sm);
+          position: absolute;
+          bottom: 30px;
+          left: 50%;
+          transform: translateX(-50%);
+          background-color: #fff;
+          border-radius: var(--border-radius);
+          text-align: center;
+          letter-spacing: 5px;
+          padding-inline: var(--spacing);
           box-shadow: var(--shadow);
+          user-select: none;
+        }
+
+        .features {
+          position: absolute;
+          top: 35px;
+          right: 35px;
+          display: flex;
+          gap: var(--spacing);
+          align-items: center;
+          border-color: var(--white);
+          box-shadow: var(--shadow);
+          z-index: 2;
+
+          svg {
+            cursor: pointer;
+            width: 25px;
+            height: 25px;
+          }
+        }
+      }
+      .control-image {
+        padding: var(--spacing);
+
+        img {
+          width: 70px;
+          height: 70px;
+          border-radius: var(--border-radius);
+          object-fit: cover;
+          cursor: pointer;
+          opacity: 0.4;
+          transition: var(--transition);
+          margin-right: var(--spacing);
+
+          &.active {
+            opacity: 1;
+            box-shadow: var(--shadow);
+          }
         }
       }
     }
-  }
   }
   .container {
     padding-block: var(--spacing-2x);
@@ -293,7 +293,7 @@
           cursor: pointer;
         }
 
-        a{
+        a {
           color: var(--primary-color);
           text-decoration: underline;
         }
@@ -316,54 +316,57 @@
 
 @media screen and (max-width: 768px) {
   .properties-details-page {
-    .property-images {
-      grid-template-columns: 1fr;
-      gap: var(--spacing);
-      width: 100%;
-      .display-image {
-        height: 48vh;
-        padding-block: 0;
+    .container.prop-image-details {
+      .property-images {
+        grid-template-columns: 1fr;
+        gap: var(--spacing);
+        width: 100%;
+        
+        .display-image {
+          height: 48vh;
+          padding-block: 0;
 
+          .image-pagination {
+            .left,
+            .right {
+              width: 40px;
+              height: 40px;
+            }
+            .left {
+              left: 20px;
+            }
+            .right {
+              right: 20px;
+            }
+          }
 
-        .image-pagination {
-          .left,
-          .right {
-            width: 40px;
-            height: 40px;
+          .image-counter {
+            bottom: 10px;
           }
-          .left {
-            left: 20px;
-          }
-          .right {
+
+          .features {
+            top: 20px;
             right: 20px;
           }
         }
 
-        .image-counter {
-          bottom: 10px;
-        }
+        .control-image {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing);
+          flex-wrap: nowrap;
+          padding: 0;
+          overflow-x: scroll;
 
-        .features {
-          top: 20px;
-          right: 20px;
-        }
-      }
-
-      .control-image {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing);
-        flex-wrap: nowrap;
-        padding: 0;
-        overflow-x: scroll;
-
-        img {
-          width: 65px;
-          height: 65px;
-          margin: 0;
+          img {
+            width: 65px;
+            height: 65px;
+            margin: 0;
+          }
         }
       }
     }
+
     .container {
       .top {
         grid-template-columns: 1fr;

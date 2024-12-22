@@ -1,23 +1,23 @@
-.properties-details-page .container.image-details .property-images {
+.properties-details-page .container.prop-image-details .property-images {
   display: grid;
   grid-template-columns: 1.5fr 1fr;
 }
-.properties-details-page .container.image-details .property-images .display-image {
+.properties-details-page .container.prop-image-details .property-images .display-image {
   height: 70vh;
   display: flex;
   place-items: center;
   padding-block: var(--spacing);
   position: relative;
 }
-.properties-details-page .container.image-details .property-images .display-image img {
+.properties-details-page .container.prop-image-details .property-images .display-image img {
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: var(--border-radius);
   transition: var(--transition);
 }
-.properties-details-page .container.image-details .property-images .display-image .image-pagination .left,
-.properties-details-page .container.image-details .property-images .display-image .image-pagination .right {
+.properties-details-page .container.prop-image-details .property-images .display-image .image-pagination .left,
+.properties-details-page .container.prop-image-details .property-images .display-image .image-pagination .right {
   position: absolute;
   width: 45px;
   height: 45px;
@@ -32,17 +32,17 @@
   box-shadow: var(--shadow);
   transition: var(--transition);
 }
-.properties-details-page .container.image-details .property-images .display-image .image-pagination .left:hover,
-.properties-details-page .container.image-details .property-images .display-image .image-pagination .right:hover {
+.properties-details-page .container.prop-image-details .property-images .display-image .image-pagination .left:hover,
+.properties-details-page .container.prop-image-details .property-images .display-image .image-pagination .right:hover {
   transform: translateY(-50%) scale(1.125);
 }
-.properties-details-page .container.image-details .property-images .display-image .image-pagination .left {
+.properties-details-page .container.prop-image-details .property-images .display-image .image-pagination .left {
   left: 30px;
 }
-.properties-details-page .container.image-details .property-images .display-image .image-pagination .right {
+.properties-details-page .container.prop-image-details .property-images .display-image .image-pagination .right {
   right: 30px;
 }
-.properties-details-page .container.image-details .property-images .display-image .image-counter {
+.properties-details-page .container.prop-image-details .property-images .display-image .image-counter {
   font-size: var(--font-size-sm);
   position: absolute;
   bottom: 30px;
@@ -58,7 +58,7 @@
      -moz-user-select: none;
           user-select: none;
 }
-.properties-details-page .container.image-details .property-images .display-image .features {
+.properties-details-page .container.prop-image-details .property-images .display-image .features {
   position: absolute;
   top: 35px;
   right: 35px;
@@ -69,15 +69,15 @@
   box-shadow: var(--shadow);
   z-index: 2;
 }
-.properties-details-page .container.image-details .property-images .display-image .features svg {
+.properties-details-page .container.prop-image-details .property-images .display-image .features svg {
   cursor: pointer;
   width: 25px;
   height: 25px;
 }
-.properties-details-page .container.image-details .property-images .control-image {
+.properties-details-page .container.prop-image-details .property-images .control-image {
   padding: var(--spacing);
 }
-.properties-details-page .container.image-details .property-images .control-image img {
+.properties-details-page .container.prop-image-details .property-images .control-image img {
   width: 70px;
   height: 70px;
   border-radius: var(--border-radius);
@@ -88,7 +88,7 @@
   transition: var(--transition);
   margin-right: var(--spacing);
 }
-.properties-details-page .container.image-details .property-images .control-image img.active {
+.properties-details-page .container.prop-image-details .property-images .control-image img.active {
   opacity: 1;
   box-shadow: var(--shadow);
 }
@@ -278,34 +278,34 @@
 }
 
 @media screen and (max-width: 768px) {
-  .properties-details-page .property-images {
+  .properties-details-page .container.prop-image-details .property-images {
     grid-template-columns: 1fr;
     gap: var(--spacing);
     width: 100%;
   }
-  .properties-details-page .property-images .display-image {
+  .properties-details-page .container.prop-image-details .property-images .display-image {
     height: 48vh;
     padding-block: 0;
   }
-  .properties-details-page .property-images .display-image .image-pagination .left,
-  .properties-details-page .property-images .display-image .image-pagination .right {
+  .properties-details-page .container.prop-image-details .property-images .display-image .image-pagination .left,
+  .properties-details-page .container.prop-image-details .property-images .display-image .image-pagination .right {
     width: 40px;
     height: 40px;
   }
-  .properties-details-page .property-images .display-image .image-pagination .left {
+  .properties-details-page .container.prop-image-details .property-images .display-image .image-pagination .left {
     left: 20px;
   }
-  .properties-details-page .property-images .display-image .image-pagination .right {
+  .properties-details-page .container.prop-image-details .property-images .display-image .image-pagination .right {
     right: 20px;
   }
-  .properties-details-page .property-images .display-image .image-counter {
+  .properties-details-page .container.prop-image-details .property-images .display-image .image-counter {
     bottom: 10px;
   }
-  .properties-details-page .property-images .display-image .features {
+  .properties-details-page .container.prop-image-details .property-images .display-image .features {
     top: 20px;
     right: 20px;
   }
-  .properties-details-page .property-images .control-image {
+  .properties-details-page .container.prop-image-details .property-images .control-image {
     display: flex;
     align-items: center;
     gap: var(--spacing);
@@ -313,7 +313,7 @@
     padding: 0;
     overflow-x: scroll;
   }
-  .properties-details-page .property-images .control-image img {
+  .properties-details-page .container.prop-image-details .property-images .control-image img {
     width: 65px;
     height: 65px;
     margin: 0;
