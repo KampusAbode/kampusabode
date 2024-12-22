@@ -49,8 +49,7 @@
 }
 
 .user-search {
-  padding-top: var(--spacing-3x);
-  padding-bottom: 0;
+  padding-block: var(--spacing-2x);
 }
 .user-search .container {
   border-radius: var(--border-radius-r);
@@ -91,9 +90,9 @@
   width: fit-content;
   max-width: 90%;
   margin: var(--spacing) auto;
-  padding-block: var(--spacing-3x);
+  padding-block: var(--spacing-2x);
   position: sticky;
-  top: 10;
+  top: 100px;
 }
 .filter .container {
   display: flex;
