@@ -81,9 +81,6 @@
     }
   }
 
-  @media screen and (max-width: 786px) {
-    padding-top: var(--spacing);
-  }
 }
 
 .filter {
@@ -94,7 +91,8 @@
   margin: var(--spacing) auto;
   padding-block: var(--spacing-2x);
   position: sticky;
-  top: 100px;
+  top: 80px;
+  z-index: 999;
 
   .container {
     display: flex;
@@ -151,7 +149,6 @@
 }
 @media screen and (max-width: 768px) {
   .user-search {
-    padding-top: var(--spacing);
     .container {
       grid-template-columns: 8fr 1.5fr;
 
