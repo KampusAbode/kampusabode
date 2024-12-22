@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getProperties } from "../../utils/api";
+import { getProperties } from "../../utils";
 import { UserType, PropertyType } from "../../fetch/types";
 import Link from "next/link";
 
@@ -12,7 +12,7 @@ const ListedProperties = ({ user }: { user: UserType }) => {
 
   useEffect(() => {
     const fetchProperties = async () => {
-      if ('propertiesListed' in user.userInfo) {
+      if ("propertiesListed" in user.userInfo) {
         const propertiesListed = user.userInfo.propertiesListed || [];
 
         const fetchedProperties: PropertyType[] = await getProperties();

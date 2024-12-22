@@ -1,7 +1,7 @@
 // "use client";
 
 // import { useState, useEffect } from "react";
-// import { fetchReviews } from "../../utils/api";
+// import { fetchReviews } from "../../utils";
 
 // const ReviewManagement = () => {
 //   const [reviews, setReviews] = useState([]);

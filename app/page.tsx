@@ -5,9 +5,10 @@ import "./home.css";
 import data from "./fetch/contents";
 import { trends } from "./fetch/data/trends";
 import Quotes from "./components/quotes/Quotes";
+import Footer from "./components/footer/Footer";
 import Link from "next/link";
 import { PropertyType } from "./fetch/types";
-import { getProperties } from "./utils/api";
+import { getProperties } from "./utils";
 
 import { FaArrowRightLong } from "react-icons/fa6";
 import { useState, useEffect } from "react";
@@ -261,6 +262,8 @@ export default function App() {
           </div>
         </div>
       </section>
+
+      <Footer />
     </>
   );
 }

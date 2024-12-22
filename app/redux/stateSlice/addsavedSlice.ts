@@ -1,10 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getProperties } from "../../utils/api";
-import {trends} from "../../fetch/data/trends";
+import { getProperties } from "../../utils";
+import { trends } from "../../fetch/data/trends";
 import { PropertyType } from "../../fetch/types";
 import { ArticleType } from "../../fetch/types";
 import { AddSavedState } from "../../fetch/types";
-
 
 let properties;
 
@@ -14,7 +13,6 @@ async () => {
 };
 
 const initialState: AddSavedState = {
-  
   savedProperties: properties
     ? properties.filter((prop: { saved: boolean }) => prop.saved === true)
     : [],

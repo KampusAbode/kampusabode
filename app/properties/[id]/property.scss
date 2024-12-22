@@ -1,19 +1,9 @@
 .properties-details-page {
-  .back {
-    position: sticky;
-    top: 10px;
-    background-color: var(--white);
-    z-index: 100;
-    .container {
-      padding: var(--spacing);
-    }
-  }
+  .container.image-details{
   
-  .property-images {
+    .property-images {
     display: grid;
     grid-template-columns: 1.5fr 1fr;
-    width: 90%;
-    margin: 0 auto;
     .display-image {
       height: 70vh;
       display: flex;
@@ -111,6 +101,7 @@
         }
       }
     }
+  }
   }
   .container {
     padding-block: var(--spacing-2x);

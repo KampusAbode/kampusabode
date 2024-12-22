@@ -1,4 +1,5 @@
 .chat-page {
+  position: relative;
   height: 100vh;
   max-height: 100vh;
 }
@@ -8,7 +9,7 @@
   align-items: center;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.4);
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -54,19 +55,19 @@
 .chat-page .container .chat-display {
   height: 70vh;
   overflow-y: auto;
-  margin-block: var(--spacing-3x);
+  margin: var(--spacing) 0 var(--spacing-3x);
 }
 .chat-page .container .chat-display .loading-text {
   text-align: center;
   margin-top: 50px;
 }
 .chat-page .container .chat-display::-webkit-scrollbar {
-  display: none;
+  background-color: transparent;
 }
 .chat-page .container .chat-display .message-box {
   padding: var(--spacing-h);
   border: var(--border);
-  margin-bottom: var(--spacing-2x);
+  margin-bottom: var(--spacing-h);
   border-radius: var(--border-radius);
   border-top-left-radius: 0;
   width: -moz-fit-content;
@@ -81,7 +82,7 @@
   padding: var(--spacing-h) var(--spacing);
   border-left: var(--border);
   border-radius: var(--border-radius);
-  background-color: var(--gray);
+  background-color: var(--light-gray);
   border-top-left-radius: 0;
 }
 .chat-page .container .chat-display .message-box .message-detail span {
@@ -111,7 +112,7 @@
 }
 .chat-page .container .chat-input {
   max-width: 900px;
-  position: fixed;
+  position: absolute;
   bottom: var(--spacing);
   left: 50%;
   transform: translateX(-50%);

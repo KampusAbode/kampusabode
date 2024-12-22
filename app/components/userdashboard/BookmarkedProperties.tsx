@@ -1,13 +1,12 @@
-'use client';
+"use client";
 
 import { useEffect, useState } from "react";
-import { getProperties } from "../../utils/api";
+import { getProperties } from "../../utils";
 import { PropertyType } from "../../fetch/types";
 import Link from "next/link";
 import Image from "next/image";
 
 const BookmarkedProperties = ({ user }) => {
-
   const bookmarkedIds = user?.userInfo.savedProperties;
   const [properties, setProperties] = useState<PropertyType[]>([]);
 
@@ -18,11 +17,10 @@ const BookmarkedProperties = ({ user }) => {
     };
     fetchProperties();
   }, []);
-  
+
   // Filter properties based on bookmarkedIds
   const bookmarkes = properties.filter((property) =>
     bookmarkedIds.includes(property.id)
-    
   );
 
   return (
@@ -34,7 +32,12 @@ const BookmarkedProperties = ({ user }) => {
             {bookmarkes.map((property) => (
               <li key={property.id}>
                 <Link href={property.url}>
-                  <Image src={property.images[0]} width={800} height={800} alt="property image"/>
+                  <Image
+                    src={property.images[0]}
+                    width={800}
+                    height={800}
+                    alt="property image"
+                  />
                   <div>
                     <p>{property.title}</p>
                     <span>

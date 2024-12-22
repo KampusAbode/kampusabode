@@ -9,7 +9,7 @@ import Link from "next/link";
 import PropertyImages from "../../components/propertyImages/PropertyImages";
 // import ContactAgent from "../../components/contactagent/ContactAgent";
 import type { AgentUserInfo, PropertyType } from "../../fetch/types";
-import { getProperties } from "../../utils/api";
+import { getProperties } from "../../utils";
 import "./property.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
@@ -27,7 +27,9 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   const agentDetails = agentUsers.find(
     (agent) =>
       "propertiesListed" in agent.userInfo &&
-      (agent.userInfo as AgentUserInfo).propertiesListed?.some((propList) => propList.id === id)
+      (agent.userInfo as AgentUserInfo).propertiesListed?.some(
+        (propList) => propList.id === id
+      )
   );
 
   useEffect(() => {
@@ -64,7 +66,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   return (
     <SaveVisitedProperty id={id}>
       <section className="properties-details-page">
-        <div className="container">
+        <div className="container image-details">
           <PropertyImages propertyDetails={propertyDetails} />
         </div>
 

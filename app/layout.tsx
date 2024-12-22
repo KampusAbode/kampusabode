@@ -1,15 +1,8 @@
+// layout.tsx (Server Component)
 import type { Metadata } from "next";
-// import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
-import { Toaster } from "react-hot-toast";
-import Header from "./components/header/Header";
-import WelcomeMessage from "./components/welcome/WelcomeMessage";
-import Navigator from "./components/navigation/Navigation";
-import { ReduxProvider } from "./redux/provider";
-import Footer from "./components/footer/Footer";
-import UseIsUser from "./hooks/useIsUser";
+import ClientRootLayout from "./ClientRootLayout";
 
-// Default metadata
 export const metadata: Metadata = {
   title: "Kampusabode App - Property Listing Site",
   description:
@@ -26,18 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Toaster />
-        {/* <Analytics /> */}
 
-        <ReduxProvider>
-          <UseIsUser>
-            <Header />
-            <WelcomeMessage />
-            <main>{children}</main>
-            <Navigator />
-            <Footer />
-          </UseIsUser>
-        </ReduxProvider>
+      <ClientRootLayout>{children}</ClientRootLayout>
+
       </body>
     </html>
   );

@@ -119,8 +119,10 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
   useEffect(() => {
     if (loading) return;
 
-    if (pathname === "/") {
-      router.push(isAuthenticated && "/properties");
+    if (pathname === "/" && isAuthenticated) {
+
+
+      router.push("/properties");
     } else if (pathname === "/auth/login" && !isAuthenticated) {
       router.push("/auth/login");
     }

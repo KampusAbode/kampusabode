@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 
 import { toast } from "react-hot-toast";
-import { signupUser } from "../../utils/api";
+import { signupUser } from "../../utils";
 import "../auth.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -23,8 +23,6 @@ type UserSignupInput = {
     phoneNumber: string;
   };
 };
-
-
 
 const SignupPage = () => {
   const router = useRouter();

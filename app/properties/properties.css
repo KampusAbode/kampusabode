@@ -1,5 +1,29 @@
+.banner {
+  position: relative;
+}
+.banner .container {
+  background: var(--primary-color);
+  color: var(--white);
+  padding: var(--spacing-2x);
+}
+.banner .container span {
+  margin-bottom: var(--spacing);
+}
+.banner .container h2 {
+  position: relative;
+}
+.banner .container h2 svg {
+  position: absolute;
+  top: 0;
+}
+.banner .building {
+  position: absolute;
+  bottom: 0;
+  right: 20%;
+}
+
 .user-search {
-  padding-top: var(--spacing);
+  padding-top: var(--spacing-3x);
   padding-bottom: 0;
 }
 .user-search .container {
@@ -28,6 +52,11 @@
   width: 25px;
   height: 25px;
 }
+@media screen and (max-width: 786px) {
+  .user-search {
+    padding-top: var(--spacing);
+  }
+}
 
 .filter {
   background: var(--background-white);
@@ -36,7 +65,7 @@
   width: fit-content;
   max-width: 90%;
   margin: var(--spacing) auto;
-  padding-block: var(--spacing);
+  padding-block: var(--spacing-3x);
   position: sticky;
   top: 10;
 }
@@ -54,10 +83,12 @@
   display: none;
 }
 .filter .container span {
-  padding: var(--spacing-h) var(--spacing);
+  padding: var(--spacing);
   border-radius: var(--border-radius);
   border: var(--border);
+  border-color: transparent;
   text-transform: capitalize;
+  background: var(--light-gray);
   white-space: nowrap;
   font-size: var(--font-size-sm);
   cursor: pointer;
@@ -72,7 +103,7 @@
 }
 .property-listings .properties {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: var(--spacing);
 }
 .property-listings .properties span,

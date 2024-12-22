@@ -10,10 +10,6 @@ header {
   z-index: 100;
   transition: transform 0.3s ease, opacity 0.3s ease;
 
-  &.show {
-    transform: translateY(0);
-    opacity: 1;
-  }
 
   &.hide {
     transform: translateY(-100%);
@@ -69,9 +65,7 @@ header {
   }
 }
 
-.nav-menu {
-  display: none;
-}
+
 /* ========== header section close ========== */
 
 @media screen and (max-width: 768px) {
@@ -103,94 +97,6 @@ header {
         svg {
           width: 24px;
           height: 24px;
-        }
-      }
-    }
-  }
-
-  .nav-menu {
-    display: block;
-    position: fixed;
-    width: 60%;
-    height: 100vh;
-    background: var(--white);
-    right: -100%;
-    top: 0;
-    padding: var(--spacing);
-    padding-top: var(--spacing-2x);
-    opacity: 0;
-    transition: var(--transition);
-    box-shadow: var(--shadow);
-    overflow-y: scroll;
-    z-index: 9999;
-
-    &.open {
-      right: 0%;
-      opacity: 1;
-    }
-
-    .close {
-      position: relative;
-      cursor: pointer;
-
-      span {
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 34px;
-        height: 34px;
-        border-radius: 50%;
-        display: grid;
-        place-content: center;
-
-        svg {
-          width: 24px;
-          height: 24px;
-        }
-        
-        &:hover {
-          background-color: var(--light-gray);
-        }
-      }
-    }
-
-    hr {
-      margin-block: var(--spacing-2x);
-    }
-
-    ul {
-      padding-top: var(--spacing-2x);
-      p {
-        color: var(--font-color-h);
-        padding: var(--spacing);
-      }
-      li {
-        margin-bottom: var(--spacing);
-        &:hover,
-        &.active {
-          background: var(--light-gray);
-          border-radius: var(--border-radius);
-        }
-
-        a {
-          padding: var(--spacing);
-          text-transform: capitalize;
-          color: var(--font-color-p);
-
-          display: flex;
-          align-items: center;
-          gap: var(--spacing);
-        }
-      }
-    }
-
-    .logout {
-      line-height: var(--line-height-sm);
-      span {
-        a,
-        span {
-          font-size: inherit;
-          text-decoration: underline;
         }
       }
     }

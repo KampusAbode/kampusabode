@@ -7,7 +7,7 @@ import {
   sendMessage,
   listenToMessagesForConversation,
   deleteMessageFromFirebase, // Ensure you create this in your Firebase utility
-} from "../../../utils/api";
+} from "../../../utils";
 import "./chat.css";
 
 type ChatProps = {
@@ -161,7 +161,7 @@ const ChatComponent: React.FC<ChatProps> = ({
               </div>
             ))
           ) : (
-            <p className="no-messages">No messages yet. Say hello!</p>
+            null
           )}
           <div ref={messagesEndRef}></div>
         </div>
@@ -187,7 +187,9 @@ const ChatComponent: React.FC<ChatProps> = ({
           <div className="dialog-box">
             <p>Are you sure you want to delete this message?</p>
             <div className="btn-group">
-              <button className="confirm" onClick={confirmDeleteMessage}>confirm</button>
+              <button className="confirm" onClick={confirmDeleteMessage}>
+                confirm
+              </button>
               <button
                 className="cancel"
                 onClick={() => {

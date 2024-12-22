@@ -1,7 +1,7 @@
 // "use client";
 
 // import { useEffect, useState } from "react";
-// import { fetchAnalytics } from "../../utils/api";
+// import { fetchAnalytics } from "../../utils";
 
 // const Analytics = () => {
 //   const [data, setData] = useState({});

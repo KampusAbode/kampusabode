@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import ItemCard from "../components/cards/itemCard/ItemCard";
-import { allMarketplaceItems } from "../utils/api";
+import { allMarketplaceItems } from "../utils";
 import "./marketplace.css";
 // import toast from "react-hot-toast";
 

@@ -9,7 +9,7 @@ import "./navigation.css";
 import { FaBookReader, FaSearch, FaShoppingCart } from "react-icons/fa";
 import { FaBookmark, FaMessage, FaPerson, FaUser } from "react-icons/fa6";
 
-export default function Navigator() {
+export default function Navigation() {
   const user = useSelector((state: RootState) => state.user?.isAuthenticated);
   const pathname = usePathname();
   const [showNav, setShowNav] = useState(false);

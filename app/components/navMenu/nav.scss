@@ -1,0 +1,113 @@
+
+  .nav-menu {
+    display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    height: 100vh;
+    background: var(--background-white);
+    padding: var(--spacing);
+    box-shadow: var(--shadow);
+    overflow-y: scroll;
+    z-index: 999;
+    
+    
+    &.fadeOut{
+      position: fixed;
+    right: -100%;
+    top: 0;
+    opacity: 0;
+    transition: var(--transition);
+
+    }
+    &.fadeIn{
+    right: 0;
+    }
+
+    // &::-webkit-scrollbar {
+    //   width: 0;
+    // }
+
+    // &.sideNav {
+      
+    // }
+
+    // @media screen and (max-width: 786px) {
+    //     display: block;
+    //   }
+
+    .close {
+      cursor: pointer;
+      text-align: right;
+      margin-bottom: var(--spacing-3x);
+
+      span {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        display: grid;
+        place-content: center;
+
+        svg {
+          width: 24px;
+          height: 24px;
+        }
+        
+        &:hover {
+          background-color: var(--light-gray);
+        }
+      }
+      
+      @media screen and (min-width: 786px) {
+        display: none;
+      }
+    }
+
+   
+
+    ul {
+      max-height: 80vh;
+      overflow: scroll;
+      padding-top: var(--spacing-2x);
+
+      &::-webkit-scrollbar {
+      width: 0;
+    }
+    
+      p {
+        color: var(--font-color-h);
+        padding: var(--spacing);
+      }
+      li {
+        &:hover,
+        &.active {
+          background: var(--light-gray);
+          border-radius: var(--border-radius);
+        }
+
+        a {
+          padding: var(--spacing);
+          text-transform: capitalize;
+          color: var(--font-color-p);
+
+          display: flex;
+          align-items: center;
+          gap: var(--spacing);
+
+          display: flex;
+          gap: var(--spacing);
+          align-items: center;
+        }
+      }
+    }
+
+    .logout {
+      line-height: var(--line-height-sm);
+      span {
+        a,
+        span {
+          font-size: inherit;
+          text-decoration: underline;
+        }
+      }
+    }
+  }

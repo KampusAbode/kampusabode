@@ -139,13 +139,7 @@ export const loginUser = async (userData: UserLoginInput) => {
     const userDataFromDB = userRef.docs[0].data();
 
     // Sign in with email and password using Firebase Auth
-    await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-
-  
+    await signInWithEmailAndPassword(auth, email, password);
 
     // Convert userStore object to JSON string before encrypting
     const encryptedData = CryptoJS.AES.encrypt(
@@ -158,7 +152,6 @@ export const loginUser = async (userData: UserLoginInput) => {
 
     return { message: `Welcome abode! ${userDataFromDB.name}` };
   } catch (error) {
-
     // Check for Firebase Auth error codes
     if (error.code === "auth/invalid-credential") {
       throw {
@@ -206,6 +199,12 @@ export const logoutUser = async () => {
       };
     }
   }
+};
+
+export const getAuthState = () => {
+  return localStorage.getItem(process.env.NEXT_PUBLIC__STORAGE_KEY)
+    ? { isAuthenticated: true }
+    : { isAuthenticated: false };
 };
 
 export const getProperties = async (): Promise<PropertyType[]> => {
@@ -396,25 +395,25 @@ export const allMarketplaceItems = (callback) => {
   return unsubscribe;
 };
 
-export const updateAllMartketplaceItems = async (items) => {
+export const updateAllMartketplaceItems = async (item) => {
   const itemsRef = collection(db, "Marketitems");
 
   try {
-    items.map(async (item) => {
-      await addDoc(itemsRef, {
-        name: item.name,
-        description: item.description,
-        price: item.price,
-        condition: item.condition,
-        imageUrl: item.imageUrl,
-        sellerContact: {
-          name: item.sellerContact.name,
-          whatsappNumber: item.sellerContact.whatsappNumber,
-        },
-        category: item.category,
-        timestamp: new Date(),
-      });
-    });
+    const itemData = {
+      name: item.name,
+      description: item.description,
+      price: item.price,
+      condition: item.condition,
+      imageUrl: item.imageUrl,
+      sellerContact: {
+        name: item.sellerContact.name,
+        whatsappNumber: item.sellerContact.whatsappNumber,
+      },
+      category: item.category,
+      timestamp: new Date(),
+    };
+
+    await addDoc(itemsRef, itemData);
     return { status: "success", message: "All Items added successfully" };
   } catch (error) {
     return { status: "error", message: "Error uploading marketplace items" };

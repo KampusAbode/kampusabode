@@ -1,21 +1,19 @@
-'use client'
+"use client";
 
 import React, { useState, useEffect } from "react";
-import { getProperties } from "../../utils/api";
+import { getProperties } from "../../utils";
 import { PropertyType } from "../../fetch/types";
 import Image from "next/image";
 import Link from "next/link";
 
 function ViewedProperties() {
   const [properties, setProperties] = useState<PropertyType[]>([]);
-  
+
   const visitedProperties = JSON.parse(
     localStorage.getItem("visitedProperties")
   );
 
-
   let checkProperties = [];
-
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -26,11 +24,9 @@ function ViewedProperties() {
   }, []);
 
   if (visitedProperties) {
-    
-      checkProperties = properties.filter((property) =>
-        visitedProperties.includes(property.id.toString())
-      );
-  
+    checkProperties = properties.filter((property) =>
+      visitedProperties.includes(property.id.toString())
+    );
   } else {
     checkProperties = [];
   }

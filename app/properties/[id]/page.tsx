@@ -1,7 +1,7 @@
 // app/properties/[id]/page.tsx
 import { Metadata } from "next";
 import PropertyDetails from "./propertyDetails";
-import { getProperties } from "../../utils/api";
+import { getProperties } from "../../utils";
 
 type Params = {
   params: { id: string };

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getProperties } from "../../utils/api";
+import { getProperties } from "../../utils";
 
 const PropertyManagement = () => {
   const [properties, setProperties] = useState([]);

@@ -7,7 +7,8 @@ import Link from "next/link";
 // import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../redux/stateSlice/userSlice";
-import { logoutUser } from "../../utils/api";
+import {openMenu, closeMenu} from "../../redux/stateSlice/menuSlice";
+import { logoutUser } from "../../utils";
 import { FaTimes, FaBars, FaArrowLeft } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -22,18 +23,17 @@ export default function Header() {
 
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
-
+  const isMenu = useSelector((state: RootState) => state.menu)
   // Move the useRouter hook here (at the top of the component)
   const router = useRouter();
 
   const [isHeader, setIsHeader] = useState(true);
-  const [navMenu, setNavMenu] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
 
   const handleScroll = () => {
     window.requestAnimationFrame(() => {
       setIsHeader(window.scrollY <= lastScrollY);
-      if (navMenu) setNavMenu(false);
+      if (isMenu) dispatch(closeMenu());
       setLastScrollY(window.scrollY);
     });
   };
@@ -52,7 +52,7 @@ export default function Header() {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY, navMenu]);
+  }, [lastScrollY, isMenu]);
 
   // Pages where the header will show the back button and page name
   const pagesWithBackButton = [
@@ -79,7 +79,7 @@ export default function Header() {
 
   return (
     <>
-      <header className={isHeader ? "show" : "hide"}>
+      <header className={!isHeader ? "hide" : ""}>
         <div className="container">
           {showBackButton ? (
             <>
@@ -133,133 +133,11 @@ export default function Header() {
             </div>
           </nav>
 
-          <div className="menu" onClick={() => setNavMenu(!navMenu)}>
+          <div className="menu" onClick={() => dispatch(openMenu())}>
             <FaBars />
           </div>
         </div>
       </header>
-
-      <div className={`nav-menu ${navMenu ? "open" : ""}`}>
-        <div className="close" onClick={() => setNavMenu(false)}>
-          <span>
-            <FaTimes />
-          </span>
-        </div>
-        <ul>
-          {user?.isAuthenticated ? (
-            user?.id === "PlcpjfOsQ5NYUBgqC3DMMVj2kRj2" ||
-            "P9IfqO0q3ZXTCOVS77ytSd8k8Oo2" ? (
-              <li className={pathname === "/adminchatroom" && "active"}>
-                <Link
-                  href="/adminchatroom"
-                  onClick={() => {
-                    setNavMenu(false);
-                  }}>
-                  adminchatroom
-                </Link>
-              </li>
-            ) : null
-          ) : null}
-          <li
-            className={`${
-              pathname === "/dashboard" || pathname === "/" ? "active" : ""
-            }`}>
-            <Link
-              href={user?.isAuthenticated ? "/dashboard" : "/"}
-              onClick={() => {
-                setNavMenu(false);
-              }}>
-              {user?.isAuthenticated ? "dashboard" : "home"}
-            </Link>
-          </li>
-          <li className={pathname === "/profile" && "active"}>
-            <Link
-              href={"/profile"}
-              onClick={() => {
-                setNavMenu(false);
-              }}>
-              profile
-            </Link>
-          </li>
-          <li className={pathname === "/properties" && "active"}>
-            <Link
-              href={"/properties"}
-              onClick={() => {
-                setNavMenu(false);
-              }}>
-              properties
-            </Link>
-          </li>
-          {user?.isAuthenticated ? (
-            <li
-              className={
-                pathname === `/chat/${user?.id}/${user?.username}` && "active"
-              }>
-              <Link
-                href={`/chat/${user?.id}/${user?.username}`}
-                onClick={() => {
-                  setNavMenu(false);
-                }}>
-                chat
-              </Link>
-            </li>
-          ) : null}
-    
-          <li className={pathname === "/legal/policies" && "active"}>
-            <Link
-              href={"/legal/policies"}
-              onClick={() => {
-                setNavMenu(false);
-              }}>
-              policies
-            </Link>
-          </li>
-          <li className={pathname === "/legal/termsandconditions" && "active"}>
-            <Link
-              href={"/legal/termsandconditions"}
-              onClick={() => {
-                setNavMenu(false);
-              }}>
-              terms
-            </Link>
-          </li>
-          
-          <li className={pathname === "/legal/useragreement" && "active"}>
-            <Link
-              href={"/legal/useragreement"}
-              onClick={() => {
-                setNavMenu(false);
-              }}>
-              agreement
-            </Link>
-          </li>
-        </ul>
-
-        <hr />
-
-        <div className="logout">
-          <span>
-            ©️ copyright 2024 Kampusabode. All right reserved.{" "}
-            {user?.isAuthenticated ? (
-              <span
-                onClick={() => {
-                  logOut();
-                  setNavMenu(false);
-                }}>
-                Logout
-              </span>
-            ) : (
-              <Link
-                href={"/auth/login"}
-                onClick={() => {
-                  setNavMenu(false);
-                }}>
-                Login
-              </Link>
-            )}
-          </span>
-        </div>
-      </div>
     </>
   );
 }

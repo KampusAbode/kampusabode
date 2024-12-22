@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { loginUser } from "../../utils/api";
+import { loginUser } from "../../utils";
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -10,14 +10,12 @@ import "../auth.css";
 import Image from "next/image";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State to toggle password visibility
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({ email: "", password: "" });
-
 
   const router = useRouter();
 
@@ -40,7 +38,7 @@ const LoginPage = () => {
       formErrors.password = "Password must be at least 8 characters";
       valid = false;
     }
-    
+
     setErrors(formErrors);
     return valid;
   };

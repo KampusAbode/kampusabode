@@ -3,7 +3,7 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { addProperty } from "../utils/api";
+import { addProperty } from "../utils";
 import { PropertyType } from "../fetch/types";
 import './upload.css';
 

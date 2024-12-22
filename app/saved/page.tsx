@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { trends } from "../fetch/data/trends";
-import { getProperties } from "../utils/api";
+import { getProperties } from "../utils";
 import "./saved.css";
 import ArticleCard from "../components/cards/articleCard/ArticleCard";
 import { ArticleType, PropertyType } from "../fetch/types";
@@ -20,7 +20,11 @@ const SavedPage = () => {
   );
 
   async () => {
-    if (isAuthenticated && userData.userType === "student" && 'savedProperties' in userData.userInfo) {
+    if (
+      isAuthenticated &&
+      userData.userType === "student" &&
+      "savedProperties" in userData.userInfo
+    ) {
       const savedsavedProperties = userData.userInfo.savedProperties;
       const updatedsavedProperties = [...savedsavedProperties];
       const fetchedProperties: PropertyType[] = await getProperties();

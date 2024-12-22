@@ -1,7 +1,7 @@
 // "use client";
 
 // import { useState, useEffect } from "react";
-// import { fetchStudents, fetchAgents } from "../../utils/api";
+// import { fetchStudents, fetchAgents } from "../../utils";
 
 // const UserManagement = () => {
 //   const [students, setStudents] = useState([]);

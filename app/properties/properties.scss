@@ -1,5 +1,33 @@
+.banner{
+  position: relative;
+  .container{
+    background: var(--primary-color);
+    color: var(--white);
+    padding: var(--spacing-2x);
+
+    span{
+    margin-bottom: var(--spacing);
+  }
+
+  h2{
+    position: relative;
+
+    svg{
+      position: absolute;
+      top: 0;
+    }
+  }
+  }
+
+  .building{
+    position: absolute;
+    bottom: 0;
+    right: 20%;
+  }
+}
+
 .user-search {
-  padding-top: var(--spacing);
+  padding-top: var(--spacing-3x);
   padding-bottom: 0;
   .container {
     border-radius: var(--border-radius-r);
@@ -27,6 +55,10 @@
       }
     }
   }
+
+  @media screen and (max-width: 786px){
+    padding-top: var(--spacing)
+  }
 }
 
 .filter {
@@ -35,7 +67,7 @@
   width: fit-content;
   max-width: 90%;
   margin: var(--spacing) auto;
-  padding-block: var(--spacing);
+  padding-block: var(--spacing-3x);
   position: sticky;
   top: 10;
 
@@ -54,10 +86,12 @@
     }
 
     span {
-      padding: var(--spacing-h) var(--spacing);
+      padding: var(--spacing);
       border-radius: var(--border-radius);
       border: var(--border);
+      border-color: transparent;
       text-transform: capitalize;
+      background: var(--light-gray);
       white-space: nowrap;
       font-size: var(--font-size-sm);
       cursor: pointer;
@@ -74,7 +108,7 @@
   margin-bottom: var(--spacing-5x);
   .properties {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing);
 
     span,
