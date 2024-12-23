@@ -290,13 +290,6 @@ img {
     --font-size-xl: 1.5rem; /* 24px */
     --font-size-xxl: 2rem; /* 32px */
   }
-  html {
-    font-size: 14px;
-  }
-  body,
-  .body {
-    line-height: var(--line-height-sm);
-  }
   h1 {
     font-size: 2rem; /* Approx. 32px on mobile */
   }
