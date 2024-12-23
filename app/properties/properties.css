@@ -6,7 +6,7 @@
 @media screen and (min-width: 768px) {
   .banner {
     overflow: visible;
-    margin: var(--spacing-5x) 0 var(--spacing);
+    margin: var(--spacing) 0;
   }
 }
 .banner .container {

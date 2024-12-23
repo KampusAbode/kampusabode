@@ -9,12 +9,15 @@
   overflow-y: scroll;
   z-index: 9999;
 }
-.nav-menu .close {
-  cursor: pointer;
+.nav-menu .close-div {
   text-align: right;
-  margin-bottom: var(--spacing-3x);
+  margin-bottom: var(--spacing-2x);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.nav-menu .close span {
+.nav-menu .close-div .close {
+  cursor: pointer;
   width: 38px;
   height: 38px;
   border-radius: 50%;
@@ -22,15 +25,15 @@
   place-content: center;
   float: right;
 }
-.nav-menu .close span svg {
+.nav-menu .close-div .close svg {
   width: 24px;
   height: 24px;
 }
-.nav-menu .close span:hover {
+.nav-menu .close-div .close:hover {
   background-color: var(--light-gray);
 }
 @media screen and (min-width: 768px) {
-  .nav-menu .close {
+  .nav-menu .close-div {
     display: none;
   }
 }
