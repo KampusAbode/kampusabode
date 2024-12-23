@@ -9,14 +9,16 @@ import { ReduxProvider } from "./redux/provider";
 import UseIsUser from "./hooks/useIsUser";
 import Nav from "./components/navMenu/nav";
 import { useState, useEffect } from "react";
-import Loader from './components/loader/Loader';
+import Loader from "./components/loader/Loader";
 
 export default function ClientRootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [authState, setAuthState] = useState<{ isAuthenticated: boolean } | null>(null);
+  const [authState, setAuthState] = useState<{
+    isAuthenticated: boolean;
+  } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -53,19 +55,19 @@ export default function ClientRootLayout({
   console.log("Rendering ClientRootLayout with authState:", authState);
 
   return (
-    <div className={`body ${authState.isAuthenticated ? "grid" : ""}`}>
+    <ReduxProvider>
       <Toaster />
-      <ReduxProvider>
+      <WelcomeMessage />
+      <div className={`body ${authState.isAuthenticated ? "grid" : ""}`}>
         <UseIsUser>
-          <WelcomeMessage />
           <Nav />
           <main>
             <Header />
             {children}
           </main>
-          <Navigation />
         </UseIsUser>
-      </ReduxProvider>
-    </div>
+      </div>
+      <Navigation />
+    </ReduxProvider>
   );
 }

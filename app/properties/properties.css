@@ -80,20 +80,16 @@
 
 .filter {
   background: var(--background-white);
-  width: -moz-fit-content;
-  width: fit-content;
-  max-width: 90%;
   margin: var(--spacing) auto;
-  padding-bottom: var(--spacing-2x);
+  padding-block: var(--spacing-2x);
   position: sticky;
-  top: 60px;
+  top: 0px;
   z-index: 999;
 }
 .filter .container {
   display: flex;
   align-items: center;
   justify-content: left;
-  width: auto;
   gap: var(--spacing);
   overflow-x: scroll;
   scrollbar-width: none;
