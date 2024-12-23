@@ -207,11 +207,24 @@ export const logoutUser = async () => {
   }
 };
 
-export const getAuthState = async () => {
+
+export const getAuthState = async (): Promise<{ isAuthenticated: boolean }> => {
   try {
-    const localData = localStorage.getItem(process.env.NEXT_PUBLIC__STORAGE_KEY);
-  return localData ? {isAuthenticated: true} : {isAuthenticated: false} 
+    // Ensure localStorage is accessible (browser-only check)
+    if (typeof window === "undefined") {
+      return { isAuthenticated: false };
+    }
+
+    const storageKey = process.env.NEXT_PUBLIC__STORAGE_KEY; 
+    if (!storageKey) {
+      console.warn("Storage key is not defined in environment variables.");
+      return { isAuthenticated: false };
+    }
+
+    const localData = localStorage.getItem(storageKey);
+    return localData ? { isAuthenticated: true } : { isAuthenticated: false };
   } catch (error) {
-    return { isAuthenticated: false }
- }
-}
+    console.error("Error accessing authentication state:", error);
+    return { isAuthenticated: false };
+  }
+};
