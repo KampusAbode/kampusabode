@@ -1,10 +1,12 @@
 .banner {
+  margin: var(--spacing-5x) 0 var(--spacing);
   position: relative;
   overflow: hidden;
 }
-@media screen and (min-width: 786px) {
+@media screen and (min-width: 768px) {
   .banner {
     overflow: visible;
+    margin: var(--spacing-5x) 0 var(--spacing);
   }
 }
 .banner .container {
@@ -28,21 +30,28 @@
   position: absolute;
   top: 0;
 }
-.banner .dots {
+.banner .dot1 {
   width: 109px;
-  height: 100%;
+  height: 251.8px;
   position: absolute;
   top: 0;
   right: 0;
 }
+.banner .dot2 {
+  width: 109px;
+  height: 251.8px;
+  position: absolute;
+  top: 0;
+  right: calc(10% + 357px);
+}
 .banner .building {
-  width: 38px;
+  width: 387px;
   height: 253px;
   position: absolute;
   bottom: 0;
-  right: 20%;
+  right: 10%;
 }
-@media screen and (max-width: 786px) {
+@media screen and (max-width: 768px) {
   .banner .building {
     display: none;
   }
@@ -81,7 +90,7 @@
 .filter {
   background: var(--background-white);
   margin: var(--spacing) auto;
-  padding-block: var(--spacing-2x);
+  padding-block: var(--spacing);
   position: sticky;
   top: 0px;
   z-index: 999;
@@ -115,7 +124,7 @@
 }
 
 .property-listings {
-  margin-bottom: var(--spacing-5x);
+  margin: var(--spacing) 0 var(--spacing-5x);
 }
 .property-listings .properties {
   display: grid;

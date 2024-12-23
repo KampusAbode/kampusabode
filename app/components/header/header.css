@@ -24,7 +24,7 @@ header .container .page-title {
   display: none;
 }
 header .container .logo {
-  background: var(--background);
+  visibility: hidden;
 }
 header .container .logo a {
   cursor: pointer;
@@ -56,6 +56,9 @@ header .container .menu {
 /* ========== header section close ========== */
 @media screen and (max-width: 768px) {
   /* ========== header section open ========== */
+  header .container .logo {
+    visibility: visible;
+  }
   header .container .page-title {
     display: block;
     text-transform: capitalize;

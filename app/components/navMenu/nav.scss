@@ -17,12 +17,16 @@
 
   // }
 
-  .close {
-    cursor: pointer;
+  .close-div {
     text-align: right;
-    margin-bottom: var(--spacing-3x);
+    margin-bottom: var(--spacing-2x);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-    span {
+
+    .close {
+      cursor: pointer;
       width: 38px;
       height: 38px;
       border-radius: 50%;
@@ -40,7 +44,7 @@
       }
     }
 
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       display: none;
     }
   }
@@ -94,7 +98,7 @@
   }
 }
 
-@media screen and (max-width: 786px) {
+@media screen and (max-width: 768px) {
   .nav-menu {
     &.fadeOut {
       position: fixed;

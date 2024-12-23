@@ -80,7 +80,7 @@
   text-transform: capitalize;
 }
 
-@media screen and (max-width: 786px) {
+@media screen and (max-width: 768px) {
   .prop-card .card-details .brief {
     gap: var(--spacing-2x);
   }

@@ -54,10 +54,20 @@ function Nav() {
       className={`nav-menu ${user?.isAuthenticated ? "sideNav" : ""} 
       ${isMenu ? "fadeIn" : "fadeOut"}`}>
       <div>
-        <div className="close" onClick={() => dispatch(closeMenu())}>
-          <span>
+        <div className="close-div" onClick={() => dispatch(closeMenu())}>
+          <div className="logo">
+              <Link href="/">
+                <img
+                  src={"/LOGO/RED.svg"}
+                  width={150}
+                  height={150}
+                  alt="logo"
+                />
+              </Link>
+            </div>
+          <div className="close">
             <FaTimes />
-          </span>
+          </div>
         </div>
         <ul>
           {user?.isAuthenticated ? (

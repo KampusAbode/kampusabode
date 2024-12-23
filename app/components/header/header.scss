@@ -10,7 +10,6 @@ header {
   z-index: 100;
   transition: transform 0.3s ease, opacity 0.3s ease;
 
-
   &.hide {
     transform: translateY(-100%);
     opacity: 0;
@@ -27,7 +26,7 @@ header {
     }
 
     .logo {
-      background: var(--background);
+      visibility: hidden;
 
       a {
         cursor: pointer;
@@ -65,13 +64,15 @@ header {
   }
 }
 
-
 /* ========== header section close ========== */
 
 @media screen and (max-width: 768px) {
   /* ========== header section open ========== */
   header {
     .container {
+      .logo {
+        visibility: visible;
+      }
       .page-title {
         display: block;
         text-transform: capitalize;

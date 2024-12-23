@@ -1,9 +1,11 @@
 .banner {
+  margin: var(--spacing-5x) 0 var(--spacing);
   position: relative;
   overflow: hidden;
 
-  @media screen and (min-width: 786px) {
+  @media screen and (min-width: 768px) {
     overflow: visible;
+    margin: var(--spacing) 0;
   }
 
   .container {
@@ -31,22 +33,29 @@
     }
   }
 
-  .dots {
+  .dot1 {
     width: 109px;
-    height: 100%;
+    height: 251.8px;
     position: absolute;
     top: 0;
     right: 0;
   }
+  .dot2 {
+    width: 109px;
+    height: 251.8px;
+    position: absolute;
+    top: 0;
+    right: calc(10% + 357px);
+  }
 
   .building {
-    width: 38px;
+    width: 387px;
     height: 253px;
     position: absolute;
     bottom: 0;
-    right: 20%;
+    right: 10%;
 
-    @media screen and (max-width: 786px) {
+    @media screen and (max-width: 768px) {
       display: none;
     }
   }
@@ -80,13 +89,12 @@
       }
     }
   }
-
 }
 
 .filter {
   background: var(--background-white);
   margin: var(--spacing) auto;
-  padding-block: var(--spacing-2x);
+  padding-block: var(--spacing);
   position: sticky;
   top: 0px;
   z-index: 999;
@@ -124,7 +132,7 @@
   }
 }
 .property-listings {
-  margin-bottom: var(--spacing-5x);
+  margin: var(--spacing) 0 var(--spacing-5x);
   .properties {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

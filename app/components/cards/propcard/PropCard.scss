@@ -1,15 +1,15 @@
 .prop-card {
   border-radius: var(--border-radius);
   overflow: hidden;
-  
+
   a {
     outline: none;
   }
-  
-  .prop-image{
+
+  .prop-image {
     position: relative;
 
-    .actions{
+    .actions {
       position: absolute;
       top: var(--spacing);
       right: var(--spacing);
@@ -20,10 +20,10 @@
       z-index: 2;
 
       svg {
-          cursor: pointer;
-          width: 25px;
-          height: 25px;
-        }
+        cursor: pointer;
+        width: 25px;
+        height: 25px;
+      }
     }
   }
   .swiper {
@@ -79,7 +79,7 @@
         text-transform: capitalize;
       }
     }
-    p{
+    p {
       display: flex;
       gap: var(--spacing);
       align-items: center;
@@ -88,7 +88,7 @@
   }
 }
 
-@media screen and (max-width: 786px) {
+@media screen and (max-width: 768px) {
   .prop-card {
     .card-details {
       .brief {

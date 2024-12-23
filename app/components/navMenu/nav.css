@@ -29,7 +29,7 @@
 .nav-menu .close span:hover {
   background-color: var(--light-gray);
 }
-@media screen and (min-width: 786px) {
+@media screen and (min-width: 768px) {
   .nav-menu .close {
     display: none;
   }
@@ -71,7 +71,7 @@
   text-decoration: underline;
 }
 
-@media screen and (max-width: 786px) {
+@media screen and (max-width: 768px) {
   .nav-menu.fadeOut {
     position: fixed;
     right: -100%;
