@@ -1,11 +1,11 @@
 .banner {
-  margin: var(--spacing-5x) 0 var(--spacing);
+  margin: var(--spacing) 0;
   position: relative;
   overflow: hidden;
 
   @media screen and (min-width: 768px) {
     overflow: visible;
-    margin: var(--spacing) 0;
+    margin: var(--spacing-5x) 0 var(--spacing);
   }
 
   .container {
@@ -33,18 +33,18 @@
     }
   }
 
-  .dot1 {
-    width: 109px;
-    height: 251.8px;
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
+  .dot1,
   .dot2 {
     width: 109px;
     height: 251.8px;
     position: absolute;
-    top: 0;
+    bottom: 0;
+  }
+
+  .dot1 {
+    right: 0;
+  }
+  .dot2 {
     right: calc(10% + 357px);
   }
 
@@ -132,7 +132,7 @@
   }
 }
 .property-listings {
-  margin: var(--spacing) 0 var(--spacing-5x);
+  margin: var(--spacing-2x) 0 var(--spacing-4x);
   .properties {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
