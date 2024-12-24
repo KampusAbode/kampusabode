@@ -65,9 +65,9 @@ export default function ClientRootLayout({
             <Header />
             {children}
           </main>
+      <Navigation />
         </UseIsUser>
       </div>
-      <Navigation />
     </ReduxProvider>
   );
 }

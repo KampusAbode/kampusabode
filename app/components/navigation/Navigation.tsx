@@ -16,26 +16,18 @@ export default function Navigation() {
   let lastScrollY = 0;
 
   const handleScroll = () => {
-    if (typeof window !== "undefined") {
-      if (window.scrollY > 50) {
-        if (window.scrollY > lastScrollY) {
-          setShowNav(false);
-        } else {
-          setShowNav(true);
-        }
-        lastScrollY = window.scrollY;
-      }
-    }
+    window.requestAnimationFrame(() => {
+      setShowNav(window.scrollY <= lastScrollY);
+
+      lastScrollY = window.scrollY;
+    });
   };
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.addEventListener("scroll", handleScroll);
-    }
+    window.addEventListener("scroll", handleScroll);
+
     return () => {
-      if (typeof window !== "undefined") {
-        window.removeEventListener("scroll", handleScroll);
-      }
+      window.removeEventListener("scroll", handleScroll);
     };
   }, [lastScrollY]);
 
