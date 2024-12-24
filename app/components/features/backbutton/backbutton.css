@@ -2,7 +2,7 @@
   .back-button {
     display: grid;
     place-items: center;
-    border-radius: 50%;
+    border-radius: 100%;
 
     width: 35px;
     height: 35px;
