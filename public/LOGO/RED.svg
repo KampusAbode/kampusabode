@@ -2,6 +2,9 @@
 <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72.53 73.28">
   <defs>
     <style>
+    #Layer_1-2{
+      transform: rotate(-90deg);
+    }
       .cls-1 {
         fill: #be202e;
       }
