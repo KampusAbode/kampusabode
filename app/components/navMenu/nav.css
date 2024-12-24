@@ -10,11 +10,13 @@
   z-index: 9999;
 }
 .nav-menu .close-div {
-  text-align: right;
   margin-bottom: var(--spacing-2x);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: var(--spacing);
+  border: var(--border);
+  border-radius: var(--border-radius);
 }
 .nav-menu .close-div .logo {
   transform: rotate(-90deg);
