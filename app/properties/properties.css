@@ -66,10 +66,10 @@
   display: grid;
   grid-template-columns: 8fr 0.8fr;
   overflow: hidden;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-below);
 }
 .user-search .container input {
-  border: none;
+  border: var(--border);
   padding: var(--spacing);
 }
 .user-search .container .search-icon {
@@ -120,6 +120,7 @@
 }
 .filter .container span:hover, .filter .container span.active {
   border: var(--border-hover);
+  color: var(--font-color-h);
 }
 
 .property-listings {
@@ -141,6 +142,9 @@
   }
 }
 @media screen and (max-width: 768px) {
+  .banner .container {
+    padding: var(--spacing) var(--spacing-2x);
+  }
   .user-search .container {
     grid-template-columns: 8fr 1.5fr;
   }

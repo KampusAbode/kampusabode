@@ -153,6 +153,11 @@
   }
 }
 @media screen and (max-width: 768px) {
+  .banner{
+    .container{
+      padding: var(--spacing) var(--spacing-2x);
+    }
+  }
   .user-search {
     .container {
       grid-template-columns: 8fr 1.5fr;
