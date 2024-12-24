@@ -241,7 +241,7 @@
 .properties-details-page .container .agent-listings > div .list-prop .list-details {
   padding-block: var(--spacing-h);
 }
-.properties-details-page .container .agent-listings > div .list-prop .list-details h5 {
+.properties-details-page .container .agent-listings > div .list-prop .list-details h6 {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;

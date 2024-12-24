@@ -156,7 +156,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                       />
                     </div>
                     <div className="list-details">
-                      <h5>{listing.title}</h5>
+                      <h6>{listing.title}</h6>
                       <span>{listing.description}</span>
                     </div>
                   </div>
