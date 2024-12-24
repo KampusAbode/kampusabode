@@ -88,8 +88,8 @@
 
 .filter {
   background: var(--background-white);
-  margin: var(--spacing) auto;
-  padding-block: var(--spacing);
+  margin-bottom: var(--spacing);
+  padding-block: var(--spacing-h);
   position: sticky;
   top: 0px;
   z-index: 999;

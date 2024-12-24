@@ -57,6 +57,7 @@ export default function Header() {
   // Pages where the header will show the back button and page name
   const pagesWithBackButton = [
     "profile",
+    "properties",
     "chat",
     "adminchatroom",
     "dashboard",
