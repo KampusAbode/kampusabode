@@ -52,7 +52,9 @@
   color: var(--primary-color);
 }
 .navigation ul a.active svg {
-  transform: translateY(-10px);
+  transform: translateY(-8px);
+  width: 32px;
+  height: 32px;
 }
 .navigation ul a.active svg path {
   fill: var(--primary-color);

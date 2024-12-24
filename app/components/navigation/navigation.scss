@@ -58,8 +58,10 @@
         span {
           color: var(--primary-color);
         }
-        svg{
-          transform: translateY(-10px);
+        svg {
+          transform: translateY(-8px);
+          width: 32px;
+          height: 32px;
         }
         svg path {
           fill: var(--primary-color);
