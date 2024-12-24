@@ -73,10 +73,14 @@
     box-shadow: var(--shadow-below);
     input {
       border: var(--border);
+      border-radius: var(--border-radius-r);
       padding: var(--spacing);
+
+      &:focus {
+        border: var(--border-hover);
+      }
     }
     .search-icon {
-      color: var(--font-color-p);
       border-top-right-radius: var(--border-radius-r);
       border-bottom-right-radius: var(--border-radius-r);
       display: grid;
@@ -86,6 +90,9 @@
       svg {
         width: 25px;
         height: 25px;
+        path{
+          fill: var(--font-color-h);
+        }
       }
     }
   }
@@ -181,7 +188,7 @@
     }
   }
 }
-@media screen and (max-width: 560px) {
+@media screen and (max-width: 580px) {
   .property-listings {
     .properties {
       grid-template-columns: 1fr;
