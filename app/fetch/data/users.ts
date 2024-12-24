@@ -125,10 +125,6 @@ export const users: UserType[] = [
           id: "b144908f-e220-49c7-9e2e-eb45d77addaf",
           available: true,
         },
-        {
-          id: "bQHHp7RzA3vueUXyN7rS",
-          available: true,
-        },
       ],
     },
   },
