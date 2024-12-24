@@ -81,7 +81,7 @@ html {
 
 body {
   font-family: var(--font-open-sans);
-  font-weight: 500;
+  font-weight: 600;
   line-height: var(--line-height-md);
   color: var(--font-color-p);
   background-color: var(--background-white);
@@ -120,7 +120,7 @@ h4,
 h5,
 h6 {
   color: var(--font-color-h);
-  font-weight: 600;
+  font-weight: 700;
   line-height: var(--line-height-sm);
   -webkit-user-select: none;
      -moz-user-select: none;
