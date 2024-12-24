@@ -17,7 +17,11 @@ function Nav() {
   const pathname = usePathname();
 
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user) as { isAuthenticated: boolean; id: string; username: string };
+  const user = useSelector((state: RootState) => state.user) as {
+    isAuthenticated: boolean;
+    id: string;
+    username: string;
+  };
   const isMenu = useSelector((state: RootState) => state.menu);
 
   // Move the useRouter hook here (at the top of the component)
@@ -56,15 +60,15 @@ function Nav() {
       <div>
         <div className="close-div" onClick={() => dispatch(closeMenu())}>
           <div className="logo">
-              <Link href="/">
-                <img
-                  src={"/LOGO/RED.svg"}
-                  width={150}
-                  height={150}
-                  alt="logo"
-                />
-              </Link>
-            </div>
+            <Link href="/">
+              <img
+                src={"/LOGO/REDTR.png"}
+                width={200}
+                height={200}
+                alt="logo"
+              />
+            </Link>
+          </div>
           <div className="close">
             <FaTimes />
           </div>

@@ -7,7 +7,7 @@ import Link from "next/link";
 // import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../redux/stateSlice/userSlice";
-import {openMenu, closeMenu} from "../../redux/stateSlice/menuSlice";
+import { openMenu, closeMenu } from "../../redux/stateSlice/menuSlice";
 import { logoutUser } from "../../utils";
 import { FaTimes, FaBars, FaArrowLeft } from "react-icons/fa";
 import { usePathname } from "next/navigation";
@@ -23,7 +23,7 @@ export default function Header() {
 
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
-  const isMenu = useSelector((state: RootState) => state.menu)
+  const isMenu = useSelector((state: RootState) => state.menu);
   // Move the useRouter hook here (at the top of the component)
   const router = useRouter();
 
@@ -91,9 +91,9 @@ export default function Header() {
             <div className="logo">
               <Link href="/">
                 <img
-                  src={"/LOGO/RED.svg"}
-                  width={150}
-                  height={150}
+                  src={"/LOGO/REDTR.png"}
+                  width={200}
+                  height={200}
                   alt="logo"
                 />
               </Link>
