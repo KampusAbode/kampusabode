@@ -3,7 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { FaAngleLeft } from "react-icons/fa"; // Import the left arrow icon
-import './backbutton.css';
+import "./backbutton.css";
 
 const BackButton = () => {
   const router = useRouter();
@@ -13,17 +13,14 @@ const BackButton = () => {
   };
 
   return (
-    <div className="back">
-      <div className="container">
-        <span
-          onClick={handleBack}
-          className="back-button"
-          aria-label="Go Back"
-          style={{ cursor: "pointer" }}>
-          <FaAngleLeft /> 
-        </span>
+      <div
+        onClick={handleBack}
+        className="back-button"
+        aria-label="Go Back"
+       >
+        <FaAngleLeft />
       </div>
-    </div>
+    
   );
 };
 

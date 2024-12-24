@@ -1,0 +1,29 @@
+.bookmark-button {
+  display: grid;
+  place-items: center;
+  border-radius: 100%;
+
+  width: 35px;
+  height: 35px;
+  background-color: var(--white);
+  border: var(--border);
+  border-color: transparent;
+
+  cursor: pointer;
+
+  &:hover {
+    border: var(--border);
+  }
+
+  &.saved {
+    svg {
+      path{
+        fill: var(--primary-color);
+      }
+    }
+  }
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}

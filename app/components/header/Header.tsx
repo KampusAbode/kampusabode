@@ -85,7 +85,9 @@ export default function Header() {
           {showBackButton ? (
             <>
               <BackButton />
-              <div className="page-title">{pageName === "properties/" ? "property" : pathname}</div>
+              <div className="page-title">
+                {pageName === "properties/" ? "property" : pageName}
+              </div>
             </>
           ) : (
             <div className="logo">

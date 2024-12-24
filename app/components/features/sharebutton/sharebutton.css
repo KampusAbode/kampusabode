@@ -1,16 +1,18 @@
-.back-button {
+.share-button {
   display: grid;
   place-items: center;
   border-radius: 100%;
 
   width: 35px;
   height: 35px;
-  background-color: var(--light-gray);
+  background-color: var(--white);
+  border: var(--border);
+  border-color: transparent;
 
   cursor: pointer;
 
   &:hover {
-    background-color: var(--gray);
+    border: var(--border);
   }
   
   svg {

@@ -65,14 +65,7 @@
   display: flex;
   gap: var(--spacing);
   align-items: center;
-  border-color: var(--white);
-  box-shadow: var(--shadow);
   z-index: 2;
-}
-.properties-details-page .container.prop-image-details .property-images .display-image .features svg {
-  cursor: pointer;
-  width: 25px;
-  height: 25px;
 }
 .properties-details-page .container.prop-image-details .property-images .control-image {
   padding: var(--spacing);

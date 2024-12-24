@@ -71,15 +71,8 @@
           display: flex;
           gap: var(--spacing);
           align-items: center;
-          border-color: var(--white);
-          box-shadow: var(--shadow);
           z-index: 2;
-
-          svg {
-            cursor: pointer;
-            width: 25px;
-            height: 25px;
-          }
+         
         }
       }
       .control-image {
