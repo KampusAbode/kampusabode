@@ -62,9 +62,9 @@ function Nav() {
           <div className="logo">
             <Link href="/">
               <img
-                src={"/LOGO/REDTR.png"}
-                width={200}
-                height={200}
+                src={"/LOGO/WHITE_BOX_LOGO.png"}
+                width={500}
+                height={500}
                 alt="logo"
               />
             </Link>
