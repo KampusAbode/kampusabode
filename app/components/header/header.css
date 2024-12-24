@@ -25,6 +25,7 @@ header .container .page-title {
 }
 header .container .logo {
   visibility: hidden;
+  transform: rotate(-90deg);
 }
 header .container .logo a {
   cursor: pointer;

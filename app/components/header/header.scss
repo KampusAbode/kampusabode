@@ -27,6 +27,7 @@ header {
 
     .logo {
       visibility: hidden;
+      transform: rotate(-90deg);
 
       a {
         cursor: pointer;

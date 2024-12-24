@@ -16,6 +16,9 @@
   justify-content: space-between;
   align-items: center;
 }
+.nav-menu .close-div .logo {
+  transform: rotate(-90deg);
+}
 .nav-menu .close-div .logo a {
   cursor: pointer;
 }
