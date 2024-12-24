@@ -18,9 +18,6 @@
   border: var(--border);
   border-radius: var(--border-radius);
 }
-.nav-menu .close-div .logo {
-  transform: rotate(-90deg);
-}
 .nav-menu .close-div .logo a {
   cursor: pointer;
 }
