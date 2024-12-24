@@ -35,7 +35,8 @@ export default function App() {
           className="hero_video"
           autoPlay
           muted
-          loop>
+          loop
+        >
           Your browser does not support the video tag.
         </video>
         <div className="container">
