@@ -72,8 +72,8 @@
   gap: var(--spacing);
 }
 .nav-menu ul li a svg {
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
 }
 .nav-menu .logout {
   line-height: var(--line-height-sm);
@@ -90,7 +90,6 @@
     right: -100%;
     top: 0;
     width: 100%;
-    opacity: 0;
     transition: var(--transition);
   }
   .nav-menu.fadeIn {
