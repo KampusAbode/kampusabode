@@ -70,9 +70,9 @@
     display: grid;
     grid-template-columns: 8fr 0.8fr;
     overflow: hidden;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-below);
     input {
-      border: none;
+      border: var(--border);
       padding: var(--spacing);
     }
     .search-icon {
@@ -127,6 +127,7 @@
       &:hover,
       &.active {
         border: var(--border-hover);
+        color: var(--font-color-h);
       }
     }
   }
