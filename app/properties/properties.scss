@@ -74,6 +74,8 @@
     input {
       border: var(--border);
       border-radius: var(--border-radius-r);
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
       padding: var(--spacing);
 
       &:focus {

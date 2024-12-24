@@ -12,41 +12,22 @@ import { FaBookmark, FaMessage, FaPerson, FaUser } from "react-icons/fa6";
 export default function Navigation() {
   const user = useSelector((state: RootState) => state.user?.isAuthenticated);
   const pathname = usePathname();
-  const [showNav, setShowNav] = useState(false);
-  let lastScrollY = 0;
-
-  const handleScroll = () => {
-    window.requestAnimationFrame(() => {
-      setShowNav(window.scrollY <= lastScrollY);
-
-      lastScrollY = window.scrollY;
-    });
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [lastScrollY]);
 
   // Render the header only if the pathname contains any of the excluded paths
   const excludedPaths = [
     "login",
     "signup",
-    "profile",
     "chat",
     "adminchatroom",
-    "dashboard",
     "about",
   ];
+
   if (excludedPaths.some((path) => pathname.includes(`/${path}`))) {
     return null;
   }
 
   return (
-    <nav className={`navigation ${showNav ? "show" : "hide"}`}>
+    <nav className="navigation">
       <ul className={` ${user ? "grid" : "flex"}`}>
         <li>
           <Link
