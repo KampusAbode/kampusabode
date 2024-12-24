@@ -58,7 +58,7 @@ const BookmarkButton = ({ propertyId }: { propertyId: string }) => {
 
   return (
     <div
-      className={`bookmark-button {isBookmarked ? "saved" : ""}`}
+      className={`bookmark-button ${isBookmarked ? "saved" : ""}`}
       onClick={toggleBookmark}
       aria-label={isBookmarked ? "Remove from bookmarks" : "Add to bookmarks"}
       role="button">
