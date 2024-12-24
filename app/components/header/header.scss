@@ -86,14 +86,11 @@ header {
       .menu {
         display: grid;
         place-items: center;
-        border-radius: 100%;
-
-        &:hover {
-          background-color: var(--light-gray);
-        }
-
+        border-radius: 50%;
+        
         width: 35px;
         height: 35px;
+        background-color: var(--light-gray);
         cursor: pointer;
         svg {
           width: 24px;

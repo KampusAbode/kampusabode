@@ -32,14 +32,11 @@
   border-radius: 50%;
   display: grid;
   place-content: center;
-  float: right;
+  background-color: var(--light-gray);
 }
 .nav-menu .close-div .close svg {
   width: 24px;
   height: 24px;
-}
-.nav-menu .close-div .close:hover {
-  background-color: var(--light-gray);
 }
 @media screen and (min-width: 768px) {
   .nav-menu .close-div {

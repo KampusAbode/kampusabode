@@ -1,7 +1,15 @@
 .back {
-  span {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-h);
+  .back-button {
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+
+    width: 35px;
+    height: 35px;
+    background-color: var(--light-gray);
+    svg {
+      width: 24px;
+      height: 24px;
+    }
   }
 }
