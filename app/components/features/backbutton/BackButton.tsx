@@ -13,14 +13,9 @@ const BackButton = () => {
   };
 
   return (
-      <div
-        onClick={handleBack}
-        className="back-button"
-        aria-label="Go Back"
-       >
-        <FaAngleLeft />
-      </div>
-    
+    <div onClick={handleBack} className="back-button" aria-label="Go Back">
+      <FaAngleLeft />
+    </div>
   );
 };
 

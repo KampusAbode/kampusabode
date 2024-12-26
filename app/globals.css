@@ -82,7 +82,7 @@ html {
 
 body {
   font-family: var(--font-open-sans);
-  font-weight: 600;
+  font-weight: 500;
   line-height: var(--line-height-md);
   color: var(--font-color-p);
   background-color: var(--background-white);
@@ -120,6 +120,7 @@ h3,
 h4,
 h5,
 h6 {
+  font-weight: 600;
   color: var(--font-color-h);
   line-height: var(--line-height-sm);
   -webkit-user-select: none;
@@ -289,6 +290,9 @@ img {
     --font-size-lg: 1.125rem; /* 18px */
     --font-size-xl: 1.5rem; /* 24px */
     --font-size-xxl: 2rem; /* 32px */
+  }
+  html {
+    font-size: 14px;
   }
   h1 {
     font-size: 2rem; /* Approx. 32px on mobile */

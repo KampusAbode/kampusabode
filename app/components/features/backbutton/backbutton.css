@@ -12,9 +12,4 @@
   &:hover {
     background-color: var(--gray);
   }
-
-  svg {
-    width: 22px;
-    height: 22px;
-  }
 }
