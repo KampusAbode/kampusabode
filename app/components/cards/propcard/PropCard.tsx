@@ -7,7 +7,7 @@ import { PropertyType } from "../../../fetch/types";
 import "./PropCard.css";
 
 // Import Swiper core and required modules
-import { Pagination } from "swiper/modules";
+import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
@@ -25,11 +25,12 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
     <div className="prop-card">
       <div className="prop-image">
         <div className="actions">
-          <BookmarkButton propertyId={propertyData.id} /> 
+          <BookmarkButton propertyId={propertyData.id} />
         </div>
         <Swiper
-          modules={[Pagination]}
+          modules={[Pagination, Navigation]}
           loop={true}
+          navigation
           spaceBetween={0}
           slidesPerView={1}
           pagination={{ clickable: true }}>
@@ -37,10 +38,9 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
             <SwiperSlide key={img}>
               <Image
                 src={img}
-                width={1000} 
+                width={1000}
                 height={1000}
                 alt={`${propertyData.title} image`}
-              
               />
             </SwiperSlide>
           ))}
@@ -57,7 +57,9 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
             View
           </Link>
         </div>
-        <p><FaLocationDot/> {propertyData.location}</p>
+        <p>
+          <FaLocationDot /> {propertyData.location}
+        </p>
       </div>
     </div>
   );

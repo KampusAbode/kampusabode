@@ -17,11 +17,6 @@
   gap: var(--spacing-h);
   z-index: 2;
 }
-.prop-card .prop-image .actions svg {
-  cursor: pointer;
-  width: 25px;
-  height: 25px;
-}
 .prop-card .swiper {
   height: 280px;
   border-radius: var(--border-radius);
