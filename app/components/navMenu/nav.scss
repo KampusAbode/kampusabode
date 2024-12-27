@@ -13,9 +13,9 @@
   //   width: 0;
   // }
 
-  // &.sideNav {
-
-  // }
+  &.loggedIn {
+    display: none;
+  }
 
   .close-div {
     margin-bottom: var(--spacing-2x);

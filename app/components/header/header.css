@@ -26,12 +26,15 @@ header .container .page-title {
 header .container .logo {
   visibility: hidden;
 }
+header .container .logo.loggedIn {
+  visibility: visible;
+}
 header .container .logo a {
   cursor: pointer;
 }
 header .container .logo a img {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
 }
 header .container nav {
   display: flex;
@@ -58,6 +61,13 @@ header .container .menu {
   /* ========== header section open ========== */
   header .container .logo {
     visibility: visible;
+  }
+  header .container .logo a {
+    cursor: pointer;
+  }
+  header .container .logo a img {
+    width: 24px;
+    height: 24px;
   }
   header .container .page-title {
     display: block;

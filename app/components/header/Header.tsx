@@ -90,7 +90,7 @@ export default function Header() {
               </div>
             </>
           ) : (
-            <div className="logo">
+            <div className={`logo ${!user?.isAuthenticated ? 'loggedIn' : ''}`}>
               <Link href="/">
                 <img
                   src={"/LOGO/WHITE_BOX_LOGO.png"}

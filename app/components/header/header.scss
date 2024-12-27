@@ -28,12 +28,16 @@ header {
     .logo {
       visibility: hidden;
 
+      &.loggedIn{
+        visibility: visible;
+      }
+
       a {
         cursor: pointer;
 
         img {
-          width: 24px;
-          height: 24px;
+          width: 28px;
+          height: 28px;
         }
       }
     }
@@ -72,6 +76,15 @@ header {
     .container {
       .logo {
         visibility: visible;
+
+        a {
+        cursor: pointer;
+
+        img {
+          width: 24px;
+          height: 24px;
+        }
+      }
       }
       .page-title {
         display: block;

@@ -9,6 +9,9 @@
   overflow-y: scroll;
   z-index: 9999;
 }
+.nav-menu.loggedIn {
+  display: none;
+}
 .nav-menu .close-div {
   margin-bottom: var(--spacing-2x);
   display: flex;

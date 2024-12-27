@@ -55,7 +55,7 @@ function Nav() {
 
   return (
     <div
-      className={`nav-menu ${user?.isAuthenticated ? "sideNav" : ""} 
+      className={`nav-menu ${user?.isAuthenticated ? "sideNav" : "loggedIn"} 
       ${isMenu ? "fadeIn" : "fadeOut"}`}>
       <div>
         <div className="close-div" onClick={() => dispatch(closeMenu())}>
