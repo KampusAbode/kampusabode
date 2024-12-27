@@ -313,7 +313,7 @@ img {
     font-size: 1rem; /* Approx. 16px on mobile */
   }
   p {
-    font-size: 1rem; /* Consistent text size on mobile for readability */
+    font-size: 0.95rem; /* Consistent text size on mobile for readability */
   }
   button {
     font-size: var(--font-size-nm);
