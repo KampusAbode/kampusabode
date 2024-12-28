@@ -44,11 +44,11 @@
           color: var(--font-color-p);
           cursor: pointer;
 
-          &.confirm{
+          &.confirm {
             background-color: var(--primary-color);
           }
-          &.cancel{
-           border: var(--border);
+          &.cancel {
+            border: var(--border);
           }
         }
       }
@@ -57,7 +57,7 @@
 
   .container {
     max-width: 900px;
-    
+
     .chat-display {
       height: 70vh;
       overflow-y: auto;
@@ -69,7 +69,15 @@
       }
 
       &::-webkit-scrollbar {
-       background-color: transparent;
+        visibility: hidden;
+      }
+      &:hover {
+        &::-webkit-scrollbar {
+          visibility: visible;
+        }
+        &::-webkit-scrollbar-thumb {
+          height: 100px;
+        }
       }
 
       .message-box {
@@ -110,12 +118,12 @@
           color: var(--font-color-light);
           border-radius: var(--border-radius);
           border-top-right-radius: 0;
-          
+
           .message-detail {
             border-left: none;
             border-right: var(--border);
             border-color: var(--primary-color);
-             border-radius: var(--border-radius);
+            border-radius: var(--border-radius);
             border-top-right-radius: 0;
           }
         }

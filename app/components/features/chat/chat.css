@@ -62,7 +62,13 @@
   margin-top: 50px;
 }
 .chat-page .container .chat-display::-webkit-scrollbar {
-  background-color: transparent;
+  visibility: hidden;
+}
+.chat-page .container .chat-display:hover::-webkit-scrollbar {
+  visibility: visible;
+}
+.chat-page .container .chat-display:hover::-webkit-scrollbar-thumb {
+  height: 100px;
 }
 .chat-page .container .chat-display .message-box {
   padding: var(--spacing-h);
