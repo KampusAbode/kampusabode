@@ -63,7 +63,6 @@ const UploadProperty = () => {
     area: 0,
     amenities: [],
     images: [],
-    saved: false,
     available: true,
   };
 

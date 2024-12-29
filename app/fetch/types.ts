@@ -62,7 +62,6 @@ export interface PropertyType {
   area: number;
   amenities: string[];
   images: string[];
-  saved: boolean;
   available: boolean;
 }
 

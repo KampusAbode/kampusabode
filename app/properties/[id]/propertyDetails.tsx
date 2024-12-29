@@ -6,7 +6,6 @@ import SaveVisitedProperty from "../../components/functions/SaveVIsitedPropertie
 import {
   fetchUsersById,
   fetchReviewsByPropertyId,
-  fetchProperties,
   fetchPropertyById,
   fetchPropertiesByIds,
 } from "../../utils";
@@ -24,34 +23,37 @@ interface PropertyDetailsProps {
 }
 
 const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
-  const [agentDetails, setAgentDetails] = useState<UserType | null>(null);
-  const [agentPropertyListings, setAgentPropertyListings] = useState(null);
-  const [propReviews, setPropReviews] = useState<ReviewType[] | null>([]);
-  const [propertyDetails, setPropertyDetails] = useState<PropertyType | null>(null);
+  const [agentDetails, setAgentDetails] = useState<UserType>();
+  const [agentPropertyListings, setAgentPropertyListings] = useState<
+    PropertyType[]
+  >([]);
+  const [propReviews, setPropReviews] = useState<ReviewType[]>([]);
+  const [propertyDetails, setPropertyDetails] = useState<PropertyType>();
   const user = useSelector((state: RootState) => state.userdata);
 
   useEffect(() => {
     const fetchPropertyDetails = async () => {
       try {
         const details = await fetchPropertyById(id);
+        console.log(details);
         setPropertyDetails(details);
+        fetchAgentDetails(details.agentId);
       } catch {
         toast.error("Failed to fetch property details.");
       }
     };
 
     fetchPropertyDetails();
-  }, [id]);
-
-  useEffect(() => {
 
     // Fetch Agent Details
-    const fetchAgentDetails = async () => {
+    const fetchAgentDetails = async (agentId: string) => {
       if (propertyDetails) {
         try {
-          const user = await fetchUsersById(propertyDetails.agentId, "agent");
+          const user = await fetchUsersById(agentId);
+          console.log(user);
           if (user && !Array.isArray(user)) {
             setAgentDetails(user);
+            fetchAgentPropertyListings(user);
           } else {
             toast.error("Invalid user data");
           }
@@ -60,21 +62,21 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
         }
       }
     };
-    fetchAgentDetails();
-
 
     // Fetch Agent Property Listings
-    const fetchAgentPropertyListings = async () => {
+    const fetchAgentPropertyListings = async (user) => {
       try {
         const properties = await fetchPropertiesByIds(
-          "propertiesListed" in agentDetails?.userInfo ? agentDetails.userInfo.propertiesListed.map(property => property.id) : []
+          "propertiesListed" in user.userInfo
+            ? user.userInfo.propertiesListed.map((property) => property.id)
+            : []
         );
+        console.log(properties);
         setAgentPropertyListings(properties);
       } catch (error) {
-        toast.error("Failed to fetch agent details.");
+        toast.error("Failed to fetch agent properties.");
       }
     };
-    fetchAgentPropertyListings();
 
     // Fetch Reviews
     const fetchReviews = async () => {
@@ -82,7 +84,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
         const fetchedReviews = (await fetchReviewsByPropertyId(
           id
         )) as ReviewType[];
-
+        console.log(fetchedReviews);
         setPropReviews(fetchedReviews);
       } catch {
         toast.error("Failed to fetch reviews.");
@@ -93,13 +95,16 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
 
   // Handle Missing Property
   if (!propertyDetails) {
-    return <div>Property not found. Please check the listing ID.</div>;
+    return (
+      <div style={{ marginBlock: "6rem", textAlign: "center" }}>
+        Property not found. Please check the listing ID.
+      </div>
+    );
   }
-
 
   // Calculate Property Rating
   const rating = propReviews.length
-    ? propReviews.reduce((sum, review) => sum + review.rating, 0) /
+    ? propReviews.reduce((sum, review: ReviewType) => sum + review.rating, 0) /
       propReviews.length
     : 0;
 
@@ -146,11 +151,15 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                       alt={`${agentDetails.name} profile picture`}
                     />
                     <h5>{agentDetails.name}</h5>
-                    {"agencyName" in agentDetails.userInfo && agentDetails.userInfo.agencyName && (
-                      <p>{agentDetails.userInfo.agencyName}</p>
-                    )}
+                    {"agencyName" in agentDetails.userInfo &&
+                      agentDetails.userInfo.agencyName && (
+                        <p>{agentDetails.userInfo.agencyName}</p>
+                      )}
                     <span>
-                      Properties: {"propertiesListed" in agentDetails.userInfo ? agentDetails.userInfo.propertiesListed.length : 0}
+                      Properties:{" "}
+                      {"propertiesListed" in agentDetails.userInfo
+                        ? agentDetails.userInfo.propertiesListed.length
+                        : 0}
                     </span>
                   </div>
                   <div className="agent-stats">

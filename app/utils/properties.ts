@@ -41,7 +41,6 @@ export const fetchProperties = async (): Promise<PropertyType[]> => {
         area: data.area || 0,
         amenities: data.amenities || [],
         images: data.images || [],
-        saved: data.saved || false,
         available: data.available || false,
       };
 
@@ -87,7 +86,6 @@ export const fetchPropertyById = async (
         area: data.area || 0,
         amenities: data.amenities || [],
         images: data.images || [],
-        saved: data.saved || false,
         available: data.available || false,
       };
 
@@ -136,7 +134,6 @@ export const fetchPropertiesByIds = async (propertyIds: string[]): Promise<Prope
         area: data.area || 0,
         amenities: data.amenities || [],
         images: data.images || [],
-        saved: data.saved || false,
         available: data.available || false,
       };
     });
@@ -176,7 +173,6 @@ export const addProperty = async (property: PropertyType): Promise<void> => {
       area: property.area,
       amenities: property.amenities,
       images: property.images,
-      saved: property.saved,
       available: property.available,
     });
   } catch (error) {

@@ -5,37 +5,33 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
+import { UserType } from "../fetch/types";
+
 
 const db = getFirestore();
 
-export const fetchUsersById = async (
-  userId: string,
-  userType: "student" | "agent" | null = null
-) => {
+export const fetchUsersById = async (userId: string) => {
   try {
     // Reference to the "users" collection
     const usersCollection = collection(db, "users");
 
     // Build the query
-    let usersQuery;
-    if (userType) {
-      usersQuery = query(
-        usersCollection,
-        where("id", "==", userId),
-      );
-    } else {
-      usersQuery = query(
-        usersCollection,
-      );
-    }
+    const usersQuery = query(usersCollection, where("id", "==", userId));
 
     // Fetch the documents
     const querySnapshot = await getDocs(usersQuery);
 
     // Map through the documents and return their data
-    const user = querySnapshot.docs.map((doc) => ({
-      ...(doc.data() as object), // Spread the document data
-    }));
+    const user: UserType = querySnapshot.docs.map((doc) => {
+      const data = doc.data() as UserType;
+      return {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        userType: data.userType,
+        userInfo: data.userInfo,
+      } as UserType;
+    })[0];
 
     return user;
   } catch (error) {
@@ -43,4 +39,3 @@ export const fetchUsersById = async (
     throw error;
   }
 };
-
