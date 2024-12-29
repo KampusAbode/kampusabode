@@ -64,7 +64,7 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
         id: userId,
         username: userData.name,
         email: userData.email,
-        userType: userData.userType || "student",
+        userType: userData.userType,
         isAuthenticated: true,
       })
     );
@@ -73,9 +73,8 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
         id: userId,
         name: userData.name,
         email: userData.email,
-        userType: userData.userType || "student",
+        userType: userData.userType,
         userInfo: userData.userInfo || {},
-        propertiesListed: []
       })
     );
   };
