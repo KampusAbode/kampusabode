@@ -3,7 +3,6 @@ import React from "react";
 
 import ListedProperties from "./ListedProperties";
 import StudentReviews from "./StudentReviews";
-import AddNewProperty from "./AddNewProperty";
 // import Notifications from "./Notifications";
 // import PerformanceMetrics from "./PerformanceMetrics";
 import { UserType } from "../../fetch/types";
@@ -19,8 +18,7 @@ const AgentDashboard = ({ user }: AgentDashboardProps) => {
       {/* <Notifications user={user} /> */}
       <ListedProperties user={user} />
       <StudentReviews user={user} />
-      <AddNewProperty />
-      {/* <PerformanceMetrics user={user} /> */}
+     
     </div>
   );
 };

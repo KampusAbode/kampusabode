@@ -75,6 +75,7 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
         email: userData.email,
         userType: userData.userType || "student",
         userInfo: userData.userInfo || {},
+        propertiesListed: []
       })
     );
   };

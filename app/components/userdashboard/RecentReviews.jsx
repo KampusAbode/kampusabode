@@ -1,9 +1,23 @@
-import React from "react";
-import reviews from "../../fetch/data/reviews";
+
+import {fetchReviewsByAuthor} from "../../utils"
+import toast from "react-hot-toast";
+
 
 const RecentReviews = ({ user }) => {
   const userType = user?.userType;
-  const filteredReviews = reviews.filter((views) => views.author === user?.id);
+  let setPropReviews;
+   (() => {
+    const fetchReviews = async () => {
+      try {
+        const fetchedReviews = await fetchReviewsByAuthor(user?.id);
+        
+        setPropReviews = fetchedReviews;
+      } catch {
+        toast.error("Failed to fetch reviews.");
+      }
+    };
+    fetchReviews();
+  });
   return (
     <div className="reviews-container">
       <h4>
@@ -12,10 +26,10 @@ const RecentReviews = ({ user }) => {
           : "Your Feedback"}
       </h4>
       <ul className="reviews-list">
-        {filteredReviews.length === 0 ? (
+        {setPropReviews.length === 0 ? (
           <li>No reviews available.</li>
         ) : (
-          filteredReviews.map((review, index) => (
+          setPropReviews.map((review, index) => (
             <li key={index} className="review-item">
               <div className="review-author">
                 <strong>{review.author}</strong> - {review.date}

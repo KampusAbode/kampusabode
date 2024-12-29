@@ -1,26 +1,16 @@
 // import axios from "axios";
 import { db, auth } from "../lib/firebaseConfig";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+
 import {
   collection,
   doc,
-  setDoc,
   updateDoc,
-  query,
-  where,
   getDocs,
   deleteField,
   addDoc,
-  onSnapshot,
-  serverTimestamp,
-  deleteDoc,
-  orderBy,
 } from "firebase/firestore";
 
-import CryptoJS from "crypto-js";
+// import CryptoJS from "crypto-js";
 import { PropertyType } from "../fetch/types";
 
 export const getProperties = async (): Promise<PropertyType[]> => {

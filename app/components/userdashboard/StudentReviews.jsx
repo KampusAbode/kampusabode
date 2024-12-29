@@ -1,19 +1,30 @@
-import reviews from "../../fetch/data/reviews";
+import { fetchReviewsByAgentId } from "../../utils";
+import toast from "react-hot-toast";
 
 const StudentReviews = ({ user }) => {
-  const { author } = user;
-
   // Filter reviews by userId
-  const filteredReviews = reviews.filter((review) => review.author === author);
+  let setPropReviews;
+     (() => {
+      const fetchReviews = async () => {
+        try {
+          const fetchedReviews = await fetchReviewsByAgentId(user?.id);
+          
+          setPropReviews = fetchedReviews;
+        } catch {
+          toast.error("Failed to fetch reviews.");
+        }
+      };
+      fetchReviews();
+    });
 
   return (
     <div className="student-reviews">
       <h3>Student Reviews</h3>
       <ul>
-        {filteredReviews.length > 0 ? (
-          filteredReviews.map((review) => <li key={review.id}></li>)
+        {setPropReviews.length > 0 ? (
+          setPropReviews.map((review) => <li key={review.id}>{review.content} - {review.author}</li>)
         ) : (
-          <li>No reviews found for this user?.</li>
+          <li>No reviews found.</li>
         )}
       </ul>
     </div>

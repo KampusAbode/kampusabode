@@ -1,3 +1,5 @@
+
+
 interface ServicesType {
   heading: string;
   text: string;
@@ -72,6 +74,15 @@ export interface ArticleType {
   publication_date: string;
   category: string;
   saved: boolean;
+}
+
+export interface ReviewType {
+  id: string;
+  author: string;
+  propertyId: string;
+  content: string;
+  rating: number;
+  date: Date;
 }
 
 export interface LinkType {
