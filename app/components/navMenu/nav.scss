@@ -68,11 +68,9 @@
       width: 0;
     }
 
-    p {
-      color: var(--font-color-h);
-      padding: var(--spacing);
-    }
+    
     li {
+      margin-bottom: var(--spacing-h);
       &:hover,
       &.active {
         background: var(--light-gray);

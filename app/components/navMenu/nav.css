@@ -54,9 +54,8 @@
 .nav-menu ul::-webkit-scrollbar {
   width: 0;
 }
-.nav-menu ul p {
-  color: var(--font-color-h);
-  padding: var(--spacing);
+.nav-menu ul li {
+  margin-bottom: var(--spacing-h);
 }
 .nav-menu ul li:hover, .nav-menu ul li.active {
   background: var(--light-gray);
