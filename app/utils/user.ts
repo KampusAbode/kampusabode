@@ -8,8 +8,8 @@ import {
 
 const db = getFirestore();
 
-export const fetchUsersByPropertyId = async (
-  propertyId: string,
+export const fetchUsersById = async (
+  userId: string,
   userType: "student" | "agent" | null = null
 ) => {
   try {
@@ -21,13 +21,11 @@ export const fetchUsersByPropertyId = async (
     if (userType) {
       usersQuery = query(
         usersCollection,
-        where("userType", "==", userType),
-        where("userInfo.propertiesListed", "array-contains", { id: propertyId })
+        where("id", "==", userId),
       );
     } else {
       usersQuery = query(
         usersCollection,
-        where("userInfo.propertiesListed", "array-contains", { id: propertyId })
       );
     }
 

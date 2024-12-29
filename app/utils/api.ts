@@ -207,7 +207,7 @@ export const getAuthState = () => {
     : { isAuthenticated: false };
 };
 
-export const getProperties = async (): Promise<PropertyType[]> => {
+export const fetchProperties = async (): Promise<PropertyType[]> => {
   try {
     const propertiesCollection = collection(db, "properties");
     const snapshot = await getDocs(propertiesCollection);
@@ -220,7 +220,7 @@ export const getProperties = async (): Promise<PropertyType[]> => {
       const property: PropertyType = {
         id: data.id || null,
         url: data.url || "",
-        agentId: data.agentId || 0,
+        agentId: data.agentId || null,
         title: data.title || "",
         description: data.description || "",
         price: data.price || "",

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getProperties } from "../../utils";
+import { fetchProperties } from "../../utils";
 import { UserType, PropertyType } from "../../fetch/types";
 import Link from "next/link";
 
@@ -11,11 +11,11 @@ const ListedProperties = ({ user }: { user: UserType }) => {
   );
 
   useEffect(() => {
-    const fetchProperties = async () => {
+    const fetchPropertiesFromDB = async () => {
       if ("propertiesListed" in user.userInfo) {
         const propertiesListed = user.userInfo.propertiesListed || [];
 
-        const fetchedProperties: PropertyType[] = await getProperties();
+        const fetchedProperties: PropertyType[] = await fetchProperties();
         const filtered = fetchedProperties.filter((property) =>
           propertiesListed.some(
             (listedProperty) => listedProperty.id === property.id.toString()
@@ -26,7 +26,7 @@ const ListedProperties = ({ user }: { user: UserType }) => {
       }
     };
 
-    fetchProperties();
+    fetchPropertiesFromDB();
   }, [user]);
 
   return (

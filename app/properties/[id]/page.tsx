@@ -1,7 +1,7 @@
 // app/properties/[id]/page.tsx
 import { Metadata } from "next";
 import PropertyDetails from "./propertyDetails";
-import { getProperties } from "../../utils";
+import { fetchPropertyById } from "../../utils";
 
 type Params = {
   params: { id: string };
@@ -9,8 +9,7 @@ type Params = {
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { id } = params;
-  const properties = await getProperties();
-  const propertyDetails = properties.find((prop) => prop.id.toString() === id);
+  const propertyDetails = await fetchPropertyById(id);
 
   if (!propertyDetails) {
     return {

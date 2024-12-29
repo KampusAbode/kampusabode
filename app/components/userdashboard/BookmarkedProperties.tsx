@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getProperties } from "../../utils";
+import { fetchProperties } from "../../utils";
 import { PropertyType } from "../../fetch/types";
 import Link from "next/link";
 import Image from "next/image";
@@ -11,11 +11,11 @@ const BookmarkedProperties = ({ user }) => {
   const [properties, setProperties] = useState<PropertyType[]>([]);
 
   useEffect(() => {
-    const fetchProperties = async () => {
-      const fetchedProperties = await getProperties();
+    const fetchPropertiesFromDB = async () => {
+      const fetchedProperties = await fetchProperties();
       setProperties(fetchedProperties);
     };
-    fetchProperties();
+    fetchPropertiesFromDB();
   }, []);
 
   // Filter properties based on bookmarkedIds

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { getProperties } from "../../utils";
+import { fetchProperties } from "../../utils";
 import { PropertyType } from "../../fetch/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,11 +16,11 @@ function ViewedProperties() {
   let checkProperties = [];
 
   useEffect(() => {
-    const fetchProperties = async () => {
-      const fetchedProperties = await getProperties();
+    const fetchPropertiesFromDB = async () => {
+      const fetchedProperties = await fetchProperties();
       setProperties(fetchedProperties);
     };
-    fetchProperties();
+    fetchPropertiesFromDB();
   }, []);
 
   if (visitedProperties) {

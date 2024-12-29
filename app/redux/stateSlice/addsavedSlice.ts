@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getProperties } from "../../utils";
+import { fetchProperties } from "../../utils";
 import { trends } from "../../fetch/data/trends";
 import { PropertyType } from "../../fetch/types";
 import { ArticleType } from "../../fetch/types";
@@ -8,7 +8,7 @@ import { AddSavedState } from "../../fetch/types";
 let properties;
 
 async () => {
-  const fetchedProperties: PropertyType[] = await getProperties();
+  const fetchedProperties: PropertyType[] = await fetchProperties();
   properties = fetchedProperties;
 };
 

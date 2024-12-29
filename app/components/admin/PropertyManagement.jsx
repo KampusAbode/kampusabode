@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getProperties } from "../../utils";
+import { fetchProperties } from "../../utils";
 
 const PropertyManagement = () => {
   const [properties, setProperties] = useState([]);
@@ -9,7 +9,7 @@ const PropertyManagement = () => {
   useEffect(() => {
     const fetchPropertiesData = async () => {
       try {
-        const propertyData = await getProperties();
+        const propertyData = await fetchProperties();
         setProperties(propertyData);
       } catch (error) {
         console.error(error.message);

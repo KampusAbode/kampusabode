@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { trends } from "../fetch/data/trends";
-import { getProperties } from "../utils";
+import { fetchProperties } from "../utils";
 import "./saved.css";
 import ArticleCard from "../components/cards/articleCard/ArticleCard";
 import { ArticleType, PropertyType } from "../fetch/types";
@@ -27,7 +27,7 @@ const SavedPage = () => {
     ) {
       const savedsavedProperties = userData.userInfo.savedProperties;
       const updatedsavedProperties = [...savedsavedProperties];
-      const fetchedProperties: PropertyType[] = await getProperties();
+      const fetchedProperties: PropertyType[] = await fetchProperties();
       setProperties(fetchedProperties);
 
       setsavedProperties(updatedsavedProperties);

@@ -8,12 +8,15 @@ import {
   getDocs,
   deleteField,
   addDoc,
+  getDoc,
+  query,
+  where,
 } from "firebase/firestore";
 
 // import CryptoJS from "crypto-js";
 import { PropertyType } from "../fetch/types";
 
-export const getProperties = async (): Promise<PropertyType[]> => {
+export const fetchProperties = async (): Promise<PropertyType[]> => {
   try {
     const propertiesCollection = collection(db, "properties");
     const snapshot = await getDocs(propertiesCollection);
@@ -26,7 +29,7 @@ export const getProperties = async (): Promise<PropertyType[]> => {
       const property: PropertyType = {
         id: data.id || null,
         url: data.url || "",
-        agentId: data.agentId || 0,
+        agentId: data.agentId || null,
         title: data.title || "",
         description: data.description || "",
         price: data.price || "",
@@ -53,6 +56,101 @@ export const getProperties = async (): Promise<PropertyType[]> => {
     };
   }
 };
+
+export const fetchPropertyById = async (
+  propertyId: string
+): Promise<PropertyType | null> => {
+  try {
+    // Reference to the "properties" collection
+    const propertyDocRef = doc(db, "properties", propertyId);
+
+    // Fetch the document
+    const propertyDoc = await getDoc(propertyDocRef);
+
+    // If the document exists, return the property data
+    if (propertyDoc.exists()) {
+      const data = propertyDoc.data() as PropertyType;
+
+      // Ensure the data returned from Firebase matches PropertyType
+      const property: PropertyType = {
+        id: data.id || null,
+        url: data.url || "",
+        agentId: data.agentId || null,
+        title: data.title || "",
+        description: data.description || "",
+        price: data.price || "",
+        location: data.location || "",
+        neighborhood_overview: data.neighborhood_overview || "",
+        type: data.type || "",
+        bedrooms: data.bedrooms || 0,
+        bathrooms: data.bathrooms || 0,
+        area: data.area || 0,
+        amenities: data.amenities || [],
+        images: data.images || [],
+        saved: data.saved || false,
+        available: data.available || false,
+      };
+
+      return property;
+    } else {
+      console.log("No such property!");
+      return null; // Return null if the property doesn't exist
+    }
+  } catch (error) {
+    console.error("Error fetching property:", error);
+    throw {
+      message: (error as Error).message || "Error fetching property",
+      statusCode: 500,
+    };
+  }
+};
+
+
+export const fetchPropertiesByIds = async (propertyIds: string[]): Promise<PropertyType[]> => {
+  try {
+    const propertiesCollection = collection(db, "properties");
+
+    // Create a query using the "in" operator to fetch properties with IDs in the propertyIds array
+    const propertiesQuery = query(
+      propertiesCollection,
+      where("id", "in", propertyIds)
+    );
+
+    const querySnapshot = await getDocs(propertiesQuery);
+
+    // Map the documents to PropertyType
+    const propertiesList: PropertyType[] = querySnapshot.docs.map((doc) => {
+      const data = doc.data() as PropertyType;
+      return {
+        id: data.id || null,
+        url: data.url || "",
+        agentId: data.agentId || null,
+        title: data.title || "",
+        description: data.description || "",
+        price: data.price || "",
+        location: data.location || "",
+        neighborhood_overview: data.neighborhood_overview || "",
+        type: data.type || "",
+        bedrooms: data.bedrooms || 0,
+        bathrooms: data.bathrooms || 0,
+        area: data.area || 0,
+        amenities: data.amenities || [],
+        images: data.images || [],
+        saved: data.saved || false,
+        available: data.available || false,
+      };
+    });
+
+    return propertiesList;
+  } catch (error) {
+    console.error("Error fetching properties by IDs using 'in' query:", error);
+    throw {
+      message: (error as Error).message || "Error fetching properties by IDs",
+      statusCode: 500,
+    };
+  }
+};
+
 
 export const addProperty = async (property: PropertyType): Promise<void> => {
   try {
@@ -88,7 +186,6 @@ export const addProperty = async (property: PropertyType): Promise<void> => {
     };
   }
 };
-
 
 export const updateAllProperties = async () => {
   try {

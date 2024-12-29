@@ -50,7 +50,7 @@ export interface HomeType {
 export interface PropertyType {
   id: string;
   url: string;
-  agentId: number;
+  agentId: string;
   title: string;
   description: string;
   price: string;

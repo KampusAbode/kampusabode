@@ -4,17 +4,16 @@ import React, { useState, useEffect } from "react";
 import PropStats from "../../components/propertyStats/propStats";
 import SaveVisitedProperty from "../../components/functions/SaveVIsitedProperties";
 import {
-  fetchUsersByPropertyId,
+  fetchUsersById,
   fetchReviewsByPropertyId,
-  getProperties,
+  fetchProperties,
+  fetchPropertyById,
+  fetchPropertiesByIds,
 } from "../../utils";
 import Image from "next/image";
 import Link from "next/link";
 import PropertyImages from "../../components/propertyImages/PropertyImages";
-import type {
-  PropertyType,
-  ReviewType,
-} from "../../fetch/types";
+import type { PropertyType, ReviewType, UserType } from "../../fetch/types";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import toast from "react-hot-toast";
@@ -25,45 +24,65 @@ interface PropertyDetailsProps {
 }
 
 const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
-  const [properties, setProperties] = useState<PropertyType[]>([]);
-  const [agentDetails, setAgentDetails] = useState(null);
+  const [agentDetails, setAgentDetails] = useState<UserType | null>(null);
+  const [agentPropertyListings, setAgentPropertyListings] = useState(null);
   const [propReviews, setPropReviews] = useState<ReviewType[] | null>([]);
+  const [propertyDetails, setPropertyDetails] = useState<PropertyType | null>(null);
   const user = useSelector((state: RootState) => state.userdata);
 
-  const propertyDetails = properties.find((prop) => prop.id.toString() === id);
-
-  // Fetch Agent Details
   useEffect(() => {
-    const fetchAgentDetails = async () => {
+    const fetchPropertyDetails = async () => {
       try {
-        const user = await fetchUsersByPropertyId(id, 'agent');
-        setAgentDetails(user);
+        const details = await fetchPropertyById(id);
+        setPropertyDetails(details);
+      } catch {
+        toast.error("Failed to fetch property details.");
+      }
+    };
+
+    fetchPropertyDetails();
+  }, [id]);
+
+  useEffect(() => {
+
+    // Fetch Agent Details
+    const fetchAgentDetails = async () => {
+      if (propertyDetails) {
+        try {
+          const user = await fetchUsersById(propertyDetails.agentId, "agent");
+          if (user && !Array.isArray(user)) {
+            setAgentDetails(user);
+          } else {
+            toast.error("Invalid user data");
+          }
+        } catch (error) {
+          toast.error("Failed to fetch agent details.");
+        }
+      }
+    };
+    fetchAgentDetails();
+
+
+    // Fetch Agent Property Listings
+    const fetchAgentPropertyListings = async () => {
+      try {
+        const properties = await fetchPropertiesByIds(
+          "propertiesListed" in agentDetails?.userInfo ? agentDetails.userInfo.propertiesListed.map(property => property.id) : []
+        );
+        setAgentPropertyListings(properties);
       } catch (error) {
         toast.error("Failed to fetch agent details.");
       }
     };
-    fetchAgentDetails();
-  }, [id]);
+    fetchAgentPropertyListings();
 
-  // Fetch Properties
-  useEffect(() => {
-    const fetchProperties = async () => {
-      try {
-        const fetchedProperties = await getProperties();
-        setProperties(fetchedProperties);
-      } catch {
-        toast.error("Failed to fetch properties.");
-      }
-    };
-    fetchProperties();
-  }, []);
-
-  // Fetch Reviews
-  useEffect(() => {
+    // Fetch Reviews
     const fetchReviews = async () => {
       try {
-        const fetchedReviews = await fetchReviewsByPropertyId(id) as ReviewType[];
-        
+        const fetchedReviews = (await fetchReviewsByPropertyId(
+          id
+        )) as ReviewType[];
+
         setPropReviews(fetchedReviews);
       } catch {
         toast.error("Failed to fetch reviews.");
@@ -77,12 +96,6 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
     return <div>Property not found. Please check the listing ID.</div>;
   }
 
-  // Agent Property Listings
-  const agentPropertyListings = properties.filter((prop) =>
-    (agentDetails?.propertiesListed || []).some(
-      (propList) => propList.id === prop.id && propList.id !== id
-    )
-  );
 
   // Calculate Property Rating
   const rating = propReviews.length
@@ -127,15 +140,17 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                 <div>
                   <div className="agent-details">
                     <Image
-                      src={agentDetails.avatar}
+                      src={agentDetails.userInfo.avatar}
                       width={500}
                       height={500}
                       alt={`${agentDetails.name} profile picture`}
                     />
                     <h5>{agentDetails.name}</h5>
-                    <p>{agentDetails.agencyName}</p>
+                    {"agencyName" in agentDetails.userInfo && agentDetails.userInfo.agencyName && (
+                      <p>{agentDetails.userInfo.agencyName}</p>
+                    )}
                     <span>
-                      Properties: {agentDetails.propertiesListed?.length || 0}
+                      Properties: {"propertiesListed" in agentDetails.userInfo ? agentDetails.userInfo.propertiesListed.length : 0}
                     </span>
                   </div>
                   <div className="agent-stats">
@@ -144,7 +159,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                   <div className="bio">
                     <p>
                       <strong>Bio: </strong>
-                      {agentDetails.bio}
+                      {agentDetails.userInfo.bio}
                     </p>
                   </div>
                 </div>

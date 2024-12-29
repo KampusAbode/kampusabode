@@ -8,7 +8,7 @@ import Quotes from "./components/quotes/Quotes";
 import Footer from "./components/footer/Footer";
 import Link from "next/link";
 import { PropertyType } from "./fetch/types";
-import { getProperties } from "./utils";
+import { fetchProperties } from "./utils";
 
 import { FaArrowRightLong } from "react-icons/fa6";
 import { useState, useEffect } from "react";
@@ -20,11 +20,11 @@ export default function App() {
   const [properties, setProperties] = useState<PropertyType[]>([]);
 
   useEffect(() => {
-    const fetchProperties = async () => {
-      const fetchedProperties: PropertyType[] = await getProperties();
+    const fetchPropertiesFromDB = async () => {
+      const fetchedProperties: PropertyType[] = await fetchProperties();
       setProperties(fetchedProperties);
     };
-    fetchProperties();
+    fetchPropertiesFromDB();
   }, []);
 
   return (
@@ -35,8 +35,7 @@ export default function App() {
           className="hero_video"
           autoPlay
           muted
-          loop
-        >
+          loop>
           Your browser does not support the video tag.
         </video>
         <div className="container">

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import data from "../fetch/contents";
-import { getProperties } from "../utils";
+import { fetchProperties } from "../utils";
 import PropCard from "../components/cards/propcard/PropCard";
 import Loader from "../components/loader/Loader";
 import "./properties.css";
@@ -23,14 +23,14 @@ const PropertiesPage: React.FC = () => {
 
   // Fetch properties on mount
   useEffect(() => {
-    const fetchProperties = async () => {
+    const fetchPropertiesFromDB = async () => {
       setLoading(true);
-      const fetchedProperties: PropertyType[] = await getProperties();
+      const fetchedProperties: PropertyType[] = await fetchProperties();
       setProperties(fetchedProperties);
       setFilteredProperties(fetchedProperties);
       setLoading(false);
     };
-    fetchProperties();
+    fetchPropertiesFromDB();
   }, []);
 
   // Function to filter properties by search query

@@ -51,7 +51,7 @@ const UploadProperty = () => {
   const initialValues: PropertyType = {
     id: null,
     url: "",
-    agentId: 0,
+    agentId: null,
     title: "",
     description: "",
     price: "",
