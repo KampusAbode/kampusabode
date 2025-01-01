@@ -3,12 +3,11 @@
 import Image from "next/image";
 import "./home.css";
 import data from "./fetch/contents";
-import { trends } from "./fetch/data/trends";
 import Quotes from "./components/quotes/Quotes";
 import Footer from "./components/footer/Footer";
 import Link from "next/link";
 import { PropertyType } from "./fetch/types";
-import { fetchProperties } from "./utils";
+import { allTrends, fetchProperties } from "./utils";
 
 import { FaArrowRightLong } from "react-icons/fa6";
 import { useState, useEffect } from "react";
@@ -18,6 +17,17 @@ const { hero, about, testimonials } = homeSection;
 
 export default function App() {
   const [properties, setProperties] = useState<PropertyType[]>([]);
+  const [trends, setTrends] = useState([]);
+
+  useEffect(() => {
+    // Fetch trends using allTrends function
+    const unsubscribe = allTrends((items) => {
+      setTrends(items); // Update state when trends data changes
+    });
+
+    // Cleanup listener on component unmount
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     const fetchPropertiesFromDB = async () => {

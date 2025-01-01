@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 import { toast } from "react-hot-toast";
 import { signupUser, updateUserProfile } from "../../utils";
-import "../auth.css";
+// import "../auth.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";

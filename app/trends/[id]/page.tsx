@@ -2,7 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { TrendType } from "../../fetch/types";
 
-function TrendPage({ id }) {
+
+type Params = {
+  params: { id: string };
+};
+function TrendPage({ params }: Params) {
+  const id = params.id;
   const [trendData, setTrendData] = useState<TrendType>();
 
   useEffect(() => {

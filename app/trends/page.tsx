@@ -1,27 +1,40 @@
-import { trends } from "../fetch/data/trends";
-import "./trends.css";
-import TrendCard from "../components/cards/trendCard/TrendCard";
-import type { Metadata } from "next";
+'use client'
 
-export const metadata: Metadata = {
-  title: "Real Estate Insights and News - Kampusabode",
-  description:
-    "Explore the latest trends and insights about real estate. Stay informed with Kampusabode's curated content to navigate the property landscape confidently.",
-  keywords:
-    "real estate trends, property news, student real estate, real estate insights, Kampusabode trends,",
-};
+import React, { useEffect, useState } from "react";
+import { allTrends } from "../utils"; // Adjust path as needed
+import TrendCard from "../components/cards/trendCard/TrendCard";
+import "./trends.css";
+
+
 
 export default function trendsPage() {
+  const [trends, setTrends] = useState([]);
+
+  useEffect(() => {
+    // Fetch trends using allTrends function
+    const unsubscribe = allTrends((items) => {
+      setTrends(items); // Update state when trends data changes
+    });
+
+    // Cleanup listener on component unmount
+    return () => unsubscribe();
+  }, []);
+
   return (
     <section className="trends-page">
       <div className="container">
         <h2>Trends</h2>
 
+{trends.length === 0 ? (
+        <p style={{marginBlock: "2rem", textAlign: 'center'}}>No trends available.</p>
+      ) : (
+
         <div className="trends">
           {trends.map((read) => (
-            <TrendCard key={read?.title} trendData={read} />
+            <TrendCard key={read?.id} trendData={read} />
           ))}
         </div>
+      )}
       </div>
     </section>
   );
