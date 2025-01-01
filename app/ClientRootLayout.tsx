@@ -22,15 +22,12 @@ export default function ClientRootLayout({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log("useEffect triggered - Initializing auth state");
     let isMounted = true;
 
     getAuthState()
       .then((state) => {
         if (isMounted) {
-          console.log("Auth state fetched:", state);
           setAuthState(state);
-          console.log("isAuthenticated:", state.isAuthenticated);
           setIsLoading(false);
         }
       })
@@ -42,17 +39,13 @@ export default function ClientRootLayout({
       });
 
     return () => {
-      console.log("Cleaning up useEffect");
       isMounted = false;
     };
   }, []);
 
   if (isLoading) {
-    console.log("Loading state active");
     return <Loader />;
   }
-
-  console.log("Rendering ClientRootLayout with authState:", authState);
 
   return (
     <ReduxProvider>
@@ -65,7 +58,7 @@ export default function ClientRootLayout({
             <Header />
             {children}
           </main>
-      <Navigation />
+          <Navigation />
         </UseIsUser>
       </div>
     </ReduxProvider>

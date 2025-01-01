@@ -11,7 +11,7 @@ const db = getFirestore();
 export const fetchReviewsByPropertyId = async (propertyId) => {
   try {
     // Reference to the "reviews" collection
-    const reviewsCollection = collection(db, "reviews");
+    const reviewsCollection = collection(db, "Reviews");
 
     // Query to fetch reviews where "propertyId" matches
     const reviewsQuery = query(

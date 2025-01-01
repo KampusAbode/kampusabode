@@ -61,6 +61,9 @@
   background: var(--light-gray);
   border-radius: var(--border-radius);
 }
+.nav-menu ul li.btn {
+  width: 100%;
+}
 .nav-menu ul li a {
   padding: var(--spacing);
   text-transform: capitalize;
@@ -75,6 +78,13 @@
 }
 .nav-menu .logout {
   line-height: var(--line-height-sm);
+  padding: var(--spacing-2x);
+  background: linear-gradient(to bottom right, #fff8f1, #ffeee9);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--spacing);
+}
+.nav-menu .logout span {
+  color: var(--white);
 }
 .nav-menu .logout span a,
 .nav-menu .logout span span {

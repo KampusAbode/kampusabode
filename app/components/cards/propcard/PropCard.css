@@ -19,9 +19,9 @@
 }
 .prop-card .swiper {
   height: 280px;
+  width: 100%;
   border-radius: var(--border-radius);
   overflow: hidden;
-  width: 100%;
   position: relative;
   box-shadow: var(--shadow);
 }
@@ -33,7 +33,7 @@
 }
 .prop-card .swiper .swiper-pagination-bullet {
   background-color: var(--white);
-  opacity: 0.6;
+  opacity: 0.5;
 }
 .prop-card .swiper .swiper-pagination-bullet-active {
   opacity: 1;
@@ -70,7 +70,7 @@
 }
 .prop-card .card-details p {
   display: flex;
-  gap: var(--spacing);
+  gap: var(--spacing-h);
   align-items: center;
   text-transform: capitalize;
 }

@@ -93,14 +93,6 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
     fetchReviews();
   }, [id]);
 
-  // Handle Missing Property
-  if (!propertyDetails) {
-    return (
-      <div style={{ marginBlock: "6rem", textAlign: "center" }}>
-        Property not found. Please check the listing ID.
-      </div>
-    );
-  }
 
   // Calculate Property Rating
   const rating = propReviews.length

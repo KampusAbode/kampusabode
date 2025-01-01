@@ -1,19 +1,19 @@
-.article {
+.trned {
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
 }
-.article .article-image {
+.trned .trned-image {
   height: 200px;
   position: relative;
   overflow: hidden;
 }
-.article .article-image img {
+.trned .trned-image img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
 }
-.article .article-image .category {
+.trned .trned-image .category {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -22,45 +22,45 @@
   border-radius: var(--border-radius-r);
   color: var(--gray);
 }
-.article .article-content {
+.trned .trned-content {
   padding: var(--spacing);
 }
-.article .article-content .author-thumbs {
+.trned .trned-content .author-thumbs {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--spacing);
 }
-.article .article-content .author-thumbs .thumbs {
+.trned .trned-content .author-thumbs .thumbs {
   display: flex;
   gap: var(--spacing);
   background-color: var(--light-gray);
   padding: var(--spacing-h);
   border-radius: var(--border-radius);
 }
-.article .article-content .author-thumbs .thumbs svg {
+.trned .trned-content .author-thumbs .thumbs svg {
   cursor: pointer;
   transition: var(--transition);
 }
-.article .article-content .author-thumbs .thumbs svg.thumbsdown {
+.trned .trned-content .author-thumbs .thumbs svg.thumbsdown {
   transform: rotateY(180deg);
 }
-.article .article-content .author-thumbs .thumbs svg:hover, .article .article-content .author-thumbs .thumbs svg.active {
+.trned .trned-content .author-thumbs .thumbs svg:hover, .trned .trned-content .author-thumbs .thumbs svg.active {
   color: var(--primary-color);
   transform: scale(1.2);
 }
-.article .article-content .author-thumbs .thumbs svg:hover.thumbsdown, .article .article-content .author-thumbs .thumbs svg.active.thumbsdown {
+.trned .trned-content .author-thumbs .thumbs svg:hover.thumbsdown, .trned .trned-content .author-thumbs .thumbs svg.active.thumbsdown {
   transform: scale(1.2) rotateY(180deg);
 }
-.article .article-content h5 {
+.trned .trned-content h5 {
   margin-block: var(--spacing-h);
 }
-.article .article-content h5,
-.article .article-content P {
+.trned .trned-content h5,
+.trned .trned-content P {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
   -webkit-box-orient: vertical;
-}/*# sourceMappingURL=articleCard.css.map */
+}/*# sourceMappingURL=trendCard.css.map */

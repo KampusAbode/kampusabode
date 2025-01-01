@@ -20,7 +20,7 @@ const ProfilePage = () => {
             <ProfileOverview user={user} />
 
             <div className="cp">
-              <div className="btn">create profile</div>
+              <Link href={`/profile/${user.id}`} className="btn">create profile</Link>
             </div>
           </>
         ) : (

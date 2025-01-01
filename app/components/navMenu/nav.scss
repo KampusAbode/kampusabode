@@ -37,7 +37,6 @@
       }
     }
 
-
     .close {
       cursor: pointer;
       width: 35px;
@@ -51,7 +50,6 @@
         width: 24px;
         height: 24px;
       }
-
     }
 
     @media screen and (min-width: 768px) {
@@ -68,13 +66,16 @@
       width: 0;
     }
 
-    
     li {
       margin-bottom: var(--spacing-h);
       &:hover,
       &.active {
         background: var(--light-gray);
         border-radius: var(--border-radius);
+      }
+
+      &.btn {
+        width: 100%;
       }
 
       a {
@@ -96,7 +97,12 @@
 
   .logout {
     line-height: var(--line-height-sm);
+    padding: var(--spacing-2x);
+    background: linear-gradient(to bottom right, #fff8f1, #ffeee9);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing);
     span {
+      color: var(--white);
       a,
       span {
         font-size: inherit;

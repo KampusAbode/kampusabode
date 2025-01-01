@@ -4,26 +4,29 @@ import {
   query,
   where,
   getDocs,
+  setDoc,
+  doc,
+  getDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { UserType } from "../fetch/types";
-
 
 const db = getFirestore();
 
 export const fetchUsersById = async (userId: string) => {
   try {
     // Reference to the "users" collection
-    const usersCollection = collection(db, "users");
+    const usersDocRef = doc(db, "users", userId);
 
     // Build the query
-    const usersQuery = query(usersCollection, where("id", "==", userId));
+    // const usersQuery = query(usersCollection, where("id", "==", userId));
 
     // Fetch the documents
-    const querySnapshot = await getDocs(usersQuery);
+    const userData = await getDoc(usersDocRef);
 
-    // Map through the documents and return their data
-    const user: UserType = querySnapshot.docs.map((doc) => {
-      const data = doc.data() as UserType;
+    // check if there are results and return the first user's data
+    if (!userData.exists) {
+      const data = userData.data() as UserType;
       return {
         id: data.id,
         name: data.name,
@@ -31,11 +34,42 @@ export const fetchUsersById = async (userId: string) => {
         userType: data.userType,
         userInfo: data.userInfo,
       } as UserType;
-    })[0];
-
-    return user;
+    } else {
+      throw new Error("No user found with the specified ID");
+    }
   } catch (error) {
-    console.error("Error fetching users by property ID:", error);
-    throw error;
+    throw new Error("Error fetching users by property ID");
   }
 };
+
+
+
+export const saveUserProfile = async (userId: string, userData: UserType) => {
+  try {
+    // Reference to the "users" collection
+    const userDocRef = doc(db, "users", userId);
+
+    await setDoc(userDocRef, userData, { merge: true });
+
+    return {success: true, message: "profile created successfully!"}
+  } catch (error) {
+    
+    throw new Error("Failed to save profile");
+  }
+};
+
+
+export const updateUserProfile = async (userId: string, updates) => {
+  try {
+    // Reference to the "users" collection
+    const userDocRef = doc(db, "users", userId);
+
+    await updateDoc(userDocRef, updates);
+
+    return { success: true, message: "profile updated successfully!" };
+  } catch (error) {
+    throw new Error("Failed to update profile.");
+  }
+};
+
+

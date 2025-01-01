@@ -1,19 +1,20 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { trends } from "../fetch/data/trends";
-import { fetchProperties } from "../utils";
+// import { trends } from "../fetch/data/trends";
+import { fetchProperties, fetchPropertiesByIds } from "../utils";
 import "./saved.css";
-import ArticleCard from "../components/cards/articleCard/ArticleCard";
-import { ArticleType, PropertyType } from "../fetch/types";
+import TrendCard from "../components/cards/trendCard/TrendCard";
+import { TrendType, PropertyType } from "../fetch/types";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 
 const SavedPage = () => {
-  const [properties, setProperties] = useState([]);
+  // const [properties, setProperties] = useState([]);
   const [currentTab, setCurrentTab] = useState("properties");
   const [savedProperties, setsavedProperties] = useState([]);
+  const [savedTrends, setsavedTrends] = useState([]);
   const userData = useSelector((state: RootState) => state.userdata);
   const isAuthenticated = useSelector(
     (state: RootState) => state.user?.isAuthenticated
@@ -27,22 +28,21 @@ const SavedPage = () => {
     ) {
       const savedsavedProperties = userData.userInfo.savedProperties;
       const updatedsavedProperties = [...savedsavedProperties];
-      const fetchedProperties: PropertyType[] = await fetchProperties();
-      setProperties(fetchedProperties);
-
-      setsavedProperties(updatedsavedProperties);
+      const fetchedProperties: PropertyType[] = await fetchPropertiesByIds(
+        updatedsavedProperties
+      );
+      setsavedProperties(fetchedProperties);
     }
   };
 
   function savedTab(tab: string) {
     if (tab === "trends") {
-      return trends
-        .filter((filter) => filter.saved === true)
-        .map((article) => {
+      return savedTrends
+        .map((read) => {
           return (
-            <ArticleCard
-              key={article.title}
-              articleData={article as ArticleType}
+            <TrendCard
+              key={read.title}
+              trendData={read as TrendType}
             />
           );
         });
@@ -50,8 +50,7 @@ const SavedPage = () => {
       if (tab === "properties" && savedProperties) {
         return (
           <div className="saved-props">
-            {properties
-              .filter((filter) => savedProperties.includes(filter.id))
+            {savedProperties
               .map((property) => {
                 return (
                   <Link key={property.id} href={`/properties/${property.id}`}>

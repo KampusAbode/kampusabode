@@ -56,6 +56,10 @@ const BookmarkButton = ({ propertyId }: { propertyId: string }) => {
     }
   };
 
+  if (userData.userType === "agent") {
+    return;
+  }
+
   return (
     <div
       className={`bookmark-button ${isBookmarked ? "saved" : ""}`}

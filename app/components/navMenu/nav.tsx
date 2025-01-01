@@ -21,6 +21,7 @@ function Nav() {
     isAuthenticated: boolean;
     id: string;
     username: string;
+    userType: string;
   };
   const isMenu = useSelector((state: RootState) => state.menu);
 
@@ -74,6 +75,17 @@ function Nav() {
           </div>
         </div>
         <ul>
+          {user?.userType === "agent" ? (
+              <li className="btn">
+                <Link
+                  href="/upload"
+                  onClick={() => {
+                    dispatch(closeMenu());
+                  }}>
+                  upload
+                </Link>
+              </li>
+          ) : null}
           {user?.isAuthenticated ? (
             user?.id === "PlcpjfOsQ5NYUBgqC3DMMVj2kRj2" ||
             "P9IfqO0q3ZXTCOVS77ytSd8k8Oo2" ? (

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchProperties } from "../../utils";
 import { trends } from "../../fetch/data/trends";
 import { PropertyType } from "../../fetch/types";
-import { ArticleType } from "../../fetch/types";
+import { TrendType } from "../../fetch/types";
 import { AddSavedState } from "../../fetch/types";
 
 let properties;
@@ -39,7 +39,7 @@ export const addsavedSlice = createSlice({
           (article) => article.title === data.title
         );
         if (!isSaved) {
-          state.savedTrends.push(data as ArticleType);
+          state.savedTrends.push(data as TrendType);
         }
       }
     },

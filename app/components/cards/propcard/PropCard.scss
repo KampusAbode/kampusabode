@@ -23,9 +23,9 @@
   }
   .swiper {
     height: 280px;
+    width: 100%;
     border-radius: var(--border-radius);
     overflow: hidden;
-    width: 100%;
     position: relative;
     box-shadow: var(--shadow);
 
@@ -36,7 +36,7 @@
     }
     .swiper-pagination-bullet {
       background-color: var(--white);
-      opacity: 0.6;
+      opacity: 0.5;
     }
     .swiper-pagination-bullet-active {
       opacity: 1;
@@ -76,7 +76,7 @@
     }
     p {
       display: flex;
-      gap: var(--spacing);
+      gap: var(--spacing-h);
       align-items: center;
       text-transform: capitalize;
     }

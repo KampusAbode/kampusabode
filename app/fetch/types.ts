@@ -1,5 +1,3 @@
-
-
 interface ServicesType {
   heading: string;
   text: string;
@@ -65,14 +63,14 @@ export interface PropertyType {
   available: boolean;
 }
 
-export interface ArticleType {
+export interface TrendType {
+  id: string;
   title: string;
   description: string;
   author: string;
   image: string;
-  publication_date: string;
+  published_date: string;
   category: string;
-  saved: boolean;
 }
 
 export interface ReviewType {
@@ -91,7 +89,7 @@ export interface LinkType {
 
 export interface AddSavedState {
   savedProperties: PropertyType[];
-  savedTrends: ArticleType[];
+  savedTrends: TrendType[];
 }
 
 export interface BookmarkState {
@@ -121,6 +119,6 @@ export interface UserType {
   id: string;
   name: string;
   email: string;
-  userType: "student" | "agent" | '';
+  userType: "student" | "agent" | "";
   userInfo: StudentUserInfo | AgentUserInfo;
 }

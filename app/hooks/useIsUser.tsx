@@ -40,7 +40,7 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
         process.env.NEXT_PUBLIC__SECRET_KEY!
       ).toString(CryptoJS.enc.Utf8);
 
-      console.log(JSON.parse(decryptedData))
+      console.log(JSON.parse(decryptedData));
       return JSON.parse(decryptedData);
     } catch (err) {
       console.error("Error decrypting user data:", err);
@@ -116,25 +116,33 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
   }, [userLogged, dispatch]);
 
   // Effect: Handle redirection based on auth state
-  useEffect(() => {
-    if (loading) return;
+  // useEffect(() => {
+  //   if (loading) return;
 
-    if (pathname === "/" && isAuthenticated) {
-
-
-      router.push("/properties");
-    } else if (pathname === "/auth/login" && !isAuthenticated) {
-      router.push("/auth/login");
-    }
-  }, [isAuthenticated, pathname, loading, router]);
+  //   if (pathname === "/" && isAuthenticated) {
+  //     router.push("/properties");
+  //   } else if (pathname === "/auth/login" && !isAuthenticated) {
+  //     router.push("/auth/login");
+  //   }
+  // }, [isAuthenticated, pathname, loading, router]);
 
   // Render loading or error states
   if (loading) return <Loader />;
   if (error)
     return (
-      <div>
+      <div
+        style={{
+          height: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignContent: "center",
+          gap: "1rem",
+        }}>
         <p>{error}</p>
-        <button onClick={() => router.refresh()}>Reload</button>
+        <button onClick={() => router.refresh()} className="btn">
+          Reload
+        </button>
       </div>
     );
 

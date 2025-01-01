@@ -28,9 +28,10 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
           <BookmarkButton propertyId={propertyData.id} />
         </div>
         <Swiper
-          modules={[Pagination, Navigation]}
+          // modules={[Pagination, Navigation]}
+          modules={[Pagination]}
           loop={true}
-          navigation
+          // navigation
           spaceBetween={0}
           slidesPerView={1}
           pagination={{ clickable: true }}>

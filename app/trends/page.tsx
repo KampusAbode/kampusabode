@@ -1,6 +1,6 @@
 import { trends } from "../fetch/data/trends";
 import "./trends.css";
-import ArticleCard from "../components/cards/articleCard/ArticleCard";
+import TrendCard from "../components/cards/trendCard/TrendCard";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -19,7 +19,7 @@ export default function trendsPage() {
 
         <div className="trends">
           {trends.map((read) => (
-            <ArticleCard key={read?.title} articleData={read} />
+            <TrendCard key={read?.title} trendData={read} />
           ))}
         </div>
       </div>

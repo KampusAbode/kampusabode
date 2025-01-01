@@ -1,7 +1,7 @@
-.article {
+.trned {
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
-  .article-image {
+  .trned-image {
     height: 200px;
     position: relative;
     overflow: hidden;
@@ -22,7 +22,7 @@
       color: var(--gray);
     }
   }
-  .article-content {
+  .trned-content {
     padding: var(--spacing);
 
     .author-thumbs {
