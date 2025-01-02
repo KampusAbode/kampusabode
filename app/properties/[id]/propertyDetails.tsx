@@ -68,7 +68,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       try {
         const properties = await fetchPropertiesByIds(
           "propertiesListed" in user.userInfo
-            ? user.userInfo.propertiesListed.map((property) => property.id)
+            ? user.userInfo.propertiesListed.map((property: PropertyType) => property.id !== id)
             : []
         );
         console.log(properties);
@@ -95,9 +95,9 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
 
 
   // Calculate Property Rating
-  const rating = propReviews.length
-    ? propReviews.reduce((sum, review: ReviewType) => sum + review.rating, 0) /
-      propReviews.length
+  const rating = propReviews?.length
+    ? propReviews?.reduce((sum, review: ReviewType) => sum + review.rating, 0) /
+      propReviews?.length
     : 0;
 
   return (
@@ -111,17 +111,17 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
           {/* Property Details */}
           <div className="top">
             <div className="pq">
-              <h2>{propertyDetails.title}</h2>
+              <h2>{propertyDetails?.title}</h2>
               <div className="features">
-                <span>{propertyDetails.bedrooms} bedrooms</span>
-                <span>{propertyDetails.bathrooms} bathrooms</span>
-                <span>{propertyDetails.area} sqft</span>
+                <span>{propertyDetails?.bedrooms} bedrooms</span>
+                <span>{propertyDetails?.bathrooms} bathrooms</span>
+                <span>{propertyDetails?.area} sqft</span>
               </div>
-              <p>{propertyDetails.description}</p>
+              <p>{propertyDetails?.description}</p>
               <div className="amenities">
                 <span>Amenities:</span>
-                {propertyDetails.amenities?.length > 0 ? (
-                  propertyDetails.amenities.map((amenity, index) => (
+                {propertyDetails?.amenities.length > 0 ? (
+                  propertyDetails?.amenities.map((amenity, index) => (
                     <span key={index}>{amenity}</span>
                   ))
                 ) : (
@@ -137,30 +137,30 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                 <div>
                   <div className="agent-details">
                     <Image
-                      src={agentDetails.userInfo.avatar}
+                      src={agentDetails?.userInfo.avatar}
                       width={500}
                       height={500}
-                      alt={`${agentDetails.name} profile picture`}
+                      alt={`${agentDetails?.name} profile picture`}
                     />
-                    <h5>{agentDetails.name}</h5>
-                    {"agencyName" in agentDetails.userInfo &&
-                      agentDetails.userInfo.agencyName && (
-                        <p>{agentDetails.userInfo.agencyName}</p>
+                    <h5>{agentDetails?.name}</h5>
+                    {"agencyName" in agentDetails?.userInfo &&
+                      agentDetails?.userInfo.agencyName && (
+                        <p>{agentDetails?.userInfo.agencyName}</p>
                       )}
                     <span>
                       Properties:{" "}
-                      {"propertiesListed" in agentDetails.userInfo
-                        ? agentDetails.userInfo.propertiesListed.length
+                      {"propertiesListed" in agentDetails?.userInfo
+                        ? agentDetails?.userInfo.propertiesListed.length
                         : 0}
                     </span>
                   </div>
                   <div className="agent-stats">
-                    <PropStats rating={rating} reviews={propReviews.length} />
+                    <PropStats rating={rating} reviews={propReviews?.length} />
                   </div>
                   <div className="bio">
                     <p>
                       <strong>Bio: </strong>
-                      {agentDetails.userInfo.bio}
+                      {agentDetails?.userInfo.bio}
                     </p>
                   </div>
                 </div>
@@ -170,10 +170,10 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
 
           {/* Reviews Section */}
           <div className="agent-reviews">
-            <h5>{`Reviews (${propReviews.length})`}</h5>
+            <h5>{`Reviews (${propReviews?.length})`}</h5>
             <div className="reviews">
-              {propReviews.length ? (
-                propReviews.map((review) => (
+              {propReviews?.length ? (
+                propReviews?.map((review) => (
                   <div key={review.content} className="review-item">
                     <p>
                       "{review.content}" <span>{review.date.toString()}</span>
@@ -190,7 +190,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
           <div className="agent-listings">
             <h5>{agentDetails?.name}'s Listed Properties</h5>
             <div>
-              {agentPropertyListings.map((listing) => (
+              {agentPropertyListings?.slice(0,3).map((listing) => (
                 <Link key={listing.id} href={`/properties/${listing.id}`}>
                   <div className="list-prop">
                     <Image

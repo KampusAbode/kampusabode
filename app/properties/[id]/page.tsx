@@ -9,6 +9,7 @@ type Params = {
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { id } = params;
+  
   const propertyDetails = await fetchPropertyById(id);
 
   if (!propertyDetails) {

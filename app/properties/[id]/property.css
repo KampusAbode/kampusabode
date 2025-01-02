@@ -260,12 +260,11 @@
   margin: var(--spacing-5x) 0 var(--spacing);
 }
 .properties-details-page .container .contact div {
-  border: var(--border);
-  border-radius: var(--border-radius);
+  background: var(--white);
   padding: var(--spacing-h);
 }
 .properties-details-page .container .contact div p:nth-child(1) {
-  margin-bottom: var(--spacing);
+  margin-bottom: var(--spacing-h);
 }
 .properties-details-page .container .contact div span {
   color: var(--primary-color);

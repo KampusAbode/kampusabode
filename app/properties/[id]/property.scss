@@ -281,11 +281,10 @@
       }
 
       div {
-        border: var(--border);
-        border-radius: var(--border-radius);
+        background: var(--white);
         padding: var(--spacing-h);
         p:nth-child(1) {
-          margin-bottom: var(--spacing);
+          margin-bottom: var(--spacing-h);
         }
         span {
           color: var(--primary-color);
