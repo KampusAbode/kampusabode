@@ -12,6 +12,14 @@
 .nav-menu.loggedIn {
   display: none;
 }
+.nav-menu .nav-header {
+  margin-bottom: var(--spacing-2x);
+}
+@media screen and (man-width: 768px) {
+  .nav-menu .nav-header {
+    display: none;
+  }
+}
 .nav-menu .close-div {
   margin-bottom: var(--spacing-2x);
   display: flex;
@@ -85,9 +93,8 @@
   background: linear-gradient(to bottom right, #fff8f1, #ffeee9);
   border-radius: var(--border-radius);
   margin-bottom: var(--spacing);
-}
-.nav-menu .logout span {
-  color: var(--white);
+  color: var(--primary-color);
+  box-shadow: var(--shadow);
 }
 .nav-menu .logout span a,
 .nav-menu .logout span span {

@@ -17,6 +17,13 @@
     display: none;
   }
 
+  .nav-header{
+    margin-bottom: var(--spacing-2x);
+    @media screen and (man-width: 768px) {
+      display: none;
+    }
+  }
+
   .close-div {
     margin-bottom: var(--spacing-2x);
     display: flex;
@@ -77,7 +84,7 @@
       &.btn {
         width: 100%;
 
-        a{
+        a {
           color: var(--white);
         }
       }
@@ -105,8 +112,10 @@
     background: linear-gradient(to bottom right, #fff8f1, #ffeee9);
     border-radius: var(--border-radius);
     margin-bottom: var(--spacing);
+    color: var(--primary-color);
+    box-shadow: var(--shadow);
+
     span {
-      color: var(--white);
       a,
       span {
         font-size: inherit;
