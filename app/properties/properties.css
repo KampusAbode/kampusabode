@@ -95,7 +95,6 @@
 }
 
 .filter {
-  background: var(--background-white);
   margin-bottom: var(--spacing);
   border-radius: var(--border-radius);
   padding-block: var(--spacing-h);
