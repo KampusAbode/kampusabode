@@ -5,7 +5,7 @@
   margin-bottom: var(--spacing-2x);
 }
 .profile-page .container .profile-overview {
-  background: var(--light-gray);
+  background: var(--white);
   border-radius: var(--border-radius);
   padding: var(--spacing);
 }

@@ -4,14 +4,10 @@ import React, { useState } from "react";
 
 import { toast } from "react-hot-toast";
 import { updateUserProfile } from "../../utils";
-// import "../auth.css";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { userAgent } from "next/server";
+import './updateprofile.css';
 
 type UserUpdateProfile = {
   username: string;
