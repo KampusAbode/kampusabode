@@ -411,6 +411,7 @@
   border: var(--border);
   border-radius: var(--border-radius);
   background: var(--background-white);
+  box-shadow: var(--shadow);
   transition: var(--transition);
   position: relative;
   overflow: hidden;
