@@ -1,8 +1,8 @@
 import Image from "next/image";
 import React from "react";
-import "./trendCard.css";
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa6";
 import { TrendType } from "../../../fetch/types";
+import "./trendCard.css";
 
 
 interface TrendCardProp {

@@ -1,0 +1,103 @@
+.update{
+  .container {
+    min-height: 100vh;
+    .fm {
+      padding-top: var(--spacing-s);
+
+      h4 {
+        margin-top: var(--spacing-4x);
+        margin-bottom: var(--spacing-2x);
+        text-align: center;
+      }
+
+      form {
+        margin: 0 auto;
+        .input-box {
+          position: relative;
+          margin-bottom: var(--spacing-2x);
+
+          label {
+            display: block;
+            padding-left: var(--spacing);
+            letter-spacing: 1px;
+          }
+
+          input,
+          select {
+            width: 100%;
+            border: var(--border);
+            border-radius: var(--border-radius);
+            padding: var(--spacing);
+            font-size: var(--font-size-nm);
+            color: var(--font-color-p);
+
+            &:focus {
+              border: var(--border-hover);
+            }
+          }
+
+          span {
+            position: absolute;
+            bottom: -30%;
+            left: var(--spacing);
+            color: #f10909;
+          }
+
+          .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+          }
+
+          .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: var(--spacing);
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 1rem;
+            color: #555;
+          }
+        }
+        button {
+          margin: var(--spacing) auto;
+          padding: var(--spacing);
+          width: 100%;
+          display: block;
+          text-align: center;
+          /* text-decoration: ; */
+
+          &.disable {
+            user-select: none;
+          }
+        }
+      }
+      & > span {
+        display: block;
+        margin-top: var(--spacing-2x);
+        padding-inline: var(--spacing);
+        text-align: center;
+        a {
+          color: var(--primary-color);
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .update {
+    .container {
+
+      .fm {
+        padding: var(--spacing-3x);
+
+        h4 {
+          margin-bottom: var(--spacing-2x);
+          text-align: center;
+        }
+      }
+    }
+  }
+}

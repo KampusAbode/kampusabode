@@ -1,19 +1,19 @@
-.trned {
+.trend {
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
 }
-.trned .trned-image {
+.trend .trend-image {
   height: 200px;
   position: relative;
   overflow: hidden;
 }
-.trned .trned-image img {
+.trend .trend-image img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
 }
-.trned .trned-image .category {
+.trend .trend-image .category {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -22,41 +22,41 @@
   border-radius: var(--border-radius-r);
   color: var(--gray);
 }
-.trned .trned-content {
+.trend .trend-content {
   padding: var(--spacing);
 }
-.trned .trned-content .author-thumbs {
+.trend .trend-content .author-thumbs {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--spacing);
 }
-.trned .trned-content .author-thumbs .thumbs {
+.trend .trend-content .author-thumbs .thumbs {
   display: flex;
   gap: var(--spacing);
   background-color: var(--light-gray);
   padding: var(--spacing-h);
   border-radius: var(--border-radius);
 }
-.trned .trned-content .author-thumbs .thumbs svg {
+.trend .trend-content .author-thumbs .thumbs svg {
   cursor: pointer;
   transition: var(--transition);
 }
-.trned .trned-content .author-thumbs .thumbs svg.thumbsdown {
+.trend .trend-content .author-thumbs .thumbs svg.thumbsdown {
   transform: rotateY(180deg);
 }
-.trned .trned-content .author-thumbs .thumbs svg:hover, .trned .trned-content .author-thumbs .thumbs svg.active {
+.trend .trend-content .author-thumbs .thumbs svg:hover, .trend .trend-content .author-thumbs .thumbs svg.active {
   color: var(--primary-color);
   transform: scale(1.2);
 }
-.trned .trned-content .author-thumbs .thumbs svg:hover.thumbsdown, .trned .trned-content .author-thumbs .thumbs svg.active.thumbsdown {
+.trend .trend-content .author-thumbs .thumbs svg:hover.thumbsdown, .trend .trend-content .author-thumbs .thumbs svg.active.thumbsdown {
   transform: scale(1.2) rotateY(180deg);
 }
-.trned .trned-content h5 {
+.trend .trend-content h5 {
   margin-block: var(--spacing-h);
 }
-.trned .trned-content h5,
-.trned .trned-content P {
+.trend .trend-content h5,
+.trend .trend-content P {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;

@@ -76,6 +76,10 @@
 
       &.btn {
         width: 100%;
+
+        a{
+          color: var(--white);
+        }
       }
 
       a {

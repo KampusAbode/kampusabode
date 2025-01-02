@@ -64,6 +64,9 @@
 .nav-menu ul li.btn {
   width: 100%;
 }
+.nav-menu ul li.btn a {
+  color: var(--white);
+}
 .nav-menu ul li a {
   padding: var(--spacing);
   text-transform: capitalize;

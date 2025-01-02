@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 
 import { toast } from "react-hot-toast";
-import { signupUser, updateUserProfile } from "../../utils";
+import { updateUserProfile } from "../../utils";
 // import "../auth.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { userAgent } from "next/server";
 
-type UserSignupInput = {
+type UserUpdateProfile = {
   username: string;
   email: string;
   userType: "student" | "agent";
@@ -27,16 +27,10 @@ type UserSignupInput = {
 };
 
 const CreateProfilePage = () => {
-  const router = useRouter();
-  const user = useSelector((state: RootState) => state.user) as {
-    isAuthenticated: boolean;
-    email: string;
-    id: string;
-    username: string;
-    userType: string;
-  };
+  const user = useSelector((state: RootState) => state.user);
+  const userdata = useSelector((state: RootState) => state.userdata);
 
-  const [formValues, setFormValues] = useState<UserSignupInput>({
+  const [formValues, setFormValues] = useState<UserUpdateProfile>({
     username: "",
     email: "",
     userType: "student",
@@ -149,23 +143,15 @@ const CreateProfilePage = () => {
     
     } catch (error) {
       toast.error(
-        error.message || "An unexpected error occurred during signup."
+        error.message || "An unexpected error occurred during update."
       );
     }
     setIsSubmitting(false);
   };
 
   return (
-    <div className="signup">
+    <div className="update">
       <div className="container">
-        <div className="im">
-          <Image
-            src={"/assets/authimage.png"}
-            width={1000}
-            height={1000}
-            alt="auth image"
-          />
-        </div>
         <div className="fm">
           <h4>Upload profile</h4>
           <form onSubmit={handleSubmit}>
@@ -243,6 +229,8 @@ const CreateProfilePage = () => {
                     value={formValues.agentInfo.agencyName}
                     onChange={handleInputChange}
                     placeholder="Enter your agency's name"
+                    disabled={user.userType === "agent"}
+
                   />
                   {errors?.agentInfo.agencyName && (
                     <span className="error">
@@ -260,6 +248,7 @@ const CreateProfilePage = () => {
                     value={formValues.agentInfo.phoneNumber}
                     onChange={handleInputChange}
                     placeholder="Enter your phone number"
+                    disabled={userdata?.userInfo.phoneNumber != ''}
                   />
                   {errors?.agentInfo.phoneNumber && (
                     <span className="error">
@@ -274,10 +263,6 @@ const CreateProfilePage = () => {
               {isSubmitting ? "Updating..." : "Update"}
             </button>
           </form>
-
-          <span>
-            Have an account already? <Link href={"/auth/login"}>Log In</Link>
-          </span>
         </div>
       </div>
     </div>
