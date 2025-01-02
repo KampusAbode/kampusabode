@@ -13,7 +13,7 @@ import {
 } from "firebase/firestore";
 
 export const allTrends = (callback: any) => {
-  const trendRef = query(collection(db, "trends"), orderBy("timestamp", "asc"));
+  const trendRef = query(collection(db, "trends"), orderBy("published_date", "asc"));
   // Real-time listener
   const unsubscribe = onSnapshot(trendRef, (snapshot) => {
     const items = snapshot.docs.map((doc) => ({
@@ -29,7 +29,7 @@ export const allTrends = (callback: any) => {
 
 export const fetchTrendsByIDs = async (trendsIds: string[]) => {
   try {
-    const trendsCollection = collection(db, "Trends");
+    const trendsCollection = collection(db, "trends");
 
     // Create a query using the "in" operator to fetch trends with IDs in the propertyIds array
     const trendsQuery = query(trendsCollection, where("id", "in", trendsIds));

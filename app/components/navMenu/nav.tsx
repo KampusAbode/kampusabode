@@ -76,15 +76,15 @@ function Nav() {
         </div>
         <ul>
           {user?.userType === "agent" ? (
-              <li className="btn">
-                <Link
-                  href="/upload"
-                  onClick={() => {
-                    dispatch(closeMenu());
-                  }}>
-                  upload
-                </Link>
-              </li>
+            <li className="btn">
+              <Link
+                href="/upload"
+                onClick={() => {
+                  dispatch(closeMenu());
+                }}>
+                upload
+              </Link>
+            </li>
           ) : null}
           {user?.isAuthenticated ? (
             user?.id === "PlcpjfOsQ5NYUBgqC3DMMVj2kRj2" ||
@@ -110,36 +110,21 @@ function Nav() {
                 dispatch(closeMenu());
               }}>
               <svg
-                width="22"
-                height="22"
-                viewBox="0 0 22 22"
+                width="20"
+                height="21"
+                viewBox="0 0 20 21"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <path
-                  d="M24.6571 9.0258C18.75 12.9418 13.3443 17.4625 7.63462 21.628"
-                  stroke="#CCD7FF"
-                  strokeWidth="2.65"
-                  strokeMiterlimit="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+                  d="M14.825 19.4583H5.17496C2.89163 19.4583 1.04163 17.6 1.04163 15.3167V9.14166C1.04163 8.00833 1.74163 6.58333 2.64163 5.88333L7.13329 2.38333C8.48329 1.33333 10.6416 1.28333 12.0416 2.26667L17.1916 5.875C18.1833 6.56666 18.9583 8.05 18.9583 9.25833V15.325C18.9583 17.6 17.1083 19.4583 14.825 19.4583ZM7.89996 3.36667L3.40829 6.86666C2.81663 7.33333 2.29163 8.39166 2.29163 9.14166V15.3167C2.29163 16.9083 3.58329 18.2083 5.17496 18.2083H14.825C16.4166 18.2083 17.7083 16.9167 17.7083 15.325V9.25833C17.7083 8.45833 17.1333 7.35 16.475 6.9L11.325 3.29167C10.375 2.625 8.80829 2.65833 7.89996 3.36667Z"
+                  fill="#FEFEFE"
                 />
                 <path
-                  d="M43.1283 16.1354C31.9263 19.0499 20.869 23.231 10.2516 27.7933"
-                  stroke="#CCD7FF"
-                  strokeWidth="2.65"
-                  strokeMiterlimit="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M38.189 35.6927C30.4675 33.8314 18.8695 34.5847 10.6475 34.622"
-                  stroke="#CCD7FF"
-                  strokeWidth="2.65"
-                  strokeMiterlimit="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+                  d="M10 16.125C9.65833 16.125 9.375 15.8417 9.375 15.5V13C9.375 12.6583 9.65833 12.375 10 12.375C10.3417 12.375 10.625 12.6583 10.625 13V15.5C10.625 15.8417 10.3417 16.125 10 16.125Z"
+                  fill="#FEFEFE"
                 />
               </svg>
+
               {user?.isAuthenticated ? "dashboard" : "home"}
             </Link>
           </li>
