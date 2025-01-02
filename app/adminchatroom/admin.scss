@@ -14,13 +14,17 @@
         box-shadow: var(--box-shadow);
         border-radius: var(--border-radius);
         border: var(--border);
-        border-color: var(--light-gray);
-        background-color: var(--light-gray);
+        border-color: var(--white);
+        background-color: var(--white);
 
         display: flex;
         flex-direction: column;
         gap: var(--spacing);
         margin-bottom: var(--spacing);
+
+        &:hover{
+          border: var(--border-hover);
+        }
 
         .content{
           font-weight: 600;
