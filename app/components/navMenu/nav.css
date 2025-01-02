@@ -71,6 +71,7 @@
 }
 .nav-menu ul li.btn {
   width: 100%;
+  text-align: center;
 }
 .nav-menu ul li.btn a {
   color: var(--white);

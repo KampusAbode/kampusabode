@@ -35,7 +35,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
     const fetchPropertyDetails = async () => {
       try {
         const details = await fetchPropertyById(id);
-        console.log(details);
+        console.log("property details",details);
         setPropertyDetails(details);
         fetchAgentDetails(details.agentId);
       } catch {
@@ -50,7 +50,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       if (propertyDetails) {
         try {
           const user = await fetchUsersById(agentId);
-          console.log(user);
+          console.log("user info", user);
           if (user && !Array.isArray(user)) {
             setAgentDetails(user);
             fetchAgentPropertyListings(user);

@@ -82,7 +82,7 @@ function Nav() {
                 onClick={() => {
                   dispatch(closeMenu());
                 }}>
-                upload
+                upload property
               </Link>
             </li>
           ) : null}

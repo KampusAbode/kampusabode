@@ -119,7 +119,6 @@
   padding: var(--spacing);
   border-radius: var(--border-radius);
   border: var(--border);
-  border-color: transparent;
   text-transform: capitalize;
   background: var(--light-gray);
   white-space: nowrap;

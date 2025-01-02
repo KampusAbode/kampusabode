@@ -52,6 +52,9 @@ header .container nav .nav-links li a {
 header .container nav .cta {
   margin-left: var(--spacing-3x);
 }
+header .container nav .cta .btn {
+  padding-block: var(--spacing-h);
+}
 header .container .menu {
   display: none;
 }

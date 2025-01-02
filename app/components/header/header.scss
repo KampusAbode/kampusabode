@@ -59,6 +59,10 @@ header {
       }
       .cta {
         margin-left: var(--spacing-3x);
+
+        .btn{
+          padding-block: var(--spacing-h);
+        }
       }
     }
 

@@ -10,6 +10,8 @@ import {
   orderBy,
   where,
   getDocs,
+  deleteDoc,
+  doc,
 } from "firebase/firestore";
 
 export const allTrends = (callback: any) => {
@@ -127,4 +129,44 @@ export const uploadTrends = async () => {
 };
 
 // Call the function to upload trends
-uploadTrends();
+// uploadTrends();
+
+
+async function removeDuplicateDocuments(collectionName) {
+  try {
+    const snapshot = await getDocs(collection(db, collectionName));
+
+    if (snapshot.empty) {
+      console.log("No documents found.");
+      return;
+    }
+
+    const titlesMap = new Map(); // To track unique titles
+    const duplicates = []; // To store duplicate document IDs
+
+    // Identify duplicates
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      if (titlesMap.has(data.title)) {
+        duplicates.push(doc.id); // Duplicate found
+      } else {
+        titlesMap.set(data.title, true); // Add title to the map
+      }
+    });
+
+    console.log(`Found ${duplicates.length} duplicate documents.`);
+
+    // Delete duplicates
+    for (const docId of duplicates) {
+      await deleteDoc(doc(db, collectionName, docId));
+      console.log(`Deleted document with ID: ${docId}`);
+    }
+
+    console.log("Duplicate removal complete.");
+  } catch (error) {
+    console.error("Error removing duplicates:", error);
+  }
+}
+
+// Usage
+removeDuplicateDocuments("trends");
