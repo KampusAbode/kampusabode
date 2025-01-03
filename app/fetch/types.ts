@@ -72,6 +72,18 @@ export interface TrendType {
   category: string;
 }
 
+
+export interface ItemType {
+  name: string;
+  description: string;
+  category: string;
+  condition: string;
+  imageUrl: string;
+  price: string;
+  sellerContact: {name: string, whatsappNumber: string};
+  timestamp: Date;
+}
+
 export interface ReviewType {
   id: string;
   author: string;

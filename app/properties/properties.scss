@@ -92,7 +92,7 @@
       svg {
         width: 25px;
         height: 25px;
-        path{
+        path {
           fill: var(--font-color-h);
         }
       }
@@ -161,8 +161,8 @@
   }
 }
 @media screen and (max-width: 768px) {
-  .banner{
-    .container{
+  .banner {
+    .container {
       padding: var(--spacing) var(--spacing-2x);
     }
   }

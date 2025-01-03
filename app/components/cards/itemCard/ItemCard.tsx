@@ -1,9 +1,9 @@
 import React from "react";
-import { MarketplaceItem } from "../../../fetch/data/marketplaceItems";
+import { ItemType } from "../../../fetch/types";
 import Image from "next/image";
 import ContactAgent from "../../contactagent/ContactAgent";
 
-const ItemCard = ({ item }: { item: MarketplaceItem }) => {
+const ItemCard = ({ item }: { item: ItemType }) => {
   return (
     <div className="item">
       <div className="item-image">
