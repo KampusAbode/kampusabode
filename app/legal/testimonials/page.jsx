@@ -5,7 +5,7 @@ const Testimonials = () => {
   return (
     <section className="testimonials">
       <div className="container">
-        <h2>What Students and Agents Are Saying</h2>
+        <h2 className="page-heading">What Students and Agents Are Saying</h2>
 
         <div className="testimonial">
           <blockquote>

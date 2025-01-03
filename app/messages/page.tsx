@@ -11,7 +11,7 @@ const Messages = () => {
   return (
     <section className="messages-page">
       <div className="container">
-        <h2>Messages</h2>
+        <h2 className="page-heading">Messages</h2>
 
         {user ? (
           <div className="messages">

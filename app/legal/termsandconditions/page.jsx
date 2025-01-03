@@ -5,7 +5,7 @@ const TermsAndConditions = () => {
   return (
     <section className="terms-and-conditions">
       <div className="container">
-        <h2>Terms and Conditions</h2>
+        <h2 className="page-heading">Terms and Conditions</h2>
         <p>Last Updated: 01-22-2024</p>
 
         <h3>1. Acceptance of Terms</h3>

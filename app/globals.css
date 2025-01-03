@@ -7,7 +7,7 @@
   --background-transparent: #00000042;
   --white: #ffffff;
   --gray: #dbdbdb;
-  --light-gray: #f9fafa;
+  --light-gray: #f9f9f9;
   --font-color-h: #353535;
   --font-color-p: #626262;
   --font-light: #a8a8a8;
@@ -282,6 +282,10 @@ img {
 .heading-section p {
   width: 60%;
   margin: 0 auto;
+}
+
+.page-heading {
+  margin-top: var(--spacing);
 }
 
 @media screen and (max-width: 768px) {

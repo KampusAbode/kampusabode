@@ -69,8 +69,8 @@ header .container .menu {
     cursor: pointer;
   }
   header .container .logo a img {
-    width: 24px;
-    height: 24px;
+    width: 288px;
+    height: 288px;
   }
   header .container .page-title {
     display: block;
@@ -86,13 +86,13 @@ header .container .menu {
     display: grid;
     place-items: center;
     border-radius: 100%;
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     background-color: var(--light-gray);
     cursor: pointer;
   }
   header .container .menu svg {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
   }
 }/*# sourceMappingURL=header.css.map */

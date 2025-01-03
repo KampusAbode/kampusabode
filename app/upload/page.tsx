@@ -5,7 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { addProperty } from "../utils";
 import { PropertyType } from "../fetch/types";
-import './upload.css';
+import "./upload.css";
 
 const locationOptions = [
   "Asherifa",
@@ -93,7 +93,7 @@ const UploadProperty = () => {
   return (
     <section className="upload-page">
       <div className="container">
-        <h2>Upload New Property</h2>
+        <h2 className="page-heading">Upload New Property</h2>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}

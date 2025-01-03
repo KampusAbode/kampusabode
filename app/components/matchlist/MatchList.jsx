@@ -26,7 +26,7 @@ export default function MatchList({ userId }) {
 
   return (
     <div>
-      <h2>Top Matches</h2>
+      <h2 className="page-heading">Top Matches</h2>
       <ul>
         {matches.map((match) => (
           <li key={match.user?.id}>
