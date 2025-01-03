@@ -16,6 +16,7 @@ import type { PropertyType, ReviewType, UserType } from "../../fetch/types";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import toast from "react-hot-toast";
+import { formatDistanceToNowStrict } from "date-fns";
 import "./property.css";
 
 interface PropertyDetailsProps {
@@ -176,7 +177,9 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                 propReviews?.map((review) => (
                   <div key={review.content} className="review-item">
                     <p>
-                      "{review.content}" <span>{review.date.toString()}</span>
+                      "{review.content}" <span>{formatDistanceToNowStrict(
+  review.date
+) }ago</span>
                     </p>
                   </div>
                 ))
