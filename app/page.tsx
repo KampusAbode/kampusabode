@@ -52,7 +52,7 @@ export default function App() {
           <div className="hero-content">
             <span className="sub-head">{hero.span}</span>
             <h1>
-              Find your ideal hostel and connect with countless trusted
+              Find your ideal hostel and connect with network of trusted
               agents—all from the{" "}
               <span>
                 Comfort{" "}
