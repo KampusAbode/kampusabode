@@ -255,7 +255,7 @@ const CreateProfilePage = () => {
               </>
             )}
 
-            <button className={"btn"} type="submit" disabled={isSubmitting}>
+            <button className="btn" type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Updating..." : "Update"}
             </button>
           </form>

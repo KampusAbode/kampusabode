@@ -52,10 +52,9 @@ export default function App() {
           <div className="hero-content">
             <span className="sub-head">{hero.span}</span>
             <h1>
-              Find your ideal hostel and connect with trusted agents—all from
-              the{" "}
+              Find your ideal hostel and connect with{" "}
               <span>
-                Comfort{" "}
+                trusted
                 <svg
                   viewBox="0 0 202.819 45.163"
                   className="hero__underline"
@@ -67,7 +66,7 @@ export default function App() {
                     strokeWidth="2"></path>
                 </svg>
               </span>{" "}
-              of your phone.
+               agents—all from your phone.
             </h1>
             <p>{hero.p}</p>
             <div className="cta-hero cta">
