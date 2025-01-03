@@ -37,6 +37,7 @@
   padding: var(--padding-b);
   border: var(--border);
   border-color: var(--white);
+  border-radius: var(--border-radius);
   box-shadow: var(--shadow);
   font-weight: 600;
   color: var(--white);

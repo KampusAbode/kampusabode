@@ -7,7 +7,7 @@
   --background-transparent: #00000042;
   --white: #ffffff;
   --gray: #dbdbdb;
-  --light-gray: #fbfbfb;
+  --light-gray: #f9fafa;
   --font-color-h: #353535;
   --font-color-p: #626262;
   --font-light: #a8a8a8;
@@ -125,7 +125,7 @@ h6 {
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 h1 {
@@ -170,7 +170,7 @@ main {
   overflow-y: auto;
   position: relative;
   background: var(--light-gray);
-  border-radius: var(--border-radius);
+  border-radius: calc(2 * var(--border-radius));
 }
 
 .container {

@@ -10,7 +10,7 @@
 
   --gray: #dbdbdb;
 
-  --light-gray: #fbfbfb;
+  --light-gray: #f9fafa;
 
   --font-color-h: #353535;
   --font-color-p: #626262;
@@ -139,7 +139,7 @@ h6 {
   color: var(--font-color-h);
   line-height: var(--line-height-sm);
   user-select: none;
-  font-weight: 400;
+  font-weight: 500;
 }
 h1 {
   font-size: calc(1.35rem + 1.8vw);
@@ -180,7 +180,7 @@ main {
   overflow-y: auto;
   position: relative;
   background: var(--light-gray);
-  border-radius: var(--border-radius);
+  border-radius: calc(2 * var(--border-radius));
 }
 .container {
   width: 90%;

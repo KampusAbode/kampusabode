@@ -50,7 +50,7 @@
           path {
             stroke-dasharray: 1000;
             stroke-dashoffset: 1000;
-            animation: draw 4s ease forwards, pause 3s ease infinite;
+            animation: draw 4s ease forwards;
           }
         }
 
@@ -62,8 +62,8 @@
 
           svg {
             position: absolute;
-            left: -5%;
-            bottom: -15px;
+            left: -2%;
+            bottom: -13px;
             height: 20px;
             width: 200px;
             stroke-width: 1px;
@@ -107,12 +107,6 @@
   }
 }
 
-@keyframes pause {
-  0%,
-  100% {
-    stroke-dashoffset: 0;
-  }
-}
 
 /* ========== hero section close ========== */
 

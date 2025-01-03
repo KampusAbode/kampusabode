@@ -50,7 +50,7 @@
 .hero-section .container .hero-content h1 .hero__underline path {
   stroke-dasharray: 1000;
   stroke-dashoffset: 1000;
-  animation: draw 4s ease forwards, pause 3s ease infinite;
+  animation: draw 4s ease forwards;
 }
 .hero-section .container .hero-content h1 span {
   font-size: inherit;
@@ -59,8 +59,8 @@
 }
 .hero-section .container .hero-content h1 span svg {
   position: absolute;
-  left: -5%;
-  bottom: -15px;
+  left: -2%;
+  bottom: -13px;
   height: 20px;
   width: 200px;
   stroke-width: 1px;
@@ -93,11 +93,6 @@
 
 @keyframes draw {
   to {
-    stroke-dashoffset: 0;
-  }
-}
-@keyframes pause {
-  0%, 100% {
     stroke-dashoffset: 0;
   }
 }
