@@ -3,12 +3,12 @@ import { HomeType, LinkType } from "./types";
 const homeSection: HomeType = {
   hero: {
     span: "Kampusabode : Making Deals With Ease",
-    p: "All you need is to search through the listing property and with a click of a botton you will be step ahead to securing an apartment",
+    p: "Making apartment renting safer, affordable, and stress-free for OAU students.",
     btn: "listing property",
   },
   about: {
     heading: "who are we",
-    waw: "Simplicity is the key when it comes to finding a house. We help you find the right house for you at the comfort of your zone. Finding a property you want to buy or rent can be hard and stressful, but never to worry because we make it easy for you to locate the property of your choice just with the click of a button.",
+    waw: "Kampus Abode connects OAU students with trusted agents to find safe, affordable, and convenient hostel apartments. Our platform offers verified listings, direct communication with agents, and insights into hostel areas—all from your phone. Making apartment renting hassle-free and tailored to your needs!",
     services: [
       {
         heading: "search with ease",
