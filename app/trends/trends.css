@@ -5,7 +5,7 @@
   margin-block: var(--spacing-2x);
 }
 .trends-page .filter {
-  padding-block: var(--spacing-2x);
+  margin-block: var(--spacing-2x);
 }
 .trends-page .filter .container .search-items {
   border-radius: var(--border-radius-r);
