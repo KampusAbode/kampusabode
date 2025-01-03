@@ -113,7 +113,7 @@
         span {
           padding: var(--spacing);
           border-radius: var(--border-radius);
-          background-color: var(--light-gray);
+          box-shadow: var(--shadow);
           user-select: none;
         }
       }

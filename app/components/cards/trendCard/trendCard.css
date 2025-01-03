@@ -4,6 +4,8 @@
 }
 .trend .trend-image {
   height: 200px;
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
   position: relative;
   overflow: hidden;
 }

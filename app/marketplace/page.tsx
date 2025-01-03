@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import ItemCard from "../components/cards/itemCard/ItemCard";
 import { allMarketplaceItems } from "../utils";
 import "./marketplace.css";
+import Loader from "../components/loader/Loader";
 // import toast from "react-hot-toast";
 
 function MarketPlace() {
@@ -24,7 +25,7 @@ function MarketPlace() {
           {martketItems[0] ? (
             martketItems.map((item) => <ItemCard key={item.id} item={item} />)
           ) : (
-            <p style={{ textAlign: "center" }}>No item available</p>
+            <Loader/>
           )}
         </div>
       </div>

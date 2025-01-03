@@ -105,7 +105,7 @@
 .properties-details-page .container .top .amenities span {
   padding: var(--spacing);
   border-radius: var(--border-radius);
-  background-color: var(--light-gray);
+  box-shadow: var(--shadow);
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;

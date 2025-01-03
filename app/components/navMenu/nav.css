@@ -69,13 +69,6 @@
   background: var(--light-gray);
   border-radius: var(--border-radius);
 }
-.nav-menu ul li.btn {
-  width: 100%;
-  text-align: center;
-}
-.nav-menu ul li.btn a {
-  color: var(--white);
-}
 .nav-menu ul li a {
   padding: var(--spacing);
   text-transform: capitalize;
@@ -87,6 +80,14 @@
 .nav-menu ul li a svg {
   width: 32px;
   height: 32px;
+}
+.nav-menu ul li.btn {
+  width: 100%;
+}
+.nav-menu ul li.btn a {
+  display: block;
+  text-align: center;
+  color: var(--white);
 }
 .nav-menu .logout {
   line-height: var(--line-height-sm);
