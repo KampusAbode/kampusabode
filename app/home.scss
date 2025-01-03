@@ -465,14 +465,15 @@
 }
 /* ========== testimonials section open ========== */
 
-/* ========== quick-guide section open ========== */
-.quick-guide-section {
-  .guides {
+/* ========== trends section open ========== */
+.trends-section {
+  .trends {
     display: grid;
+    
     grid-template-columns: repeat(2, 1fr);
     gap: 5rem;
 
-    .blog {
+    .trend {
       padding: var(--spacing);
       border: var(--border);
       border-radius: var(--border-radius);
@@ -549,7 +550,7 @@
     }
   }
 }
-/* ========== quick-guide section close ========== */
+/* ========== trends section close ========== */
 
 /* ========== call-to-action section open ========== */
 .cta-section {
@@ -627,7 +628,6 @@
 @media screen and (max-width: 768px) {
   /* ========== hero section open ========== */
   .hero-section {
-
     .container {
       .hero-content {
         padding: 0;
@@ -700,8 +700,8 @@
   /* ========== quote section close ========== */
 
   /* ========== quick quide section open ========== */
-  .quick-guide-section {
-    .guides {
+  .trends-section {
+    .trends {
       grid-template-columns: 1fr;
       gap: var(--spacing);
     }

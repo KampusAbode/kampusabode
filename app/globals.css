@@ -125,6 +125,7 @@ h6 {
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
+  font-weight: 400;
 }
 
 h1 {

@@ -6,7 +6,7 @@ import data from "./fetch/contents";
 import Quotes from "./components/quotes/Quotes";
 import Footer from "./components/footer/Footer";
 import Link from "next/link";
-import { PropertyType } from "./fetch/types";
+import { PropertyType, TrendType } from "./fetch/types";
 import { allTrends, fetchProperties } from "./utils";
 
 import { FaArrowRightLong } from "react-icons/fa6";
@@ -17,7 +17,7 @@ const { hero, about, testimonials } = homeSection;
 
 export default function App() {
   const [properties, setProperties] = useState<PropertyType[]>([]);
-  const [trends, setTrends] = useState([]);
+  const [trends, setTrends] = useState<TrendType[]>([]);
 
   useEffect(() => {
     // Fetch trends using allTrends function
@@ -208,24 +208,24 @@ export default function App() {
         </div>
       </section>
 
-      <section className="quick-guide-section background-gradient">
+      <section className="trends-section background-gradient">
         <div className="container">
           <div className="heading-section">
-            <h2 className="heading">quick guide</h2>
+            <h2 className="heading">trends</h2>
             <p>
               Explore trends on essential housing tips, student living hacks,
               and expert advice to help you make informed decisions while
               searching for the perfect apartment near your campus.
             </p>
           </div>
-          <div className="guides">
-            {trends.slice(0, 4).map((guide) => {
+          <div className="trends">
+            {trends.slice(0, 4).map((trend) => {
               return (
-                <div key={guide.title} className="blog">
-                  <h5>{guide.title}</h5>
-                  <p>{guide.description}</p>
+                <div key={trend.title} className="trend">
+                  <h5>{trend.title}</h5>
+                  <p>{trend.description}</p>
                   <div>
-                    <Link href="#">
+                    <Link href={trend.id}>
                       Learn more{" "}
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
