@@ -6,7 +6,6 @@ interface ServicesType {
 
 export interface HomeType {
   hero: {
-    span: string;
     p: string;
     btn: string;
   };

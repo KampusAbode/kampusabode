@@ -2,7 +2,6 @@ import { HomeType, LinkType } from "./types";
 
 const homeSection: HomeType = {
   hero: {
-    span: "Kampusabode : Making Deals With Ease",
     p: "Making apartment renting safer, affordable, and stress-free for OAU students.",
     btn: "listing property",
   },

@@ -50,7 +50,6 @@ export default function App() {
         </video>
         <div className="container">
           <div className="hero-content">
-            <span className="sub-head">{hero.span}</span>
             <h1>
               Find your ideal hostel and connect with{" "}
               <span>
