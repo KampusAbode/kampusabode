@@ -132,7 +132,7 @@ export const uploadTrends = async () => {
 // uploadTrends();
 
 
-async function removeDuplicateDocuments(collectionName) {
+async function removeDuplicateDocuments(collectionName: string, filterBy: string) {
   try {
     const snapshot = await getDocs(collection(db, collectionName));
 
@@ -147,10 +147,10 @@ async function removeDuplicateDocuments(collectionName) {
     // Identify duplicates
     snapshot.forEach((doc) => {
       const data = doc.data();
-      if (titlesMap.has(data.title)) {
+      if (titlesMap.has(data[filterBy])) {
         duplicates.push(doc.id); // Duplicate found
       } else {
-        titlesMap.set(data.title, true); // Add title to the map
+        titlesMap.set(data[filterBy], true); // Add title to the map
       }
     });
 
@@ -169,4 +169,4 @@ async function removeDuplicateDocuments(collectionName) {
 }
 
 // Usage
-removeDuplicateDocuments("trends");
+// removeDuplicateDocuments("trends", "filterBy");

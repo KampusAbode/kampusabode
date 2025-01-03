@@ -69,8 +69,8 @@ header .container .menu {
     cursor: pointer;
   }
   header .container .logo a img {
-    width: 288px;
-    height: 288px;
+    width: 28px;
+    height: 28px;
   }
   header .container .page-title {
     display: block;

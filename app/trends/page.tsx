@@ -4,9 +4,26 @@ import React, { useEffect, useState } from "react";
 import { allTrends } from "../utils"; // Adjust path as needed
 import TrendCard from "../components/cards/trendCard/TrendCard";
 import "./trends.css";
+import { FaSearch } from "react-icons/fa";
 
 export default function trendsPage() {
   const [trends, setTrends] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const itemCategories = ["Furniture", "Electronics"];
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      searchProperties(searchQuery);
+    }
+  };
+
+  const searchProperties = (query: string) => {
+    // Implement search logic here
+  };
 
   useEffect(() => {
     // Fetch trends using allTrends function
@@ -22,7 +39,41 @@ export default function trendsPage() {
     <section className="trends-page">
       <div className="container">
         <h2 className="page-heading">Trends</h2>
+      </div>
 
+      <div className="filter">
+        <div className="container">
+          <div className="serach-items">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              onKeyDown={handleKeyDown} // Run search on Enter press
+              placeholder="search item ..."
+            />
+            <div
+              className="search-icon"
+              onClick={() => searchProperties(searchQuery)}>
+              <FaSearch />
+            </div>
+          </div>
+
+          <div className="filter-items">
+            <div className="category">
+              <span>category</span>
+            </div>
+            <div className="categories">
+              {itemCategories.map((category, index) => (
+                <span key={index} className="category-item">
+                  {category}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="container">
         {trends.length === 0 ? (
           <p style={{ marginBlock: "2rem", textAlign: "center" }}>
             No trends available.

@@ -120,9 +120,8 @@
   border-radius: var(--border-radius);
   border: var(--border);
   text-transform: capitalize;
-  background: var(--light-gray);
+  background: var(--background-white);
   white-space: nowrap;
-  font-size: var(--font-size-sm);
   cursor: pointer;
   transition: var(--transition);
 }

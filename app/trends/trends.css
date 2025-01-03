@@ -4,6 +4,80 @@
   gap: var(--spacing);
   margin-block: var(--spacing-2x);
 }
+.trends-page .filter {
+  padding-block: var(--spacing-2x);
+}
+.trends-page .filter .container .search-items {
+  border-radius: var(--border-radius-r);
+  max-width: 750px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 8fr 0.8fr;
+  overflow: hidden;
+  box-shadow: var(--shadow-below);
+}
+.trends-page .filter .container .search-items input {
+  border: var(--border);
+  border-radius: var(--border-radius-r);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  padding: var(--spacing);
+}
+.trends-page .filter .container .search-items input:focus {
+  border: var(--border-hover);
+}
+.trends-page .filter .container .search-items .search-icon {
+  border-top-right-radius: var(--border-radius-r);
+  border-bottom-right-radius: var(--border-radius-r);
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+  background-color: var(--light-gray);
+}
+.trends-page .filter .container .search-items .search-icon svg {
+  width: 25px;
+  height: 25px;
+}
+.trends-page .filter .container .search-items .search-icon svg path {
+  fill: var(--font-color-h);
+}
+.trends-page .filter .container .filter-items {
+  display: flex;
+  align-items: center;
+}
+.trends-page .filter .container .filter-items .category {
+  background: var(--bachground-white);
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+  padding: var(--spacing-h) var(--spacing);
+  text-align: center;
+}
+.trends-page .filter .container .filter-items .categories {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: var(--spacing);
+  overflow-x: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.trends-page .filter .container .filter-items .categories::-webkit-scrollbar {
+  display: none;
+}
+.trends-page .filter .container .filter-items .categories span {
+  padding: var(--spacing);
+  border-radius: var(--border-radius);
+  border: var(--border);
+  text-transform: capitalize;
+  background: var(--background-white);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.trends-page .filter .container .filter-items .categories span:hover, .trends-page .filter .container .filter-items .categories span.active {
+  border: var(--border-hover);
+  color: var(--font-color-h);
+}
 
 @media screen and (max-width: 1400px) {
   .trends-page .container .trends {
@@ -19,5 +93,12 @@
 @media screen and (max-width: 768px) {
   .trends-page .container .trends {
     grid-template-columns: 1fr;
+  }
+  .trends-page .filter .container .search-items {
+    grid-template-columns: 8fr 1.5fr;
+  }
+  .trends-page .filter .container .search-items .search-icon svg {
+    width: 20px;
+    height: 20px;
   }
 }/*# sourceMappingURL=trends.css.map */

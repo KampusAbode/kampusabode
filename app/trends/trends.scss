@@ -7,6 +7,90 @@
       margin-block: var(--spacing-2x);
     }
   }
+  .filter {
+    margin-block: var(--spacing-2x);
+    .container {
+      .search-items {
+        border-radius: var(--border-radius-r);
+        max-width: 750px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 8fr 0.8fr;
+        overflow: hidden;
+        box-shadow: var(--shadow-below);
+
+        input {
+          border: var(--border);
+          border-radius: var(--border-radius-r);
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+          padding: var(--spacing);
+
+          &:focus {
+            border: var(--border-hover);
+          }
+        }
+
+        .search-icon {
+          border-top-right-radius: var(--border-radius-r);
+          border-bottom-right-radius: var(--border-radius-r);
+          display: grid;
+          place-content: center;
+          cursor: pointer;
+          background-color: var(--light-gray);
+          svg {
+            width: 25px;
+            height: 25px;
+            path {
+              fill: var(--font-color-h);
+            }
+          }
+        }
+      }
+      .filter-items {
+        display: flex;
+        align-items: center;
+
+        .category {
+          background: var(--bachground-white);
+          border-top-left-radius: var(--border-radius);
+          border-bottom-left-radius: var(--border-radius);
+          padding: var(--spacing-h) var(--spacing);
+          text-align: center;
+        }
+        .categories {
+          display: flex;
+          align-items: center;
+          justify-content: left;
+          gap: var(--spacing);
+          overflow-x: scroll;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+
+          &::-webkit-scrollbar {
+            display: none;
+          }
+
+          span {
+            padding: var(--spacing);
+            border-radius: var(--border-radius);
+            border: var(--border);
+            text-transform: capitalize;
+            background: var(--background-white);
+            white-space: nowrap;
+            cursor: pointer;
+            transition: var(--transition);
+
+            &:hover,
+            &.active {
+              border: var(--border-hover);
+              color: var(--font-color-h);
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 1400px) {
@@ -33,6 +117,20 @@
     .container {
       .trends {
         grid-template-columns: 1fr;
+      }
+    }
+    .filter {
+      .container {
+        .search-items {
+          grid-template-columns: 8fr 1.5fr;
+
+          .search-icon {
+            svg {
+              width: 20px;
+              height: 20px;
+            }
+          }
+        }
       }
     }
   }
