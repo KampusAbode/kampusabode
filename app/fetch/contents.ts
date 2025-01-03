@@ -6,7 +6,7 @@ const homeSection: HomeType = {
     btn: "listing property",
   },
   about: {
-    heading: "who are we",
+    heading: "who are we?",
     waw: "Kampus Abode connects OAU students with trusted agents to find safe, affordable, and convenient hostel apartments. Our platform offers verified listings, direct communication with agents, and insights into hostel areas—all from your phone. Making apartment renting hassle-free and tailored to your needs!",
     services: [
       {

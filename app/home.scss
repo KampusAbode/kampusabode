@@ -107,7 +107,6 @@
   }
 }
 
-
 /* ========== hero section close ========== */
 
 /* ========== service section open ========== */
@@ -388,7 +387,6 @@
       margin-top: var(--spacing-s);
 
       .testimonial-card {
-        border: var(--border);
         border-radius: var(--border-radius);
         background: var(--background-white);
         box-shadow: var(--shadow);
@@ -404,7 +402,6 @@
         }
 
         &:hover {
-          border: var(--border-hover);
           transform: translateY(-10px);
         }
 
@@ -463,13 +460,13 @@
 .trends-section {
   .trends {
     display: grid;
-    
+
     grid-template-columns: repeat(2, 1fr);
     gap: 5rem;
 
     .trend {
       padding: var(--spacing);
-      border: var(--border);
+
       border-radius: var(--border-radius);
       background: var(--background-white);
       box-shadow: var(--shadow);

@@ -17,6 +17,7 @@ function TrendPage({ params }: Params) {
   return (
     <div className="trend-page">
       <span>{`Trend > ${trendData.category}`}</span>
+      <h2>{ trendData.title }</h2>
     </div>
   );
 }

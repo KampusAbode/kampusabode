@@ -80,13 +80,9 @@ export default function App() {
       <section className="service-section">
         <div className="container">
           <div className="heading-section">
-            <h2 className="heading">who are we?</h2>
+            <h2 className="heading">{about.heading}</h2>
             <p>
-              Simplicity is the key when it comes to finding a house. We help
-              you find the right house right at the comfort of your zone. Kampus
-              Abode streamlines the process of finding safe, affordable housing
-              near campus, providing verified listings and easy access to real
-              estate solutions tailored for students.
+              {about.waw}
             </p>
           </div>
           <div className="services">
@@ -225,7 +221,7 @@ export default function App() {
                   <h5>{trend.title}</h5>
                   <p>{trend.description}</p>
                   <div>
-                    <Link href={trend.id}>
+                    <Link href={`/trends/${trend.id}`}>
                       Learn more{" "}
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

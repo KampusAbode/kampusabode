@@ -335,7 +335,6 @@
   margin-top: var(--spacing-s);
 }
 .testimonials-section .container .testimonies .testimonial-card {
-  border: var(--border);
   border-radius: var(--border-radius);
   background: var(--background-white);
   box-shadow: var(--shadow);
@@ -349,7 +348,6 @@
   transform: translateY(-40px);
 }
 .testimonials-section .container .testimonies .testimonial-card:hover {
-  border: var(--border-hover);
   transform: translateY(-10px);
 }
 .testimonials-section .container .testimonies .testimonial-card .details {
@@ -403,7 +401,6 @@
 }
 .trends-section .trends .trend {
   padding: var(--spacing);
-  border: var(--border);
   border-radius: var(--border-radius);
   background: var(--background-white);
   box-shadow: var(--shadow);
