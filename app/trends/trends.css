@@ -53,7 +53,7 @@
 .trends-page .filter .container .filter-trends .categories::-webkit-scrollbar {
   display: none;
 }
-.trends-page .filter .container .filter-trends .categories span {
+.trends-page .filter .container .filter-trends .categories .category-trend {
   padding: var(--spacing);
   border-radius: var(--border-radius);
   border: var(--border);
@@ -63,7 +63,7 @@
   cursor: pointer;
   transition: var(--transition);
 }
-.trends-page .filter .container .filter-trends .categories span:hover, .trends-page .filter .container .filter-trends .categories span.active {
+.trends-page .filter .container .filter-trends .categories .category-trend:hover, .trends-page .filter .container .filter-trends .categories .category-trend:active, .trends-page .filter .container .filter-trends .categories .category-trend.active {
   border: var(--border-hover);
   color: var(--font-color-h);
 }

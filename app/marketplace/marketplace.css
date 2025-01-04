@@ -53,7 +53,7 @@
 .marketplace .filter .container .filter-items::-webkit-scrollbar {
   display: none;
 }
-.marketplace .filter .container .filter-items span {
+.marketplace .filter .container .filter-items .category-item {
   padding: var(--spacing);
   border-radius: var(--border-radius);
   border: var(--border);
@@ -63,7 +63,7 @@
   cursor: pointer;
   transition: var(--transition);
 }
-.marketplace .filter .container .filter-items span:hover, .marketplace .filter .container .filter-items span.active {
+.marketplace .filter .container .filter-items .category-item:hover, .marketplace .filter .container .filter-items .category-item:active, .marketplace .filter .container .filter-items .category-item.active {
   border: var(--border-hover);
   color: var(--font-color-h);
 }

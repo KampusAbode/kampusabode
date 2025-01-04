@@ -61,7 +61,7 @@
             display: none;
           }
 
-          span {
+          .category-trend {
             padding: var(--spacing);
             border-radius: var(--border-radius);
             border: var(--border);
@@ -72,6 +72,7 @@
             transition: var(--transition);
 
             &:hover,
+            &:active,
             &.active {
               border: var(--border-hover);
               color: var(--font-color-h);

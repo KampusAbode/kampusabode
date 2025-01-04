@@ -73,7 +73,7 @@ export default function trendsPage() {
           <div className="filter-trends">
             <p>Categories</p>
             <div className="categories">
-              <span className="category-trend">All</span>
+              <span className="category-trend active">All</span>
               {trendCategories.map((category, index) => (
                 <span key={index} className="category-trend">
                   {category}

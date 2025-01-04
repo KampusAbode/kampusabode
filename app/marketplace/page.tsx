@@ -86,7 +86,7 @@ function MarketPlace() {
           </div>
 
           <div className="filter-items">
-            <span className="category-item" onClick={()=> fetchItems()}>All</span>
+            <span className="category-item active" onClick={()=> fetchItems()}>All</span>
             {itemCategories.map((category, index) => (
               <span
                 key={index}
