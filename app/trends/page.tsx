@@ -11,11 +11,12 @@ import { TrendType } from "../fetch/types";
 export default function trendsPage() {
   const [trends, setTrends] = useState<TrendType[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true);
   const trendCategories = [
     "Real estate market",
     "Rental market",
     "Interior design",
-    "OAU update",
+    "OAU updates",
     "Football",
     "Student investment",
     "Study methods",
@@ -29,11 +30,11 @@ export default function trendsPage() {
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      searchProperties(searchQuery);
+      searchTrends(searchQuery);
     }
   };
 
-  const searchProperties = (query: string) => {
+  const searchTrends = (query: string) => {
     // Implement search logic here
   };
 
@@ -42,6 +43,7 @@ export default function trendsPage() {
     const unsubscribe: () => void = allTrends((trendData: TrendType[]) => {
       setTrends(trendData); // Update state when trends data changes
     });
+    setLoading(false);
 
     // Cleanup listener on component unmount
     return () => unsubscribe();
@@ -65,7 +67,7 @@ export default function trendsPage() {
             />
             <div
               className="search-icon"
-              onClick={() => searchProperties(searchQuery)}>
+              onClick={() => searchTrends(searchQuery)}>
               <FaSearch />
             </div>
           </div> */}
@@ -85,7 +87,7 @@ export default function trendsPage() {
       </div>
 
       <div className="container">
-        {trends ? (
+        {!loading ? (
           trends.length === 0 ? (
             <p style={{ marginBlock: "2rem", textAlign: "center" }}>
               No trends available.

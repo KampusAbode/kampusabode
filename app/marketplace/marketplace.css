@@ -6,7 +6,7 @@
   max-width: 750px;
   margin: 0 auto var(--spacing-2x);
   display: grid;
-  grid-template-columns: 8fr 1fr;
+  grid-template-columns: 8fr 1.5fr;
   background-color: var(--background-white);
   border: var(--border);
   border-radius: var(--border-radius);

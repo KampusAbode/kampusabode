@@ -41,6 +41,9 @@
 .trends-page .filter .container .search-trends .search-icon svg path {
   fill: var(--font-color-h);
 }
+.trends-page .filter .container .filter-trends p {
+  margin-bottom: var(--spacing-h);
+}
 .trends-page .filter .container .filter-trends .categories {
   display: flex;
   align-items: center;

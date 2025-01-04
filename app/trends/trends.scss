@@ -48,6 +48,9 @@
         }
       }
       .filter-trends {
+        p{
+          margin-bottom: var(--spacing-h);
+        }
         .categories {
           display: flex;
           align-items: center;
