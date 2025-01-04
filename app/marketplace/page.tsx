@@ -51,7 +51,7 @@ function MarketPlace() {
     setLoading(false);
   };
 
-  useEffect(() => {
+  const fetchItems = () => {
     setLoading(true);
     const unsubscribe = allMarketplaceItems((fetchedMarketItems) => {
       setMarketItems(fetchedMarketItems);
@@ -60,6 +60,10 @@ function MarketPlace() {
     });
 
     return () => unsubscribe();
+  }
+
+  useEffect(() => {
+    fetchItems()
   }, []);
 
   return (
@@ -82,7 +86,7 @@ function MarketPlace() {
           </div>
 
           <div className="filter-items">
-            <span className="category-item"></span>
+            <span className="category-item" onClick={()=> fetchItems()}>All</span>
             {itemCategories.map((category, index) => (
               <span
                 key={index}
