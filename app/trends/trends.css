@@ -7,7 +7,7 @@
 .trends-page .filter {
   margin-block: var(--spacing-2x);
 }
-.trends-page .filter .container .search-items {
+.trends-page .filter .container .search-trends {
   border-radius: var(--border-radius-r);
   max-width: 750px;
   margin: 0 auto;
@@ -16,17 +16,17 @@
   overflow: hidden;
   box-shadow: var(--shadow-below);
 }
-.trends-page .filter .container .search-items input {
+.trends-page .filter .container .search-trends input {
   border: var(--border);
   border-radius: var(--border-radius-r);
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   padding: var(--spacing);
 }
-.trends-page .filter .container .search-items input:focus {
+.trends-page .filter .container .search-trends input:focus {
   border: var(--border-hover);
 }
-.trends-page .filter .container .search-items .search-icon {
+.trends-page .filter .container .search-trends .search-icon {
   border-top-right-radius: var(--border-radius-r);
   border-bottom-right-radius: var(--border-radius-r);
   display: grid;
@@ -34,14 +34,14 @@
   cursor: pointer;
   background-color: var(--light-gray);
 }
-.trends-page .filter .container .search-items .search-icon svg {
+.trends-page .filter .container .search-trends .search-icon svg {
   width: 25px;
   height: 25px;
 }
-.trends-page .filter .container .search-items .search-icon svg path {
+.trends-page .filter .container .search-trends .search-icon svg path {
   fill: var(--font-color-h);
 }
-.trends-page .filter .container .filter-items .categories {
+.trends-page .filter .container .filter-trends .categories {
   display: flex;
   align-items: center;
   justify-content: left;
@@ -50,10 +50,10 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
-.trends-page .filter .container .filter-items .categories::-webkit-scrollbar {
+.trends-page .filter .container .filter-trends .categories::-webkit-scrollbar {
   display: none;
 }
-.trends-page .filter .container .filter-items .categories span {
+.trends-page .filter .container .filter-trends .categories span {
   padding: var(--spacing);
   border-radius: var(--border-radius);
   border: var(--border);
@@ -63,7 +63,7 @@
   cursor: pointer;
   transition: var(--transition);
 }
-.trends-page .filter .container .filter-items .categories span:hover, .trends-page .filter .container .filter-items .categories span.active {
+.trends-page .filter .container .filter-trends .categories span:hover, .trends-page .filter .container .filter-trends .categories span.active {
   border: var(--border-hover);
   color: var(--font-color-h);
 }
@@ -83,10 +83,10 @@
   .trends-page .container .trends {
     grid-template-columns: 1fr;
   }
-  .trends-page .filter .container .search-items {
+  .trends-page .filter .container .search-trends {
     grid-template-columns: 8fr 1.5fr;
   }
-  .trends-page .filter .container .search-items .search-icon svg {
+  .trends-page .filter .container .search-trends .search-icon svg {
     width: 20px;
     height: 20px;
   }

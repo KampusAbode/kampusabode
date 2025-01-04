@@ -11,13 +11,16 @@ import { TrendType } from "../fetch/types";
 export default function trendsPage() {
   const [trends, setTrends] = useState<TrendType[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const itemCategories = [
+  const trendCategories = [
     "Real estate market",
     "Rental market",
     "Interior design",
+    "OAU update",
+    "Football",
     "Student investment",
     "Study methods",
     "Skills",
+    "Business",
   ];
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,8 +39,8 @@ export default function trendsPage() {
 
   useEffect(() => {
     // Fetch trends using allTrends function
-    const unsubscribe = allTrends((items) => {
-      setTrends(items); // Update state when trends data changes
+    const unsubscribe: () => void = allTrends((trendData: TrendType[]) => {
+      setTrends(trendData); // Update state when trends data changes
     });
 
     // Cleanup listener on component unmount
@@ -52,13 +55,13 @@ export default function trendsPage() {
 
       <div className="filter">
         <div className="container">
-          {/* <div className="search-items">
+          {/* <div className="search-trends">
             <input
               type="text"
               value={searchQuery}
               onChange={handleSearchChange}
               onKeyDown={handleKeyDown} // Run search on Enter press
-              placeholder="search item ..."
+              placeholder="search trend ..."
             />
             <div
               className="search-icon"
@@ -67,11 +70,12 @@ export default function trendsPage() {
             </div>
           </div> */}
 
-          <div className="filter-items">
+          <div className="filter-trends">
             <p>Categories</p>
             <div className="categories">
-              {itemCategories.map((category, index) => (
-                <span key={index} className="category-item">
+              <span className="category-trend">All</span>
+              {trendCategories.map((category, index) => (
+                <span key={index} className="category-trend">
                   {category}
                 </span>
               ))}
@@ -81,17 +85,21 @@ export default function trendsPage() {
       </div>
 
       <div className="container">
-        {trends ? trends.length === 0 ? (
-          <p style={{ marginBlock: "2rem", textAlign: "center" }}>
-            No trends available.
-          </p>
+        {trends ? (
+          trends.length === 0 ? (
+            <p style={{ marginBlock: "2rem", textAlign: "center" }}>
+              No trends available.
+            </p>
+          ) : (
+            <div className="trends">
+              {trends.map((read) => (
+                <TrendCard key={read?.id} trendData={read} />
+              ))}
+            </div>
+          )
         ) : (
-          <div className="trends">
-            {trends.map((read) => (
-              <TrendCard key={read?.id} trendData={read} />
-            ))}
-          </div>
-        ) : <Loader/>}
+          <Loader />
+        )}
       </div>
     </section>
   );

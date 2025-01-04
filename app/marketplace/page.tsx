@@ -71,7 +71,7 @@ function MarketPlace() {
               type="text"
               value={searchQuery}
               onChange={handleSearchChange}
-              onKeyDown={handleKeyDown} // Run search on Enter press
+              onKeyDown={handleKeyDown}
               placeholder="search item ..."
             />
             <div
@@ -82,6 +82,7 @@ function MarketPlace() {
           </div>
 
           <div className="filter-items">
+            <span className="category-item"></span>
             {itemCategories.map((category, index) => (
               <span
                 key={index}

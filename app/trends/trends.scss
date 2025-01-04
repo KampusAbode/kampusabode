@@ -10,7 +10,7 @@
   .filter {
     margin-block: var(--spacing-2x);
     .container {
-      .search-items {
+      .search-trends {
         border-radius: var(--border-radius-r);
         max-width: 750px;
         margin: 0 auto;
@@ -47,7 +47,7 @@
           }
         }
       }
-      .filter-items {
+      .filter-trends {
         .categories {
           display: flex;
           align-items: center;
@@ -111,7 +111,7 @@
     }
     .filter {
       .container {
-        .search-items {
+        .search-trends {
           grid-template-columns: 8fr 1.5fr;
 
           .search-icon {
