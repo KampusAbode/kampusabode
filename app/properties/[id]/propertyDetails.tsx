@@ -36,7 +36,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
     const fetchPropertyDetails = async () => {
       try {
         const details = await fetchPropertyById(id);
-        console.log("property details",details);
+        console.log("property details", details);
         setPropertyDetails(details);
         fetchAgentDetails(details.agentId);
       } catch {
@@ -69,7 +69,9 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       try {
         const properties = await fetchPropertiesByIds(
           "propertiesListed" in user.userInfo
-            ? user.userInfo.propertiesListed.map((property: PropertyType) => property.id !== id)
+            ? user.userInfo.propertiesListed.map(
+                (property: PropertyType) => property.id !== id
+              )
             : []
         );
         console.log(properties);
@@ -94,12 +96,15 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
     fetchReviews();
   }, [id]);
 
-
   // Calculate Property Rating
   const rating = propReviews?.length
     ? propReviews?.reduce((sum, review: ReviewType) => sum + review.rating, 0) /
       propReviews?.length
     : 0;
+
+  if (!propertyDetails) {
+    return;
+  }
 
   return (
     <SaveVisitedProperty id={id}>
@@ -177,9 +182,8 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                 propReviews?.map((review) => (
                   <div key={review.content} className="review-item">
                     <p>
-                      "{review.content}" <span>{formatDistanceToNowStrict(
-  review.date
-) }ago</span>
+                      "{review.content}"{" "}
+                      <span>{formatDistanceToNowStrict(review.date)}ago</span>
                     </p>
                   </div>
                 ))
@@ -193,7 +197,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
           <div className="agent-listings">
             <h5>{agentDetails?.name}'s Listed Properties</h5>
             <div>
-              {agentPropertyListings?.slice(0,3).map((listing) => (
+              {agentPropertyListings?.slice(0, 3).map((listing) => (
                 <Link key={listing.id} href={`/properties/${listing.id}`}>
                   <div className="list-prop">
                     <Image

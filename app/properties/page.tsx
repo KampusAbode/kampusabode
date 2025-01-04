@@ -35,6 +35,7 @@ const PropertiesPage: React.FC = () => {
 
   // Function to filter properties by search query
   const searchProperties = (query: string) => {
+    setLoading(true);
     const words = query.toLowerCase().trim().split(" ");
     const filtered = properties.filter((property) => {
       const propertyString =
@@ -42,6 +43,7 @@ const PropertiesPage: React.FC = () => {
       return words.every((word) => propertyString.includes(word));
     });
     setFilteredProperties(filtered);
+     setLoading(false);
   };
 
   // Function to filter properties by location

@@ -14,6 +14,7 @@ function MarketPlace() {
   const [filteredMarketItems, setFilteredMarketItems] =
     useState<ItemType[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const itemCategories = ["Furniture", "Electronics"];
 
@@ -67,27 +68,16 @@ function MarketPlace() {
           </div>
 
           <div className="filter-items">
-            <div className="category">
-              <p>category</p>
-            </div>
-            <div className="categories">
               {itemCategories.map((category, index) => (
                 <span key={index} className="category-item">
                   {category}
                 </span>
               ))}
-            </div>
           </div>
         </div>
       </div>  
       <div className="container">
-        <div className="items">
-          {filteredMarketItems[0] ? (
-            filteredMarketItems.map((item) => <ItemCard key={item.description} item={item} />)
-          ) : (
-            <Loader />
-          )}
-        </div>
+          {!loading ? () : <Loader/>}
       </div>
     </section>
   );
