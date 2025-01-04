@@ -5,9 +5,11 @@ import { allTrends } from "../utils"; // Adjust path as needed
 import TrendCard from "../components/cards/trendCard/TrendCard";
 import "./trends.css";
 import { FaSearch } from "react-icons/fa";
+import Loader from "../components/loader/Loader";
+import { TrendType } from "../fetch/types";
 
 export default function trendsPage() {
-  const [trends, setTrends] = useState([]);
+  const [trends, setTrends] = useState<TrendType[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const itemCategories = [
     "Real estate market",
@@ -79,7 +81,7 @@ export default function trendsPage() {
       </div>
 
       <div className="container">
-        {trends.length === 0 ? (
+        {trends ? trends.length === 0 ? (
           <p style={{ marginBlock: "2rem", textAlign: "center" }}>
             No trends available.
           </p>
@@ -89,7 +91,7 @@ export default function trendsPage() {
               <TrendCard key={read?.id} trendData={read} />
             ))}
           </div>
-        )}
+        ) : <Loader/>}
       </div>
     </section>
   );

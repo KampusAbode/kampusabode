@@ -45,6 +45,7 @@
 }
 .chat-page .delete-dialog .dialog-box .btn-group button.confirm {
   background-color: var(--primary-color);
+  color: var(--white);
 }
 .chat-page .delete-dialog .dialog-box .btn-group button.cancel {
   border: var(--border);

@@ -140,29 +140,27 @@ const ChatComponent: React.FC<ChatProps> = ({
     <section className="chat-page">
       <div className="container">
         <div className="chat-header">
-          <h4>{receiverName}</h4>
+          <h4 className="page-heading">{receiverName}</h4>
         </div>
         <div className="chat-display">
-          {messages.length > 0 ? (
-            messages.map((msg) => (
-              <div
-                key={msg.id}
-                className={`message-box ${
-                  msg.senderId === currentUserId ? "right" : "left"
-                }`}
-                onContextMenu={(e) => {
-                  e.preventDefault();
-                  handleLongPress(msg);
-                }}>
-                <div className="message-detail">
-                  <span>{formatTimestamp(msg.timestamp)}</span>
+          {messages.length > 0
+            ? messages.map((msg) => (
+                <div
+                  key={msg.id}
+                  className={`message-box ${
+                    msg.senderId === currentUserId ? "right" : "left"
+                  }`}
+                  onContextMenu={(e) => {
+                    e.preventDefault();
+                    handleLongPress(msg);
+                  }}>
+                  <div className="message-detail">
+                    <span>{formatTimestamp(msg.timestamp)}</span>
+                  </div>
+                  <div className="message-content">{msg.content}</div>
                 </div>
-                <div className="message-content">{msg.content}</div>
-              </div>
-            ))
-          ) : (
-            null
-          )}
+              ))
+            : null}
           <div ref={messagesEndRef}></div>
         </div>
         <div className="chat-input">
@@ -183,7 +181,12 @@ const ChatComponent: React.FC<ChatProps> = ({
       </div>
 
       {showDeleteDialog && (
-        <div className="delete-dialog">
+        <div
+          className="delete-dialog"
+          onClick={() => {
+            setShowDeleteDialog(false);
+            setLongPressedMessage(null);
+          }}>
           <div className="dialog-box">
             <p>Are you sure you want to delete this message?</p>
             <div className="btn-group">
