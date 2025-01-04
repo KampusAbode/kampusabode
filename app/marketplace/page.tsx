@@ -19,12 +19,15 @@ function MarketPlace() {
   const itemCategories = ["Furniture", "Electronics"];
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLoading(true)
     setSearchQuery(event.target.value);
+    
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       searchItems(searchQuery);
+      setSearchQuery('');
     }
   };
 
@@ -37,12 +40,15 @@ function MarketPlace() {
       return words.every((word) => itemString.includes(word));
     });
     setFilteredMarketItems(filtered);
+    setLoading(false)
   };
 
   useEffect(() => {
+    setLoading(true)
     const unsubscribe = allMarketplaceItems((fetchedMarketItems) => {
       setMarketItems(fetchedMarketItems);
       setFilteredMarketItems(fetchedMarketItems);
+      setLoading(false)
     });
 
     return () => unsubscribe();
@@ -77,7 +83,19 @@ function MarketPlace() {
         </div>
       </div>  
       <div className="container">
-          {!loading ? () : <Loader/>}
+        {!loading ? (
+          filteredMarketItems.length > 0 ? (
+            <div className="items">
+              {filteredMarketItems.map((item) => (
+                <ItemCard key={item.description} item={item} />
+              ))}
+            </div>
+          ) : (
+            <p style={{textAlign: "center"}}>No available items</p>
+          )
+        ) : (
+          <Loader />
+        )}
       </div>
     </section>
   );
