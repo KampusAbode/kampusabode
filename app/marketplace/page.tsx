@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import ItemCard from "../components/cards/itemCard/ItemCard";
-import {ItemType} from '../fetch/types'
+import { ItemType } from "../fetch/types";
 import { allMarketplaceItems } from "../utils";
 import "./marketplace.css";
 import Loader from "../components/loader/Loader";
@@ -11,23 +11,23 @@ import { FaSearch } from "react-icons/fa";
 
 function MarketPlace() {
   const [marketItems, setMarketItems] = useState<ItemType[]>([]);
-  const [filteredMarketItems, setFilteredMarketItems] =
-    useState<ItemType[]>([]);
+  const [filteredMarketItems, setFilteredMarketItems] = useState<ItemType[]>(
+    []
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
 
   const itemCategories = ["Furniture", "Electronics"];
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLoading(true)
     setSearchQuery(event.target.value);
-    
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
+      setLoading(true);
       searchItems(searchQuery);
-      setSearchQuery('');
+      setSearchQuery("");
     }
   };
 
@@ -40,15 +40,23 @@ function MarketPlace() {
       return words.every((word) => itemString.includes(word));
     });
     setFilteredMarketItems(filtered);
-    setLoading(false)
+    setLoading(false);
+  };
+
+  const filterByCategory = (category: string) => {
+    const filtered = marketItems.filter((item) => {
+      return item.category.toLowerCase() === category.toLowerCase();
+    });
+    setFilteredMarketItems(filtered);
+    setLoading(false);
   };
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     const unsubscribe = allMarketplaceItems((fetchedMarketItems) => {
       setMarketItems(fetchedMarketItems);
       setFilteredMarketItems(fetchedMarketItems);
-      setLoading(false)
+      setLoading(false);
     });
 
     return () => unsubscribe();
@@ -74,14 +82,20 @@ function MarketPlace() {
           </div>
 
           <div className="filter-items">
-              {itemCategories.map((category, index) => (
-                <span key={index} className="category-item">
-                  {category}
-                </span>
-              ))}
+            {itemCategories.map((category, index) => (
+              <span
+                key={index}
+                className="category-item"
+                onClick={() => {
+                  setLoading(true);
+                  filterByCategory(category);
+                }}>
+                {category}
+              </span>
+            ))}
           </div>
         </div>
-      </div>  
+      </div>
       <div className="container">
         {!loading ? (
           filteredMarketItems.length > 0 ? (
@@ -91,7 +105,7 @@ function MarketPlace() {
               ))}
             </div>
           ) : (
-            <p style={{textAlign: "center"}}>No available items</p>
+            <p style={{ textAlign: "center" }}>No available items</p>
           )
         ) : (
           <Loader />

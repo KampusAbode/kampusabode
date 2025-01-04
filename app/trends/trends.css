@@ -41,17 +41,6 @@
 .trends-page .filter .container .search-items .search-icon svg path {
   fill: var(--font-color-h);
 }
-.trends-page .filter .container .filter-items {
-  display: flex;
-  align-items: center;
-}
-.trends-page .filter .container .filter-items .category {
-  background: var(--bachground-white);
-  border-top-left-radius: var(--border-radius);
-  border-bottom-left-radius: var(--border-radius);
-  padding: var(--spacing-h) var(--spacing);
-  text-align: center;
-}
 .trends-page .filter .container .filter-items .categories {
   display: flex;
   align-items: center;

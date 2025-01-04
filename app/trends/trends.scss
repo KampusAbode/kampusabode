@@ -48,16 +48,6 @@
         }
       }
       .filter-items {
-        display: flex;
-        align-items: center;
-
-        .category {
-          background: var(--bachground-white);
-          border-top-left-radius: var(--border-radius);
-          border-bottom-left-radius: var(--border-radius);
-          padding: var(--spacing-h) var(--spacing);
-          text-align: center;
-        }
         .categories {
           display: flex;
           align-items: center;

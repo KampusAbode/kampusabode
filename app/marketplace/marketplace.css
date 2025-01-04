@@ -4,7 +4,7 @@
 .marketplace .filter .container .search-items {
   border-radius: var(--border-radius);
   max-width: 750px;
-  margin: 0 auto;
+  margin: 0 auto var(--spacing-2x);
   display: grid;
   grid-template-columns: 8fr 1fr;
   background-color: var(--background-white);
@@ -17,9 +17,7 @@
   border-top-left-radius: var(--border-radius);
   border-bottom-left-radius: var(--border-radius);
   padding: var(--spacing);
-}
-.marketplace .filter .container .search-items input:focus {
-  border: var(--border-hover);
+  border: none;
 }
 .marketplace .filter .container .search-items .search-icon {
   border-top-right-radius: var(--border-radius);
@@ -34,7 +32,7 @@
   height: 25px;
 }
 .marketplace .filter .container .search-items .search-icon svg path {
-  fill: var(--font-color-h);
+  fill: var(--font-color-p);
 }
 .marketplace .filter .container .filter-items {
   display: flex;

@@ -9,7 +9,14 @@ import { FaSearch } from "react-icons/fa";
 export default function trendsPage() {
   const [trends, setTrends] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const itemCategories = ["Real estate market", "Rental market", "Interior design", "Student investment", "Study methods", "Skills"];
+  const itemCategories = [
+    "Real estate market",
+    "Rental market",
+    "Interior design",
+    "Student investment",
+    "Study methods",
+    "Skills",
+  ];
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -59,9 +66,7 @@ export default function trendsPage() {
           </div> */}
 
           <div className="filter-items">
-            <div className="category">
-              <p>category</p>
-            </div>
+            <p>Categories</p>
             <div className="categories">
               {itemCategories.map((category, index) => (
                 <span key={index} className="category-item">
