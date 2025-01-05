@@ -15,9 +15,20 @@ function MarketPlace() {
     []
   );
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState<string>("all");
   const [loading, setLoading] = useState(false);
-
   const itemCategories = ["Furniture", "Electronics"];
+
+  useEffect(() => {
+    setLoading(true);
+    const unsubscribe = allMarketplaceItems((fetchedMarketItems) => {
+      setMarketItems(fetchedMarketItems);
+      setFilteredMarketItems(fetchedMarketItems);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -56,33 +67,22 @@ function MarketPlace() {
     setLoading(false);
   };
 
-
   const filterByCategory = (category: string) => {
-    const filtered = marketItems.filter((item) => {
-      return item.category.toLowerCase() === category.toLowerCase();
-    });
-    setFilteredMarketItems(filtered);
+    setActiveCategory(category);
+    if (category === "all") {
+      setFilteredMarketItems(marketItems);
+    } else {
+      const filtered = marketItems.filter((item) => {
+        return item.category.toLowerCase() === category.toLowerCase();
+      });
+      setFilteredMarketItems(filtered);
+    }
     setLoading(false);
   };
 
-  const fetchItems = () => {
-    setLoading(true);
-    const unsubscribe = allMarketplaceItems((fetchedMarketItems) => {
-      setMarketItems(fetchedMarketItems);
-      setFilteredMarketItems(fetchedMarketItems);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }
-
-  useEffect(() => {
-    fetchItems()
-  }, []);
-
   return (
     <section className="marketplace">
-      <div className="filter">
+      <div className="filter-marketplaceitems">
         <div className="container">
           <div className="search-items">
             <input
@@ -100,11 +100,19 @@ function MarketPlace() {
           </div>
 
           <div className="filter-items">
-            <span className="category-item active" onClick={()=> fetchItems()}>All</span>
+            <span
+              className={`category-item ${
+                activeCategory === "all" ? "active" : ""
+              }`}
+              onClick={() => filterByCategory("all")}>
+              All
+            </span>
             {itemCategories.map((category, index) => (
               <span
                 key={index}
-                className="category-item"
+                className={`category-item ${
+                  activeCategory === category ? "active" : ""
+                }`}
                 onClick={() => {
                   setLoading(true);
                   filterByCategory(category);
@@ -124,7 +132,9 @@ function MarketPlace() {
               ))}
             </div>
           ) : (
-            <p style={{ textAlign: "center" }}>No available items</p>
+            <p style={{ textAlign: "center", marginBlock: "2rem" }}>
+              No available item.
+            </p>
           )
         ) : (
           <Loader />

@@ -43,11 +43,12 @@ const PropertiesPage: React.FC = () => {
       return words.every((word) => propertyString.includes(word));
     });
     setFilteredProperties(filtered);
-     setLoading(false);
+    setLoading(false);
   };
 
   // Function to filter properties by location
   const filterByLocation = (location: string) => {
+    setLoading(true);
     setActiveLocation(location);
     if (location === "all") {
       setFilteredProperties(properties);
@@ -57,6 +58,7 @@ const PropertiesPage: React.FC = () => {
       );
       setFilteredProperties(filtered);
     }
+    setLoading(false);
   };
 
   // Handle search input change
@@ -73,10 +75,6 @@ const PropertiesPage: React.FC = () => {
     }
   };
 
-  // Handle location click
-  const handleLocationClick = (location: string) => {
-    filterByLocation(location); // Run location filter whenever location changes
-  };
 
   return (
     <section className="listings-page">
@@ -164,14 +162,14 @@ const PropertiesPage: React.FC = () => {
         <div className="container">
           <span
             className={`${activeLocation === "all" ? "active" : ""}`}
-            onClick={() => handleLocationClick("all")}>
+            onClick={() => filterByLocation("all")}>
             all
           </span>
           {locations.map((location) => (
             <span
               key={location} // Use location name as key
               className={`${activeLocation === location ? "active" : ""}`}
-              onClick={() => handleLocationClick(location)}>
+              onClick={() => filterByLocation(location)}>
               {location}
             </span>
           ))}
@@ -180,19 +178,17 @@ const PropertiesPage: React.FC = () => {
 
       <div className="property-listings">
         <div className="container">
-          <div className="properties">
-            {loading ? (
-              <Loader />
-            ) : filteredProperties.length > 0 ? (
-              filteredProperties.map((property) => (
+          {loading ? (
+            <Loader />
+          ) : filteredProperties.length > 0 ? (
+            filteredProperties.map((property) => (
+              <div className="properties">
                 <PropCard key={property.id} propertyData={property} />
-              ))
-            ) : (
-              <p style={{ textAlign: "center" }}>
-                No listed properties found for "{searchQuery}"
-              </p>
-            )}
-          </div>
+              </div>
+            ))
+          ) : (
+            <p style={{ textAlign: "center", marginBlock: "2rem" }}>No listed property found.</p>
+          )}
         </div>
       </div>
     </section>

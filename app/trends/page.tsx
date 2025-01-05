@@ -10,8 +10,10 @@ import { TrendType } from "../fetch/types";
 
 export default function trendsPage() {
   const [trends, setTrends] = useState<TrendType[]>([]);
+  const [filteredTrends, setFilteredTrends] = useState<TrendType[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<string>("all");
   const trendCategories = [
     "Real estate market",
     "Rental market",
@@ -24,6 +26,19 @@ export default function trendsPage() {
     "Business",
   ];
 
+  useEffect(() => {
+    // Fetch trends using allTrends function
+    setLoading(true);
+    const unsubscribe: () => void = allTrends((trendData: TrendType[]) => {
+      setTrends(trendData);
+      setFilteredTrends(trendData);
+    });
+    setLoading(false);
+
+    // Cleanup listener on component unmount
+    return () => unsubscribe();
+  }, []);
+
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
@@ -34,20 +49,23 @@ export default function trendsPage() {
     }
   };
 
+  const filterByCategory = (category: string) => {
+    setActiveCategory(category);
+    setLoading(true);
+    if (category == "all") {
+      setFilteredTrends(trends);
+    } else {
+      const filtered = trends.filter((item) => {
+        return item.category.toLowerCase() === category.toLowerCase();
+      });
+      setFilteredTrends(filtered);
+    }
+    setLoading(false);
+  };
+
   const searchTrends = (query: string) => {
     // Implement search logic here
   };
-
-  useEffect(() => {
-    // Fetch trends using allTrends function
-    const unsubscribe: () => void = allTrends((trendData: TrendType[]) => {
-      setTrends(trendData); // Update state when trends data changes
-    });
-    setLoading(false);
-
-    // Cleanup listener on component unmount
-    return () => unsubscribe();
-  }, []);
 
   return (
     <section className="trends-page">
@@ -75,9 +93,20 @@ export default function trendsPage() {
           <div className="filter-trends">
             <p>Categories</p>
             <div className="categories">
-              <span className="category-trend active">All</span>
+              <span
+                className={`category-trend ${
+                  activeCategory === "all" ? "active" : ""
+                }`}
+                onClick={() => filterByCategory("all")}>
+                All
+              </span>
               {trendCategories.map((category, index) => (
-                <span key={index} className="category-trend">
+                <span
+                  key={index}
+                  className={`category-trend ${
+                    activeCategory === category ? "active" : ""
+                  }`}
+                  onClick={() => filterByCategory(category)}>
                   {category}
                 </span>
               ))}
@@ -88,13 +117,13 @@ export default function trendsPage() {
 
       <div className="container">
         {!loading ? (
-          trends.length === 0 ? (
+          filteredTrends.length === 0 ? (
             <p style={{ marginBlock: "2rem", textAlign: "center" }}>
-              No trends available.
+              No trend available.
             </p>
           ) : (
             <div className="trends">
-              {trends.map((read) => (
+              {filteredTrends.map((read) => (
                 <TrendCard key={read?.id} trendData={read} />
               ))}
             </div>
