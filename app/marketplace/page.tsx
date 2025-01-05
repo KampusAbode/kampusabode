@@ -32,16 +32,30 @@ function MarketPlace() {
   };
 
   const searchItems = (query: string) => {
-    // Implement search logic here
-    const words = query.toLowerCase().trim().split(" ");
+    const words = query
+      .toLowerCase()
+      .trim()
+      .split(" ")
+      .filter((word) => word); // Remove empty words
+    if (words.length === 0) {
+      setFilteredMarketItems([]); // No search results for empty input
+      setLoading(false);
+      return;
+    }
+
     const filtered = marketItems.filter((item) => {
       const itemString =
         `${item.name} ${item.description} ${item.price}`.toLowerCase();
-      return words.every((word) => itemString.includes(word));
+      return words.every((word) => {
+        const wordRegex = new RegExp(`\\b${word}\\b`, "i"); // Match whole words
+        return wordRegex.test(itemString);
+      });
     });
+
     setFilteredMarketItems(filtered);
     setLoading(false);
   };
+
 
   const filterByCategory = (category: string) => {
     const filtered = marketItems.filter((item) => {
