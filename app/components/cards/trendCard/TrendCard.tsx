@@ -5,6 +5,7 @@ import { TrendType } from "../../../fetch/types";
 import "./trendCard.css";
 import { getFirestore, doc, updateDoc, increment } from "firebase/firestore";
 import { getApp } from "firebase/app";
+import { formatNumber } from "../../../utils"; 
 
 interface TrendCardProp {
   trendData: TrendType;
@@ -15,16 +16,24 @@ function TrendCard({ trendData }: TrendCardProp) {
   const [userAction, setUserAction] = useState<"like" | "dislike" | null>(null);
 
   useEffect(() => {
-    const storedActions = JSON.parse(localStorage.getItem("trendActions") || "[]");
-    const action = storedActions.find((item: { id: string; status: string }) => item.id === trendData.id);
+    const storedActions = JSON.parse(
+      localStorage.getItem("trendActions") || "[]"
+    );
+    const action = storedActions.find(
+      (item: { id: string; status: string }) => item.id === trendData.id
+    );
     if (action) {
       setUserAction(action.status as "like" | "dislike");
     }
   }, [trendData.id]);
 
   const updateLocalStorage = (id: string, status: "like" | "dislike") => {
-    const storedActions = JSON.parse(localStorage.getItem("trendActions") || "[]");
-    const updatedActions = storedActions.filter((item: { id: string }) => item.id !== id);
+    const storedActions = JSON.parse(
+      localStorage.getItem("trendActions") || "[]"
+    );
+    const updatedActions = storedActions.filter(
+      (item: { id: string }) => item.id !== id
+    );
     updatedActions.push({ id, status });
     localStorage.setItem("trendActions", JSON.stringify(updatedActions));
   };
@@ -48,7 +57,7 @@ function TrendCard({ trendData }: TrendCardProp) {
   };
 
   const handleDislike = async () => {
-    if (userAction === "dislike") return;
+    if (userAction !== "like") return;
 
     const db = getFirestore(getApp());
     const trendRef = doc(db, "trends", trendData.id);
@@ -82,13 +91,15 @@ function TrendCard({ trendData }: TrendCardProp) {
             <i>by {trendData?.author}</i>
           </span>
           <span className="thumbs">
-            <span>{likes}</span>
+            <span>{formatNumber(likes)}</span> {/* Use the utility function */}
             <FaThumbsUp
               className={`thumbsup ${userAction === "like" ? "active" : ""}`}
               onClick={handleLike}
             />
             <FaThumbsDown
-              className={`thumbsdown ${userAction === "dislike" ? "active" : ""}`}
+              className={`thumbsdown ${
+                userAction === "dislike" ? "active" : ""
+              }`}
               onClick={handleDislike}
             />
           </span>
