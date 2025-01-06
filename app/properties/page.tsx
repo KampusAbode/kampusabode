@@ -75,7 +75,6 @@ const PropertiesPage: React.FC = () => {
     }
   };
 
-
   return (
     <section className="listings-page">
       <div className="banner">
@@ -181,13 +180,15 @@ const PropertiesPage: React.FC = () => {
           {loading ? (
             <Loader />
           ) : filteredProperties.length > 0 ? (
-            filteredProperties.map((property) => (
-              <div className="properties">
+            <div className="properties">
+              {filteredProperties.map((property) => (
                 <PropCard key={property.id} propertyData={property} />
-              </div>
-            ))
+              ))}
+            </div>
           ) : (
-            <p style={{ textAlign: "center", marginBlock: "2rem" }}>No listed property found.</p>
+            <p style={{ textAlign: "center", marginBlock: "2rem" }}>
+              No listed property found.
+            </p>
           )}
         </div>
       </div>
