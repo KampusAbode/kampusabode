@@ -35,10 +35,17 @@
 }
 .trend .trend-content .author-thumbs .thumbs {
   display: flex;
+  align-items: center;
   gap: var(--spacing);
   background-color: var(--light-gray);
   padding: var(--spacing-h);
   border-radius: var(--border-radius);
+}
+.trend .trend-content .author-thumbs .thumbs span {
+  background-color: var(--light-gray);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-h);
+  box-shadow: var(--shadow);
 }
 .trend .trend-content .author-thumbs .thumbs svg {
   cursor: pointer;
