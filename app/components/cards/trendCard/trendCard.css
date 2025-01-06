@@ -35,6 +35,7 @@
 }
 .trend .trend-content .author-thumbs .thumbs {
   display: flex;
+  align-items: center;
   gap: var(--spacing);
   background-color: var(--light-gray);
   padding: var(--spacing-h);
