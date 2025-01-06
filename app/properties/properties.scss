@@ -68,7 +68,7 @@
     max-width: 750px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 8fr 0.8fr;
+    grid-template-columns: 8fr 1fr;
     overflow: hidden;
     box-shadow: var(--shadow-below);
     input {
@@ -90,10 +90,10 @@
       cursor: pointer;
       background-color: var(--light-gray);
       svg {
-        width: 25px;
-        height: 25px;
+        width: 28px;
+        height: 28px;
         path {
-          fill: var(--font-color-h);
+          fill: var(--font-color-p);
         }
       }
     }

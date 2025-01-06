@@ -1,25 +1,25 @@
-.marketplace .filter {
+.marketplace .filter-marketplaceitems {
   margin-block: var(--spacing-2x);
 }
-.marketplace .filter .container .search-items {
+.marketplace .filter-marketplaceitems .container .search-items {
   border-radius: var(--border-radius);
   max-width: 750px;
   margin: 0 auto var(--spacing-2x);
   display: grid;
-  grid-template-columns: 8fr 1.5fr;
+  grid-template-columns: 8fr 1fr;
   background-color: var(--background-white);
   border: var(--border);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-below);
   overflow: hidden;
 }
-.marketplace .filter .container .search-items input {
+.marketplace .filter-marketplaceitems .container .search-items input {
   border-top-left-radius: var(--border-radius);
   border-bottom-left-radius: var(--border-radius);
   padding: var(--spacing);
   border: none;
 }
-.marketplace .filter .container .search-items .search-icon {
+.marketplace .filter-marketplaceitems .container .search-items .search-icon {
   border-top-right-radius: var(--border-radius);
   border-bottom-right-radius: var(--border-radius);
   display: grid;
@@ -27,14 +27,14 @@
   cursor: pointer;
   background-color: var(--light-gray);
 }
-.marketplace .filter .container .search-items .search-icon svg {
+.marketplace .filter-marketplaceitems .container .search-items .search-icon svg {
   width: 25px;
   height: 25px;
 }
-.marketplace .filter .container .search-items .search-icon svg path {
+.marketplace .filter-marketplaceitems .container .search-items .search-icon svg path {
   fill: var(--font-color-p);
 }
-.marketplace .filter .container .filter-items {
+.marketplace .filter-marketplaceitems .container .filter-items {
   display: flex;
   align-items: center;
   justify-content: left;
@@ -50,10 +50,10 @@
   top: 0px;
   z-index: 999;
 }
-.marketplace .filter .container .filter-items::-webkit-scrollbar {
+.marketplace .filter-marketplaceitems .container .filter-items::-webkit-scrollbar {
   display: none;
 }
-.marketplace .filter .container .filter-items .category-item {
+.marketplace .filter-marketplaceitems .container .filter-items .category-item {
   padding: var(--spacing);
   border-radius: var(--border-radius);
   border: var(--border);
@@ -63,7 +63,7 @@
   cursor: pointer;
   transition: var(--transition);
 }
-.marketplace .filter .container .filter-items .category-item:hover, .marketplace .filter .container .filter-items .category-item:active, .marketplace .filter .container .filter-items .category-item.active {
+.marketplace .filter-marketplaceitems .container .filter-items .category-item:hover, .marketplace .filter-marketplaceitems .container .filter-items .category-item:active, .marketplace .filter-marketplaceitems .container .filter-items .category-item.active {
   border: var(--border-hover);
   color: var(--font-color-h);
 }
