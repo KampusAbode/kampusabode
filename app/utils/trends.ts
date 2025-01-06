@@ -44,12 +44,7 @@ export const fetchTrendsByIDs = async (trendsIds: string[]) => {
 
       return {
         id: data.id || "",
-        image: data.image || "",
-        title: data.title || "",
-        description: data.description || "",
-        author: data.author || "",
-        category: data.category || "",
-        published_date: data.published_date || "",
+        ...data
       };
     });
 

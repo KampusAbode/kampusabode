@@ -69,6 +69,7 @@ export interface TrendType {
   author: string;
   image: string;
   published_date: string;
+  likes: number;
   category: string;
 }
 
