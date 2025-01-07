@@ -73,7 +73,7 @@ export default function trendsPage() {
         <h2 className="page-heading">Trends</h2>
       </div>
 
-      <div className="filter">
+      <div className="trends-page-filter">
         <div className="container">
           {/* <div className="search-trends">
             <input

@@ -7,7 +7,7 @@
       margin-block: var(--spacing-2x);
     }
   }
-  .filter {
+  .trends-page-filter {
     margin-block: var(--spacing-2x);
     .container {
       .search-trends {
@@ -59,6 +59,8 @@
           overflow-x: scroll;
           scrollbar-width: none;
           -ms-overflow-style: none;
+          position: sticky;
+          top: 0px;
 
           &::-webkit-scrollbar {
             display: none;
@@ -113,7 +115,7 @@
         grid-template-columns: 1fr;
       }
     }
-    .filter {
+    .trends-page-filter {
       .container {
         .search-trends {
           grid-template-columns: 8fr 1.5fr;

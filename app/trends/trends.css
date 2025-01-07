@@ -4,10 +4,10 @@
   gap: var(--spacing);
   margin-block: var(--spacing-2x);
 }
-.trends-page .filter {
+.trends-page .trends-page-filter {
   margin-block: var(--spacing-2x);
 }
-.trends-page .filter .container .search-trends {
+.trends-page .trends-page-filter .container .search-trends {
   border-radius: var(--border-radius-r);
   max-width: 750px;
   margin: 0 auto;
@@ -16,17 +16,17 @@
   overflow: hidden;
   box-shadow: var(--shadow-below);
 }
-.trends-page .filter .container .search-trends input {
+.trends-page .trends-page-filter .container .search-trends input {
   border: var(--border);
   border-radius: var(--border-radius-r);
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   padding: var(--spacing);
 }
-.trends-page .filter .container .search-trends input:focus {
+.trends-page .trends-page-filter .container .search-trends input:focus {
   border: var(--border-hover);
 }
-.trends-page .filter .container .search-trends .search-icon {
+.trends-page .trends-page-filter .container .search-trends .search-icon {
   border-top-right-radius: var(--border-radius-r);
   border-bottom-right-radius: var(--border-radius-r);
   display: grid;
@@ -34,17 +34,17 @@
   cursor: pointer;
   background-color: var(--light-gray);
 }
-.trends-page .filter .container .search-trends .search-icon svg {
+.trends-page .trends-page-filter .container .search-trends .search-icon svg {
   width: 25px;
   height: 25px;
 }
-.trends-page .filter .container .search-trends .search-icon svg path {
+.trends-page .trends-page-filter .container .search-trends .search-icon svg path {
   fill: var(--font-color-h);
 }
-.trends-page .filter .container .filter-trends p {
+.trends-page .trends-page-filter .container .filter-trends p {
   margin-bottom: var(--spacing-h);
 }
-.trends-page .filter .container .filter-trends .categories {
+.trends-page .trends-page-filter .container .filter-trends .categories {
   display: flex;
   align-items: center;
   justify-content: left;
@@ -52,11 +52,13 @@
   overflow-x: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  position: sticky;
+  top: 0px;
 }
-.trends-page .filter .container .filter-trends .categories::-webkit-scrollbar {
+.trends-page .trends-page-filter .container .filter-trends .categories::-webkit-scrollbar {
   display: none;
 }
-.trends-page .filter .container .filter-trends .categories .category-trend {
+.trends-page .trends-page-filter .container .filter-trends .categories .category-trend {
   padding: var(--spacing);
   border-radius: var(--border-radius);
   border: var(--border);
@@ -66,7 +68,7 @@
   cursor: pointer;
   transition: var(--transition);
 }
-.trends-page .filter .container .filter-trends .categories .category-trend:hover, .trends-page .filter .container .filter-trends .categories .category-trend:active, .trends-page .filter .container .filter-trends .categories .category-trend.active {
+.trends-page .trends-page-filter .container .filter-trends .categories .category-trend:hover, .trends-page .trends-page-filter .container .filter-trends .categories .category-trend:active, .trends-page .trends-page-filter .container .filter-trends .categories .category-trend.active {
   border: var(--border-hover);
   color: var(--font-color-h);
 }
@@ -86,10 +88,10 @@
   .trends-page .container .trends {
     grid-template-columns: 1fr;
   }
-  .trends-page .filter .container .search-trends {
+  .trends-page .trends-page-filter .container .search-trends {
     grid-template-columns: 8fr 1.5fr;
   }
-  .trends-page .filter .container .search-trends .search-icon svg {
+  .trends-page .trends-page-filter .container .search-trends .search-icon svg {
     width: 20px;
     height: 20px;
   }
