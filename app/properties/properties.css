@@ -32,7 +32,8 @@
 }
 .banner .dot1,
 .banner .dot2 {
-  height: auto;
+  width: auto;
+  height: 251.8px;
   position: absolute;
   bottom: 0;
 }
