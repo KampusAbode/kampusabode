@@ -388,7 +388,6 @@
   position: relative;
 }
 .testimonials-section .container .testimonies .testimonial-card .testi-content p {
-  font-size: 12rem;
   color: var(--font-color-p);
 }
 

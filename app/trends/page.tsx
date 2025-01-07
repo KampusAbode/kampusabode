@@ -117,16 +117,16 @@ export default function trendsPage() {
 
       <div className="container">
         {!loading ? (
-          filteredTrends.length === 0 ? (
-            <p style={{ marginBlock: "2rem", textAlign: "center" }}>
-              No trend available.
-            </p>
-          ) : (
+          filteredTrends.length > 0 ? (
             <div className="trends">
               {filteredTrends.map((read) => (
                 <TrendCard key={read?.id} trendData={read} />
               ))}
             </div>
+          ) : (
+            <p style={{ marginBlock: "2rem", textAlign: "center" }}>
+              No trend available.
+            </p>
           )
         ) : (
           <Loader />
