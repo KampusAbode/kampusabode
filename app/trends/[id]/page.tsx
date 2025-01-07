@@ -7,11 +7,12 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 import Loader from "../../components/loader/Loader";
 
-interface TrendPageProps {
-  id: string;
-}
+type Params = {
+  params: { id: string };
+};
 
-const TrendPage: React.FC<TrendPageProps> = ({ id }) => {
+const TrendPage = ({ params }: Params) => {
+  const { id } = params;
   const [trendData, setTrendData] = useState<TrendType>();
 
   useEffect( () => {
