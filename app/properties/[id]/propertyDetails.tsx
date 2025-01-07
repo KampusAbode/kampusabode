@@ -40,12 +40,12 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
     try {
       const details = await fetchPropertyById(id);
       setPropertyDetails(details);
-      if (details.agentId) {
-        const agent = await fetchUsersById(details.agentId);
+      if (propertyDetails) {
+        const agent = await fetchUsersById(propertyDetails.agentId);
         if (agent && !Array.isArray(agent)) {
           setAgentDetails(agent);
           const properties = await fetchPropertiesByIds(
-            'propertiesListed' in agent.userInfo
+            "propertiesListed" in agent.userInfo
               ? agent.userInfo.propertiesListed
                   .filter((property: PropertyType) => property.id !== id)
                   .map((property: PropertyType) => property.id)
