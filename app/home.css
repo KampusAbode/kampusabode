@@ -229,6 +229,7 @@
   border-radius: var(--spacing);
   overflow: hidden;
   position: relative;
+  z-index: 1;
 }
 .recent-property-section .container .properties .pd::before {
   position: absolute;
@@ -344,7 +345,6 @@
   transform: translateY(-30px);
 }
 .testimonials-section .container .testimonies .testimonial-card:nth-child(odd):hover {
-  border: var(--border-hover);
   transform: translateY(-40px);
 }
 .testimonials-section .container .testimonies .testimonial-card:hover {
@@ -379,8 +379,8 @@
   border-radius: var(--border-radius-r);
 }
 .testimonials-section .container .testimonies .testimonial-card .details > div .rating svg {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
 }
 .testimonials-section .container .testimonies .testimonial-card .testi-content {
   border-top: var(--border);
@@ -388,7 +388,7 @@
   position: relative;
 }
 .testimonials-section .container .testimonies .testimonial-card .testi-content p {
-  font-size: 12px;
+  font-size: 12rem;
   color: var(--font-color-p);
 }
 
@@ -420,7 +420,6 @@
   opacity: 0.02;
 }
 .trends-section .trends .trend:hover {
-  border: var(--border-hover);
   transform: translateY(-8px);
 }
 .trends-section .trends .trend h5 {
@@ -491,7 +490,7 @@
   z-index: -1;
 }
 .cta-section span {
-  font-size: 10px;
+  font-size: 10rem;
   letter-spacing: 2px;
   color: var(--light-gray);
 }

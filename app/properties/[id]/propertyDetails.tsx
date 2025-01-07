@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropStats from "../../components/propertyStats/propStats";
 import SaveVisitedProperty from "../../components/functions/SaveVIsitedProperties";
 import {
@@ -24,86 +24,79 @@ interface PropertyDetailsProps {
 }
 
 const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
-  const [agentDetails, setAgentDetails] = useState<UserType>();
+  const [agentDetails, setAgentDetails] = useState<UserType | null>(null);
   const [agentPropertyListings, setAgentPropertyListings] = useState<
     PropertyType[]
   >([]);
   const [propReviews, setPropReviews] = useState<ReviewType[]>([]);
-  const [propertyDetails, setPropertyDetails] = useState<PropertyType>();
+  const [propertyDetails, setPropertyDetails] = useState<PropertyType | null>(
+    null
+  );
+
   const user = useSelector((state: RootState) => state.userdata);
 
-  useEffect(() => {
-    const fetchPropertyDetails = async () => {
-      try {
-        const details = await fetchPropertyById(id);
-        console.log("property details", details);
-        setPropertyDetails(details);
-        fetchAgentDetails(details.agentId);
-      } catch {
-        toast.error("Failed to fetch property details.");
-      }
-    };
-
-    fetchPropertyDetails();
-
-    // Fetch Agent Details
-    const fetchAgentDetails = async (agentId: string) => {
-      if (propertyDetails) {
-        try {
-          const user = await fetchUsersById(agentId);
-          console.log("user info", user);
-          if (user && !Array.isArray(user)) {
-            setAgentDetails(user);
-            fetchAgentPropertyListings(user);
-          } else {
-            toast.error("Invalid user data");
-          }
-        } catch (error) {
-          toast.error("Failed to fetch agent details.");
+  // Fetch property details and agent details
+  const fetchPropertyDetails = useCallback(async () => {
+    try {
+      const details = await fetchPropertyById(id);
+      setPropertyDetails(details);
+      if (details.agentId) {
+        const agent = await fetchUsersById(details.agentId);
+        if (agent && !Array.isArray(agent)) {
+          setAgentDetails(agent);
+          const properties = await fetchPropertiesByIds(
+            'propertiesListed' in agent.userInfo
+              ? agent.userInfo.propertiesListed
+                  .filter((property: PropertyType) => property.id !== id)
+                  .map((property: PropertyType) => property.id)
+              : []
+          );
+          setAgentPropertyListings(properties);
         }
       }
-    };
-
-    // Fetch Agent Property Listings
-    const fetchAgentPropertyListings = async (user) => {
-      try {
-        const properties = await fetchPropertiesByIds(
-          "propertiesListed" in user.userInfo
-            ? user.userInfo.propertiesListed.map(
-                (property: PropertyType) => property.id !== id
-              )
-            : []
-        );
-        console.log(properties);
-        setAgentPropertyListings(properties);
-      } catch (error) {
-        toast.error("Failed to fetch agent properties.");
-      }
-    };
-
-    // Fetch Reviews
-    const fetchReviews = async () => {
-      try {
-        const fetchedReviews = (await fetchReviewsByPropertyId(
-          id
-        )) as ReviewType[];
-        console.log(fetchedReviews);
-        setPropReviews(fetchedReviews);
-      } catch {
-        toast.error("Failed to fetch reviews.");
-      }
-    };
-    fetchReviews();
+    } catch (error) {
+      toast.error("Failed to fetch property or agent details.");
+    }
   }, [id]);
 
-  // Calculate Property Rating
-  const rating = propReviews?.length
-    ? propReviews?.reduce((sum, review: ReviewType) => sum + review.rating, 0) /
-      propReviews?.length
-    : 0;
+  // Fetch reviews
+  const fetchReviews = useCallback(async () => {
+    try {
+      const reviews = await fetchReviewsByPropertyId(id);
+      setPropReviews(reviews as ReviewType[]);
+    } catch (error) {
+      toast.error("Failed to fetch reviews.");
+    }
+  }, [id]);
+
+  // Calculate property rating
+  const calculateRating = useCallback(() => {
+    if (!propReviews.length) return 0;
+    return (
+      propReviews.reduce((sum, review) => sum + review.rating, 0) /
+      propReviews.length
+    );
+  }, [propReviews]);
+
+  const getFormattedDateDistance = (rawDate: string) => {
+    try {
+      const formattedDate = rawDate.replace(" at ", " "); // Remove "at" for parsing
+      const date = new Date(formattedDate);
+      if (isNaN(date.getTime())) throw new Error("Invalid date");
+      return formatDistanceToNowStrict(date);
+    } catch (error) {
+      console.error("Error formatting date:", rawDate, error);
+      return "Invalid date";
+    }
+  };
+
+  useEffect(() => {
+    fetchPropertyDetails();
+    fetchReviews();
+  }, [fetchPropertyDetails, fetchReviews]);
 
   if (!propertyDetails) {
-    return;
+    return <p>Loading...</p>;
   }
 
   return (
@@ -114,20 +107,20 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
         </div>
 
         <div className="container">
-          {/* Property Details */}
           <div className="top">
+            {/* Property Details */}
             <div className="pq">
-              <h2>{propertyDetails?.title}</h2>
+              <h2>{propertyDetails.title}</h2>
               <div className="features">
-                <span>{propertyDetails?.bedrooms} bedrooms</span>
-                <span>{propertyDetails?.bathrooms} bathrooms</span>
-                <span>{propertyDetails?.area} sqft</span>
+                <span>{propertyDetails.bedrooms} bedrooms</span>
+                <span>{propertyDetails.bathrooms} bathrooms</span>
+                <span>{propertyDetails.area} sqft</span>
               </div>
-              <p>{propertyDetails?.description}</p>
+              <p>{propertyDetails.description}</p>
               <div className="amenities">
                 <span>Amenities:</span>
-                {propertyDetails?.amenities.length > 0 ? (
-                  propertyDetails?.amenities.map((amenity, index) => (
+                {propertyDetails.amenities.length > 0 ? (
+                  propertyDetails.amenities.map((amenity, index) => (
                     <span key={index}>{amenity}</span>
                   ))
                 ) : (
@@ -137,53 +130,51 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
             </div>
 
             {/* About Agent */}
-            <div className="about-agent">
-              <h5>About Agent</h5>
-              {agentDetails && (
-                <div>
-                  <div className="agent-details">
-                    <Image
-                      src={agentDetails?.userInfo.avatar}
-                      width={500}
-                      height={500}
-                      alt={`${agentDetails?.name} profile picture`}
-                    />
-                    <h5>{agentDetails?.name}</h5>
-                    {"agencyName" in agentDetails?.userInfo &&
-                      agentDetails?.userInfo.agencyName && (
-                        <p>{agentDetails?.userInfo.agencyName}</p>
-                      )}
-                    <span>
-                      Properties:{" "}
-                      {"propertiesListed" in agentDetails?.userInfo
-                        ? agentDetails?.userInfo.propertiesListed.length
-                        : 0}
-                    </span>
-                  </div>
-                  <div className="agent-stats">
-                    <PropStats rating={rating} reviews={propReviews?.length} />
-                  </div>
-                  <div className="bio">
-                    <p>
-                      <strong>Bio: </strong>
-                      {agentDetails?.userInfo.bio}
-                    </p>
-                  </div>
+            {agentDetails && (
+              <div className="about-agent">
+                <h5>About Agent</h5>
+                <div className="agent-details">
+                  <Image
+                    src={agentDetails.userInfo.avatar}
+                    width={500}
+                    height={500}
+                    alt={`${agentDetails.name}'s profile picture`}
+                  />
+                  <h5>{agentDetails.name}</h5>
+                  {"agencyName" in agentDetails.userInfo && (
+                    <p>{agentDetails.userInfo.agencyName}</p>
+                  )}
+                  <span>
+                    Properties:{" "}
+                    {"propertiesListed" in agentDetails.userInfo
+                      ? agentDetails.userInfo.propertiesListed.length
+                      : 0}
+                  </span>
                 </div>
-              )}
-            </div>
+                <PropStats
+                  rating={calculateRating()}
+                  reviews={propReviews.length}
+                />
+                <div className="bio">
+                  <p>
+                    <strong>Bio: </strong>
+                    {agentDetails.userInfo.bio}
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Reviews Section */}
           <div className="agent-reviews">
-            <h5>{`Reviews (${propReviews?.length})`}</h5>
+            <h5>{`Reviews (${propReviews.length})`}</h5>
             <div className="reviews">
-              {propReviews?.length ? (
-                propReviews?.map((review) => (
+              {propReviews.length ? (
+                propReviews.map((review) => (
                   <div key={review.content} className="review-item">
                     <p>
                       "{review.content}"{" "}
-                      <span>{formatDistanceToNowStrict(review.date)}ago</span>
+                      <span>{getFormattedDateDistance(review.date)} ago</span>
                     </p>
                   </div>
                 ))
@@ -197,7 +188,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
           <div className="agent-listings">
             <h5>{agentDetails?.name}'s Listed Properties</h5>
             <div>
-              {agentPropertyListings?.slice(0, 3).map((listing) => (
+              {agentPropertyListings.slice(0, 3).map((listing) => (
                 <Link key={listing.id} href={`/properties/${listing.id}`}>
                   <div className="list-prop">
                     <Image

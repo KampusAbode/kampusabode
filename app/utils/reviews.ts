@@ -38,7 +38,7 @@ export const fetchReviewsByPropertyId = async (propertyId) => {
 export const fetchReviewsByAuthor = async (userId) => {
   try {
     // Reference to the "reviews" collection
-    const reviewsCollection = collection(db, "reviews");
+    const reviewsCollection = collection(db, "Reviews");
 
     // Query to fetch reviews where "authorId" matches
     const reviewsQuery = query(
@@ -65,7 +65,7 @@ export const fetchReviewsByAuthor = async (userId) => {
 export const fetchReviewsByAgentId = async (agentId) => {
   try {
     // Reference to the "reviews" collection
-    const reviewsCollection = collection(db, "reviews");
+    const reviewsCollection = collection(db, "Reviews");
 
     // Query to fetch reviews where "authorId" matches
     const reviewsQuery = query(

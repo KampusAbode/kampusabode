@@ -182,16 +182,18 @@
   padding-right: var(--spacing-h);
 }
 .properties-details-page .container .agent-reviews .reviews .review-item {
-  width: 70vw;
+  width: 80vw;
   max-width: 350px;
   border: var(--border);
   border-radius: var(--border-radius);
   scroll-snap-align: center;
   flex-shrink: 0;
   padding: var(--spacing-2x);
-  font-size: 1.2em;
   box-shadow: var(--shadow);
   text-align: center;
+}
+.properties-details-page .container .agent-reviews .reviews .review-item span {
+  display: block;
 }
 .properties-details-page .container .agent-reviews .reviews::-webkit-scrollbar {
   display: none;

@@ -26,7 +26,7 @@
   --spacing-4x: 4rem;
   --spacing-5x: 5rem;
   --spacing-s: 6rem;
-  --padding-b: 1rem;
+  --padding-b: .5rem 1rem;
   /* Shadow & Transition */
   --shadow: 0px 3px 10px rgba(38, 38, 38, 0.04),
     -0px -3px 8px rgba(22, 22, 22, 0.01);

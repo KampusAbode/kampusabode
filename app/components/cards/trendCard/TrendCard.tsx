@@ -6,6 +6,7 @@ import "./trendCard.css";
 import { getFirestore, doc, updateDoc, increment } from "firebase/firestore";
 import { getApp } from "firebase/app";
 import { formatNumber } from "../../../utils"; 
+import Link from "next/link";
 
 interface TrendCardProp {
   trendData: TrendType;
@@ -77,12 +78,14 @@ function TrendCard({ trendData }: TrendCardProp) {
   return (
     <div className="trend">
       <div className="trend-image">
+        <Link href={`/trends/${trendData?.id}`}>
         <Image
           src={trendData?.image}
           width={1000}
           height={1000}
           alt="trend image"
         />
+        </Link>
         <span className="category">{trendData?.category}</span>
       </div>
       <div className="trend-content">

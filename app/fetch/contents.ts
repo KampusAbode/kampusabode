@@ -7,7 +7,7 @@ const homeSection: HomeType = {
   },
   about: {
     heading: "who are we?",
-    waw: "Kampus Abode connects OAU students with trusted agents to find safe, affordable, and convenient hostel apartments. Our platform offers verified listings, direct communication with agents, and insights into hostel areas—all from your phone. Making apartment renting hassle-free and tailored to your needs!",
+    waw: "Kampus Abode connects OAU students with trusted agents to find safe, affordable, and convenient hostel apartments. Our platform offers verified listings, direct communication with agents, and insights into hostel areas—all from your phone. Making apartment renting hassle-free and tailored to your needs!",
     services: [
       {
         heading: "Area Insights",
@@ -21,7 +21,7 @@ const homeSection: HomeType = {
       },
       {
         heading: "Agent Reviews",
-        text: "Verified agent ratings and reviews for informed decisions.",
+        text: "Verified agent ratings and reviews for informed decisions.",
         icon: "/icons/people-network-partner.svg",
       },
     ],

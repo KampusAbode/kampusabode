@@ -262,6 +262,7 @@
         border-radius: var(--spacing);
         overflow: hidden;
         position: relative;
+        z-index: 1;
 
         &::before {
           position: absolute;
@@ -396,7 +397,6 @@
           transform: translateY(-30px);
 
           &:hover {
-            border: var(--border-hover);
             transform: translateY(-40px);
           }
         }
@@ -433,8 +433,8 @@
               border-radius: var(--border-radius-r);
 
               svg {
-                width: 12px;
-                height: 12px;
+                width: 10px;
+                height: 10px;
               }
             }
           }
@@ -446,7 +446,7 @@
           position: relative;
 
           p {
-            font-size: 12px;
+            font-size: 12rem;
             color: var(--font-color-p);
           }
         }
@@ -487,7 +487,6 @@
       }
 
       &:hover {
-        border: var(--border-hover);
         transform: translateY(-8px);
       }
 
@@ -572,7 +571,7 @@
   }
 
   span {
-    font-size: 10px;
+    font-size: 10rem;
     letter-spacing: 2px;
     color: var(--light-gray);
   }

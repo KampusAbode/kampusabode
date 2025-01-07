@@ -91,7 +91,7 @@ export interface ReviewType {
   propertyId: string;
   content: string;
   rating: number;
-  date: Date;
+  date: string;
 }
 
 export interface LinkType {
@@ -111,19 +111,19 @@ export interface BookmarkState {
 export interface StudentUserInfo {
   bio: string;
   avatar: string;
+  phoneNumber: string;
   university: string;
   department: string;
   yearOfStudy: number;
   savedProperties: string[];
   wishlist: string[];
-  phoneNumber: string;
 }
 
 export interface AgentUserInfo {
   bio: string;
   avatar: string;
-  agencyName: string;
   phoneNumber: string;
+  agencyName: string;
   propertiesListed: { id: string; available: boolean }[];
 }
 
