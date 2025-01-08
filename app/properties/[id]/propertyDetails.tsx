@@ -130,39 +130,43 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
             </div>
 
             {/* About Agent */}
-            {agentDetails && (
-              <div className="about-agent">
-                <h5>About Agent</h5>
-                <div className="agent-details">
-                  <Image
-                    src={agentDetails.userInfo.avatar}
-                    width={500}
-                    height={500}
-                    alt={`${agentDetails.name}'s profile picture`}
-                  />
-                  <h5>{agentDetails.name}</h5>
-                  {"agencyName" in agentDetails.userInfo && (
-                    <p>{agentDetails.userInfo.agencyName}</p>
-                  )}
-                  <span>
-                    Properties:{" "}
-                    {"propertiesListed" in agentDetails.userInfo
-                      ? agentDetails.userInfo.propertiesListed.length
-                      : 0}
-                  </span>
-                </div>
-                <PropStats
-                  rating={calculateRating()}
-                  reviews={propReviews.length}
-                />
-                <div className="bio">
-                  <p>
-                    <strong>Bio: </strong>
-                    {agentDetails.userInfo.bio}
-                  </p>
-                </div>
+            <div className="about-agent">
+              <h5>About Agent</h5>
+              <div className="agent-details">
+                {agentDetails ? (
+                  <>
+                    <Image
+                      src={agentDetails.userInfo.avatar}
+                      width={500}
+                      height={500}
+                      alt={`${agentDetails.name}'s profile picture`}
+                    />
+                    <h5>{agentDetails.name}</h5>
+                    {"agencyName" in agentDetails.userInfo && (
+                      <p>{agentDetails.userInfo.agencyName}</p>
+                    )}
+                    <span>
+                      Properties:{" "}
+                      {"propertiesListed" in agentDetails.userInfo
+                        ? agentDetails.userInfo.propertiesListed.length
+                        : 0}
+                    </span>
+                  </>
+                ) : (
+                  <p>Agent Details Not Found.</p>
+                )}
               </div>
-            )}
+              <PropStats
+                rating={calculateRating()}
+                reviews={propReviews.length}
+              />
+              <div className="bio">
+                <p>
+                  <strong>Bio: </strong>
+                  {agentDetails.userInfo.bio}
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Reviews Section */}
