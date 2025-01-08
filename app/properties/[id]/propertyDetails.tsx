@@ -25,13 +25,9 @@ interface PropertyDetailsProps {
 
 const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   const [agentDetails, setAgentDetails] = useState<UserType | null>(null);
-  const [agentPropertyListings, setAgentPropertyListings] = useState<
-    PropertyType[]
-  >([]);
+  const [agentPropertyListings, setAgentPropertyListings] = useState<PropertyType[]>([]);
   const [propReviews, setPropReviews] = useState<ReviewType[]>([]);
-  const [propertyDetails, setPropertyDetails] = useState<PropertyType | null>(
-    null
-  );
+  const [propertyDetails, setPropertyDetails] = useState<PropertyType | null>(null);
 
   const user = useSelector((state: RootState) => state.userdata);
 
@@ -40,8 +36,8 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
     try {
       const details = await fetchPropertyById(id);
       setPropertyDetails(details);
-      if (propertyDetails) {
-        const agent = await fetchUsersById(propertyDetails.agentId);
+      if (details) {
+        const agent = await fetchUsersById(details.agentId);
         if (agent && !Array.isArray(agent)) {
           setAgentDetails(agent);
           const properties = await fetchPropertiesByIds(
@@ -80,7 +76,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
 
   const getFormattedDateDistance = (rawDate: string) => {
     try {
-      const formattedDate = rawDate.replace(" at ", " "); // Remove "at" for parsing
+      const formattedDate = rawDate.replace(" at ", " "); 
       const date = new Date(formattedDate);
       if (isNaN(date.getTime())) throw new Error("Invalid date");
       return formatDistanceToNowStrict(date);
@@ -136,7 +132,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                 {agentDetails ? (
                   <>
                     <Image
-                      src={agentDetails.userInfo.avatar}
+                      src={agentDetails.userInfo?.avatar || "/default-avatar.png"}
                       width={500}
                       height={500}
                       alt={`${agentDetails.name}'s profile picture`}
@@ -163,7 +159,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
               <div className="bio">
                 <p>
                   <strong>Bio: </strong>
-                  {agentDetails.userInfo.bio}
+                  {agentDetails?.userInfo?.bio || "No bio available."}
                 </p>
               </div>
             </div>
