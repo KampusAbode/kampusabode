@@ -4,16 +4,20 @@
   --primary-color: #da2736;
   --primary-color-hover: #f32a3a;
   --background-white: #ffffff;
+  --background-light: #f8f9fa;
+  --background-dark: #343a40;
   --background-transparent: #00000042;
   --white: #ffffff;
-  --gray: #dbdbdb;
-  --light-gray: #f9f9f9;
-  --font-color-h: #353535;
-  --font-color-p: #626262;
-  --font-light: #a8a8a8;
+  --black: #000000;
+  --gray: #6c757d;
+  --light-gray: #f8f9fa;
+  --dark-gray: #343a40;
+  --font-color-h: #212529;
+  --font-color-p: #495057;
+  --font-light: #adb5bd;
   --font-white: #ffffff;
-  --border: 1px solid #adadad;
-  --border-hover: 1px solid #3f3f3f;
+  --border: 1px solid #ced4da;
+  --border-hover: 1px solid #495057;
   /* Border Radius */
   --border-radius: 8px;
   --border-radius-r: 32px;
