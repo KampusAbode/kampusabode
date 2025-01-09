@@ -153,7 +153,7 @@ export const loginUser = async (userData: UserLoginInput) => {
     ).toString();
 
     // Store the encrypted data in localStorage
-    localStorage.setItem(process.env.NEXT_PUBLIC__STORAGE_KEY, encryptedData);
+    localStorage.setItem(process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY, encryptedData);
 
     return { message: `Welcome abode! ${userDataFromDB.name}` };
   } catch (error) {
@@ -186,7 +186,7 @@ export const logoutUser = async () => {
     await auth.signOut();
 
     localStorage.setItem("hasSeenWelcome", JSON.stringify(false));
-    localStorage.removeItem(process.env.NEXT_PUBLIC__STORAGE_KEY);
+    localStorage.removeItem(process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY);
 
     return { message: "Successfully logged out" };
   } catch (error) {
@@ -215,13 +215,13 @@ export const getAuthState = async (): Promise<{ isAuthenticated: boolean }> => {
       return { isAuthenticated: false };
     }
 
-    const storageKey = process.env.NEXT_PUBLIC__STORAGE_KEY; 
-    if (!storageKey) {
+    const userDataStorageKey = process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY; 
+    if (!userDataStorageKey) {
       console.warn("Storage key is not defined in environment variables.");
       return { isAuthenticated: false };
     }
 
-    const localData = localStorage.getItem(storageKey);
+    const localData = localStorage.getItem(userDataStorageKey);
     return localData ? { isAuthenticated: true } : { isAuthenticated: false };
   } catch (error) {
     console.error("Error accessing authentication state:", error);

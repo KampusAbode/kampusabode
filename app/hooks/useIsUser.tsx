@@ -31,7 +31,9 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
 
   // Helper: Fetch and decrypt user data from localStorage
   const getStoredUserData = () => {
-    const data = localStorage.getItem(process.env.NEXT_PUBLIC__STORAGE_KEY!);
+    const data = localStorage.getItem(
+      process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!
+    );
     if (!data) return null;
 
     try {
@@ -54,7 +56,10 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
       JSON.stringify(data),
       process.env.NEXT_PUBLIC__SECRET_KEY!
     ).toString();
-    localStorage.setItem(process.env.NEXT_PUBLIC__STORAGE_KEY!, encryptedData);
+    localStorage.setItem(
+      process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!,
+      encryptedData
+    );
   };
 
   // Helper: Dispatch user data to Redux store

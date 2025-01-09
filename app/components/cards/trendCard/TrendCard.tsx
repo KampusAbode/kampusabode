@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { FaThumbsUp } from "react-icons/fa6";
 import { TrendType } from "../../../fetch/types";
 import "./trendCard.css";
@@ -24,7 +24,7 @@ const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
     if (encryptedActions) {
       const bytes = CryptoJS.AES.decrypt(
         encryptedActions,
-        process.env.NEXT_PUBLIC_SECRET_KEY!
+        process.env.NEXT_PUBLIC__SECRET_KEY!
       );
       const decryptedActions = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
       const action = decryptedActions.find(
@@ -34,35 +34,32 @@ const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
         setUserAction(action.status as "like");
       }
     }
-  }, [trendData.id]);
+  }, [trendData.id]); 
 
-  const updateLocalStorage = useCallback(
-    (id: string, status: "like" | "unlike") => {
-      const encryptedActions = localStorage.getItem("trendActions");
-      let storedActions: { id: string; status: "like" | "unlike" }[] = [];
-      if (encryptedActions) {
-        const bytes = CryptoJS.AES.decrypt(
-          encryptedActions,
-          process.env.NEXT_PUBLIC_SECRET_KEY!
-        );
-        storedActions = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-      }
-      const updatedActions = storedActions.filter(
-        (item: { id: string }) => item.id !== id
+  const updateLocalStorage = (id: string, status: "like" | "unlike") => {
+    const encryptedActions = localStorage.getItem("trendActions");
+    let storedActions: { id: string; status: "like" | "unlike" }[] = [];
+    if (encryptedActions) {
+      const bytes = CryptoJS.AES.decrypt(
+        encryptedActions,
+        process.env.NEXT_PUBLIC__SECRET_KEY!
       );
-      if (status) {
-        updatedActions.push({ id, status });
-      }
-      const encryptedData = CryptoJS.AES.encrypt(
-        JSON.stringify(updatedActions),
-        process.env.NEXT_PUBLIC_SECRET_KEY!
-      ).toString();
-      localStorage.setItem("trendActions", encryptedData);
-    },
-    []
-  );
+      storedActions = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    }
+    const updatedActions = storedActions.filter(
+      (item: { id: string }) => item.id !== id
+    );
+    if (status) {
+      updatedActions.push({ id, status });
+    }
+    const encryptedData = CryptoJS.AES.encrypt(
+      JSON.stringify(updatedActions),
+      process.env.NEXT_PUBLIC__SECRET_KEY!
+    ).toString();
+    localStorage.setItem("trendActions", encryptedData);
+  };
 
-  const handleLikeToggle = useCallback(async () => {
+  const handleLikeToggle = async () => {
     setLoading(true);
     try {
       const action = userAction === "like" ? "unlike" : "like";
@@ -82,9 +79,9 @@ const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
     } finally {
       setLoading(false);
     }
-  }, [userAction, trendData.id, updateLocalStorage]);
+  };
 
-  const formattedLikes = useMemo(() => formatNumber(likes), [likes]);
+  const formattedLikes = formatNumber(likes);
 
   return (
     <div className="trend">

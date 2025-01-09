@@ -29,7 +29,7 @@
       cursor: pointer;
       text-align: center;
       text-decoration: none;
-      color: var(--font-color-h);
+      color: var(--font-color-p);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -39,7 +39,6 @@
       span {
         font-size: var(--font-size-xs);
         color: var(--font-color-h);
-        font-weight: 600;
         text-transform: capitalize;
 
         transition: var(--transition);
@@ -47,12 +46,11 @@
 
       &.active {
         span {
+          font-weight: 600;
           color: var(--primary-color);
         }
         svg {
           transform: translateY(-8px);
-          // width: 26px;
-          // height: 26px;
         }
         svg path {
           fill: var(--primary-color);

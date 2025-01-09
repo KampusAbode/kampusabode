@@ -6,7 +6,7 @@ import { isToday, isYesterday, format } from "date-fns";
 import {
   sendMessage,
   listenToMessagesForConversation,
-  deleteMessageFromFirebase, // Ensure you create this in your Firebase utility
+  deleteMessageFromFirebase,
 } from "../../../utils";
 import "./chat.css";
 
