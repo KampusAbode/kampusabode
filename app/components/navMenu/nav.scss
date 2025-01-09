@@ -85,7 +85,7 @@
       a {
         padding: var(--spacing);
         text-transform: capitalize;
-        color: var(--font-color-h);
+        color: var(--font-color-p);
         
         display: flex;
         align-items: center;
@@ -96,10 +96,11 @@
         svg {
           width: 24px;
           height: 24px;
+          stroke: var(--font-color-p);
+          stroke-width: 1.5px;
 
-          path{
-            stroke: var(--font-color-h);
-          }
+
+         
         }
       }
 

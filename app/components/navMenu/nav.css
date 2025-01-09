@@ -69,7 +69,7 @@
 .nav-menu ul li a {
   padding: var(--spacing);
   text-transform: capitalize;
-  color: var(--font-color-h);
+  color: var(--font-color-p);
   display: flex;
   align-items: center;
   gap: var(--spacing);
@@ -78,9 +78,8 @@
 .nav-menu ul li a svg {
   width: 24px;
   height: 24px;
-}
-.nav-menu ul li a svg path {
-  stroke: var(--font-color-h);
+  stroke: var(--font-color-p);
+  stroke-width: 1.5px;
 }
 .nav-menu ul li.btn {
   width: 100%;
