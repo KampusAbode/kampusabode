@@ -158,10 +158,12 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                   <p>Agent Details Not Found.</p>
                 )}
               </div>
-              <PropStats
-                rating={calculateRating()}
-                reviews={propReviews.length}
-              />
+              <div className="agent-stats">
+                <PropStats
+                  rating={calculateRating()}
+                  reviews={propReviews.length}
+                />
+              </div>
               <div className="bio">
                 <p>
                   <strong>Bio: </strong>

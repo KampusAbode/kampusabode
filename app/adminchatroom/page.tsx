@@ -31,7 +31,7 @@ const AdminChat = () => {
   return (
     <section className="admin-chat-page">
       <div className="container">
-        <h3>Users Messages</h3>
+        <h3 className='page-heading'>Users Messages</h3>
         <p>Click on a user to view messages</p>
         <ul>
           {users === null ? (

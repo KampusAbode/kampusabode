@@ -1,3 +1,16 @@
+.properties-details-page {
+  animation: slideIn 0.5s ease-in-out forwards;
+}
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 .properties-details-page .container.prop-image-details .property-images {
   display: grid;
   grid-template-columns: 1.5fr 1fr;
@@ -113,7 +126,7 @@
 .properties-details-page .container .top .about-agent h5 {
   margin-bottom: var(--spacing);
 }
-.properties-details-page .container .top .about-agent > div .agent-details {
+.properties-details-page .container .top .about-agent .agent-details {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -126,7 +139,7 @@
      -moz-user-select: none;
           user-select: none;
 }
-.properties-details-page .container .top .about-agent > div .agent-details img {
+.properties-details-page .container .top .about-agent .agent-details img {
   border-radius: 500%;
   width: 80px;
   height: 80px;
@@ -134,16 +147,16 @@
      object-fit: cover;
   box-shadow: var(--shadow);
 }
-.properties-details-page .container .top .about-agent > div .agent-details h5 {
+.properties-details-page .container .top .about-agent .agent-details h5 {
   margin: 0;
 }
-.properties-details-page .container .top .about-agent > div .agent-stats {
+.properties-details-page .container .top .about-agent .agent-stats {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--spacing);
   padding-block: var(--spacing);
 }
-.properties-details-page .container .top .about-agent > div .agent-stats div {
+.properties-details-page .container .top .about-agent .agent-stats div {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -157,7 +170,7 @@
      -moz-user-select: none;
           user-select: none;
 }
-.properties-details-page .container .top .about-agent > div .bio {
+.properties-details-page .container .top .about-agent .bio {
   padding: var(--spacing);
   border-radius: var(--border-radius);
   background-color: var(--light-gray);
