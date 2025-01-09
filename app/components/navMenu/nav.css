@@ -81,6 +81,10 @@
   width: 32px;
   height: 32px;
 }
+.nav-menu ul li a svg path {
+  stroke: var(--font-color-p);
+  stroke-width: 3px;
+}
 .nav-menu ul li.btn {
   width: 100%;
 }

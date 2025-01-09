@@ -15,6 +15,7 @@
         .input-box {
           position: relative;
           margin-bottom: var(--spacing-2x);
+          max-width: 820px;
 
           label {
             display: block;
@@ -70,18 +71,3 @@
   }
 }
 
-@media screen and (max-width: 768px) {
-  .update {
-    .container {
-
-      .fm {
-        padding: var(--spacing-3x);
-
-        h4 {
-          margin-bottom: var(--spacing-2x);
-          text-align: center;
-        }
-      }
-    }
-  }
-}

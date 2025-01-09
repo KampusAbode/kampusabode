@@ -5,10 +5,10 @@ import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { FaThumbsUp } from "react-icons/fa6";
 import { TrendType } from "../../../fetch/types";
 import "./trendCard.css";
-import { formatNumber } from "../../../utils"; 
+import { formatNumber } from "../../../utils";
 import Link from "next/link";
 import { updateLikes } from "../../../utils";
-import CryptoJS from "crypto-js"; 
+import CryptoJS from "crypto-js";
 
 interface TrendCardProp {
   trendData: TrendType;
@@ -16,53 +16,69 @@ interface TrendCardProp {
 
 const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
   const [likes, setLikes] = useState<number>(trendData.likes);
-  const [userAction, setUserAction] = useState<"like" | null>(null);
+  const [userAction, setUserAction] = useState<"like" | "unlike">("unlike");
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const encryptedActions = localStorage.getItem("trendActions");
     if (encryptedActions) {
-      const bytes = CryptoJS.AES.decrypt(encryptedActions, process.env.NEXT_PUBLIC_SECRET_KEY!);
+      const bytes = CryptoJS.AES.decrypt(
+        encryptedActions,
+        process.env.NEXT_PUBLIC_SECRET_KEY!
+      );
       const decryptedActions = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-      const action = decryptedActions.find((item: { id: string; status: string }) => item.id === trendData.id);
+      const action = decryptedActions.find(
+        (item: { id: string; status: string }) => item.id === trendData.id
+      );
       if (action) {
         setUserAction(action.status as "like");
       }
     }
   }, [trendData.id]);
 
-  const updateLocalStorage = useCallback((id: string, status: "like" | null) => {
-    const encryptedActions = localStorage.getItem("trendActions");
-    let storedActions = [];
-    if (encryptedActions) {
-      const bytes = CryptoJS.AES.decrypt(encryptedActions, process.env.NEXT_PUBLIC_SECRET_KEY!);
-      storedActions = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-    }
-    const updatedActions = storedActions.filter((item: { id: string }) => item.id !== id);
-    if (status) {
-      updatedActions.push({ id, status });
-    }
-    const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(updatedActions), process.env.NEXT_PUBLIC_SECRET_KEY!).toString();
-    localStorage.setItem("trendActions", encryptedData);
-  }, []);
+  const updateLocalStorage = useCallback(
+    (id: string, status: "like" | "unlike") => {
+      const encryptedActions = localStorage.getItem("trendActions");
+      let storedActions: { id: string; status: "like" | "unlike" }[] = [];
+      if (encryptedActions) {
+        const bytes = CryptoJS.AES.decrypt(
+          encryptedActions,
+          process.env.NEXT_PUBLIC_SECRET_KEY!
+        );
+        storedActions = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+      }
+      const updatedActions = storedActions.filter(
+        (item: { id: string }) => item.id !== id
+      );
+      if (status) {
+        updatedActions.push({ id, status });
+      }
+      const encryptedData = CryptoJS.AES.encrypt(
+        JSON.stringify(updatedActions),
+        process.env.NEXT_PUBLIC_SECRET_KEY!
+      ).toString();
+      localStorage.setItem("trendActions", encryptedData);
+    },
+    []
+  );
 
   const handleLikeToggle = useCallback(async () => {
     setLoading(true);
     try {
-      const action = userAction === 'like' ? 'unlike' : 'like';
+      const action = userAction === "like" ? "unlike" : "like";
       await updateLikes({ id: trendData.id, action });
 
-      if (userAction === 'like') {
+      if (userAction === "like") {
         setLikes((prevLikes) => prevLikes - 1);
-        setUserAction(null);
-        updateLocalStorage(trendData.id, null);
+        setUserAction("unlike");
+        updateLocalStorage(trendData.id, "unlike");
       } else {
         setLikes((prevLikes) => prevLikes + 1);
-        setUserAction('like');
-        updateLocalStorage(trendData.id, 'like');
+        setUserAction("like");
+        updateLocalStorage(trendData.id, "like");
       }
     } catch (error) {
-      console.error('Error updating likes: ', error);
+      console.error("Error updating likes: ", error);
     } finally {
       setLoading(false);
     }
@@ -93,7 +109,10 @@ const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
             <FaThumbsUp
               className={`thumbsup ${userAction === "like" ? "active" : ""}`}
               onClick={handleLikeToggle}
-              style={{ pointerEvents: loading ? 'none' : 'auto', opacity: loading ? 0.6 : 1 }} // Disable button while loading
+              style={{
+                pointerEvents: loading ? "none" : "auto",
+                opacity: loading ? 0.6 : 1,
+              }} // Disable button while loading
             />
           </span>
         </div>

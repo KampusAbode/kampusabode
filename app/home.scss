@@ -570,15 +570,15 @@
   }
 
   span {
-    font-size: 10rem;
     letter-spacing: 2px;
     color: var(--light-gray);
   }
 
   h3 {
     color: var(--font-white);
-    margin-bottom: var(--spacing);
+    margin-block: var(--spacing);
   }
+  
   p {
     color: var(--light-gray);
   }

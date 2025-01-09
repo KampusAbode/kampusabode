@@ -134,7 +134,7 @@ const CreateProfilePage = () => {
 
     setIsSubmitting(true);
     try {
-      const response = await updateUserProfile(user.id, formValues);
+      const response = await updateUserProfile(userdata?.id, formValues);
       response.success && toast.success(`${response.message} 🎉`);
     
     } catch (error) {
@@ -173,7 +173,7 @@ const CreateProfilePage = () => {
                 type="email"
                 name="email"
                 id="email"
-                value={user.email}
+                value={userdata?.email}
                 onChange={handleInputChange}
                 placeholder="Enter your email address"
               />
@@ -186,7 +186,7 @@ const CreateProfilePage = () => {
               <select
                 name="userType"
                 id="userType"
-                value={user.userType}
+                value={userdata?.userType}
                 disabled>
                 <option value="student">Student</option>
                 <option value="agent">Agent</option>
@@ -194,7 +194,7 @@ const CreateProfilePage = () => {
             </div>
 
             {/* Conditional Form Fields for Students */}
-            {user.userType === "student" && (
+            {userdata?.userType === "student" && (
               <div className="input-box">
                 <label htmlFor="studentInfo.department">Department</label>
                 <input
@@ -214,7 +214,7 @@ const CreateProfilePage = () => {
             )}
 
             {/* Conditional Form Fields for Agents */}
-            {user.userType === "agent" && (
+            {userdata?.userType === "agent" && (
               <>
                 <div className="input-box">
                   <label htmlFor="agentInfo.agencyName">Agency Name</label>
@@ -225,7 +225,7 @@ const CreateProfilePage = () => {
                     value={formValues.agentInfo.agencyName}
                     onChange={handleInputChange}
                     placeholder="Enter your agency's name"
-                    disabled={user.userType === "agent"}
+                    disabled={userdata?.userType === "agent"}
 
                   />
                   {errors?.agentInfo.agencyName && (

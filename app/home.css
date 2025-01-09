@@ -489,13 +489,12 @@
   z-index: -1;
 }
 .cta-section span {
-  font-size: 10rem;
   letter-spacing: 2px;
   color: var(--light-gray);
 }
 .cta-section h3 {
   color: var(--font-white);
-  margin-bottom: var(--spacing);
+  margin-block: var(--spacing);
 }
 .cta-section p {
   color: var(--light-gray);
