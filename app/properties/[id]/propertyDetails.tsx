@@ -42,8 +42,8 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       setPropertyDetails(details);
       if (details) {
         const agent = await fetchUsersById(details.agentId);
-        if (agent && !Array.isArray(agent)) {
-          setAgentDetails(agent);
+        setAgentDetails(agent);
+        if (agent) {
           const properties = await fetchPropertiesByIds(
             "propertiesListed" in agent.userInfo
               ? agent.userInfo.propertiesListed
@@ -137,7 +137,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                   <>
                     <Image
                       src={
-                        agentDetails.userInfo?.avatar || "/default-avatar.png"
+                        agentDetails.userInfo?.avatar || "/assets/person1.jpg"
                       }
                       width={500}
                       height={500}
