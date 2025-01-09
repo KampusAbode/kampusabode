@@ -1,16 +1,17 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react'
-import BookmarkButton from '../features/bookmarkbutton/BookmarkButton';
-import ShareButton from '../features/sharebutton/ShareButton';
+import React, { useState } from "react";
+import BookmarkButton from "../../../../components/features/bookmarkbutton/BookmarkButton";
+import ShareButton from "../../../../components/features/sharebutton/ShareButton";
 // import Image from 'next/image';
-import { PropertyType } from '../../fetch/types';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { PropertyType } from "../../../../fetch/types";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-
-
-
-function PropertyImages({ propertyDetails }: { propertyDetails: PropertyType }) {
+function PropertyImages({
+  propertyDetails,
+}: {
+  propertyDetails: PropertyType;
+}) {
   const [imageCount, setImageCount] = useState(0);
   const maxImageCount: number = propertyDetails?.images?.length;
 
@@ -41,7 +42,6 @@ function PropertyImages({ propertyDetails }: { propertyDetails: PropertyType }) 
           width={1000}
           height={1000}
           alt={`${propertyDetails?.title} image`}
-        
         />
         <div className="image-pagination">
           <div className="left" onClick={decreamentImageCount}>
@@ -65,7 +65,6 @@ function PropertyImages({ propertyDetails }: { propertyDetails: PropertyType }) 
             alt="property-details thumbnail"
             onClick={() => setImageCount(index)}
             className={imageCount === index ? "active" : ""}
-           
           />
         ))}
       </div>
@@ -73,4 +72,4 @@ function PropertyImages({ propertyDetails }: { propertyDetails: PropertyType }) 
   );
 }
 
-export default PropertyImages
+export default PropertyImages;

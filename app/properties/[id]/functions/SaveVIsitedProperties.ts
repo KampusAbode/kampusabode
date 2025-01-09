@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 
 // Custom Hook to save visited properties
 function SaveVisitedProperty({
   id,
   children,
 }: {
-  id: string,
+  id: string;
   children: React.ReactNode;
 }) {
   const isAuthenticated = useSelector(
@@ -37,9 +37,7 @@ function SaveVisitedProperty({
     }
   }, [id, isAuthenticated]);
 
-
-
-  return children
+  return children;
 }
 
 export default SaveVisitedProperty;

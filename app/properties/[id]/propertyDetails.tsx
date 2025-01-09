@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import PropStats from "../../components/propertyStats/propStats";
-import SaveVisitedProperty from "../../components/functions/SaveVIsitedProperties";
+import PropStats from "./components/propertyStats/propStats";
+import SaveVisitedProperty from "./functions/SaveVIsitedProperties";
 import {
   fetchUsersById,
   fetchReviewsByPropertyId,
@@ -11,7 +11,7 @@ import {
 } from "../../utils";
 import Image from "next/image";
 import Link from "next/link";
-import PropertyImages from "../../components/propertyImages/PropertyImages";
+import PropertyImages from "./components/propertyImages/PropertyImages";
 import type { PropertyType, ReviewType, UserType } from "../../fetch/types";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
@@ -25,9 +25,13 @@ interface PropertyDetailsProps {
 
 const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   const [agentDetails, setAgentDetails] = useState<UserType | null>(null);
-  const [agentPropertyListings, setAgentPropertyListings] = useState<PropertyType[]>([]);
+  const [agentPropertyListings, setAgentPropertyListings] = useState<
+    PropertyType[]
+  >([]);
   const [propReviews, setPropReviews] = useState<ReviewType[]>([]);
-  const [propertyDetails, setPropertyDetails] = useState<PropertyType | null>(null);
+  const [propertyDetails, setPropertyDetails] = useState<PropertyType | null>(
+    null
+  );
 
   const user = useSelector((state: RootState) => state.userdata);
 
@@ -76,7 +80,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
 
   const getFormattedDateDistance = (rawDate: string) => {
     try {
-      const formattedDate = rawDate.replace(" at ", " "); 
+      const formattedDate = rawDate.replace(" at ", " ");
       const date = new Date(formattedDate);
       if (isNaN(date.getTime())) throw new Error("Invalid date");
       return formatDistanceToNowStrict(date);
@@ -132,7 +136,9 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                 {agentDetails ? (
                   <>
                     <Image
-                      src={agentDetails.userInfo?.avatar || "/default-avatar.png"}
+                      src={
+                        agentDetails.userInfo?.avatar || "/default-avatar.png"
+                      }
                       width={500}
                       height={500}
                       alt={`${agentDetails.name}'s profile picture`}

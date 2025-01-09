@@ -262,7 +262,7 @@
   margin: var(--spacing-5x) 0 var(--spacing);
 }
 .properties-details-page .container .contact div {
-  background: var(--white);
+  background: var(--background-white);
   padding: var(--spacing-h);
 }
 .properties-details-page .container .contact div p:nth-child(1) {
