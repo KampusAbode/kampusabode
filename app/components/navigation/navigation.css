@@ -7,7 +7,16 @@
   padding: var(--spacing);
   box-shadow: var(--shadow);
   z-index: 999;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: var(--transition);
+  animation: slide-up 0.3s ease-in-out;
+}
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 .navigation ul {
   list-style: none;
@@ -37,6 +46,9 @@
   font-size: var(--font-size-xs);
   color: var(--font-color-h);
   text-transform: capitalize;
+  transition: var(--transition);
+}
+.navigation ul a svg {
   transition: var(--transition);
 }
 .navigation ul a.active span {

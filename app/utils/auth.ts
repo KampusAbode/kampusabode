@@ -9,20 +9,13 @@ import {
   collection,
   doc,
   setDoc,
-  updateDoc,
   query,
   where,
   getDocs,
-  deleteField,
-  addDoc,
-  onSnapshot,
-  serverTimestamp,
-  deleteDoc,
-  orderBy,
 } from "firebase/firestore";
 
 import CryptoJS from "crypto-js";
-import { PropertyType } from "../fetch/types";
+// import { PropertyType } from "../fetch/types";
 
 // TypeScript type for user input (based on your example)
 interface UserSignupInput {

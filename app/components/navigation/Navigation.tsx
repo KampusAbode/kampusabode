@@ -11,18 +11,26 @@ import { FaBookmark, FaMessage, FaPerson, FaUser } from "react-icons/fa6";
 
 export default function Navigation() {
   const user = useSelector((state: RootState) => state.user?.isAuthenticated);
+  const [loading, setLoading] = useState(true);
   const pathname = usePathname();
 
-  // Render the header only if the pathname contains any of the excluded paths
-  const excludedPaths = [
-    "login",
-    "signup",
-    "chat",
-    "adminchatroom",
-    "about",
-  ];
+  useEffect(() => {
+    // Simulate a delay to wait for user authentication status
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
 
-  if (excludedPaths.some((path) => pathname.includes(`/${path}`))) {
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Render the header only if the pathname contains any of the excluded paths
+  const excludedPaths = ["login", "signup", "chat", "adminchatroom", "about"];
+
+  // Check if the current pathname is in the excluded paths
+  const isExcludedPath = excludedPaths.some((path) => pathname.includes(path));
+
+  // If the current path is excluded or still loading, do not render the navigation
+  if (isExcludedPath || loading) {
     return null;
   }
 
