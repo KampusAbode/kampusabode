@@ -9,13 +9,10 @@
   overflow-y: scroll;
   z-index: 9999;
 }
-.nav-menu.loggedIn {
-  display: none;
-}
 .nav-menu .nav-header {
   margin-bottom: var(--spacing-2x);
 }
-@media screen and (man-width: 768px) {
+@media screen and (max-width: 768px) {
   .nav-menu .nav-header {
     display: none;
   }
@@ -72,18 +69,18 @@
 .nav-menu ul li a {
   padding: var(--spacing);
   text-transform: capitalize;
-  color: var(--font-color-p);
+  color: var(--font-color-h);
   display: flex;
   align-items: center;
   gap: var(--spacing);
+  font-size: var(--font-size-md);
 }
 .nav-menu ul li a svg {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
 }
 .nav-menu ul li a svg path {
-  stroke: var(--font-color-p);
-  stroke-width: 3px;
+  stroke: var(--font-color-h);
 }
 .nav-menu ul li.btn {
   width: 100%;

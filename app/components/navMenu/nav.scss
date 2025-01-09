@@ -13,13 +13,13 @@
   //   width: 0;
   // }
 
-  &.loggedIn {
-    display: none;
-  }
+  // &.loggedIn {
+  //   display: none;
+  // }
 
   .nav-header{
     margin-bottom: var(--spacing-2x);
-    @media screen and (man-width: 768px) {
+    @media screen and (max-width: 768px) {
       display: none;
     }
   }
@@ -85,19 +85,20 @@
       a {
         padding: var(--spacing);
         text-transform: capitalize;
-        color: var(--font-color-p);
+        color: var(--font-color-h);
         
         display: flex;
         align-items: center;
         gap: var(--spacing);
+
+        font-size: var(--font-size-md);
         
         svg {
-          width: 32px;
-          height: 32px;
+          width: 24px;
+          height: 24px;
 
           path{
-            stroke: var(--font-color-p);
-            stroke-width: 3px;
+            stroke: var(--font-color-h);
           }
         }
       }
