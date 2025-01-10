@@ -147,7 +147,7 @@ const ChatComponent: React.FC<ChatProps> = ({
         </div>
         <div className="chat-display">
           {isLoadingMessages ? (
-            <Loader/> 
+            <Loader />
           ) : messages.length > 0 ? (
             messages.map((msg) => (
               <div
@@ -162,7 +162,9 @@ const ChatComponent: React.FC<ChatProps> = ({
                 <div className="message-detail">
                   <span>{formatTimestamp(msg.timestamp)}</span>
                 </div>
-                <div className="message-content">{msg.content}</div>
+                <div className="message-content">
+                  <p>{msg.content}</p>
+                </div>
               </div>
             ))
           ) : (
