@@ -9,6 +9,7 @@ import {
   deleteMessageFromFirebase,
 } from "../../../utils";
 import "./chat.css";
+import Loader from "../../../components/loader/Loader";
 
 type ChatProps = {
   currentUserId: string;
@@ -27,6 +28,7 @@ const ChatComponent: React.FC<ChatProps> = ({
 }) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<any[]>([]);
+  const [isLoadingMessages, setIsLoadingMessages] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [longPressedMessage, setLongPressedMessage] = useState(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -38,8 +40,9 @@ const ChatComponent: React.FC<ChatProps> = ({
   // Fetch messages
   useEffect(() => {
     if (!currentUserId || !receiverId) return;
-    const userId = user?.id === currentUserId ? currentUserId : receiverId;
 
+    setIsLoadingMessages(true);
+    const userId = user?.id === currentUserId ? currentUserId : receiverId;
     const unsubscribe = listenToMessagesForConversation(
       userId,
       (fetchedMessages) => {
@@ -55,7 +58,7 @@ const ChatComponent: React.FC<ChatProps> = ({
       }
     );
 
-    return () => unsubscribe();
+    return () => unsubscribe(); setIsLoadingMessages(false);
   }, [currentUserId, receiverId]);
 
   // Scroll to the latest message
@@ -143,24 +146,28 @@ const ChatComponent: React.FC<ChatProps> = ({
           <h4 className="page-heading">{receiverName}</h4>
         </div>
         <div className="chat-display">
-          {messages.length > 0
-            ? messages.map((msg) => (
-                <div
-                  key={msg.id}
-                  className={`message-box ${
-                    msg.senderId === currentUserId ? "right" : "left"
-                  }`}
-                  onContextMenu={(e) => {
-                    e.preventDefault();
-                    handleLongPress(msg);
-                  }}>
-                  <div className="message-detail">
-                    <span>{formatTimestamp(msg.timestamp)}</span>
-                  </div>
-                  <div className="message-content">{msg.content}</div>
+          {isLoadingMessages ? (
+            <Loader/> 
+          ) : messages.length > 0 ? (
+            messages.map((msg) => (
+              <div
+                key={msg.id}
+                className={`message-box ${
+                  msg.senderId === currentUserId ? "right" : "left"
+                }`}
+                onContextMenu={(e) => {
+                  e.preventDefault();
+                  handleLongPress(msg);
+                }}>
+                <div className="message-detail">
+                  <span>{formatTimestamp(msg.timestamp)}</span>
                 </div>
-              ))
-            : null}
+                <div className="message-content">{msg.content}</div>
+              </div>
+            ))
+          ) : (
+            <p>No messages yet.</p>
+          )}
           <div ref={messagesEndRef}></div>
         </div>
         <div className="chat-input">

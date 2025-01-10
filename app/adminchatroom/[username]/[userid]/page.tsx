@@ -1,6 +1,6 @@
 "use client";
 
-import ChatComponent from "../../../components/features/chat/chat";
+import ChatComponent from "../../../chat/component/chat/chat";
 
 type ChatProps = {
   params: {
@@ -10,7 +10,7 @@ type ChatProps = {
 };
 
 const Chat = ({ params }: ChatProps) => {
-  const { username, userid } = params; 
+  const { username, userid } = params;
 
   return (
     <ChatComponent

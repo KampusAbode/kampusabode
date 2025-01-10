@@ -1,19 +1,20 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { allTrends } from "../utils"; // Adjust path as needed
+import { allTrends } from "../utils";
 import TrendCard from "../components/cards/trendCard/TrendCard";
 import "./trends.css";
-import { FaSearch } from "react-icons/fa";
+// import { FaSearch } from "react-icons/fa";
 import Loader from "../components/loader/Loader";
 import { TrendType } from "../fetch/types";
 
 export default function trendsPage() {
   const [trends, setTrends] = useState<TrendType[]>([]);
   const [filteredTrends, setFilteredTrends] = useState<TrendType[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
+  // const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>("all");
+
   const trendCategories = [
     "Real estate market",
     "Rental market",
@@ -39,15 +40,15 @@ export default function trendsPage() {
     return () => unsubscribe();
   }, []);
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
-  };
+  // const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setSearchQuery(event.target.value);
+  // };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      searchTrends(searchQuery);
-    }
-  };
+  // const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  //   if (event.key === "Enter") {
+  //     searchTrends(searchQuery);
+  //   }
+  // };
 
   const filterByCategory = (category: string) => {
     setActiveCategory(category);
@@ -63,9 +64,9 @@ export default function trendsPage() {
     setLoading(false);
   };
 
-  const searchTrends = (query: string) => {
-    // Implement search logic here
-  };
+  // const searchTrends = (query: string) => {
+  //   // Implement search logic here
+  // };
 
   return (
     <section className="trends-page">
