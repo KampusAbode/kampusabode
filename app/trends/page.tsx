@@ -12,7 +12,7 @@ export default function trendsPage() {
   const [trends, setTrends] = useState<TrendType[]>([]);
   const [filteredTrends, setFilteredTrends] = useState<TrendType[]>([]);
   // const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<string>("all");
 
   const trendCategories = [
@@ -29,7 +29,6 @@ export default function trendsPage() {
 
   useEffect(() => {
     // Fetch trends using allTrends function
-    setLoading(true);
     const unsubscribe: () => void = allTrends((trendData: TrendType[]) => {
       setTrends(trendData);
       setFilteredTrends(trendData);
@@ -49,7 +48,7 @@ export default function trendsPage() {
   //     searchTrends(searchQuery);
   //   }
   // };
-
+  
   const filterByCategory = (category: string) => {
     setActiveCategory(category);
     setLoading(true);
