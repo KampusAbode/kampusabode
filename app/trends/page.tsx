@@ -48,7 +48,7 @@ export default function trendsPage() {
   //     searchTrends(searchQuery);
   //   }
   // };
-  
+
   const filterByCategory = (category: string) => {
     setActiveCategory(category);
     setLoading(true);
@@ -120,7 +120,8 @@ export default function trendsPage() {
           filteredTrends.length > 0 ? (
             <div className="trends">
               {filteredTrends.map((read) => (
-                <TrendCard key={read?.id} trendData={read} />
+                // <TrendCard key={read?.id} trendData={read} />
+                <p>trending</p>
               ))}
             </div>
           ) : (
