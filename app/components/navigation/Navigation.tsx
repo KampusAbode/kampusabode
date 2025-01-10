@@ -14,6 +14,7 @@ import {
 import { FaBookmark, FaUser } from "react-icons/fa6";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 
+
 export default function Navigation() {
   const user = useSelector((state: RootState) => state.user?.isAuthenticated);
   const [loading, setLoading] = useState(true);
