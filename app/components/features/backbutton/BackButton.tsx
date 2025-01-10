@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { FaAngleLeft } from "react-icons/fa"; // Import the left arrow icon
+import { FaArrowLeftLong } from "react-icons/fa6";
 import "./backbutton.css";
 
 const BackButton = () => {
@@ -14,7 +14,7 @@ const BackButton = () => {
 
   return (
     <div onClick={handleBack} className="back-button" aria-label="Go Back">
-      <FaAngleLeft />
+      <FaArrowLeftLong />
     </div>
   );
 };

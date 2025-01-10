@@ -90,7 +90,7 @@ export default function Header() {
               </div>
             </>
           ) : (
-            <div className={`logo ${!user?.isAuthenticated ? 'loggedIn' : ''}`}>
+            <div className={`logo ${!user?.isAuthenticated ? "loggedIn" : ""}`}>
               <Link href="/">
                 <img
                   src={"/LOGO/WHITE_BOX_LOGO.png"}
@@ -136,9 +136,11 @@ export default function Header() {
             </div>
           </nav>
 
-          <div className="menu" onClick={() => dispatch(openMenu())}>
-            <FaBars />
-          </div>
+          {pageName === "properties/" ? <div></div> : (
+            <div className="menu" onClick={() => dispatch(openMenu())}>
+              <FaBars />
+            </div>
+          )}
         </div>
       </header>
     </>
