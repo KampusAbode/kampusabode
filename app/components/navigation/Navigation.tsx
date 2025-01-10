@@ -5,15 +5,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { RootState } from "../../redux/store";
 import { useSelector } from "react-redux";
-import "./navigation.css";
-import {
-  FaBookReader,
-  FaShoppingCart,
-  FaSearchLocation,
-} from "react-icons/fa";
-import { FaBookmark, FaUser } from "react-icons/fa6";
+import { FaBookReader, FaShoppingCart, FaSearchLocation } from "react-icons/fa";
+import { FaUser } from "react-icons/fa6";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
-
+import { CiBookmark } from "react-icons/ci";
+import "./navigation.css";
 
 export default function Navigation() {
   const user = useSelector((state: RootState) => state.user?.isAuthenticated);
@@ -77,7 +73,7 @@ export default function Navigation() {
             <Link
               href={"/saved"}
               className={pathname === "/saved" ? "active" : ""}>
-              <FaBookmark />
+              <CiBookmark />
               <span>saved</span>
             </Link>
           </li>

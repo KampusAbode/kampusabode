@@ -8,7 +8,7 @@ import {
   removeSavedProperty,
   updateSavedProperties,
 } from "../../../redux/stateSlice/userdataSlice";
-import { FaBookmark } from "react-icons/fa";
+import { CiBookmark } from "react-icons/ci";
 import "./bookmarkbutton.css";
 
 const BookmarkButton = ({ propertyId }: { propertyId: string }) => {
@@ -66,7 +66,7 @@ const BookmarkButton = ({ propertyId }: { propertyId: string }) => {
       onClick={toggleBookmark}
       aria-label={isBookmarked ? "Remove from bookmarks" : "Add to bookmarks"}
       role="button">
-      <FaBookmark color={isBookmarked ? "var(--primary)" : "var(--grey)"} />
+      <CiBookmark color={isBookmarked ? "var(--primary)" : "var(--grey)"} />
     </div>
   );
 };
