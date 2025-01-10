@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { FaTimes,FaRegUserCircle,FaSearchLocation } from "react-icons/fa";
-import { CiViewBoard,CiHome } from "react-icons/ci";
+import { FaTimes, FaRegUserCircle, FaSearchLocation } from "react-icons/fa";
+import { CiViewBoard, CiHome } from "react-icons/ci";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +12,7 @@ import { RootState } from "../../redux/store";
 import { logoutUser } from "../../utils";
 import toast from "react-hot-toast";
 import { clearUser } from "../../redux/stateSlice/userSlice";
-import { openMenu, closeMenu } from "../../redux/stateSlice/menuSlice";
+import { closeMenu } from "../../redux/stateSlice/menuSlice";
 import "./nav.css";
 
 function Nav() {
@@ -30,8 +30,6 @@ function Nav() {
 
   // Move the useRouter hook here (at the top of the component)
   const router = useRouter();
-
-  const [lastScrollY, setLastScrollY] = useState(0);
 
   const logOut = async () => {
     try {
@@ -107,7 +105,7 @@ function Nav() {
               onClick={() => {
                 dispatch(closeMenu());
               }}>
-              {user?.isAuthenticated ? <CiViewBoard /> : <CiHome/>}
+              {user?.isAuthenticated ? <CiViewBoard /> : <CiHome />}
 
               {user?.isAuthenticated ? "dashboard" : "home"}
             </Link>
@@ -118,7 +116,7 @@ function Nav() {
               onClick={() => {
                 dispatch(closeMenu());
               }}>
-              <FaRegUserCircle/>
+              <FaRegUserCircle />
               profile
             </Link>
           </li>
@@ -129,7 +127,6 @@ function Nav() {
                 dispatch(closeMenu());
               }}>
               <FaSearchLocation />
-
               properties
             </Link>
           </li>
@@ -145,7 +142,7 @@ function Nav() {
                 onClick={() => {
                   dispatch(closeMenu());
                 }}>
-                <IoChatbubblesOutline/>
+                <IoChatbubblesOutline />
                 chat
               </Link>
             </li>
