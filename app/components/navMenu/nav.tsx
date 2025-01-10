@@ -31,14 +31,6 @@ function Nav() {
 
   const [lastScrollY, setLastScrollY] = useState(0);
 
-  const handleScroll = () => {
-    window.requestAnimationFrame(() => {
-      //    setIsHeader(window.scrollY <= lastScrollY);
-      if (isMenu) dispatch(closeMenu());
-      setLastScrollY(window.scrollY);
-    });
-  };
-
   const logOut = async () => {
     try {
       const response = await logoutUser();
@@ -50,10 +42,6 @@ function Nav() {
     }
   };
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY, isMenu]);
 
   useEffect(() => {
     setLoading(false);
