@@ -1,0 +1,24 @@
+.trend-details-page{
+    padding-block: var(--spacing-2x);
+    .trend-image{
+        border-radius: var(--border-radius-r);
+        overflow: hidden;
+        img{
+            width: 100%;
+            height: auto;
+        }
+    }
+    .trend-meta{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-block: var(--spacing);
+    }
+    .trend-description{
+        .title{
+            padding: var(--spacing);
+            background-color: var(--light-gray);
+            border-radius: var(--border-radius);
+        }
+    }
+}

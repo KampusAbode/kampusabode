@@ -1,0 +1,22 @@
+.trend-details-page {
+  padding-block: var(--spacing-2x);
+}
+.trend-details-page .trend-image {
+  border-radius: var(--border-radius-r);
+  overflow: hidden;
+}
+.trend-details-page .trend-image img {
+  width: 100%;
+  height: auto;
+}
+.trend-details-page .trend-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-block: var(--spacing);
+}
+.trend-details-page .trend-description .title {
+  padding: var(--spacing);
+  background-color: var(--light-gray);
+  border-radius: var(--border-radius);
+}/*# sourceMappingURL=trend.css.map */

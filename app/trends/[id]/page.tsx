@@ -6,6 +6,7 @@ import { fetchTrendByID } from "../../utils";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import Loader from "../../components/loader/Loader";
+import './trend.css';
 
 type Params = {
   params: { id: string };
@@ -31,10 +32,9 @@ const TrendPage = ({ params }: Params) => {
   }, []);
 
   return (
-    <div className="trend-details">
+    <div className="trend-details-page">
       {!loading ? (
         <>
-          <h1>{trendData?.title}</h1>
           <div className="trend-image">
             <Image
               src={trendData?.image}
@@ -55,7 +55,7 @@ const TrendPage = ({ params }: Params) => {
             </p>
           </div>
           <div className="trend-description">
-            <h2>Description</h2>
+            <div className="title">{trendData?.title}</div>
             <p>{trendData?.description}</p>
           </div>
         </>
