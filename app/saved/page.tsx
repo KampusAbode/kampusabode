@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 // import { trends } from "../fetch/data/trends";
 import { fetchProperties, fetchPropertiesByIds } from "../utils";
 import "./saved.css";
-import TrendCard from "../components/cards/trendCard/TrendCard";
+import TrendCard from "../trends/component/trendCard/TrendCard";
 import { TrendType, PropertyType } from "../fetch/types";
 import Link from "next/link";
 import { useSelector } from "react-redux";
@@ -37,27 +37,20 @@ const SavedPage = () => {
 
   function savedTab(tab: string) {
     if (tab === "trends") {
-      return savedTrends
-        .map((read) => {
-          return (
-            <TrendCard
-              key={read.title}
-              trendData={read as TrendType}
-            />
-          );
-        });
+      return savedTrends.map((read) => {
+        return <TrendCard key={read.title} trendData={read as TrendType} />;
+      });
     } else {
       if (tab === "properties" && savedProperties) {
         return (
           <div className="saved-props">
-            {savedProperties
-              .map((property) => {
-                return (
-                  <Link key={property.id} href={`/properties/${property.id}`}>
-                    <img src={property.images[0]} alt={property.title} />
-                  </Link>
-                );
-              })}
+            {savedProperties.map((property) => {
+              return (
+                <Link key={property.id} href={`/properties/${property.id}`}>
+                  <img src={property.images[0]} alt={property.title} />
+                </Link>
+              );
+            })}
           </div>
         );
       } else {

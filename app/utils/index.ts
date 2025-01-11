@@ -1,6 +1,5 @@
-import { getFirestore, doc, updateDoc, increment } from 'firebase/firestore';
-import { getApp } from 'firebase/app';
-
+import { doc, updateDoc, increment } from 'firebase/firestore';
+import { db } from "../lib/firebaseConfig";
 
 export * from "./auth";
 export * from './messages';
@@ -35,7 +34,6 @@ export const updateLikes = async ({ id, action }: UpdateLikesInput) => {
     throw new Error('Missing id or action');
   }
 
-  const db = getFirestore(getApp());
   const trendRef = doc(db, 'trends', id);
 
   try {

@@ -68,6 +68,7 @@
 }
 .nav-menu ul li:not(.btn):hover, .nav-menu ul li:not(.btn).active {
   background: var(--background-white);
+  box-shadow: var(--shadow);
 }
 .nav-menu ul li.btn {
   width: 100%;

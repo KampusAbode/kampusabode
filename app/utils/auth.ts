@@ -1,4 +1,3 @@
-
 // import axios from "axios";
 import { db, auth } from "../lib/firebaseConfig";
 import {
@@ -131,26 +130,22 @@ export const loginUser = async (userData: UserLoginInput) => {
     const userDataFromDB = userRef.docs[0].data();
 
     // Sign in with email and password using Firebase Auth
-    await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-
-  
+    await signInWithEmailAndPassword(auth, email, password);
 
     // Convert userStore object to JSON string before encrypting
     const encryptedData = CryptoJS.AES.encrypt(
       JSON.stringify(userDataFromDB), // Convert to string
-      process.env.NEXT_PUBLIC__SECRET_KEY
+      process.env.NEXT_PUBLIC__ENCSECRET_KEY
     ).toString();
 
     // Store the encrypted data in localStorage
-    localStorage.setItem(process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY, encryptedData);
+    localStorage.setItem(
+      process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY,
+      encryptedData
+    );
 
     return { message: `Welcome abode! ${userDataFromDB.name}` };
   } catch (error) {
-
     // Check for Firebase Auth error codes
     if (error.code === "auth/invalid-credential") {
       throw {
@@ -200,7 +195,6 @@ export const logoutUser = async () => {
   }
 };
 
-
 export const getAuthState = async (): Promise<{ isAuthenticated: boolean }> => {
   try {
     // Ensure localStorage is accessible (browser-only check)
@@ -208,7 +202,7 @@ export const getAuthState = async (): Promise<{ isAuthenticated: boolean }> => {
       return { isAuthenticated: false };
     }
 
-    const userDataStorageKey = process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY; 
+    const userDataStorageKey = process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY;
     if (!userDataStorageKey) {
       console.warn("Storage key is not defined in environment variables.");
       return { isAuthenticated: false };

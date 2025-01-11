@@ -60,8 +60,9 @@ const ChatComponent: React.FC<ChatProps> = ({
         setMessages(sortedMessages);
       }
     );
+    setIsLoadingMessages(false);
 
-    return () => { unsubscribe(); setIsLoadingMessages(false); };
+    return () => { unsubscribe() };
   }, [currentUserId, receiverId]);
 
   // Scroll to the latest message

@@ -79,6 +79,7 @@
       &:not(.btn):hover,
       &:not(.btn).active {
         background: var(--background-white);
+        box-shadow: var(--shadow) ;
       }
 
       &.btn {

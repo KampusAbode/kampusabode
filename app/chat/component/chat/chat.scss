@@ -148,12 +148,11 @@
       background-color: var(--light-gray);
       border: var(--border);
       border-radius: var(--border-radius);
-      padding: var(--spacing);
+      padding: var(--spacing-h);
 
       input {
         flex: 1;
-        padding: var(--spacing);
-        border-radius: var(--border-radius);
+        border: none;
         color: var(--font-light-p);
       }
       button {

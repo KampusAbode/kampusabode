@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { allTrends } from "../utils";
-import TrendCard from "../components/cards/trendCard/TrendCard";
+import TrendCard from "./component/trendCard/TrendCard";
 import "./trends.css";
 // import { FaSearch } from "react-icons/fa";
 import Loader from "../components/loader/Loader";
@@ -20,9 +20,11 @@ export default function trendsPage() {
     "Rental market",
     "Interior design",
     "OAU updates",
+    "Home Buying",
     "Football",
     "Student investment",
     "Study methods",
+    "Real Estate Investment",
     "Skills",
     "Business",
   ];

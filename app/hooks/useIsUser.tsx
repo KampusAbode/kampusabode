@@ -39,7 +39,7 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
     try {
       const decryptedData = CryptoJS.AES.decrypt(
         data,
-        process.env.NEXT_PUBLIC__SECRET_KEY!
+        process.env.NEXT_PUBLIC__ENCSECRET_KEY!
       ).toString(CryptoJS.enc.Utf8);
 
       console.log(JSON.parse(decryptedData));
@@ -54,7 +54,7 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
   const storeUserData = (data: any) => {
     const encryptedData = CryptoJS.AES.encrypt(
       JSON.stringify(data),
-      process.env.NEXT_PUBLIC__SECRET_KEY!
+      process.env.NEXT_PUBLIC__ENCSECRET_KEY!
     ).toString();
     localStorage.setItem(
       process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!,
