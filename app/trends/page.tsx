@@ -122,8 +122,8 @@ export default function trendsPage() {
           filteredTrends.length > 0 ? (
             <div className="trends">
               {filteredTrends.map((read) => (
-                // <TrendCard key={read?.id} trendData={read} />
-                <p>trending</p>
+                <TrendCard key={read?.id} trendData={read} />
+                // <p>trending</p>
               ))}
             </div>
           ) : (

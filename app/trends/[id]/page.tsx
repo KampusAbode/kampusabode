@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 
 import { TrendType } from "../../fetch/types";
-import { fetchTrendsByIDs } from "../../utils";
+import { fetchTrendByID } from "../../utils";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import Loader from "../../components/loader/Loader";
@@ -14,13 +14,15 @@ type Params = {
 const TrendPage = ({ params }: Params) => {
   const { id } = params;
   const [trendData, setTrendData] = useState<TrendType>();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTrendData = async () => {
       try {
-        const trend: TrendType = await fetchTrendsByIDs([id])[0];
+        const trend: TrendType = await fetchTrendByID(id);
         console.log(trend);
         setTrendData(trend);
+        setLoading(false);
       } catch (error) {
         toast.error("Failed to fetch agent properties.");
       }
@@ -30,7 +32,7 @@ const TrendPage = ({ params }: Params) => {
 
   return (
     <div className="trend-details">
-      {trendData ? (
+      {!loading ? (
         <>
           <h1>{trendData?.title}</h1>
           <div className="trend-image">

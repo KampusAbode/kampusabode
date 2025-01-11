@@ -12,6 +12,7 @@ import {
   getDocs,
   deleteDoc,
   doc,
+  getDoc,
 } from "firebase/firestore";
 
 export const allTrends = (callback: any) => {
@@ -29,30 +30,38 @@ export const allTrends = (callback: any) => {
   return unsubscribe;
 };
 
-export const fetchTrendsByIDs = async (trendsIds: string[]) => {
+export const fetchTrendByID = async (trendId: string) => {
   try {
-    const trendsCollection = collection(db, "trends");
+    // Reference a specific document using `doc` for better precision
+    const trendDocRef = doc(db, "trends", trendId);
 
-    // Create a query using the "in" operator to fetch trends with IDs in the propertyIds array
-    const trendsQuery = query(trendsCollection, where("id", "in", trendsIds));
+    // Fetch the document
+    const trendDoc = await getDoc(trendDocRef);
 
-    const querySnapshot = await getDocs(trendsQuery);
+    if (!trendDoc.exists()) {
+      // Throw a custom error if the document doesn't exist
+      throw new Error("No trend found with the provided ID");
+    }
 
-    // Map the documents to PropertyType
-    const trendsList: TrendType[] = querySnapshot.docs.map((doc) => {
-      const data = doc.data() as TrendType;
-
-      return {
-        id: data.id || "",
-        ...data
-      };
-    });
-
-    return trendsList;
+    
+    return {
+      id: trendDoc.data().id,
+      title: trendDoc.data().title,
+      description: trendDoc.data().descrition,
+      author: trendDoc.data().author,
+      image: trendDoc.data().image,
+      published_date: trendDoc.data().published_date,
+      likes: trendDoc.data().likes,
+      category: trendDoc.data().category,
+    };
   } catch (error) {
+    // Handle and throw errors with a unified structure
     throw {
-      message: (error as Error).message || "Error fetching trends by IDs",
-      statusCode: 500,
+      message: (error as Error).message || "Error fetching trend by ID",
+      statusCode:
+        error instanceof Error && error.message.includes("No trend found")
+          ? 404
+          : 500,
     };
   }
 };
