@@ -216,7 +216,6 @@ span {
 svg {
   width: var(--font-size-lg);
   height: var(--font-size-lg);
-  stroke-width: 1.5px;
 }
 
 img {

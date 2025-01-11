@@ -1,6 +1,6 @@
 .properties-details-page {
   overflow-x: hidden;
-  animation: slideIn 0.5s ease-in-out forwards;
+  animation: slideIn 0.2s ease-in-out forwards;
 }
 @keyframes slideIn {
   from {
