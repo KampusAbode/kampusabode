@@ -145,6 +145,7 @@
           padding: var(--spacing-2x);
           border-radius: var(--border-radius);
           background-color: var(--light-gray);
+          box-shadow: var(--shadow);
           user-select: none;
           img {
             border-radius: 500%;
@@ -172,6 +173,7 @@
             padding: var(--spacing);
             border-radius: var(--border-radius);
             background-color: var(--light-gray);
+            box-shadow: var(--shadow);
             text-align: center;
             user-select: none;
           }

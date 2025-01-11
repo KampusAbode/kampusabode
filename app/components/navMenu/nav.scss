@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
-  background: var(--background-white);
+  background: var(--light-gray);
   padding: var(--spacing);
   box-shadow: var(--shadow);
   overflow-y: scroll;
@@ -75,10 +75,10 @@
 
     li {
       margin-bottom: var(--spacing-h);
+      border-radius: var(--border-radius);
       &:not(.btn):hover,
       &:not(.btn).active {
-        background: var(--light-gray);
-        border-radius: var(--border-radius);
+        background: var(--background-white);
       }
 
       &.btn {

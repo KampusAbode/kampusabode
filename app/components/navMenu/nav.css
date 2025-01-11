@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
-  background: var(--background-white);
+  background: var(--light-gray);
   padding: var(--spacing);
   box-shadow: var(--shadow);
   overflow-y: scroll;
@@ -64,10 +64,10 @@
 }
 .nav-menu ul li {
   margin-bottom: var(--spacing-h);
+  border-radius: var(--border-radius);
 }
 .nav-menu ul li:not(.btn):hover, .nav-menu ul li:not(.btn).active {
-  background: var(--light-gray);
-  border-radius: var(--border-radius);
+  background: var(--background-white);
 }
 .nav-menu ul li.btn {
   width: 100%;
