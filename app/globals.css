@@ -213,8 +213,8 @@ span {
 }
 
 svg {
-  width: var(--font-size-lg);
-  height: var(--font-size-lg);
+  width: 25px;
+  height: 25px;
 }
 
 img {

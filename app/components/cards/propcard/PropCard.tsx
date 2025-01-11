@@ -27,25 +27,27 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
         <div className="actions">
           <BookmarkButton propertyId={propertyData.id} />
         </div>
-        <Swiper
-          // modules={[Pagination, Navigation]}
-          modules={[Pagination]}
-          loop={true}
-          // navigation
-          spaceBetween={0}
-          slidesPerView={1}
-          pagination={{ clickable: true }}>
-          {propertyData.images.map((img: string) => (
-            <SwiperSlide key={img}>
-              <Image
-                src={img}
-                width={1000}
-                height={1000}
-                alt={`${propertyData.title} image`}
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        <Link href={propertyData.url}>
+          <Swiper
+            // modules={[Pagination, Navigation]}
+            modules={[Pagination]}
+            loop={true}
+            // navigation
+            spaceBetween={0}
+            slidesPerView={1}
+            pagination={{ clickable: true }}>
+            {propertyData.images.map((img: string) => (
+              <SwiperSlide key={img}>
+                <Image
+                  src={img}
+                  width={1000}
+                  height={1000}
+                  alt={`${propertyData.title} image`}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </Link>
       </div>
       <div className="card-details">
         <div className="type-price">

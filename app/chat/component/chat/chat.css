@@ -127,11 +127,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: var(--spacing);
   background-color: var(--light-gray);
   border: var(--border);
   border-radius: var(--border-radius);
-  padding: var(--spacing-h);
 }
 .chat-page .container .chat-input input {
   flex: 1;

@@ -110,8 +110,8 @@ const ChatComponent: React.FC<ChatProps> = ({
       (now.getTime() - timestamp.getTime()) / 60000
     );
     if (diffInMinutes < 1) return "Now";
-    if (diffInMinutes < 60) return `${diffInMinutes}m`;
-    if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}h`;
+    if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+    if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}h ago`;
     if (isYesterday(timestamp)) return "Yesterday";
     if (isToday(timestamp)) return format(timestamp, "hh:mm a");
     return format(timestamp, "dd-MM-yyyy");
