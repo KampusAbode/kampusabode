@@ -58,11 +58,15 @@
 
   .container {
     max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
 
     .chat-display {
       height: 70vh;
       overflow-y: auto;
-      margin: var(--spacing) 0 var(--spacing-5x);
+      padding-block: var(--spacing);
 
       .loading-text {
         text-align: center;
@@ -136,31 +140,25 @@
 
     .chat-input {
       max-width: 900px;
-      position: absolute;
-      bottom: var(--spacing);
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: var(--spacing);
       background-color: var(--light-gray);
+      border: var(--border);
       border-radius: var(--border-radius);
       padding: var(--spacing);
-      margin-top: var(--spacing);
 
       input {
         flex: 1;
         padding: var(--spacing);
-        border: var(--border);
         border-radius: var(--border-radius);
         color: var(--font-light-p);
       }
       button {
         padding: var(--spacing);
-        border: var(--border);
-        border-radius: var(--border-radius);
+        border: none;
       }
     }
   }

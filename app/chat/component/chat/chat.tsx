@@ -3,6 +3,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import toast from "react-hot-toast";
 import { isToday, isYesterday, format } from "date-fns";
+import { FiSend } from "react-icons/fi";
+import { MdBubbleChart } from "react-icons/md";
+
 import {
   sendMessage,
   listenToMessagesForConversation,
@@ -58,7 +61,7 @@ const ChatComponent: React.FC<ChatProps> = ({
       }
     );
 
-    return () => unsubscribe(); setIsLoadingMessages(false);
+    return () => { unsubscribe(); setIsLoadingMessages(false); };
   }, [currentUserId, receiverId]);
 
   // Scroll to the latest message
@@ -182,9 +185,10 @@ const ChatComponent: React.FC<ChatProps> = ({
             ref={inputRef}
           />
           <button
+          className='btn'
             onClick={handleSendMessage}
             disabled={isLoading || message.trim() === ""}>
-            {isLoading ? "Sending" : "Send"}
+            {isLoading ? <MdBubbleChart/> : <FiSend/>}
           </button>
         </div>
       </div>
