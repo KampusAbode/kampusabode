@@ -34,7 +34,7 @@ const TrendPage = ({ params }: Params) => {
   return (
     <div className="trend-details-page">
       {!loading ? (
-        <>
+        <div className="container">
           <div className="trend-image">
             <Image
               src={trendData?.image}
@@ -58,7 +58,7 @@ const TrendPage = ({ params }: Params) => {
             <div className="title">{trendData?.title}</div>
             <p>{trendData?.description}</p>
           </div>
-        </>
+        </div>
       ) : (
         <Loader />
       )}
