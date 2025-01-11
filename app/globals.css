@@ -250,7 +250,6 @@ img {
   transition: var(--transition);
 }
 .btn:hover {
-  transform: scale(1.02);
   color: var(--font-white);
   background: var(--primary-color-hover);
   border-color: var(--primary-color-hover);
