@@ -1,25 +1,16 @@
 import {
-  getFirestore,
-  collection,
-  query,
-  where,
-  getDocs,
   setDoc,
   doc,
   getDoc,
   updateDoc,
 } from "firebase/firestore";
 import { UserType } from "../fetch/types";
-
-const db = getFirestore();
+import { db } from "../lib/firebaseConfig";
 
 export const fetchUsersById = async (userId: string) => {
   try {
     // Reference to the "users" collection
     const usersDocRef = doc(db, "users", userId);
-
-    // Build the query
-    // const usersQuery = query(usersCollection, where("id", "==", userId));
 
     // Fetch the documents
     const userData = await getDoc(usersDocRef);
