@@ -10,7 +10,7 @@
   --white: #ffffff;
   --black: #000000;
   --gray: #6c757d;
-  --light-gray: #f8f9fa;
+  --light-gray: rgb(250, 250, 250);
   --dark-gray: #343a40;
   --font-color-h: #212529;
   --font-color-p: #495057;

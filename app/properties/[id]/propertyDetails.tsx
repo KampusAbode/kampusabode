@@ -40,8 +40,8 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
     try {
       const details = await fetchPropertyById(id);
       setPropertyDetails(details);
-      if (details) {
-        const agent = await fetchUsersById(details.agentId);
+      if (propertyDetails) {
+        const agent = await fetchUsersById(propertyDetails.agentId);
         setAgentDetails(agent);
         if (agent) {
           const properties = await fetchPropertiesByIds(
@@ -67,6 +67,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
     } catch (error) {
       toast.error("Failed to fetch reviews.");
     }
+
   }, [id]);
 
   // Calculate property rating
