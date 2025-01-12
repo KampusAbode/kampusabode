@@ -116,7 +116,10 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                 <span>{propertyDetails.bathrooms} bathrooms</span>
                 <span>{propertyDetails.area} sqft</span>
               </div>
-              <p>{propertyDetails.description}</p>
+              <div className="description">
+                <h5>Overview</h5>
+                <p>{propertyDetails.description}</p>
+              </div>
               <div className="amenities">
                 <span>Amenities:</span>
                 {propertyDetails.amenities.length > 0 ? (
