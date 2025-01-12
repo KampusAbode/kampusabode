@@ -6,10 +6,6 @@
   width: 38px;
   height: 38px;
   background-color: var(--light-gray);
-
+  
   cursor: pointer;
-
-  &:hover {
-    background-color: var(--gray);
-  }
 }

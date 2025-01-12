@@ -2,18 +2,21 @@
   padding-block: var(--spacing-2x);
 }
 .trend-details-page .trend-image {
-  border-radius: var(--border-radius-r);
+  height: 280px;
+  border-radius: var(--border-radius);
   overflow: hidden;
+  margin-top: var(--spacing-4x);
 }
 .trend-details-page .trend-image img {
-  width: 100%;
-  height: auto;
+  height: inherit;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .trend-details-page .trend-meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-block: var(--spacing);
+  margin-block: var(--spacing-2x);
 }
 .trend-details-page .trend-description .title {
   padding: var(--spacing);

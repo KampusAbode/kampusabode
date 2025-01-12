@@ -38,21 +38,21 @@ const TrendPage = ({ params }: Params) => {
           <div className="trend-image">
             <Image
               src={trendData?.image}
-              width={1000}
-              height={1000}
+              width={800}
+              height={800}
               alt="trend image"
             />
           </div>
           <div className="trend-meta">
-            <p>
+            <span>
               <strong>Author:</strong> {trendData?.author}
-            </p>
-            <p>
+            </span>
+            <span>
               <strong>Category:</strong> {trendData?.category}
-            </p>
-            <p>
+            </span>
+            <span>
               <strong>Likes:</strong> {trendData?.likes}
-            </p>
+            </span>
           </div>
           <div className="trend-description">
             <div className="title">{trendData?.title}</div>

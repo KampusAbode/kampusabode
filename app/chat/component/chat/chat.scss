@@ -139,12 +139,12 @@
     }
 
     .chat-input {
+      width: 100%;
       max-width: 900px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: var(--light-gray);
       border: var(--border);
       border-radius: var(--border-radius);
 
