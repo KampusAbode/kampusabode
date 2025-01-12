@@ -20,56 +20,50 @@ const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const encryptedActions = localStorage.getItem("trendActions");
-      if (encryptedActions) {
-        try {
-          const bytes = CryptoJS.AES.decrypt(
-            encryptedActions,
-            process.env.NEXT_PUBLIC__ENCSECRET_KEY || ""
-          );
-          const decryptedActions = JSON.parse(
-            bytes.toString(CryptoJS.enc.Utf8)
-          );
-          const action = decryptedActions.find(
-            (item: { id: string; status: string }) => item.id === trendData.id
-          );
-          if (action) {
-            setUserAction(action.status as "like");
-          }
-        } catch (error) {
-          console.error("Failed to decrypt actions:", error);
+    const encryptedActions = localStorage.getItem("trendActions");
+    if (encryptedActions) {
+      try {
+        const bytes = CryptoJS.AES.decrypt(
+          encryptedActions,
+          process.env.NEXT_PUBLIC__ENCSECRET_KEY || ""
+        );
+        const decryptedActions = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+        const action = decryptedActions.find(
+          (item: { id: string; status: string }) => item.id === trendData.id
+        );
+        if (action) {
+          setUserAction(action.status as "like");
         }
+      } catch (error) {
+        console.error("Failed to decrypt actions:", error);
       }
     }
   }, [trendData.id]);
 
   const updateLocalStorage = (id: string, status: "like" | "unlike") => {
-    if (typeof window !== "undefined") {
-      try {
-        const encryptedActions = localStorage.getItem("trendActions");
-        let storedActions: { id: string; status: "like" | "unlike" }[] = [];
-        if (encryptedActions) {
-          const bytes = CryptoJS.AES.decrypt(
-            encryptedActions,
-            process.env.NEXT_PUBLIC__ENCSECRET_KEY || ""
-          );
-          storedActions = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-        }
-        const updatedActions = storedActions.filter(
-          (item: { id: string }) => item.id !== id
-        );
-        if (status) {
-          updatedActions.push({ id, status });
-        }
-        const encryptedData = CryptoJS.AES.encrypt(
-          JSON.stringify(updatedActions),
+    try {
+      const encryptedActions = localStorage.getItem("trendActions");
+      let storedActions: { id: string; status: "like" | "unlike" }[] = [];
+      if (encryptedActions) {
+        const bytes = CryptoJS.AES.decrypt(
+          encryptedActions,
           process.env.NEXT_PUBLIC__ENCSECRET_KEY || ""
-        ).toString();
-        localStorage.setItem("trendActions", encryptedData);
-      } catch (error) {
-        console.error("Failed to update local storage:", error);
+        );
+        storedActions = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
       }
+      const updatedActions = storedActions.filter(
+        (item: { id: string }) => item.id !== id
+      );
+      if (status) {
+        updatedActions.push({ id, status });
+      }
+      const encryptedData = CryptoJS.AES.encrypt(
+        JSON.stringify(updatedActions),
+        process.env.NEXT_PUBLIC__ENCSECRET_KEY || ""
+      ).toString();
+      localStorage.setItem("trendActions", encryptedData);
+    } catch (error) {
+      console.error("Failed to update local storage:", error);
     }
   };
 

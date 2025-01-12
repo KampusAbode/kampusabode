@@ -70,12 +70,9 @@
   background: var(--background-white);
   box-shadow: var(--shadow);
 }
-.nav-menu ul li.btn {
+.nav-menu ul li.btn a {
   width: 100%;
   text-align: center;
-}
-.nav-menu ul li.btn a {
-  display: block;
   color: var(--white);
 }
 .nav-menu ul li a {

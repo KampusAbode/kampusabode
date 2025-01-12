@@ -40,8 +40,8 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
               <SwiperSlide key={img}>
                 <Image
                   src={img}
-                  width={1000}
-                  height={1000}
+                  width={800}
+                  height={800}
                   alt={`${propertyData.title} image`}
                 />
               </SwiperSlide>
