@@ -5,10 +5,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { RootState } from "../../redux/store";
 import { useSelector } from "react-redux";
-import { FaBookmark, FaShoppingCart, FaSearchLocation } from "react-icons/fa";
+import { FaBookmark, FaBookReader, FaShoppingCart, FaSearchLocation } from "react-icons/fa";
 import { FaUser } from "react-icons/fa6";
 import { IoChatboxEllipses } from "react-icons/io5";
-import { CiBookmark } from "react-icons/ci";
 import "./navigation.css";
 
 export default function Navigation() {
@@ -63,7 +62,7 @@ export default function Navigation() {
           <Link
             href="/trends"
             className={pathname === "/trends" ? "active" : ""}>
-            <FaBookmark />
+            <FaBookReader />
             <span>trends</span>
           </Link>
         </li>
@@ -73,7 +72,7 @@ export default function Navigation() {
             <Link
               href={"/saved"}
               className={pathname === "/saved" ? "active" : ""}>
-              <CiBookmark />
+              <FaBookmark />
               <span>saved</span>
             </Link>
           </li>

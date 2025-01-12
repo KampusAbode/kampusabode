@@ -1,7 +1,7 @@
 import React from "react";
 import { ItemType } from "../../../fetch/types";
 import Image from "next/image";
-import ContactAgent from "../../contactagent/ContactAgent";
+import ContactAgent from "../../../components/contactagent/ContactAgent";
 
 const ItemCard = ({ item }: { item: ItemType }) => {
   return (

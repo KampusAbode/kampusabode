@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import ItemCard from "../components/cards/itemCard/ItemCard";
+import ItemCard from "./component/itemCard/ItemCard";
 import { ItemType } from "../fetch/types";
 import { allMarketplaceItems } from "../utils";
 import "./marketplace.css";
