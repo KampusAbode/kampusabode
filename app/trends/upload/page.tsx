@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getApp } from "firebase/app";
-import "./uploadTrend.css";
+import "./uploadtrend.css";
 
 const categories = [
   "Real estate market",
