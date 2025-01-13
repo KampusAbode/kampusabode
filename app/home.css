@@ -226,14 +226,14 @@
 }
 .recent-property-section .container .properties .pd {
   height: 430px;
-  border-radius: var(--spacing);
+  border-radius: var(--border-radius);
   overflow: hidden;
   position: relative;
   z-index: 1;
 }
 .recent-property-section .container .properties .pd::before {
-  position: absolute;
   content: "";
+  position: absolute;
   height: 100%;
   width: 100%;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0));
