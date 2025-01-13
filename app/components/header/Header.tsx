@@ -136,11 +136,9 @@ export default function Header() {
             </div>
           </nav>
 
-          {pageName === "properties/" ? <div></div> : (
-            <div className="menu" onClick={() => dispatch(openMenu())}>
-              <FaBars />
-            </div>
-          )}
+          <div className="menu" onClick={() => dispatch(openMenu())}>
+            <FaBars />
+          </div>
         </div>
       </header>
     </>

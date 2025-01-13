@@ -135,7 +135,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
 
             {/* About Agent */}
             <div className="about-agent">
-              <h5>About Agent</h5>
+              <h5>Agent details</h5>
               <div className="agent-details">
                 {agentDetails ? (
                   <>

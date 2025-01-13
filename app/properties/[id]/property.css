@@ -119,7 +119,7 @@
 .properties-details-page .container .top .pq .amenities span {
   padding: var(--spacing);
   border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
+  background-color: var(--light-gray);
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
