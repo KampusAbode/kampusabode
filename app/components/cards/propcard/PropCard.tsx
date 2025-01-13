@@ -29,10 +29,8 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
         </div>
         <Link href={propertyData.url}>
           <Swiper
-            // modules={[Pagination, Navigation]}
             modules={[Pagination]}
             loop={true}
-            // navigation
             spaceBetween={0}
             slidesPerView={1}
             pagination={{ clickable: true }}>
@@ -40,8 +38,8 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
               <SwiperSlide key={img}>
                 <Image
                   src={img}
-                  width={800}
-                  height={800}
+                  width={1000}
+                  height={1000}
                   alt={`${propertyData.title} image`}
                 />
               </SwiperSlide>
@@ -52,17 +50,15 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
       <div className="card-details">
         <div className="type-price">
           <span className="type">{propertyData.type}</span>
-          <span className="price">₦{propertyData.price.toLocaleString()}</span>
+          <span className="price">{`${propertyData.agentId}`}</span>
         </div>
         <div className="brief">
           <h5>{propertyData.title}</h5>
-          <Link href={propertyData.url} className="btn">
-            View
-          </Link>
+          <div className="btn">{`₦${propertyData.price}`}</div>
         </div>
-        <p>
+        <span>
           <FaLocationDot /> {propertyData.location}
-        </p>
+        </span>
       </div>
     </div>
   );

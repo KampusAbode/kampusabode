@@ -144,7 +144,6 @@
   padding: var(--spacing-2x);
   border-radius: var(--border-radius);
   background-color: var(--light-gray);
-  box-shadow: var(--shadow);
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
@@ -175,7 +174,6 @@
   padding: var(--spacing);
   border-radius: var(--border-radius);
   background-color: var(--light-gray);
-  box-shadow: var(--shadow);
   text-align: center;
   -webkit-user-select: none;
      -moz-user-select: none;

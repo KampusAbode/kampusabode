@@ -1,5 +1,5 @@
 .nav-menu {
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
@@ -103,6 +103,9 @@
 }
 
 @media screen and (max-width: 768px) {
+  .nav-menu {
+    display: flex;
+  }
   .nav-menu.fadeOut {
     position: fixed;
     right: -100%;

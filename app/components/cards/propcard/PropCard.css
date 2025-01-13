@@ -68,7 +68,7 @@
   -webkit-line-clamp: 2;
   text-transform: capitalize;
 }
-.prop-card .card-details p {
+.prop-card .card-details > span {
   display: flex;
   gap: var(--spacing-h);
   align-items: center;
