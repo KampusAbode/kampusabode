@@ -50,7 +50,7 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
       <div className="card-details">
         <div className="type-price">
           <span className="type">{propertyData.type}</span>
-          <span className="price">{`${propertyData.agentId}`}</span>
+          <span className="price">{`${propertyData.available ? 'available' : 'not available'}`}</span>
         </div>
         <div className="brief">
           <h5>{propertyData.title}</h5>

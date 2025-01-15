@@ -24,7 +24,7 @@ interface PropertyDetailsProps {
 }
 
 const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
-  const [agentDetails, setAgentDetails] = useState<UserType | null>(null);
+  const [agentDetails, setAgentDetails] = useState<UserType>();
   const [agentPropertyListings, setAgentPropertyListings] = useState<
     PropertyType[]
   >([]);
@@ -41,7 +41,8 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       const details = await fetchPropertyById(id);
       setPropertyDetails(details);
       if (propertyDetails) {
-        const agent = await fetchUsersById(propertyDetails.agentId);
+        const agentId = propertyDetails.agentId;
+        const agent = await fetchUsersById(agentId);
         setAgentDetails(agent);
         if (agent) {
           const properties = await fetchPropertiesByIds(
@@ -55,7 +56,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
         }
       }
     } catch (error) {
-      toast.error("Failed to fetch property or agent details.");
+      toast.error(error);
     }
   }, [id]);
 

@@ -34,8 +34,8 @@ export default function trendsPage() {
     const unsubscribe: () => void = allTrends((trendData: TrendType[]) => {
       setTrends(trendData);
       setFilteredTrends(trendData);
+      setLoading(false);
     });
-    setLoading(false);
 
     // Cleanup listener on component unmount
     return () => unsubscribe();
@@ -86,7 +86,7 @@ export default function trendsPage() {
               placeholder="search trend ..."
             />
             <div
-              className="search-icon"
+              className="search-icon" 
               onClick={() => searchTrends(searchQuery)}>
               <FaSearch />
             </div>

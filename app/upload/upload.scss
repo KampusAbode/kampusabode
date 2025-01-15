@@ -2,7 +2,7 @@
     .container{
 
         form{
-            margin-top: var(--spacing-3x);
+            margin-block: var(--spacing-3x);
 
             &>div{
                 margin-block: var(--spacing);
@@ -11,7 +11,7 @@
                     display: block;
                     margin-bottom: var(--spacing-h);
                 }
-                imput,select,textarea{
+                input,select,textarea{
                     padding: var(--spacing);
                     width: 100%;
                 }
