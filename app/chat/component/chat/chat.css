@@ -52,12 +52,13 @@
 }
 .chat-page .container {
   max-width: 900px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 .chat-page .container .chat-display {
-  height: 70vh;
+  height: auto;
   overflow-y: auto;
   padding-block: var(--spacing);
 }

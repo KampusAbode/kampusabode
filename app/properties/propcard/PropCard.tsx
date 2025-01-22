@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { PropertyType } from "../../../fetch/types";
+import { PropertyType } from "../../fetch/types";
 import "./PropCard.css";
 
 // Import Swiper core and required modules
@@ -13,7 +13,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
-import BookmarkButton from "../../features/bookmarkbutton/BookmarkButton";
+import BookmarkButton from "../../components/features/bookmarkbutton/BookmarkButton";
 import { FaLocationDot } from "react-icons/fa6";
 
 interface PropCardType {
@@ -50,7 +50,9 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
       <div className="card-details">
         <div className="type-price">
           <span className="type">{propertyData.type}</span>
-          <span className="price">{`${propertyData.available ? 'available' : 'not available'}`}</span>
+          <span className="price">{`${
+            propertyData.available ? "available" : "not available"
+          }`}</span>
         </div>
         <div className="brief">
           <h5>{propertyData.title}</h5>

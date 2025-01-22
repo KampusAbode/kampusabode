@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import data from "../fetch/contents";
 import { fetchProperties } from "../utils";
-import PropCard from "../components/cards/propcard/PropCard";
+import PropCard from "./propcard/PropCard";
 import Loader from "../components/loader/Loader";
 import "./properties.css";
 import { FaSearch } from "react-icons/fa";
