@@ -10,7 +10,6 @@
   background-color: var(--background-white);
   border: var(--border);
   border-radius: var(--border-radius);
-  box-shadow: var(--shadow-below);
   overflow: hidden;
 }
 .marketplace .filter-marketplaceitems .container .search-items input {

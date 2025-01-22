@@ -67,9 +67,12 @@
   background: var(--background-white);
   box-shadow: var(--shadow);
 }
+.nav-menu ul li.btn {
+  text-align: center;
+  width: 100%;
+}
 .nav-menu ul li.btn a {
   width: 100%;
-  text-align: center;
   color: var(--white);
 }
 .nav-menu ul li a {

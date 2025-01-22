@@ -70,7 +70,6 @@
     display: grid;
     grid-template-columns: 8fr 1fr;
     overflow: hidden;
-    box-shadow: var(--shadow-below);
     input {
       border: var(--border);
       border-radius: var(--border-radius-r);
