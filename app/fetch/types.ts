@@ -65,7 +65,7 @@ export interface PropertyType {
 export interface TrendType {
   id: string;
   title: string;
-  description: string;
+  content: string;
   author: string;
   image: string;
   published_date: string;

@@ -42,13 +42,7 @@
         padding: var(--spacing-h);
         border-radius: var(--border-radius);
 
-        span{
-          background-color: var(--light-gray);
-          border-radius: var(--border-radius);
-          padding: var(--spacing-h);
-          box-shadow: var(--shadow);
-        }
-
+      
         svg {
           cursor: pointer;
           transition: var(--transition);

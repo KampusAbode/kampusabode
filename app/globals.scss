@@ -14,7 +14,7 @@
   --black: #000000;
 
   --gray: #a8abad;
-  --light-gray: #f5f5f9;
+  --light-gray: #f6f7f9;
    --dark-gray: #4d4d4d;
 
   --font-color-h: #212529;
@@ -103,7 +103,7 @@ body {
   background-color: var(--background-white);
 }
 
-.body {
+.wrapper {
   position: relative;
 
   &.grid {

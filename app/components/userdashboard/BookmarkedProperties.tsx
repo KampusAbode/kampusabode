@@ -5,31 +5,48 @@ import { fetchProperties } from "../../utils";
 import { PropertyType } from "../../fetch/types";
 import Link from "next/link";
 import Image from "next/image";
+import toast from "react-hot-toast";
 
 const BookmarkedProperties = ({ user }) => {
-  const bookmarkedIds = user?.userInfo.savedProperties;
+  const bookmarkedIds = user?.userInfo?.savedProperties || [];
   const [properties, setProperties] = useState<PropertyType[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPropertiesFromDB = async () => {
-      const fetchedProperties = await fetchProperties();
-      setProperties(fetchedProperties);
+      try {
+        const fetchedProperties = await fetchProperties();
+        setProperties(fetchedProperties);
+        toast.success("Properties loaded successfully!");
+      } catch (err) {
+        console.error("Error fetching properties:", err);
+        setError("Failed to fetch properties. Please try again.");
+        toast.error("Failed to load properties.");
+      } finally {
+        setLoading(false);
+      }
     };
+
     fetchPropertiesFromDB();
   }, []);
 
   // Filter properties based on bookmarkedIds
-  const bookmarkes = properties.filter((property) =>
+  const bookmarkedProperties = properties.filter((property) =>
     bookmarkedIds.includes(property.id)
   );
 
   return (
     <div className="bookmarked-properties">
-      <h4>Your bookmarked properties</h4>
+      <h4>Your Bookmarked Properties</h4>
       <div className="property-list">
-        {bookmarkes.length > 0 ? (
+        {loading ? (
+          <p>Loading your bookmarked properties...</p>
+        ) : error ? (
+          <p className="error-message">{error}</p>
+        ) : bookmarkedProperties.length > 0 ? (
           <ul>
-            {bookmarkes.map((property) => (
+            {bookmarkedProperties.map((property) => (
               <li key={property.id}>
                 <Link href={property.url}>
                   <Image

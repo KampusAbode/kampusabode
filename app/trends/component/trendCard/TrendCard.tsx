@@ -96,7 +96,7 @@ const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
       <div className="trend-image">
         <Link href={`/trends/${trendData?.id}`}>
           <Image
-            src={trendData?.image || "/placeholder-image.jpg"}
+            src={trendData?.image}
             width={1000}
             height={1000}
             alt="trend image"
@@ -122,7 +122,7 @@ const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
           </span>
         </div>
         <h5 className="trend-title">{trendData?.title || "Untitled"}</h5>
-        <p>{trendData?.description || "No description available."}</p>
+        <p>{trendData?.content || "No description available."}</p>
       </div>
     </div>
   );

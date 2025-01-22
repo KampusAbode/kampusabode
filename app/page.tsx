@@ -217,7 +217,7 @@ export default function App() {
               return (
                 <div key={trend.title} className="trend">
                   <h5>{trend.title}</h5>
-                  <p>{trend.description}</p>
+                  <p>{trend.content}</p>
                   <div>
                     <Link href={`/trends/${trend.id}`}>
                       Learn more{" "}

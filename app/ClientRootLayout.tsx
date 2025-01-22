@@ -51,7 +51,7 @@ export default function ClientRootLayout({
     <ReduxProvider>
       <Toaster />
       <WelcomeMessage />
-      <div className={`body ${authState.isAuthenticated ? "grid" : "none"}`}>
+      <div className={`wrapper ${authState.isAuthenticated ? "grid" : ""}`}>
         <UseIsUser>
           <Nav />
           <main>
