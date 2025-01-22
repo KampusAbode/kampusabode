@@ -73,7 +73,6 @@ export interface TrendType {
   category: string;
 }
 
-
 export interface ItemType {
   name: string;
   description: string;
