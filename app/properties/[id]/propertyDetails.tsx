@@ -104,7 +104,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   return (
     <SaveVisitedProperty id={id}>
       <section className="properties-details-page">
-        <div className="container prop-image-details">
+        <div className="prop-image-details">
           <PropertyImages propertyDetails={propertyDetails} />
         </div>
 

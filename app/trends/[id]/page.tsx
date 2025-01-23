@@ -56,7 +56,7 @@ const TrendPage = ({ params }: Params) => {
           </div>
           <div className="trend-description">
             <div className="title">{trendData?.title}</div>
-            <p>{trendData?.description}</p>
+            <p>{trendData?.content}</p>
           </div>
         </div>
       ) : (

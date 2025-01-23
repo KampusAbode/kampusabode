@@ -13,7 +13,7 @@
     }
   }
 
-  .container.prop-image-details {
+  .prop-image-details {
     .property-images {
       display: grid;
       grid-template-columns: 1.5fr 1fr;
@@ -22,13 +22,12 @@
         height: 70vh;
         display: flex;
         place-items: center;
-        padding-block: var(--spacing);
+        padding-bottom: var(--spacing);
         position: relative;
 
         img {
           height: 100%;
           object-fit: cover;
-          border-radius: var(--border-radius);
           transition: var(--transition);
         }
 
