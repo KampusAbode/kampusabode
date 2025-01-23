@@ -31,7 +31,7 @@ export interface HomeType {
     rating: number;
     date: string;
   }[];
-  tags: string[]; // Record<string, any> -- Adjust if you know the exact structure
+  tags: string[]; 
   footer: {
     company: {
       name: string;

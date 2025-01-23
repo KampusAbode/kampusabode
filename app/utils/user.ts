@@ -3,6 +3,8 @@ import {
   doc,
   getDoc,
   updateDoc,
+  arrayUnion,
+  arrayRemove,
 } from "firebase/firestore";
 import { UserType } from "../fetch/types";
 import { db } from "../lib/firebaseConfig";
@@ -64,3 +66,25 @@ export const updateUserProfile = async (userId: string, updates) => {
 };
 
 
+export const updateBookmarkInDB = async (
+  userId: string,
+  propertyId: string,
+  action: "add" | "remove"
+) => {
+  const userRef = doc(db, "users", userId);
+
+  try {
+    if (action === "add") {
+      await updateDoc(userRef, {
+        "userInfo.savedProperties": arrayUnion(propertyId),
+      });
+    } else {
+      await updateDoc(userRef, {
+        "userInfo.savedProperties": arrayRemove(propertyId),
+      });
+    }
+  } catch (error) {
+    console.error("Failed to update bookmarks in Firebase:", error);
+    throw new Error("Database update failed.");
+  }
+};
