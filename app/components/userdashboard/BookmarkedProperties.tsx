@@ -5,7 +5,7 @@ import { fetchProperties } from "../../utils";
 import { PropertyType } from "../../fetch/types";
 import Link from "next/link";
 import Image from "next/image";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 
 const BookmarkedProperties = ({ user }) => {
   const bookmarkedIds = user?.userInfo?.savedProperties || [];
@@ -18,11 +18,11 @@ const BookmarkedProperties = ({ user }) => {
       try {
         const fetchedProperties = await fetchProperties();
         setProperties(fetchedProperties);
-        toast.success("Properties loaded successfully!");
+        // toast.success("Properties loaded successfully!");
       } catch (err) {
         console.error("Error fetching properties:", err);
         setError("Failed to fetch properties. Please try again.");
-        toast.error("Failed to load properties.");
+        // toast.error("Failed to load properties.");
       } finally {
         setLoading(false);
       }
