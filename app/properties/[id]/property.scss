@@ -341,7 +341,7 @@
 
 @media screen and (max-width: 768px) {
   .properties-details-page {
-    .container.prop-image-details {
+    .prop-image-details {
       .property-images {
         grid-template-columns: 1fr;
         gap: var(--spacing);

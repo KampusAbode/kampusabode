@@ -41,12 +41,12 @@ const RecentReviews = ({ user }) => {
       ) : (
         <ul className="reviews-list">
           {reviews.map((review, index) => (
-            <li key={index} className="review-item">
+            <li key={index} className="review-item" style={{marginBottom: '1rem'}}>
               <div className="review-author">
-                <strong>{review.author}</strong> - {review.date}
+                <strong>{review.date}</strong>
               </div>
               <div className="review-content">{review.content}</div>
-              <div className="review-rating">Rating: {review.rating} ★</div>
+              <div className="review-rating">Rating: {review.rating}★</div>
             </li>
           ))}
         </ul>
