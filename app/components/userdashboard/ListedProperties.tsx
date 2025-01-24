@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { fetchProperties, fetchPropertiesByIds } from "../../utils";
+import { fetchPropertiesByIds } from "../../utils";
 import { UserType, PropertyType } from "../../fetch/types";
 import Link from "next/link";
 
@@ -9,20 +9,35 @@ const ListedProperties = ({ user }: { user: UserType }) => {
   const [filteredProperties, setFilteredProperties] = useState<PropertyType[]>(
     []
   );
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchPropertiesFromDB = async () => {
-      if ("propertiesListed" in user.userInfo) {
-        const propertiesListed = user.userInfo.propertiesListed || [];
+      try {
+        setLoading(true); // Start loading
+        setError(null); // Reset any previous error
 
-        const fetchedProperties: PropertyType[] = await fetchPropertiesByIds(
-          "propertiesListed" in user.userInfo
-            ? propertiesListed.map((property) => property.id)
-            : []
-        );
-       
+        if ("propertiesListed" in user.userInfo) {
+          const propertiesListed = user.userInfo.propertiesListed || [];
+          if (propertiesListed.length === 0) {
+            setFilteredProperties([]);
+            return;
+          }
 
-        setFilteredProperties(fetchedProperties);
+          const fetchedProperties: PropertyType[] = await fetchPropertiesByIds(
+            propertiesListed.map((property) => property.id)
+          );
+
+          setFilteredProperties(fetchedProperties);
+        }
+      } catch (err: unknown) {
+        const errorMessage =
+          err instanceof Error ? err.message : "An unknown error occurred.";
+        console.error("Error fetching properties:", errorMessage);
+        setError(errorMessage); // Set error message
+      } finally {
+        setLoading(false); // End loading
       }
     };
 
@@ -38,20 +53,25 @@ const ListedProperties = ({ user }: { user: UserType }) => {
         </Link>
       </h4>
       <div className="property-list">
-        <ul>
-          {filteredProperties && filteredProperties.length > 0 ? (
-            filteredProperties.map((property) => (
+        {loading ? (
+          <p>Loading properties...</p>
+        ) : error ? (
+          <p className="error">{error}</p>
+        ) : filteredProperties.length > 0 ? (
+          <ul>
+            {filteredProperties.map((property) => (
               <li key={property.id}>
                 <span>{property.title}</span> <span>₦{property.price}</span>
               </li>
-            ))
-          ) : (
-            <p>You have no listed properties.</p>
-          )}
-        </ul>
+            ))}
+          </ul>
+        ) : (
+          <p>You have no listed properties.</p>
+        )}
       </div>
     </div>
   );
 };
 
 export default ListedProperties;
+ 
