@@ -5,8 +5,12 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "images.unsplash.com",
-        // If you want to restrict to specific image paths, you can add `pathname` as well
-        pathname: "/**", // Allow all paths under this domain
+        pathname: "/**", // Allow all paths under Unsplash
+      },
+      {
+        protocol: "https",
+        hostname: "cloud.appwrite.io", // Add Appwrite's domain
+        pathname: "/v1/storage/buckets/**", // Allow all paths under Appwrite storage buckets
       },
     ],
   },

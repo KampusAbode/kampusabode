@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import BookmarkButton from "../../../../components/features/bookmarkbutton/BookmarkButton";
 import ShareButton from "../../../../components/features/sharebutton/ShareButton";
-// import Image from 'next/image';
+import Image from 'next/image';
 import { PropertyType } from "../../../../fetch/types";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
@@ -37,7 +37,7 @@ function PropertyImages({
           <ShareButton />
           <BookmarkButton propertyId={propertyDetails?.id} />
         </div>
-        <img
+        <Image
           src={propertyDetails?.images[imageCount]}
           width={1000}
           height={1000}

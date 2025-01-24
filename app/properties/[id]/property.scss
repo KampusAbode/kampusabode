@@ -413,9 +413,11 @@
 
 @media screen and (max-width: 480px) {
   .properties-details-page {
-    .property-images {
-      .display-image {
-        height: 38vh;
+    .prop-image-details{
+      .property-images {
+        .display-image {
+          height: 38vh;
+        }
       }
     }
   }
