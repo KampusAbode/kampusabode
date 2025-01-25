@@ -187,6 +187,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                   <div key={review.content} className="review-item">
                     <p>
                       "{review.content}"{" "}
+                      <span>by { review.author.name }</span>
                       <span>{getFormattedDateDistance(review.date)} ago</span>
                     </p>
                   </div>

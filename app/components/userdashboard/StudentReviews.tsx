@@ -38,7 +38,7 @@ const StudentReviews = ({ user }) => {
 
   return (
     <div className="student-reviews">
-      <h3>Student Reviews</h3>
+      <h4>Student Reviews</h4>
       {loading ? (
         <p>Loading reviews...</p>
       ) : error ? (
@@ -47,7 +47,7 @@ const StudentReviews = ({ user }) => {
         <ul>
           {reviews.map((review) => (
             <li key={review.id}>
-              {review.content} - {review.author}
+              {review.content} - {review.author.name}
             </li>
           ))}
         </ul>

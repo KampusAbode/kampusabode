@@ -4,6 +4,12 @@
         form{
             margin-block: var(--spacing-3x);
 
+
+            .btn{
+                width: 100%;
+                text-align: center;
+            }
+
             &>div{
                 margin-block: var(--spacing);
 

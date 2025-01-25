@@ -86,7 +86,7 @@ export interface ItemType {
 
 export interface ReviewType {
   id: string;
-  author: string;
+  author: {name: string; id: string};
   propertyId: string;
   content: string;
   rating: number;

@@ -3,8 +3,7 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { addProperty } from "../utils";
-import { PropertyType } from "../fetch/types";
+import {storage, ID } from '../lib/appwriteClient'
 import "./upload.css";
 
 const locationOptions = [
@@ -17,7 +16,7 @@ const locationOptions = [
   "Lagere",
 ];
 
-// Define validation schema with Yup
+// Validation schema
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
   description: Yup.string()
@@ -43,39 +42,47 @@ const validationSchema = Yup.object().shape({
     .min(100, "Area must be at least 100 sq ft")
     .required("Area is required"),
   images: Yup.array()
+    .min(1, "At least one image is required")
     .max(10, "You must upload at most 10 images")
     .required("Images are required"),
 });
 
 const UploadProperty = () => {
-  const initialValues: PropertyType = {
-    id: "",
-    url: "",
-    agentId: "",
-    title: "",
-    description: "",
-    price: "",
-    location: "",
-    neighborhood_overview: "",
-    type: "",
-    bedrooms: 0,
-    bathrooms: 0,
-    area: 0,
-    amenities: [],
-    images: [],
-    available: true,
+  const handleFileUpload = async (files: File[]) => {
+    const uploadedFiles = await Promise.all(
+      files.map(async (file) => {
+        const uniqueID = ID.unique();
+        const response = await storage.createFile(
+          process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID,
+          uniqueID,
+          file
+        );
+        return `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID}/files/${response.$id}/view?project=678caa89001b08049b5f&mode=admin`;
+      })
+    );
+    return uploadedFiles;
   };
 
   const handleSubmit = async (
-    values: PropertyType,
-    { setSubmitting, resetForm, setStatus }
+    values: any,
+    { setSubmitting, resetForm, setStatus }: any
   ) => {
     setSubmitting(true);
+
     try {
-      await addProperty(values);
+      // Upload images to Appwrite
+      const imageUrls = await handleFileUpload(values.images);
+
+      // Include the uploaded image URLs in the property data
+      const propertyData = { ...values, images: imageUrls };
+
+      // Call the backend function to save the property data (e.g., Firebase or your API)
+      console.log("Property data:", propertyData);
+
       setStatus({ success: "Property uploaded successfully!" });
       resetForm();
     } catch (error) {
+      console.error(error);
       setStatus({ error: "Failed to upload property. Please try again." });
     } finally {
       setSubmitting(false);
@@ -95,9 +102,19 @@ const UploadProperty = () => {
       <div className="container">
         <h2 className="page-heading">Upload New Property</h2>
         <Formik
-          initialValues={initialValues}
+          initialValues={{
+            title: "",
+            description: "",
+            price: "",
+            location: "",
+            bedrooms: 0,
+            bathrooms: 0,
+            area: 0,
+            images: [],
+          }}
           validationSchema={validationSchema}
-          onSubmit={handleSubmit}>
+          onSubmit={handleSubmit}
+        >
           {({ isSubmitting, status, setFieldValue }) => (
             <Form>
               <div>
@@ -148,7 +165,7 @@ const UploadProperty = () => {
               <div>
                 <label>Location:</label>
                 <Field as="select" name="location">
-                  <option value="" label="Asherifa" />
+                  <option value="" label="Select location" />
                   {locationOptions.map((location, index) => (
                     <option key={index} value={location}>
                       {location}
