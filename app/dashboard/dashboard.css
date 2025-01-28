@@ -113,11 +113,11 @@
 .dashboard .student-dashboard .listed-properties .property-list ul li a,
 .dashboard .agent-dashboard .listed-properties .property-list ul li a {
   display: grid;
-  grid-template-columns: 2fr 8fr;
+  grid-template-columns: 3fr 7fr;
 }
 .dashboard .student-dashboard .listed-properties .property-list ul li a img,
 .dashboard .agent-dashboard .listed-properties .property-list ul li a img {
-  height: 100px;
+  height: 80px;
   width: 100%;
   -o-object-fit: cover;
      object-fit: cover;
