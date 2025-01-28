@@ -4,14 +4,14 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "images.unsplash.com",
-        pathname: "/**", // Allow all paths under Unsplash
+        hostname: "www.unsplash.com",
+        pathname: "/**",
       },
       {
         protocol: "https",
-        hostname: "cloud.appwrite.io", // Add Appwrite's domain
-        pathname: "/v1/storage/buckets/**", // Allow all paths under Appwrite storage buckets
-      },
+        hostname: "cloud.appwrite.io",
+        pathname: "/v1/storage/buckets/**",
+      }
     ],
   },
 };
