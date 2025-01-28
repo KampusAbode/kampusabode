@@ -1,6 +1,10 @@
 .upload-page .container form {
   margin-block: var(--spacing-3x);
 }
+.upload-page .container form .btn {
+  width: 100%;
+  text-align: center;
+}
 .upload-page .container form > div {
   margin-block: var(--spacing);
 }

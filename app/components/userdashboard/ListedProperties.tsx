@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { fetchPropertiesByIds } from "../../utils";
 import { UserType, PropertyType } from "../../fetch/types";
 import Link from "next/link";
+import Image from "next/image";
 
 const ListedProperties = ({ user }: { user: UserType }) => {
   const [filteredProperties, setFilteredProperties] = useState<PropertyType[]>(
@@ -47,9 +48,9 @@ const ListedProperties = ({ user }: { user: UserType }) => {
   return (
     <div className="listed-properties">
       <h4>
-        Your Listed Properties{" "}
+        Your Listings{" "}
         <Link href={"/upload"} className="btn">
-          Upload apartment
+          Upload
         </Link>
       </h4>
       <div className="property-list">
@@ -61,7 +62,18 @@ const ListedProperties = ({ user }: { user: UserType }) => {
           <ul>
             {filteredProperties.map((property) => (
               <li key={property.id}>
-                <span>{property.title}</span> <span>₦{property.price}</span>
+                <Link href={property.url}>
+                  <Image src={property.images[0]} alt={property.title} width={500} height={300} />
+                  <div className="detail">
+                    <span>{property.title}</span>
+                    <span>₦{property.price}</span>
+                  </div>
+                  
+                  {/* <div>
+
+                  </div> */}
+                
+                </Link>
               </li>
             ))}
           </ul>

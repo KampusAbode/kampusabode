@@ -104,11 +104,51 @@
   display: block;
   text-transform: capitalize;
 }
+.dashboard .student-dashboard .listed-properties .property-list ul,
+.dashboard .agent-dashboard .listed-properties .property-list ul {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing);
+}
+.dashboard .student-dashboard .listed-properties .property-list ul li a,
+.dashboard .agent-dashboard .listed-properties .property-list ul li a {
+  display: grid;
+  grid-template-columns: 2fr 8fr;
+}
+.dashboard .student-dashboard .listed-properties .property-list ul li a img,
+.dashboard .agent-dashboard .listed-properties .property-list ul li a img {
+  height: 100px;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.dashboard .student-dashboard .listed-properties .property-list ul li a .detail,
+.dashboard .agent-dashboard .listed-properties .property-list ul li a .detail {
+  padding: var(--spacing);
+}
+.dashboard .student-dashboard .listed-properties .property-list ul li a .detail span,
+.dashboard .agent-dashboard .listed-properties .property-list ul li a .detail span {
+  display: block;
+  margin-bottom: var(--spacing-h);
+}
+.dashboard .student-dashboard .listed-properties .property-list ul li a .detail span::first-child,
+.dashboard .agent-dashboard .listed-properties .property-list ul li a .detail span::first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
 
 @media screen and (max-width: 768px) {
   .dashboard .student-dashboard .bookmarked-properties ul,
   .dashboard .agent-dashboard .bookmarked-properties ul {
     grid-template-columns: 1fr 1fr;
+  }
+  .dashboard .student-dashboard .listed-properties .property-list ul,
+  .dashboard .agent-dashboard .listed-properties .property-list ul {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 @media screen and (max-width: 480px) {
@@ -119,5 +159,9 @@
   .dashboard .student-dashboard .bookmarked-properties ul li a img,
   .dashboard .agent-dashboard .bookmarked-properties ul li a img {
     height: 70px;
+  }
+  .dashboard .student-dashboard .listed-properties .property-list ul,
+  .dashboard .agent-dashboard .listed-properties .property-list ul {
+    grid-template-columns: 1fr;
   }
 }/*# sourceMappingURL=dashboard.css.map */

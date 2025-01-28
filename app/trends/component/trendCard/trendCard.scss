@@ -47,18 +47,10 @@
           cursor: pointer;
           transition: var(--transition);
 
-          &.thumbsdown {
-            transform: rotateY(180deg);
-          }
-
           &:hover,
           &.active {
             color: var(--primary-color);
             transform: scale(1.2);
-
-            &.thumbsdown {
-              transform: scale(1.2) rotateY(180deg);
-            }
           }
         }
       }
