@@ -7,8 +7,15 @@ export const metadata: Metadata = {
   title: "Kampusabode App - Property Listing Site",
   description:
     "Find your ideal property with Kampusabode. Explore a wide range of listings and discover your next apartment.",
-  keywords:
-    "property listings, real estate, apartments, houses, rentals, buy property, sell property",
+  keywords: [
+    "property listings",
+    "real estate",
+    "apartments",
+    "houses",
+    "rentals",
+    "buy property",
+    "sell property",
+  ],
 };
 
 export default function RootLayout({
@@ -19,9 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-
-      <ClientRootLayout>{children}</ClientRootLayout>
-
+        <ClientRootLayout>{children}</ClientRootLayout>
       </body>
     </html>
   );

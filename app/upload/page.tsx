@@ -5,6 +5,9 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {storage, ID } from '../lib/appwriteClient'
 import "./upload.css";
+import { addProperty } from "../utils";
+import toast from "react-hot-toast";
+import { PropertyType } from "../fetch/types";
 
 const locationOptions = [
   "Asherifa",
@@ -74,16 +77,20 @@ const UploadProperty = () => {
       const imageUrls = await handleFileUpload(values.images);
 
       // Include the uploaded image URLs in the property data
-      const propertyData = { ...values, images: imageUrls };
+      const propertyData: PropertyType = { ...values, images: imageUrls };
 
+      const response = await addProperty(propertyData)
+
+
+      toast.success(response.success)
       // Call the backend function to save the property data (e.g., Firebase or your API)
       console.log("Property data:", propertyData);
 
       setStatus({ success: "Property uploaded successfully!" });
       resetForm();
     } catch (error) {
-      console.error(error);
-      setStatus({ error: "Failed to upload property. Please try again." });
+      toast.error(error.message)
+      setStatus({ error: "Failed to upload Apartment. Please try again." });
     } finally {
       setSubmitting(false);
     }
@@ -100,7 +107,7 @@ const UploadProperty = () => {
   return (
     <section className="upload-page">
       <div className="container">
-        <h2 className="page-heading">Upload New Property</h2>
+        <h2 className="page-heading">Upload New Apartment</h2>
         <Formik
           initialValues={{
             title: "",
@@ -122,7 +129,7 @@ const UploadProperty = () => {
                 <Field
                   type="text"
                   name="title"
-                  placeholder="Enter property title"
+                  placeholder="Enter Apartment title"
                 />
                 <ErrorMessage name="title" component="div" className="error" />
               </div>
@@ -218,7 +225,7 @@ const UploadProperty = () => {
               </div>
 
               <button type="submit" disabled={isSubmitting} className="btn">
-                {isSubmitting ? "Uploading..." : "Upload Property"}
+                {isSubmitting ? "Uploading..." : "Upload Apartment"}
               </button>
               {status && status.success && (
                 <p className="success">{status.success}</p>

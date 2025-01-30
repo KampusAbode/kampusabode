@@ -20,12 +20,7 @@ function Nav() {
   const pathname = usePathname();
 
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user) as {
-    isAuthenticated: boolean;
-    id: string;
-    username: string;
-    userType: string;
-  };
+  const user = useSelector((state: RootState) => state.user);
   const isMenu = useSelector((state: RootState) => state.menu);
   const [loading, setLoading] = useState(true);
 
