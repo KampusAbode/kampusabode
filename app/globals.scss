@@ -106,7 +106,7 @@ body {
 .wrapper {
   position: relative;
 
-  &.grid {
+  &.grid:not(.active) {
     display: grid;
     grid-template-columns: 20% 80%;
     overflow: hidden;

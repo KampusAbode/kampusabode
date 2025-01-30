@@ -10,48 +10,26 @@ import UseIsUser from "./hooks/useIsUser";
 import Nav from "./components/navMenu/nav";
 import { useState, useEffect } from "react";
 import Loader from "./components/loader/Loader";
+import { useSelector } from "react-redux";
+import { RootState } from "./redux/store";
 
 export default function ClientRootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [authState, setAuthState] = useState<{
+  const user = useSelector((state: RootState) => state.user) as {
     isAuthenticated: boolean;
-  } | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    getAuthState()
-      .then((state) => {
-        if (isMounted) {
-          setAuthState(state);
-          setIsLoading(false);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching auth state:", error);
-        if (isMounted) {
-          setIsLoading(false);
-        }
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  if (isLoading) {
-    return <Loader />;
-  }
+    id: string;
+    username: string;
+    userType: string;
+  };
 
   return (
     <ReduxProvider>
       <Toaster />
       <WelcomeMessage />
-      <div className={`wrapper ${authState.isAuthenticated ? "grid" : ""}`}>
+      <div className={`wrapper ${user.isAuthenticated ? "grid" : ""}`}>
         <UseIsUser>
           <Nav />
           <main>

@@ -56,7 +56,9 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
         </div>
         <div className="brief">
           <h5>{propertyData.title}</h5>
-          <div className="btn">{`₦${propertyData.price}`}</div>
+          <Link
+            href={propertyData.url}
+            className="btn">{`₦${propertyData.price}`}</Link>
         </div>
         <span>
           <FaLocationDot /> {propertyData.location}

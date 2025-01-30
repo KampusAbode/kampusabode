@@ -27,9 +27,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--spacing);
-    border: var(--border);
-    border-radius: var(--border-radius);
 
     .logo {
       a {
@@ -50,6 +47,7 @@
       display: grid;
       place-content: center;
       background-color: var(--light-gray);
+
 
       svg {
         width: 24px;
@@ -83,10 +81,7 @@
       &.btn {
         text-align: center;
         width: 100%;
-        a {
-          width: 100%;
           color: var(--white);
-        }
       }
 
       

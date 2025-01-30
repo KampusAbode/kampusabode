@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FaTimes, FaRegUserCircle, FaSearchLocation } from "react-icons/fa";
 import { CiViewBoard, CiHome } from "react-icons/ci";
+import { MdOutlineMarkUnreadChatAlt } from "react-icons/md";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -73,12 +74,13 @@ function Nav() {
         </div>
         <ul>
           {user?.userType === "agent" ? (
-            <li className="btn">
+            <li>
               <Link
                 href="/upload"
                 onClick={() => {
                   dispatch(closeMenu());
-                }}>
+                }}
+                className="btn">
                 upload property
               </Link>
             </li>
@@ -91,7 +93,8 @@ function Nav() {
                   onClick={() => {
                     dispatch(closeMenu());
                   }}>
-                  adminchatroom
+                    <MdOutlineMarkUnreadChatAlt/>
+                  admin
                 </Link>
               </li>
             ) : null
