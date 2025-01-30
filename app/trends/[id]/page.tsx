@@ -64,3 +64,4 @@ const TrendPage = ({ params }: Params) => {
 };
 
 export default TrendPage;
+ 
