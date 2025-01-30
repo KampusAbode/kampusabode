@@ -6,7 +6,7 @@ import { fetchTrendByID } from "../../utils";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import Loader from "../../components/loader/Loader";
-import './trend.css';
+import "./trend.css";
 
 type Params = {
   params: { id: string };
@@ -35,6 +35,14 @@ const TrendPage = ({ params }: Params) => {
     <div className="trend-details-page">
       {!loading ? (
         <div className="container">
+          <div className="trend-details">
+            <span>
+              <strong>Category:</strong> {trendData?.category}
+            </span>
+            <h3 className="title">{trendData?.title}</h3>
+            <span>By {trendData?.author}</span>
+            <span>{trendData?.published_date}</span>
+          </div>
           <div className="trend-image">
             <Image
               src={trendData?.image}
@@ -43,20 +51,12 @@ const TrendPage = ({ params }: Params) => {
               alt="trend image"
             />
           </div>
-          <div className="trend-meta">
-            <span>
-              <strong>Author:</strong> {trendData?.author}
-            </span>
-            <span>
-              <strong>Category:</strong> {trendData?.category}
-            </span>
-            <span>
-              <strong>Likes:</strong> {trendData?.likes}
-            </span>
-          </div>
           <div className="trend-description">
-            <div className="title">{trendData?.title}</div>
-            <p>{trendData?.content}</p>
+              {trendData?.content.split("\n").map((paragraph, index) => (
+                <p key={index}>
+                  {paragraph}
+                </p>
+              ))}
           </div>
         </div>
       ) : (

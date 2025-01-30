@@ -63,6 +63,7 @@ export default function Header() {
     "dashboard",
     "marketplace",
     "about",
+    "trends",
   ];
 
   const showBackButton = pagesWithBackButton.some((path) =>
