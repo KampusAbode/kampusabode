@@ -12,6 +12,14 @@
       align-items: center;
       gap: var(--spacing);
       text-align: center;
+      margin-top: var(--spacing-2x);
+
+      .category{
+        padding: var(--spacing-h);
+        border-radius: var(--border-radius);
+        background-color: var(--primary-color);
+        color: var(--white);
+      }
     }
     .trend-image {
       height: 280px;

@@ -36,8 +36,8 @@ const TrendPage = ({ params }: Params) => {
       {!loading ? (
         <div className="container">
           <div className="trend-details">
-            <span>
-              <strong>Category:</strong> {trendData?.category}
+            <span className='category'>
+               {trendData?.category}
             </span>
             <h3 className="title">{trendData?.title}</h3>
             <span>By {trendData?.author}</span>
