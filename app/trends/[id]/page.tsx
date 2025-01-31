@@ -52,11 +52,12 @@ const TrendPage = ({ params }: Params) => {
             />
           </div>
           <div className="trend-description">
-            {trendData?.content.split("\n").map((paragraph, index) => (
-              <p key={index}>
-                {paragraph}
-              </p>
-            ))}
+            {(trendData?.content || "")
+              .split("\n")
+              .filter((paragraph) => paragraph.trim() !== "")
+              .map((paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              ))}
           </div>
         </div>
       ) : (

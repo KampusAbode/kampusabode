@@ -1,9 +1,9 @@
 .trend-details-page {
   .container {
-    padding: var(--spacing-4x) 0 var(--spacing-5x);
+    padding-block: var(--spacing-s);
 
     @media screen and (min-width: 768px) {
-      padding: var(--spacing-4x) 0 var(--spacing-8x);
+      padding-block: calc(var(--spacing-4x) * 2);
       width: 75%;
     }
     .trend-details {
@@ -11,12 +11,13 @@
       flex-direction: column;
       align-items: center;
       gap: var(--spacing);
+      text-align: center;
     }
     .trend-image {
       height: 280px;
       border-radius: var(--border-radius);
       overflow: hidden;
-      margin-block: var(--spacing-2x);
+      margin: var(--spacing-2x) 0 var(--spacing-4x);
       img {
         height: inherit;
         object-fit: cover;
@@ -26,6 +27,8 @@
         height: 400px;
       }
     }
-    
+    // .trend-description {
+     
+    // }
   }
 }
