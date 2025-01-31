@@ -36,9 +36,7 @@ const TrendPage = ({ params }: Params) => {
       {!loading ? (
         <div className="container">
           <div className="trend-details">
-            <span className='category'>
-               {trendData?.category}
-            </span>
+            <span className="category">{trendData?.category}</span>
             <h3 className="title">{trendData?.title}</h3>
             <span>By {trendData?.author}</span>
             <span>{trendData?.published_date}</span>
@@ -53,6 +51,7 @@ const TrendPage = ({ params }: Params) => {
           </div>
           <div className="trend-description">
             {(trendData?.content || "")
+              .replace(/\\n/g, "\n") // Converts escaped newlines to actual newlines
               .split("\n")
               .filter((paragraph) => paragraph.trim() !== "")
               .map((paragraph, index) => (
