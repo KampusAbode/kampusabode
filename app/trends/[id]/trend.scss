@@ -1,22 +1,22 @@
 .trend-details-page {
   .container {
-    padding: var(--spacing-2x) 0 var(--spacing-5x);
+    padding: var(--spacing-4x) 0 var(--spacing-5x);
 
     @media screen and (min-width: 768px) {
       padding: var(--spacing-4x) 0 var(--spacing-8x);
-      width: 80%;
+      width: 75%;
     }
     .trend-details {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: var(--spacing-2x);
+      gap: var(--spacing);
     }
     .trend-image {
       height: 280px;
       border-radius: var(--border-radius);
       overflow: hidden;
-      margin-top: var(--spacing-4x);
+      margin-block: var(--spacing-2x);
       img {
         height: inherit;
         object-fit: cover;
@@ -26,12 +26,6 @@
         height: 400px;
       }
     }
-    .trend-description {
-      .title {
-        padding: var(--spacing);
-        background-color: var(--light-gray);
-        border-radius: var(--border-radius);
-      }
-    }
+    
   }
 }

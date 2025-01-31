@@ -6,7 +6,6 @@ import { fetchTrendByID } from "../../utils";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import Loader from "../../components/loader/Loader";
-import ReactMarkdown from "react-markdown";
 import "./trend.css";
 
 type Params = {
@@ -53,7 +52,11 @@ const TrendPage = ({ params }: Params) => {
             />
           </div>
           <div className="trend-description">
-            <ReactMarkdown>{trendData?.content}</ReactMarkdown>
+            {trendData?.content.split("\n").map((paragraph, index) => (
+              <p key={index}>
+                {paragraph}
+              </p>
+            ))}
           </div>
         </div>
       ) : (
@@ -64,4 +67,3 @@ const TrendPage = ({ params }: Params) => {
 };
 
 export default TrendPage;
- 
