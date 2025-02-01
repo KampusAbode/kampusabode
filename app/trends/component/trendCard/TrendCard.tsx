@@ -110,15 +110,7 @@ const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
             <i>by {trendData?.author || "Anonymous"}</i>
           </span>
           <span className="thumbs">
-            <span>{formattedLikes}</span>
-            <FaThumbsUp
-              className={`thumbsup ${userAction === "like" ? "active" : ""}`}
-              onClick={handleLikeToggle}
-              style={{
-                pointerEvents: loading ? "none" : "auto",
-                opacity: loading ? 0.6 : 1,
-              }}
-            />
+            <i>2 mins read</i>
           </span>
         </div>
         <h5 className="trend-title">{trendData?.title || "Untitled"}</h5>

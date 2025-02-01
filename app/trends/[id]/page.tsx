@@ -51,7 +51,7 @@ const TrendPage = ({ params }: Params) => {
           </div>
           <div className="trend-description">
             {(trendData?.content || "")
-              .replace(/\\n/g, "\n") // Converts escaped newlines to actual newlines
+              .replace(/\\n/g, "\n") 
               .split("\n")
               .filter((paragraph) => paragraph.trim() !== "")
               .map((paragraph, index) => (

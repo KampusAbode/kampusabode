@@ -14,7 +14,7 @@
       text-align: center;
       margin-top: var(--spacing-2x);
 
-      .category{
+      .category {
         padding: var(--spacing-h);
         border-radius: var(--border-radius);
         background-color: var(--primary-color);
@@ -35,8 +35,10 @@
         height: 400px;
       }
     }
-    // .trend-description {
-     
-    // }
+    .trend-description {
+      p {
+        margin-block: var(--spacing-h);
+      }
+    }
   }
 }

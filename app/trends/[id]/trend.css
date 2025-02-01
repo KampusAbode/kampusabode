@@ -36,4 +36,7 @@
   .trend-details-page .container .trend-image {
     height: 400px;
   }
+}
+.trend-details-page .container .trend-description p {
+  margin-block: var(--spacing-h);
 }/*# sourceMappingURL=trend.css.map */
