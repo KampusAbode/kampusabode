@@ -5,6 +5,12 @@
             margin-block: var(--spacing-3x);
 
 
+            .success,
+            .error{
+                margin-top: var(--spacing);
+                color: var(--primary-color);
+            }
+
             .btn{
                 width: 100%;
                 text-align: center;

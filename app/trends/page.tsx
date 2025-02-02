@@ -123,7 +123,6 @@ export default function trendsPage() {
             <div className="trends">
               {filteredTrends.map((read) => (
                 <TrendCard key={read?.id} trendData={read} />
-                // <p>trending</p>
               ))}
             </div>
           ) : (

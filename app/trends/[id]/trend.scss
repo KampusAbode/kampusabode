@@ -4,7 +4,14 @@
 
     @media screen and (min-width: 768px) {
       padding-block: calc(var(--spacing-4x) * 2);
-      width: 75%;
+      width: 70%;
+
+      .trend-details {
+      .title{
+        width: 80%;
+        margin: auto 0;
+      }
+    }
     }
     .trend-details {
       display: flex;

@@ -1,6 +1,11 @@
 .upload-page .container form {
   margin-block: var(--spacing-3x);
 }
+.upload-page .container form .success,
+.upload-page .container form .error {
+  margin-top: var(--spacing);
+  color: var(--primary-color);
+}
 .upload-page .container form .btn {
   width: 100%;
   text-align: center;

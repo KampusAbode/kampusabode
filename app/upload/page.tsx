@@ -228,10 +228,10 @@ const UploadProperty = () => {
                 {isSubmitting ? "Uploading..." : "Upload Apartment"}
               </button>
               {status && status.success && (
-                <p className="success">{status.success}</p>
+                <span className="success">{status.success}</span>
               )}
               {status && status.error && (
-                <p className="error">{status.error}</p>
+                <span className="error">{status.error}</span>
               )}
             </Form>
           )}
