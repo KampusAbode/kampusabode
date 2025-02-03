@@ -23,13 +23,13 @@ const locationOptions = [
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
   description: Yup.string()
-    .max(500, "Description must not exceed 500 characters")
+    .max(800, "Description must not exceed 800 characters")
     .required("Description is required"),
   price: Yup.number()
     .typeError("Price must be a number")
     .required("Price is required"),
   location: Yup.string().required("Location is required"),
-  neighborhood_overview: Yup.string().required(
+  neighborhood_overview: Yup.string().max(800).required(
     "Neighborhood overview is required"
   ),
   type: Yup.string().required("Type is required"),

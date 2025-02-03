@@ -53,7 +53,6 @@ const TrendPage = ({ params }: Params) => {
             {(trendData?.content || "")
               .replace(/\\n/g, "\n") 
               .split("\n")
-              .filter((paragraph) => paragraph.trim() !== "")
               .map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
