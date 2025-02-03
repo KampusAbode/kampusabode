@@ -7,7 +7,7 @@ import { getApp } from "firebase/app";
 import { useSelector } from "react-redux";
 import { Client, Storage, ID } from "appwrite";
 import type { RootState } from "../../redux/store";
-import "./uploadTrend.css";
+import "./uploadtrend.css";
 
 const categories = [
   "Real estate market",
