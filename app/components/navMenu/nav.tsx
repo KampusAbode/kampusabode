@@ -71,7 +71,7 @@ function Nav() {
           {user?.userType === "agent" ? (
             <li>
               <Link
-                href="/upload"
+                href="/properties/upload"
                 onClick={() => {
                   dispatch(closeMenu());
                 }}

@@ -1,4 +1,4 @@
-.upload-page{
+.upload-property{
     .container{
 
         form{
@@ -7,8 +7,9 @@
 
             .success,
             .error{
-                margin-top: var(--spacing);
+                margin-top: var(--spacing-h);
                 color: var(--primary-color);
+                font-size: var(--font-size-sm);
             }
 
             .btn{

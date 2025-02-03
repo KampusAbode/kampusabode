@@ -1,27 +1,28 @@
-.upload-page .container form {
+.upload-property .container form {
   margin-block: var(--spacing-3x);
 }
-.upload-page .container form .success,
-.upload-page .container form .error {
-  margin-top: var(--spacing);
+.upload-property .container form .success,
+.upload-property .container form .error {
+  margin-top: var(--spacing-h);
   color: var(--primary-color);
+  font-size: var(--font-size-sm);
 }
-.upload-page .container form .btn {
+.upload-property .container form .btn {
   width: 100%;
   text-align: center;
 }
-.upload-page .container form .form-group {
+.upload-property .container form .form-group {
   margin-block: var(--spacing);
 }
-.upload-page .container form .form-group label {
+.upload-property .container form .form-group label {
   display: block;
   margin-bottom: var(--spacing-h);
 }
-.upload-page .container form .form-group input, .upload-page .container form .form-group select, .upload-page .container form .form-group textarea {
+.upload-property .container form .form-group input, .upload-property .container form .form-group select, .upload-property .container form .form-group textarea {
   padding: var(--spacing);
   width: 100%;
 }
-.upload-page .container form .form-group .error {
+.upload-property .container form .form-group .error {
   font-size: var(--font-size-sm);
   color: var(--primary-color);
 }/*# sourceMappingURL=upload.css.map */
