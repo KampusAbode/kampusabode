@@ -1,10 +1,13 @@
-'use client'
+"use client";
 
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getApp } from "firebase/app";
-import "./uploadtrend.css";
+import { useSelector } from "react-redux";
+import { Client, Storage, ID } from "appwrite";
+import type { RootState } from "../../redux/store";
+import "./uploadTrend.css";
 
 const categories = [
   "Real estate market",
@@ -27,6 +30,14 @@ function UploadTrend() {
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const user = useSelector((state: RootState) => state.user);
+
+  const client = new Client();
+  client
+    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT) // Your Appwrite Endpoint
+    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID); // Your project ID
+
+  const storage = new Storage(client);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -42,22 +53,23 @@ function UploadTrend() {
       const db = getFirestore(getApp());
       const trendRef = collection(db, "trends");
 
-      // Upload image to storage (assuming you have a function for this)
+      // Upload image to Appwrite storage
       const imageUrl = await uploadImage(image);
 
-      await addDoc(trendRef, {
-        id: "", // Firestore will generate the ID
+      const trendData = {
         title,
         description,
-        author: "Author Name", // Replace with actual author name
+        author: user?.username || "Anonymous",
         image: imageUrl,
         published_date: new Date().toISOString(),
         likes: 0,
         category,
-      });
+      };
+
+      const docRef = await addDoc(trendRef, trendData);
 
       setLoading(false);
-      router.push("/trends");
+      router.push(`/trends/${docRef.id}`);
     } catch (error) {
       console.error("Error uploading trend: ", error);
       setLoading(false);
@@ -66,10 +78,18 @@ function UploadTrend() {
 
   const uploadImage = async (file: File | null): Promise<string> => {
     if (!file) return "";
-    // Implement your image upload logic here
-    // For example, using Firebase Storage
-    // Return the URL of the uploaded image
-    return "https://example.com/uploaded-image-url";
+    try {
+      const uniqueID = ID.unique();
+      const response = await storage.createFile(
+        process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID,
+        uniqueID,
+        file
+      );
+      return `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID}/files/${response.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin`;
+    } catch (error) {
+      console.error("Error uploading image: ", error);
+      return "";
+    }
   };
 
   return (

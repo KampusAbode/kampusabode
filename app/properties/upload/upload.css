@@ -10,18 +10,18 @@
   width: 100%;
   text-align: center;
 }
-.upload-page .container form > div {
+.upload-page .container form .form-group {
   margin-block: var(--spacing);
 }
-.upload-page .container form > div label {
+.upload-page .container form .form-group label {
   display: block;
   margin-bottom: var(--spacing-h);
 }
-.upload-page .container form > div input, .upload-page .container form > div select, .upload-page .container form > div textarea {
+.upload-page .container form .form-group input, .upload-page .container form .form-group select, .upload-page .container form .form-group textarea {
   padding: var(--spacing);
   width: 100%;
 }
-.upload-page .container form > div .error {
+.upload-page .container form .form-group .error {
   font-size: var(--font-size-sm);
   color: var(--primary-color);
 }/*# sourceMappingURL=upload.css.map */
