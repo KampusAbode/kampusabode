@@ -49,7 +49,7 @@ const ListedProperties = ({ user }: { user: UserType }) => {
     <div className="listed-properties">
       <h4>
         Your Listings{" "}
-        <Link href={"/upload"} className="btn">
+        <Link href={"/properties/upload"} className="btn">
           Upload
         </Link>
       </h4>

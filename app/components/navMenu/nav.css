@@ -64,11 +64,6 @@
   background: var(--background-white);
   box-shadow: var(--shadow);
 }
-.nav-menu ul li.btn {
-  text-align: center;
-  width: 100%;
-  color: var(--white);
-}
 .nav-menu ul li a {
   padding: var(--spacing);
   text-transform: capitalize;
@@ -83,6 +78,11 @@
   height: 24px;
   stroke: var(--font-color-p);
   stroke-width: 1.5px;
+}
+.nav-menu ul li a.btn {
+  display: block;
+  text-align: center;
+  color: var(--white);
 }
 .nav-menu .logout {
   line-height: var(--line-height-sm);

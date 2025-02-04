@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FaTimes, FaRegUserCircle, FaSearchLocation } from "react-icons/fa";
 import { CiViewBoard, CiHome } from "react-icons/ci";
-import { MdOutlineMarkUnreadChatAlt } from "react-icons/md";
+import { GrUserAdmin } from "react-icons/gr";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -88,7 +88,7 @@ function Nav() {
                   onClick={() => {
                     dispatch(closeMenu());
                   }}>
-                    <MdOutlineMarkUnreadChatAlt/>
+                    <GrUserAdmin/>
                   admin
                 </Link>
               </li>

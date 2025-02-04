@@ -1,23 +1,24 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import PropStats from "./components/propertyStats/propStats";
-import SaveVisitedProperty from "./functions/SaveVIsitedProperties";
+import PropStats from "../components/propertyStats/propStats";
+import SaveVisitedProperty from "../functions/SaveVIsitedProperties";
 import {
   fetchUsersById,
   fetchReviewsByPropertyId,
   fetchPropertyById,
   fetchPropertiesByIds,
-} from "../../utils";
+} from "../../../utils";
 import Image from "next/image";
 import Link from "next/link";
-import PropertyImages from "./components/propertyImages/PropertyImages";
-import type { PropertyType, ReviewType, UserType } from "../../fetch/types";
+import PropertyImages from "../components/propertyImages/PropertyImages";
+import type { PropertyType, ReviewType, UserType } from "../../../fetch/types";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { RootState } from "../../../redux/store";
 import toast from "react-hot-toast";
 import { formatDistanceToNowStrict } from "date-fns";
-import "./property.css";
+import "../property.css";
+import { log } from "console";
 
 interface PropertyDetailsProps {
   id: string;
@@ -42,7 +43,10 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       setPropertyDetails(details);
       if (propertyDetails) {
         const agentId = propertyDetails.agentId;
+        console.log('agentid', agentId);
+        
         const agent = await fetchUsersById(agentId);
+        console.log('agent details', agent);
         setAgentDetails(agent);
         if (agent) {
           const properties = await fetchPropertiesByIds(

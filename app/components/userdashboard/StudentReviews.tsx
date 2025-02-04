@@ -12,8 +12,8 @@ const StudentReviews = ({ user }) => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        setLoading(true); // Start loading
-        setError(null); // Reset any previous error
+        setLoading(true); 
+        setError(null); 
 
         if (user?.id) {
           const fetchedReviews = await fetchReviewsByAgentId(user.id);
@@ -47,7 +47,7 @@ const StudentReviews = ({ user }) => {
         <ul>
           {reviews.map((review) => (
             <li key={review.id}>
-              {review.content} - {review.author.name}
+              {review.content} <br /> - {review.author.name}
             </li>
           ))}
         </ul>

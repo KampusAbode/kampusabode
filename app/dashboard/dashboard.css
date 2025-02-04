@@ -121,10 +121,11 @@
   width: 100%;
   -o-object-fit: cover;
      object-fit: cover;
+  border-radius: var(--border-radius);
 }
 .dashboard .student-dashboard .listed-properties .property-list ul li a .detail,
 .dashboard .agent-dashboard .listed-properties .property-list ul li a .detail {
-  padding: var(--spacing);
+  padding: var(--spacing-h) var(--spacing);
 }
 .dashboard .student-dashboard .listed-properties .property-list ul li a .detail span,
 .dashboard .agent-dashboard .listed-properties .property-list ul li a .detail span {
@@ -139,6 +140,10 @@
   line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+.dashboard .student-dashboard .student-reviews ul li,
+.dashboard .agent-dashboard .student-reviews ul li {
+  margin-bottom: var(--spacing);
 }
 
 @media screen and (max-width: 768px) {

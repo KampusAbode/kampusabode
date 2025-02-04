@@ -50,8 +50,7 @@ const TrendPage = ({ params }: Params) => {
             />
           </div>
           <div className="trend-description">
-            {(trendData?.content || "")
-              .replace(/\\n/g, "\n") 
+            {trendData?.content
               .split("\n")
               .map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>

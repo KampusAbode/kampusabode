@@ -116,9 +116,10 @@
                 height: 80px;
                 width: 100%;
                 object-fit: cover;
+                border-radius: var(--border-radius);
               }
               .detail {
-                padding: var(--spacing);
+                padding: var(--spacing-h) var(--spacing);
                 span {
                   &::first-child {
                     overflow: hidden;
@@ -134,6 +135,14 @@
               }
             }
           }
+        }
+      }
+    }
+
+    .student-reviews{
+      ul{
+        li{
+          margin-bottom: var(--spacing);
         }
       }
     }

@@ -13,9 +13,7 @@
   //   width: 0;
   // }
 
-  
-
-  .nav-header{
+  .nav-header {
     margin-bottom: var(--spacing-2x);
     @media screen and (max-width: 768px) {
       display: none;
@@ -48,7 +46,6 @@
       place-content: center;
       background-color: var(--light-gray);
 
-
       svg {
         width: 24px;
         height: 24px;
@@ -75,39 +72,33 @@
       &:not(.btn):hover,
       &:not(.btn).active {
         background: var(--background-white);
-        box-shadow: var(--shadow) ;
+        box-shadow: var(--shadow);
       }
 
-      &.btn {
-        text-align: center;
-        width: 100%;
-          color: var(--white);
-      }
-
-      
       a {
         padding: var(--spacing);
         text-transform: capitalize;
         color: var(--font-color-p);
-        
+
         display: flex;
         align-items: center;
         gap: var(--spacing);
 
         font-size: var(--font-size-md);
-        
+
         svg {
           width: 24px;
           height: 24px;
           stroke: var(--font-color-p);
           stroke-width: 1.5px;
+        }
 
-
-         
+        &.btn {
+          display: block;
+          text-align: center;
+          color: var(--white);
         }
       }
-
-      
     }
   }
 
