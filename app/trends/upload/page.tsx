@@ -81,7 +81,7 @@ function UploadTrend() {
     try {
       const uniqueID = ID.unique();
       const response = await storage.createFile(
-        process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID,
+        process.env.NEXT_PUBLIC_APPWRITE_TRENDS_BUCKET_ID,
         uniqueID,
         file
       );
