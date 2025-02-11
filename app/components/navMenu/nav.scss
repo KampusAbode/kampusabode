@@ -6,7 +6,10 @@
   padding: var(--spacing);
   box-shadow: var(--shadow);
   overflow-y: scroll;
-  z-index: 9999;
+
+  &.notlogged {
+    display: none;
+  }
 
   &::-webkit-scrollbar {
     display: none;
@@ -24,14 +27,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-inline: var(--spacing);
 
     .logo {
       a {
         cursor: pointer;
 
         img {
-          width: 24px;
-          height: 24px;
+          width: 28px;
+          height: 28px;
         }
       }
     }
@@ -46,8 +50,8 @@
       background-color: var(--light-gray);
 
       svg {
-        width: 24px;
-        height: 24px;
+        width: 28px;
+        height: 28px;
       }
     }
 
@@ -103,12 +107,13 @@
 
   .logout {
     line-height: var(--line-height-sm);
-    padding: var(--spacing-2x);
+    padding: var(--spacing);
     background: linear-gradient(to bottom right, #fff8f1, #ffeee9);
     border-radius: var(--border-radius);
     margin-bottom: var(--spacing);
     color: var(--primary-color);
     box-shadow: var(--shadow);
+    text-align: center;
 
     span {
       a,
@@ -117,7 +122,9 @@
         text-decoration: underline;
         display: block;
         text-align: center;
-        margin-top: var(--spacing-h);
+        margin-top: var(--spacing-2x);
+        padding: var(--spacing);
+        font-size: var(--font-size-sm);
       }
     }
   }
@@ -126,19 +133,24 @@
 @media screen and (max-width: 768px) {
   .nav-menu {
     display: flex;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    transition: var(--transition);
+
+    &.notlogged {
+      display: flex;
+      z-index: 999999;
+    }
+
     &.fadeOut {
-      position: fixed;
       right: -100%;
-      top: 0;
-      width: 100%;
-      transition: var(--transition);
     }
     &.fadeIn {
       right: 0;
     }
-    ul{
-      
-    padding-top: var(--spacing-2x);
+    ul {
+      padding-top: var(--spacing-2x);
     }
   }
 }

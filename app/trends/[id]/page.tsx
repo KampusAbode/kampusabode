@@ -8,7 +8,7 @@ import Loader from "../../components/loader/Loader";
 import { BiLike } from "react-icons/bi";
 import { FaShare } from "react-icons/fa";
 import { getCommentsByTrendId, sendUserComment } from "../../utils/comments";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import "./trend.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
@@ -80,6 +80,13 @@ const TrendPage = ({ params }: Params) => {
 
   const handleCommentSubmit = async (comment: string) => {
     try {
+      console.log(user);
+
+      if (!user || !user.id || !user.userInfo || !user.userInfo.avatar) {
+        toast.error("Please sign in to add a comment.");
+        return;
+      }
+
       const newComment: CommentType = {
         trendId: id,
         userName: user.name,
@@ -90,6 +97,8 @@ const TrendPage = ({ params }: Params) => {
       await sendUserComment(newComment);
       setComments([...comments, newComment]);
       toast.success("Comment added!");
+
+      setContent('');
     } catch (error) {
       toast.error("Failed to add comment.");
     }
@@ -139,7 +148,7 @@ const TrendPage = ({ params }: Params) => {
                 <p>No comments yet.</p>
               ) : (
                 comments.map((comment, index) => (
-                  <div className="comment">
+                  <div key={index} className="comment">
                     <div className="top">
                       <div>
                         <Image
@@ -151,6 +160,9 @@ const TrendPage = ({ params }: Params) => {
                         <span>{comment.userName}</span>
                       </div>
                       <span className="created-at">
+                        {/* {comment.createdAt
+                          ? format(comment.createdAt, "d MMM yyyy")
+                          : "Invalid date"} */}
                         {comment.createdAt.toLocaleString()}
                       </span>
                     </div>

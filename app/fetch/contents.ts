@@ -129,6 +129,8 @@ const bedroomOptions = [1, 2, 3, 4, 5];
 const links: LinkType[] = [
   { to: "about", direct: "/about" },
   { to: "properties", direct: "/properties" },
+  { to: "trends", direct: "/trends" },
+  { to: "marketplace", direct: "/marketplace" },
   // { to: "contact", direct: "/contact" },
 ];
 

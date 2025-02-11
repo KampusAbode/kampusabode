@@ -406,7 +406,7 @@
   transition: var(--transition);
 }
 .trends-section .trends .trend .trend-image {
-  height: 220px;
+  height: 180px;
   border-radius: var(--border-radius);
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;

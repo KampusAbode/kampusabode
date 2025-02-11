@@ -6,7 +6,9 @@
   padding: var(--spacing);
   box-shadow: var(--shadow);
   overflow-y: scroll;
-  z-index: 9999;
+}
+.nav-menu.notlogged {
+  display: none;
 }
 .nav-menu::-webkit-scrollbar {
   display: none;
@@ -24,13 +26,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-inline: var(--spacing);
 }
 .nav-menu .close-div .logo a {
   cursor: pointer;
 }
 .nav-menu .close-div .logo a img {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
 }
 .nav-menu .close-div .close {
   cursor: pointer;
@@ -42,8 +45,8 @@
   background-color: var(--light-gray);
 }
 .nav-menu .close-div .close svg {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
 }
 @media screen and (min-width: 768px) {
   .nav-menu .close-div {
@@ -88,12 +91,13 @@
 }
 .nav-menu .logout {
   line-height: var(--line-height-sm);
-  padding: var(--spacing-2x);
+  padding: var(--spacing);
   background: linear-gradient(to bottom right, #fff8f1, #ffeee9);
   border-radius: var(--border-radius);
   margin-bottom: var(--spacing);
   color: var(--primary-color);
   box-shadow: var(--shadow);
+  text-align: center;
 }
 .nav-menu .logout span a,
 .nav-menu .logout span .btn {
@@ -101,19 +105,25 @@
   text-decoration: underline;
   display: block;
   text-align: center;
-  margin-top: var(--spacing-h);
+  margin-top: var(--spacing-2x);
+  padding: var(--spacing);
+  font-size: var(--font-size-sm);
 }
 
 @media screen and (max-width: 768px) {
   .nav-menu {
     display: flex;
-  }
-  .nav-menu.fadeOut {
     position: fixed;
-    right: -100%;
     top: 0;
     width: 100%;
     transition: var(--transition);
+  }
+  .nav-menu.notlogged {
+    display: flex;
+    z-index: 999999;
+  }
+  .nav-menu.fadeOut {
+    right: -100%;
   }
   .nav-menu.fadeIn {
     right: 0;
