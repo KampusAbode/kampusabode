@@ -1,5 +1,4 @@
 .nav-menu {
-  display: none;
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
@@ -8,6 +7,9 @@
   box-shadow: var(--shadow);
   overflow-y: scroll;
   z-index: 9999;
+}
+.nav-menu::-webkit-scrollbar {
+  display: none;
 }
 .nav-menu .nav-header {
   margin-bottom: var(--spacing-2x);
@@ -51,7 +53,6 @@
 .nav-menu ul {
   max-height: 80vh;
   overflow: scroll;
-  padding-top: var(--spacing-2x);
 }
 .nav-menu ul::-webkit-scrollbar {
   width: 0;
@@ -94,9 +95,11 @@
   box-shadow: var(--shadow);
 }
 .nav-menu .logout span a,
-.nav-menu .logout span span {
+.nav-menu .logout span .btn {
   font-size: inherit;
   text-decoration: underline;
+  display: block;
+  text-align: center;
 }
 
 @media screen and (max-width: 768px) {
@@ -112,5 +115,8 @@
   }
   .nav-menu.fadeIn {
     right: 0;
+  }
+  .nav-menu ul {
+    padding-top: var(--spacing-2x);
   }
 }/*# sourceMappingURL=nav.css.map */

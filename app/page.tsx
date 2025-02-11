@@ -216,11 +216,19 @@ export default function App() {
             {trends.slice(0, 4).map((trend) => {
               return (
                 <div key={trend.title} className="trend">
+                  <Link href={`/trends/${trend.id}`}>
                   <div className="trend-image">
-
+                    <Image
+                      src={trend.image}
+                      width={500}
+                      height={500}
+                      alt="trend image"
+                    />
                   </div>
+                  </Link>
                   <div className="trend-content">
                     <h5>{trend.title}</h5>
+                    <p>{trend.content}</p>
                   <div>
                     <Link href={`/trends/${trend.id}`}>
                       Learn more{" "}

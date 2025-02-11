@@ -93,7 +93,6 @@ export default function trendsPage() {
           </div> */}
 
           <div className="filter-trends">
-            <p>Categories</p>
             <div className="categories">
               <span
                 className={`category-trend ${

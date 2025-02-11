@@ -153,6 +153,7 @@ function Nav() {
           ©️ copyright 2024 Kampusabode. All right reserved.{" "}
           {user?.isAuthenticated ? (
             <span
+              className="btn"
               onClick={() => {
                 logOut();
                 dispatch(closeMenu());
@@ -160,7 +161,8 @@ function Nav() {
               Logout
             </span>
           ) : (
-            <Link
+              <Link
+                className="btn"
               href={"/auth/login"}
               onClick={() => {
                 dispatch(closeMenu());
