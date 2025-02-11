@@ -53,6 +53,7 @@
 .nav-menu ul {
   max-height: 80vh;
   overflow: scroll;
+  margin-block: var(--spacing);
 }
 .nav-menu ul::-webkit-scrollbar {
   width: 0;
@@ -100,6 +101,7 @@
   text-decoration: underline;
   display: block;
   text-align: center;
+  margin-top: var(--spacing-h);
 }
 
 @media screen and (max-width: 768px) {
