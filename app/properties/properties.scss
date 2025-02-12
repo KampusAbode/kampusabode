@@ -64,30 +64,25 @@
 .user-search {
   padding-block: var(--spacing-2x);
   .container {
+
+    border: 1px solid transparent;
     border-radius: var(--border-radius-r);
     max-width: 750px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 8fr 1fr;
+    background-color: var(--light-gray);
     overflow: hidden;
-    input {
+    &:focus {
       border: var(--border);
-      border-radius: var(--border-radius-r);
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
+    }
+    input {
       padding: var(--spacing);
-
-      &:focus {
-        border: var(--border-hover);
-      }
     }
     .search-icon {
-      border-top-right-radius: var(--border-radius-r);
-      border-bottom-right-radius: var(--border-radius-r);
       display: grid;
       place-content: center;
       cursor: pointer;
-      background-color: var(--light-gray);
       svg {
         width: 28px;
         height: 28px;
@@ -122,7 +117,7 @@
     }
 
     span {
-      padding: var(--spacing-h) var(--spacing);
+      padding: var(--spacing-b);
       border-radius: var(--border-radius);
       border: 1px solid transparent;
       text-transform: capitalize;
