@@ -84,12 +84,7 @@ export default function Header() {
       <header className={!isHeader ? "hide" : ""}>
         <div className="container">
           {showBackButton ? (
-            <>
-              <BackButton />
-              <div className="page-title">
-                {pageName === "properties/" ? "property" : pageName}
-              </div>
-            </>
+            <BackButton />
           ) : (
             <div className={`logo ${!user?.isAuthenticated ? "loggedIn" : ""}`}>
               <Link href="/">

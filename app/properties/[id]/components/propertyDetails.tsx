@@ -116,7 +116,10 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
           <div className="top">
             {/* Property Details */}
             <div className="pq">
-              <h2>{propertyDetails.title}</h2>
+              <h3 className="title">{propertyDetails.title}</h3>
+              <span className="price">
+                Total package: ₦{propertyDetails.price}{" "}
+              </span>
               <div className="features">
                 <span>{propertyDetails.bedrooms} bedrooms</span>
                 <span>{propertyDetails.bathrooms} bathrooms</span>
@@ -191,8 +194,10 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                 propReviews.map((review) => (
                   <div key={review.content} className="review-item">
                     <p>"{review.content}"</p>
-                    <span>by {review.author.name}</span>
-                    <span>{getFormattedDateDistance(review.date)} ago</span>
+                    <div>
+                      <span>by {review.author.name}</span>
+                      <span>{getFormattedDateDistance(review.date)} ago</span>
+                    </div>
                   </div>
                 ))
               ) : (

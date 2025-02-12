@@ -59,8 +59,7 @@
   list-style-type: none;
   text-decoration: none;
 }
-*:focus,
-*:active {
+*:focus, *:active {
   outline: none;
 }
 *:focus-visible {
@@ -125,8 +124,8 @@ h6 {
   color: var(--font-color-h);
   line-height: var(--line-height-sm);
   -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
+     -moz-user-select: none;
+          user-select: none;
   font-weight: 500;
 }
 
@@ -196,8 +195,8 @@ span {
   line-height: var(--line-height-sm);
   color: var(--font-color-p);
   -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 
 .icon {
@@ -340,4 +339,4 @@ img {
   .heading-section p {
     width: 100%;
   }
-} /*# sourceMappingURL=globals.css.map */
+}/*# sourceMappingURL=globals.css.map */

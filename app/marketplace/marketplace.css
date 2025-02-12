@@ -26,22 +26,11 @@
   cursor: pointer;
   background-color: var(--light-gray);
 }
-.marketplace
-  .filter-marketplaceitems
-  .container
-  .search-items
-  .search-icon
-  svg {
+.marketplace .filter-marketplaceitems .container .search-items .search-icon svg {
   width: 25px;
   height: 25px;
 }
-.marketplace
-  .filter-marketplaceitems
-  .container
-  .search-items
-  .search-icon
-  svg
-  path {
+.marketplace .filter-marketplaceitems .container .search-items .search-icon svg path {
   fill: var(--font-color-p);
 }
 .marketplace .filter-marketplaceitems .container .filter-items {
@@ -60,10 +49,7 @@
   top: 0px;
   z-index: 999;
 }
-.marketplace
-  .filter-marketplaceitems
-  .container
-  .filter-items::-webkit-scrollbar {
+.marketplace .filter-marketplaceitems .container .filter-items::-webkit-scrollbar {
   display: none;
 }
 .marketplace .filter-marketplaceitems .container .filter-items .category-item {
@@ -76,21 +62,7 @@
   cursor: pointer;
   transition: var(--transition);
 }
-.marketplace
-  .filter-marketplaceitems
-  .container
-  .filter-items
-  .category-item:hover,
-.marketplace
-  .filter-marketplaceitems
-  .container
-  .filter-items
-  .category-item:active,
-.marketplace
-  .filter-marketplaceitems
-  .container
-  .filter-items
-  .category-item.active {
+.marketplace .filter-marketplaceitems .container .filter-items .category-item:hover, .marketplace .filter-marketplaceitems .container .filter-items .category-item:active, .marketplace .filter-marketplaceitems .container .filter-items .category-item.active {
   border: var(--border-hover);
   color: var(--font-color-h);
 }
@@ -117,7 +89,7 @@
   height: 100%;
   border-radius: var(--border-radius);
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
   transition: var(--transition);
 }
 .marketplace .container .items .item .item-image img:hover {
@@ -168,4 +140,4 @@
 .marketplace .container .items .item .bt .contact-seller-btn:hover {
   background-color: var(--primary-color);
   color: var(--white);
-} /*# sourceMappingURL=marketplace.css.map */
+}/*# sourceMappingURL=marketplace.css.map */

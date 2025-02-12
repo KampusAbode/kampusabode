@@ -35,8 +35,8 @@
           .left,
           .right {
             position: absolute;
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
             background-color: #fff;
             transform: translateY(-50%);
             top: 50%;
@@ -79,8 +79,8 @@
 
         .features {
           position: absolute;
-          top: 35px;
-          right: 35px;
+          top: 32px;
+          right: 32px;
           display: flex;
           gap: var(--spacing);
           align-items: center;
@@ -88,15 +88,13 @@
         }
       }
       .control-image {
-        padding: var(--spacing);
-
         img {
-          width: 70px;
-          height: 70px;
+          width: 65px;
+          height: 65px;
           border-radius: var(--border-radius);
           object-fit: cover;
           cursor: pointer;
-          opacity: 0.4;
+          opacity: 0.3;
           transition: var(--transition);
           margin-right: var(--spacing);
 
@@ -109,13 +107,25 @@
     }
   }
   .container {
-    padding-block: var(--spacing-2x);
-
+    & > div {
+      margin-block: var(--spacing-4x);
+    }
+    h5 {
+      margin-bottom: var(--spacing);
+    }
     .top {
       display: grid;
       grid-template-columns: 2fr 1fr;
       gap: var(--spacing-2x);
+      margin-top: var(--spacing);
       .pq {
+        .title{
+          margin-bottom: var(--spacing);
+        }
+        .price{
+          text-decoration: underline;
+          font-style: italic;
+        }
         .features,
         .amenities {
           display: flex;
@@ -124,27 +134,18 @@
           align-items: center;
           padding-block: var(--spacing-2x);
           span {
-            padding: var(--spacing);
+            padding: var(--spacing-b);
             border-radius: var(--border-radius);
             background-color: var(--light-gray);
             user-select: none;
           }
         }
         .description {
-          h5 {
-            margin-bottom: var(--spacing);
-          }
-          padding: var(--spacing-h);
-          background-color: var(--light-gray);
-          border-radius: var(--border-radius);
+          margin-block: var(--spacing-2x);
         }
       }
 
       .about-agent {
-        h5 {
-          margin-bottom: var(--spacing);
-        }
-
         .agent-details {
           display: flex;
           flex-direction: column;
@@ -187,22 +188,14 @@
         }
 
         .bio {
-          padding: var(--spacing);
-          border-radius: var(--border-radius);
-          background-color: var(--light-gray);
+          margin-top: var(--spacing);
           user-select: none;
         }
       }
     }
 
     .agent-reviews {
-      margin-block: var(--spacing-3x);
 
-      h5 {
-        margin: var(--spacing-5x) 0 var(--spacing);
-      }
-
-      /* Container for the reviews */
       .reviews {
         display: flex;
         overflow-x: auto;
@@ -213,8 +206,7 @@
         padding-right: var(--spacing-h);
 
         .review-item {
-          width: 80vw;
-          max-width: 280px;
+          width: 90%;
           border: var(--border);
           border-radius: var(--border-radius);
           scroll-snap-align: center;
@@ -223,9 +215,11 @@
           box-shadow: var(--shadow);
           text-align: center;
 
-          span {
+          div{
+            margin-top: var(--spacing-2x);
+            span {
             display: block;
-            margin-top: var(--spacing);
+          }
           }
         }
       }
@@ -241,10 +235,6 @@
     }
 
     .agent-listings {
-      margin-block: var(--spacing-3x);
-      h5 {
-        margin: var(--spacing-3x) 0 var(--spacing);
-      }
       & > div {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -301,11 +291,7 @@
     }
 
     .contact {
-      margin-block: var(--spacing-3x);
-
-      h5 {
-        margin: var(--spacing-5x) 0 var(--spacing);
-      }
+      margin-top: var(--spacing-4x);
 
       .prop-cta {
         margin-top: var(--spacing-3x);
@@ -337,17 +323,16 @@
     .prop-image-details {
       .property-images {
         grid-template-columns: 1fr;
-        gap: var(--spacing);
 
         .display-image {
-          height: 48vh;
+          height: 50vh;
           padding-block: 0;
 
           .image-pagination {
             .left,
             .right {
-              width: 40px;
-              height: 40px;
+              width: 38px;
+              height: 38px;
             }
             .left {
               left: 20px;
@@ -376,8 +361,8 @@
           overflow-x: scroll;
 
           img {
-            width: 65px;
-            height: 65px;
+            width: 50px;
+            height: 50px;
             margin: 0;
           }
         }
@@ -409,7 +394,7 @@
     .prop-image-details {
       .property-images {
         .display-image {
-          height: 38vh;
+          height: 40vh;
         }
       }
     }

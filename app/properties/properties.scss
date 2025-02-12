@@ -63,38 +63,35 @@
 
 .user-search {
   padding-block: var(--spacing-2x);
-  .container {
-    .search-items {
-      border-radius: var(--border-radius);
-      max-width: 750px;
-      margin: 0 auto var(--spacing-2x);
+  .container{
+    max-width: 750px;
+    margin: 0 auto var(--spacing-2x);
+    display: grid;
+    grid-template-columns: 8fr 1.3fr;
+    background-color: var(--background-white);
+    border: var(--border);
+    border-radius: var(--border-radius-r);
+    overflow: hidden;
+
+    input {
+      border-top-left-radius: var(--border-radius);
+      border-bottom-left-radius: var(--border-radius);
+      padding: var(--spacing);
+      border: none;
+    }
+
+    .search-icon {
+      border-top-right-radius: var(--border-radius);
+      border-bottom-right-radius: var(--border-radius);
       display: grid;
-      grid-template-columns: 8fr 1.3fr;
-      background-color: var(--background-white);
-      border: var(--border);
-      border-radius: var(--border-radius);
-      overflow: hidden;
-
-      input {
-        border-top-left-radius: var(--border-radius);
-        border-bottom-left-radius: var(--border-radius);
-        padding: var(--spacing);
-        border: none;
-      }
-
-      .search-icon {
-        border-top-right-radius: var(--border-radius);
-        border-bottom-right-radius: var(--border-radius);
-        display: grid;
-        place-content: center;
-        cursor: pointer;
-        background-color: var(--light-gray);
-        svg {
-          width: 25px;
-          height: 25px;
-          path {
-            fill: var(--font-color-p);
-          }
+      place-content: center;
+      cursor: pointer;
+      background-color: var(--light-gray);
+      svg {
+        width: 25px;
+        height: 25px;
+        path {
+          fill: var(--font-color-p);
         }
       }
     }
@@ -169,8 +166,7 @@
   }
   .user-search {
     .container {
-      grid-template-columns: 8fr 1.5fr;
-
+      grid-template-columns: 9fr 1.5fr;
       .search-icon {
         svg {
           width: 20px;

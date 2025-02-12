@@ -32,8 +32,8 @@
 .properties-details-page .prop-image-details .property-images .display-image .image-pagination .left,
 .properties-details-page .prop-image-details .property-images .display-image .image-pagination .right {
   position: absolute;
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   background-color: #fff;
   transform: translateY(-50%);
   top: 50%;
@@ -73,24 +73,21 @@
 }
 .properties-details-page .prop-image-details .property-images .display-image .features {
   position: absolute;
-  top: 35px;
-  right: 35px;
+  top: 32px;
+  right: 32px;
   display: flex;
   gap: var(--spacing);
   align-items: center;
   z-index: 2;
 }
-.properties-details-page .prop-image-details .property-images .control-image {
-  padding: var(--spacing);
-}
 .properties-details-page .prop-image-details .property-images .control-image img {
-  width: 70px;
-  height: 70px;
+  width: 65px;
+  height: 65px;
   border-radius: var(--border-radius);
   -o-object-fit: cover;
      object-fit: cover;
   cursor: pointer;
-  opacity: 0.4;
+  opacity: 0.3;
   transition: var(--transition);
   margin-right: var(--spacing);
 }
@@ -98,13 +95,24 @@
   opacity: 1;
   box-shadow: var(--shadow);
 }
-.properties-details-page .container {
-  padding-block: var(--spacing-2x);
+.properties-details-page .container > div {
+  margin-block: var(--spacing-4x);
+}
+.properties-details-page .container h5 {
+  margin-bottom: var(--spacing);
 }
 .properties-details-page .container .top {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: var(--spacing-2x);
+  margin-top: var(--spacing);
+}
+.properties-details-page .container .top .pq .title {
+  margin-bottom: var(--spacing);
+}
+.properties-details-page .container .top .pq .price {
+  text-decoration: underline;
+  font-style: italic;
 }
 .properties-details-page .container .top .pq .features,
 .properties-details-page .container .top .pq .amenities {
@@ -116,7 +124,7 @@
 }
 .properties-details-page .container .top .pq .features span,
 .properties-details-page .container .top .pq .amenities span {
-  padding: var(--spacing);
+  padding: var(--spacing-b);
   border-radius: var(--border-radius);
   background-color: var(--light-gray);
   -webkit-user-select: none;
@@ -124,15 +132,7 @@
           user-select: none;
 }
 .properties-details-page .container .top .pq .description {
-  padding: var(--spacing-h);
-  background-color: var(--light-gray);
-  border-radius: var(--border-radius);
-}
-.properties-details-page .container .top .pq .description h5 {
-  margin-bottom: var(--spacing);
-}
-.properties-details-page .container .top .about-agent h5 {
-  margin-bottom: var(--spacing);
+  margin-block: var(--spacing-2x);
 }
 .properties-details-page .container .top .about-agent .agent-details {
   display: flex;
@@ -179,19 +179,10 @@
           user-select: none;
 }
 .properties-details-page .container .top .about-agent .bio {
-  padding: var(--spacing);
-  border-radius: var(--border-radius);
-  background-color: var(--light-gray);
+  margin-top: var(--spacing);
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
-}
-.properties-details-page .container .agent-reviews {
-  margin-block: var(--spacing-3x);
-  /* Container for the reviews */
-}
-.properties-details-page .container .agent-reviews h5 {
-  margin: var(--spacing-5x) 0 var(--spacing);
 }
 .properties-details-page .container .agent-reviews .reviews {
   display: flex;
@@ -203,8 +194,7 @@
   padding-right: var(--spacing-h);
 }
 .properties-details-page .container .agent-reviews .reviews .review-item {
-  width: 80vw;
-  max-width: 280px;
+  width: 90%;
   border: var(--border);
   border-radius: var(--border-radius);
   scroll-snap-align: center;
@@ -213,9 +203,11 @@
   box-shadow: var(--shadow);
   text-align: center;
 }
-.properties-details-page .container .agent-reviews .reviews .review-item span {
+.properties-details-page .container .agent-reviews .reviews .review-item div {
+  margin-top: var(--spacing-2x);
+}
+.properties-details-page .container .agent-reviews .reviews .review-item div span {
   display: block;
-  margin-top: var(--spacing);
 }
 .properties-details-page .container .agent-reviews .reviews::-webkit-scrollbar {
   display: none;
@@ -223,12 +215,6 @@
 .properties-details-page .container .agent-reviews .reviews {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-}
-.properties-details-page .container .agent-listings {
-  margin-block: var(--spacing-3x);
-}
-.properties-details-page .container .agent-listings h5 {
-  margin: var(--spacing-3x) 0 var(--spacing);
 }
 .properties-details-page .container .agent-listings > div {
   display: grid;
@@ -279,10 +265,7 @@
   font-size: var(--font-size-sm);
 }
 .properties-details-page .container .contact {
-  margin-block: var(--spacing-3x);
-}
-.properties-details-page .container .contact h5 {
-  margin: var(--spacing-5x) 0 var(--spacing);
+  margin-top: var(--spacing-4x);
 }
 .properties-details-page .container .contact .prop-cta {
   margin-top: var(--spacing-3x);
@@ -297,16 +280,15 @@
 @media screen and (max-width: 768px) {
   .properties-details-page .prop-image-details .property-images {
     grid-template-columns: 1fr;
-    gap: var(--spacing);
   }
   .properties-details-page .prop-image-details .property-images .display-image {
-    height: 48vh;
+    height: 50vh;
     padding-block: 0;
   }
   .properties-details-page .prop-image-details .property-images .display-image .image-pagination .left,
   .properties-details-page .prop-image-details .property-images .display-image .image-pagination .right {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
   }
   .properties-details-page .prop-image-details .property-images .display-image .image-pagination .left {
     left: 20px;
@@ -330,8 +312,8 @@
     overflow-x: scroll;
   }
   .properties-details-page .prop-image-details .property-images .control-image img {
-    width: 65px;
-    height: 65px;
+    width: 50px;
+    height: 50px;
     margin: 0;
   }
   .properties-details-page .container .top {
@@ -350,6 +332,6 @@
 }
 @media screen and (max-width: 480px) {
   .properties-details-page .prop-image-details .property-images .display-image {
-    height: 38vh;
+    height: 40vh;
   }
 }/*# sourceMappingURL=property.css.map */

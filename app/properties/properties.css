@@ -60,29 +60,32 @@
   padding-block: var(--spacing-2x);
 }
 .user-search .container {
-  border: 1px solid transparent;
-  border-radius: var(--border-radius-r);
   max-width: 750px;
-  margin: 0 auto;
+  margin: 0 auto var(--spacing-2x);
   display: grid;
-  grid-template-columns: 8fr 1fr;
-  background-color: var(--light-gray);
+  grid-template-columns: 8fr 1.3fr;
+  background-color: var(--background-white);
+  border: var(--border);
+  border-radius: var(--border-radius-r);
   overflow: hidden;
 }
-.user-search .container:focus {
-  border: var(--border);
-}
 .user-search .container input {
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
   padding: var(--spacing);
+  border: none;
 }
 .user-search .container .search-icon {
+  border-top-right-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
   display: grid;
   place-content: center;
   cursor: pointer;
+  background-color: var(--light-gray);
 }
 .user-search .container .search-icon svg {
-  width: 28px;
-  height: 28px;
+  width: 25px;
+  height: 25px;
 }
 .user-search .container .search-icon svg path {
   fill: var(--font-color-p);
@@ -119,8 +122,7 @@
   cursor: pointer;
   transition: var(--transition);
 }
-.filter .container span:hover,
-.filter .container span.active {
+.filter .container span:hover, .filter .container span.active {
   border: var(--border-hover);
   color: var(--font-color-h);
 }
@@ -148,7 +150,7 @@
     padding: var(--spacing) var(--spacing-2x);
   }
   .user-search .container {
-    grid-template-columns: 8fr 1.5fr;
+    grid-template-columns: 9fr 1.5fr;
   }
   .user-search .container .search-icon svg {
     width: 20px;
@@ -166,4 +168,4 @@
     grid-template-columns: 1fr;
     gap: var(--spacing-2x);
   }
-} /*# sourceMappingURL=properties.css.map */
+}/*# sourceMappingURL=properties.css.map */

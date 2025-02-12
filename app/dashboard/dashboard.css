@@ -108,7 +108,8 @@
 .dashboard .agent-dashboard .listed-properties .property-list ul {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing);
+  gap: var(--spacing-2x);
+  background-color: var(--light-gray);
 }
 .dashboard .student-dashboard .listed-properties .property-list ul li a,
 .dashboard .agent-dashboard .listed-properties .property-list ul li a {
