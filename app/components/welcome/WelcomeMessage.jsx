@@ -29,7 +29,6 @@ function WelcomeMessage() {
         src={"/LOGO/RED_LOGO_T.png"}
         width={500}
         height={500}
-        priority
         alt="logo"
       />
     </div>
