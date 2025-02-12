@@ -158,6 +158,7 @@ const SignupPage = () => {
       <div className="container">
         <div className="im">
           <Image
+            priority
             src={"/assets/authimage.png"}
             width={1000}
             height={1000}

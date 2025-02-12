@@ -25,6 +25,7 @@ function WelcomeMessage() {
   return activeWelcome ? (
     <div className="welcome-container">
       <Image
+        priority
         src={"/LOGO/RED_LOGO_T.png"}
         width={500}
         height={500}

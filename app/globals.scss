@@ -38,7 +38,7 @@
   --spacing-4x: 4rem;
   --spacing-5x: 5rem;
   --spacing-s: 6rem;
-  --padding-b: .5rem 1rem;
+  --padding-b: .7rem 1rem;
 
   /* Shadow & Transition */
   --shadow: 0px 3px 10px rgba(38, 38, 38, 0.034),
@@ -271,10 +271,6 @@ img {
   text-transform: capitalize;
   border-radius: var(--border-radius-btn);
   transition: var(--transition);
-
-  &:hover {
-    transform: scale(1.02);
-  }
 }
 
 .heading-section {

@@ -1,5 +1,6 @@
 .nav-menu {
   flex-direction: column;
+  gap: var(--spacing-2x);
   justify-content: space-between;
   height: 100vh;
   background: var(--light-gray);
@@ -59,11 +60,16 @@
       display: none;
     }
   }
-
+  .btn {
+    display: block;
+    text-align: center;
+    color: var(--white);
+    padding: var(--spacing);
+  }
   ul {
     max-height: 80vh;
     overflow: scroll;
-    margin-block: var(--spacing);
+    margin-block: var(--spacing-3x);
 
     &::-webkit-scrollbar {
       width: 0;
@@ -95,36 +101,24 @@
           stroke: var(--font-color-p);
           stroke-width: 1.5px;
         }
-
-        &.btn {
-          display: block;
-          text-align: center;
-          color: var(--white);
-        }
       }
     }
   }
 
   .logout {
-    line-height: var(--line-height-sm);
-    padding: var(--spacing);
-    background: linear-gradient(to bottom right, #fff8f1, #ffeee9);
-    border-radius: var(--border-radius);
     margin-bottom: var(--spacing);
-    color: var(--primary-color);
-    box-shadow: var(--shadow);
     text-align: center;
 
     span {
       a,
       .btn {
-        font-size: inherit;
         text-decoration: underline;
         display: block;
         text-align: center;
         margin-top: var(--spacing-2x);
         padding: var(--spacing);
         font-size: var(--font-size-sm);
+        color: var(--primary-color);
       }
     }
   }
@@ -141,6 +135,7 @@
 
     &.notlogged {
       display: flex;
+    display: flex;
     }
 
     &.fadeOut {
@@ -150,7 +145,7 @@
       right: 0;
     }
     ul {
-      padding-top: var(--spacing-2x);
+      margin-block: var(--spacing-2x);
     }
   }
 }

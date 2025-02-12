@@ -117,21 +117,17 @@ const PropertiesPage: React.FC = () => {
         </div>
 
         <Image
+          priority
           className="dot1"
           width={109}
           height={251.8}
           src="/assets/Dots.png"
           alt="dots"
         />
-        <Image
-          className="dot2"
-          width={109}
-          height={251.8}
-          src="/assets/Dots.png"
-          alt="dots"
-        />
+      
 
         <Image
+          priority
           className="building"
           width={387}
           height={253}

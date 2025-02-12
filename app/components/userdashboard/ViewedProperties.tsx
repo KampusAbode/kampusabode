@@ -54,6 +54,7 @@ function ViewedProperties() {
           checkProperties.map((property) => (
             <Link key={property.id} href={property.url}>
               <Image
+                priority
                 src={property.images[0]}
                 width={800}
                 height={800}

@@ -27,7 +27,7 @@ const ListedProperties = ({ user }: { user: UserType }) => {
           }
 
           const fetchedProperties: PropertyType[] = await fetchPropertiesByIds(
-            propertiesListed.map((property) => property.id)
+            propertiesListed
           );
 
           setFilteredProperties(fetchedProperties);
@@ -63,16 +63,21 @@ const ListedProperties = ({ user }: { user: UserType }) => {
             {filteredProperties.map((property) => (
               <li key={property.id}>
                 <Link href={property.url}>
-                  <Image src={property.images[0]} alt={property.title} width={500} height={300} />
+                  <Image
+                    priority
+                    src={property.images[0]}
+                    alt={property.title}
+                    width={500}
+                    height={300}
+                  />
                   <div className="detail">
                     <span>{property.title}</span>
                     <span>₦{property.price}</span>
                   </div>
-                  
+
                   {/* <div>
 
                   </div> */}
-                
                 </Link>
               </li>
             ))}
@@ -86,4 +91,3 @@ const ListedProperties = ({ user }: { user: UserType }) => {
 };
 
 export default ListedProperties;
- 

@@ -2,12 +2,13 @@ import React from "react";
 import Image from "next/image";
 import { UserType } from "../../fetch/types";
 
-const ProfileOverview = ({ user }: { user: UserType  }) => {
+const ProfileOverview = ({ user }: { user: UserType }) => {
   return (
     <div className="profile-overview">
       <div className="dt">
         <div className="img">
           <Image
+            priority
             src={"/assets/person3.jpg"}
             width={800}
             height={800}

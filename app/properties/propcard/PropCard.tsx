@@ -34,9 +34,10 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
             spaceBetween={0}
             slidesPerView={1}
             pagination={{ clickable: true }}>
-            {propertyData.images.map((img: string) => (
-              <SwiperSlide key={img}>
+            {propertyData.images.map((img: string, index) => (
+              <SwiperSlide key={index}>
                 <Image
+                  priority
                   src={img}
                   width={1000}
                   height={1000}

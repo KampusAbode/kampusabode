@@ -42,7 +42,7 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
         process.env.NEXT_PUBLIC__ENCSECRET_KEY!
       ).toString(CryptoJS.enc.Utf8);
 
-      console.log(JSON.parse(decryptedData));
+      
       return JSON.parse(decryptedData);
     } catch (err) {
       console.error("Error decrypting user data:", err);

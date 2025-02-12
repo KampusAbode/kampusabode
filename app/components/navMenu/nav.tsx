@@ -67,19 +67,17 @@ function Nav() {
             <FaTimes />
           </div>
         </div>
+        {user?.userType === "agent" ? (
+          <Link
+            href="/properties/upload"
+            onClick={() => {
+              dispatch(closeMenu());
+            }}
+            className="btn">
+            upload property
+          </Link>
+        ) : null}
         <ul>
-          {user?.userType === "agent" ? (
-            <li>
-              <Link
-                href="/properties/upload"
-                onClick={() => {
-                  dispatch(closeMenu());
-                }}
-                className="btn">
-                upload property
-              </Link>
-            </li>
-          ) : null}
           {user?.isAuthenticated ? (
             user?.id === "P9IfqO0q3ZXTCOVS77ytSd8k8Oo2" ? (
               <li className={pathname === "/adminchatroom" ? "active" : ""}>
@@ -88,7 +86,7 @@ function Nav() {
                   onClick={() => {
                     dispatch(closeMenu());
                   }}>
-                    <GrUserAdmin/>
+                  <GrUserAdmin />
                   admin
                 </Link>
               </li>
@@ -153,7 +151,7 @@ function Nav() {
           ©️ copyright 2024 Kampusabode. All right reserved.{" "}
           {user?.isAuthenticated ? (
             <span
-              className="btn"
+              className="btn btn-secondary"
               onClick={() => {
                 logOut();
                 dispatch(closeMenu());
@@ -161,8 +159,8 @@ function Nav() {
               Logout
             </span>
           ) : (
-              <Link
-                className="btn"
+            <Link
+              className="btn btn-secondary"
               href={"/auth/login"}
               onClick={() => {
                 dispatch(closeMenu());

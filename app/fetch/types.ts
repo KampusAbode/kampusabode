@@ -123,7 +123,7 @@ export interface AgentUserInfo {
   avatar: string;
   phoneNumber: string;
   agencyName: string;
-  propertiesListed: { id: string; available: boolean }[];
+  propertiesListed: string[];
 }
 
 export interface UserType {

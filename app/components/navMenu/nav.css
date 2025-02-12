@@ -1,5 +1,6 @@
 .nav-menu {
   flex-direction: column;
+  gap: var(--spacing-2x);
   justify-content: space-between;
   height: 100vh;
   background: var(--light-gray);
@@ -53,10 +54,16 @@
     display: none;
   }
 }
+.nav-menu .btn {
+  display: block;
+  text-align: center;
+  color: var(--white);
+  padding: var(--spacing);
+}
 .nav-menu ul {
   max-height: 80vh;
   overflow: scroll;
-  margin-block: var(--spacing);
+  margin-block: var(--spacing-3x);
 }
 .nav-menu ul::-webkit-scrollbar {
   width: 0;
@@ -84,30 +91,19 @@
   stroke: var(--font-color-p);
   stroke-width: 1.5px;
 }
-.nav-menu ul li a.btn {
-  display: block;
-  text-align: center;
-  color: var(--white);
-}
 .nav-menu .logout {
-  line-height: var(--line-height-sm);
-  padding: var(--spacing);
-  background: linear-gradient(to bottom right, #fff8f1, #ffeee9);
-  border-radius: var(--border-radius);
   margin-bottom: var(--spacing);
-  color: var(--primary-color);
-  box-shadow: var(--shadow);
   text-align: center;
 }
 .nav-menu .logout span a,
 .nav-menu .logout span .btn {
-  font-size: inherit;
   text-decoration: underline;
   display: block;
   text-align: center;
   margin-top: var(--spacing-2x);
   padding: var(--spacing);
   font-size: var(--font-size-sm);
+  color: var(--primary-color);
 }
 
 @media screen and (max-width: 768px) {
@@ -121,6 +117,7 @@
   }
   .nav-menu.notlogged {
     display: flex;
+    display: flex;
   }
   .nav-menu.fadeOut {
     right: -100%;
@@ -129,6 +126,6 @@
     right: 0;
   }
   .nav-menu ul {
-    padding-top: var(--spacing-2x);
+    margin-block: var(--spacing-2x);
   }
 }/*# sourceMappingURL=nav.css.map */

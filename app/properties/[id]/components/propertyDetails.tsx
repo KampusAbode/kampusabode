@@ -18,7 +18,6 @@ import { RootState } from "../../../redux/store";
 import toast from "react-hot-toast";
 import { formatDistanceToNowStrict } from "date-fns";
 import "../property.css";
-import { log } from "console";
 
 interface PropertyDetailsProps {
   id: string;
@@ -40,27 +39,28 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   const fetchPropertyDetails = useCallback(async () => {
     try {
       const details = await fetchPropertyById(id);
+      console.log("Fetched property details:", details); // Debugging the fetched details
       setPropertyDetails(details);
-      if (propertyDetails) {
-        const agentId = propertyDetails.agentId;
-        console.log('agentid', agentId);
-        
-        const agent = await fetchUsersById(agentId);
-        console.log('agent details', agent);
-        setAgentDetails(agent);
-        if (agent) {
-          const properties = await fetchPropertiesByIds(
-            "propertiesListed" in agent.userInfo
-              ? agent.userInfo.propertiesListed
-                  .filter((property: PropertyType) => property.id !== id)
-                  .map((property: PropertyType) => property.id)
-              : []
-          );
-          setAgentPropertyListings(properties);
-        }
+      const agentId = details.agentId; // Directly using `details` here
+      console.log("agentid", agentId);
+
+      const agent = await fetchUsersById(agentId);
+      console.log("agent details", agent);
+      setAgentDetails(agent);
+      if (agent) {
+        const properties = await fetchPropertiesByIds(
+          "propertiesListed" in agent.userInfo
+            ? agent.userInfo.propertiesListed.filter(
+                (propertyId: string) => propertyId !== id
+              )
+            : []
+        );
+        setAgentPropertyListings(properties);
       }
     } catch (error) {
-      toast.error(error);
+      toast.error(
+        error instanceof Error ? error.message : "An unknown error occurred"
+      );
     }
   }, [id]);
 
@@ -72,7 +72,6 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
     } catch (error) {
       toast.error("Failed to fetch reviews.");
     }
-
   }, [id]);
 
   // Calculate property rating
@@ -97,9 +96,10 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   };
 
   useEffect(() => {
+    console.log("Property ID:", id); // Debugging the id prop
     fetchPropertyDetails();
     fetchReviews();
-  }, [fetchPropertyDetails, fetchReviews]);
+  }, [id, fetchPropertyDetails, fetchReviews]);
 
   if (!propertyDetails) {
     return <p>Loading...</p>;
@@ -145,6 +145,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                 {agentDetails ? (
                   <>
                     <Image
+                      priority
                       src={
                         agentDetails.userInfo?.avatar || "/assets/person1.jpg"
                       }
@@ -189,11 +190,9 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
               {propReviews.length ? (
                 propReviews.map((review) => (
                   <div key={review.content} className="review-item">
-                    <p>
-                      "{review.content}"{" "}
-                      <span>by { review.author.name }</span>
-                      <span>{getFormattedDateDistance(review.date)} ago</span>
-                    </p>
+                    <p>"{review.content}"</p>
+                    <span>by {review.author.name}</span>
+                    <span>{getFormattedDateDistance(review.date)} ago</span>
                   </div>
                 ))
               ) : (
@@ -209,12 +208,15 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
               {agentPropertyListings.slice(0, 3).map((listing) => (
                 <Link key={listing.id} href={`/properties/${listing.id}`}>
                   <div className="list-prop">
-                    <Image
-                      src={listing.images[0]}
-                      width={500}
-                      height={500}
-                      alt={listing.title}
-                    />
+                    <div className="list-image">
+                      <Image
+                        priority
+                        src={listing.images[0]}
+                        width={500}
+                        height={500}
+                        alt={listing.title}
+                      />
+                    </div>
                     <div className="list-details">
                       <h6>{listing.title}</h6>
                       <span>{listing.description}</span>
@@ -234,14 +236,26 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
               feel free to contact us.
             </p>
             {user?.userType === "student" && (
-              <p>
-                Start a conversation with us{" "}
+              <div className="prop-cta">
                 {user ? (
-                  <Link href={`/chat/${user.id}/${user.name}`}>chat now</Link>
+                  <>
+                    <Link
+                      className="btn"
+                      href={`/chat/${user.id}/${user.name}`}>
+                      for more info
+                    </Link>
+                    <Link
+                      className="btn btn-secondary"
+                      href={`tel:+2347050721686`}>
+                      Make a call
+                    </Link>
+                  </>
                 ) : (
-                  <Link href="/auth/signup">signup</Link>
+                  <Link className="btn" href="/auth/signup">
+                    signup
+                  </Link>
                 )}
-              </p>
+              </div>
             )}
           </div>
         </div>

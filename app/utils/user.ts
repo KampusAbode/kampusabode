@@ -9,16 +9,17 @@ import {
 import { UserType } from "../fetch/types";
 import { db } from "../lib/firebaseConfig";
 
+
 export const fetchUsersById = async (userId: string) => {
   try {
     // Reference to the "users" collection
     const usersDocRef = doc(db, "users", userId);
 
-    // Fetch the documents
+    // Fetch the document
     const userData = await getDoc(usersDocRef);
 
-    // check if there are results and return the first user's data
-    if (!userData.exists) {
+    // Check if the document exists and return user data
+    if (userData.exists()) {
       const data = userData.data() as UserType;
       return {
         id: data.id,
@@ -31,7 +32,10 @@ export const fetchUsersById = async (userId: string) => {
       throw new Error("No user found with the specified ID");
     }
   } catch (error) {
-    throw new Error("Error fetching users by property ID");
+    if (error instanceof Error) {
+      throw new Error(`Error fetching user by ID: ${error.message}`);
+    }
+    throw new Error("Unknown error occurred while fetching user by ID");
   }
 };
 

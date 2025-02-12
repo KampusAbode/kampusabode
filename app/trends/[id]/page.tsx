@@ -98,7 +98,7 @@ const TrendPage = ({ params }: Params) => {
       setComments([...comments, newComment]);
       toast.success("Comment added!");
 
-      setContent('');
+      setContent("");
     } catch (error) {
       toast.error("Failed to add comment.");
     }
@@ -116,6 +116,7 @@ const TrendPage = ({ params }: Params) => {
           </div>
           <div className="trend-image">
             <Image
+              priority
               src={trendData?.image}
               width={800}
               height={800}
@@ -152,6 +153,7 @@ const TrendPage = ({ params }: Params) => {
                     <div className="top">
                       <div>
                         <Image
+                          priority
                           src={comment.userProfile}
                           width={100}
                           height={100}
