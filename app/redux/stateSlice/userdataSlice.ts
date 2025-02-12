@@ -89,21 +89,18 @@ const userdataSlice = createSlice({
 
     updatePropertyListing: (
       state,
-      action: PayloadAction<{ propertyId: string; available: boolean }>
+      action: PayloadAction<string>
     ) => {
       if (state.userType === "agent") {
         const agentInfo = state.userInfo as AgentUserInfo;
-        const property = agentInfo.propertiesListed.find(
-          (p) => p.id === action.payload.propertyId
+        let property = agentInfo.propertiesListed.find(
+          (p) => p === action.payload
         );
 
         if (property) {
-          property.available = action.payload.available;
+          property = action.payload;
         } else {
-          agentInfo.propertiesListed.push({
-            id: String(action.payload.propertyId),
-            available: action.payload.available,
-          });
+          agentInfo.propertiesListed.push(action.payload);
         }
       }
     },

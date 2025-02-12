@@ -239,8 +239,9 @@
   display: grid;
   grid-template-columns: 25% 73%;
   gap: 2%;
-  border: var(--border);
+  background-color: var(--light-gray);
   border-radius: var(--border-radius);
+  border: 1px solid transparent;
   cursor: pointer;
 }
 .properties-details-page .container .agent-listings > div .list-prop:hover {
