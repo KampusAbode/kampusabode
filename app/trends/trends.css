@@ -38,7 +38,13 @@
   width: 25px;
   height: 25px;
 }
-.trends-page .trends-page-filter .container .search-trends .search-icon svg path {
+.trends-page
+  .trends-page-filter
+  .container
+  .search-trends
+  .search-icon
+  svg
+  path {
   fill: var(--font-color-h);
 }
 .trends-page .trends-page-filter .container .filter-trends .categories {
@@ -52,10 +58,19 @@
   position: sticky;
   top: 0px;
 }
-.trends-page .trends-page-filter .container .filter-trends .categories::-webkit-scrollbar {
+.trends-page
+  .trends-page-filter
+  .container
+  .filter-trends
+  .categories::-webkit-scrollbar {
   display: none;
 }
-.trends-page .trends-page-filter .container .filter-trends .categories .category-trend {
+.trends-page
+  .trends-page-filter
+  .container
+  .filter-trends
+  .categories
+  .category-trend {
   padding: var(--spacing-b);
   border-radius: var(--border-radius);
   border: 1px solid transparent;
@@ -65,7 +80,24 @@
   cursor: pointer;
   transition: var(--transition);
 }
-.trends-page .trends-page-filter .container .filter-trends .categories .category-trend:hover, .trends-page .trends-page-filter .container .filter-trends .categories .category-trend:active, .trends-page .trends-page-filter .container .filter-trends .categories .category-trend.active {
+.trends-page
+  .trends-page-filter
+  .container
+  .filter-trends
+  .categories
+  .category-trend:hover,
+.trends-page
+  .trends-page-filter
+  .container
+  .filter-trends
+  .categories
+  .category-trend:active,
+.trends-page
+  .trends-page-filter
+  .container
+  .filter-trends
+  .categories
+  .category-trend.active {
   border: var(--border-hover);
   color: var(--font-color-h);
 }
@@ -92,4 +124,4 @@
     width: 20px;
     height: 20px;
   }
-}/*# sourceMappingURL=trends.css.map */
+} /*# sourceMappingURL=trends.css.map */

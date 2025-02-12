@@ -109,7 +109,7 @@
             position: absolute;
             top: 5px;
             right: 10px;
-            padding: var(--padding-b);
+            padding: var(--spacing-b);
             border: var(--border);
             border-color: var(--white);
             border-radius: var(--border-radius);
@@ -146,7 +146,7 @@
           }
 
           .contact-seller-btn {
-            padding: var(--padding-b);
+            padding: var(--spacing-b);
             text-decoration: underline;
             border-radius: calc(0.5 * var(--border-radius));
             transition: background-color 0.3s ease;

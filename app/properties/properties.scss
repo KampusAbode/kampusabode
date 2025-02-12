@@ -64,30 +64,37 @@
 .user-search {
   padding-block: var(--spacing-2x);
   .container {
-
-    border: 1px solid transparent;
-    border-radius: var(--border-radius-r);
-    max-width: 750px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 8fr 1fr;
-    background-color: var(--light-gray);
-    overflow: hidden;
-    &:focus {
-      border: var(--border);
-    }
-    input {
-      padding: var(--spacing);
-    }
-    .search-icon {
+    .search-items {
+      border-radius: var(--border-radius);
+      max-width: 750px;
+      margin: 0 auto var(--spacing-2x);
       display: grid;
-      place-content: center;
-      cursor: pointer;
-      svg {
-        width: 28px;
-        height: 28px;
-        path {
-          fill: var(--font-color-p);
+      grid-template-columns: 8fr 1.3fr;
+      background-color: var(--background-white);
+      border: var(--border);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+
+      input {
+        border-top-left-radius: var(--border-radius);
+        border-bottom-left-radius: var(--border-radius);
+        padding: var(--spacing);
+        border: none;
+      }
+
+      .search-icon {
+        border-top-right-radius: var(--border-radius);
+        border-bottom-right-radius: var(--border-radius);
+        display: grid;
+        place-content: center;
+        cursor: pointer;
+        background-color: var(--light-gray);
+        svg {
+          width: 25px;
+          height: 25px;
+          path {
+            fill: var(--font-color-p);
+          }
         }
       }
     }

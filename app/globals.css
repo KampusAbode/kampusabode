@@ -30,7 +30,7 @@
   --spacing-4x: 4rem;
   --spacing-5x: 5rem;
   --spacing-s: 6rem;
-  --padding-b: .8rem 1rem;
+  --spacing-b: 0.8rem 1rem;
   /* Shadow & Transition */
   --shadow: 0px 3px 10px rgba(38, 38, 38, 0.034),
     -0px -3px 8px rgba(22, 22, 22, 0.01);
@@ -59,7 +59,8 @@
   list-style-type: none;
   text-decoration: none;
 }
-*:focus, *:active {
+*:focus,
+*:active {
   outline: none;
 }
 *:focus-visible {
@@ -124,8 +125,8 @@ h6 {
   color: var(--font-color-h);
   line-height: var(--line-height-sm);
   -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  user-select: none;
   font-weight: 500;
 }
 
@@ -195,8 +196,8 @@ span {
   line-height: var(--line-height-sm);
   color: var(--font-color-p);
   -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 
 .icon {
@@ -233,7 +234,7 @@ img {
   font-size: var(--font-size-nm);
   color: var(--font-white);
   background: var(--primary-color);
-  padding: var(--padding-b);
+  padding: var(--spacing-b);
   border-radius: var(--border-radius-btn);
   border: var(--border);
   border-color: var(--primary-color);
@@ -256,7 +257,7 @@ img {
 }
 
 .btn-secondary {
-  padding: var(--padding-b);
+  padding: var(--spacing-b);
   color: var(--primary-color);
   background: var(--background-white);
   text-transform: capitalize;
@@ -339,4 +340,4 @@ img {
   .heading-section p {
     width: 100%;
   }
-}/*# sourceMappingURL=globals.css.map */
+} /*# sourceMappingURL=globals.css.map */

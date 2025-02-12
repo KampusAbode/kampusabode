@@ -119,7 +119,8 @@
   cursor: pointer;
   transition: var(--transition);
 }
-.filter .container span:hover, .filter .container span.active {
+.filter .container span:hover,
+.filter .container span.active {
   border: var(--border-hover);
   color: var(--font-color-h);
 }
@@ -165,4 +166,4 @@
     grid-template-columns: 1fr;
     gap: var(--spacing-2x);
   }
-}/*# sourceMappingURL=properties.css.map */
+} /*# sourceMappingURL=properties.css.map */
