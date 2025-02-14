@@ -11,6 +11,7 @@ import {
   getDoc,
   query,
   where,
+  setDoc,
 } from "firebase/firestore";
 
 // import CryptoJS from "crypto-js";
@@ -159,7 +160,7 @@ export const addProperty = async (property) => {
 
 
     // Add the new property to the properties collection with the unique ID
-    await addDoc(propertiesCollection, {
+    await setDoc(newDocRef, {
       id: uid,
       url: propertyUrl,
       agentId: property.agentId,
