@@ -149,7 +149,7 @@ export const fetchPropertiesByIds = async (propertyIds: string[]): Promise<Prope
 };
 
 
-export const addProperty = async (property: PropertyType) => {
+export const addProperty = async (property) => {
   try {
     const propertiesCollection = collection(db, "properties");
 
@@ -176,7 +176,7 @@ export const addProperty = async (property: PropertyType) => {
       available: property.available,
     });
 
-    return {success: "uploaded apartment successfully"}
+    return {success: "uploaded apartment successfully", url: `/properties/${uid}`};
   } catch (error) {
     throw {
       message: (error as Error).message || "Failed to upload Apartment",

@@ -39,13 +39,10 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   const fetchPropertyDetails = useCallback(async () => {
     try {
       const details = await fetchPropertyById(id);
-      console.log("Fetched property details:", details); // Debugging the fetched details
       setPropertyDetails(details);
       const agentId = details.agentId; // Directly using `details` here
-      console.log("agentid", agentId);
 
       const agent = await fetchUsersById(agentId);
-      console.log("agent details", agent);
       setAgentDetails(agent);
       if (agent) {
         const properties = await fetchPropertiesByIds(
@@ -96,7 +93,6 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   };
 
   useEffect(() => {
-    console.log("Property ID:", id); // Debugging the id prop
     fetchPropertyDetails();
     fetchReviews();
   }, [id, fetchPropertyDetails, fetchReviews]);
