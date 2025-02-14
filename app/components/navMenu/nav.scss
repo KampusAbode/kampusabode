@@ -69,7 +69,7 @@
   ul {
     max-height: 80vh;
     overflow: scroll;
-    margin-block: var(--spacing-5x);
+    margin-top: var(--spacing-5x);
 
     &::-webkit-scrollbar {
       width: 0;
@@ -110,6 +110,8 @@
     text-align: center;
 
     span {
+      font-size: var(--font-size-xs);
+      line-height: 1;
       a,
       .btn {
         text-decoration: underline;

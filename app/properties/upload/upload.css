@@ -1,6 +1,9 @@
 .upload-property {
   padding-block: var(--spacing-s);
 }
+.upload-property .container {
+  max-width: 900px;
+}
 .upload-property .container form {
   margin-block: var(--spacing-3x);
 }

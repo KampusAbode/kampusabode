@@ -63,7 +63,7 @@
 .nav-menu ul {
   max-height: 80vh;
   overflow: scroll;
-  margin-block: var(--spacing-5x);
+  margin-top: var(--spacing-5x);
 }
 .nav-menu ul::-webkit-scrollbar {
   width: 0;
@@ -94,6 +94,10 @@
 .nav-menu .logout {
   margin-bottom: var(--spacing);
   text-align: center;
+}
+.nav-menu .logout span {
+  font-size: var(--font-size-xs);
+  line-height: 1;
 }
 .nav-menu .logout span a,
 .nav-menu .logout span .btn {

@@ -17,6 +17,7 @@
     .property-images {
       display: grid;
       grid-template-columns: 1.5fr 1fr;
+      gap: var(--spacing);
 
       .display-image {
         height: 70vh;
@@ -119,12 +120,13 @@
       gap: var(--spacing-2x);
       margin-top: var(--spacing);
       .pq {
-        .title{
+        .title {
           margin-bottom: var(--spacing);
         }
-        .price{
+        .price {
           text-decoration: underline;
           font-style: italic;
+          font-size: var(--font-size-nd);
         }
         .features,
         .amenities {
@@ -132,10 +134,10 @@
           flex-wrap: wrap;
           gap: var(--spacing-h);
           align-items: center;
-          padding-block: var(--spacing-2x);
+          padding-block: var(--spacing);
           span {
             padding: var(--spacing-b);
-            border-radius: var(--border-radius);
+            border-radius: var(--border-radius-r);
             background-color: var(--light-gray);
             user-select: none;
           }
@@ -195,7 +197,6 @@
     }
 
     .agent-reviews {
-
       .reviews {
         display: flex;
         overflow-x: auto;
@@ -206,7 +207,7 @@
         padding-right: var(--spacing-h);
 
         .review-item {
-          width: 90%;
+          width: 45%;
           border: var(--border);
           border-radius: var(--border-radius);
           scroll-snap-align: center;
@@ -215,11 +216,11 @@
           box-shadow: var(--shadow);
           text-align: center;
 
-          div{
+          div {
             margin-top: var(--spacing-2x);
             span {
-            display: block;
-          }
+              display: block;
+            }
           }
         }
       }
@@ -380,6 +381,15 @@
           }
         }
       }
+
+      .agent-reviews {
+        .reviews {
+          .review-item {
+            width: 90%;
+          }
+        }
+      }
+
       .agent-listings {
         & > div {
           grid-template-columns: 1fr;
