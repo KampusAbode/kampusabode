@@ -88,10 +88,9 @@ export const fetchPropertyById = async (
         images: data.images || [],
         available: data.available || false,
       };
-
       return property;
     } else {
-      console.log("No such property!");
+      console.log(propertyId, "No such property!");
       return null; // Return null if the property doesn't exist
     }
   } catch (error) {
@@ -156,11 +155,13 @@ export const addProperty = async (property) => {
     // Generate a unique ID for the property
     const newDocRef = doc(propertiesCollection);
     const uid = newDocRef.id;
+    const propertyUrl = `/properties/${uid}`;
+
 
     // Add the new property to the properties collection with the unique ID
     await addDoc(propertiesCollection, {
       id: uid,
-      url: `/properties/${uid}`,
+      url: propertyUrl,
       agentId: property.agentId,
       title: property.title,
       description: property.description,
@@ -176,7 +177,7 @@ export const addProperty = async (property) => {
       available: property.available,
     });
 
-    return {success: "uploaded apartment successfully", url: `/properties/${uid}`};
+    return {success: "uploaded apartment successfully", url: propertyUrl};
   } catch (error) {
     throw {
       message: (error as Error).message || "Failed to upload Apartment",
