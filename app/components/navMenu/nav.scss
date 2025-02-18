@@ -1,4 +1,5 @@
 .nav-menu {
+  display: flex;
   flex-direction: column;
   gap: var(--spacing-2x);
   justify-content: space-between;
@@ -72,7 +73,7 @@
     margin-top: var(--spacing-5x);
 
     &::-webkit-scrollbar {
-      width: 0;
+      display: none;
     }
 
     li {
@@ -85,7 +86,7 @@
       }
 
       a {
-        padding: var(--spacing);
+        padding: var(--spacing-h);
         text-transform: capitalize;
         color: var(--font-color-p);
 
@@ -106,7 +107,6 @@
   }
 
   .logout {
-    margin-bottom: var(--spacing);
     text-align: center;
 
     span {
@@ -117,8 +117,8 @@
         text-decoration: underline;
         display: block;
         text-align: center;
-        margin-top: var(--spacing-2x);
-        padding: var(--spacing);
+        margin-top: var(--spacing);
+        padding: var(--spacing-h);
         font-size: var(--font-size-sm);
         color: var(--primary-color);
       }
@@ -148,7 +148,14 @@
       right: 0;
     }
     ul {
-      margin: var(--spacing-4x) 0 0;
+      margin-top: var(--spacing-s);
+      li{
+        margin-bottom: var(--spacing-2x);
+      }
+    }
+
+    .logout {
+      margin-bottom: var(--spacing-4x);
     }
   }
 }

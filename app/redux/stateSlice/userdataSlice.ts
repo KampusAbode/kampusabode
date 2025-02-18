@@ -17,23 +17,7 @@ const initialState: UserType = {
   name: "",
   email: "",
   userType: "",
-  userInfo: {
-    bio: "",
-    avatar: "",
-    phoneNumber: "",
-    ...(true
-      ? {
-          university: "",
-          department: "",
-          yearOfStudy: 0,
-          savedProperties: [],
-          wishlist: [],
-        }
-      : {
-          agencyName: "",
-          propertiesListed: [], 
-        }),
-  } as StudentUserInfo | AgentUserInfo,
+  userInfo: {} as StudentUserInfo | AgentUserInfo,
 };
 
 const userdataSlice = createSlice({
@@ -87,18 +71,15 @@ const userdataSlice = createSlice({
       }
     },
 
-    updatePropertyListing: (
-      state,
-      action: PayloadAction<string>
-    ) => {
+    updatePropertyListing: (state, action: PayloadAction<string>) => {
       if (state.userType === "agent") {
         const agentInfo = state.userInfo as AgentUserInfo;
-        let property = agentInfo.propertiesListed.find(
+        const propertyIndex = agentInfo.propertiesListed.findIndex(
           (p) => p === action.payload
         );
 
-        if (property) {
-          property = action.payload;
+        if (propertyIndex !== -1) {
+          agentInfo.propertiesListed[propertyIndex] = action.payload;
         } else {
           agentInfo.propertiesListed.push(action.payload);
         }

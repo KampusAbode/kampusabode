@@ -39,7 +39,7 @@
   padding: var(--spacing);
   color: var(--font-white);
   margin: 0 auto;
-  width: 70%;
+  width: 85%;
 }
 .hero-section .container .hero-content h1 {
   text-transform: capitalize;

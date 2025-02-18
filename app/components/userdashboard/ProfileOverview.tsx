@@ -23,6 +23,13 @@ const ProfileOverview = ({ user }: { user: UserType }) => {
             {!user?.userInfo.phoneNumber ? "Null" : user?.userInfo.phoneNumber}
           </span>
           <span>Status: {user?.userType}</span>
+          <span>
+            Department:{" "}
+            {user?.userType === "student" &&
+            "department" in user.userInfo
+              ? user?.userInfo?.department
+              : ""}
+          </span>
         </div>
       </div>
     </div>

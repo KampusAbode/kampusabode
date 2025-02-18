@@ -1,37 +1,23 @@
 "use client";
 
 import React, { useState } from "react";
-
 import { toast } from "react-hot-toast";
 import { updateUserProfile } from "../../utils";
-import Image from "next/image";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import './updateprofile.css';
-
-type UserUpdateProfile = {
-  username: string;
-  email: string;
-  userType: "student" | "agent";
-  studentInfo: {
-    department: string;
-  };
-  agentInfo: {
-    agencyName: string;
-    phoneNumber: string;
-  };
-};
+import "./updateprofile.css";
+import { UserType, StudentUserInfo, AgentUserInfo } from "../../fetch/types";
 
 const CreateProfilePage = () => {
   const user = useSelector((state: RootState) => state.user);
   const userdata = useSelector((state: RootState) => state.userdata);
 
-  const [formValues, setFormValues] = useState<UserUpdateProfile>({
-    username: "",
-    email: "",
-    userType: "student",
-    studentInfo: { department: "" },
-    agentInfo: { agencyName: "", phoneNumber: "" },
+  const [formValues, setFormValues] = useState<UserType>({
+    id: userdata.id || "",
+    name: userdata.name || "",
+    email: userdata.email || "",
+    userType: userdata.userType || "",
+    userInfo: userdata.userInfo || ({} as StudentUserInfo | AgentUserInfo),
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -40,17 +26,20 @@ const CreateProfilePage = () => {
     username: "",
     email: "",
     userType: "student",
-    studentInfo: { department: "" },
+    studentInfo: { department: "", phoneNumber: "" },
     agentInfo: { agencyName: "", phoneNumber: "" },
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name.includes("studentInfo") || name.includes("agentInfo")) {
       const [group, field] = name.split(".");
       setFormValues((prevState) => ({
         ...prevState,
-        [group]: { ...prevState[group], [field]: value },
+        userInfo: {
+          ...prevState.userInfo,
+          [field]: value,
+        },
       }));
     } else {
       setFormValues((prevState) => ({ ...prevState, [name]: value }));
@@ -62,12 +51,12 @@ const CreateProfilePage = () => {
       username: "",
       email: "",
       userType: "student",
-      studentInfo: { department: "" },
+      studentInfo: { department: "", phoneNumber: "" },
       agentInfo: { agencyName: "", phoneNumber: "" },
     };
     let isValid = true;
 
-    if (!formValues.username) {
+    if (!formValues.name) {
       formErrors.username = "Username is required";
       isValid = false;
     }
@@ -81,12 +70,13 @@ const CreateProfilePage = () => {
     }
 
     if (formValues.userType === "student") {
-      if (!formValues.studentInfo.department) {
+      const studentInfo = formValues.userInfo as StudentUserInfo;
+      if (!studentInfo.department) {
         formErrors = {
           ...formErrors,
           studentInfo: {
             ...formErrors.studentInfo,
-            department: "Program is required",
+            department: "Department is required",
           },
         };
         isValid = false;
@@ -94,8 +84,9 @@ const CreateProfilePage = () => {
     }
 
     if (formValues.userType === "agent") {
+      const agentInfo = formValues.userInfo as AgentUserInfo;
       const phonePattern = /^[0-9]+$/;
-      if (!formValues.agentInfo.agencyName) {
+      if (!agentInfo.agencyName) {
         formErrors = {
           ...formErrors,
           agentInfo: {
@@ -105,10 +96,7 @@ const CreateProfilePage = () => {
         };
         isValid = false;
       }
-      if (
-        !formValues.agentInfo.phoneNumber ||
-        !phonePattern.test(formValues.agentInfo.phoneNumber)
-      ) {
+      if (!agentInfo.phoneNumber || !phonePattern.test(agentInfo.phoneNumber)) {
         formErrors = {
           ...formErrors,
           agentInfo: {
@@ -125,7 +113,7 @@ const CreateProfilePage = () => {
     return isValid;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -136,8 +124,7 @@ const CreateProfilePage = () => {
     try {
       const response = await updateUserProfile(userdata?.id, formValues);
       response.success && toast.success(`${response.message} 🎉`);
-    
-    } catch (error) {
+    } catch (error: any) {
       toast.error(
         error.message || "An unexpected error occurred during update."
       );
@@ -153,14 +140,15 @@ const CreateProfilePage = () => {
           <form onSubmit={handleSubmit}>
             {/* Common Fields */}
             <div className="input-box">
-              <label htmlFor="username">User name</label>
+              <label htmlFor="name">Username</label>
               <input
                 type="text"
-                name="username"
-                id="username"
-                value={formValues.username}
+                name="name"
+                id="name"
+                value={formValues.name}
                 onChange={handleInputChange}
                 placeholder="Enter your username"
+                disabled={userdata?.name !== ""}
               />
               {errors?.username && (
                 <span className="error">{errors?.username}</span>
@@ -173,35 +161,25 @@ const CreateProfilePage = () => {
                 type="email"
                 name="email"
                 id="email"
-                value={userdata?.email}
+                value={formValues.email}
                 onChange={handleInputChange}
                 placeholder="Enter your email address"
+                disabled={userdata?.email !== ""}
               />
               {errors?.email && <span className="error">{errors?.email}</span>}
             </div>
 
-            {/* User Type Selection */}
-            <div className="input-box">
-              <label htmlFor="userType">Sign up as</label>
-              <select
-                name="userType"
-                id="userType"
-                value={userdata?.userType}
-                disabled>
-                <option value="student">Student</option>
-                <option value="agent">Agent</option>
-              </select>
-            </div>
-
             {/* Conditional Form Fields for Students */}
-            {userdata?.userType === "student" && (
+            {formValues.userType === "student" && (
               <div className="input-box">
-                <label htmlFor="studentInfo.department">Department</label>
+                <label htmlFor="department">Department</label>
                 <input
                   type="text"
-                  id="studentInfo.department"
+                  id="department"
                   name="studentInfo.department"
-                  value={formValues.studentInfo.department}
+                  value={
+                    (formValues.userInfo as StudentUserInfo).department || ""
+                  }
                   onChange={handleInputChange}
                   placeholder="Your current department"
                 />
@@ -214,19 +192,19 @@ const CreateProfilePage = () => {
             )}
 
             {/* Conditional Form Fields for Agents */}
-            {userdata?.userType === "agent" && (
+            {formValues.userType === "agent" && (
               <>
                 <div className="input-box">
-                  <label htmlFor="agentInfo.agencyName">Agency Name</label>
+                  <label htmlFor="agencyName">Agency Name</label>
                   <input
                     type="text"
-                    name="agentInfo.agencyName"
-                    id="agentInfo.agencyName"
-                    value={formValues.agentInfo.agencyName}
+                    name="agencyName"
+                    id="agencyName"
+                    value={
+                      (formValues.userInfo as AgentUserInfo).agencyName || ""
+                    }
                     onChange={handleInputChange}
                     placeholder="Enter your agency's name"
-                    disabled={userdata?.userType === "agent"}
-
                   />
                   {errors?.agentInfo.agencyName && (
                     <span className="error">
@@ -236,15 +214,16 @@ const CreateProfilePage = () => {
                 </div>
 
                 <div className="input-box">
-                  <label htmlFor="agentInfo.phoneNumber">Phone Number</label>
+                  <label htmlFor="phoneNumber">Phone Number</label>
                   <input
                     type="text"
-                    name="agentInfo.phoneNumber"
-                    id="agentInfo.phoneNumber"
-                    value={formValues.agentInfo.phoneNumber}
+                    name="phoneNumber"
+                    id="phoneNumber"
+                    value={
+                      (formValues.userInfo as AgentUserInfo).phoneNumber || ""
+                    }
                     onChange={handleInputChange}
                     placeholder="Enter your phone number"
-                    disabled={userdata?.userInfo.phoneNumber != ''}
                   />
                   {errors?.agentInfo.phoneNumber && (
                     <span className="error">
@@ -256,7 +235,7 @@ const CreateProfilePage = () => {
             )}
 
             <button className="btn" type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Updating..." : "Update"}
+              {isSubmitting ? "Updating..." : "Update"} 
             </button>
           </form>
         </div>

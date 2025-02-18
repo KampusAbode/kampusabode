@@ -127,8 +127,8 @@ export interface AgentUserInfo {
 }
 
 export interface UserType {
-  id: string;
   name: string;
+  id: string;
   email: string;
   userType: "student" | "agent" | "";
   userInfo: StudentUserInfo | AgentUserInfo;

@@ -2,15 +2,13 @@
   margin-bottom: var(--spacing-3x);
   .container {
     
-    
-    h2{
-      margin-bottom: var(--spacing-2x);
-    }
 
     .profile-overview {
-      background: var(--white);
+      background: var(--light-gray);
       border-radius: var(--border-radius);
       padding: var(--spacing);
+      box-shadow: var(--shadow);
+      margin-top: var(--spacing);
       .dt {
         display: grid;
         grid-template-columns: 100px 1fr;
