@@ -19,10 +19,14 @@
       gap: var(--spacing-h);
       z-index: 2;
 
-      .bookmark-button{
+      .bookmark-button {
         background-color: transparent;
+        svg {
+          path {
+            fill: var(--white);
+          }
+        }
       }
-
     }
   }
   .swiper {
@@ -58,17 +62,16 @@
       }
     }
 
-    
-      h6 {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        line-height: var(--line-height-xs);
-        line-clamp: 2;
-        -webkit-line-clamp: 2;
-        text-transform: capitalize;
+    h6 {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      line-height: var(--line-height-xs);
+      line-clamp: 2;
+      -webkit-line-clamp: 2;
+      text-transform: capitalize;
       margin-block: var(--spacing-h);
-      }
+    }
 
     div:last-child {
       display: flex;
@@ -76,11 +79,11 @@
       align-items: center;
       text-transform: capitalize;
 
-      span{
+      span {
         font-size: var(--font-size-xs);
       }
 
-      .price{
+      .price {
         text-decoration: underline;
         text-transform: lowercase;
       }
