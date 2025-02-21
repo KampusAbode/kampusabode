@@ -70,6 +70,7 @@
   outline: none;
   list-style-type: none;
   text-decoration: none;
+  font-weight: 400;
 
   &:focus,
   &:active {
@@ -97,7 +98,6 @@ html {
 
 body {
   font-family: var(--font-poppins);
-  font-weight: 400;
   line-height: var(--line-height-md);
   color: var(--font-color-p);
   background-color: var(--background-white);
@@ -139,7 +139,6 @@ h6 {
   color: var(--font-color-h);
   line-height: var(--line-height-sm);
   user-select: none;
-  font-weight: 500;
 }
 h1 {
   font-size: calc(1.15rem + 1.8vw);

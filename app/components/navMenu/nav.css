@@ -139,6 +139,7 @@
   }
   .nav-menu ul li a {
     padding: var(--spacing);
+    font-size: var(--font-size-nm);
   }
   .nav-menu .logout {
     margin-bottom: var(--spacing-4x);
