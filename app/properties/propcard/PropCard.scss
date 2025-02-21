@@ -26,6 +26,13 @@
             fill: var(--white);
           }
         }
+        &.saved{
+          svg {
+          path {
+            fill: var(--primary-color);
+          }
+        }
+        }
       }
     }
   }

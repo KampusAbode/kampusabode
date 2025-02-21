@@ -23,6 +23,9 @@
 .prop-card .prop-image .actions .bookmark-button svg path {
   fill: var(--white);
 }
+.prop-card .prop-image .actions .bookmark-button.saved svg path {
+  fill: var(--primary-color);
+}
 .prop-card .swiper {
   aspect-ratio: 20/19;
   border-radius: var(--border-radius);
