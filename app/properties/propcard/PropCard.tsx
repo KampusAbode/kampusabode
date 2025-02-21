@@ -51,19 +51,16 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
       <div className="card-details">
         <div className="type-price">
           <span className="type">{propertyData.type}</span>
-          <span className="price">{`${
+          <span className="available">{`${
             propertyData.available ? "available" : "not available"
           }`}</span>
         </div>
-        <div className="brief">
-          <h5>{propertyData.title}</h5>
-          <Link
-            href={propertyData.url}
-            className="btn">{`₦${propertyData.price}`}</Link>
+        <h6>{propertyData.title}</h6>
+
+        <div>
+          <span>{propertyData.location}</span>
+          <span className="price">{`₦${propertyData.price}`} total</span>
         </div>
-        <span>
-          <FaLocationDot /> {propertyData.location}
-        </span>
       </div>
     </div>
   );

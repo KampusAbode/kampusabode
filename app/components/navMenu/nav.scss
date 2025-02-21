@@ -77,7 +77,7 @@
     }
 
     li {
-      margin-bottom: var(--spacing-h);
+      margin-bottom: var(--spacing);
       border-radius: var(--border-radius);
       &:not(.btn):hover,
       &:not(.btn).active {
@@ -94,7 +94,7 @@
         align-items: center;
         gap: var(--spacing);
 
-        font-size: var(--font-size-md);
+        font-size: var(--font-size-sm);
 
         svg {
           width: 24px;
@@ -121,6 +121,10 @@
         padding: var(--spacing-h);
         font-size: var(--font-size-sm);
         color: var(--primary-color);
+
+        &:hover{
+          color: var(--white);
+        }
       }
     }
   }
@@ -150,7 +154,9 @@
     ul {
       margin-top: var(--spacing-s);
       li{
-        margin-bottom: var(--spacing-2x);
+        a{
+          padding: var(--spacing);
+        }
       }
     }
 

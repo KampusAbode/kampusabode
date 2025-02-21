@@ -19,11 +19,14 @@
       gap: var(--spacing-h);
       z-index: 2;
 
+      .bookmark-button{
+        background-color: transparent;
+      }
+
     }
   }
   .swiper {
-    height: 260px;
-    width: 100%;
+    aspect-ratio: 20 / 19;
     border-radius: var(--border-radius);
     overflow: hidden;
     position: relative;
@@ -48,7 +51,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: var(--spacing);
 
       .price {
         color: var(--font-color-h);
@@ -56,30 +58,32 @@
       }
     }
 
-    .brief {
-      margin-block: var(--spacing-h);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: var(--spacing-3x);
-
-      h4 {
+    
+      h6 {
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
-        margin-block: var(--spacing-h);
         line-height: var(--line-height-xs);
         line-clamp: 2;
         -webkit-line-clamp: 2;
         text-transform: capitalize;
+      margin-block: var(--spacing-h);
       }
-    }
 
-    &>span {
+    div:last-child {
       display: flex;
-      gap: var(--spacing-h);
+      justify-content: space-between;
       align-items: center;
       text-transform: capitalize;
+
+      span{
+        font-size: var(--font-size-xs);
+      }
+
+      .price{
+        text-decoration: underline;
+        text-transform: lowercase;
+      }
     }
   }
 }

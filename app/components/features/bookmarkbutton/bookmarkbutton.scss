@@ -17,9 +17,9 @@
 
   &.saved {
     svg {
-      stroke-width: 0;
+      path {
         fill: var(--primary-color);
+      }
     }
   }
-
 }

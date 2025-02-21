@@ -12,7 +12,6 @@
 .bookmark-button:hover {
   border: var(--border);
 }
-.bookmark-button.saved svg {
-  stroke-width: 0;
+.bookmark-button.saved svg path {
   fill: var(--primary-color);
 }/*# sourceMappingURL=bookmarkbutton.css.map */

@@ -3,8 +3,10 @@
 import { useState, useEffect } from "react";
 import { fetchPropertiesByIds } from "../../utils";
 import { UserType, PropertyType } from "../../fetch/types";
+import { SlOptionsVertical } from "react-icons/sl";
 import Link from "next/link";
 import Image from "next/image";
+import Loader from "../loader/Loader";
 
 const ListedProperties = ({ user }: { user: UserType }) => {
   const [filteredProperties, setFilteredProperties] = useState<PropertyType[]>(
@@ -47,15 +49,15 @@ const ListedProperties = ({ user }: { user: UserType }) => {
 
   return (
     <div className="listed-properties">
-      <h4>
+      <h5>
         Your Listings{" "}
         <Link href={"/properties/upload"} className="btn">
           Upload
         </Link>
-      </h4>
+      </h5>
       <div className="property-list">
         {loading ? (
-          <p>Loading properties...</p>
+          <Loader />
         ) : error ? (
           <p className="error">{error}</p>
         ) : filteredProperties.length > 0 ? (
@@ -75,9 +77,9 @@ const ListedProperties = ({ user }: { user: UserType }) => {
                     <span>₦{property.price}</span>
                   </div>
 
-                  {/* <div>
-
-                  </div> */}
+                  <div>
+                    <SlOptionsVertical />
+                  </div>
                 </Link>
               </li>
             ))}

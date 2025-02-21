@@ -20,9 +20,12 @@
 .dashboard .agent-dashboard {
   margin-block: var(--spacing-2x);
 }
-.dashboard .student-dashboard h4,
-.dashboard .agent-dashboard h4 {
+.dashboard .student-dashboard h5,
+.dashboard .agent-dashboard h5 {
   margin-bottom: var(--spacing);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .dashboard .student-dashboard > div,
 .dashboard .agent-dashboard > div {
@@ -41,7 +44,6 @@
   border: var(--border-hover);
   border-color: transparent;
   cursor: pointer;
-  overflow: hidden;
 }
 .dashboard .student-dashboard .bookmarked-properties ul li:hover,
 .dashboard .agent-dashboard .bookmarked-properties ul li:hover {
@@ -109,12 +111,16 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--spacing-2x);
-  background-color: var(--light-gray);
 }
 .dashboard .student-dashboard .listed-properties .property-list ul li a,
 .dashboard .agent-dashboard .listed-properties .property-list ul li a {
   display: grid;
-  grid-template-columns: 3fr 7fr;
+  grid-template-columns: 3fr 7fr auto;
+  background-color: var(--light-gray);
+}
+.dashboard .student-dashboard .listed-properties .property-list ul li a div,
+.dashboard .agent-dashboard .listed-properties .property-list ul li a div {
+  padding: var(--spacing);
 }
 .dashboard .student-dashboard .listed-properties .property-list ul li a img,
 .dashboard .agent-dashboard .listed-properties .property-list ul li a img {
@@ -123,6 +129,8 @@
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: var(--border-radius);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 .dashboard .student-dashboard .listed-properties .property-list ul li a .detail,
 .dashboard .agent-dashboard .listed-properties .property-list ul li a .detail {
@@ -164,7 +172,7 @@
   }
   .dashboard .student-dashboard .bookmarked-properties ul li a img,
   .dashboard .agent-dashboard .bookmarked-properties ul li a img {
-    height: 70px;
+    height: 50px;
   }
   .dashboard .student-dashboard .listed-properties .property-list ul,
   .dashboard .agent-dashboard .listed-properties .property-list ul {

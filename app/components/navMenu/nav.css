@@ -70,7 +70,7 @@
   display: none;
 }
 .nav-menu ul li {
-  margin-bottom: var(--spacing-h);
+  margin-bottom: var(--spacing);
   border-radius: var(--border-radius);
 }
 .nav-menu ul li:not(.btn):hover, .nav-menu ul li:not(.btn).active {
@@ -84,7 +84,7 @@
   display: flex;
   align-items: center;
   gap: var(--spacing);
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-sm);
 }
 .nav-menu ul li a svg {
   width: 24px;
@@ -108,6 +108,10 @@
   padding: var(--spacing-h);
   font-size: var(--font-size-sm);
   color: var(--primary-color);
+}
+.nav-menu .logout span a:hover,
+.nav-menu .logout span .btn:hover {
+  color: var(--white);
 }
 
 @media screen and (max-width: 768px) {
@@ -133,8 +137,8 @@
   .nav-menu ul {
     margin-top: var(--spacing-s);
   }
-  .nav-menu ul li {
-    margin-bottom: var(--spacing-2x);
+  .nav-menu ul li a {
+    padding: var(--spacing);
   }
   .nav-menu .logout {
     margin-bottom: var(--spacing-4x);

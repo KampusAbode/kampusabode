@@ -143,7 +143,7 @@
   .properties {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing);
+    gap:calc(1.5 *  var(--spacing));
 
     span,
     svg path {

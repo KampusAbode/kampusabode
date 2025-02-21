@@ -34,8 +34,8 @@ function UploadTrend() {
 
   const client = new Client();
   client
-    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT) // Your Appwrite Endpoint
-    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID); // Your project ID
+    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT) 
+    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID); 
 
   const storage = new Storage(client);
 
@@ -81,11 +81,11 @@ function UploadTrend() {
     try {
       const uniqueID = ID.unique();
       const response = await storage.createFile(
-        process.env.NEXT_PUBLIC_APPWRITE_TRENDS_BUCKET_ID,
+        process.env.NEXT_PUBLIC_APPWRITE_TREND_BUCKET_ID,
         uniqueID,
         file
       );
-      return `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID}/files/${response.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin`;
+      return `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_TREND_BUCKET_ID}/files/${response.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin`;
     } catch (error) {
       console.error("Error uploading image: ", error);
       return "";

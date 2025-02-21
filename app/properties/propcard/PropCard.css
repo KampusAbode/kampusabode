@@ -17,9 +17,11 @@
   gap: var(--spacing-h);
   z-index: 2;
 }
+.prop-card .prop-image .actions .bookmark-button {
+  background-color: transparent;
+}
 .prop-card .swiper {
-  height: 260px;
-  width: 100%;
+  aspect-ratio: 20/19;
   border-radius: var(--border-radius);
   overflow: hidden;
   position: relative;
@@ -45,34 +47,33 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--spacing);
 }
 .prop-card .card-details .type-price .price {
   color: var(--font-color-h);
   font-weight: 600;
 }
-.prop-card .card-details .brief {
-  margin-block: var(--spacing-h);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-3x);
-}
-.prop-card .card-details .brief h4 {
+.prop-card .card-details h6 {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  margin-block: var(--spacing-h);
   line-height: var(--line-height-xs);
   line-clamp: 2;
   -webkit-line-clamp: 2;
   text-transform: capitalize;
+  margin-block: var(--spacing-h);
 }
-.prop-card .card-details > span {
+.prop-card .card-details div:last-child {
   display: flex;
-  gap: var(--spacing-h);
+  justify-content: space-between;
   align-items: center;
   text-transform: capitalize;
+}
+.prop-card .card-details div:last-child span {
+  font-size: var(--font-size-xs);
+}
+.prop-card .card-details div:last-child .price {
+  text-decoration: underline;
+  text-transform: lowercase;
 }
 
 @media screen and (max-width: 768px) {

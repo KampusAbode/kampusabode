@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { fetchReviewsByAgentId } from "../../utils";
 import toast from "react-hot-toast";
+import Loader from "../loader/Loader";
 
 const StudentReviews = ({ user }) => {
   const [reviews, setReviews] = useState([]);
@@ -38,9 +39,9 @@ const StudentReviews = ({ user }) => {
 
   return (
     <div className="student-reviews">
-      <h4>Student Reviews</h4>
+      <h5>Student Reviews</h5>
       {loading ? (
-        <p>Loading reviews...</p>
+        <Loader />
       ) : error ? (
         <p className="error">{error}</p>
       ) : reviews.length > 0 ? (

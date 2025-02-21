@@ -21,8 +21,11 @@
   .agent-dashboard {
     margin-block: var(--spacing-2x);
 
-    h4 {
+    h5 {
       margin-bottom: var(--spacing);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     & > div {
@@ -40,7 +43,6 @@
           border: var(--border-hover);
           border-color: transparent;
           cursor: pointer;
-          overflow: hidden;
 
           &:hover {
             border: var(--border-hover);
@@ -107,17 +109,23 @@
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: var(--spacing-2x);
-          background-color: var(--light-gray);
           li {
             a {
               display: grid;
-              grid-template-columns: 3fr 7fr;
+              grid-template-columns: 3fr 7fr auto;
+              background-color: var(--light-gray);
+
+              div{
+                padding: var(--spacing);
+              }
 
               img {
                 height: 80px;
                 width: 100%;
                 object-fit: cover;
                 border-radius: var(--border-radius);
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
               }
               .detail {
                 padding: var(--spacing-h) var(--spacing);
@@ -181,7 +189,7 @@
           li {
             a {
               img {
-                height: 70px;
+                height: 50px;
               }
             }
           }
