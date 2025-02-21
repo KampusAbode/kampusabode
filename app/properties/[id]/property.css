@@ -115,6 +115,7 @@
   text-decoration: underline;
   font-style: italic;
   font-size: var(--font-size-nd);
+  margin-bottom: var(--spacing);
 }
 .properties-details-page .container .top .pq .features,
 .properties-details-page .container .top .pq .amenities {
