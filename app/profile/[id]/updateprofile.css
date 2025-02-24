@@ -1,8 +1,7 @@
-.update {
+.profile-update {
   .container {
-    min-height: 100vh;
-    margin: 0 auto;
-    max-width: 800px;
+    /* min-height: 100vh; */
+    max-width: 900px;
     .fm {
       padding-top: var(--spacing-5x);
 
@@ -16,6 +15,14 @@
         .input-box {
           position: relative;
           margin-bottom: var(--spacing-2x);
+
+          img{
+            width: 100px;
+            height: 100px;
+            border: 100%;
+            margin: 0 auto;
+            
+          }
 
           label {
             display: block;

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { storage, ID } from "../../lib/appwriteClient";
-import { addProperty } from "../../utils";
+import { addProperty, uploadImagesToAppwrite } from "../../utils";
 import toast from "react-hot-toast";
 import { PropertyType } from "../../fetch/types";
 import "./upload.css";
@@ -83,20 +83,7 @@ const UploadProperty = () => {
     }
   }, [user, router]);
 
-  const handleFileUpload = async (files: File[]) => {
-    const uploadedFiles = await Promise.all(
-      files.map(async (file) => {
-        const uniqueID = ID.unique();
-        const response = await storage.createFile(
-          process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID,
-          uniqueID,
-          file
-        );
-        return `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID}/files/${response.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin`;
-      })
-    );
-    return uploadedFiles;
-  };
+  
 
   const handleSubmit = async (
     values: any,
@@ -106,7 +93,10 @@ const UploadProperty = () => {
 
     try {
       // Upload images to Appwrite
-      const imageUrls = await handleFileUpload(values.images);
+      const imageUrls = await uploadImagesToAppwrite(
+        values.images,
+        process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID
+      );
 
       // Include the uploaded image URLs in the property data
       const propertyData = {

@@ -44,7 +44,7 @@ function ViewedProperties() {
   return (
     <div className="viewed-properties">
       <ToastContainer />
-      <h4>Viewed Properties</h4>
+      <h5>Viewed Properties</h5>
       <div className="display-viewed-properties">
         {loading ? (
           <p>Loading...</p>

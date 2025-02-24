@@ -39,8 +39,8 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
                 <Image
                   priority
                   src={img}
-                  width={1000}
-                  height={1000}
+                  width={1800}
+                  height={1800}
                   alt={`${propertyData.title} image`}
                 />
               </SwiperSlide>

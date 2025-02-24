@@ -14,99 +14,69 @@ import {
 } from "firebase/firestore";
 
 import CryptoJS from "crypto-js";
+import { UserSignupInput } from "../auth/signup/page";
+import { UserType } from "../fetch/types";
 // import { PropertyType } from "../fetch/types";
 
-// TypeScript type for user input (based on your example)
-interface UserSignupInput {
-  username: string;
-  email: string;
-  password: string;
-  userType: "student" | "agent";
-  studentInfo?: {
-    department: string;
-  };
-  agentInfo?: {
-    agencyName: string;
-    phoneNumber: string;
-  };
-}
+
 
 export const signupUser = async (userData: UserSignupInput) => {
-  const { email, password, userType } = userData;
+  const { email, password, userType, university, avatar, phoneNumber } = userData;
+
   try {
-    // Create user with email and password in Firebase Authentication
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    // Create user in Firebase Authentication
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Create additional user data based on userType
-    let additionalUserData = {};
-    if (userType === "student") {
-      additionalUserData = {
-        userType: "student",
-        userInfo: {
-          bio: "Not Provided",
-          avatar: "Not Provided",
-          university: "Not Provided",
-          department: userData.studentInfo?.department,
-          yearOfStudy: 1,
-          savedProperties: [], // Initially empty
-          wishlist: [], // Initially empty
-          phoneNumber: "Not Provided",
-        },
-      };
-    } else if (userType === "agent") {
-      additionalUserData = {
-        userType: "agent",
-        userInfo: {
-          bio: "Not Provided",
-          avatar: "Not Provided",
-          agencyName: userData.agentInfo?.agencyName,
-          phoneNumber: userData.agentInfo?.phoneNumber,
-          propertiesListed: [], // Initially empty
-        },
-      };
-    }
-
-    // Store user data in Firestore with additional fields
-    await setDoc(doc(db, "users", user.uid), {
+    // Construct user data
+    const newUser: UserType = {
       id: user.uid,
       name: userData.username,
-      email: userData.email,
-      ...additionalUserData, // Add the additional properties based on userType
+      email: email,
+      bio: "", // Default empty bio
+      avatar: avatar || "", // Default empty avatar
+      phoneNumber: phoneNumber || "", // Default empty phone number
+      university: university || "",
+      userType: userType,
+      userInfo:
+        userType === "student"
+          ? {
+              department: userData.studentInfo?.department || "",
+              currentYear: parseInt(userData.studentInfo?.currentYear || "1"), // Ensure number type
+              savedProperties: [],
+              wishlist: [],
+            }
+          : {
+              agencyName: userData.agentInfo?.agencyName || "",
+              propertiesListed: [],
+            },
+    };
+
+    // Store user data in Firestore
+    await setDoc(doc(db, "users", user.uid), {
+      ...newUser,
       createdAt: new Date(),
     });
 
-    return { message: "signup successful" }; // Successfully signed up
+    return { message: "Signup successful" };
   } catch (error: any) {
-    // Handle Firebase Authentication errors
+    console.error("Error signing up user", error);
+
     if (error.code === "auth/email-already-in-use") {
-      throw {
-        message: "Email already in use. Please try another one.",
-        statusCode: 409,
-      };
+      throw { message: "Email already in use. Please try another one.", statusCode: 409 };
     } else if (error.code === "auth/invalid-email") {
-      throw {
-        message: "Invalid email format. Please check your email.",
-        statusCode: 400,
-      };
+      throw { message: "Invalid email format. Please check your email.", statusCode: 400 };
     } else if (error.code === "auth/weak-password") {
-      throw {
-        message: "Password is too weak. Please use a stronger password.",
-        statusCode: 400,
-      };
+      throw { message: "Password is too weak. Please use a stronger password.", statusCode: 400 };
     } else {
-      console.error("error signing up user", error);
-      throw {
-        message: "Something went wrong. Please try again later.",
-        statusCode: 500,
-      };
+      throw { message: "Something went wrong. Please try again later.", statusCode: 500 };
     }
   }
 };
+
+
+
+
 
 interface UserLoginInput {
   email: string;

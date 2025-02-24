@@ -47,7 +47,7 @@
   opacity: 1;
 }
 .prop-card .card-details {
-  padding: var(--spacing) 0;
+  padding-block: var(--spacing);
 }
 .prop-card .card-details .type-price {
   display: flex;
@@ -75,15 +75,9 @@
   text-transform: capitalize;
 }
 .prop-card .card-details div:last-child span {
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-sm);
 }
 .prop-card .card-details div:last-child .price {
   text-decoration: underline;
   text-transform: lowercase;
-}
-
-@media screen and (max-width: 768px) {
-  .prop-card .card-details .brief {
-    gap: var(--spacing-2x);
-  }
 }/*# sourceMappingURL=PropCard.css.map */

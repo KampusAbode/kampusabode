@@ -9,7 +9,7 @@ const ProfileOverview = ({ user }: { user: UserType }) => {
         <div className="img">
           <Image
             priority
-            src={"/assets/person3.jpg"}
+            src={user?.avatar || "/assets/person3.jpg"}
             width={800}
             height={800}
             alt="profile picture"
@@ -20,13 +20,12 @@ const ProfileOverview = ({ user }: { user: UserType }) => {
           <span>Email: {user?.email}</span>
           <span>
             Phone:{" "}
-            {!user?.userInfo.phoneNumber ? "Null" : user?.userInfo.phoneNumber}
+            {!user?.phoneNumber ? "Null" : user?.phoneNumber}
           </span>
           <span>Status: {user?.userType}</span>
           <span>
             Department:{" "}
-            {user?.userType === "student" &&
-            "department" in user.userInfo
+            {user?.userType === "student" && "department" in user.userInfo
               ? user?.userInfo?.department
               : ""}
           </span>

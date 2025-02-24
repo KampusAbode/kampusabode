@@ -57,7 +57,7 @@
     }
   }
   .card-details {
-    padding: var(--spacing) 0;
+    padding-block: var(--spacing);
     .type-price {
       display: flex;
       justify-content: space-between;
@@ -87,7 +87,7 @@
       text-transform: capitalize;
 
       span {
-        font-size: var(--font-size-xs);
+        font-size: var(--font-size-sm);
       }
 
       .price {
@@ -98,12 +98,4 @@
   }
 }
 
-@media screen and (max-width: 768px) {
-  .prop-card {
-    .card-details {
-      .brief {
-        gap: var(--spacing-2x);
-      }
-    }
-  }
-}
+

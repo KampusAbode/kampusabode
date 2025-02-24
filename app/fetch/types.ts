@@ -60,6 +60,7 @@ export interface PropertyType {
   amenities: string[];
   images: string[];
   available: boolean;
+  approved: boolean;
 }
 
 export interface TrendType {
@@ -108,20 +109,13 @@ export interface BookmarkState {
 }
 
 export interface StudentUserInfo {
-  bio: string;
-  avatar: string;
-  phoneNumber: string;
-  university: string;
   department: string;
-  yearOfStudy: number;
+  currentYear: number;
   savedProperties: string[];
   wishlist: string[];
 }
 
 export interface AgentUserInfo {
-  bio: string;
-  avatar: string;
-  phoneNumber: string;
   agencyName: string;
   propertiesListed: string[];
 }
@@ -129,7 +123,11 @@ export interface AgentUserInfo {
 export interface UserType {
   name: string;
   id: string;
+  bio: string;
+  avatar: string;
+  phoneNumber: string;
   email: string;
+  university: string,
   userType: "student" | "agent" | "";
   userInfo: StudentUserInfo | AgentUserInfo;
 }

@@ -1,6 +1,7 @@
 .upload-trend {
   max-width: 600px;
-  margin: 0 auto;
+  width: 90%;
+  margin: var(--spacing-s) auto;
   padding: 20px;
   background-color: var(--background-white);
   border-radius: var(--border-radius);
@@ -44,6 +45,7 @@ button {
   border-radius: var(--border-radius-btn);
   cursor: pointer;
   font-size: 16px;
+  margin-top: var(--spacing-2x);
 }
 
 button:disabled {

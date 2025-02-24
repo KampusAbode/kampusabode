@@ -1,36 +1,36 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { toast } from "react-hot-toast";
 import { updateUserProfile } from "../../utils";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import "./updateprofile.css";
 import { UserType, StudentUserInfo, AgentUserInfo } from "../../fetch/types";
+import { Client, Storage } from "appwrite";
+import './updateprofile.css'
+
+  const client = new Client();
+  client
+    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
+    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
+
+const storage = new Storage(client);
 
 const CreateProfilePage = () => {
   const user = useSelector((state: RootState) => state.user);
   const userdata = useSelector((state: RootState) => state.userdata);
 
-  const [formValues, setFormValues] = useState<UserType>({
-    id: userdata.id || "",
-    name: userdata.name || "",
-    email: userdata.email || "",
-    userType: userdata.userType || "",
-    userInfo: userdata.userInfo || ({} as StudentUserInfo | AgentUserInfo),
-  });
+  const [formValues, setFormValues] = useState<UserType>();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(
+    userdata?.avatar || null
+  );
 
-  const [errors, setErrors] = useState({
-    username: "",
-    email: "",
-    userType: "student",
-    studentInfo: { department: "", phoneNumber: "" },
-    agentInfo: { agencyName: "", phoneNumber: "" },
-  });
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     if (name.includes("studentInfo") || name.includes("agentInfo")) {
       const [group, field] = name.split(".");
@@ -46,131 +46,142 @@ const CreateProfilePage = () => {
     }
   };
 
-  const validateForm = () => {
-    let formErrors = {
-      username: "",
-      email: "",
-      userType: "student",
-      studentInfo: { department: "", phoneNumber: "" },
-      agentInfo: { agencyName: "", phoneNumber: "" },
-    };
-    let isValid = true;
-
-    if (!formValues.name) {
-      formErrors.username = "Username is required";
-      isValid = false;
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file)); // Show preview
     }
+  };
 
-    if (!formValues.email) {
-      formErrors.email = "Email is required";
-      isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(formValues.email)) {
-      formErrors.email = "Invalid email address";
-      isValid = false;
+  const uploadImageToAppwrite = async (): Promise<string | null> => {
+    if (!imageFile) return null;
+
+    try {
+      const response = await storage.createFile(
+        "your_bucket_id", // Replace with your Appwrite storage bucket ID
+        imageFile.name,
+        imageFile
+      );
+
+      toast.success("profile picture uploaded");
+
+      const fileId = response.$id;
+      return `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID}/files/${fileId}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin`;
+    } catch (error) {
+      console.error("Image upload failed", error);
+      toast.error("Failed to upload image.");
+      return null;
     }
-
-    if (formValues.userType === "student") {
-      const studentInfo = formValues.userInfo as StudentUserInfo;
-      if (!studentInfo.department) {
-        formErrors = {
-          ...formErrors,
-          studentInfo: {
-            ...formErrors.studentInfo,
-            department: "Department is required",
-          },
-        };
-        isValid = false;
-      }
-    }
-
-    if (formValues.userType === "agent") {
-      const agentInfo = formValues.userInfo as AgentUserInfo;
-      const phonePattern = /^[0-9]+$/;
-      if (!agentInfo.agencyName) {
-        formErrors = {
-          ...formErrors,
-          agentInfo: {
-            ...formErrors.agentInfo,
-            agencyName: "Agency name is required",
-          },
-        };
-        isValid = false;
-      }
-      if (!agentInfo.phoneNumber || !phonePattern.test(agentInfo.phoneNumber)) {
-        formErrors = {
-          ...formErrors,
-          agentInfo: {
-            ...formErrors.agentInfo,
-            phoneNumber: "Please enter a valid phone number",
-          },
-        };
-        isValid = false;
-      }
-    }
-
-    setErrors(formErrors);
-
-    return isValid;
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!validateForm()) {
-      return;
+    setIsSubmitting(true);
+
+    try {
+      let avatarUrl = formValues?.avatar || "";
+
+      if (imageFile) {
+        const uploadedImageUrl = await uploadImageToAppwrite();
+        if (uploadedImageUrl) {
+          avatarUrl = uploadedImageUrl;
+        }
+      }
+
+      const updatedUserData = {
+        ...formValues,
+        userInfo: {
+          ...formValues?.userInfo,
+          avatar: avatarUrl,
+        },
+      };
+
+      const response = await updateUserProfile(userdata?.id, updatedUserData);
+      if (response.success) {
+        toast.success(`${response.message} 🎉`);
+      }
+    } catch (error: any) {
+      toast.error(error.message || "An unexpected error occurred.");
     }
 
-    setIsSubmitting(true);
-    try {
-      const response = await updateUserProfile(userdata?.id, formValues);
-      response.success && toast.success(`${response.message} 🎉`);
-    } catch (error: any) {
-      toast.error(
-        error.message || "An unexpected error occurred during update."
-      );
-    }
     setIsSubmitting(false);
   };
 
   return (
-    <div className="update">
+    <div className="profile-update">
       <div className="container">
         <div className="fm">
-          <h4>Upload profile</h4>
+          <h4>Upload Profile</h4>
           <form onSubmit={handleSubmit}>
-            {/* Common Fields */}
+            {/* Profile Picture Upload */}
+            <div className="input-box">
+              <label>Profile Picture</label>
+              {imagePreview && (
+                <img
+                  src={imagePreview}
+                  alt="Profile Preview"
+                  className="profile-preview"
+                />
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+            </div>
+
+            {/* Username */}
             <div className="input-box">
               <label htmlFor="name">Username</label>
               <input
                 type="text"
                 name="name"
                 id="name"
-                value={formValues.name}
+                value={formValues?.name}
                 onChange={handleInputChange}
-                placeholder="Enter your username"
                 disabled={userdata?.name !== ""}
               />
-              {errors?.username && (
-                <span className="error">{errors?.username}</span>
-              )}
             </div>
 
+            {/* Email */}
             <div className="input-box">
               <label htmlFor="email">Email</label>
               <input
                 type="email"
                 name="email"
                 id="email"
-                value={formValues.email}
+                value={formValues?.email}
                 onChange={handleInputChange}
-                placeholder="Enter your email address"
                 disabled={userdata?.email !== ""}
               />
-              {errors?.email && <span className="error">{errors?.email}</span>}
             </div>
 
-            {/* Conditional Form Fields for Students */}
-            {formValues.userType === "student" && (
+            <div className="input-box">
+              <label htmlFor="phoneNumber">Phone Number</label>
+              <input
+                type="text"
+                name="phoneNumber"
+                id="phoneNumber"
+                placeholder={formValues?.phoneNumber}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div className="input-box">
+              <label htmlFor="bio">Bio</label>
+              <textarea
+                name="bio"
+                id="bio"
+                placeholder="Tell us about yourself"
+                value={formValues.bio || ""}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            {/* Conditional Fields */}
+            {formValues?.userType === "student" && (
               <div className="input-box">
                 <label htmlFor="department">Department</label>
                 <input
@@ -178,21 +189,14 @@ const CreateProfilePage = () => {
                   id="department"
                   name="studentInfo.department"
                   value={
-                    (formValues.userInfo as StudentUserInfo).department || ""
+                    (formValues?.userInfo as StudentUserInfo).department || ""
                   }
                   onChange={handleInputChange}
-                  placeholder="Your current department"
                 />
-                {errors?.studentInfo.department && (
-                  <span className="error">
-                    {errors?.studentInfo.department}
-                  </span>
-                )}
               </div>
             )}
 
-            {/* Conditional Form Fields for Agents */}
-            {formValues.userType === "agent" && (
+            {formValues?.userType === "agent" && (
               <>
                 <div className="input-box">
                   <label htmlFor="agencyName">Agency Name</label>
@@ -200,42 +204,17 @@ const CreateProfilePage = () => {
                     type="text"
                     name="agencyName"
                     id="agencyName"
-                    value={
-                      (formValues.userInfo as AgentUserInfo).agencyName || ""
+                    placeholder={
+                      (formValues?.userInfo as AgentUserInfo).agencyName
                     }
                     onChange={handleInputChange}
-                    placeholder="Enter your agency's name"
                   />
-                  {errors?.agentInfo.agencyName && (
-                    <span className="error">
-                      {errors?.agentInfo.agencyName}
-                    </span>
-                  )}
-                </div>
-
-                <div className="input-box">
-                  <label htmlFor="phoneNumber">Phone Number</label>
-                  <input
-                    type="text"
-                    name="phoneNumber"
-                    id="phoneNumber"
-                    value={
-                      (formValues.userInfo as AgentUserInfo).phoneNumber || ""
-                    }
-                    onChange={handleInputChange}
-                    placeholder="Enter your phone number"
-                  />
-                  {errors?.agentInfo.phoneNumber && (
-                    <span className="error">
-                      {errors?.agentInfo.phoneNumber}
-                    </span>
-                  )}
                 </div>
               </>
             )}
 
             <button className="btn" type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Updating..." : "Update"} 
+              {isSubmitting ? "Updating..." : "Update"}
             </button>
           </form>
         </div>

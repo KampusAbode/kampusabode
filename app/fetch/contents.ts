@@ -134,6 +134,8 @@ const links: LinkType[] = [
   // { to: "contact", direct: "/contact" },
 ];
 
+const universities = ["OAU", "UNILAG", "UI", "UNN", "FUTA"];
+
 const data = {
   homeSection,
   propertyTypes,
@@ -141,6 +143,7 @@ const data = {
   priceRanges,
   bedroomOptions,
   links,
+  universities,
 };
 
 export default data;

@@ -142,6 +142,6 @@
     font-size: var(--font-size-nm);
   }
   .nav-menu .logout {
-    margin-bottom: var(--spacing-4x);
+    margin-bottom: var(--spacing);
   }
 }/*# sourceMappingURL=nav.css.map */

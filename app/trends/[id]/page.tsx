@@ -6,7 +6,7 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 import Loader from "../../components/loader/Loader";
 import { BiLike } from "react-icons/bi";
-import { FaShare } from "react-icons/fa";
+import { FaBookmark, FaShare } from "react-icons/fa";
 import { getCommentsByTrendId, sendUserComment } from "../../utils/comments";
 import { format, parseISO } from "date-fns";
 import "./trend.css";
@@ -112,7 +112,11 @@ const TrendPage = ({ params }: Params) => {
             <span className="category">{trendData?.category}</span>
             <h3 className="title">{trendData?.title}</h3>
             <span>By {trendData?.author}</span>
-            <span>{trendData?.published_date}</span>
+            <span>
+              {trendData?.published_date
+                ? format(new Date(trendData?.published_date), "d MMM, yyyy")
+                : "Invalid date"}
+            </span>
           </div>
           <div className="trend-image">
             <Image
@@ -127,16 +131,19 @@ const TrendPage = ({ params }: Params) => {
           {/* Like and Share buttons */}
           <div className="interaction-buttons">
             <button onClick={handleLike}>
-              <BiLike /> Like
+              <BiLike /> {trendData.likes}
             </button>
             <button onClick={handleShare}>
               <FaShare /> Share
+            </button>
+            <button>
+              <FaBookmark /> Save
             </button>
           </div>
 
           {/* Article Content */}
           <div className="trend-description">
-            {trendData?.content.split("\n").map((paragraph, index) => (
+            {trendData?.content?.split(/\r?\n/).map((paragraph, index) => (
               <p key={index}>{paragraph}</p>
             ))}
           </div>
@@ -165,7 +172,9 @@ const TrendPage = ({ params }: Params) => {
                         {/* {comment.createdAt
                           ? format(comment.createdAt, "d MMM yyyy")
                           : "Invalid date"} */}
-                        {comment.createdAt.toLocaleString()}
+                        {comment.createdAt
+                          ? format(new Date(comment.createdAt), "d MMM, yyyy")
+                          : "Invalid date"}
                       </span>
                     </div>
                     <p className="comment-content">{comment.comment}</p>

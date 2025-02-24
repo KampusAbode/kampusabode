@@ -42,6 +42,7 @@
           border-radius: var(--border-radius);
           border: var(--border-hover);
           border-color: transparent;
+            overflow: hidden;
           cursor: pointer;
 
           &:hover {

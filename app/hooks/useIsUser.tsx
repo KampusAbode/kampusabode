@@ -79,7 +79,11 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
         name: userData.name,
         email: userData.email,
         userType: userData.userType,
-        userInfo: userData.userInfo || {}
+        userInfo: userData.userInfo || {},
+        bio: userData.bio,
+        avatar: userData.avatar,
+        phoneNumber: userData.phoneNumber,
+        university: userData.university,
       })
     );
   };

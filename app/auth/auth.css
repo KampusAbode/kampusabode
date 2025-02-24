@@ -4,7 +4,9 @@
 
   .container {
     width: 100%;
+    margin: 0 auto;
     min-height: 100vh;
+    max-height: 100vh;
     overflow: hidden;
 
     display: grid;
@@ -20,7 +22,8 @@
       }
     }
     .fm {
-      padding-top: var(--spacing-s);
+      padding-block: var(--spacing-2x);
+      overflow-y: auto;
 
       h4 {
         margin-top: var(--spacing-4x);

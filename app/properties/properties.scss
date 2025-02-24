@@ -62,10 +62,10 @@
 }
 
 .user-search {
-  padding-block: var(--spacing-2x);
+  padding-block: var(--spacing);
   .container{
     max-width: 750px;
-    margin: 0 auto var(--spacing-2x);
+    margin: 0 auto;
     display: grid;
     grid-template-columns: 8fr 1.3fr;
     background-color: var(--background-white);
@@ -100,9 +100,9 @@
 
 .filter {
   background: var(--background-white);
-  margin-bottom: var(--spacing);
   border-radius: var(--border-radius);
-  padding-block: var(--spacing-h);
+  // margin-block: var(--spacing);
+  padding-block: var(--spacing);
   position: sticky;
   top: 0px;
   z-index: 999;
@@ -139,7 +139,7 @@
   }
 }
 .property-listings {
-  margin: var(--spacing-2x) 0 var(--spacing-4x);
+  margin: var(--spacing) 0 var(--spacing-3x);
   .properties {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
