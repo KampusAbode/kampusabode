@@ -3,6 +3,8 @@ import Image from "next/image";
 import { UserType } from "../../fetch/types";
 
 const ProfileOverview = ({ user }: { user: UserType }) => {
+  console.log(user);
+  
   return (
     <div className="profile-overview">
       <div className="dt">
@@ -10,25 +12,22 @@ const ProfileOverview = ({ user }: { user: UserType }) => {
           <Image
             priority
             src={user?.avatar || "/assets/person3.jpg"}
-            width={800}
-            height={800}
+            width={1000}
+            height={1000}
             alt="profile picture"
           />
         </div>
         <div className="tdt">
           <span>Name: {user?.name}</span>
           <span>Email: {user?.email}</span>
-          <span>
-            Phone:{" "}
-            {!user?.phoneNumber ? "Null" : user?.phoneNumber}
-          </span>
+          <span>Phone: {user?.phoneNumber}</span>
+          <span>University: {user?.university}</span>
           <span>Status: {user?.userType}</span>
-          <span>
-            Department:{" "}
-            {user?.userType === "student" && "department" in user.userInfo
-              ? user?.userInfo?.department
-              : ""}
-          </span>
+          {user?.userType === "student" && "department" in user.userInfo ? (
+            <span>Department: user?.userInfo?.department</span>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>

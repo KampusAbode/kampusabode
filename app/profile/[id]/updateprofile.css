@@ -3,7 +3,7 @@
     /* min-height: 100vh; */
     max-width: 900px;
     .fm {
-      padding-top: var(--spacing-5x);
+      padding-block: var(--spacing-5x);
 
       h4 {
         margin-block: var(--spacing-2x);
@@ -31,7 +31,8 @@
           }
 
           input,
-          select {
+          select,
+          textarea {
             width: 100%;
             border: var(--border);
             border-radius: var(--border-radius);
@@ -42,6 +43,10 @@
             &:focus {
               border: var(--border-hover);
             }
+          }
+
+          textarea{
+            resize: none;
           }
 
           span {

@@ -12,6 +12,7 @@ import Loader from "../components/loader/Loader";
 import { RootState } from "../redux/store";
 import toast from "react-hot-toast";
 import CryptoJS from "crypto-js";
+import { UserType, StudentUserInfo, AgentUserInfo } from "../fetch/types";
 
 interface UseIsUserProps {
   children: ReactNode;
@@ -30,7 +31,7 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
   const dispatch = useDispatch();
 
   // Helper: Fetch and decrypt user data from localStorage
-  const getStoredUserData = () => {
+  const getStoredUserData = (): UserType | null => {
     const data = localStorage.getItem(
       process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!
     );
@@ -42,7 +43,7 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
         process.env.NEXT_PUBLIC__ENCSECRET_KEY!
       ).toString(CryptoJS.enc.Utf8);
 
-      
+      if (!decryptedData) return null;
       return JSON.parse(decryptedData);
     } catch (err) {
       console.error("Error decrypting user data:", err);
@@ -51,7 +52,7 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
   };
 
   // Helper: Encrypt and store user data in localStorage
-  const storeUserData = (data: any) => {
+  const storeUserData = (data: UserType) => {
     const encryptedData = CryptoJS.AES.encrypt(
       JSON.stringify(data),
       process.env.NEXT_PUBLIC__ENCSECRET_KEY!
@@ -63,7 +64,7 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
   };
 
   // Helper: Dispatch user data to Redux store
-  const updateReduxState = (userId: string, userData: any) => {
+  const updateReduxState = (userId: string, userData: UserType) => {
     dispatch(
       setUser({
         id: userId,
@@ -73,17 +74,18 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
         isAuthenticated: true,
       })
     );
+
     dispatch(
       setUserData({
         id: userId,
         name: userData.name,
         email: userData.email,
-        userType: userData.userType,
-        userInfo: userData.userInfo || {},
         bio: userData.bio,
         avatar: userData.avatar,
         phoneNumber: userData.phoneNumber,
         university: userData.university,
+        userType: userData.userType,
+        userInfo: userData.userInfo,
       })
     );
   };
@@ -93,7 +95,7 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
     const fetchUserData = async () => {
       if (!userLogged) {
         setLoading(false);
-        return <>{children}</>;
+        return;
       }
 
       const storedData = getStoredUserData();
@@ -106,7 +108,28 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
           const userSnapshot = await getDoc(userDocRef);
 
           if (userSnapshot.exists()) {
-            const userData = userSnapshot.data();
+            const userData = userSnapshot.data() as UserType;
+
+            // Ensure userInfo is properly typed
+            if (userData.userType === "student") {
+              userData.userInfo = {
+                department:
+                  (userData.userInfo as StudentUserInfo).department || "",
+                currentYear:
+                  (userData.userInfo as StudentUserInfo).currentYear || 1,
+                savedProperties:
+                  (userData.userInfo as StudentUserInfo).savedProperties || [],
+                wishlist: (userData.userInfo as StudentUserInfo).wishlist || [],
+              };
+            } else if (userData.userType === "agent") {
+              userData.userInfo = {
+                agencyName:
+                  (userData.userInfo as AgentUserInfo).agencyName || "",
+                propertiesListed:
+                  (userData.userInfo as AgentUserInfo).propertiesListed || [],
+              };
+            }
+
             updateReduxState(userLogged.uid, userData);
             storeUserData(userData);
           } else {
@@ -125,15 +148,15 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
   }, [userLogged, dispatch]);
 
   // Effect: Handle redirection based on auth state
-  // useEffect(() => {
-  //   if (loading) return;
+  useEffect(() => {
+    if (loading) return;
 
-  //   if (pathname === "/" && isAuthenticated) {
-  //     router.push("/properties");
-  //   } else if (pathname === "/auth/login" && !isAuthenticated) {
-  //     router.push("/auth/login");
-  //   }
-  // }, [isAuthenticated, pathname, loading, router]);
+    if (pathname === "/" && isAuthenticated) {
+      router.push("/properties");
+    } else if (pathname === "/auth/login" && !isAuthenticated) {
+      router.push("/auth/login");
+    }
+  }, [isAuthenticated, pathname, loading, router]);
 
   // Render loading or error states
   if (loading) return <Loader />;

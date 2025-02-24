@@ -50,7 +50,7 @@ export interface PropertyType {
   agentId: string;
   title: string;
   description: string;
-  price: string;
+  price: number;
   location: string;
   neighborhood_overview: string;
   type: string;

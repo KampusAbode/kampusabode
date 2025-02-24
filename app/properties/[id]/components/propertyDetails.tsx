@@ -40,7 +40,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
     try {
       const details = await fetchPropertyById(id);
       setPropertyDetails(details);
-      const agentId = details.agentId; // Directly using `details` here
+      const agentId = details.agentId; 
 
       const agent = await fetchUsersById(agentId);
       setAgentDetails(agent);
@@ -146,7 +146,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                     <Image
                       priority
                       src={
-                        agentDetails.userInfo?.avatar || "/assets/person1.jpg"
+                        agentDetails?.avatar || "/assets/person1.jpg"
                       }
                       width={500}
                       height={500}
@@ -176,7 +176,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
               <div className="bio">
                 <p>
                   <strong>Bio: </strong>
-                  {agentDetails?.userInfo?.bio || "No bio available."}
+                  {agentDetails?.bio || "No bio available."}
                 </p>
               </div>
             </div>

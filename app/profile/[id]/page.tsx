@@ -2,21 +2,18 @@
 
 import React, { ChangeEvent, useState } from "react";
 import { toast } from "react-hot-toast";
-import { updateUserProfile } from "../../utils";
+import { updateUserProfile, uploadImageToAppwrite } from "../../utils";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { UserType, StudentUserInfo, AgentUserInfo } from "../../fetch/types";
-import { Client, Storage } from "appwrite";
 import './updateprofile.css'
+import  { useRouter } from "next/navigation";
+import { setUser } from "../../redux/stateSlice/userSlice";
+import { setUserData } from "../../redux/stateSlice/userdataSlice";
 
-  const client = new Client();
-  client
-    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
-    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
-
-const storage = new Storage(client);
 
 const CreateProfilePage = () => {
+  const router = useRouter();
   const user = useSelector((state: RootState) => state.user);
   const userdata = useSelector((state: RootState) => state.userdata);
 
@@ -54,26 +51,7 @@ const CreateProfilePage = () => {
     }
   };
 
-  const uploadImageToAppwrite = async (): Promise<string | null> => {
-    if (!imageFile) return null;
-
-    try {
-      const response = await storage.createFile(
-        "your_bucket_id", // Replace with your Appwrite storage bucket ID
-        imageFile.name,
-        imageFile
-      );
-
-      toast.success("profile picture uploaded");
-
-      const fileId = response.$id;
-      return `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID}/files/${fileId}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin`;
-    } catch (error) {
-      console.error("Image upload failed", error);
-      toast.error("Failed to upload image.");
-      return null;
-    }
-  };
+ 
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -84,23 +62,62 @@ const CreateProfilePage = () => {
       let avatarUrl = formValues?.avatar || "";
 
       if (imageFile) {
-        const uploadedImageUrl = await uploadImageToAppwrite();
+        const uploadedImageUrl = await uploadImageToAppwrite(
+          imageFile,
+          process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID
+        );
         if (uploadedImageUrl) {
           avatarUrl = uploadedImageUrl;
         }
       }
 
-      const updatedUserData = {
+      const updatedUserData: UserType = {
         ...formValues,
-        userInfo: {
-          ...formValues?.userInfo,
-          avatar: avatarUrl,
-        },
+        avatar: avatarUrl,
       };
 
       const response = await updateUserProfile(userdata?.id, updatedUserData);
+
       if (response.success) {
         toast.success(`${response.message} 🎉`);
+
+        // Encrypt user data and store in localStorage
+        const encryptedData = CryptoJS.AES.encrypt(
+          JSON.stringify(updatedUserData),
+          process.env.NEXT_PUBLIC__ENCSECRET_KEY!
+        ).toString();
+        localStorage.setItem(
+          process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!,
+          encryptedData
+        );
+
+        // Dispatch to Redux store
+        dispatch(
+          setUser({
+            id: userdata?.id,
+            username: updatedUserData.name,
+            email: updatedUserData.email,
+            userType: updatedUserData.userType,
+            isAuthenticated: true,
+          })
+        );
+
+        dispatch(
+          setUserData({
+            id: userdata?.id,
+            name: updatedUserData.name,
+            email: updatedUserData.email,
+            bio: updatedUserData.bio,
+            avatar: updatedUserData.avatar,
+            phoneNumber: updatedUserData.phoneNumber,
+            university: updatedUserData.university,
+            userType: updatedUserData.userType,
+            userInfo: updatedUserData.userInfo,
+          })
+        );
+
+        // Redirect to profile page
+        router.push("/profile");
       }
     } catch (error: any) {
       toast.error(error.message || "An unexpected error occurred.");
@@ -108,6 +125,7 @@ const CreateProfilePage = () => {
 
     setIsSubmitting(false);
   };
+
 
   return (
     <div className="profile-update">
@@ -175,7 +193,7 @@ const CreateProfilePage = () => {
                 name="bio"
                 id="bio"
                 placeholder="Tell us about yourself"
-                value={formValues.bio || ""}
+                value={formValues?.bio || ""}
                 onChange={handleInputChange}
               />
             </div>
@@ -224,3 +242,7 @@ const CreateProfilePage = () => {
 };
 
 export default CreateProfilePage;
+function dispatch(arg0: any) {
+  throw new Error("Function not implemented.");
+}
+

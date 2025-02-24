@@ -17,10 +17,17 @@ import {
 // import CryptoJS from "crypto-js";
 import { PropertyType } from "../fetch/types";
 
+
 export const fetchProperties = async (): Promise<PropertyType[]> => {
   try {
     const propertiesCollection = collection(db, "properties");
-    const snapshot = await getDocs(propertiesCollection);
+
+    // Apply a Firestore query to fetch only approved properties
+    const approvedQuery = query(
+      propertiesCollection,
+      where("approved", "==", true)
+    );
+    const snapshot = await getDocs(approvedQuery);
 
     // Map each document to a PropertyType object
     const propertiesList: PropertyType[] = snapshot.docs.map((doc) => {
@@ -28,12 +35,12 @@ export const fetchProperties = async (): Promise<PropertyType[]> => {
 
       // Ensure the data returned from Firebase matches PropertyType
       const property: PropertyType = {
-        id: data.id || null,
+        id: doc.id, // Use Firestore document ID
         url: data.url || "",
         agentId: data.agentId || null,
         title: data.title || "",
         description: data.description || "",
-        price: data.price || "",
+        price: data.price || 0,
         location: data.location || "",
         neighborhood_overview: data.neighborhood_overview || "",
         type: data.type || "",
@@ -43,6 +50,7 @@ export const fetchProperties = async (): Promise<PropertyType[]> => {
         amenities: data.amenities || [],
         images: data.images || [],
         available: data.available || false,
+        approved: data.approved || false, // Should always be true
       };
 
       return property;
@@ -78,7 +86,7 @@ export const fetchPropertyById = async (
         agentId: data.agentId || null,
         title: data.title || "",
         description: data.description || "",
-        price: data.price || "",
+        price: data.price || 0,
         location: data.location || "",
         neighborhood_overview: data.neighborhood_overview || "",
         type: data.type || "",
@@ -88,6 +96,7 @@ export const fetchPropertyById = async (
         amenities: data.amenities || [],
         images: data.images || [],
         available: data.available || false,
+        approved: false
       };
       return property;
     } else {
@@ -125,7 +134,7 @@ export const fetchPropertiesByIds = async (propertyIds: string[]): Promise<Prope
         agentId: data.agentId || null,
         title: data.title || "",
         description: data.description || "",
-        price: data.price || "",
+        price: data.price || 0,
         location: data.location || "",
         neighborhood_overview: data.neighborhood_overview || "",
         type: data.type || "",
@@ -135,6 +144,7 @@ export const fetchPropertiesByIds = async (propertyIds: string[]): Promise<Prope
         amenities: data.amenities || [],
         images: data.images || [],
         available: data.available || false,
+        approved: data.approved || false
       };
     });
 
@@ -176,9 +186,14 @@ export const addProperty = async (property) => {
       amenities: property.amenities,
       images: property.images,
       available: property.available,
+      approved: false,
     });
 
-    return {success: "uploaded apartment successfully", url: propertyUrl};
+    return {
+      success: "uploaded apartment successfully",
+      url: propertyUrl,
+      propertyId: uid,
+    };
   } catch (error) {
     throw {
       message: (error as Error).message || "Failed to upload Apartment",

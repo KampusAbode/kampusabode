@@ -82,7 +82,7 @@ const TrendPage = ({ params }: Params) => {
     try {
       console.log(user);
 
-      if (!user || !user.id || !user.userInfo || !user.userInfo.avatar) {
+      if (!user || !user?.id || !user?.userInfo || !user?.avatar) {
         toast.error("Please sign in to add a comment.");
         return;
       }
@@ -91,7 +91,7 @@ const TrendPage = ({ params }: Params) => {
         trendId: id,
         userName: user.name,
         comment,
-        userProfile: user.userInfo.avatar,
+        userProfile: user?.avatar,
         createdAt: new Date(),
       };
       await sendUserComment(newComment);

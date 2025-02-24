@@ -4,13 +4,13 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { storage, ID } from "../../lib/appwriteClient";
 import { addProperty, uploadImagesToAppwrite } from "../../utils";
 import toast from "react-hot-toast";
 import { PropertyType } from "../../fetch/types";
 import "./upload.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import CryptoJS from "crypto-js";
 
 const locationOptions = [
   "Asherifa",
@@ -68,54 +68,96 @@ const validationSchema = Yup.object().shape({
     .typeError("Area must be a number")
     .required("Area is required"),
   amenities: Yup.array().of(Yup.string()).required("Amenities are required"),
-  images: Yup.mixed().required("Images are required"),
+  images: Yup.mixed()
+    .test("fileRequired", "At least one image is required", (value) => {
+      return value && (value as File[]).length > 0;
+    })
+    .required("Images are required"),
   available: Yup.boolean().required("Availability is required"),
 });
 
-const UploadProperty = () => {
+const UploadProperty: React.FC = () => {
   const router = useRouter();
   const user = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     if (!user || user.userType !== "agent") {
       toast.error("Access denied. Only agents can upload properties.");
-      router.back(); // Redirect to the previous page
+      router.back();
     }
   }, [user, router]);
 
-  
-
   const handleSubmit = async (
-    values: any,
-    { setSubmitting, resetForm, setStatus }: any
+    values: PropertyType,
+    {
+      setSubmitting,
+      resetForm,
+      setStatus,
+    }: {
+      setSubmitting: (isSubmitting: boolean) => void;
+      resetForm: () => void;
+      setStatus: (status: { success?: string; error?: string }) => void;
+    }
   ) => {
     setSubmitting(true);
 
     try {
       // Upload images to Appwrite
       const imageUrls = await uploadImagesToAppwrite(
-        values.images,
-        process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID
+        values.images as unknown as File[],
+        process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID!
       );
 
-      // Include the uploaded image URLs in the property data
-      const propertyData = {
+      // Prepare property data for database insertion
+      const propertyData: PropertyType = {
         ...values,
         agentId: user.id,
         images: imageUrls,
-        available: values.available === "true" ? true : false,
+        available: Boolean(values.available),
       };
-      console.log(propertyData);
+
+      console.log("Property Data:", propertyData);
       const response = await addProperty(propertyData);
-
       toast.success(response.success);
-
       setStatus({ success: "Property uploaded successfully!" });
       resetForm();
 
-      // Redirect to the property page
+      // Update local storage for agent's properties
+      if (user.userType === "agent") {
+        const storageKey = process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!;
+        const encKey = process.env.NEXT_PUBLIC__ENCSECRET_KEY!;
+        const storedData = localStorage.getItem(storageKey);
+        if (storedData) {
+          try {
+            const decryptedData = CryptoJS.AES.decrypt(
+              storedData,
+              encKey
+            ).toString(CryptoJS.enc.Utf8);
+            const userData: any = JSON.parse(decryptedData);
+            if (
+              userData.userType === "agent" &&
+              userData.userInfo &&
+              userData.userInfo.propertiesListed
+            ) {
+              userData.userInfo.propertiesListed = [
+                ...userData.userInfo.propertiesListed,
+                response.propertyId,
+              ];
+              const encryptedData = CryptoJS.AES.encrypt(
+                JSON.stringify(userData),
+                encKey
+              ).toString();
+              localStorage.setItem(storageKey, encryptedData);
+            }
+          } catch (err) {
+            console.error("Error updating local storage:", err);
+          }
+        }
+      }
+
+      // Redirect to the new property's page
       router.push(response.url);
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error.message);
       setStatus({ error: error.message });
     } finally {
@@ -131,7 +173,7 @@ const UploadProperty = () => {
           initialValues={{
             title: "",
             description: "",
-            price: "",
+            price: 0,
             location: "",
             neighborhood_overview: "",
             type: "",
@@ -141,10 +183,14 @@ const UploadProperty = () => {
             amenities: [],
             images: [],
             available: false,
+            id: "",
+            url: "",
+            agentId: "",
+            approved: false,
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}>
-          {({ setFieldValue, isSubmitting, status }) => (
+          {({ setFieldValue, isSubmitting }) => (
             <Form>
               <div className="form-group">
                 <label htmlFor="title">Title</label>
@@ -152,96 +198,18 @@ const UploadProperty = () => {
                 <ErrorMessage name="title" component="div" className="error" />
               </div>
               <div className="form-group">
-                <label htmlFor="description">Description</label>
-                <Field as="textarea" id="description" name="description" />
-                <ErrorMessage
-                  name="description"
-                  component="div"
-                  className="error"
-                />
-              </div>
-              <div className="form-group">
                 <label htmlFor="price">Price</label>
-                <Field type="text" id="price" name="price" />
+                <Field type="number" id="price" name="price" />
                 <ErrorMessage name="price" component="div" className="error" />
               </div>
               <div className="form-group">
-                <label htmlFor="location">Location</label>
-                <Field as="select" id="location" name="location">
-                  <option value="">Select Location</option>
-                  {locationOptions.map((location) => (
-                    <option key={location} value={location}>
-                      {location}
-                    </option>
-                  ))}
+                <label htmlFor="available">Available</label>
+                <Field as="select" id="available" name="available">
+                  <option value="true">Yes</option>
+                  <option value="false">No</option>
                 </Field>
                 <ErrorMessage
-                  name="location"
-                  component="div"
-                  className="error"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="neighborhood_overview">
-                  Neighborhood Overview
-                </label>
-                <Field
-                  as="textarea"
-                  id="neighborhood_overview"
-                  name="neighborhood_overview"
-                />
-                <ErrorMessage
-                  name="neighborhood_overview"
-                  component="div"
-                  className="error"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="type">Type</label>
-                <Field as="select" id="type" name="type">
-                  <option value="">Select Type</option>
-                  {typeOptions.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
-                    </option>
-                  ))}
-                </Field>
-                <ErrorMessage name="type" component="div" className="error" />
-              </div>
-              <div className="form-group">
-                <label htmlFor="bedrooms">Bedrooms</label>
-                <Field type="number" id="bedrooms" name="bedrooms" />
-                <ErrorMessage
-                  name="bedrooms"
-                  component="div"
-                  className="error"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="bathrooms">Bathrooms</label>
-                <Field type="number" id="bathrooms" name="bathrooms" />
-                <ErrorMessage
-                  name="bathrooms"
-                  component="div"
-                  className="error"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="area">Area (sqft)</label>
-                <Field type="number" id="area" name="area" />
-                <ErrorMessage name="area" component="div" className="error" />
-              </div>
-              <div className="form-group">
-                <label htmlFor="amenities">Amenities (comma separated)</label>
-                <Field as="select" id="amenities" name="amenities" multiple>
-                  {amenitiesOptions.map((amenity) => (
-                    <option key={amenity} value={amenity}>
-                      {amenity}
-                    </option>
-                  ))}
-                </Field>
-                <ErrorMessage
-                  name="amenities"
+                  name="available"
                   component="div"
                   className="error"
                 />
@@ -263,27 +231,9 @@ const UploadProperty = () => {
                 />
                 <ErrorMessage name="images" component="div" className="error" />
               </div>
-              <div className="form-group">
-                <label htmlFor="available">Available</label>
-                <Field as="select" id="available" name="available">
-                  <option value={"true"}>Yes</option>
-                  <option value="false">No</option>
-                </Field>
-                <ErrorMessage
-                  name="available"
-                  component="div"
-                  className="error"
-                />
-              </div>
-              <button type="submit" className="btn" disabled={isSubmitting}>
+              <button type="submit" disabled={isSubmitting}>
                 {isSubmitting ? "Uploading..." : "Upload Property"}
               </button>
-              {status && status.success && (
-                <div className="success">{status.success}</div>
-              )}
-              {status && status.error && (
-                <div className="error">{status.error}</div>
-              )}
             </Form>
           )}
         </Formik>
