@@ -62,7 +62,7 @@ const ListedProperties = ({ user }: { user: UserType }) => {
           <p className="error">{error}</p>
         ) : filteredProperties.length > 0 ? (
           <ul>
-            {filteredProperties.map((property) => (
+            {filteredProperties.map((property, index) => (
               <li key={property.id}>
                 <Link href={property.url}>
                   <Image
@@ -70,17 +70,22 @@ const ListedProperties = ({ user }: { user: UserType }) => {
                     src={property.images[0]}
                     alt={property.title}
                     width={500}
-                    height={300}
+                    height={500}
                   />
                   <div className="detail">
                     <span>{property.title}</span>
                     <span>₦{property.price}</span>
                   </div>
-
-                  <div>
-                    <SlOptionsVertical />
-                  </div>
                 </Link>
+
+                <div className="option-btn"> 
+                  <SlOptionsVertical />
+                </div>
+
+                <div className="options">
+                  <button>edit</button>
+                  <button>delete</button>
+                </div>
               </li>
             ))}
           </ul>

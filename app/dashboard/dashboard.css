@@ -113,15 +113,17 @@
   grid-template-columns: repeat(3, 1fr);
   gap: var(--spacing-2x);
 }
+.dashboard .student-dashboard .listed-properties .property-list ul li,
+.dashboard .agent-dashboard .listed-properties .property-list ul li {
+  display: grid;
+  grid-template-columns: auto 1.5rem;
+  background-color: var(--light-gray);
+  position: relative;
+}
 .dashboard .student-dashboard .listed-properties .property-list ul li a,
 .dashboard .agent-dashboard .listed-properties .property-list ul li a {
   display: grid;
-  grid-template-columns: 3fr 7fr auto;
-  background-color: var(--light-gray);
-}
-.dashboard .student-dashboard .listed-properties .property-list ul li a div,
-.dashboard .agent-dashboard .listed-properties .property-list ul li a div {
-  padding: var(--spacing);
+  grid-template-columns: 1fr 1fr;
 }
 .dashboard .student-dashboard .listed-properties .property-list ul li a img,
 .dashboard .agent-dashboard .listed-properties .property-list ul li a img {
@@ -150,6 +152,19 @@
   line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+.dashboard .student-dashboard .listed-properties .property-list ul li .option-btn,
+.dashboard .agent-dashboard .listed-properties .property-list ul li .option-btn {
+  padding: var(--spacing);
+}
+.dashboard .student-dashboard .listed-properties .property-list ul li .options,
+.dashboard .agent-dashboard .listed-properties .property-list ul li .options {
+  box-shadow: var(--shadow);
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  position: absolute;
+  bottom: 105%;
+  right: 0;
 }
 .dashboard .student-dashboard .student-reviews ul li,
 .dashboard .agent-dashboard .student-reviews ul li {

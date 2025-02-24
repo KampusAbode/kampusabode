@@ -23,4 +23,14 @@
 }
 .profile-page .container .cp {
   margin-top: var(--spacing-2x);
+}
+
+@media screen and (max-width: 786px) {
+  .profile-page .container .profile-overview .dt {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .profile-page .container .profile-overview .dt .img {
+    height: 300px;
+  }
 }/*# sourceMappingURL=profile.css.map */

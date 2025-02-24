@@ -1,8 +1,6 @@
 .profile-page {
   margin-bottom: var(--spacing-3x);
   .container {
-    
-
     .profile-overview {
       box-shadow: var(--shadow);
       margin-top: var(--spacing);
@@ -28,9 +26,24 @@
       }
     }
 
-    .cp{
+    .cp {
       margin-top: var(--spacing-2x);
+    }
+  }
+}
 
+@media screen and (max-width: 786px) {
+  .profile-page {
+    .container {
+      .profile-overview {
+        .dt {
+          display: grid;
+          grid-template-columns: 1fr;
+          .img {
+            height: 300px;
+          }
+        }
+      }
     }
   }
 }

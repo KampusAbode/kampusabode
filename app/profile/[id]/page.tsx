@@ -10,6 +10,7 @@ import './updateprofile.css'
 import  { useRouter } from "next/navigation";
 import { setUser } from "../../redux/stateSlice/userSlice";
 import { setUserData } from "../../redux/stateSlice/userdataSlice";
+import CryptoJS from "crypto-js";
 
 
 const CreateProfilePage = () => {
