@@ -116,14 +116,16 @@
 .dashboard .student-dashboard .listed-properties .property-list ul li,
 .dashboard .agent-dashboard .listed-properties .property-list ul li {
   display: grid;
-  grid-template-columns: auto 1.5rem;
+  grid-template-columns: auto auto;
   background-color: var(--light-gray);
+  border: var(--border);
+  border-radius: var(--border-radius);
   position: relative;
 }
 .dashboard .student-dashboard .listed-properties .property-list ul li a,
 .dashboard .agent-dashboard .listed-properties .property-list ul li a {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
 }
 .dashboard .student-dashboard .listed-properties .property-list ul li a img,
 .dashboard .agent-dashboard .listed-properties .property-list ul li a img {
@@ -155,16 +157,34 @@
 }
 .dashboard .student-dashboard .listed-properties .property-list ul li .option-btn,
 .dashboard .agent-dashboard .listed-properties .property-list ul li .option-btn {
-  padding: var(--spacing);
+  padding: var(--spacing-h);
+  cursor: pointer;
 }
 .dashboard .student-dashboard .listed-properties .property-list ul li .options,
 .dashboard .agent-dashboard .listed-properties .property-list ul li .options {
   box-shadow: var(--shadow);
   background-color: var(--white);
   border-radius: var(--border-radius);
+  border: var(--border);
+  overflow: hidden;
   position: absolute;
   bottom: 105%;
   right: 0;
+}
+.dashboard .student-dashboard .listed-properties .property-list ul li .options button,
+.dashboard .agent-dashboard .listed-properties .property-list ul li .options button {
+  width: 100%;
+  border: none;
+  background-color: var(--white);
+  display: block;
+  padding: var(--spacing-b);
+  text-align: center;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+.dashboard .student-dashboard .listed-properties .property-list ul li .options button:hover,
+.dashboard .agent-dashboard .listed-properties .property-list ul li .options button:hover {
+  background-color: var(--light-gray);
 }
 .dashboard .student-dashboard .student-reviews ul li,
 .dashboard .agent-dashboard .student-reviews ul li {

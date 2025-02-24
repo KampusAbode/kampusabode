@@ -12,10 +12,12 @@ import {
   query,
   where,
   setDoc,
+  deleteDoc,
 } from "firebase/firestore";
 
 // import CryptoJS from "crypto-js";
 import { PropertyType } from "../fetch/types";
+import { storage } from "../lib/appwriteClient";
 
 
 export const fetchProperties = async (): Promise<PropertyType[]> => {
@@ -201,6 +203,60 @@ export const addProperty = async (property) => {
     };
   }
 };
+
+export const deleteProperty = async (
+  propertyId: string,
+  imageUrls: string[]
+) => {
+  try {
+    // 1. Delete the property from Firebase Firestore
+    const propertyRef = doc(db, "properties", propertyId);
+    await deleteDoc(propertyRef);
+
+    // 2. Delete associated images from Appwrite
+    await Promise.all(imageUrls.map((url) => deleteAppwriteImage(url)));
+
+    return {
+      success: true,
+      message: "Property and images deleted successfully.",
+    };
+  } catch (error) {
+    console.error("Error deleting property:", error);
+    return { success: false, message: "Failed to delete property." };
+  }
+};
+
+
+export const deleteAppwriteImage = async (imageUrl: string) => {
+  try {
+    const fileId = extractAppwriteFileId(imageUrl);
+    if (!fileId) throw new Error("File ID extraction failed.");
+
+    await storage.deleteFile(
+      process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID!,
+      fileId
+    );
+
+    return { success: true, message: "Image deleted successfully." };
+  } catch (error) {
+    console.error("Failed to delete image from Appwrite:", error);
+    return { success: false, message: "Failed to delete image." };
+  }
+};
+
+// Function to extract Appwrite File ID from URL
+export const extractAppwriteFileId = (imageUrl: string) => {
+  try {
+    const match = imageUrl.match(/\/files\/(.*?)\/view/);
+    if (match && match[1]) {
+      return match[1]; // Extract the file ID
+    }
+    throw new Error("Invalid Appwrite file URL format");
+  } catch (error) {
+    throw new Error("Failed to extract Appwrite file ID");
+  }
+};
+
 
 export const updateAllProperties = async () => {
   try {

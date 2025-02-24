@@ -4,9 +4,12 @@ import { useState, useEffect } from "react";
 import { fetchPropertiesByIds } from "../../utils";
 import { UserType, PropertyType } from "../../fetch/types";
 import { SlOptionsVertical } from "react-icons/sl";
+import { deleteProperty } from "../../utils/properties";
 import Link from "next/link";
 import Image from "next/image";
 import Loader from "../loader/Loader";
+import Prompt from "../prompt/Prompt";
+import toast from "react-hot-toast";
 
 const ListedProperties = ({ user }: { user: UserType }) => {
   const [filteredProperties, setFilteredProperties] = useState<PropertyType[]>(
@@ -14,12 +17,17 @@ const ListedProperties = ({ user }: { user: UserType }) => {
   );
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [activeProperty, setActiveProperty] = useState<string | null>(null);
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [selectedPropertyId, setSelectedPropertyId] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
     const fetchPropertiesFromDB = async () => {
       try {
-        setLoading(true); // Start loading
-        setError(null); // Reset any previous error
+        setLoading(true);
+        setError(null);
 
         if ("propertiesListed" in user.userInfo) {
           const propertiesListed = user.userInfo.propertiesListed || [];
@@ -31,21 +39,60 @@ const ListedProperties = ({ user }: { user: UserType }) => {
           const fetchedProperties: PropertyType[] = await fetchPropertiesByIds(
             propertiesListed
           );
-
           setFilteredProperties(fetchedProperties);
         }
       } catch (err: unknown) {
         const errorMessage =
           err instanceof Error ? err.message : "An unknown error occurred.";
         console.error("Error fetching properties:", errorMessage);
-        setError(errorMessage); // Set error message
+        setError(errorMessage);
       } finally {
-        setLoading(false); // End loading
+        setLoading(false);
       }
     };
 
     fetchPropertiesFromDB();
   }, [user]);
+
+  const handleDeleteClick = (propertyId: string) => {
+    setSelectedPropertyId(propertyId);
+    setShowPrompt(true);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      if (!selectedPropertyId) return;
+
+      const propertyToDelete = filteredProperties.find(
+        (p) => p.id === selectedPropertyId
+      );
+
+      if (!propertyToDelete) {
+        toast.error("Property not found!");
+        return;
+      }
+
+      const response = await deleteProperty(
+        selectedPropertyId,
+        propertyToDelete.images
+      );
+
+      if (response.success) {
+        toast.success(response.message);
+        setFilteredProperties((prev) =>
+          prev.filter((p) => p.id !== selectedPropertyId)
+        );
+      } else {
+        toast.error(response.message || "Failed to delete property.");
+      }
+    } catch (error) {
+      console.error("Error deleting property:", error);
+      toast.error("An unexpected error occurred while deleting the property.");
+    } finally {
+      setShowPrompt(false);
+      setSelectedPropertyId(null);
+    }
+  };
 
   return (
     <div className="listed-properties">
@@ -62,7 +109,7 @@ const ListedProperties = ({ user }: { user: UserType }) => {
           <p className="error">{error}</p>
         ) : filteredProperties.length > 0 ? (
           <ul>
-            {filteredProperties.map((property, index) => (
+            {filteredProperties.map((property) => (
               <li key={property.id}>
                 <Link href={property.url}>
                   <Image
@@ -78,14 +125,25 @@ const ListedProperties = ({ user }: { user: UserType }) => {
                   </div>
                 </Link>
 
-                <div className="option-btn"> 
+                <div
+                  className="option-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveProperty(
+                      activeProperty === property.id ? null : property.id
+                    );
+                  }}>
                   <SlOptionsVertical />
                 </div>
 
-                <div className="options">
-                  <button>edit</button>
-                  <button>delete</button>
-                </div>
+                {activeProperty === property.id && (
+                  <div className="options">
+                    {/* <button>Edit</button> */}
+                    <button onClick={() => handleDeleteClick(property.id)}>
+                      Delete
+                    </button>
+                  </div>
+                )}
               </li>
             ))}
           </ul>
@@ -93,6 +151,14 @@ const ListedProperties = ({ user }: { user: UserType }) => {
           <p>You have no listed properties.</p>
         )}
       </div>
+
+      {/* Show Prompt Component */}
+      <Prompt
+        message="This property can't be restored if deleted"
+        isOpen={showPrompt}
+        onConfirm={confirmDelete}
+        onCancel={() => setShowPrompt(false)}
+      />
     </div>
   );
 };

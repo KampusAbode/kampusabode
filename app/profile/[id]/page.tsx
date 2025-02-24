@@ -2,8 +2,8 @@
 
 import React, { ChangeEvent, useState } from "react";
 import { toast } from "react-hot-toast";
-import { updateUserProfile, uploadImageToAppwrite } from "../../utils";
-import { useSelector } from "react-redux";
+import { deleteAppwriteImage, updateUserProfile, uploadImageToAppwrite } from "../../utils";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { UserType, StudentUserInfo, AgentUserInfo } from "../../fetch/types";
 import './updateprofile.css'
@@ -15,8 +15,9 @@ import CryptoJS from "crypto-js";
 
 const CreateProfilePage = () => {
   const router = useRouter();
-  const user = useSelector((state: RootState) => state.user);
+  // const user = useSelector((state: RootState) => state.user);
   const userdata = useSelector((state: RootState) => state.userdata);
+  const dispatch = useDispatch();
 
   const [formValues, setFormValues] = useState<UserType>();
 
@@ -30,19 +31,13 @@ const CreateProfilePage = () => {
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    if (name.includes("studentInfo") || name.includes("agentInfo")) {
-      const [group, field] = name.split(".");
-      setFormValues((prevState) => ({
-        ...prevState,
-        userInfo: {
-          ...prevState.userInfo,
-          [field]: value,
-        },
-      }));
-    } else {
-      setFormValues((prevState) => ({ ...prevState, [name]: value }));
-    }
+
+    setFormValues((prevState) => ({
+      ...prevState,
+      ...(value.trim() !== "" && { [name]: value }), // Only store non-empty values
+    }));
   };
+
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -56,13 +51,16 @@ const CreateProfilePage = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     setIsSubmitting(true);
 
     try {
-      let avatarUrl = formValues?.avatar || "";
+      let avatarUrl = userdata?.avatar || "";
 
+      // If a new image is uploaded
       if (imageFile) {
+        if (userdata?.avatar) {
+          await deleteAppwriteImage(userdata.avatar);
+        }
         const uploadedImageUrl = await uploadImageToAppwrite(
           imageFile,
           process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID
@@ -72,52 +70,64 @@ const CreateProfilePage = () => {
         }
       }
 
-      const updatedUserData: UserType = {
-        ...formValues,
-        avatar: avatarUrl,
-      };
+      // Filter out unchanged fields
+      const updatedUserData = Object.entries(formValues || {}).reduce(
+        (acc, [key, value]) => {
+          if (value !== userdata[key as keyof UserType]) {
+            acc[key as keyof UserType] = value;
+          }
+          return acc;
+        },
+        {} as Partial<UserType>
+      );
+
+      if (
+        Object.keys(updatedUserData).length === 0 &&
+        avatarUrl === userdata?.avatar
+      ) {
+        toast.error("No changes made.");
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Add avatar to update if it changed
+      if (avatarUrl !== userdata?.avatar) {
+        updatedUserData.avatar = avatarUrl;
+      }
 
       const response = await updateUserProfile(userdata?.id, updatedUserData);
+
+      const newData = response.userData
+
 
       if (response.success) {
         toast.success(`${response.message} 🎉`);
 
-        // Encrypt user data and store in localStorage
+        // Encrypt and store in localStorage
         const encryptedData = CryptoJS.AES.encrypt(
-          JSON.stringify(updatedUserData),
+          JSON.stringify({ newData }),
           process.env.NEXT_PUBLIC__ENCSECRET_KEY!
         ).toString();
+
         localStorage.setItem(
           process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!,
           encryptedData
         );
 
-        // Dispatch to Redux store
+        // Dispatch updates to Redux store
         dispatch(
           setUser({
             id: userdata?.id,
-            username: updatedUserData.name,
-            email: updatedUserData.email,
-            userType: updatedUserData.userType,
+            username: newData.name,
+            email: newData.email,
+            userType: newData.userType,
             isAuthenticated: true,
           })
         );
+        
+        // Dispatch updates to Redux store
+        dispatch(setUserData({ ...userdata, ...newData }));
 
-        dispatch(
-          setUserData({
-            id: userdata?.id,
-            name: updatedUserData.name,
-            email: updatedUserData.email,
-            bio: updatedUserData.bio,
-            avatar: updatedUserData.avatar,
-            phoneNumber: updatedUserData.phoneNumber,
-            university: updatedUserData.university,
-            userType: updatedUserData.userType,
-            userInfo: updatedUserData.userInfo,
-          })
-        );
-
-        // Redirect to profile page
         router.push("/profile");
       }
     } catch (error: any) {
@@ -126,6 +136,8 @@ const CreateProfilePage = () => {
 
     setIsSubmitting(false);
   };
+
+
 
 
   return (
@@ -243,7 +255,4 @@ const CreateProfilePage = () => {
 };
 
 export default CreateProfilePage;
-function dispatch(arg0: any) {
-  throw new Error("Function not implemented.");
-}
 

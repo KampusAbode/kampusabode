@@ -20,14 +20,7 @@ export const fetchUsersById = async (userId: string) => {
 
     // Check if the document exists and return user data
     if (userData.exists()) {
-      const data = userData.data() as UserType;
-      return {
-        id: data.id,
-        name: data.name,
-        email: data.email,
-        userType: data.userType,
-        userInfo: data.userInfo,
-      } as UserType;
+      return userData.data() as UserType;
     } else {
       throw new Error("No user found with the specified ID");
     }
@@ -58,12 +51,23 @@ export const saveUserProfile = async (userId: string, userData: UserType) => {
 
 export const updateUserProfile = async (userId: string, updates) => {
   try {
-    // Reference to the "users" collection
     const userDocRef = doc(db, "users", userId);
 
+    // Update the document
     await updateDoc(userDocRef, updates);
 
-    return { success: true, message: "profile updated successfully!" };
+    // Fetch the updated document
+    const updatedDoc = await getDoc(userDocRef);
+
+    if (!updatedDoc.exists()) {
+      throw new Error("User not found after update.");
+    }
+
+    return {
+      success: true,
+      message: "Profile updated successfully!",
+      userData: updatedDoc.data(),
+    };
   } catch (error) {
     throw new Error("Failed to update profile.");
   }

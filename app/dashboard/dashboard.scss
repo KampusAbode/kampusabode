@@ -112,12 +112,14 @@
           gap: var(--spacing-2x);
           li {
             display: grid;
-            grid-template-columns: auto 1.5rem;
+            grid-template-columns: auto auto;
             background-color: var(--light-gray);
+            border: var(--border) ;
+            border-radius: var(--border-radius);
             position: relative;
             a {
               display: grid;
-              grid-template-columns: 1fr 1fr;
+              grid-template-columns: 1fr 2fr;
 
               img {
                 height: 80px;
@@ -146,16 +148,34 @@
             }
 
             .option-btn {
-              padding: var(--spacing);
+              padding: var(--spacing-h);
+              cursor: pointer;
             }
 
             .options {
               box-shadow: var(--shadow);
               background-color: var(--white);
               border-radius: var(--border-radius);
+              border: var(--border);
+              overflow: hidden;
               position: absolute;
               bottom: 105%;
               right: 0;
+
+              button{
+                width: 100%;
+                border: none;
+                background-color: var(--white);
+                display: block;
+                padding: var(--spacing-b);
+                text-align: center;
+                text-transform: capitalize;
+                cursor: pointer;
+
+                &:hover{
+                  background-color: var(--light-gray);
+                }
+              }
             }
           }
         }

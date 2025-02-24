@@ -43,6 +43,8 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       const agentId = details.agentId; 
 
       const agent = await fetchUsersById(agentId);
+      console.log(agent);
+      
       setAgentDetails(agent);
       if (agent) {
         const properties = await fetchPropertiesByIds(
@@ -146,7 +148,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                     <Image
                       priority
                       src={
-                        agentDetails?.avatar || "/assets/person1.jpg"
+                        agentDetails?.avatar
                       }
                       width={500}
                       height={500}
