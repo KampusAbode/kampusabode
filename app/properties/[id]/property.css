@@ -82,8 +82,10 @@
   z-index: 2;
 }
 .properties-details-page .prop-image-details .property-images .control-image img {
-  width: 65px;
-  height: 65px;
+  width: 70px;
+  height: 70px;
+  min-width: 70px;
+  min-height: 70px;
   border-radius: var(--border-radius);
   -o-object-fit: cover;
      object-fit: cover;
@@ -151,7 +153,10 @@
           user-select: none;
 }
 .properties-details-page .container .top .about-agent .agent-details img {
-  border-radius: 500%;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  border-radius: 100%;
   width: 80px;
   height: 80px;
   -o-object-fit: cover;
@@ -160,6 +165,7 @@
 }
 .properties-details-page .container .top .about-agent .agent-details h5 {
   margin: 0;
+  font-size: var(--font-size-nm);
 }
 .properties-details-page .container .top .about-agent .agent-stats {
   display: grid;
@@ -219,50 +225,59 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
-.properties-details-page .container .agent-listings > div {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+.properties-details-page .container .agent-listings > div .agentProps {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  justify-content: left;
+  scroll-behavior: smooth;
   gap: var(--spacing);
+  padding-bottom: var(--spacing-h);
+  /* Hide scrollbar */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
-.properties-details-page .container .agent-listings > div .list-prop {
-  display: grid;
-  grid-template-columns: 25% 73%;
-  gap: 2%;
-  background-color: var(--light-gray);
+.properties-details-page .container .agent-listings > div .agentProps::-webkit-scrollbar {
+  display: none;
+}
+.properties-details-page .container .agent-listings > div .agentProps .list-prop {
+  flex: 0 0 90%;
+  max-width: 200px;
   border-radius: var(--border-radius);
-  border: 1px solid transparent;
+  transition: var(--transition);
   cursor: pointer;
 }
-.properties-details-page .container .agent-listings > div .list-prop:hover {
-  border: var(--border-hover);
+.properties-details-page .container .agent-listings > div .agentProps .list-prop:hover {
   color: var(--font-color-p);
+  transform: scale(0.992);
 }
-.properties-details-page .container .agent-listings > div .list-prop .list-image img {
+.properties-details-page .container .agent-listings > div .agentProps .list-prop .list-image {
+  overflow: hidden;
+}
+.properties-details-page .container .agent-listings > div .agentProps .list-prop .list-image img {
   border-radius: var(--border-radius);
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
   width: 100%;
-  height: 80px;
+  height: 120px;
   -o-object-fit: cover;
      object-fit: cover;
 }
-.properties-details-page .container .agent-listings > div .list-prop .list-details {
-  padding: var(--spacing-h);
+.properties-details-page .container .agent-listings > div .agentProps .list-prop .list-details {
+  padding-block: var(--spacing-h);
 }
-.properties-details-page .container .agent-listings > div .list-prop .list-details h6 {
+.properties-details-page .container .agent-listings > div .agentProps .list-prop .list-details h6 {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 1;
   line-clamp: 1;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 }
-.properties-details-page .container .agent-listings > div .list-prop .list-details span {
+.properties-details-page .container .agent-listings > div .agentProps .list-prop .list-details span {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
   line-clamp: 2;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   margin-top: var(--spacing-h);
   font-size: var(--font-size-sm);
@@ -317,6 +332,8 @@
   .properties-details-page .prop-image-details .property-images .control-image img {
     width: 60px;
     height: 60px;
+    min-width: 60px;
+    min-height: 60px;
     margin: 0;
   }
   .properties-details-page .container .top {
@@ -331,9 +348,6 @@
   }
   .properties-details-page .container .agent-reviews .reviews .review-item {
     width: 90%;
-  }
-  .properties-details-page .container .agent-listings > div {
-    grid-template-columns: 1fr;
   }
 }
 @media screen and (max-width: 480px) {

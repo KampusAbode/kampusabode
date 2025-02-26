@@ -13,6 +13,7 @@ import {
   where,
   setDoc,
   deleteDoc,
+  arrayUnion,
 } from "firebase/firestore";
 
 // import CryptoJS from "crypto-js";
@@ -128,27 +129,29 @@ export const fetchPropertiesByIds = async (propertyIds: string[]): Promise<Prope
     const querySnapshot = await getDocs(propertiesQuery);
 
     // Map the documents to PropertyType
-    const propertiesList: PropertyType[] = querySnapshot.docs.map((doc) => {
-      const data = doc.data() as PropertyType;
-      return {
-        id: data.id || null,
-        url: data.url || "",
-        agentId: data.agentId || null,
-        title: data.title || "",
-        description: data.description || "",
-        price: data.price || 0,
-        location: data.location || "",
-        neighborhood_overview: data.neighborhood_overview || "",
-        type: data.type || "",
-        bedrooms: data.bedrooms || 0,
-        bathrooms: data.bathrooms || 0,
-        area: data.area || 0,
-        amenities: data.amenities || [],
-        images: data.images || [],
-        available: data.available || false,
-        approved: data.approved || false
-      };
-    });
+    const propertiesList: PropertyType[] = querySnapshot.docs
+      .map((doc) => {
+        const data = doc.data() as PropertyType;
+        return {
+          id: data.id || null,
+          url: data.url || "",
+          agentId: data.agentId || null,
+          title: data.title || "",
+          description: data.description || "",
+          price: data.price || 0,
+          location: data.location || "",
+          neighborhood_overview: data.neighborhood_overview || "",
+          type: data.type || "",
+          bedrooms: data.bedrooms || 0,
+          bathrooms: data.bathrooms || 0,
+          area: data.area || 0,
+          amenities: data.amenities || [],
+          images: data.images || [],
+          available: data.available || false,
+          approved: data.approved || false,
+        };
+      })
+      .filter((property) => property.approved === true);
 
     return propertiesList;
   } catch (error) {
@@ -170,7 +173,6 @@ export const addProperty = async (property) => {
     const uid = newDocRef.id;
     const propertyUrl = `/properties/${uid}`;
 
-
     // Add the new property to the properties collection with the unique ID
     await setDoc(newDocRef, {
       id: uid,
@@ -189,6 +191,14 @@ export const addProperty = async (property) => {
       images: property.images,
       available: property.available,
       approved: false,
+    });
+
+    // Reference to the agent user document
+    const agentDocRef = doc(db, "users", property.agentId);
+
+    // Update the agent's `propertiesListed` array with the new property ID
+    await updateDoc(agentDocRef, {
+      "userInfo.propertiesListed": arrayUnion(uid), // Adds the property ID to the array
     });
 
     return {

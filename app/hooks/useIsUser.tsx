@@ -12,11 +12,67 @@ import Loader from "../components/loader/Loader";
 import { RootState } from "../redux/store";
 import toast from "react-hot-toast";
 import CryptoJS from "crypto-js";
-import { UserType, StudentUserInfo, AgentUserInfo } from "../fetch/types";
+import { UserType } from "../fetch/types";
 
 interface UseIsUserProps {
   children: ReactNode;
 }
+
+// 🔹 Helper: Fetch & decrypt user data
+const getStoredUserData = (): UserType | null => {
+  const data = localStorage.getItem(
+    process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!
+  );
+  if (!data) return null;
+
+  try {
+    const decryptedData = CryptoJS.AES.decrypt(
+      data,
+      process.env.NEXT_PUBLIC__ENCSECRET_KEY!
+    ).toString(CryptoJS.enc.Utf8);
+
+    return decryptedData ? JSON.parse(decryptedData) : null;
+  } catch (err) {
+    console.error("Decryption error:", err);
+    return null;
+  }
+};
+
+// 🔹 Helper: Encrypt & store user data
+const storeUserData = (data: UserType) => {
+  const encryptedData = CryptoJS.AES.encrypt(
+    JSON.stringify(data),
+    process.env.NEXT_PUBLIC__ENCSECRET_KEY!
+  ).toString();
+  localStorage.setItem(
+    process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!,
+    encryptedData
+  );
+};
+
+// 🔹 Helper: Dispatch user data to Redux
+const updateReduxState = (
+  dispatch: any,
+  userId: string,
+  userData: UserType
+) => {
+  dispatch(
+    setUser({
+      id: userId,
+      username: userData.name,
+      email: userData.email,
+      userType: userData.userType,
+      isAuthenticated: true,
+    })
+  );
+
+  dispatch(
+    setUserData({
+      id: userId,
+      ...userData,
+    })
+  );
+};
 
 const UseIsUser = ({ children }: UseIsUserProps) => {
   const [userLogged] = useAuthState(auth);
@@ -30,135 +86,42 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
   );
   const dispatch = useDispatch();
 
-  // Helper: Fetch and decrypt user data from localStorage
-  const getStoredUserData = (): UserType | null => {
-    const data = localStorage.getItem(
-      process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!
-    );
-    if (!data) return null;
+  // 🔹 Fetch user data & update Redux/local storage
+  const fetchUserData = async () => {
+    if (!userLogged) return setLoading(false);
 
     try {
-      const decryptedData = CryptoJS.AES.decrypt(
-        data,
-        process.env.NEXT_PUBLIC__ENCSECRET_KEY!
-      ).toString(CryptoJS.enc.Utf8);
+      const userDoc = await getDoc(doc(db, "users", userLogged.uid));
 
-      if (!decryptedData) return null;
-      return JSON.parse(decryptedData);
+      if (!userDoc.exists()) return toast.error("User not found in Firestore");
+
+      const userData = userDoc.data() as UserType;
+      updateReduxState(dispatch, userLogged.uid, userData);
+      storeUserData(userData);
     } catch (err) {
-      console.error("Error decrypting user data:", err);
-      return null;
+      toast.error("Failed to fetch user data");
+      setError(err instanceof Error ? err.message : "An error occurred.");
     }
+
+    setLoading(false);
   };
 
-  // Helper: Encrypt and store user data in localStorage
-  const storeUserData = (data: UserType) => {
-    const encryptedData = CryptoJS.AES.encrypt(
-      JSON.stringify(data),
-      process.env.NEXT_PUBLIC__ENCSECRET_KEY!
-    ).toString();
-    localStorage.setItem(
-      process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!,
-      encryptedData
-    );
-  };
-
-  // Helper: Dispatch user data to Redux store
-  const updateReduxState = (userId: string, userData: UserType) => {
-    dispatch(
-      setUser({
-        id: userId,
-        username: userData.name,
-        email: userData.email,
-        userType: userData.userType,
-        isAuthenticated: true,
-      })
-    );
-
-    dispatch(
-      setUserData({
-        id: userId,
-        name: userData.name,
-        email: userData.email,
-        bio: userData.bio,
-        avatar: userData.avatar,
-        phoneNumber: userData.phoneNumber,
-        university: userData.university,
-        userType: userData.userType,
-        userInfo: userData.userInfo,
-      })
-    );
-  };
-
-  // Effect: Fetch user data
   useEffect(() => {
-    const fetchUserData = async () => {
-      if (!userLogged) {
-        setLoading(false);
-        return;
-      }
-
-      const storedData = getStoredUserData();
-
-      if (storedData) {
-        updateReduxState(userLogged.uid, storedData);
-      } else {
-        try {
-          const userDocRef = doc(db, "users", userLogged.uid);
-          const userSnapshot = await getDoc(userDocRef);
-
-          if (userSnapshot.exists()) {
-            const userData = userSnapshot.data() as UserType;
-
-            // Ensure userInfo is properly typed
-            if (userData.userType === "student") {
-              userData.userInfo = {
-                department:
-                  (userData.userInfo as StudentUserInfo).department || "",
-                currentYear:
-                  (userData.userInfo as StudentUserInfo).currentYear || 1,
-                savedProperties:
-                  (userData.userInfo as StudentUserInfo).savedProperties || [],
-                wishlist: (userData.userInfo as StudentUserInfo).wishlist || [],
-              };
-            } else if (userData.userType === "agent") {
-              userData.userInfo = {
-                agencyName:
-                  (userData.userInfo as AgentUserInfo).agencyName || "",
-                propertiesListed:
-                  (userData.userInfo as AgentUserInfo).propertiesListed || [],
-              };
-            }
-
-            updateReduxState(userLogged.uid, userData);
-            storeUserData(userData);
-          } else {
-            toast.error("No user document found in Firestore");
-          }
-        } catch (err) {
-          console.error("Error fetching user data:", err);
-          setError("Failed to fetch user data. Please try again.");
-        }
-      }
-
-      setLoading(false);
-    };
-
     fetchUserData();
-  }, [userLogged, dispatch]);
+  }, [userLogged]);
 
-  // Effect: Handle redirection based on auth state
+  // 🔹 Redirect users based on authentication state
   useEffect(() => {
-    if (loading) return;
-
-    if (pathname === "/" && isAuthenticated) {
-      router.push("/properties");
-    } else if (pathname === "/auth/login" && !isAuthenticated) {
-      router.push("/auth/login");
+    if (!loading) {
+      if (isAuthenticated && pathname === "/") {
+        router.push("/properties");
+      } else if (!isAuthenticated && pathname.startsWith("/auth/")) {
+        router.push("/auth/login");
+      }
     }
   }, [isAuthenticated, pathname, loading, router]);
 
-  // Render loading or error states
+  // 🔹 Render UI
   if (loading) return <Loader />;
   if (error)
     return (
@@ -178,7 +141,6 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
       </div>
     );
 
-  // Render children after auth logic is resolved
   return <>{children}</>;
 };
 

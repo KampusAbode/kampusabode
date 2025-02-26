@@ -1,0 +1,28 @@
+.admin-dashboard .container {
+  padding-block: var(--spacing-s);
+}
+.admin-dashboard .container .dashboard-navigation {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  justify-content: left;
+  scroll-behavior: smooth;
+  gap: var(--spacing);
+  padding-block: var(--spacing);
+  /* Hide scrollbar */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.admin-dashboard .container .dashboard-navigation::-webkit-scrollbar {
+  display: none;
+}
+.admin-dashboard .container .dashboard-navigation button {
+  border: none;
+  padding: var(--spacing-b);
+  background-color: var(--light-gray);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+}
+.admin-dashboard .container .dashboard-content {
+  padding-block: var(--spacing);
+}/*# sourceMappingURL=admin.css.map */

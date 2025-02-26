@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { PropertyType } from "../../fetch/types";
@@ -13,6 +13,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/navigation"; // Import navigation styles
 import BookmarkButton from "../../components/features/bookmarkbutton/BookmarkButton";
 import { FaLocationDot } from "react-icons/fa6";
 
@@ -21,6 +22,19 @@ interface PropCardType {
 }
 
 const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsDesktop(window.innerWidth >= 1024); // Adjust this breakpoint as needed
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
   return (
     <div className="prop-card">
       <div className="prop-image">
@@ -29,11 +43,13 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
         </div>
         <Link href={propertyData.url}>
           <Swiper
-            modules={[Pagination]}
+            modules={[Pagination, Navigation]}
             loop={true}
             spaceBetween={0}
             slidesPerView={1}
-            pagination={{ clickable: true }}>
+            pagination={{ clickable: true }}
+            navigation={isDesktop ? true : false} // Navigation only on desktop
+          >
             {propertyData.images.map((img: string, index) => (
               <SwiperSlide key={index}>
                 <Image
@@ -51,9 +67,9 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
       <div className="card-details">
         <div className="type-price">
           <span className="type">{propertyData.type}</span>
-          <span className="available">{`${
-            propertyData.available ? "available" : "not available"
-          }`}</span>
+          <span className="available">
+            {propertyData.available ? "available" : "not available"}
+          </span>
         </div>
         <h5>{propertyData.title}</h5>
 

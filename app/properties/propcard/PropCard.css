@@ -39,6 +39,24 @@
   -o-object-fit: cover;
      object-fit: cover;
 }
+.prop-card .swiper .swiper-button-prev,
+.prop-card .swiper .swiper-button-next {
+  color: var(--font-color-h);
+  width: 2.8rem;
+  height: 2.8rem;
+}
+.prop-card .swiper .swiper-button-prev::after,
+.prop-card .swiper .swiper-button-next::after {
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  width: 2.8rem;
+  height: 2.8rem;
+  display: grid;
+  place-content: center;
+  background-color: var(--white);
+  border-radius: 100%;
+  box-shadow: var(--shadow);
+}
 .prop-card .swiper .swiper-pagination-bullet {
   background-color: var(--white);
   opacity: 0.5;

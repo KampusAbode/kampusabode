@@ -61,8 +61,8 @@ function PropertyImages({
           <img
             key={index + img}
             src={img}
-            width={500}
-            height={500}
+            width={400}
+            height={400}
             alt="property-details thumbnail"
             onClick={() => setImageCount(index)}
             className={imageCount === index ? "active" : ""}

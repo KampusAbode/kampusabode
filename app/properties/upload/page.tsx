@@ -13,36 +13,37 @@ import { RootState } from "../../redux/store";
 import CryptoJS from "crypto-js";
 
 const locationOptions = [
-  "Asherifa",
-  "Oduduwa Estate",
-  "Damico Area",
-  "Ibadan Road",
-  "Parakin Estate",
-  "May Fair",
-  "Lagere",
+  "asherifa",
+  "oduduwa estate",
+  "damico area",
+  "ibadan road",
+  "parakin estate",
+  "may fair",
+  "lagere",
 ];
 
 const typeOptions = [
-  "Self Contained",
-  "Single Room",
-  "Two Bedroom",
-  "Three Bedroom",
+  "self contained",
+  "single room",
+  "two bedroom",
+  "three bedroom",
 ];
 
 const amenitiesOptions = [
-  "Electricity",
-  "Water Supply",
-  "Internet",
-  "Security",
-  "Furnished",
-  "Air Conditioning",
-  "Laundry",
-  "Gym",
-  "Study Area",
-  "Library",
-  "Cafeteria",
-  "Sports Facilities",
+  "electricity",
+  "water supply",
+  "internet",
+  "security",
+  "furnished",
+  "air conditioning",
+  "laundry",
+  "gym",
+  "study area",
+  "library",
+  "cafeteria",
+  "sports facilities",
 ];
+
 
 // Validdation schema
 const validationSchema = Yup.object().shape({

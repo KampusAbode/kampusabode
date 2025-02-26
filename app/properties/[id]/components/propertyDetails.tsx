@@ -40,11 +40,11 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
     try {
       const details = await fetchPropertyById(id);
       setPropertyDetails(details);
-      const agentId = details.agentId; 
+      const agentId = details.agentId;
 
       const agent = await fetchUsersById(agentId);
       console.log(agent);
-      
+
       setAgentDetails(agent);
       if (agent) {
         const properties = await fetchPropertiesByIds(
@@ -147,11 +147,9 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                   <>
                     <Image
                       priority
-                      src={
-                        agentDetails?.avatar
-                      }
-                      width={500}
-                      height={500}
+                      src={agentDetails?.avatar}
+                      width={200}
+                      height={200}
                       alt={`${agentDetails.name}'s profile picture`}
                     />
                     <h5>{agentDetails.name}</h5>
@@ -208,25 +206,32 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
           <div className="agent-listings">
             <h5>{agentDetails?.name}'s Listed Properties</h5>
             <div>
-              {agentPropertyListings.slice(0, 3).map((listing) => (
-                <Link key={listing.id} href={`/properties/${listing.id}`}>
-                  <div className="list-prop">
-                    <div className="list-image">
-                      <Image
-                        priority
-                        src={listing.images[0]}
-                        width={500}
-                        height={500}
-                        alt={listing.title}
-                      />
-                    </div>
-                    <div className="list-details">
-                      <h6>{listing.title}</h6>
-                      <span>{listing.description}</span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
+              {agentPropertyListings.length !== 0 ? (
+                <div className="agentProps">
+                  {agentPropertyListings.slice(0, 3).map((listing) => (
+                    <Link
+                      key={listing.id}
+                      href={`/properties/${listing.id}`}
+                      className="list-prop">
+                        <div className="list-image">
+                          <Image
+                            priority
+                            src={listing.images[0]}
+                            width={500}
+                            height={500}
+                            alt={listing.title}
+                          />
+                        </div>
+                        <div className="list-details">
+                          <h6>{listing.title}</h6>
+                          <span>{listing.description}</span>
+                        </div>
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <p>"no other listings found"</p>
+              )}
             </div>
           </div>
 

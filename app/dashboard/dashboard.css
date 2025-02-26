@@ -116,7 +116,7 @@
 .dashboard .student-dashboard .listed-properties .property-list ul li,
 .dashboard .agent-dashboard .listed-properties .property-list ul li {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto 2.5rem;
   background-color: var(--light-gray);
   border: var(--border);
   border-radius: var(--border-radius);
