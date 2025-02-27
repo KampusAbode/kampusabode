@@ -9,6 +9,7 @@ import {
   deleteDoc,
   setDoc,
 } from "firebase/firestore";
+import toast from "react-hot-toast";
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
@@ -26,12 +27,23 @@ const Notifications = () => {
             timestamp: new Date().toISOString(),
           };
 
-          // Save notifications in Firestore for persistence
+          // Save notifications in Firestore
           const notificationRef = doc(db, "notifications", newNotification.id);
           setDoc(notificationRef, newNotification, { merge: true });
 
           // Update local state
           setNotifications((prev) => [newNotification, ...prev]);
+
+          // Show toast notification
+          toast(`🔔 ${newNotification.message}`, {
+            duration: 5000,
+            position: "top-right",
+            style: {
+              borderRadius: "8px",
+              background: "#333",
+              color: "#fff",
+            },
+          });
         });
       });
     };
@@ -67,8 +79,16 @@ const Notifications = () => {
       setNotifications((prev) =>
         prev.filter((notification) => notification.id !== id)
       );
+
+      // Show success toast
+      toast.success("Notification deleted successfully!", {
+        position: "bottom-right",
+      });
     } catch (error) {
       console.error("Error deleting notification:", error);
+      toast.error("Failed to delete notification!", {
+        position: "bottom-right",
+      });
     }
   };
 
