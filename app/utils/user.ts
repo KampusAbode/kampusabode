@@ -82,6 +82,26 @@ export const togglePropertyApproval = async (
   }
 };
 
+// Fetch all reviews from Firestore
+export const fetchReviews = async () => {
+  try {
+    const reviewsRef = collection(db, "reviews");
+    const snapshot = await getDocs(reviewsRef);
+
+    // Transform Firestore documents into a structured array
+    const reviews = snapshot.docs.map((doc) => ({
+      id: doc.id, // Include the document ID
+      ...doc.data(), // Spread the rest of the document data
+    }));
+
+    return reviews;
+  } catch (error) {
+    console.error("Error fetching reviews:", error.message);
+    throw new Error("Failed to fetch reviews");
+  }
+};
+
+
 
 
 

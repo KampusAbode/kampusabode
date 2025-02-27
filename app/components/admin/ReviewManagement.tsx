@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { fetchReviews } from "../../utils";
+import { db } from "../../lib/firebaseConfig";
+import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 
 const ReviewManagement = () => {
   const [reviews, setReviews] = useState([]);
@@ -18,41 +20,30 @@ const ReviewManagement = () => {
     fetchReviewsData();
   }, []);
 
-  // Function to moderate a review (approve or delete)
+  // Function to approve or delete a review
   const moderateReview = async (reviewId, action) => {
-    const API_BASE_URL = "http://your-api-url.com/api"; // Replace with your actual API base URL
-
     try {
-      // Define the endpoint based on the action
-      const endpoint =
-        action === "approve"
-          ? `${API_BASE_URL}/reviews/approve/${reviewId}`
-          : `${API_BASE_URL}/reviews/delete/${reviewId}`;
+      if (action === "approve") {
+        const reviewRef = doc(db, "reviews", reviewId);
+        await updateDoc(reviewRef, { approved: true });
 
-      const response = await fetch(endpoint, {
-        method: action === "approve" ? "POST" : "DELETE", // Use POST for approve and DELETE for delete
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+        setReviews((prevReviews) =>
+          prevReviews.map((review) =>
+            review.id === reviewId ? { ...review, approved: true } : review
+          )
+        );
+      } else if (action === "delete") {
+        const reviewRef = doc(db, "reviews", reviewId);
+        await deleteDoc(reviewRef);
 
-      if (!response.ok) {
-        throw new Error(`Failed to ${action} review`);
+        setReviews((prevReviews) =>
+          prevReviews.filter((review) => review.id !== reviewId)
+        );
       }
-
-      const result = await response.json();
-      // Optionally, update the state to reflect the changes in the UI
     } catch (error) {
-      console.error(error.message);
+      console.error(`Error trying to ${action} review:`, error.message);
     }
   };
-
-  // Example usage of the moderateReview function
-  // Assuming you want to approve a review with ID 123
-  //   moderateReview(123, "approve");
-
-  // Assuming you want to delete a review with ID 456
-  //   moderateReview(456, "delete");
 
   return (
     <div className="review-management">
@@ -60,17 +51,19 @@ const ReviewManagement = () => {
       <ul>
         {reviews.map((review) => (
           <li key={review.id}>
-            {review.content} - {review.rating} stars
-            <button
-              onClick={() => moderateReview(review.id, "approve")}
-              disabled>
-              Approve
-            </button>
-            <button
-              onClick={() => moderateReview(review.id, "delete")}
-              disabled>
-              Delete
-            </button>
+            {review.content} - {review.rating} stars{" "}
+            {review.approved ? (
+              <span className="approved">✅ Approved</span>
+            ) : (
+              <>
+                <button onClick={() => moderateReview(review.id, "approve")}>
+                  Approve
+                </button>
+                <button onClick={() => moderateReview(review.id, "delete")}>
+                  Delete
+                </button>
+              </>
+            )}
           </li>
         ))}
       </ul>
