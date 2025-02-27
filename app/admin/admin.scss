@@ -19,11 +19,12 @@
 
           button{
             border: none;
-            
             padding: var(--spacing-b);
             background-color: var(--light-gray);
             border-radius: var(--border-radius);
+            text-wrap: nowrap;
             cursor: pointer;
+            box-shadow: var(--shadow);
           }
         }
         .dashboard-content{

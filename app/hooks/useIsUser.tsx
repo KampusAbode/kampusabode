@@ -115,9 +115,7 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
     if (!loading) {
       if (isAuthenticated && pathname === "/") {
         router.push("/properties");
-      } else if (!isAuthenticated && pathname.startsWith("/auth/")) {
-        router.push("/auth/login");
-      }
+      } 
     }
   }, [isAuthenticated, pathname, loading, router]);
 

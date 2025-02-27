@@ -21,7 +21,9 @@
   padding: var(--spacing-b);
   background-color: var(--light-gray);
   border-radius: var(--border-radius);
+  text-wrap: nowrap;
   cursor: pointer;
+  box-shadow: var(--shadow);
 }
 .admin-dashboard .container .dashboard-content {
   padding-block: var(--spacing);

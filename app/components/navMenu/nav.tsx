@@ -64,7 +64,7 @@ function Nav() {
             </Link>
           </div>
           <div className="close">
-            <FaTimes />
+            <FaTimes/>
           </div>
         </div>
         {user?.userType === "agent" ? (
@@ -75,6 +75,16 @@ function Nav() {
             }}
             className="btn">
             upload property
+          </Link>
+        ) : null}
+        {user?.userType === "agent" ? (
+          <Link
+            href="/admin"
+            onClick={() => {
+              dispatch(closeMenu());
+            }}
+            className="btn">
+            Admin Portal
           </Link>
         ) : null}
         <ul>

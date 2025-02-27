@@ -5,9 +5,84 @@ import {
   updateDoc,
   arrayUnion,
   arrayRemove,
+  getDocs,
+  collection,
+  getCountFromServer,
+  query,
+  where,
 } from "firebase/firestore";
 import { UserType } from "../fetch/types";
 import { db } from "../lib/firebaseConfig";
+
+
+export const fetchAllUsers = async (): Promise<UserType[]> => {
+  try {
+    const querySnapshot = await getDocs(collection(db, "users"));
+    const users: UserType[] = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...(doc.data() as UserType),
+    }));
+
+    return users;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw new Error("Failed to fetch users");
+  }
+};
+
+
+export const fetchAnalytics = async () => {
+  try {
+    const usersRef = collection(db, "users");
+    const propertiesRef = collection(db, "properties");
+
+    // Fetch total users & properties count
+    const [usersSnapshot, propertiesSnapshot] = await Promise.all([
+      getCountFromServer(usersRef),
+      getCountFromServer(propertiesRef),
+    ]);
+
+    // Query users collection to count agents & students separately
+    const agentsQuery = query(usersRef, where("userType", "==", "agent"));
+    const studentsQuery = query(usersRef, where("userType", "==", "student"));
+
+    const [agentsSnapshot, studentsSnapshot] = await Promise.all([
+      getDocs(agentsQuery),
+      getDocs(studentsQuery),
+    ]);
+
+    return {
+      totalUsers: usersSnapshot.data().count,
+      totalProperties: propertiesSnapshot.data().count,
+      totalAgents: agentsSnapshot.size, // Count number of agent users
+      totalStudents: studentsSnapshot.size, // Count number of student users
+    };
+  } catch (error) {
+    console.error("Error fetching analytics:", error);
+    throw new Error("Failed to fetch analytics data");
+  }
+};
+
+
+export const togglePropertyApproval = async (
+  propertyId: string,
+  newStatus: boolean
+) => {
+  try {
+    const propertyRef = doc(db, "properties", propertyId);
+
+    await updateDoc(propertyRef, {
+      approve: newStatus,
+    });
+
+    console.log(`Property ${propertyId} availability updated to ${newStatus}`);
+  } catch (error) {
+    console.error("Error updating property availability:", error);
+    throw new Error("Failed to update property availability.");
+  }
+};
+
+
 
 
 export const fetchUsersById = async (userId: string) => {
