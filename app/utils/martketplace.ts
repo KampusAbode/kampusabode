@@ -38,7 +38,7 @@ type Item = {
     whatsappNumber: string;
   };
   category: string;
-  timestamp: Date;
+  timestamp: string;
 };
 
 export const updateMartketplaceItems = async (item: Item) => {
@@ -56,7 +56,7 @@ export const updateMartketplaceItems = async (item: Item) => {
         whatsappNumber: item.sellerContact.whatsappNumber,
       },
       category: item.category,
-      timestamp: new Date(),
+      timestamp: new Date().toISOString(),
     };
 
     await addDoc(itemsRef, itemData);

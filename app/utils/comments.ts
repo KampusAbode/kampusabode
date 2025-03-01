@@ -17,7 +17,7 @@ type CommentType = {
   userName: string;
   comment: string;
   userProfile: string;
-  createdAt: Date;
+  createdAt: string;
 };
 
 // Function to send user comments

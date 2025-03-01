@@ -40,7 +40,7 @@ const AdminChat = () => {
             users.map((msg, index) => {
               const timestamp = msg.timestamp?.toDate
                 ? msg.timestamp.toDate()
-                : new Date();
+                : new Date().toISOString();
 
               const formattedTime = (() => {
                 if (isToday(timestamp)) {

@@ -22,7 +22,7 @@ type CommentType = {
   userName: string;
   comment: string;
   userProfile: string;
-  createdAt: Date;
+  createdAt: string;
 };
 
 const TrendPage = ({ params }: Params) => {
@@ -58,7 +58,7 @@ const TrendPage = ({ params }: Params) => {
             userName: comment.userName,
             comment: comment.comment,
             userProfile: comment.userProfile,
-            createdAt: new Date(comment.createdAt),
+            createdAt: new Date(comment.createdAt).toISOString(),
           }))
         );
       } catch (error) {
@@ -92,7 +92,7 @@ const TrendPage = ({ params }: Params) => {
         userName: user.name,
         comment,
         userProfile: user?.avatar,
-        createdAt: new Date(),
+        createdAt: new Date().toISOString(),
       };
       await sendUserComment(newComment);
       setComments([...comments, newComment]);

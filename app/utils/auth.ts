@@ -55,7 +55,7 @@ export const signupUser = async (userData: UserSignupInput) => {
     // Store user data in Firestore
     await setDoc(doc(db, "users", user.uid), {
       ...newUser,
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
     });
 
     return { message: "Signup successful" };

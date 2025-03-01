@@ -83,7 +83,11 @@ const ChatComponent: React.FC<ChatProps> = ({
       if (res?.success) {
         setMessages((prev) => [
           ...prev,
-          { senderId: currentUserId, content: message, timestamp: new Date() },
+          {
+            senderId: currentUserId,
+            content: message,
+            timestamp: new Date().toISOString(),
+          },
         ]);
         setMessage("");
         toast.success("Message sent!");
