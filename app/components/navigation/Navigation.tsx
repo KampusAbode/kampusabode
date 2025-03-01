@@ -44,10 +44,10 @@ export default function Navigation() {
   // Define page availability (true means available, false means not available)
   const pageAvailability = {
     "/properties": true,
-    "/messages": true,
+    "/messages": false,
     "/trends": true,
-    "/saved": true,
-    "/marketplace": true,
+    "/saved": false,
+    "/marketplace": false,
     "/auth/login": true,
   };
 

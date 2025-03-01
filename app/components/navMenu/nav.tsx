@@ -16,13 +16,13 @@ import { closeMenu } from "../../redux/stateSlice/menuSlice";
 import "./nav.css";
 
 const pageAvailability = {
-  "/adminchatroom": false,
+  "/adminchatroom": true,
   "/properties/upload": true,
   "/admin": true,
   "/dashboard": true,
   "/profile": true,
   "/properties": true,
-  "/chat": true,
+  "/chat": false,
 };
 
 function Nav() {
