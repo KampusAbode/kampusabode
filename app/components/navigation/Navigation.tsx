@@ -45,9 +45,9 @@ export default function Navigation() {
   const pageAvailability = {
     "/properties": true,
     "/messages": false,
-    "/trends": true,
+    "/trends": false,
     "/saved": false,
-    "/marketplace": false,
+    "/marketplace": true,
     "/auth/login": true,
   };
 

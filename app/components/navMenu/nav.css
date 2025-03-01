@@ -60,6 +60,7 @@
   text-align: center;
   color: var(--white);
   padding: var(--spacing);
+  width: 100%;
 }
 .nav-menu ul {
   max-height: 80vh;
@@ -81,6 +82,7 @@
   padding: var(--spacing-h);
   text-transform: capitalize;
   color: var(--font-color-p);
+  width: 100%;
   display: flex;
   align-items: center;
   gap: var(--spacing);
@@ -99,8 +101,8 @@
   font-size: var(--font-size-xs);
   line-height: 1;
 }
-.nav-menu .logout span a,
 .nav-menu .logout span .btn {
+  width: 100%;
   text-decoration: underline;
   display: block;
   text-align: center;
@@ -108,7 +110,6 @@
   font-size: var(--font-size-sm);
   color: var(--primary-color);
 }
-.nav-menu .logout span a:hover,
 .nav-menu .logout span .btn:hover {
   color: var(--white);
 }

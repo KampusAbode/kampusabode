@@ -66,6 +66,7 @@
     text-align: center;
     color: var(--white);
     padding: var(--spacing);
+        width: 100%;
   }
   ul {
     max-height: 80vh;
@@ -89,6 +90,7 @@
         padding: var(--spacing-h);
         text-transform: capitalize;
         color: var(--font-color-p);
+        width: 100%;
 
         display: flex;
         align-items: center;
@@ -112,8 +114,8 @@
     span {
       font-size: var(--font-size-xs);
       line-height: 1;
-      a,
       .btn {
+        width: 100%;
         text-decoration: underline;
         display: block;
         text-align: center;
