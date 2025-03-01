@@ -273,6 +273,11 @@ img {
   transition: var(--transition);
 }
 
+button{
+  border: none;
+  background-color: transparent;
+}
+
 .heading-section {
   text-align: center;
   margin-bottom: var(--spacing-4x);

@@ -32,7 +32,7 @@
     padding-inline: var(--spacing);
 
     .logo {
-      a {
+      button{
         cursor: pointer;
 
         img {
@@ -85,7 +85,7 @@
         box-shadow: var(--shadow);
       }
 
-      a {
+      button{
         padding: var(--spacing-h);
         text-transform: capitalize;
         color: var(--font-color-p);
@@ -121,7 +121,7 @@
         font-size: var(--font-size-sm);
         color: var(--primary-color);
 
-        &:hover{
+        &:hover {
           color: var(--white);
         }
       }
@@ -141,7 +141,7 @@
 
     &.notlogged {
       display: flex;
-    display: flex;
+      display: flex;
     }
 
     &.fadeOut {
@@ -152,8 +152,8 @@
     }
     ul {
       margin-top: var(--spacing-s);
-      li{
-        a{
+      li {
+        button{
           padding: var(--spacing);
           font-size: var(--font-size-nm);
         }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { db } from "../../lib/firebaseConfig";
 import {
   collection,
@@ -13,17 +13,15 @@ import toast from "react-hot-toast";
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
+  const isInitialRender = useRef(true); // Track initial render
 
   useEffect(() => {
-    // Function to listen for real-time changes in a collection
     const listenToCollection = (collectionName, label) => {
       return onSnapshot(collection(db, collectionName), (snapshot) => {
         snapshot.docChanges().forEach((change) => {
           const newNotification = {
             id: change.doc.id,
-            message: `${label} ${change.type}: ${JSON.stringify(
-              change.doc.data()
-            )}`,
+            message: `${label} ${change.type}`,
             timestamp: new Date().toISOString(),
           };
 
@@ -34,16 +32,18 @@ const Notifications = () => {
           // Update local state
           setNotifications((prev) => [newNotification, ...prev]);
 
-          // Show toast notification
-          toast(`🔔 ${newNotification.message}`, {
-            duration: 5000,
-            position: "top-right",
-            style: {
-              borderRadius: "8px",
-              background: "#333",
-              color: "#fff",
-            },
-          });
+          // ✅ Only show toast if it's NOT the first render
+          if (!isInitialRender.current) {
+            toast(`🔔 ${newNotification.message}`, {
+              duration: 5000,
+              position: "top-right",
+              style: {
+                borderRadius: "8px",
+                background: "#333",
+                color: "#fff",
+              },
+            });
+          }
         });
       });
     };
@@ -59,6 +59,11 @@ const Notifications = () => {
       "Conversation"
     );
     const unsubTrends = listenToCollection("trends", "Trend");
+
+    // ✅ Set initial render flag to false after first load
+    setTimeout(() => {
+      isInitialRender.current = false;
+    }, 1000);
 
     // Cleanup function
     return () => {

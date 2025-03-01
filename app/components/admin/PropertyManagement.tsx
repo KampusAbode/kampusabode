@@ -44,7 +44,7 @@ const PropertyManagement = () => {
     }
   };
 
-  const handleToggleAvailability = async (
+  const handleToggleApprove = async (
     id: string,
     currentStatus: boolean
   ) => {
@@ -53,13 +53,13 @@ const PropertyManagement = () => {
       setProperties((prev) =>
         prev.map((property) =>
           property.id === id
-            ? { ...property, available: !currentStatus }
+            ? { ...property, approved: !currentStatus }
             : property
         )
       );
     } catch (error) {
-      console.error("Error updating property availability:", error);
-      alert("Failed to update availability.");
+      console.error("Error updating property approve:", error);
+      alert("Failed to update approve.");
     }
   };
 
@@ -75,14 +75,14 @@ const PropertyManagement = () => {
           <li key={property.id}>
             <strong>{property.title}</strong> - ${property.price} -{" "}
             {property.location}{" "}
-            <span style={{ color: property.available ? "green" : "red" }}>
-              ({property.available ? "Available" : "Unavailable"})
+            <span style={{ color: property.approved ? "green" : "red" }}>
+              ({property.approved ? "approved" : "Unapproved"})
             </span>
             <button
               onClick={() =>
-                handleToggleAvailability(property.id, property.available)
+                handleToggleApprove(property.id, property.approved)
               }>
-              {property.available ? "Mark as Unavailable" : "Mark as Available"}
+              {property.approved ? "Mark as Unapproved" : "Mark as approved"}
             </button>
             <button onClick={() => handleDelete(property.id, property.images)}>Delete</button>
           </li>

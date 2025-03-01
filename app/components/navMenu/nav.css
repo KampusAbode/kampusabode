@@ -30,10 +30,10 @@
   align-items: center;
   padding-inline: var(--spacing);
 }
-.nav-menu .close-div .logo a {
+.nav-menu .close-div .logo button {
   cursor: pointer;
 }
-.nav-menu .close-div .logo a img {
+.nav-menu .close-div .logo button img {
   width: 28px;
   height: 28px;
 }
@@ -77,7 +77,7 @@
   background: var(--background-white);
   box-shadow: var(--shadow);
 }
-.nav-menu ul li a {
+.nav-menu ul li button {
   padding: var(--spacing-h);
   text-transform: capitalize;
   color: var(--font-color-p);
@@ -86,7 +86,7 @@
   gap: var(--spacing);
   font-size: var(--font-size-sm);
 }
-.nav-menu ul li a svg {
+.nav-menu ul li button svg {
   width: 24px;
   height: 24px;
   stroke: var(--font-color-p);
@@ -136,7 +136,7 @@
   .nav-menu ul {
     margin-top: var(--spacing-s);
   }
-  .nav-menu ul li a {
+  .nav-menu ul li button {
     padding: var(--spacing);
     font-size: var(--font-size-nm);
   }
