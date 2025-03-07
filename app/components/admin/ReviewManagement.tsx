@@ -48,7 +48,7 @@ const ReviewManagement = () => {
   return (
     <div className="review-management">
       <ul>
-        {reviews.map((review) => (
+        {reviews.length > 0 ? reviews.map((review) => (
           <li key={review.id}>
             {review.content} - {review.rating} stars{" "}
             {review.approved ? (
@@ -64,7 +64,7 @@ const ReviewManagement = () => {
               </>
             )}
           </li>
-        ))}
+        )) : <p>No review yet</p>}
       </ul>
     </div>
   );
