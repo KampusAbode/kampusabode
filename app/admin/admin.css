@@ -41,4 +41,24 @@
 }
 .admin-dashboard .container .dashboard-content .user-management h6 {
   margin-block: var(--spacing);
+}
+.admin-dashboard .container .dashboard-content .property-management ul li {
+  padding: var(--spacing);
+  background-color: var(--light-gray);
+  margin-block: var(--spacing);
+  border-radius: var(--border-radius);
+}
+.admin-dashboard .container .dashboard-content .property-management ul li .flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.admin-dashboard .container .dashboard-content .property-management ul li .flex .info p {
+  margin-bottom: var(--spacing-h);
+}
+.admin-dashboard .container .dashboard-content .property-management ul li .flex span {
+  display: block;
+}
+.admin-dashboard .container .dashboard-content .property-management ul li .action {
+  margin-top: var(--spacing);
 }/*# sourceMappingURL=admin.css.map */

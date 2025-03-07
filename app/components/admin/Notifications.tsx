@@ -20,13 +20,13 @@ const Notifications = () => {
       let isInitialLoad = true; // flag for this listener
 
       return onSnapshot(collection(db, collectionName), (snapshot) => {
-        // If this is the initial load, just mark flag as false and do not process notifications
+        // Skip processing notifications on initial load
         if (isInitialLoad) {
           isInitialLoad = false;
           return;
         }
 
-        // For subsequent changes, process the docChanges
+        // Process subsequent changes
         snapshot.docChanges().forEach((change) => {
           const newNotification = {
             id: change.doc.id,
@@ -40,6 +40,12 @@ const Notifications = () => {
 
           // Update local state
           setNotifications((prev) => [newNotification, ...prev]);
+
+          // Play notification sound
+          const audio = new Audio("/sound//notification.mp3");
+          audio
+            .play()
+            .catch((error) => console.error("Error playing sound:", error));
 
           // Show toast notification
           toast(`🔔 ${newNotification.message}`, {
@@ -67,7 +73,7 @@ const Notifications = () => {
     );
     const unsubTrends = listenToCollection("trends", "Trend");
 
-    // Cleanup function
+    // Cleanup function to unsubscribe listeners when component unmounts
     return () => {
       unsubUsers();
       unsubProperties();

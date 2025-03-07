@@ -68,6 +68,49 @@ export const fetchProperties = async (): Promise<PropertyType[]> => {
   }
 };
 
+export const fetchAllProperties = async (): Promise<PropertyType[]> => {
+  try {
+    const propertiesCollection = collection(db, "properties");
+
+   
+    const snapshot = await getDocs(propertiesCollection);
+
+    // Map each document to a PropertyType object
+    const propertiesList: PropertyType[] = snapshot.docs.map((doc) => {
+      const data = doc.data() as PropertyType;
+
+      // Ensure the data returned from Firebase matches PropertyType
+      const property: PropertyType = {
+        id: doc.id, // Use Firestore document ID
+        url: data.url || "",
+        agentId: data.agentId || null,
+        title: data.title || "",
+        description: data.description || "",
+        price: data.price || 0,
+        location: data.location || "",
+        neighborhood_overview: data.neighborhood_overview || "",
+        type: data.type || "",
+        bedrooms: data.bedrooms || 0,
+        bathrooms: data.bathrooms || 0,
+        area: data.area || 0,
+        amenities: data.amenities || [],
+        images: data.images || [],
+        available: data.available || false,
+        approved: data.approved || false, // Should always be true
+      };
+
+      return property;
+    });
+
+    return propertiesList;
+  } catch (error) {
+    throw {
+      message: (error as Error).message || "Error fetching properties",
+      statusCode: 500,
+    };
+  }
+};
+
 export const fetchPropertyById = async (
   propertyId: string
 ): Promise<PropertyType | null> => {

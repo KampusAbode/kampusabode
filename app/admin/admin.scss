@@ -50,6 +50,34 @@
                 margin-block: var(--spacing);
               }
             }
+            .property-management{
+              ul{
+                li{
+                  padding: var(--spacing);
+                  background-color: var(--light-gray);
+                  margin-block: var(--spacing);
+                  border-radius: var(--border-radius);
+
+                  .flex{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    .info{
+                      p{
+                        margin-bottom: var(--spacing-h);
+                      }
+                    }
+                    span{
+                      display: block;
+                    }
+                  }
+
+                  .action{
+                    margin-top: var(--spacing);
+                  }
+                }
+              }
+            }
         }
     }
 }

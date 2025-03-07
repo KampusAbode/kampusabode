@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import {
-  fetchProperties,
+  fetchAllProperties,
   deleteProperty,
   togglePropertyApproval,
 } from "../../utils";
@@ -19,7 +19,7 @@ const PropertyManagement = () => {
       setError("");
 
       try {
-        const propertyData = await fetchProperties();
+        const propertyData = await fetchAllProperties();
         setProperties(propertyData);
       } catch (error: any) {
         console.error("Error fetching properties:", error);
@@ -44,10 +44,7 @@ const PropertyManagement = () => {
     }
   };
 
-  const handleToggleApprove = async (
-    id: string,
-    currentStatus: boolean
-  ) => {
+  const handleToggleApprove = async (id: string, currentStatus: boolean) => {
     try {
       await togglePropertyApproval(id, !currentStatus);
       setProperties((prev) =>
@@ -71,18 +68,31 @@ const PropertyManagement = () => {
       <ul>
         {properties.map((property) => (
           <li key={property.id}>
-            <strong>{property.title}</strong> - ${property.price} -{" "}
-            {property.location}{" "}
-            <span style={{ color: property.approved ? "green" : "red" }}>
-              ({property.approved ? "approved" : "Unapproved"})
-            </span>
-            <button
-              onClick={() =>
-                handleToggleApprove(property.id, property.approved)
-              }>
-              {property.approved ? "Mark as Unapproved" : "Mark as approved"}
-            </button>
-            <button onClick={() => handleDelete(property.id, property.images)}>Delete</button>
+            <div className="flex">
+              <div className="info">
+                <p>{property.title}</p>
+                <span>price - ${property.price}</span>
+                <span>pocation - {property.location}</span>
+              </div>
+              <span style={{ color: property.approved ? "green" : "red" }}>
+                ({property.approved ? "approved" : "Unapproved"})
+              </span>
+            </div>
+            <div className="action">
+              <button
+                className="btn btn-secondary"
+                onClick={() =>
+                  handleToggleApprove(property.id, property.approved)
+                }
+                style={{ marginRight: "1rem" }}>
+                {property.approved ? "Unapprove" : "approve"}
+              </button>
+              <button
+                className="btn"
+                onClick={() => handleDelete(property.id, property.images)}>
+                Delete
+              </button>
+            </div>
           </li>
         ))}
       </ul>
