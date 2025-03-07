@@ -41,18 +41,18 @@ const UserManagement = () => {
 
   return (
     <div className="user-management">
-      <h3>User Management</h3>
-
       {/* Search Input */}
-      <input
-        type="text"
-        placeholder="Search by name or email..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
+      <div className="input-box">
+        <input
+          type="text"
+          placeholder="Search by name or email..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
 
       {/* Students Section */}
-      <h5>Students</h5>
+      <h6>Students</h6>
       {students.length === 0 ? (
         <p>No students found.</p>
       ) : (
@@ -71,7 +71,7 @@ const UserManagement = () => {
       )}
 
       {/* Agents Section */}
-      <h5>Agents</h5>
+      <h6>Agents</h6>
       {agents.length === 0 ? (
         <p>No agents found.</p>
       ) : (

@@ -65,8 +65,6 @@ const PropertyManagement = () => {
 
   return (
     <div className="property-management">
-      <h3>Property Management</h3>
-
       {loading && <p>Loading properties...</p>}
       {error && <p className="error">{error}</p>}
 

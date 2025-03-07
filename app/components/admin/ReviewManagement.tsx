@@ -47,7 +47,6 @@ const ReviewManagement = () => {
 
   return (
     <div className="review-management">
-      <h3>Review Management</h3>
       <ul>
         {reviews.map((review) => (
           <li key={review.id}>

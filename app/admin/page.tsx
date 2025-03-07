@@ -31,6 +31,8 @@ const getStoredUserData = () => {
   }
 };
 
+const pages = ["users", "properties", "reviews", "analytics", "notifications"];
+
 const AdminPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -69,17 +71,13 @@ const AdminPage = () => {
       <div className="container">
         <h4>Admin Dashboard</h4>
         <nav className="dashboard-navigation">
-          <button onClick={() => setCurrentPage("users")}>Users</button>
-          <button onClick={() => setCurrentPage("properties")}>
-            Properties
-          </button>
-          <button onClick={() => setCurrentPage("reviews")}>
-            User Reviews
-          </button>
-          <button onClick={() => setCurrentPage("analytics")}>Analytics</button>
-          <button onClick={() => setCurrentPage("notifications")}>
-            Notifications
-          </button>
+          {pages.map((page) => (
+            <button
+              onClick={() => setCurrentPage(page)}
+              className={currentPage === page ? "active" : ""}>
+              {page}
+            </button>
+          ))}
         </nav>
         <main className="dashboard-content">
           {currentPage === "users" && <UserManagement />}

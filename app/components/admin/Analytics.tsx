@@ -36,11 +36,12 @@ const Analytics = () => {
 
   return (
     <div className="analytics">
-      <h4>Analytics</h4>
-      <p>Total Users: {data?.totalUsers}</p>
-      <p>Total Properties Listed: {data?.totalProperties}</p>
-      <p>Total Agents: {data?.totalAgents}</p>
-      <p>Total Students: {data?.totalStudents}</p>
+      <ul>
+      <li>Total Users: {data?.totalUsers}</li>
+      <li>Total Properties Listed: {data?.totalProperties}</li>
+      <li>Total Agents: {data?.totalAgents}</li>
+      <li>Total Students: {data?.totalStudents}</li>
+      </ul>
     </div>
   );
 };

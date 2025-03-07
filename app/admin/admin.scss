@@ -18,17 +18,38 @@
           scrollbar-width: none;
 
           button{
-            border: none;
+            border: var(--border);
+            border-color: transparent;
             padding: var(--spacing-b);
             background-color: var(--light-gray);
             border-radius: var(--border-radius);
             text-wrap: nowrap;
+            font-size: var(--font-size-sm);
+            text-transform: capitalize;
             cursor: pointer;
-            box-shadow: var(--shadow);
+            
+
+            &.active{
+              border: var(--border-hover);
+            }
           }
         }
         .dashboard-content{
             padding-block: var(--spacing);
+
+
+            .user-management{
+              .input-box{
+                margin-block: var(--spacing);
+                input{
+                  padding: var(--spacing-h) var(--spacing);
+                }
+              }
+
+              h6{
+                margin-block: var(--spacing);
+              }
+            }
         }
     }
 }

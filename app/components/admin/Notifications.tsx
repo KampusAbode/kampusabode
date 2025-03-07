@@ -99,7 +99,6 @@ const Notifications = () => {
 
   return (
     <div className="notifications">
-      <h3>Notifications</h3>
       <ul>
         {notifications.length > 0 ? (
           notifications.map((notification, index) => (

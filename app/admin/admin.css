@@ -17,14 +17,28 @@
   display: none;
 }
 .admin-dashboard .container .dashboard-navigation button {
-  border: none;
+  border: var(--border);
+  border-color: transparent;
   padding: var(--spacing-b);
   background-color: var(--light-gray);
   border-radius: var(--border-radius);
   text-wrap: nowrap;
+  font-size: var(--font-size-sm);
+  text-transform: capitalize;
   cursor: pointer;
-  box-shadow: var(--shadow);
+}
+.admin-dashboard .container .dashboard-navigation button.active {
+  border: var(--border-hover);
 }
 .admin-dashboard .container .dashboard-content {
   padding-block: var(--spacing);
+}
+.admin-dashboard .container .dashboard-content .user-management .input-box {
+  margin-block: var(--spacing);
+}
+.admin-dashboard .container .dashboard-content .user-management .input-box input {
+  padding: var(--spacing-h) var(--spacing);
+}
+.admin-dashboard .container .dashboard-content .user-management h6 {
+  margin-block: var(--spacing);
 }/*# sourceMappingURL=admin.css.map */

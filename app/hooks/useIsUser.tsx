@@ -119,7 +119,7 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
     }
   }, [isAuthenticated, pathname, loading, router]);
 
-  // 🔹 Render UI
+
   if (loading) return <Loader />;
   if (error)
     return (

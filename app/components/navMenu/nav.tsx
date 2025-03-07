@@ -149,7 +149,7 @@ function Nav() {
       </div>
       <div className="logout">
         <span>
-          ©️ copyright 2024 Kampusabode. All rights reserved.
+          ©️ 2024. All rights reserved.
           {user?.isAuthenticated ? (
             <button className="btn btn-secondary" onClick={logOut}>
               Logout
