@@ -124,16 +124,18 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
   if (error)
     return (
       <div
+        className="container"
         style={{
           height: "100vh",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          alignContent: "center",
+          alignItems: "center",
+          textAlign: "center",
           gap: "1rem",
         }}>
         <p>{error}</p>
-        <button onClick={() => router.refresh()} className="btn">
+        <button onClick={() => router.refresh()} className="btn" style={{textAlign:"center", width: "fit-content"}}>
           Reload
         </button>
       </div>

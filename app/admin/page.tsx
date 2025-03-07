@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import CryptoJS from "crypto-js";
 import Loader from "../components/loader/Loader";
 import UserManagement from "../components/admin/UserManagement";
@@ -18,12 +18,12 @@ const getStoredUserData = () => {
       process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!
     );
     if (!encryptedData) return null;
-    
+
     const decryptedData = CryptoJS.AES.decrypt(
       encryptedData,
       process.env.NEXT_PUBLIC__ENCSECRET_KEY!
     ).toString(CryptoJS.enc.Utf8);
-    
+
     return decryptedData ? JSON.parse(decryptedData) : null;
   } catch (error) {
     console.error("Error decrypting user data:", error);
@@ -32,27 +32,34 @@ const getStoredUserData = () => {
 };
 
 const AdminPage = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  // Get the "page" query parameter (defaults to "users" if not provided)
+  const initialPage = searchParams.get("page") || "users";
+  const [currentPage, setCurrentPage] = useState(initialPage);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState("users");
-  const router = useRouter();
 
   useEffect(() => {
     const userData: UserType = getStoredUserData();
-    
     if (!userData) {
       router.push("/auth/login");
       return;
     }
-    
+
     if (userData.id === process.env.NEXT_PUBLIC_ADMINS) {
       setIsAdmin(true);
     } else {
       router.push("/properties");
     }
-    
+
     setLoading(false);
   }, [router]);
+
+  // Whenever currentPage changes, update the URL query parameter
+  useEffect(() => {
+    router.push(`/admin?page=${currentPage}`);
+  }, [currentPage, router]);
 
   if (loading) return <Loader />;
   if (!isAdmin) return null;
@@ -63,10 +70,16 @@ const AdminPage = () => {
         <h4>Admin Dashboard</h4>
         <nav className="dashboard-navigation">
           <button onClick={() => setCurrentPage("users")}>Users</button>
-          <button onClick={() => setCurrentPage("properties")}>Properties</button>
-          <button onClick={() => setCurrentPage("reviews")}>User Reviews</button>
+          <button onClick={() => setCurrentPage("properties")}>
+            Properties
+          </button>
+          <button onClick={() => setCurrentPage("reviews")}>
+            User Reviews
+          </button>
           <button onClick={() => setCurrentPage("analytics")}>Analytics</button>
-          <button onClick={() => setCurrentPage("notifications")}>Notifications</button>
+          <button onClick={() => setCurrentPage("notifications")}>
+            Notifications
+          </button>
         </nav>
         <main className="dashboard-content">
           {currentPage === "users" && <UserManagement />}

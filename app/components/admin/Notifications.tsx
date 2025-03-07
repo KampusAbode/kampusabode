@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { db } from "../../lib/firebaseConfig";
 import {
   collection,
@@ -13,57 +13,59 @@ import toast from "react-hot-toast";
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
-  const isInitialRender = useRef(true); // Track initial render
 
   useEffect(() => {
+    // Helper function: returns a listener that skips the initial load
     const listenToCollection = (collectionName, label) => {
+      let isInitialLoad = true; // flag for this listener
+
       return onSnapshot(collection(db, collectionName), (snapshot) => {
+        // If this is the initial load, just mark flag as false and do not process notifications
+        if (isInitialLoad) {
+          isInitialLoad = false;
+          return;
+        }
+
+        // For subsequent changes, process the docChanges
         snapshot.docChanges().forEach((change) => {
           const newNotification = {
             id: change.doc.id,
-            message: `${label} ${change.type}`,
+            message: `New ${label} ${change.type}`,
             timestamp: new Date().toISOString(),
           };
 
-          // Save notifications in Firestore
+          // Save notification to Firestore (for persistence if needed)
           const notificationRef = doc(db, "notifications", newNotification.id);
           setDoc(notificationRef, newNotification, { merge: true });
 
           // Update local state
           setNotifications((prev) => [newNotification, ...prev]);
 
-          // ✅ Only show toast if it's NOT the first render
-          if (!isInitialRender.current) {
-            toast(`🔔 ${newNotification.message}`, {
-              duration: 5000,
-              position: "top-right",
-              style: {
-                borderRadius: "8px",
-                background: "#333",
-                color: "#fff",
-              },
-            });
-          }
+          // Show toast notification
+          toast(`🔔 ${newNotification.message}`, {
+            duration: 5000,
+            position: "top-right",
+            style: {
+              borderRadius: "8px",
+              background: "#333",
+              color: "#fff",
+            },
+          });
         });
       });
     };
 
     // Attach real-time listeners to collections
-    const unsubUsers = listenToCollection("users", "User");
-    const unsubProperties = listenToCollection("properties", "Property");
-    const unsubReviews = listenToCollection("Reviews", "Review");
-    const unsubMarketItems = listenToCollection("Marketitems", "Market Item");
-    const unsubComments = listenToCollection("comments", "Comment");
+    const unsubUsers = listenToCollection("users", "user");
+    const unsubProperties = listenToCollection("properties", "property");
+    const unsubReviews = listenToCollection("Reviews", "review");
+    const unsubMarketItems = listenToCollection("Marketitems", "market item");
+    const unsubComments = listenToCollection("comments", "comment");
     const unsubConversations = listenToCollection(
       "conversations",
       "Conversation"
     );
     const unsubTrends = listenToCollection("trends", "Trend");
-
-    // ✅ Set initial render flag to false after first load
-    setTimeout(() => {
-      isInitialRender.current = false;
-    }, 1000);
 
     // Cleanup function
     return () => {
@@ -84,8 +86,6 @@ const Notifications = () => {
       setNotifications((prev) =>
         prev.filter((notification) => notification.id !== id)
       );
-
-      // Show success toast
       toast.success("Notification deleted successfully!", {
         position: "bottom-right",
       });
