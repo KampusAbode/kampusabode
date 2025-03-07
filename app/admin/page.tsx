@@ -36,7 +36,6 @@ const pages = ["users", "properties", "reviews", "analytics", "notifications"];
 const AdminPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  // Get the "page" query parameter (defaults to "users" if not provided)
   const initialPage = searchParams.get("page") || "users";
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [isAdmin, setIsAdmin] = useState(false);

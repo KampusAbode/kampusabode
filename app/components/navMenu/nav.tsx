@@ -98,6 +98,12 @@ function Nav() {
             </button>
           )}
         <ul>
+          <li className={pathname === "/properties" ? "active" : ""}>
+            <button onClick={() => handleNavigation("/properties")}>
+              <FaSearchLocation />
+              properties
+            </button>
+          </li>
           {user?.isAuthenticated &&
             user?.id === process.env.NEXT_PUBLIC_ADMINS && (
               <li className={pathname === "/adminchatroom" ? "active" : ""}>
@@ -121,12 +127,6 @@ function Nav() {
             <button onClick={() => handleNavigation("/profile")}>
               <FaRegUserCircle />
               profile
-            </button>
-          </li>
-          <li className={pathname === "/properties" ? "active" : ""}>
-            <button onClick={() => handleNavigation("/properties")}>
-              <FaSearchLocation />
-              properties
             </button>
           </li>
           {user?.isAuthenticated && (

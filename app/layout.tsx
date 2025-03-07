@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import ClientRootLayout from "./ClientRootLayout";
+import { NotificationProvider } from "./context/NotificationContext";
 
 export const metadata: Metadata = {
   title: "Kampusabode App - Property Listing Site",
@@ -26,7 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ClientRootLayout>{children}</ClientRootLayout>
+        <NotificationProvider>
+          <ClientRootLayout>{children}</ClientRootLayout>
+        </NotificationProvider>
       </body>
     </html>
   );

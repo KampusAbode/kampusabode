@@ -119,10 +119,10 @@ const SignupPage = () => {
         <div className="fm">
           <h4>Sign up to start your journey</h4>
           <form onSubmit={handleSubmit}>
-            <div className="input-box">
+            {/* <div className="input-box">
               <label htmlFor="avatar">Profile Picture</label>
               <input type="file" accept="image/*" onChange={handleFileChange} />
-            </div>
+            </div> */}
 
             <div className="input-box">
               <label htmlFor="username">User name</label>
@@ -171,17 +171,6 @@ const SignupPage = () => {
             </div>
 
             <div className="input-box">
-              <label htmlFor="phoneNumber">Phone Number</label>
-              <input
-                type="text"
-                name="phoneNumber"
-                value={formValues.phoneNumber}
-                onChange={handleInputChange}
-                placeholder="Enter your phone number"
-              />
-            </div>
-
-            <div className="input-box">
               <label htmlFor="university">University</label>
               <select
                 name="university"
@@ -207,18 +196,6 @@ const SignupPage = () => {
               </select>
             </div>
 
-            {formValues.userType === "student" && (
-              <div className="input-box">
-                <label htmlFor="studentInfo.department">Department</label>
-                <input
-                  type="text"
-                  name="studentInfo.department"
-                  value={formValues.studentInfo?.department || ""}
-                  onChange={handleInputChange}
-                  placeholder="Your current department"
-                />
-              </div>
-            )}
 
             {formValues.userType === "agent" && (
               <div className="input-box">

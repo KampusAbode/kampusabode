@@ -7,6 +7,7 @@ import {
   togglePropertyApproval,
 } from "../../utils";
 import { PropertyType } from "../../fetch/types";
+import Link from "next/link";
 
 const PropertyManagement = () => {
   const [properties, setProperties] = useState<PropertyType[]>([]);
@@ -70,7 +71,9 @@ const PropertyManagement = () => {
           <li key={property.id}>
             <div className="flex">
               <div className="info">
-                <p>{property.title}</p>
+                <p>
+                  <Link href={property.url}>{property.title}</Link>
+                </p>
                 <span>price - ${property.price}</span>
                 <span>pocation - {property.location}</span>
               </div>
