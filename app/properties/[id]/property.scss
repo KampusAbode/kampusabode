@@ -328,6 +328,9 @@
 
       .prop-cta {
         margin-top: var(--spacing-3x);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing);
         .btn {
           display: block;
           width: 100%;
@@ -422,6 +425,19 @@
           .review-item {
             width: 90%;
           }
+        }
+      }
+
+      .contact {
+        .prop-cta {
+          position: fixed;
+          right: 0;
+          left: 0;
+          bottom: var(--spacing);
+          width: 100%;
+
+          z-index: 99999;
+          padding: var(--spacing);
         }
       }
 

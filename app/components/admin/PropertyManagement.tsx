@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import {
-  fetchAllProperties,
+  fetchAllPropertiesWithoutQuery,
   deleteProperty,
   togglePropertyApproval,
 } from "../../utils";
@@ -20,7 +20,7 @@ const PropertyManagement = () => {
       setError("");
 
       try {
-        const propertyData = await fetchAllProperties();
+        const propertyData = await fetchAllPropertiesWithoutQuery();
         setProperties(propertyData);
       } catch (error: any) {
         console.error("Error fetching properties:", error);

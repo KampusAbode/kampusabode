@@ -213,19 +213,19 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                       key={listing.id}
                       href={`/properties/${listing.id}`}
                       className="list-prop">
-                        <div className="list-image">
-                          <Image
-                            priority
-                            src={listing.images[0]}
-                            width={500}
-                            height={500}
-                            alt={listing.title}
-                          />
-                        </div>
-                        <div className="list-details">
-                          <h6>{listing.title}</h6>
-                          <span>{listing.description}</span>
-                        </div>
+                      <div className="list-image">
+                        <Image
+                          priority
+                          src={listing.images[0]}
+                          width={500}
+                          height={500}
+                          alt={listing.title}
+                        />
+                      </div>
+                      <div className="list-details">
+                        <h6>{listing.title}</h6>
+                        <span>{listing.description}</span>
+                      </div>
                     </Link>
                   ))}
                 </div>
@@ -243,28 +243,21 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
               non-negotiable to ensure fairness and transparency. For inquiries,
               feel free to contact us.
             </p>
-            {user?.userType === "student" && (
-              <div className="prop-cta">
-                {user ? (
-                  <>
-                    <Link
-                      className="btn"
-                      href={`/chat/${user.id}/${user.name}`}>
-                      for more info
-                    </Link>
-                    <Link
-                      className="btn btn-secondary"
-                      href={`tel:+2347050721686`}>
-                      Make a call
-                    </Link>
-                  </>
-                ) : (
-                  <Link className="btn" href="/auth/signup">
-                    signup
-                  </Link>
-                )}
-              </div>
-            )}
+
+            <div className="prop-cta">
+              <>
+                <Link
+                  className="btn"
+                  href={user ? `/chat/${user.id}/${user.name}` : `/auth/login`}>
+                  for more info
+                </Link>
+                <Link
+                  className="btn btn-secondary"
+                  href={user ? `tel:+2347050721686` : `/auth/login`}>
+                  Make a call
+                </Link>
+              </>
+            </div>
           </div>
         </div>
       </section>

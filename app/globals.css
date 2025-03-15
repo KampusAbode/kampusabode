@@ -87,6 +87,7 @@ body {
   line-height: var(--line-height-md);
   color: var(--font-color-p);
   background-color: var(--background-white);
+  position: relative;
 }
 
 .wrapper {

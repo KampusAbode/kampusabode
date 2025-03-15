@@ -17,6 +17,7 @@ type Sender = {
   userName: string;
   role: string;
 };
+
 export const sendMessage = async (
   sender: Sender,
   receiverId: string,
@@ -66,11 +67,17 @@ export const sendMessage = async (
   }
 };
 
-export const deleteMessageFromFirebase = async (userId, messageId) => {
+
+
+// this function deletes the message (as requested by the users) from the database
+export const deleteMessageFromFirebase = async (userId: string, messageId: string) => {
   const messageRef = doc(db, `conversations/${userId}/messages/${messageId}`);
   await deleteDoc(messageRef);
 };
 
+
+
+// this function gets all the messages (as requested by the users) from the "conversations" collection database
 export const getAllConversations = (callback) => {
   const conversationsRef = collection(db, "conversations");
 
@@ -87,7 +94,10 @@ export const getAllConversations = (callback) => {
   return unsubscribe;
 };
 
-export const listenToMessagesForConversation = (conversationId, callback) => {
+
+
+// this function listen to messages from conversation for any chances (real time listen)
+export const listenToMessagesForConversation = (conversationId: string, callback) => {
   const messagesRef = collection(
     db,
     `conversations/${conversationId}/messages`

@@ -20,7 +20,6 @@ import {
 import { PropertyType } from "../fetch/types";
 import { storage } from "../lib/appwriteClient";
 
-
 export const fetchProperties = async (): Promise<PropertyType[]> => {
   try {
     const propertiesCollection = collection(db, "properties");
@@ -68,11 +67,12 @@ export const fetchProperties = async (): Promise<PropertyType[]> => {
   }
 };
 
-export const fetchAllProperties = async (): Promise<PropertyType[]> => {
+export const fetchAllPropertiesWithoutQuery = async (): Promise<
+  PropertyType[]
+> => {
   try {
     const propertiesCollection = collection(db, "properties");
 
-   
     const snapshot = await getDocs(propertiesCollection);
 
     // Map each document to a PropertyType object
@@ -142,7 +142,7 @@ export const fetchPropertyById = async (
         amenities: data.amenities || [],
         images: data.images || [],
         available: data.available || false,
-        approved: false
+        approved: false,
       };
       return property;
     } else {
@@ -158,8 +158,9 @@ export const fetchPropertyById = async (
   }
 };
 
-
-export const fetchPropertiesByIds = async (propertyIds: string[]): Promise<PropertyType[]> => {
+export const fetchPropertiesByIds = async (
+  propertyIds: string[]
+): Promise<PropertyType[]> => {
   try {
     const propertiesCollection = collection(db, "properties");
 
@@ -205,7 +206,6 @@ export const fetchPropertiesByIds = async (propertyIds: string[]): Promise<Prope
     };
   }
 };
-
 
 export const addProperty = async (property) => {
   try {
@@ -279,7 +279,6 @@ export const deleteProperty = async (
   }
 };
 
-
 export const deleteAppwriteImage = async (imageUrl: string) => {
   try {
     const fileId = extractAppwriteFileId(imageUrl);
@@ -309,7 +308,6 @@ export const extractAppwriteFileId = (imageUrl: string) => {
     throw new Error("Failed to extract Appwrite file ID");
   }
 };
-
 
 export const updateAllProperties = async () => {
   try {

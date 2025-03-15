@@ -33,7 +33,7 @@ export default function Navigation() {
   }, []);
 
   // Render the header only if the pathname contains any of the excluded paths
-  const excludedPaths = ["login", "signup", "chat", "adminchatroom", "about"];
+  const excludedPaths = ["login", "signup", "chat", "adminchatroom", "about", "properties"];
   const isExcludedPath = excludedPaths.some((path) => pathname.includes(path));
 
   // If the current path is excluded or still loading, do not render the navigation
