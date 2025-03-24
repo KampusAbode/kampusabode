@@ -6,20 +6,38 @@ import Link from "next/link";
 import { format, isToday, isYesterday } from "date-fns";
 import "./admin.css";
 
+const formatTimestamp = (timestamp: any): string => {
+  // Convert the timestamp to a Date instance if needed
+  const date =
+    timestamp && typeof timestamp.toDate === "function"
+      ? timestamp.toDate()
+      : new Date(timestamp);
+
+  if (isToday(date)) {
+    return format(date, "hh:mm a");
+  } else if (isYesterday(date)) {
+    return "Yesterday";
+  } else {
+    return format(date, "dd-MM-yyyy");
+  }
+};
+
 const AdminChat = () => {
-  const [users, setUsers] = useState(null);
+  const [users, setUsers] = useState<any[] | null>(null);
 
   useEffect(() => {
     const unsubscribe = getAllMessages((fetchedMessages) => {
       // Sort messages by timestamp in ascending order
       const sortedMessages = fetchedMessages.sort((a, b) => {
-        const timestampA = a.timestamp?.toDate
-          ? a.timestamp.toDate()
-          : new Date(a.timestamp);
-        const timestampB = b.timestamp?.toDate
-          ? b.timestamp.toDate()
-          : new Date(b.timestamp);
-        return timestampA - timestampB; // Ascending order
+        const timestampA =
+          a.timestamp && typeof a.timestamp.toDate === "function"
+            ? a.timestamp.toDate()
+            : new Date(a.timestamp);
+        const timestampB =
+          b.timestamp && typeof b.timestamp.toDate === "function"
+            ? b.timestamp.toDate()
+            : new Date(b.timestamp);
+        return timestampA.getTime() - timestampB.getTime();
       });
       setUsers(sortedMessages);
     });
@@ -38,19 +56,7 @@ const AdminChat = () => {
             <p>Loading messages...</p>
           ) : users.length > 0 ? (
             users.map((msg, index) => {
-              const timestamp = msg.timestamp?.toDate
-                ? msg.timestamp.toDate()
-                : new Date().toISOString();
-
-              const formattedTime = (() => {
-                if (isToday(timestamp)) {
-                  return format(timestamp, "hh:mm a");
-                } else if (isYesterday(timestamp)) {
-                  return "Yesterday";
-                } else {
-                  return format(timestamp, "dd-MM-yyyy");
-                }
-              })();
+              const formattedTime = formatTimestamp(msg.timestamp);
 
               return (
                 <Link
@@ -58,7 +64,7 @@ const AdminChat = () => {
                   key={index}
                   className="message">
                   <span className="username">{msg.userName}</span>
-                  <p className="content"> {msg.content}</p>
+                  <p className="content">{msg.content}</p>
                   <span className="timestamp">{formattedTime}</span>
                 </Link>
               );

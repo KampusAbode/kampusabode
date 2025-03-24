@@ -2,7 +2,7 @@
 
 import React from "react";
 import { formatDistanceToNow } from "date-fns";
-import "./messageCard.css";
+import "./messagecard.css";
 import Link from "next/link";
 
 type Conversation = {
