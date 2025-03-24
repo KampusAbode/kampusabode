@@ -83,14 +83,6 @@ const ChatComponent: React.FC<ChatProps> = ({
     try {
       const res = await sendMessage(sender, receiverId, message);
       if (res?.success) {
-        setMessages((prev) => [
-          ...prev,
-          {
-            senderId: currentUserId,
-            content: message,
-            timestamp: new Date().toISOString(),
-          },
-        ]);
         setMessage("");
         toast.success("Message sent!");
       } else {
