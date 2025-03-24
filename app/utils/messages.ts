@@ -27,22 +27,23 @@ export const sendMessage = async (
     const { senderId, userName, role } = sender;
     const messageId = role === "admin" ? receiverId : senderId;
 
-    // Message data
+    // Calculate the current time in UTC+1
+    const now = new Date();
+    const utcPlusOne = new Date(now.getTime() + 60 * 60 * 1000);
+
+    // Message data with UTC+1 timestamp
     const conversationData = {
       userName,
       senderId,
       receiverId,
       content: messageContent,
-      timestamp: serverTimestamp(),
+      timestamp: utcPlusOne,
       read: false,
     };
 
     if (role === "admin") {
       // Add message to messages sub-collection
-      const messagesRef = collection(
-        db,
-        `messages/${messageId}/messages`
-      );
+      const messagesRef = collection(db, `messages/${messageId}/messages`);
       await addDoc(messagesRef, conversationData);
     } else if (role === "user") {
       // Update conversation metadata
@@ -50,10 +51,7 @@ export const sendMessage = async (
       await setDoc(conversationRef, conversationData);
 
       // Add message to messages sub-collection
-      const messagesRef = collection(
-        db,
-        `messages/${messageId}/messages`
-      );
+      const messagesRef = collection(db, `messages/${messageId}/messages`);
       await addDoc(messagesRef, conversationData);
     }
 
@@ -66,6 +64,7 @@ export const sendMessage = async (
     };
   }
 };
+
 
 
 
