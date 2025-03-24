@@ -47,10 +47,10 @@
 }
 .prop-card .swiper .swiper-button-prev::after,
 .prop-card .swiper .swiper-button-next::after {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-md);
   font-weight: 800;
-  width: 2.8rem;
-  height: 2.8rem;
+  width: 2.3rem;
+  height: 2.3rem;
   display: grid;
   place-content: center;
   background-color: var(--white);

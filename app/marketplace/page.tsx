@@ -7,13 +7,20 @@ import { allMarketplaceItems } from "../utils";
 import "./marketplace.css";
 import Loader from "../components/loader/Loader";
 import { FaSearch } from "react-icons/fa";
-// import toast from "react-hot-toast";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import  {constants}  from "./component/constant";
+import Image from "next/image";
+
 
 function MarketPlace() {
   const [marketItems, setMarketItems] = useState<ItemType[]>([]);
   const [filteredMarketItems, setFilteredMarketItems] = useState<ItemType[]>(
     []
   );
+  const [latestItems, setLatestItems] = useState<ItemType[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [loading, setLoading] = useState(false);
@@ -22,8 +29,12 @@ function MarketPlace() {
   useEffect(() => {
     setLoading(true);
     const unsubscribe = allMarketplaceItems((fetchedMarketItems) => {
-      setMarketItems(fetchedMarketItems);
-      setFilteredMarketItems(fetchedMarketItems);
+      const sortedItems = [...fetchedMarketItems].sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
+      setMarketItems(sortedItems);
+      setFilteredMarketItems(sortedItems);
+      setLatestItems(sortedItems.slice(0, 5)); // Get the latest 5 items
       setLoading(false);
     });
 
@@ -47,9 +58,9 @@ function MarketPlace() {
       .toLowerCase()
       .trim()
       .split(" ")
-      .filter((word) => word); // Remove empty words
+      .filter((word) => word);
     if (words.length === 0) {
-      setFilteredMarketItems([]); // No search results for empty input
+      setFilteredMarketItems([]);
       setLoading(false);
       return;
     }
@@ -58,7 +69,7 @@ function MarketPlace() {
       const itemString =
         `${item.name} ${item.description} ${item.price}`.toLowerCase();
       return words.every((word) => {
-        const wordRegex = new RegExp(`\\b${word}\\b`, "i"); // Match whole words
+        const wordRegex = new RegExp(`\\b${word}\\b`, "i");
         return wordRegex.test(itemString);
       });
     });
@@ -82,6 +93,46 @@ function MarketPlace() {
 
   return (
     <section className="marketplace">
+      <div className="container">
+        <span
+          style={{
+            textAlign: "center",
+            display: "block",
+            marginBottom: "3rem",
+          }}>
+          {constants.intro_text}
+        </span>
+      </div>
+      <div className="container">
+        <h5 className="section-title">Latest Items</h5>
+        <Swiper
+          loop={true}
+          grabCursor={true}
+          centeredSlides={true}
+          slidesPerView={1.8}
+          spaceBetween={10}
+          autoplay={{ delay: 3000, disableOnInteraction: false }}
+          modules={[Autoplay]}
+          className="latest-items-swiper">
+          {latestItems.map((item) => (
+            <SwiperSlide key={item.description}>
+              <div className="latest">
+                <div className="latest-img">
+                  <Image
+                    priority
+                    src={item.imageUrl}
+                    width={800}
+                    height={800}
+                    alt={item.name}
+                  />
+                </div>
+                <h6>{item.name}</h6>
+                <span>{item.price}</span>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
       <div className="filter-marketplaceitems">
         <div className="container">
           <div className="search-items">
@@ -107,7 +158,7 @@ function MarketPlace() {
               onClick={() => filterByCategory("all")}>
               All
             </span>
-            {itemCategories.map((category, index) => (
+            {constants.item_categories.map((category, index) => (
               <span
                 key={index}
                 className={`category-item ${

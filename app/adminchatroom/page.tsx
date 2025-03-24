@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { getAllConversations } from "../utils";
+import { getAllMessages } from "../utils";
 import Link from "next/link";
 import { format, isToday, isYesterday } from "date-fns";
 import "./admin.css";
@@ -10,7 +10,7 @@ const AdminChat = () => {
   const [users, setUsers] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = getAllConversations((fetchedMessages) => {
+    const unsubscribe = getAllMessages((fetchedMessages) => {
       // Sort messages by timestamp in ascending order
       const sortedMessages = fetchedMessages.sort((a, b) => {
         const timestampA = a.timestamp?.toDate
@@ -31,7 +31,7 @@ const AdminChat = () => {
   return (
     <section className="admin-chat-page">
       <div className="container">
-        <h3 className='page-heading'>Users Messages</h3>
+        <h3 className="page-heading">Users Messages</h3>
         <p>Click on a user to view messages</p>
         <ul>
           {users === null ? (

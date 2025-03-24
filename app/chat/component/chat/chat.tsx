@@ -62,7 +62,9 @@ const ChatComponent: React.FC<ChatProps> = ({
     );
     setIsLoadingMessages(false);
 
-    return () => { unsubscribe() };
+    return () => {
+      unsubscribe();
+    };
   }, [currentUserId, receiverId]);
 
   // Scroll to the latest message
@@ -108,18 +110,25 @@ const ChatComponent: React.FC<ChatProps> = ({
     }
   };
 
-  const formatTimestamp = (timestamp: Date) => {
+  const formatTimestamp = (timestamp: any) => {
     const now = new Date();
+    // Convert Firestore Timestamp to JS Date if needed
+    const messageDate =
+      timestamp && typeof timestamp.toDate === "function"
+        ? timestamp.toDate()
+        : new Date(timestamp);
     const diffInMinutes = Math.floor(
-      (now.getTime() - timestamp.getTime()) / 60000
+      (now.getTime() - messageDate.getTime()) / 60000
     );
+
     if (diffInMinutes < 1) return "Now";
     if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
     if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}h ago`;
-    if (isYesterday(timestamp)) return "Yesterday";
-    if (isToday(timestamp)) return format(timestamp, "hh:mm a");
-    return format(timestamp, "dd-MM-yyyy");
+    if (isYesterday(messageDate)) return "Yesterday";
+    if (isToday(messageDate)) return format(messageDate, "hh:mm a");
+    return format(messageDate, "dd-MM-yyyy");
   };
+
 
   const handleLongPress = (message) => {
     if (message.senderId === currentUserId || currentUserRole === "admin") {
@@ -190,10 +199,10 @@ const ChatComponent: React.FC<ChatProps> = ({
             ref={inputRef}
           />
           <button
-          className='btn'
+            className="btn"
             onClick={handleSendMessage}
             disabled={isLoading || message.trim() === ""}>
-            {isLoading ? <MdBubbleChart/> : <FiSend/>}
+            {isLoading ? <MdBubbleChart /> : <FiSend />}
           </button>
         </div>
       </div>

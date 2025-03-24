@@ -285,13 +285,13 @@
 .properties-details-page .container .contact {
   margin-top: var(--spacing-4x);
 }
-.properties-details-page .container .contact .prop-cta {
+.properties-details-page .container .prop-cta {
   margin-top: var(--spacing-3x);
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--spacing);
 }
-.properties-details-page .container .contact .prop-cta .btn {
+.properties-details-page .container .prop-cta .btn {
   display: block;
   width: 100%;
   text-align: center;
@@ -352,7 +352,7 @@
   .properties-details-page .container .agent-reviews .reviews .review-item {
     width: 90%;
   }
-  .properties-details-page .container .contact .prop-cta {
+  .properties-details-page .container .prop-cta {
     position: fixed;
     right: 0;
     left: 0;

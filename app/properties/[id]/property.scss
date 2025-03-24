@@ -325,18 +325,19 @@
 
     .contact {
       margin-top: var(--spacing-4x);
-
-      .prop-cta {
-        margin-top: var(--spacing-3x);
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: var(--spacing);
-        .btn {
-          display: block;
-          width: 100%;
-          text-align: center;
-          margin-top: var(--spacing);
-        }
+    }
+    
+    .prop-cta {
+      margin-top: var(--spacing-3x);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing);
+      
+      .btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin-top: var(--spacing);
       }
     }
   }
@@ -428,17 +429,17 @@
         }
       }
 
-      .contact {
-        .prop-cta {
-          position: fixed;
-          right: 0;
-          left: 0;
-          bottom: var(--spacing);
-          width: 100%;
+      // .contact {
+      // }
+      .prop-cta {
+        position: fixed;
+        right: 0;
+        left: 0;
+        bottom: var(--spacing);
+        width: 100%;
 
-          z-index: 99999;
-          padding: var(--spacing);
-        }
+        z-index: 99999;
+        padding: var(--spacing);
       }
 
       // .agent-listings {

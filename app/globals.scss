@@ -14,7 +14,7 @@
   --black: #000000;
 
   --gray: #a8abad;
-  --light-gray: #f6f7f8;
+  --light-gray: #f4f4f4;
   --dark-gray: #6d6d6d;
 
   --font-color-h: #212529;
@@ -22,8 +22,8 @@
   --font-light: #adb5bd;
   --font-white: #ffffff;
 
-  --border: 1px solid #ced4da;
-  --border-hover: 1px solid #495057;
+  --border: 1px solid #757575;
+  --border-hover: 1px solid #474747;
 
   /* Border Radius */
   --border-radius: 8px;
@@ -70,7 +70,7 @@
   outline: none;
   list-style-type: none;
   text-decoration: none;
-  font-weight: 400;
+  font-weight: 500;
   // border: var(--border);
 
   &:focus,

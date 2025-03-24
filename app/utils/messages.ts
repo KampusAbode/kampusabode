@@ -25,7 +25,7 @@ export const sendMessage = async (
 ) => {
   try {
     const { senderId, userName, role } = sender;
-    const conversationId = role === "admin" ? receiverId : senderId;
+    const messageId = role === "admin" ? receiverId : senderId;
 
     // Message data
     const conversationData = {
@@ -34,25 +34,25 @@ export const sendMessage = async (
       receiverId,
       content: messageContent,
       timestamp: serverTimestamp(),
-      status: "sent",
+      read: false,
     };
 
     if (role === "admin") {
       // Add message to messages sub-collection
       const messagesRef = collection(
         db,
-        `conversations/${conversationId}/messages`
+        `messages/${messageId}/messages`
       );
       await addDoc(messagesRef, conversationData);
     } else if (role === "user") {
       // Update conversation metadata
-      const conversationRef = doc(db, `conversations/${conversationId}`);
+      const conversationRef = doc(db, `messages/${messageId}`);
       await setDoc(conversationRef, conversationData);
 
       // Add message to messages sub-collection
       const messagesRef = collection(
         db,
-        `conversations/${conversationId}/messages`
+        `messages/${messageId}/messages`
       );
       await addDoc(messagesRef, conversationData);
     }
@@ -71,23 +71,23 @@ export const sendMessage = async (
 
 // this function deletes the message (as requested by the users) from the database
 export const deleteMessageFromFirebase = async (userId: string, messageId: string) => {
-  const messageRef = doc(db, `conversations/${userId}/messages/${messageId}`);
+  const messageRef = doc(db, `messages/${userId}/messages/${messageId}`);
   await deleteDoc(messageRef);
 };
 
 
 
-// this function gets all the messages (as requested by the users) from the "conversations" collection database
-export const getAllConversations = (callback) => {
-  const conversationsRef = collection(db, "conversations");
+// this function gets all the messages (as requested by the users) from the "messages" collection database
+export const getAllMessages = (callback) => {
+  const messagesRef = collection(db, "messages");
 
   // Real-time listener
-  const unsubscribe = onSnapshot(conversationsRef, (snapshot) => {
-    const conversations = snapshot.docs.map((doc) => ({
+  const unsubscribe = onSnapshot(messagesRef, (snapshot) => {
+    const messages = snapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
-    callback(conversations);
+    callback(messages);
   });
 
   // Return the unsubscribe function to clean up the listener when no longer needed
@@ -97,10 +97,10 @@ export const getAllConversations = (callback) => {
 
 
 // this function listen to messages from conversation for any chances (real time listen)
-export const listenToMessagesForConversation = (conversationId: string, callback) => {
+export const listenToMessagesForConversation = (messageId: string, callback) => {
   const messagesRef = collection(
     db,
-    `conversations/${conversationId}/messages`
+    `messages/${messageId}/messages`
   );
 
   // Real-time listener

@@ -14,12 +14,14 @@ import { FaUser } from "react-icons/fa6";
 import { IoChatboxEllipses } from "react-icons/io5";
 import toast from "react-hot-toast";
 import "./navigation.css";
+import { getAllMessages } from "../../utils"; // adjust the path as needed
 
 export default function Navigation() {
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.user?.isAuthenticated
-  );
+  const user = useSelector((state: RootState) => state.user);
+  const isAuthenticated = user?.isAuthenticated;
+  const userId = user?.id; // Ensure your Redux store provides the user's id
   const [loading, setLoading] = useState(true);
+  const [unreadCount, setUnreadCount] = useState(0);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -32,11 +34,33 @@ export default function Navigation() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Render the header only if the pathname contains any of the excluded paths
-  const excludedPaths = ["login", "signup", "chat", "adminchatroom", "about", "properties"];
+  // Listen for unread messages (only for authenticated users)
+  useEffect(() => {
+    if (!isAuthenticated || !userId) return;
+
+    // Subscribe to all conversations from Firebase
+    const unsubscribe = getAllMessages((allConversations) => {
+      // Filter for conversations where the logged in user is the receiver and the message is unread
+      const unreadMessages = allConversations.filter(
+        (convo) => convo.receiverId === userId && !convo.read
+      );
+      setUnreadCount(unreadMessages.length);
+    });
+
+    return () => unsubscribe();
+  }, [isAuthenticated, userId]);
+
+  // Exclude navigation on certain paths
+  const excludedPaths = [
+    "login",
+    "signup",
+    "chat",
+    "adminchatroom",
+    "about",
+    "properties/",
+  ];
   const isExcludedPath = excludedPaths.some((path) => pathname.includes(path));
 
-  // If the current path is excluded or still loading, do not render the navigation
   if (isExcludedPath || loading) {
     return null;
   }
@@ -44,9 +68,9 @@ export default function Navigation() {
   // Define page availability (true means available, false means not available)
   const pageAvailability = {
     "/properties": true,
-    "/messages": false,
-    "/trends": false,
-    "/saved": false,
+    "/messages": true,
+    "/trends": true,
+    "/saved": true,
     "/marketplace": true,
     "/auth/login": true,
   };
@@ -78,6 +102,7 @@ export default function Navigation() {
             <button onClick={() => handleNavigation("/messages")}>
               <IoChatboxEllipses />
               <span>messages</span>
+              {unreadCount > 0 && <div className="unread">{unreadCount}</div>}
             </button>
           </li>
         )}
