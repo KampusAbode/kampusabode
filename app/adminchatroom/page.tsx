@@ -7,11 +7,16 @@ import { format, isToday, isYesterday } from "date-fns";
 import "./admin.css";
 
 const formatTimestamp = (timestamp: any): string => {
-  // Convert the timestamp to a Date instance if needed
+  // Try to convert the timestamp to a Date instance
   const date =
     timestamp && typeof timestamp.toDate === "function"
       ? timestamp.toDate()
       : new Date(timestamp);
+
+  // Check if the date is valid
+  if (isNaN(date.getTime())) {
+    return "Invalid date";
+  }
 
   if (isToday(date)) {
     return format(date, "hh:mm a");
@@ -21,6 +26,8 @@ const formatTimestamp = (timestamp: any): string => {
     return format(date, "dd-MM-yyyy");
   }
 };
+
+
 
 const AdminChat = () => {
   const [users, setUsers] = useState<any[] | null>(null);

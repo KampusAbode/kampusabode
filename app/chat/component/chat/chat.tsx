@@ -13,6 +13,7 @@ import {
 } from "../../../utils";
 import "./chat.css";
 import Loader from "../../../components/loader/Loader";
+import Prompt from "../../../components/prompt/Prompt";
 
 type ChatProps = {
   currentUserId: string;
@@ -148,6 +149,11 @@ const ChatComponent: React.FC<ChatProps> = ({
     }
   };
 
+  const cancelDelete = () => {
+    setShowDeleteDialog(false);
+    setLongPressedMessage(null);
+  };
+
   return (
     <section className="chat-page">
       <div className="container">
@@ -199,31 +205,12 @@ const ChatComponent: React.FC<ChatProps> = ({
         </div>
       </div>
 
-      {showDeleteDialog && (
-        <div
-          className="delete-dialog"
-          onClick={() => {
-            setShowDeleteDialog(false);
-            setLongPressedMessage(null);
-          }}>
-          <div className="dialog-box">
-            <p>Are you sure you want to delete this message?</p>
-            <div className="btn-group">
-              <button className="confirm" onClick={confirmDeleteMessage}>
-                confirm
-              </button>
-              <button
-                className="cancel"
-                onClick={() => {
-                  setShowDeleteDialog(false);
-                  setLongPressedMessage(null);
-                }}>
-                cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <Prompt
+        message="Are you sure you want to delete this message?"
+        isOpen={showDeleteDialog}
+        onConfirm={confirmDeleteMessage}
+        onCancel={cancelDelete}
+      />
     </section>
   );
 };

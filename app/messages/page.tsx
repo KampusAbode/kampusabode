@@ -5,37 +5,76 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../redux/store";
 import Link from "next/link";
 import "./messages.css";
-import { getAllMessages } from "../utils"; // adjust the path as needed
-import MessageCard from "./components/MessageCard"; // a component to render a single conversation
-import fakeMessages from "./components/constants";
+import { getAllMessages, deleteMessageFromFirebase } from "../utils";
+import MessageCard from "./components/MessageCard"; 
+// import fakeMessages from "./components/constants";
+import Prompt from "../components/prompt/Prompt"; 
 
 const Messages = () => {
   const user = useSelector((state: RootState) => state.user);
-  const [conversations, setConversations] = useState([]);
+  const [conversations, setConversations] = useState<any[]>([]);
   const [selectedFilter, setSelectedFilter] = useState("all");
+  const [longPressedMessage, setLongPressedMessage] = useState<any>(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
-  // Subscribe to all conversations related to the authenticated user
-  // useEffect(() => {
-  //   if (!user) return;
-  //   const unsubscribe = getAllMessages((allConversations) => {
-  //     // Filter conversations based on the user's ID (assumes each conversation includes senderId/receiverId)
-  //     const userConversations = allConversations.filter(
-  //       (convo) => convo.senderId === user.id || convo.receiverId === user.id
-  //     );
-  //     setConversations(userConversations);
-  //   });
-  //   return () => unsubscribe();
-  // }, [user]);
+  // For demo purposes we're using fakeMessages.
+  // If using Firebase, uncomment the following useEffect and comment out the fakeMessages one.
+
   useEffect(() => {
-    setConversations(fakeMessages);
+    if (!user) return;
+    const unsubscribe = getAllMessages((allConversations) => {
+      const userConversations = allConversations.filter(
+        (convo) => convo.senderId === user.id || convo.receiverId === user.id
+      );
+      setConversations(userConversations);
+      console.log(userConversations);
+    });
+    return () => unsubscribe();
   }, [user]);
+  
+
+  // useEffect(() => {
+  //   setConversations(fakeMessages);
+  // }, [user]);
 
   // Filter conversations based on selected filter
   const filteredConversations = conversations.filter((convo) => {
     if (selectedFilter === "all") return true;
-    if (selectedFilter === "read") return convo.read === true; // adjust property as needed
-    if (selectedFilter === "unread") return convo.read !== true; // adjust property as needed
+    if (selectedFilter === "read") return convo.read === true;
+    if (selectedFilter === "unread") return convo.read !== true;
+    return true;
   });
+
+  const handleLongPress = (convo: any, e: React.MouseEvent) => {
+    e.preventDefault(); // prevent context menu
+    // Allow deletion only if the current user is the sender, or if desired, add additional admin checks
+    if (convo.senderId === user.id) {
+      setLongPressedMessage(convo);
+      setShowDeleteDialog(true);
+    }
+  };
+
+  const confirmDeleteMessage = async () => {
+    if (!longPressedMessage) return;
+    try {
+      await deleteMessageFromFirebase(user.id, longPressedMessage.id);
+      setConversations((prev) =>
+        prev.filter((convo) => convo.id !== longPressedMessage.id)
+      );
+      // Optionally, show a toast or notification for successful deletion
+    } catch (error) {
+      console.error("Error deleting message:", error);
+      // Optionally, show an error toast
+    } finally {
+      setShowDeleteDialog(false);
+      setLongPressedMessage(null);
+    }
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteDialog(false);
+    setLongPressedMessage(null);
+  };
 
   return (
     <section className="messages-page">
@@ -56,11 +95,12 @@ const Messages = () => {
             <div className="messages-list">
               {filteredConversations.length > 0 ? (
                 filteredConversations.map((convo) => (
-                  <MessageCard
+                  // Wrap MessageCard with a div to listen for long press (right-click)
+                  <div
                     key={convo.id}
-                    conversation={convo}
-                    userId={user.id}
-                  />
+                    onContextMenu={(e) => handleLongPress(convo, e)}>
+                    <MessageCard conversation={convo} userId={user.id} />
+                  </div>
                 ))
               ) : (
                 <p style={{ textAlign: "center" }}>No messages available.</p>
@@ -76,6 +116,14 @@ const Messages = () => {
           </>
         )}
       </div>
+
+      {/* Reusable Prompt component for delete confirmation */}
+      <Prompt
+        message="Are you sure you want to delete this message?"
+        isOpen={showDeleteDialog}
+        onConfirm={confirmDeleteMessage}
+        onCancel={cancelDelete}
+      />
     </section>
   );
 };
