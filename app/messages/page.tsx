@@ -5,10 +5,10 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../redux/store";
 import Link from "next/link";
 import "./messages.css";
-import { getAllMessages, deleteMessageFromFirebase } from "../utils";
-import MessageCard from "./components/MessageCard"; 
+import { getMessagesForUser, deleteMessageFromFirebase } from "../utils";
+import MessageCard from "./components/MessageCard";
 // import fakeMessages from "./components/constants";
-import Prompt from "../components/prompt/Prompt"; 
+import Prompt from "../components/prompt/Prompt";
 
 const Messages = () => {
   const user = useSelector((state: RootState) => state.user);
@@ -22,16 +22,18 @@ const Messages = () => {
 
   useEffect(() => {
     if (!user) return;
-    const unsubscribe = getAllMessages((allConversations) => {
+    const unsubscribe = getMessagesForUser(user.id, (allConversations) => {
       const userConversations = allConversations.filter(
-        (convo) => convo.senderId === user.id || convo.receiverId === user.id
+        (convo) => convo.receiverId === user.id
       );
+
       setConversations(userConversations);
+      console.log(user.id);
+
       console.log(userConversations);
     });
     return () => unsubscribe();
   }, [user]);
-  
 
   // useEffect(() => {
   //   setConversations(fakeMessages);
@@ -103,7 +105,10 @@ const Messages = () => {
                   </div>
                 ))
               ) : (
-                <p style={{ textAlign: "center" }}>No messages available.</p>
+                <p style={{ textAlign: "center" }}>
+                  No {selectedFilter === "all" ? "" : selectedFilter} messages
+                  available.
+                </p>
               )}
             </div>
           </>

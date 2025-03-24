@@ -93,6 +93,23 @@ export const getAllMessages = (callback) => {
   return unsubscribe;
 };
 
+export const getMessagesForUser = (userId:string, callback) => {
+  const messagesRef = collection(db, `messages/${userId}/messages`);
+  // const messagesRef = collection(db, `messages/${userId}/messages`);
+
+  // Real-time listener
+  const unsubscribe = onSnapshot(messagesRef, (snapshot) => {
+    const messages = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    callback(messages);
+  });
+
+  // Return the unsubscribe function to clean up the listener when no longer needed
+  return unsubscribe;
+};
+
 
 
 // this function listen to messages from conversation for any chances (real time listen)
