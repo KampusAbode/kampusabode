@@ -28,9 +28,8 @@ const Messages = () => {
       );
 
       setConversations(userConversations);
-      console.log(user.id);
 
-      console.log(userConversations);
+      console.log(user);
     });
     return () => unsubscribe();
   }, [user]);
