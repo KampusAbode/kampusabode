@@ -4,6 +4,7 @@
 
   a {
     outline: none;
+
   }
 
   .prop-image {
@@ -19,11 +20,25 @@
       gap: var(--spacing-h);
       z-index: 2;
 
+      .bookmark-button {
+        background-color: transparent;
+        svg {
+          path {
+            fill: var(--white);
+          }
+        }
+        &.saved {
+          svg {
+            path {
+              fill: var(--primary-color);
+            }
+          }
+        }
+      }
     }
   }
   .swiper {
-    height: 260px;
-    width: 100%;
+    aspect-ratio: 20 / 19;
     border-radius: var(--border-radius);
     overflow: hidden;
     position: relative;
@@ -34,6 +49,24 @@
       height: 100%;
       object-fit: cover;
     }
+    .swiper-button-prev,
+    .swiper-button-next {
+      color: var(--font-color-h);
+        width: 2.8rem;
+        height: 2.8rem;
+
+      &::after {
+        font-size: var(--font-size-md);
+        font-weight: 800;
+        width: 2.3rem;
+        height: 2.3rem;
+        display: grid;
+        place-content: center;
+        background-color: var(--white);
+        border-radius: 100%;
+        box-shadow: var(--shadow);
+      }
+    }
     .swiper-pagination-bullet {
       background-color: var(--white);
       opacity: 0.5;
@@ -43,12 +76,11 @@
     }
   }
   .card-details {
-    padding: var(--spacing) 0;
+    padding-block: var(--spacing);
     .type-price {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: var(--spacing);
 
       .price {
         color: var(--font-color-h);
@@ -56,39 +88,30 @@
       }
     }
 
-    .brief {
+    h5 {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      line-height: var(--line-height-xs);
+      line-clamp: 2;
+      -webkit-line-clamp: 2;
+      text-transform: capitalize;
       margin-block: var(--spacing-h);
+    }
+
+    div:last-child {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: var(--spacing-3x);
-
-      h4 {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        margin-block: var(--spacing-h);
-        line-height: var(--line-height-xs);
-        line-clamp: 2;
-        -webkit-line-clamp: 2;
-        text-transform: capitalize;
-      }
-    }
-
-    &>span {
-      display: flex;
-      gap: var(--spacing-h);
-      align-items: center;
       text-transform: capitalize;
-    }
-  }
-}
 
-@media screen and (max-width: 768px) {
-  .prop-card {
-    .card-details {
-      .brief {
-        gap: var(--spacing-2x);
+      span {
+        font-size: var(--font-size-sm);
+      }
+
+      .price {
+        text-decoration: underline;
+        text-transform: lowercase;
       }
     }
   }

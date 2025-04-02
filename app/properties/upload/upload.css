@@ -1,5 +1,8 @@
 .upload-property {
-  padding-block: var(--spacing-3x);
+  padding-block: var(--spacing-s);
+}
+.upload-property .container {
+  max-width: 900px;
 }
 .upload-property .container form {
   margin-block: var(--spacing-3x);
@@ -8,14 +11,14 @@
 .upload-property .container form .error {
   margin-top: var(--spacing-h);
   color: var(--primary-color);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
 }
 .upload-property .container form .btn {
   width: 100%;
   text-align: center;
 }
 .upload-property .container form .form-group {
-  margin-block: var(--spacing);
+  margin-block: var(--spacing-2x);
 }
 .upload-property .container form .form-group label {
   display: block;
@@ -24,6 +27,15 @@
 .upload-property .container form .form-group input, .upload-property .container form .form-group select, .upload-property .container form .form-group textarea {
   padding: var(--spacing);
   width: 100%;
+  border: var(--border);
+  border-radius: var(--border-radius);
+}
+.upload-property .container form .form-group textarea {
+  resize: none;
+  height: 150px;
+}
+.upload-property .container form .form-group option {
+  padding: var(--spacing-h);
 }
 .upload-property .container form .form-group .error {
   font-size: var(--font-size-sm);

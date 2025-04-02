@@ -1,6 +1,7 @@
 .upload-property{
-    padding-block: var(--spacing-3x);
+    padding-block: var(--spacing-s);
     .container{
+        max-width: 900px;
 
         form{
             margin-block: var(--spacing-3x);
@@ -9,7 +10,7 @@
             .error{
                 margin-top: var(--spacing-h);
                 color: var(--primary-color);
-                font-size: var(--font-size-sm);
+                font-size: var(--font-size-xs);
             }
 
             .btn{
@@ -18,7 +19,7 @@
             }
 
             .form-group{
-                margin-block: var(--spacing);
+                margin-block: var(--spacing-2x);
 
                 label{
                     display: block;
@@ -27,6 +28,15 @@
                 input,select,textarea{
                     padding: var(--spacing);
                     width: 100%;
+                    border: var(--border);
+                    border-radius: var(--border-radius);
+                }
+                textarea{
+                    resize: none;
+                    height: 150px;
+                }
+                option{
+                    padding: var(--spacing-h);
                 }
                 .error{
                     font-size: var(--font-size-sm);

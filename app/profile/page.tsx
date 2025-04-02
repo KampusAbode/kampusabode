@@ -20,13 +20,20 @@ const ProfilePage = () => {
             <ProfileOverview user={user} />
 
             <div className="cp">
-              <Link href={`/profile/${user.id}`} className="btn">create profile</Link>
+              <Link href={`/profile/${user.id}`} className="btn">
+                edit profile
+              </Link>
             </div>
           </>
         ) : (
-          <p>
-            login to access your profile page.{" "}
-            <Link href={"/auth/login"}>login</Link>
+          <p style={{ marginTop: "1rem" }}>
+            Login to access your profile page. <br />
+            <Link
+              className="btn"
+              style={{ marginTop: "1rem" }}
+              href={"/auth/login"}>
+              login
+            </Link>
           </p>
         )}
       </div>

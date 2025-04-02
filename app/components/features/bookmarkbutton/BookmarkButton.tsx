@@ -8,7 +8,12 @@ import {
   updateSavedProperties,
 } from "../../../redux/stateSlice/userdataSlice";
 import {updateBookmarkInDB} from '../../../utils'
-import { CiBookmark } from "react-icons/ci";
+import {
+  FaBookmark,
+  FaBookReader,
+} from "react-icons/fa";
+
+import { FaRegBookmark } from "react-icons/fa6";
 import "./bookmarkbutton.css";
 
 const BookmarkButton = ({ propertyId }: { propertyId: string }) => {
@@ -87,9 +92,8 @@ const BookmarkButton = ({ propertyId }: { propertyId: string }) => {
       }`}
       onClick={!loading ? toggleBookmark : undefined}
       aria-label={isBookmarked ? "Remove from bookmarks" : "Add to bookmarks"}
-      role="button"
-    >
-      <CiBookmark  />
+      role="button">
+      <FaBookmark />
     </div>
   );
 };

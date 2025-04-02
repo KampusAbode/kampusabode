@@ -17,6 +17,7 @@ type Sender = {
   userName: string;
   role: string;
 };
+
 export const sendMessage = async (
   sender: Sender,
   receiverId: string,
@@ -24,35 +25,33 @@ export const sendMessage = async (
 ) => {
   try {
     const { senderId, userName, role } = sender;
-    const conversationId = role === "admin" ? receiverId : senderId;
+    const messageId = role === "admin" ? receiverId : senderId;
 
-    // Message data
+    // Calculate the current time in UTC+1
+    const now = new Date();
+    const utcPlusOne = new Date(now.getTime() + 60 * 60 * 1000);
+
+    // Message data with UTC+1 timestamp
     const conversationData = {
       userName,
       senderId,
       receiverId,
       content: messageContent,
-      timestamp: serverTimestamp(),
-      status: "sent",
+      timestamp: utcPlusOne,
+      read: false,
     };
 
     if (role === "admin") {
       // Add message to messages sub-collection
-      const messagesRef = collection(
-        db,
-        `conversations/${conversationId}/messages`
-      );
+      const messagesRef = collection(db, `messages/${messageId}/messages`);
       await addDoc(messagesRef, conversationData);
     } else if (role === "user") {
       // Update conversation metadata
-      const conversationRef = doc(db, `conversations/${conversationId}`);
+      const conversationRef = doc(db, `messages/${messageId}`);
       await setDoc(conversationRef, conversationData);
 
       // Add message to messages sub-collection
-      const messagesRef = collection(
-        db,
-        `conversations/${conversationId}/messages`
-      );
+      const messagesRef = collection(db, `messages/${messageId}/messages`);
       await addDoc(messagesRef, conversationData);
     }
 
@@ -66,31 +65,58 @@ export const sendMessage = async (
   }
 };
 
-export const deleteMessageFromFirebase = async (userId, messageId) => {
-  const messageRef = doc(db, `conversations/${userId}/messages/${messageId}`);
+
+
+
+// this function deletes the message (as requested by the users) from the database
+export const deleteMessageFromFirebase = async (userId: string, messageId: string) => {
+  const messageRef = doc(db, `messages/${userId}/messages/${messageId}`);
   await deleteDoc(messageRef);
 };
 
-export const getAllConversations = (callback) => {
-  const conversationsRef = collection(db, "conversations");
+
+
+// this function gets all the messages (as requested by the users) from the "messages" collection database
+export const getAllMessages = (callback) => {
+  const messagesRef = collection(db, "messages");
 
   // Real-time listener
-  const unsubscribe = onSnapshot(conversationsRef, (snapshot) => {
-    const conversations = snapshot.docs.map((doc) => ({
+  const unsubscribe = onSnapshot(messagesRef, (snapshot) => {
+    const messages = snapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
-    callback(conversations);
+    callback(messages);
   });
 
   // Return the unsubscribe function to clean up the listener when no longer needed
   return unsubscribe;
 };
 
-export const listenToMessagesForConversation = (conversationId, callback) => {
+export const getMessagesForUser = (userId:string, callback) => {
+  const messagesRef = collection(db, `messages/${userId}/messages`);
+  // const messagesRef = collection(db, `messages/${userId}/messages`);
+
+  // Real-time listener
+  const unsubscribe = onSnapshot(messagesRef, (snapshot) => {
+    const messages = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    callback(messages);
+  });
+
+  // Return the unsubscribe function to clean up the listener when no longer needed
+  return unsubscribe;
+};
+
+
+
+// this function listen to messages from conversation for any chances (real time listen)
+export const listenToMessagesForConversation = (messageId: string, callback) => {
   const messagesRef = collection(
     db,
-    `conversations/${conversationId}/messages`
+    `messages/${messageId}/messages`
   );
 
   // Real-time listener

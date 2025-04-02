@@ -1,5 +1,16 @@
-.messages-page{
-    .messages{
-        margin-block: var(--spacing-2x);
+.messages-page {
+  .container {
+    .filter-messages {
+      display: flex;
+      gap: var(--spacing);
+      margin-block: var(--spacing-2x);
+      span {
+        padding: var(--spacing-b);
+        text-transform: capitalize;
+        background: var(--light-gray);
+        border-radius: var(--border-radius);
+        cursor: pointer;
+      }
     }
+  }
 }

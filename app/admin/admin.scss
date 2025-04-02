@@ -1,0 +1,83 @@
+.admin-dashboard {
+    .container{
+        padding-block: var(--spacing-s);
+        .dashboard-navigation{
+            display: flex;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          justify-content: left;
+          scroll-behavior: smooth;
+          gap: var(--spacing);
+          padding-block: var(--spacing);
+
+          /* Hide scrollbar */
+          &::-webkit-scrollbar {
+            display: none;
+          }
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+
+          button{
+            border: var(--border);
+            border-color: transparent;
+            padding: var(--spacing-b);
+            background-color: var(--light-gray);
+            border-radius: var(--border-radius);
+            text-wrap: nowrap;
+            font-size: var(--font-size-sm);
+            text-transform: capitalize;
+            cursor: pointer;
+            
+
+            &.active{
+              border: var(--border-hover);
+            }
+          }
+        }
+        .dashboard-content{
+            padding-block: var(--spacing);
+
+
+            .user-management{
+              .input-box{
+                margin-block: var(--spacing);
+                input{
+                  padding: var(--spacing-h) var(--spacing);
+                }
+              }
+
+              h6{
+                margin-block: var(--spacing);
+              }
+            }
+            .property-management{
+              ul{
+                li{
+                  padding: var(--spacing);
+                  background-color: var(--light-gray);
+                  margin-block: var(--spacing);
+                  border-radius: var(--border-radius);
+
+                  .flex{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    .info{
+                      p{
+                        margin-bottom: var(--spacing-h);
+                      }
+                    }
+                    span{
+                      display: block;
+                    }
+                  }
+
+                  .action{
+                    margin-top: var(--spacing);
+                  }
+                }
+              }
+            }
+        }
+    }
+}

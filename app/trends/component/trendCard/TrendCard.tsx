@@ -96,6 +96,7 @@ const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
       <div className="trend-image">
         <Link href={`/trends/${trendData?.id}`}>
           <Image
+            priority
             src={trendData?.image}
             width={1000}
             height={1000}

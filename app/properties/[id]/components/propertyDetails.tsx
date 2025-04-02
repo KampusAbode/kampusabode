@@ -18,7 +18,6 @@ import { RootState } from "../../../redux/store";
 import toast from "react-hot-toast";
 import { formatDistanceToNowStrict } from "date-fns";
 import "../property.css";
-import { log } from "console";
 
 interface PropertyDetailsProps {
   id: string;
@@ -41,26 +40,26 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
     try {
       const details = await fetchPropertyById(id);
       setPropertyDetails(details);
-      if (propertyDetails) {
-        const agentId = propertyDetails.agentId;
-        console.log('agentid', agentId);
-        
-        const agent = await fetchUsersById(agentId);
-        console.log('agent details', agent);
-        setAgentDetails(agent);
-        if (agent) {
-          const properties = await fetchPropertiesByIds(
-            "propertiesListed" in agent.userInfo
-              ? agent.userInfo.propertiesListed
-                  .filter((property: PropertyType) => property.id !== id)
-                  .map((property: PropertyType) => property.id)
-              : []
-          );
-          setAgentPropertyListings(properties);
-        }
+      const agentId = details.agentId;
+
+      const agent = await fetchUsersById(agentId);
+      console.log(agent);
+
+      setAgentDetails(agent);
+      if (agent) {
+        const properties = await fetchPropertiesByIds(
+          "propertiesListed" in agent.userInfo
+            ? agent.userInfo.propertiesListed.filter(
+                (propertyId: string) => propertyId !== id
+              )
+            : []
+        );
+        setAgentPropertyListings(properties);
       }
     } catch (error) {
-      toast.error(error);
+      toast.error(
+        error instanceof Error ? error.message : "An unknown error occurred"
+      );
     }
   }, [id]);
 
@@ -72,7 +71,6 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
     } catch (error) {
       toast.error("Failed to fetch reviews.");
     }
-
   }, [id]);
 
   // Calculate property rating
@@ -99,7 +97,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   useEffect(() => {
     fetchPropertyDetails();
     fetchReviews();
-  }, [fetchPropertyDetails, fetchReviews]);
+  }, [id, fetchPropertyDetails, fetchReviews]);
 
   if (!propertyDetails) {
     return <p>Loading...</p>;
@@ -116,7 +114,10 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
           <div className="top">
             {/* Property Details */}
             <div className="pq">
-              <h2>{propertyDetails.title}</h2>
+              <h3 className="title">{propertyDetails.title}</h3>
+              <span className="price">
+                Total package: ₦{propertyDetails.price}{" "}
+              </span>
               <div className="features">
                 <span>{propertyDetails.bedrooms} bedrooms</span>
                 <span>{propertyDetails.bathrooms} bathrooms</span>
@@ -145,11 +146,10 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                 {agentDetails ? (
                   <>
                     <Image
-                      src={
-                        agentDetails.userInfo?.avatar || "/assets/person1.jpg"
-                      }
-                      width={500}
-                      height={500}
+                      priority
+                      src={agentDetails?.avatar}
+                      width={200}
+                      height={200}
                       alt={`${agentDetails.name}'s profile picture`}
                     />
                     <h5>{agentDetails.name}</h5>
@@ -176,7 +176,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
               <div className="bio">
                 <p>
                   <strong>Bio: </strong>
-                  {agentDetails?.userInfo?.bio || "No bio available."}
+                  {agentDetails?.bio || "No bio available."}
                 </p>
               </div>
             </div>
@@ -189,11 +189,11 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
               {propReviews.length ? (
                 propReviews.map((review) => (
                   <div key={review.content} className="review-item">
-                    <p>
-                      "{review.content}"{" "}
-                      <span>by { review.author.name }</span>
+                    <p>"{review.content}"</p>
+                    <div>
+                      <span>by {review.author.name}</span>
                       <span>{getFormattedDateDistance(review.date)} ago</span>
-                    </p>
+                    </div>
                   </div>
                 ))
               ) : (
@@ -206,22 +206,32 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
           <div className="agent-listings">
             <h5>{agentDetails?.name}'s Listed Properties</h5>
             <div>
-              {agentPropertyListings.slice(0, 3).map((listing) => (
-                <Link key={listing.id} href={`/properties/${listing.id}`}>
-                  <div className="list-prop">
-                    <Image
-                      src={listing.images[0]}
-                      width={500}
-                      height={500}
-                      alt={listing.title}
-                    />
-                    <div className="list-details">
-                      <h6>{listing.title}</h6>
-                      <span>{listing.description}</span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
+              {agentPropertyListings.length !== 0 ? (
+                <div className="agentProps">
+                  {agentPropertyListings.slice(0, 3).map((listing) => (
+                    <Link
+                      key={listing.id}
+                      href={`/properties/${listing.id}`}
+                      className="list-prop">
+                      <div className="list-image">
+                        <Image
+                          priority
+                          src={listing.images[0]}
+                          width={500}
+                          height={500}
+                          alt={listing.title}
+                        />
+                      </div>
+                      <div className="list-details">
+                        <h6>{listing.title}</h6>
+                        <span>{listing.description}</span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <p>"no other listings found"</p>
+              )}
             </div>
           </div>
 
@@ -233,16 +243,20 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
               non-negotiable to ensure fairness and transparency. For inquiries,
               feel free to contact us.
             </p>
-            {user?.userType === "student" && (
-              <p>
-                Start a conversation with us{" "}
-                {user ? (
-                  <Link href={`/chat/${user.id}/${user.name}`}>chat now</Link>
-                ) : (
-                  <Link href="/auth/signup">signup</Link>
-                )}
-              </p>
-            )}
+          </div>
+          <div className="prop-cta">
+            <>
+              <Link
+                className="btn"
+                href={user ? `/chat/${user.id}/${user.name}` : `/auth/login`}>
+                for more info
+              </Link>
+              <Link
+                className="btn btn-secondary"
+                href={user ? `tel:+2347050721686` : `/auth/login`}>
+                Make a call
+              </Link>
+            </>
           </div>
         </div>
       </section>

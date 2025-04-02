@@ -41,25 +41,13 @@
   padding: var(--spacing-h);
   border-radius: var(--border-radius);
 }
-.trend .trend-content .author-thumbs .thumbs span {
-  background-color: var(--light-gray);
-  border-radius: var(--border-radius);
-  padding: var(--spacing-h);
-  box-shadow: var(--shadow);
-}
 .trend .trend-content .author-thumbs .thumbs svg {
   cursor: pointer;
   transition: var(--transition);
 }
-.trend .trend-content .author-thumbs .thumbs svg.thumbsdown {
-  transform: rotateY(180deg);
-}
 .trend .trend-content .author-thumbs .thumbs svg:hover, .trend .trend-content .author-thumbs .thumbs svg.active {
   color: var(--primary-color);
   transform: scale(1.2);
-}
-.trend .trend-content .author-thumbs .thumbs svg:hover.thumbsdown, .trend .trend-content .author-thumbs .thumbs svg.active.thumbsdown {
-  transform: scale(1.2) rotateY(180deg);
 }
 .trend .trend-content h5 {
   margin-block: var(--spacing-h);

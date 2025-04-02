@@ -28,9 +28,16 @@ export default function AboutPage() {
               wahala!
             </p>
             <div className="image">
-              <Image src="/assets/mf1.png" width={1000} height={1000} alt="" />
+              <Image
+                priority
+                src="/assets/mf1.png"
+                width={1000}
+                height={1000}
+                alt=""
+              />
             </div>
             <Image
+              priority
               src="/assets/mf1c.png"
               width={500}
               height={500}
@@ -47,10 +54,17 @@ export default function AboutPage() {
               way.
             </p>
             <div className="image">
-              <Image src="/assets/mf2.png" width={1000} height={1000} alt="" />
+              <Image
+                priority
+                src="/assets/mf2.png"
+                width={1000}
+                height={1000}
+                alt=""
+              />
             </div>
 
             <Image
+              priority
               src="/assets/mf2c.png"
               width={500}
               height={500}
@@ -80,7 +94,13 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="image">
-              <Image src="/assets/b1.jpg" width={1000} height={1000} alt="" />
+              <Image
+                priority
+                src="/assets/b1.jpg"
+                width={1000}
+                height={1000}
+                alt=""
+              />
             </div>
           </div>
           <div className="path switch">
@@ -94,7 +114,13 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="image">
-              <Image src="/assets/b2.jpg" width={1000} height={1000} alt="" />
+              <Image
+                priority
+                src="/assets/b2.jpg"
+                width={1000}
+                height={1000}
+                alt=""
+              />
             </div>
           </div>
           <div className="path">
@@ -109,7 +135,13 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="image">
-              <Image src="/assets/b3.jpg" width={1000} height={1000} alt="" />
+              <Image
+                priority
+                src="/assets/b3.jpg"
+                width={1000}
+                height={1000}
+                alt=""
+              />
             </div>
           </div>
           <div className="path switch">
@@ -124,7 +156,13 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="image">
-              <Image src="/assets/b4.jpg" width={1000} height={1000} alt="" />
+              <Image
+                priority
+                src="/assets/b4.jpg"
+                width={1000}
+                height={1000}
+                alt=""
+              />
             </div>
           </div>
         </div>

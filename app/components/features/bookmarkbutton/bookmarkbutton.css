@@ -2,28 +2,16 @@
   display: grid;
   place-items: center;
   border-radius: 100%;
-
-  width: 38px;
-  height: 38px;
+  width: 32px;
+  height: 32px;
   background-color: var(--white);
   border: var(--border);
   border-color: transparent;
-
   cursor: pointer;
-
-  &:hover {
-    border: var(--border);
-  }
-
-  &.saved {
-    svg {
-       
-
-      path{
-        fill: var(--primary-color);
-        
-      }
-    }
-  }
-
 }
+.bookmark-button:hover {
+  border: var(--border);
+}
+.bookmark-button.saved svg path {
+  fill: var(--primary-color);
+}/*# sourceMappingURL=bookmarkbutton.css.map */

@@ -7,11 +7,11 @@
       width: 70%;
 
       .trend-details {
-      .title{
-        width: 80%;
-        margin: auto 0;
+        .title {
+          width: 80%;
+          margin: auto 0;
+        }
       }
-    }
     }
     .trend-details {
       display: flex;
@@ -32,7 +32,7 @@
       height: 280px;
       border-radius: var(--border-radius);
       overflow: hidden;
-      margin: var(--spacing-2x) 0 var(--spacing-4x);
+      margin: var(--spacing-2x) 0;
       img {
         height: inherit;
         object-fit: cover;
@@ -42,9 +42,79 @@
         height: 400px;
       }
     }
+    .interaction-buttons {
+      display: flex;
+      gap: var(--spacing);
+
+      button {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing);
+        border: none;
+        padding: var(--spacing-h) var(--spacing);
+        background-color: var(--light-gray);
+        border-radius: var(--border-radius-r);
+        color: var(--font-color-p);
+        cursor: pointer;
+      }
+    }
     .trend-description {
+      margin-block: var(--spacing-2x);
       p {
         margin-block: var(--spacing-h);
+      }
+    }
+
+    .comments-section {
+      margin-block: var(--spacing-2x);
+      max-width: 500px;
+      
+      .comments-list {
+        margin-block: var(--spacing);
+        .comment {
+          padding: var(--spacing);
+          background-color: var(--light-gray);
+          border-radius: var(--border-radius);
+          margin-block: var(--spacing);
+          .top {
+            display: flex;
+            gap: var(--spacing);
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--spacing);
+            div {
+              display: flex;
+              gap: var(--spacing);
+              align-items: center;
+              img {
+                width: 40px;
+                height: 40px;
+                object-fit: cover;
+                border-radius: 100%;
+              }
+            }
+            .created-at {
+              font-size: var(--font-size-xs);
+            }
+          }
+          .comment-content{
+            font-size: var(--font-size-sm);
+          }
+        }
+      }
+      .send-comment{
+        textarea{
+          width: 100%;
+          max-width: 100%;
+          padding: var(--spacing);
+          border: var(--border);
+          border-radius: var(--border-radius);
+          margin-block: var(--spacing);
+
+        }
+        .btn{
+          width: 100%;
+        }
       }
     }
   }

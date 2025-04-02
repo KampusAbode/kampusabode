@@ -37,6 +37,7 @@ const Dashboard = () => {
       <div className="container">
         <div className="welcome">
           <Image
+            priority
             src={"/assets/person3.jpg"}
             width={800}
             height={800}

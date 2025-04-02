@@ -31,7 +31,8 @@
   justify-content: center;
   gap: var(--spacing-2x);
 }
-.navigation ul a {
+.navigation ul button {
+  width: 100%;
   cursor: pointer;
   text-align: center;
   text-decoration: none;
@@ -42,23 +43,23 @@
   flex-direction: column;
   gap: var(--spacing-h);
 }
-.navigation ul a span {
-  font-size: var(--font-size-xs);
+.navigation ul button span {
+  font-size: var(--font-size-sm);
   color: var(--font-color-h);
   text-transform: capitalize;
   transition: var(--transition);
 }
-.navigation ul a svg {
+.navigation ul button svg {
   transition: var(--transition);
 }
-.navigation ul a.active span {
+.navigation ul button.active span {
   font-weight: 600;
   color: var(--primary-color);
 }
-.navigation ul a.active svg {
+.navigation ul button.active svg {
   transform: translateY(-8px);
 }
-.navigation ul a.active svg path {
+.navigation ul button.active svg path {
   fill: var(--primary-color);
 }
 

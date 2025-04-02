@@ -9,16 +9,26 @@ import Loader from "../components/loader/Loader";
 import "./properties.css";
 import { FaSearch } from "react-icons/fa";
 import { PropertyType } from "../fetch/types";
+import { useSearchParams, useRouter } from "next/navigation";
 
 const { locations } = data;
 
 const PropertiesPage: React.FC = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Read query params to initialize state
+  const initialSearchQuery = searchParams.get("q") || "";
+  const initialActiveLocation = searchParams.get("loc") || "all";
+
   const [properties, setProperties] = useState<PropertyType[]>([]);
   const [filteredProperties, setFilteredProperties] = useState<PropertyType[]>(
     []
   );
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [activeLocation, setActiveLocation] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState<string>(initialSearchQuery);
+  const [activeLocation, setActiveLocation] = useState<string>(
+    initialActiveLocation
+  );
   const [loading, setLoading] = useState<boolean>(true);
 
   // Fetch properties on mount
@@ -27,11 +37,35 @@ const PropertiesPage: React.FC = () => {
       setLoading(true);
       const fetchedProperties: PropertyType[] = await fetchProperties();
       setProperties(fetchedProperties);
-      setFilteredProperties(fetchedProperties);
+      // Run filters based on initial URL values
+      let filtered = fetchedProperties;
+      if (searchQuery) {
+        const words = searchQuery.toLowerCase().trim().split(" ");
+        filtered = filtered.filter((property) => {
+          const propertyString =
+            `${property.title} ${property.location} ${property.type}`.toLowerCase();
+          return words.every((word) => propertyString.includes(word));
+        });
+      }
+      if (activeLocation !== "all") {
+        filtered = filtered.filter(
+          (property) => property.location === activeLocation
+        );
+      }
+      setFilteredProperties(filtered);
       setLoading(false);
     };
     fetchPropertiesFromDB();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Update URL when search query or location filter changes
+  useEffect(() => {
+    router.push(
+      `/properties?q=${encodeURIComponent(
+        searchQuery
+      )}&loc=${encodeURIComponent(activeLocation)}`
+    );
+  }, [searchQuery, activeLocation, router]);
 
   // Function to filter properties by search query
   const searchProperties = (query: string) => {
@@ -117,14 +151,8 @@ const PropertiesPage: React.FC = () => {
         </div>
 
         <Image
+          priority
           className="dot1"
-          width={109}
-          height={251.8}
-          src="/assets/Dots.png"
-          alt="dots"
-        />
-        <Image
-          className="dot2"
           width={109}
           height={251.8}
           src="/assets/Dots.png"
@@ -132,6 +160,7 @@ const PropertiesPage: React.FC = () => {
         />
 
         <Image
+          priority
           className="building"
           width={387}
           height={253}
@@ -166,7 +195,7 @@ const PropertiesPage: React.FC = () => {
           </span>
           {locations.map((location) => (
             <span
-              key={location} // Use location name as key
+              key={location}
               className={`${activeLocation === location ? "active" : ""}`}
               onClick={() => filterByLocation(location)}>
               {location}

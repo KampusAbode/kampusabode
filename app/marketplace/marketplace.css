@@ -1,3 +1,17 @@
+.marketplace .latest {
+  margin-top: var(--spacing);
+  text-align: center;
+}
+.marketplace .latest .latest-img {
+  height: 250px;
+}
+.marketplace .latest .latest-img img {
+  width: 100%;
+  height: 100%;
+}
+.marketplace .latest h6 {
+  margin-block: var(--spacing);
+}
 .marketplace .filter-marketplaceitems {
   margin-block: var(--spacing-2x);
 }
@@ -53,11 +67,11 @@
   display: none;
 }
 .marketplace .filter-marketplaceitems .container .filter-items .category-item {
-  padding: var(--spacing);
+  padding: var(--spacing-b);
   border-radius: var(--border-radius);
-  border: var(--border);
+  border: 1px solid transparent;
   text-transform: capitalize;
-  background: var(--background-white);
+  background: var(--light-gray);
   white-space: nowrap;
   cursor: pointer;
   transition: var(--transition);
@@ -71,73 +85,4 @@
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: var(--spacing);
   margin-block: var(--spacing-2x);
-}
-.marketplace .container .items .item {
-  background-color: #fff;
-  padding: var(--spacing-h);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
-  text-align: center;
-}
-.marketplace .container .items .item .item-image {
-  position: relative;
-  overflow: hidden;
-  height: 200px;
-}
-.marketplace .container .items .item .item-image img {
-  max-width: 100%;
-  height: 100%;
-  border-radius: var(--border-radius);
-  -o-object-fit: cover;
-     object-fit: cover;
-  transition: var(--transition);
-}
-.marketplace .container .items .item .item-image img:hover {
-  transform: scale(1.2);
-}
-.marketplace .container .items .item .item-image span {
-  position: absolute;
-  top: 5px;
-  right: 10px;
-  padding: var(--padding-b);
-  border: var(--border);
-  border-color: var(--white);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
-  font-weight: 600;
-  color: var(--white);
-}
-.marketplace .container .items .item .item-title {
-  margin: var(--spacing) 0 var(--spacing-h);
-}
-.marketplace .container .items .item .item-description {
-  margin-bottom: var(--spacing-h);
-  display: -webkit-box;
-  line-clamp: 2;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.marketplace .container .items .item .bt {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: var(--spacing);
-}
-.marketplace .container .items .item .bt .item-price {
-  font-weight: bold;
-  padding: var(--spacing-h);
-  background-color: var(--light-gray);
-}
-.marketplace .container .items .item .bt .contact-seller-btn {
-  padding: var(--padding-b);
-  text-decoration: underline;
-  border-radius: calc(0.5 * var(--border-radius));
-  transition: background-color 0.3s ease;
-  cursor: pointer;
-}
-.marketplace .container .items .item .bt .contact-seller-btn:hover {
-  background-color: var(--primary-color);
-  color: var(--white);
 }/*# sourceMappingURL=marketplace.css.map */

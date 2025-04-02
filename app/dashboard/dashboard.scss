@@ -21,8 +21,11 @@
   .agent-dashboard {
     margin-block: var(--spacing-2x);
 
-    h4 {
+    h5 {
       margin-bottom: var(--spacing);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     & > div {
@@ -39,8 +42,8 @@
           border-radius: var(--border-radius);
           border: var(--border-hover);
           border-color: transparent;
-          cursor: pointer;
           overflow: hidden;
+          cursor: pointer;
 
           &:hover {
             border: var(--border-hover);
@@ -106,18 +109,27 @@
         ul {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          gap: var(--spacing);
+          gap: var(--spacing-2x);
           li {
+            display: grid;
+            grid-template-columns: auto 2.5rem;
+            background-color: var(--light-gray);
+            border: var(--border) ;
+            border-radius: var(--border-radius);
+            position: relative;
             a {
               display: grid;
-              grid-template-columns: 3fr 7fr;
+              grid-template-columns: 1fr 2fr;
 
               img {
                 height: 80px;
                 width: 100%;
                 object-fit: cover;
                 border-radius: var(--border-radius);
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
               }
+
               .detail {
                 padding: var(--spacing-h) var(--spacing);
                 span {
@@ -134,14 +146,45 @@
                 }
               }
             }
+
+            .option-btn {
+              padding: var(--spacing-h);
+              cursor: pointer;
+            }
+
+            .options {
+              box-shadow: var(--shadow);
+              background-color: var(--white);
+              border-radius: var(--border-radius);
+              border: var(--border);
+              overflow: hidden;
+              position: absolute;
+              bottom: 105%;
+              right: 0;
+
+              button{
+                width: 100%;
+                border: none;
+                background-color: var(--white);
+                display: block;
+                padding: var(--spacing-b);
+                text-align: center;
+                text-transform: capitalize;
+                cursor: pointer;
+
+                &:hover{
+                  background-color: var(--light-gray);
+                }
+              }
+            }
           }
         }
       }
     }
 
-    .student-reviews{
-      ul{
-        li{
+    .student-reviews {
+      ul {
+        li {
           margin-bottom: var(--spacing);
         }
       }
@@ -180,7 +223,7 @@
           li {
             a {
               img {
-                height: 70px;
+                height: 50px;
               }
             }
           }

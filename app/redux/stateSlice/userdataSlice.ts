@@ -17,23 +17,11 @@ const initialState: UserType = {
   name: "",
   email: "",
   userType: "",
-  userInfo: {
-    bio: "",
-    avatar: "",
-    phoneNumber: "",
-    ...(true
-      ? {
-          university: "",
-          department: "",
-          yearOfStudy: 0,
-          savedProperties: [],
-          wishlist: [],
-        }
-      : {
-          agencyName: "",
-          propertiesListed: [], 
-        }),
-  } as StudentUserInfo | AgentUserInfo,
+  bio: "",
+  avatar: "",
+  phoneNumber: "",
+  university: "",
+  userInfo: {} as StudentUserInfo | AgentUserInfo,
 };
 
 const userdataSlice = createSlice({
@@ -46,64 +34,73 @@ const userdataSlice = createSlice({
           ? getSavedPropertiesFromLocalStorage()
           : [];
 
-      state.id = action.payload.id;
-      state.name = action.payload.name;
-      state.email = action.payload.email;
-      state.userType = action.payload.userType;
-
-      if (action.payload.userType === "student") {
-        state.userInfo = {
-          ...action.payload.userInfo,
-          savedProperties: savedPropertiesFromLocalStorage,
-        } as StudentUserInfo;
-      } else if (action.payload.userType === "agent") {
-        state.userInfo = action.payload.userInfo as AgentUserInfo;
-      }
+      return {
+        ...state,
+        ...action.payload,
+        userInfo:
+          action.payload.userType === "student"
+            ? {
+                ...(action.payload.userInfo as StudentUserInfo),
+                savedProperties: savedPropertiesFromLocalStorage,
+              }
+            : (action.payload.userInfo as AgentUserInfo),
+      };
     },
 
     updateSavedProperties: (state, action: PayloadAction<string>) => {
       if (state.userType === "student") {
-        const studentInfo = state.userInfo as StudentUserInfo;
-        studentInfo.savedProperties.push(action.payload);
+        const updatedSavedProperties = [
+          ...(state.userInfo as StudentUserInfo).savedProperties,
+          action.payload,
+        ];
 
         localStorage.setItem(
           "SavedProperties",
-          JSON.stringify(studentInfo.savedProperties)
+          JSON.stringify(updatedSavedProperties)
         );
+
+        return {
+          ...state,
+          userInfo: {
+            ...(state.userInfo as StudentUserInfo),
+            savedProperties: updatedSavedProperties,
+          },
+        };
       }
     },
 
     removeSavedProperty: (state, action: PayloadAction<string>) => {
       if (state.userType === "student") {
-        const studentInfo = state.userInfo as StudentUserInfo;
-        studentInfo.savedProperties = studentInfo.savedProperties.filter(
-          (id) => id !== action.payload
-        );
+        const updatedSavedProperties = (
+          state.userInfo as StudentUserInfo
+        ).savedProperties.filter((id) => id !== action.payload);
 
         localStorage.setItem(
           "SavedProperties",
-          JSON.stringify(studentInfo.savedProperties)
+          JSON.stringify(updatedSavedProperties)
         );
+
+        return {
+          ...state,
+          userInfo: {
+            ...(state.userInfo as StudentUserInfo),
+            savedProperties: updatedSavedProperties,
+          },
+        };
       }
     },
 
-    updatePropertyListing: (
-      state,
-      action: PayloadAction<{ propertyId: string; available: boolean }>
-    ) => {
+    updatePropertyListing: (state, action: PayloadAction<string>) => {
       if (state.userType === "agent") {
         const agentInfo = state.userInfo as AgentUserInfo;
-        const property = agentInfo.propertiesListed.find(
-          (p) => p.id === action.payload.propertyId
-        );
-
-        if (property) {
-          property.available = action.payload.available;
-        } else {
-          agentInfo.propertiesListed.push({
-            id: String(action.payload.propertyId),
-            available: action.payload.available,
-          });
+        if (!agentInfo.propertiesListed.includes(action.payload)) {
+          return {
+            ...state,
+            userInfo: {
+              ...agentInfo,
+              propertiesListed: [...agentInfo.propertiesListed, action.payload],
+            },
+          };
         }
       }
     },

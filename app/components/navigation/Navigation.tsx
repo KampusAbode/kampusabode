@@ -1,19 +1,29 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type { RootState } from "../../redux/store";
 import { useSelector } from "react-redux";
-import { FaBookmark, FaBookReader, FaShoppingCart, FaSearchLocation } from "react-icons/fa";
+import {
+  FaBookmark,
+  FaBookReader,
+  FaShoppingCart,
+  FaSearchLocation,
+} from "react-icons/fa";
 import { FaUser } from "react-icons/fa6";
 import { IoChatboxEllipses } from "react-icons/io5";
+import toast from "react-hot-toast";
 import "./navigation.css";
+import { getAllMessages } from "../../utils"; // adjust the path as needed
 
 export default function Navigation() {
-  const user = useSelector((state: RootState) => state.user?.isAuthenticated);
+  const user = useSelector((state: RootState) => state.user);
+  const isAuthenticated = user?.isAuthenticated;
+  const userId = user?.id; // Ensure your Redux store provides the user's id
   const [loading, setLoading] = useState(true);
+  const [unreadCount, setUnreadCount] = useState(0);
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     // Simulate a delay to wait for user authentication status
@@ -24,72 +34,108 @@ export default function Navigation() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Render the header only if the pathname contains any of the excluded paths
-  const excludedPaths = ["login", "signup", "chat", "adminchatroom", "about"];
+  // Listen for unread messages (only for authenticated users)
+  useEffect(() => {
+    if (!isAuthenticated || !userId) return;
 
-  // Check if the current pathname is in the excluded paths
+    // Subscribe to all conversations from Firebase
+    const unsubscribe = getAllMessages((allConversations) => {
+      // Filter for conversations where the logged in user is the receiver and the message is unread
+      const unreadMessages = allConversations.filter(
+        (convo) => convo.receiverId === userId && !convo.read
+      );
+      setUnreadCount(unreadMessages.length);
+    });
+
+    return () => unsubscribe();
+  }, [isAuthenticated, userId]);
+
+  // Exclude navigation on certain paths
+  const excludedPaths = [
+    "login",
+    "signup",
+    "chat",
+    "adminchatroom",
+    "about",
+    "properties/",
+  ];
   const isExcludedPath = excludedPaths.some((path) => pathname.includes(path));
 
-  // If the current path is excluded or still loading, do not render the navigation
   if (isExcludedPath || loading) {
     return null;
   }
 
+  // Define page availability (true means available, false means not available)
+  const pageAvailability = {
+    "/properties": true,
+    "/messages": true,
+    "/trends": true,
+    "/saved": true,
+    "/marketplace": true,
+    "/auth/login": true,
+  };
+
+  // Handle navigation with page availability check
+  const handleNavigation = (href: string) => {
+    if (pageAvailability[href] === false) {
+      toast.error("🚧 Page not available", {
+        position: "top-center",
+        duration: 3000,
+      });
+    } else {
+      router.push(href);
+    }
+  };
+
   return (
     <nav className="navigation">
-      <ul className={` ${user ? "grid" : "flex"}`}>
-        <li>
-          <Link
-            href="/properties"
-            className={pathname === "/properties" ? "active" : ""}>
+      <ul className={isAuthenticated ? "grid" : "flex"}>
+        <li className={pathname === "/properties" ? "active" : ""}>
+          <button onClick={() => handleNavigation("/properties")}>
             <FaSearchLocation />
             <span>properties</span>
-          </Link>
+          </button>
         </li>
 
-        {user ? (
-          <li>
-            <Link
-              href="/messages"
-              className={pathname === "/messages" ? "active" : ""}>
+        {isAuthenticated && (
+          <li className={pathname === "/messages" ? "active" : ""}>
+            <button onClick={() => handleNavigation("/messages")}>
               <IoChatboxEllipses />
               <span>messages</span>
-            </Link>
+              {unreadCount > 0 && <div className="unread">{unreadCount}</div>}
+            </button>
           </li>
-        ) : null}
+        )}
 
-        <li>
-          <Link
-            href="/trends"
-            className={pathname === "/trends" ? "active" : ""}>
+        <li className={pathname === "/trends" ? "active" : ""}>
+          <button onClick={() => handleNavigation("/trends")}>
             <FaBookReader />
             <span>trends</span>
-          </Link>
+          </button>
         </li>
 
-        {user ? (
-          <li>
-            <Link
-              href={"/saved"}
-              className={pathname === "/saved" ? "active" : ""}>
+        {isAuthenticated && (
+          <li className={pathname === "/saved" ? "active" : ""}>
+            <button onClick={() => handleNavigation("/saved")}>
               <FaBookmark />
               <span>saved</span>
-            </Link>
+            </button>
           </li>
-        ) : null}
+        )}
 
-        <li>
-          <Link
-            href={user ? "/marketplace" : "/auth/login"}
-            className={
-              pathname === "/auth/login" || pathname === "/marketplace"
-                ? "active"
-                : ""
+        <li
+          className={
+            pathname === "/auth/login" || pathname === "/marketplace"
+              ? "active"
+              : ""
+          }>
+          <button
+            onClick={() =>
+              handleNavigation(isAuthenticated ? "/marketplace" : "/auth/login")
             }>
-            {user ? <FaShoppingCart /> : <FaUser />}
-
-            {user ? <span>market</span> : <span>login</span>}
-          </Link>
+            {isAuthenticated ? <FaShoppingCart /> : <FaUser />}
+            {isAuthenticated ? <span>market</span> : <span>login</span>}
+          </button>
         </li>
       </ul>
     </nav>

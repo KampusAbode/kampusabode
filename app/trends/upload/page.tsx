@@ -1,13 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getApp } from "firebase/app";
 import { useSelector } from "react-redux";
 import { Client, Storage, ID } from "appwrite";
 import type { RootState } from "../../redux/store";
 import "./uploadtrend.css";
+import toast from "react-hot-toast";
+import { uploadImageToAppwrite } from "../../utils";
 
 const categories = [
   "Real estate market",
@@ -25,7 +27,7 @@ const categories = [
 
 function UploadTrend() {
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [content, setContent] = useState("");
   const [category, setCategory] = useState(categories[0]);
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
@@ -34,8 +36,8 @@ function UploadTrend() {
 
   const client = new Client();
   client
-    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT) // Your Appwrite Endpoint
-    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID); // Your project ID
+    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
+    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
 
   const storage = new Storage(client);
 
@@ -54,11 +56,14 @@ function UploadTrend() {
       const trendRef = collection(db, "trends");
 
       // Upload image to Appwrite storage
-      const imageUrl = await uploadImage(image);
+      const imageUrl = await uploadImageToAppwrite(
+        image,
+        process.env.NEXT_PUBLIC_APPWRITE_TREND_BUCKET_ID
+      );
 
       const trendData = {
         title,
-        description,
+        content,
         author: user?.username || "Anonymous",
         image: imageUrl,
         published_date: new Date().toISOString(),
@@ -69,6 +74,7 @@ function UploadTrend() {
       const docRef = await addDoc(trendRef, trendData);
 
       setLoading(false);
+      toast.success(`${trendData.content}  uploaded`);
       router.push(`/trends/${docRef.id}`);
     } catch (error) {
       console.error("Error uploading trend: ", error);
@@ -76,21 +82,7 @@ function UploadTrend() {
     }
   };
 
-  const uploadImage = async (file: File | null): Promise<string> => {
-    if (!file) return "";
-    try {
-      const uniqueID = ID.unique();
-      const response = await storage.createFile(
-        process.env.NEXT_PUBLIC_APPWRITE_TRENDS_BUCKET_ID,
-        uniqueID,
-        file
-      );
-      return `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID}/files/${response.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin`;
-    } catch (error) {
-      console.error("Error uploading image: ", error);
-      return "";
-    }
-  };
+ 
 
   return (
     <div className="upload-trend">
@@ -107,11 +99,11 @@ function UploadTrend() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="description">Description</label>
+          <label htmlFor="content">content</label>
           <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            id="content"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
             required></textarea>
         </div>
         <div className="form-group">

@@ -31,7 +31,7 @@ const RecentReviews = ({ user }) => {
 
   return (
     <div className="reviews-container">
-      <h4>{userType === "student" ? "Your Reviews" : "Your Feedback"}</h4>
+      <h5>{userType === "student" ? "Your Reviews" : "Your Feedback"}</h5>
       {loading ? (
         <p>Loading reviews...</p>
       ) : error ? (

@@ -50,7 +50,7 @@ export interface PropertyType {
   agentId: string;
   title: string;
   description: string;
-  price: string;
+  price: number;
   location: string;
   neighborhood_overview: string;
   type: string;
@@ -60,6 +60,7 @@ export interface PropertyType {
   amenities: string[];
   images: string[];
   available: boolean;
+  approved: boolean;
 }
 
 export interface TrendType {
@@ -108,28 +109,25 @@ export interface BookmarkState {
 }
 
 export interface StudentUserInfo {
-  bio: string;
-  avatar: string;
-  phoneNumber: string;
-  university: string;
   department: string;
-  yearOfStudy: number;
+  currentYear: number;
   savedProperties: string[];
   wishlist: string[];
 }
 
 export interface AgentUserInfo {
-  bio: string;
-  avatar: string;
-  phoneNumber: string;
   agencyName: string;
-  propertiesListed: { id: string; available: boolean }[];
+  propertiesListed: string[];
 }
 
 export interface UserType {
-  id: string;
   name: string;
+  id: string;
+  bio: string;
+  avatar: string;
+  phoneNumber: string;
   email: string;
+  university: string,
   userType: "student" | "agent" | "";
   userInfo: StudentUserInfo | AgentUserInfo;
 }

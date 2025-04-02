@@ -2,12 +2,19 @@ import React from "react";
 import { ItemType } from "../../../fetch/types";
 import Image from "next/image";
 import ContactAgent from "../../../components/contactagent/ContactAgent";
+import "./item.css";
 
 const ItemCard = ({ item }: { item: ItemType }) => {
   return (
     <div className="item">
       <div className="item-image">
-        <Image src={item.imageUrl} width={800} height={800} alt={item.name} />
+        <Image
+          priority
+          src={item.imageUrl}
+          width={800}
+          height={800}
+          alt={item.name}
+        />
         <span>{item.condition}</span>
       </div>
       <h5 className="item-title">{item.name}</h5>

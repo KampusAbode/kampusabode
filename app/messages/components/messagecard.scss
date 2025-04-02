@@ -1,0 +1,14 @@
+.message-card {
+  border-radius: var(--border-radius);
+  background-color: var(--light-gray);
+  padding: var(--spacing);
+  margin-bottom: var(--spacing);
+  cursor: pointer;
+
+  .message-header {
+    margin-bottom: var(--spacing);
+    display: flex;
+    justify-content: space-between;
+
+  }
+}

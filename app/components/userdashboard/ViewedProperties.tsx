@@ -44,7 +44,7 @@ function ViewedProperties() {
   return (
     <div className="viewed-properties">
       <ToastContainer />
-      <h4>Viewed Properties</h4>
+      <h5>Viewed Properties</h5>
       <div className="display-viewed-properties">
         {loading ? (
           <p>Loading...</p>
@@ -54,6 +54,7 @@ function ViewedProperties() {
           checkProperties.map((property) => (
             <Link key={property.id} href={property.url}>
               <Image
+                priority
                 src={property.images[0]}
                 width={800}
                 height={800}

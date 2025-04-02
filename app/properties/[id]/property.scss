@@ -17,6 +17,7 @@
     .property-images {
       display: grid;
       grid-template-columns: 1.5fr 1fr;
+      gap: var(--spacing);
 
       .display-image {
         height: 70vh;
@@ -35,8 +36,8 @@
           .left,
           .right {
             position: absolute;
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
             background-color: #fff;
             transform: translateY(-50%);
             top: 50%;
@@ -79,8 +80,8 @@
 
         .features {
           position: absolute;
-          top: 35px;
-          right: 35px;
+          top: 32px;
+          right: 32px;
           display: flex;
           gap: var(--spacing);
           align-items: center;
@@ -88,15 +89,15 @@
         }
       }
       .control-image {
-        padding: var(--spacing);
-
         img {
           width: 70px;
           height: 70px;
+          min-width: 70px;
+          min-height: 70px;
           border-radius: var(--border-radius);
           object-fit: cover;
           cursor: pointer;
-          opacity: 0.4;
+          opacity: 0.3;
           transition: var(--transition);
           margin-right: var(--spacing);
 
@@ -109,42 +110,47 @@
     }
   }
   .container {
-    padding-block: var(--spacing-2x);
-
+    & > div {
+      margin-block: var(--spacing-4x);
+    }
+    h5 {
+      margin-bottom: var(--spacing);
+    }
     .top {
       display: grid;
       grid-template-columns: 2fr 1fr;
       gap: var(--spacing-2x);
+      margin-top: var(--spacing);
       .pq {
+        .title {
+          margin-bottom: var(--spacing);
+        }
+        .price {
+          text-decoration: underline;
+          font-style: italic;
+          font-size: var(--font-size-nd);
+          margin-bottom: var(--spacing);
+        }
         .features,
         .amenities {
           display: flex;
           flex-wrap: wrap;
           gap: var(--spacing-h);
           align-items: center;
-          padding-block: var(--spacing-2x);
+          padding-block: var(--spacing);
           span {
-            padding: var(--spacing);
-            border-radius: var(--border-radius);
+            padding: var(--spacing-b);
+            border-radius: var(--border-radius-r);
             background-color: var(--light-gray);
             user-select: none;
           }
         }
         .description {
-          h5 {
-            margin-bottom: var(--spacing);
-          }
-          padding: var(--spacing-h);
-          background-color: var(--light-gray);
-          border-radius: var(--border-radius);
+          margin-block: var(--spacing-2x);
         }
       }
 
       .about-agent {
-        h5 {
-          margin-bottom: var(--spacing);
-        }
-
         .agent-details {
           display: flex;
           flex-direction: column;
@@ -156,7 +162,8 @@
           background-color: var(--light-gray);
           user-select: none;
           img {
-            border-radius: 500%;
+            user-select: none;
+            border-radius: 100%;
             width: 80px;
             height: 80px;
             object-fit: cover;
@@ -164,6 +171,7 @@
           }
           h5 {
             margin: 0;
+            font-size: var(--font-size-nm);
           }
         }
         .agent-stats {
@@ -187,22 +195,13 @@
         }
 
         .bio {
-          padding: var(--spacing);
-          border-radius: var(--border-radius);
-          background-color: var(--light-gray);
+          margin-top: var(--spacing);
           user-select: none;
         }
       }
     }
 
     .agent-reviews {
-      margin-block: var(--spacing-3x);
-
-      h5 {
-        margin: var(--spacing-5x) 0 var(--spacing);
-      }
-
-      /* Container for the reviews */
       .reviews {
         display: flex;
         overflow-x: auto;
@@ -213,18 +212,20 @@
         padding-right: var(--spacing-h);
 
         .review-item {
-          width: 80vw;
-          max-width: 350px;
+          width: 45%;
           border: var(--border);
           border-radius: var(--border-radius);
           scroll-snap-align: center;
           flex-shrink: 0;
-          padding: var(--spacing-2x);
+          padding: var(--spacing);
           box-shadow: var(--shadow);
           text-align: center;
 
-          span {
-            display: block;
+          div {
+            margin-top: var(--spacing-2x);
+            span {
+              display: block;
+            }
           }
         }
       }
@@ -240,88 +241,103 @@
     }
 
     .agent-listings {
-      margin-block: var(--spacing-3x);
-      h5 {
-        margin: var(--spacing-3x) 0 var(--spacing);
-      }
       & > div {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: var(--spacing);
+        .agentProps {
+          display: flex;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          justify-content: left;
+          scroll-behavior: smooth;
+          gap: var(--spacing);
+          padding-bottom: var(--spacing-h);
 
-        .list-prop {
-          display: grid;
-          grid-template-columns: 23% 75%;
-          gap: 2%;
-          padding: var(--spacing-h);
-
-          border: var(--border);
-          border-radius: var(--border-radius);
-          cursor: pointer;
-
-          &:hover {
-            border: var(--border-hover);
-            color: var(--font-color-p);
+          /* Hide scrollbar */
+          &::-webkit-scrollbar {
+            display: none;
           }
+          -ms-overflow-style: none;
+          scrollbar-width: none;
 
-          .list-image {
-            img {
-              border-radius: var(--border-radius);
-              width: 100%;
-              height: 100%;
-              object-fit: cover;
+          .list-prop {
+            flex: 0 0 90%;
+            max-width: 200px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            cursor: pointer;
+
+            &:hover {
+              color: var(--font-color-p);
+              transform: scale(0.992);
             }
-          }
-          .list-details {
-            padding-block: var(--spacing-h);
-            h6 {
+
+            .list-image {
               overflow: hidden;
-              text-overflow: ellipsis;
-              display: -webkit-box;
-              -webkit-line-clamp: 1;
-              line-clamp: 1;
-              -webkit-box-orient: vertical;
+              img {
+                border-radius: var(--border-radius);
+                width: 100%;
+                height: 120px;
+                object-fit: cover;
+              }
             }
-            span {
-              overflow: hidden;
-              text-overflow: ellipsis;
-              display: -webkit-box;
-              -webkit-line-clamp: 2;
-              line-clamp: 2;
-              -webkit-box-orient: vertical;
-              margin-block: var(--spacing-h);
-              font-size: var(--font-size-sm);
-              line-height: var(--line-height-md);
+
+            .list-details {
+              padding-block: var(--spacing-h);
+
+              h6 {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                line-clamp: 1;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+              }
+
+              span {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                line-clamp: 2;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                margin-top: var(--spacing-h);
+                font-size: var(--font-size-sm);
+              }
             }
           }
         }
       }
     }
 
+    // /* Responsive Adjustments */
+    // @media (min-width: 768px) {
+
+    //   .list-prop {
+    //     flex: 0 0 48%; /* Medium screens */
+    //   }
+    // }
+
+    // @media (min-width: 1024px) {
+    //   .list-prop {
+    //     flex: 0 0 30%; /* Desktop screens */
+    //     max-width: 350px;
+    //   }
+    // }
+
     .contact {
-      margin-block: var(--spacing-3x);
-
-      h5 {
-        margin: var(--spacing-5x) 0 var(--spacing);
-      }
-
-      div {
-        background: var(--background-white);
-        padding: var(--spacing-h);
-        p:nth-child(1) {
-          margin-bottom: var(--spacing-h);
-        }
-        span {
-          color: var(--primary-color);
-          text-decoration: underline;
-          font-size: inherit;
-          cursor: pointer;
-        }
-
-        a {
-          color: var(--primary-color);
-          text-decoration: underline;
-        }
+      margin-top: var(--spacing-4x);
+    }
+    
+    .prop-cta {
+      margin-top: var(--spacing-3x);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing);
+      
+      .btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin-top: var(--spacing);
       }
     }
   }
@@ -344,17 +360,16 @@
     .prop-image-details {
       .property-images {
         grid-template-columns: 1fr;
-        gap: var(--spacing);
 
         .display-image {
-          height: 48vh;
+          height: 60vh;
           padding-block: 0;
 
           .image-pagination {
             .left,
             .right {
-              width: 40px;
-              height: 40px;
+              width: 38px;
+              height: 38px;
             }
             .left {
               left: 20px;
@@ -379,12 +394,15 @@
           align-items: center;
           gap: var(--spacing);
           flex-wrap: nowrap;
-          padding: var(--spacing-2x);
+          padding: var(--spacing) var(--spacing-2x);
           overflow-x: scroll;
 
           img {
-            width: 65px;
-            height: 65px;
+            width: 60px;
+            height: 60px;
+            min-width: 60px;
+            min-height: 60px;
+            // aspect-ratio: 1/1;
             margin: 0;
           }
         }
@@ -402,21 +420,43 @@
           }
         }
       }
-      .agent-listings {
-        & > div {
-          grid-template-columns: 1fr;
+
+      .agent-reviews {
+        .reviews {
+          .review-item {
+            width: 90%;
+          }
         }
       }
+
+      // .contact {
+      // }
+      .prop-cta {
+        position: fixed;
+        right: 0;
+        left: 0;
+        bottom: var(--spacing);
+        width: 100%;
+
+        z-index: 99999;
+        padding: var(--spacing);
+      }
+
+      // .agent-listings {
+      //   & > div {
+      //     grid-template-columns: 1fr;
+      //   }
+      // }
     }
   }
 }
 
 @media screen and (max-width: 480px) {
   .properties-details-page {
-    .prop-image-details{
+    .prop-image-details {
       .property-images {
         .display-image {
-          height: 38vh;
+          height: 50vh;
         }
       }
     }

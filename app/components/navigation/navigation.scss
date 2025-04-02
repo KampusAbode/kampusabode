@@ -35,7 +35,8 @@
       gap: var(--spacing-2x);
     }
 
-    a {
+    button {
+      width: 100%;
       cursor: pointer;
       text-align: center;
       text-decoration: none;
@@ -47,7 +48,7 @@
       gap: var(--spacing-h);
 
       span {
-        font-size: var(--font-size-xs);
+        font-size: var(--font-size-sm);
         color: var(--font-color-h);
         text-transform: capitalize;
 
@@ -84,7 +85,7 @@
 //   padding: var(--spacing);
 
 //   ul {
-//     a {
+//     button{
 //       svg{
 //         height: 24px;
 //         width: 24px;

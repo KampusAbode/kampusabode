@@ -13,6 +13,7 @@ import {
 } from "../../../utils";
 import "./chat.css";
 import Loader from "../../../components/loader/Loader";
+import Prompt from "../../../components/prompt/Prompt";
 
 type ChatProps = {
   currentUserId: string;
@@ -62,7 +63,9 @@ const ChatComponent: React.FC<ChatProps> = ({
     );
     setIsLoadingMessages(false);
 
-    return () => { unsubscribe() };
+    return () => {
+      unsubscribe();
+    };
   }, [currentUserId, receiverId]);
 
   // Scroll to the latest message
@@ -81,10 +84,6 @@ const ChatComponent: React.FC<ChatProps> = ({
     try {
       const res = await sendMessage(sender, receiverId, message);
       if (res?.success) {
-        setMessages((prev) => [
-          ...prev,
-          { senderId: currentUserId, content: message, timestamp: new Date() },
-        ]);
         setMessage("");
         toast.success("Message sent!");
       } else {
@@ -104,18 +103,25 @@ const ChatComponent: React.FC<ChatProps> = ({
     }
   };
 
-  const formatTimestamp = (timestamp: Date) => {
+  const formatTimestamp = (timestamp: any) => {
     const now = new Date();
+    // Convert Firestore Timestamp to JS Date if needed
+    const messageDate =
+      timestamp && typeof timestamp.toDate === "function"
+        ? timestamp.toDate()
+        : new Date(timestamp);
     const diffInMinutes = Math.floor(
-      (now.getTime() - timestamp.getTime()) / 60000
+      (now.getTime() - messageDate.getTime()) / 60000
     );
+
     if (diffInMinutes < 1) return "Now";
     if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
     if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}h ago`;
-    if (isYesterday(timestamp)) return "Yesterday";
-    if (isToday(timestamp)) return format(timestamp, "hh:mm a");
-    return format(timestamp, "dd-MM-yyyy");
+    if (isYesterday(messageDate)) return "Yesterday";
+    if (isToday(messageDate)) return format(messageDate, "hh:mm a");
+    return format(messageDate, "dd-MM-yyyy");
   };
+
 
   const handleLongPress = (message) => {
     if (message.senderId === currentUserId || currentUserRole === "admin") {
@@ -141,6 +147,11 @@ const ChatComponent: React.FC<ChatProps> = ({
       setShowDeleteDialog(false);
       setLongPressedMessage(null);
     }
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteDialog(false);
+    setLongPressedMessage(null);
   };
 
   return (
@@ -186,39 +197,20 @@ const ChatComponent: React.FC<ChatProps> = ({
             ref={inputRef}
           />
           <button
-          className='btn'
+            className="btn"
             onClick={handleSendMessage}
             disabled={isLoading || message.trim() === ""}>
-            {isLoading ? <MdBubbleChart/> : <FiSend/>}
+            {isLoading ? <MdBubbleChart /> : <FiSend />}
           </button>
         </div>
       </div>
 
-      {showDeleteDialog && (
-        <div
-          className="delete-dialog"
-          onClick={() => {
-            setShowDeleteDialog(false);
-            setLongPressedMessage(null);
-          }}>
-          <div className="dialog-box">
-            <p>Are you sure you want to delete this message?</p>
-            <div className="btn-group">
-              <button className="confirm" onClick={confirmDeleteMessage}>
-                confirm
-              </button>
-              <button
-                className="cancel"
-                onClick={() => {
-                  setShowDeleteDialog(false);
-                  setLongPressedMessage(null);
-                }}>
-                cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <Prompt
+        message="Are you sure you want to delete this message?"
+        isOpen={showDeleteDialog}
+        onConfirm={confirmDeleteMessage}
+        onCancel={cancelDelete}
+      />
     </section>
   );
 };

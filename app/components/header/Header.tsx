@@ -84,12 +84,7 @@ export default function Header() {
       <header className={!isHeader ? "hide" : ""}>
         <div className="container">
           {showBackButton ? (
-            <>
-              <BackButton />
-              <div className="page-title">
-                {pageName === "properties/" ? "property" : pageName}
-              </div>
-            </>
+            <BackButton />
           ) : (
             <div className={`logo ${!user?.isAuthenticated ? "loggedIn" : ""}`}>
               <Link href="/">
@@ -125,7 +120,7 @@ export default function Header() {
                     logout
                   </span>
                 ) : user?.userType === "agent" ? (
-                  <Link href="/upload" className="sign-up-btn btn">
+                  <Link href="/properties/upload" className="sign-up-btn btn">
                     upload
                   </Link>
                 ) : null

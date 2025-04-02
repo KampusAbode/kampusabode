@@ -11,15 +11,25 @@ import {
   getDoc,
   query,
   where,
+  setDoc,
+  deleteDoc,
+  arrayUnion,
 } from "firebase/firestore";
 
 // import CryptoJS from "crypto-js";
 import { PropertyType } from "../fetch/types";
+import { storage } from "../lib/appwriteClient";
 
 export const fetchProperties = async (): Promise<PropertyType[]> => {
   try {
     const propertiesCollection = collection(db, "properties");
-    const snapshot = await getDocs(propertiesCollection);
+
+    // Apply a Firestore query to fetch only approved properties
+    const approvedQuery = query(
+      propertiesCollection,
+      where("approved", "==", true)
+    );
+    const snapshot = await getDocs(approvedQuery);
 
     // Map each document to a PropertyType object
     const propertiesList: PropertyType[] = snapshot.docs.map((doc) => {
@@ -27,12 +37,12 @@ export const fetchProperties = async (): Promise<PropertyType[]> => {
 
       // Ensure the data returned from Firebase matches PropertyType
       const property: PropertyType = {
-        id: data.id || null,
+        id: doc.id, // Use Firestore document ID
         url: data.url || "",
         agentId: data.agentId || null,
         title: data.title || "",
         description: data.description || "",
-        price: data.price || "",
+        price: data.price || 0,
         location: data.location || "",
         neighborhood_overview: data.neighborhood_overview || "",
         type: data.type || "",
@@ -42,6 +52,51 @@ export const fetchProperties = async (): Promise<PropertyType[]> => {
         amenities: data.amenities || [],
         images: data.images || [],
         available: data.available || false,
+        approved: data.approved || false, // Should always be true
+      };
+
+      return property;
+    });
+
+    return propertiesList;
+  } catch (error) {
+    throw {
+      message: (error as Error).message || "Error fetching properties",
+      statusCode: 500,
+    };
+  }
+};
+
+export const fetchAllPropertiesWithoutQuery = async (): Promise<
+  PropertyType[]
+> => {
+  try {
+    const propertiesCollection = collection(db, "properties");
+
+    const snapshot = await getDocs(propertiesCollection);
+
+    // Map each document to a PropertyType object
+    const propertiesList: PropertyType[] = snapshot.docs.map((doc) => {
+      const data = doc.data() as PropertyType;
+
+      // Ensure the data returned from Firebase matches PropertyType
+      const property: PropertyType = {
+        id: doc.id, // Use Firestore document ID
+        url: data.url || "",
+        agentId: data.agentId || null,
+        title: data.title || "",
+        description: data.description || "",
+        price: data.price || 0,
+        location: data.location || "",
+        neighborhood_overview: data.neighborhood_overview || "",
+        type: data.type || "",
+        bedrooms: data.bedrooms || 0,
+        bathrooms: data.bathrooms || 0,
+        area: data.area || 0,
+        amenities: data.amenities || [],
+        images: data.images || [],
+        available: data.available || false,
+        approved: data.approved || false, // Should always be true
       };
 
       return property;
@@ -77,7 +132,7 @@ export const fetchPropertyById = async (
         agentId: data.agentId || null,
         title: data.title || "",
         description: data.description || "",
-        price: data.price || "",
+        price: data.price || 0,
         location: data.location || "",
         neighborhood_overview: data.neighborhood_overview || "",
         type: data.type || "",
@@ -87,11 +142,11 @@ export const fetchPropertyById = async (
         amenities: data.amenities || [],
         images: data.images || [],
         available: data.available || false,
+        approved: false,
       };
-
       return property;
     } else {
-      console.log("No such property!");
+      console.log(propertyId, "No such property!");
       return null; // Return null if the property doesn't exist
     }
   } catch (error) {
@@ -103,8 +158,9 @@ export const fetchPropertyById = async (
   }
 };
 
-
-export const fetchPropertiesByIds = async (propertyIds: string[]): Promise<PropertyType[]> => {
+export const fetchPropertiesByIds = async (
+  propertyIds: string[]
+): Promise<PropertyType[]> => {
   try {
     const propertiesCollection = collection(db, "properties");
 
@@ -117,26 +173,29 @@ export const fetchPropertiesByIds = async (propertyIds: string[]): Promise<Prope
     const querySnapshot = await getDocs(propertiesQuery);
 
     // Map the documents to PropertyType
-    const propertiesList: PropertyType[] = querySnapshot.docs.map((doc) => {
-      const data = doc.data() as PropertyType;
-      return {
-        id: data.id || null,
-        url: data.url || "",
-        agentId: data.agentId || null,
-        title: data.title || "",
-        description: data.description || "",
-        price: data.price || "",
-        location: data.location || "",
-        neighborhood_overview: data.neighborhood_overview || "",
-        type: data.type || "",
-        bedrooms: data.bedrooms || 0,
-        bathrooms: data.bathrooms || 0,
-        area: data.area || 0,
-        amenities: data.amenities || [],
-        images: data.images || [],
-        available: data.available || false,
-      };
-    });
+    const propertiesList: PropertyType[] = querySnapshot.docs
+      .map((doc) => {
+        const data = doc.data() as PropertyType;
+        return {
+          id: data.id || null,
+          url: data.url || "",
+          agentId: data.agentId || null,
+          title: data.title || "",
+          description: data.description || "",
+          price: data.price || 0,
+          location: data.location || "",
+          neighborhood_overview: data.neighborhood_overview || "",
+          type: data.type || "",
+          bedrooms: data.bedrooms || 0,
+          bathrooms: data.bathrooms || 0,
+          area: data.area || 0,
+          amenities: data.amenities || [],
+          images: data.images || [],
+          available: data.available || false,
+          approved: data.approved || false,
+        };
+      })
+      .filter((property) => property.approved === true);
 
     return propertiesList;
   } catch (error) {
@@ -148,19 +207,19 @@ export const fetchPropertiesByIds = async (propertyIds: string[]): Promise<Prope
   }
 };
 
-
-export const addProperty = async (property: PropertyType) => {
+export const addProperty = async (property) => {
   try {
     const propertiesCollection = collection(db, "properties");
 
     // Generate a unique ID for the property
     const newDocRef = doc(propertiesCollection);
     const uid = newDocRef.id;
+    const propertyUrl = `/properties/${uid}`;
 
     // Add the new property to the properties collection with the unique ID
-    await addDoc(propertiesCollection, {
+    await setDoc(newDocRef, {
       id: uid,
-      url: `/properties/${uid}`,
+      url: propertyUrl,
       agentId: property.agentId,
       title: property.title,
       description: property.description,
@@ -174,14 +233,79 @@ export const addProperty = async (property: PropertyType) => {
       amenities: property.amenities,
       images: property.images,
       available: property.available,
+      approved: false,
     });
 
-    return {success: "uploaded apartment successfully"}
+    // Reference to the agent user document
+    const agentDocRef = doc(db, "users", property.agentId);
+
+    // Update the agent's `propertiesListed` array with the new property ID
+    await updateDoc(agentDocRef, {
+      "userInfo.propertiesListed": arrayUnion(uid), // Adds the property ID to the array
+    });
+
+    return {
+      success: "uploaded apartment successfully",
+      url: propertyUrl,
+      propertyId: uid,
+    };
   } catch (error) {
     throw {
       message: (error as Error).message || "Failed to upload Apartment",
       statusCode: 500,
     };
+  }
+};
+
+export const deleteProperty = async (
+  propertyId: string,
+  imageUrls: string[]
+) => {
+  try {
+    // 1. Delete the property from Firebase Firestore
+    const propertyRef = doc(db, "properties", propertyId);
+    await deleteDoc(propertyRef);
+
+    // 2. Delete associated images from Appwrite
+    await Promise.all(imageUrls.map((url) => deleteAppwriteImage(url)));
+
+    return {
+      success: true,
+      message: "Property and images deleted successfully.",
+    };
+  } catch (error) {
+    console.error("Error deleting property:", error);
+    return { success: false, message: "Failed to delete property." };
+  }
+};
+
+export const deleteAppwriteImage = async (imageUrl: string) => {
+  try {
+    const fileId = extractAppwriteFileId(imageUrl);
+    if (!fileId) throw new Error("File ID extraction failed.");
+
+    await storage.deleteFile(
+      process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID!,
+      fileId
+    );
+
+    return { success: true, message: "Image deleted successfully." };
+  } catch (error) {
+    console.error("Failed to delete image from Appwrite:", error);
+    return { success: false, message: "Failed to delete image." };
+  }
+};
+
+// Function to extract Appwrite File ID from URL
+export const extractAppwriteFileId = (imageUrl: string) => {
+  try {
+    const match = imageUrl.match(/\/files\/(.*?)\/view/);
+    if (match && match[1]) {
+      return match[1]; // Extract the file ID
+    }
+    throw new Error("Invalid Appwrite file URL format");
+  } catch (error) {
+    throw new Error("Failed to extract Appwrite file ID");
   }
 };
 

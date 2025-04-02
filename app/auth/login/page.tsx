@@ -57,9 +57,9 @@ const LoginPage = () => {
         toast.error(response.message);
       } else {
         toast.success(`${response.message} 👋`);
+        router.push("/properties");
       }
 
-      router.push("/properties");
     } catch (error) {
       toast.error(error.message || "An unexpected error occurred.");
     }
@@ -71,6 +71,7 @@ const LoginPage = () => {
       <div className="container">
         <div className="im">
           <Image
+            priority
             src={"/assets/authimage.png"}
             width={1000}
             height={1000}

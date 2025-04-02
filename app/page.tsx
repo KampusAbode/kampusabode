@@ -41,7 +41,7 @@ export default function App() {
     <>
       <section className="hero-section">
         <video
-          src="https://cloud.appwrite.io/v1/storage/buckets/678f4d10003d2ef8a648/files/679bc211003bb3f29752/view?project=678caa89001b08049b5f&mode=admin"
+          src="https://cloud.appwrite.io/v1/storage/buckets/678f4d10003d2ef8a648/files/67c3511600049967c9a8/view?project=678caa89001b08049b5f&mode=admin"
           className="hero_video"
           autoPlay
           muted
@@ -87,6 +87,7 @@ export default function App() {
             {about.services.map((service) => (
               <div key={service.text} className="service">
                 <Image
+                  priority
                   src={service.icon}
                   width={300}
                   height={300}
@@ -115,6 +116,7 @@ export default function App() {
             {properties.slice(0, 3).map((prop) => (
               <div key={prop.id} className="pd">
                 <Image
+                  priority
                   src={prop.images[0]}
                   width={1000}
                   height={1000}
@@ -163,6 +165,7 @@ export default function App() {
                   <div className="details">
                     <div>
                       <Image
+                        priority
                         src={testi.image}
                         width={500}
                         height={500}
@@ -216,33 +219,42 @@ export default function App() {
             {trends.slice(0, 4).map((trend) => {
               return (
                 <div key={trend.title} className="trend">
-                  <div className="trend-image">
-
-                  </div>
+                  <Link href={`/trends/${trend.id}`}>
+                    <div className="trend-image">
+                      <Image
+                        priority
+                        src={trend.image}
+                        width={500}
+                        height={500}
+                        alt="trend image"
+                      />
+                    </div>
+                  </Link>
                   <div className="trend-content">
                     <h5>{trend.title}</h5>
-                  <div>
-                    <Link href={`/trends/${trend.id}`}>
-                      Learn more{" "}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        id="Outline"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24">
-                        <path d="M23.12,9.91,19.25,6a1,1,0,0,0-1.42,0h0a1,1,0,0,0,0,1.41L21.39,11H1a1,1,0,0,0-1,1H0a1,1,0,0,0,1,1H21.45l-3.62,3.61a1,1,0,0,0,0,1.42h0a1,1,0,0,0,1.42,0l3.87-3.88A3,3,0,0,0,23.12,9.91Z" />
-                      </svg>
-                    </Link>
-                  </div>
+                    <p>{trend.content}</p>
+                    <div>
+                      <Link href={`/trends/${trend.id}`}>
+                        Learn more{" "}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          id="Outline"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24">
+                          <path d="M23.12,9.91,19.25,6a1,1,0,0,0-1.42,0h0a1,1,0,0,0,0,1.41L21.39,11H1a1,1,0,0,0-1,1H0a1,1,0,0,0,1,1H21.45l-3.62,3.61a1,1,0,0,0,0,1.42h0a1,1,0,0,0,1.42,0l3.87-3.88A3,3,0,0,0,23.12,9.91Z" />
+                        </svg>
+                      </Link>
+                    </div>
 
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    id="Outline"
-                    viewBox="0 0 24 24"
-                    width="512"
-                    height="512">
-                    <path d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z" />
-                  </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      id="Outline"
+                      viewBox="0 0 24 24"
+                      width="512"
+                      height="512">
+                      <path d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z" />
+                    </svg>
                   </div>
                 </div>
               );

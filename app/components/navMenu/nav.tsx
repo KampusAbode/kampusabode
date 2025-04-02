@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { FaTimes, FaRegUserCircle, FaSearchLocation } from "react-icons/fa";
 import { CiViewBoard, CiHome } from "react-icons/ci";
 import { GrUserAdmin } from "react-icons/gr";
@@ -16,15 +15,22 @@ import { clearUser } from "../../redux/stateSlice/userSlice";
 import { closeMenu } from "../../redux/stateSlice/menuSlice";
 import "./nav.css";
 
+const pageAvailability = {
+  "/adminchatroom": true,
+  "/properties/upload": true,
+  "/admin": true,
+  "/dashboard": true,
+  "/profile": true,
+  "/properties": true,
+  "/chat": false,
+};
+
 function Nav() {
   const pathname = usePathname();
-
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
   const isMenu = useSelector((state: RootState) => state.menu);
   const [loading, setLoading] = useState(true);
-
-  // Move the useRouter hook here (at the top of the component)
   const router = useRouter();
 
   const logOut = async () => {
@@ -42,9 +48,20 @@ function Nav() {
     setLoading(false);
   }, [user]);
 
+  const handleNavigation = (href) => {
+    if (pageAvailability[href] === false) {
+      toast.error("🚧 Page not available", {
+        position: "top-center",
+        duration: 3000,
+      });
+    } else {
+      router.push(href);
+      dispatch(closeMenu());
+    }
+  };
+
   if (loading) {
     return;
-  } else {
   }
 
   return (
@@ -54,119 +71,95 @@ function Nav() {
       <div>
         <div className="close-div" onClick={() => dispatch(closeMenu())}>
           <div className="logo">
-            <Link href="/">
+            <button onClick={() => handleNavigation("/")}>
               <img
                 src={"/LOGO/RED_LOGO_T.png"}
                 width={500}
                 height={500}
                 alt="logo"
               />
-            </Link>
+            </button>
           </div>
           <div className="close">
             <FaTimes />
           </div>
         </div>
+        {user?.userType === "agent" && (
+          <button
+            onClick={() => handleNavigation("/properties/upload")}
+            className="btn">
+            upload property
+          </button>
+        )}
+        {user?.userType === "agent" &&
+          user?.id === process.env.NEXT_PUBLIC_ADMINS && (
+            <button onClick={() => handleNavigation("/admin")} className="btn">
+              Admin Portal
+            </button>
+          )}
         <ul>
-          {user?.userType === "agent" ? (
-            <li>
-              <Link
-                href="/properties/upload"
-                onClick={() => {
-                  dispatch(closeMenu());
-                }}
-                className="btn">
-                upload property
-              </Link>
-            </li>
-          ) : null}
-          {user?.isAuthenticated ? (
-            user?.id === "P9IfqO0q3ZXTCOVS77ytSd8k8Oo2" ? (
-              <li className={pathname === "/adminchatroom" ? "active" : ""}>
-                <Link
-                  href="/adminchatroom"
-                  onClick={() => {
-                    dispatch(closeMenu());
-                  }}>
-                    <GrUserAdmin/>
-                  admin
-                </Link>
-              </li>
-            ) : null
-          ) : null}
-          <li
-            className={`${
-              pathname === "/dashboard" || pathname === "/" ? "active" : ""
-            }`}>
-            <Link
-              href={user?.isAuthenticated ? "/dashboard" : "/"}
-              onClick={() => {
-                dispatch(closeMenu());
-              }}>
-              {user?.isAuthenticated ? <CiViewBoard /> : <CiHome />}
-
-              {user?.isAuthenticated ? "dashboard" : "home"}
-            </Link>
-          </li>
-          <li className={pathname === "/profile" ? "active" : ""}>
-            <Link
-              href={"/profile"}
-              onClick={() => {
-                dispatch(closeMenu());
-              }}>
-              <FaRegUserCircle />
-              profile
-            </Link>
-          </li>
           <li className={pathname === "/properties" ? "active" : ""}>
-            <Link
-              href={"/properties"}
-              onClick={() => {
-                dispatch(closeMenu());
-              }}>
+            <button onClick={() => handleNavigation("/properties")}>
               <FaSearchLocation />
               properties
-            </Link>
+            </button>
           </li>
-          {user?.isAuthenticated ? (
+          {user?.isAuthenticated &&
+            user?.id === process.env.NEXT_PUBLIC_ADMINS && (
+              <li className={pathname === "/adminchatroom" ? "active" : ""}>
+                <button onClick={() => handleNavigation("/adminchatroom")}>
+                  <GrUserAdmin />
+                  admin
+                </button>
+              </li>
+            )}
+          <li
+            className={`$ {pathname === "/dashboard" || pathname === "/" ? "active" : ""}`}>
+            <button
+              onClick={() =>
+                handleNavigation(user?.isAuthenticated ? "/dashboard" : "/")
+              }>
+              {user?.isAuthenticated ? <CiViewBoard /> : <CiHome />}
+              {user?.isAuthenticated ? "dashboard" : "home"}
+            </button>
+          </li>
+          <li className={pathname === "/profile" ? "active" : ""}>
+            <button onClick={() => handleNavigation("/profile")}>
+              <FaRegUserCircle />
+              profile
+            </button>
+          </li>
+          {user?.isAuthenticated && (
             <li
               className={
                 pathname === `/chat/${user?.id}/${user?.username}`
                   ? "active"
                   : ""
               }>
-              <Link
-                href={`/chat/${user?.id}/${user?.username}`}
-                onClick={() => {
-                  dispatch(closeMenu());
-                }}>
+              <button
+                onClick={() =>
+                  handleNavigation(`/chat/${user?.id}/${user?.username}`)
+                }>
                 <IoChatbubblesOutline />
                 chat
-              </Link>
+              </button>
             </li>
-          ) : null}
+          )}
         </ul>
       </div>
-
       <div className="logout">
         <span>
-          ©️ copyright 2024 Kampusabode. All right reserved.{" "}
+          ©️ 2024. All rights reserved.
           {user?.isAuthenticated ? (
-            <span
-              onClick={() => {
-                logOut();
-                dispatch(closeMenu());
-              }}>
+            <button className="btn btn-secondary" onClick={logOut}>
               Logout
-            </span>
+            </button>
           ) : (
-            <Link
-              href={"/auth/login"}
-              onClick={() => {
-                dispatch(closeMenu());
-              }}>
+            <button
+              className="btn btn-secondary"
+              onClick={() => handleNavigation("/auth/login")}>
               Login
-            </Link>
+            </button>
           )}
         </span>
       </div>

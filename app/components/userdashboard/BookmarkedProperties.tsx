@@ -38,7 +38,7 @@ const BookmarkedProperties = ({ user }) => {
 
   return (
     <div className="bookmarked-properties">
-      <h4>Your Bookmarked Properties</h4>
+      <h5>Your Bookmarked Properties</h5>
       <div className="property-list">
         {loading ? (
           <p>Loading your bookmarked properties...</p>
@@ -50,6 +50,7 @@ const BookmarkedProperties = ({ user }) => {
               <li key={property.id}>
                 <Link href={property.url}>
                   <Image
+                    priority
                     src={property.images[0]}
                     width={800}
                     height={800}

@@ -29,7 +29,7 @@
   height: 280px;
   border-radius: var(--border-radius);
   overflow: hidden;
-  margin: var(--spacing-2x) 0 var(--spacing-4x);
+  margin: var(--spacing-2x) 0;
 }
 .trend-details-page .container .trend-image img {
   height: inherit;
@@ -41,6 +41,73 @@
     height: 400px;
   }
 }
+.trend-details-page .container .interaction-buttons {
+  display: flex;
+  gap: var(--spacing);
+}
+.trend-details-page .container .interaction-buttons button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing);
+  border: none;
+  padding: var(--spacing-h) var(--spacing);
+  background-color: var(--light-gray);
+  border-radius: var(--border-radius-r);
+  color: var(--font-color-p);
+  cursor: pointer;
+}
+.trend-details-page .container .trend-description {
+  margin-block: var(--spacing-2x);
+}
 .trend-details-page .container .trend-description p {
   margin-block: var(--spacing-h);
+}
+.trend-details-page .container .comments-section {
+  margin-block: var(--spacing-2x);
+  max-width: 500px;
+}
+.trend-details-page .container .comments-section .comments-list {
+  margin-block: var(--spacing);
+}
+.trend-details-page .container .comments-section .comments-list .comment {
+  padding: var(--spacing);
+  background-color: var(--light-gray);
+  border-radius: var(--border-radius);
+  margin-block: var(--spacing);
+}
+.trend-details-page .container .comments-section .comments-list .comment .top {
+  display: flex;
+  gap: var(--spacing);
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing);
+}
+.trend-details-page .container .comments-section .comments-list .comment .top div {
+  display: flex;
+  gap: var(--spacing);
+  align-items: center;
+}
+.trend-details-page .container .comments-section .comments-list .comment .top div img {
+  width: 40px;
+  height: 40px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 100%;
+}
+.trend-details-page .container .comments-section .comments-list .comment .top .created-at {
+  font-size: var(--font-size-xs);
+}
+.trend-details-page .container .comments-section .comments-list .comment .comment-content {
+  font-size: var(--font-size-sm);
+}
+.trend-details-page .container .comments-section .send-comment textarea {
+  width: 100%;
+  max-width: 100%;
+  padding: var(--spacing);
+  border: var(--border);
+  border-radius: var(--border-radius);
+  margin-block: var(--spacing);
+}
+.trend-details-page .container .comments-section .send-comment .btn {
+  width: 100%;
 }/*# sourceMappingURL=trend.css.map */

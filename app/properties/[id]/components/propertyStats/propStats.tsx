@@ -6,7 +6,7 @@ const StarIcon = ({ filled }: { filled: boolean }) => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="#ff5e5e"
-      viewBox="0 0 24 24"
+      viewBox="0 0 30 30"
       stroke="none"
       className="w-6 h-6">
       <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
@@ -15,7 +15,7 @@ const StarIcon = ({ filled }: { filled: boolean }) => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
-      viewBox="0 0 24 24"
+      viewBox="0 0 30 30"
       stroke="#ff5e5e"
       className="w-6 h-6">
       <path
@@ -47,7 +47,7 @@ const StarRating = ({ rating }: { rating: number }) => {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="url(#halfStarGradient)"
-          viewBox="0 0 20 20"
+          viewBox="0 0 30 30"
           stroke="none"
           className="w-6 h-6">
           <defs>

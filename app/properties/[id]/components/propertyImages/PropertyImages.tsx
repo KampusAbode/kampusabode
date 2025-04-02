@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import BookmarkButton from "../../../../components/features/bookmarkbutton/BookmarkButton";
 import ShareButton from "../../../../components/features/sharebutton/ShareButton";
-import Image from 'next/image';
+import Image from "next/image";
 import { PropertyType } from "../../../../fetch/types";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
@@ -38,6 +38,7 @@ function PropertyImages({
           <BookmarkButton propertyId={propertyDetails?.id} />
         </div>
         <Image
+          priority
           src={propertyDetails?.images[imageCount]}
           width={1000}
           height={1000}
@@ -60,8 +61,8 @@ function PropertyImages({
           <img
             key={index + img}
             src={img}
-            width={500}
-            height={500}
+            width={400}
+            height={400}
             alt="property-details thumbnail"
             onClick={() => setImageCount(index)}
             className={imageCount === index ? "active" : ""}

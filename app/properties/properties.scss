@@ -62,35 +62,34 @@
 }
 
 .user-search {
-  padding-block: var(--spacing-2x);
-  .container {
-    border-radius: var(--border-radius-r);
+  padding-block: var(--spacing);
+  .container{
     max-width: 750px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 8fr 1fr;
+    grid-template-columns: 8fr 1.3fr;
+    background-color: var(--background-white);
+    border: var(--border);
+    border-radius: var(--border-radius-r);
     overflow: hidden;
-    input {
-      border: var(--border);
-      border-radius: var(--border-radius-r);
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-      padding: var(--spacing);
 
-      &:focus {
-        border: var(--border-hover);
-      }
+    input {
+      border-top-left-radius: var(--border-radius);
+      border-bottom-left-radius: var(--border-radius);
+      padding: var(--spacing);
+      border: none;
     }
+
     .search-icon {
-      border-top-right-radius: var(--border-radius-r);
-      border-bottom-right-radius: var(--border-radius-r);
+      border-top-right-radius: var(--border-radius);
+      border-bottom-right-radius: var(--border-radius);
       display: grid;
       place-content: center;
       cursor: pointer;
       background-color: var(--light-gray);
       svg {
-        width: 28px;
-        height: 28px;
+        width: 25px;
+        height: 25px;
         path {
           fill: var(--font-color-p);
         }
@@ -101,15 +100,15 @@
 
 .filter {
   background: var(--background-white);
-  margin-bottom: var(--spacing);
   border-radius: var(--border-radius);
-  padding-block: var(--spacing-h);
+  // margin-block: var(--spacing);
+  padding-block: var(--spacing);
   position: sticky;
   top: 0px;
   z-index: 999;
 
   .container {
-    display: flex;
+    display: flex; 
     align-items: center;
     justify-content: left;
     gap: var(--spacing);
@@ -122,11 +121,11 @@
     }
 
     span {
-      padding: var(--spacing);
+      padding: var(--spacing-b);
       border-radius: var(--border-radius);
-      border: var(--border);
+      border: 1px solid transparent;
       text-transform: capitalize;
-      background: var(--background-white);
+      background: var(--light-gray);
       white-space: nowrap;
       cursor: pointer;
       transition: var(--transition);
@@ -140,11 +139,11 @@
   }
 }
 .property-listings {
-  margin: var(--spacing-2x) 0 var(--spacing-4x);
+  margin: var(--spacing) 0 var(--spacing-3x);
   .properties {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing);
+    gap:calc(1.5 *  var(--spacing));
 
     span,
     svg path {
@@ -167,8 +166,7 @@
   }
   .user-search {
     .container {
-      grid-template-columns: 8fr 1.5fr;
-
+      grid-template-columns: 9fr 1.5fr;
       .search-icon {
         svg {
           width: 20px;
