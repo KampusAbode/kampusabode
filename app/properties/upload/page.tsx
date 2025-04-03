@@ -7,10 +7,10 @@ import * as Yup from "yup";
 import { addProperty, uploadImagesToAppwrite } from "../../utils";
 import toast from "react-hot-toast";
 import { PropertyType } from "../../fetch/types";
-import "./upload.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import CryptoJS from "crypto-js";
+import "./upload.css";
 
 const locationOptions = [
   "asherifa",
@@ -43,7 +43,6 @@ const amenitiesOptions = [
   "cafeteria",
   "sports facilities",
 ];
-
 
 // Validdation schema
 const validationSchema = Yup.object().shape({

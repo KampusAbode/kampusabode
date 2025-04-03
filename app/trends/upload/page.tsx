@@ -82,8 +82,6 @@ function UploadTrend() {
     }
   };
 
- 
-
   return (
     <div className="upload-trend">
       <h2>Upload New Trend</h2>

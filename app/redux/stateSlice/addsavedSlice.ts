@@ -1,25 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchProperties } from "../../utils";
+import { fetchPropertiesRealtime } from "../../utils"; // Assuming this fetches real-time data
 import { PropertyType } from "../../fetch/types";
 import { TrendType } from "../../fetch/types";
 import { AddSavedState } from "../../fetch/types";
+import storage from "redux-persist/lib/storage"; // Use localStorage
+import { persistReducer } from "redux-persist";
 
-let properties;
-
-async () => {
-  const fetchedProperties: PropertyType[] = await fetchProperties();
-  properties = fetchedProperties;
-};
-
+// Initial State
 const initialState: AddSavedState = {
   savedProperties: [],
   savedTrends: [],
 };
 
-export const addsavedSlice = createSlice({
+// Redux Persist Configuration
+const persistConfig = {
+  key: "addsaved",
+  storage,
+  whitelist: ["savedProperties", "savedTrends"],
+};
+
+// Slice Definition
+const addsavedSlice = createSlice({
   name: "addsaved",
   initialState,
   reducers: {
+    // Action to add saved property or trend
     addSaved: (state, action) => {
       const { propType, data } = action.payload;
       if (propType === "property") {
@@ -38,6 +43,8 @@ export const addsavedSlice = createSlice({
         }
       }
     },
+
+    // Action to remove saved property or trend
     removeSaved: (state, action) => {
       const { propType, data } = action.payload;
 
@@ -54,6 +61,11 @@ export const addsavedSlice = createSlice({
   },
 });
 
+// Persist the reducer
+const persistedReducer = persistReducer(persistConfig, addsavedSlice.reducer);
+
+// Redux Actions
 export const { addSaved, removeSaved } = addsavedSlice.actions;
 
-export default addsavedSlice.reducer;
+// Reducer with Persistence
+export default persistedReducer;

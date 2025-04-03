@@ -1,35 +1,33 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { fetchProperties } from "../../utils";
-import { PropertyType } from "../../fetch/types";
+import { fetchPropertiesRealtime } from "../../utils";
 import Image from "next/image";
 import Link from "next/link";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useDispatch, useSelector } from "react-redux";
+import { setProperties } from "../../redux/stateSlice/propertySlice";
+import { RootState } from "../../redux/store";
+import Loader from "../loader/Loader";
 
 function ViewedProperties() {
-  const [properties, setProperties] = useState<PropertyType[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const dispatch = useDispatch();
+
+  // Select values from Redux store
+  const {
+    properties,
+    isLoading,
+  } = useSelector((state: RootState) => state.properties);
 
   useEffect(() => {
-    const fetchPropertiesFromDB = async () => {
-      try {
-        const fetchedProperties = await fetchProperties();
-        setProperties(fetchedProperties);
-        toast.success("Properties loaded successfully!");
-      } catch (err) {
-        console.error("Error fetching properties:", err);
-        setError("Failed to load properties. Please try again later.");
-        toast.error("Failed to load properties.");
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchPropertiesFromDB();
+    // Listen for real-time updates from Firestore
+    const unsubscribe = fetchPropertiesRealtime((fetchedProperties) => {
+      dispatch(setProperties(fetchedProperties));
+    });
+
+    return () => unsubscribe();
   }, []);
+
 
   const visitedProperties = JSON.parse(
     localStorage.getItem("visitedProperties") || "[]"
@@ -43,13 +41,10 @@ function ViewedProperties() {
 
   return (
     <div className="viewed-properties">
-      <ToastContainer />
       <h5>Viewed Properties</h5>
       <div className="display-viewed-properties">
-        {loading ? (
-          <p>Loading...</p>
-        ) : error ? (
-          <p>{error}</p>
+        {isLoading ? (
+          <Loader/>
         ) : checkProperties.length > 0 ? (
           checkProperties.map((property) => (
             <Link key={property.id} href={property.url}>

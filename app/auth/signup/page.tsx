@@ -29,7 +29,6 @@ export type UserSignupInput = {
   };
 };
 
-
 const SignupPage = () => {
   const router = useRouter();
   const [formValues, setFormValues] = useState<UserSignupInput>({
@@ -195,7 +194,6 @@ const SignupPage = () => {
                 <option value="agent">Agent</option>
               </select>
             </div>
-
 
             {formValues.userType === "agent" && (
               <div className="input-box">

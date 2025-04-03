@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 // import { trends } from "../fetch/data/trends";
-import { fetchProperties, fetchPropertiesByIds } from "../utils";
+import { fetchPropertiesRealtime, fetchPropertiesByIds } from "../utils";
 import "./saved.css";
 import TrendCard from "../trends/component/trendCard/TrendCard";
 import { TrendType, PropertyType } from "../fetch/types";
@@ -14,7 +14,7 @@ const SavedPage = () => {
   // const [properties, setProperties] = useState([]);
   const [currentTab, setCurrentTab] = useState("properties");
   const [savedProperties, setsavedProperties] = useState([]);
-  const [savedTrends, setsavedTrends] = useState([]);
+  const [savedTrends] = useState([]);
   const userData = useSelector((state: RootState) => state.userdata);
   const isAuthenticated = useSelector(
     (state: RootState) => state.user?.isAuthenticated
@@ -58,7 +58,7 @@ const SavedPage = () => {
           <div className="saved-props">
             <p>
               Oops! Your saved list is empty! Why not start discovering your
-              dream property now? 💡
+              dream apartment now? 💡
             </p>
           </div>
         );

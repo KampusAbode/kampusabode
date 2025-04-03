@@ -18,14 +18,17 @@ import { UserSignupInput } from "../auth/signup/page";
 import { UserType } from "../fetch/types";
 // import { PropertyType } from "../fetch/types";
 
-
-
 export const signupUser = async (userData: UserSignupInput) => {
-  const { email, password, userType, university, avatar, phoneNumber } = userData;
+  const { email, password, userType, university, avatar, phoneNumber } =
+    userData;
 
   try {
     // Create user in Firebase Authentication
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     const user = userCredential.user;
 
     // Construct user data
@@ -63,20 +66,28 @@ export const signupUser = async (userData: UserSignupInput) => {
     console.error("Error signing up user", error);
 
     if (error.code === "auth/email-already-in-use") {
-      throw { message: "Email already in use. Please try another one.", statusCode: 409 };
+      throw {
+        message: "Email already in use. Please try another one.",
+        statusCode: 409,
+      };
     } else if (error.code === "auth/invalid-email") {
-      throw { message: "Invalid email format. Please check your email.", statusCode: 400 };
+      throw {
+        message: "Invalid email format. Please check your email.",
+        statusCode: 400,
+      };
     } else if (error.code === "auth/weak-password") {
-      throw { message: "Password is too weak. Please use a stronger password.", statusCode: 400 };
+      throw {
+        message: "Password is too weak. Please use a stronger password.",
+        statusCode: 400,
+      };
     } else {
-      throw { message: "Something went wrong. Please try again later.", statusCode: 500 };
+      throw {
+        message: "Something went wrong. Please try again later.",
+        statusCode: 500,
+      };
     }
   }
 };
-
-
-
-
 
 interface UserLoginInput {
   email: string;
@@ -117,6 +128,8 @@ export const loginUser = async (userData: UserLoginInput) => {
     return { message: `Welcome abode! ${userDataFromDB.name}` };
   } catch (error) {
     // Check for Firebase Auth error codes
+    console.log(error);
+
     if (error.code === "auth/invalid-credential") {
       throw {
         message: "Incorrect credentials. Please try again.",
@@ -183,5 +196,21 @@ export const getAuthState = async (): Promise<{ isAuthenticated: boolean }> => {
   } catch (error) {
     console.error("Error accessing authentication state:", error);
     return { isAuthenticated: false };
+  }
+};
+
+export const encryptData = (data: any, key: string) => {
+  return CryptoJS.AES.encrypt(JSON.stringify(data), key).toString();
+};
+
+export const decryptData = (encryptedData: string, key: string) => {
+  try {
+    const decryptedData = CryptoJS.AES.decrypt(encryptedData, key).toString(
+      CryptoJS.enc.Utf8
+    );
+    return JSON.parse(decryptedData);
+  } catch (err) {
+    console.error("Decryption error:", err);
+    return null;
   }
 };

@@ -2,16 +2,19 @@
 
 import React, { ChangeEvent, useState } from "react";
 import { toast } from "react-hot-toast";
-import { deleteAppwriteImage, updateUserProfile, uploadImageToAppwrite } from "../../utils";
+import {
+  deleteAppwriteImage,
+  updateUserProfile,
+  uploadImageToAppwrite,
+} from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { UserType, StudentUserInfo, AgentUserInfo } from "../../fetch/types";
-import './updateprofile.css'
-import  { useRouter } from "next/navigation";
+import "./updateprofile.css";
+import { useRouter } from "next/navigation";
 import { setUser } from "../../redux/stateSlice/userSlice";
 import { setUserData } from "../../redux/stateSlice/userdataSlice";
 import CryptoJS from "crypto-js";
-
 
 const CreateProfilePage = () => {
   const router = useRouter();
@@ -38,7 +41,6 @@ const CreateProfilePage = () => {
     }));
   };
 
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -46,8 +48,6 @@ const CreateProfilePage = () => {
       setImagePreview(URL.createObjectURL(file)); // Show preview
     }
   };
-
- 
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -97,8 +97,7 @@ const CreateProfilePage = () => {
 
       const response = await updateUserProfile(userdata?.id, updatedUserData);
 
-      const newData = response.userData
-
+      const newData = response.userData;
 
       if (response.success) {
         toast.success(`${response.message} 🎉`);
@@ -124,7 +123,7 @@ const CreateProfilePage = () => {
             isAuthenticated: true,
           })
         );
-        
+
         // Dispatch updates to Redux store
         dispatch(setUserData({ ...userdata, ...newData }));
 
@@ -136,9 +135,6 @@ const CreateProfilePage = () => {
 
     setIsSubmitting(false);
   };
-
-
-
 
   return (
     <div className="profile-update">
@@ -255,4 +251,3 @@ const CreateProfilePage = () => {
 };
 
 export default CreateProfilePage;
-

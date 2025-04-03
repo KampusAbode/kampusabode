@@ -1,16 +1,14 @@
-import { doc, updateDoc, increment } from 'firebase/firestore';
+import { doc, updateDoc, increment } from "firebase/firestore";
 import { db } from "../lib/firebaseConfig";
-import { ID, storage } from '../lib/appwriteClient';
+import { ID, storage } from "../lib/appwriteClient";
 
 export * from "./auth";
-export * from './messages';
+export * from "./messages";
 export * from "./martketplace";
 export * from "./properties";
 export * from "./user";
 export * from "./reviews";
 export * from "./trends";
-
-
 
 //ACTIONS
 
@@ -24,39 +22,37 @@ export const formatNumber = (num: number): string => {
   }
 };
 
-
 interface UpdateLikesInput {
   id: string;
-  action: 'like' | 'unlike';
+  action: "like" | "unlike";
 }
 
 export const updateLikes = async ({ id, action }: UpdateLikesInput) => {
   if (!id || !action) {
-    throw new Error('Missing id or action');
+    throw new Error("Missing id or action");
   }
 
-  const trendRef = doc(db, 'trends', id);
+  const trendRef = doc(db, "trends", id);
 
   try {
-    if (action === 'like') {
+    if (action === "like") {
       await updateDoc(trendRef, {
         likes: increment(1),
       });
-    } else if (action === 'unlike') {
+    } else if (action === "unlike") {
       await updateDoc(trendRef, {
         likes: increment(-1),
       });
     } else {
-      throw new Error('Invalid action');
+      throw new Error("Invalid action");
     }
 
-    return { message: 'Success' };
+    return { message: "Success" };
   } catch (error) {
-    console.error('Error updating likes: ', error);
-    throw new Error('Internal server error');
+    console.error("Error updating likes: ", error);
+    throw new Error("Internal server error");
   }
 };
-
 
 export const uploadImageToAppwrite = async (
   file: File | null,

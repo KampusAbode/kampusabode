@@ -14,56 +14,35 @@ import {
   setDoc,
   deleteDoc,
   arrayUnion,
+  onSnapshot,
 } from "firebase/firestore";
 
 // import CryptoJS from "crypto-js";
 import { PropertyType } from "../fetch/types";
 import { storage } from "../lib/appwriteClient";
 
-export const fetchProperties = async (): Promise<PropertyType[]> => {
+export const fetchPropertiesRealtime = (
+  callback: (properties: PropertyType[]) => void
+) => {
   try {
-    const propertiesCollection = collection(db, "properties");
-
-    // Apply a Firestore query to fetch only approved properties
     const approvedQuery = query(
-      propertiesCollection,
+      collection(db, "properties"),
       where("approved", "==", true)
     );
-    const snapshot = await getDocs(approvedQuery);
 
-    // Map each document to a PropertyType object
-    const propertiesList: PropertyType[] = snapshot.docs.map((doc) => {
-      const data = doc.data() as PropertyType;
+    // Subscribe to Firestore changes
+    const unsubscribe = onSnapshot(approvedQuery, (snapshot) => {
+      const properties: PropertyType[] = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as PropertyType[];
 
-      // Ensure the data returned from Firebase matches PropertyType
-      const property: PropertyType = {
-        id: doc.id, // Use Firestore document ID
-        url: data.url || "",
-        agentId: data.agentId || null,
-        title: data.title || "",
-        description: data.description || "",
-        price: data.price || 0,
-        location: data.location || "",
-        neighborhood_overview: data.neighborhood_overview || "",
-        type: data.type || "",
-        bedrooms: data.bedrooms || 0,
-        bathrooms: data.bathrooms || 0,
-        area: data.area || 0,
-        amenities: data.amenities || [],
-        images: data.images || [],
-        available: data.available || false,
-        approved: data.approved || false, // Should always be true
-      };
-
-      return property;
+      callback(properties); // Pass data to callback function
     });
 
-    return propertiesList;
+    return unsubscribe; // Return function to stop listening when needed
   } catch (error) {
-    throw {
-      message: (error as Error).message || "Error fetching properties",
-      statusCode: 500,
-    };
+    console.error("Error fetching properties in real-time:", error);
   }
 };
 

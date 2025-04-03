@@ -6,35 +6,44 @@ import data from "./fetch/contents";
 import Quotes from "./components/quotes/Quotes";
 import Footer from "./components/footer/Footer";
 import Link from "next/link";
-import { PropertyType, TrendType } from "./fetch/types";
-import { allTrends, fetchProperties } from "./utils";
+import { TrendType } from "./fetch/types";
+import { allTrends, fetchPropertiesRealtime } from "./utils";
 
 import { FaArrowRightLong } from "react-icons/fa6";
 import { useState, useEffect } from "react";
+import { RootState } from "./redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { setProperties } from "./redux/stateSlice/propertySlice";
 
 const { homeSection } = data;
 const { hero, about, testimonials } = homeSection;
 
 export default function App() {
-  const [properties, setProperties] = useState<PropertyType[]>([]);
   const [trends, setTrends] = useState<TrendType[]>([]);
+  const dispatch = useDispatch();
+
+  // Select values from Redux store
+  const {
+    properties,
+  } = useSelector((state: RootState) => state.properties);
 
   useEffect(() => {
-    // Fetch trends using allTrends function
-    const unsubscribe = allTrends((items) => {
-      setTrends(items); // Update state when trends data changes
+
+    // Listen for real-time updates from Firestore
+    const unsubscribe = fetchPropertiesRealtime((fetchedProperties) => {
+      dispatch(setProperties(fetchedProperties));
     });
 
-    // Cleanup listener on component unmount
     return () => unsubscribe();
   }, []);
 
   useEffect(() => {
-    const fetchPropertiesFromDB = async () => {
-      const fetchedProperties: PropertyType[] = await fetchProperties();
-      setProperties(fetchedProperties);
-    };
-    fetchPropertiesFromDB();
+    // Fetch trends using allTrends function
+    const unsubscribe = allTrends((items) => {
+      setTrends(items);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   return (

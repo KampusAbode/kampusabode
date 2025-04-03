@@ -115,10 +115,9 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
     if (!loading) {
       if (isAuthenticated && pathname === "/") {
         router.push("/properties");
-      } 
+      }
     }
   }, [isAuthenticated, pathname, loading, router]);
-
 
   if (loading) return <Loader />;
   if (error)
@@ -135,7 +134,10 @@ const UseIsUser = ({ children }: UseIsUserProps) => {
           gap: "1rem",
         }}>
         <p>{error}</p>
-        <button onClick={() => router.refresh()} className="btn" style={{textAlign:"center", width: "fit-content"}}>
+        <button
+          onClick={() => router.refresh()}
+          className="btn"
+          style={{ textAlign: "center", width: "fit-content" }}>
           Reload
         </button>
       </div>

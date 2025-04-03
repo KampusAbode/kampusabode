@@ -1,112 +1,91 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
-import data from "../fetch/contents";
-import { fetchProperties } from "../utils";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPropertiesRealtime } from "../utils";
 import PropCard from "./propcard/PropCard";
 import Loader from "../components/loader/Loader";
 import "./properties.css";
 import { FaSearch } from "react-icons/fa";
-import { PropertyType } from "../fetch/types";
 import { useSearchParams, useRouter } from "next/navigation";
+import {
+  setProperties,
+  setLoading,
+  setSearchQuery,
+  setActiveLocation,
+  filterProperties,
+} from "../redux/stateSlice/propertySlice";
+import { RootState } from "../redux/store";
+import data from "../fetch/contents"
 
-const { locations } = data;
 
 const PropertiesPage: React.FC = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Read query params to initialize state
+  // Get initial search values from URL
   const initialSearchQuery = searchParams.get("q") || "";
   const initialActiveLocation = searchParams.get("loc") || "all";
 
-  const [properties, setProperties] = useState<PropertyType[]>([]);
-  const [filteredProperties, setFilteredProperties] = useState<PropertyType[]>(
-    []
-  );
-  const [searchQuery, setSearchQuery] = useState<string>(initialSearchQuery);
-  const [activeLocation, setActiveLocation] = useState<string>(
-    initialActiveLocation
-  );
-  const [loading, setLoading] = useState<boolean>(true);
+  // Select values from Redux store
+  const {
+    properties,
+    filteredProperties,
+    isLoading,
+    searchQuery,
+    activeLocation,
+  } = useSelector((state: RootState) => state.properties);
 
-  // Fetch properties on mount
   useEffect(() => {
-    const fetchPropertiesFromDB = async () => {
-      setLoading(true);
-      const fetchedProperties: PropertyType[] = await fetchProperties();
-      setProperties(fetchedProperties);
-      // Run filters based on initial URL values
-      let filtered = fetchedProperties;
-      if (searchQuery) {
-        const words = searchQuery.toLowerCase().trim().split(" ");
-        filtered = filtered.filter((property) => {
-          const propertyString =
-            `${property.title} ${property.location} ${property.type}`.toLowerCase();
-          return words.every((word) => propertyString.includes(word));
-        });
-      }
-      if (activeLocation !== "all") {
-        filtered = filtered.filter(
-          (property) => property.location === activeLocation
-        );
-      }
-      setFilteredProperties(filtered);
-      setLoading(false);
-    };
-    fetchPropertiesFromDB();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    dispatch(setLoading(true));
 
-  // Update URL when search query or location filter changes
+    // Listen for real-time updates from Firestore
+    const unsubscribe = fetchPropertiesRealtime((fetchedProperties) => {
+      dispatch(setProperties(fetchedProperties));
+      dispatch(setLoading(false)); // Stop loading after setting properties
+    });
+
+    return () => unsubscribe(); // Cleanup listener on component unmount
+  }, []); // No need for dispatch in dependencies
+
+  // Apply filters when the component first loads
   useEffect(() => {
-    router.push(
+    dispatch(setSearchQuery(initialSearchQuery));
+    dispatch(setActiveLocation(initialActiveLocation));
+
+    // Delay filtering until the properties are set
+    setTimeout(() => {
+      dispatch(filterProperties());
+    }, 100);
+  }, [initialSearchQuery, initialActiveLocation]);
+
+  // Update URL when search query or location changes
+  useEffect(() => {
+    router.replace(
       `/properties?q=${encodeURIComponent(
         searchQuery
       )}&loc=${encodeURIComponent(activeLocation)}`
     );
-  }, [searchQuery, activeLocation, router]);
+    dispatch(filterProperties());
+  }, [searchQuery, activeLocation]);
 
-  // Function to filter properties by search query
-  const searchProperties = (query: string) => {
-    setLoading(true);
-    const words = query.toLowerCase().trim().split(" ");
-    const filtered = properties.filter((property) => {
-      const propertyString =
-        `${property.title} ${property.location} ${property.type}`.toLowerCase();
-      return words.every((word) => propertyString.includes(word));
-    });
-    setFilteredProperties(filtered);
-    setLoading(false);
-  };
-
-  // Function to filter properties by location
-  const filterByLocation = (location: string) => {
-    setLoading(true);
-    setActiveLocation(location);
-    if (location === "all") {
-      setFilteredProperties(properties);
-    } else {
-      const filtered = properties.filter(
-        (property) => property.location === location
-      );
-      setFilteredProperties(filtered);
-    }
-    setLoading(false);
-  };
-
-  // Handle search input change
+  // Handle search input
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-    searchProperties(query); // Run search function whenever the query changes
+    dispatch(setSearchQuery(e.target.value));
   };
 
   // Handle search on Enter key press
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      searchProperties(searchQuery);
+      dispatch(filterProperties());
     }
+  };
+
+  // Handle location filter change
+  const filterByLocation = (location: string) => {
+    dispatch(setActiveLocation(location));
   };
 
   return (
@@ -116,17 +95,11 @@ const PropertiesPage: React.FC = () => {
           <span>your comfort</span>
           <h2>
             our priority
-            <svg
-              width="50"
-              height="49"
-              viewBox="0 0 50 49"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg">
+            <svg width="50" height="49" viewBox="0 0 50 49" fill="none">
               <path
                 d="M24.6571 9.0258C18.75 12.9418 13.3443 17.4625 7.63462 21.628"
                 stroke="#CCD7FF"
                 strokeWidth="2.65"
-                strokeMiterlimit="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
@@ -134,7 +107,6 @@ const PropertiesPage: React.FC = () => {
                 d="M43.1283 16.1354C31.9263 19.0499 20.869 23.231 10.2516 27.7933"
                 stroke="#CCD7FF"
                 strokeWidth="2.65"
-                strokeMiterlimit="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
@@ -142,14 +114,12 @@ const PropertiesPage: React.FC = () => {
                 d="M38.189 35.6927C30.4675 33.8314 18.8695 34.5847 10.6475 34.622"
                 stroke="#CCD7FF"
                 strokeWidth="2.65"
-                strokeMiterlimit="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
             </svg>
           </h2>
         </div>
-
         <Image
           priority
           className="dot1"
@@ -158,7 +128,6 @@ const PropertiesPage: React.FC = () => {
           src="/assets/Dots.png"
           alt="dots"
         />
-
         <Image
           priority
           className="building"
@@ -175,12 +144,12 @@ const PropertiesPage: React.FC = () => {
             type="text"
             value={searchQuery}
             onChange={handleSearchChange}
-            onKeyDown={handleKeyDown} // Run search on Enter press
+            onKeyDown={handleKeyDown}
             placeholder="Search by title, type, location ..."
           />
           <div
             className="search-icon"
-            onClick={() => searchProperties(searchQuery)}>
+            onClick={() => dispatch(filterProperties())}>
             <FaSearch />
           </div>
         </div>
@@ -193,7 +162,7 @@ const PropertiesPage: React.FC = () => {
             onClick={() => filterByLocation("all")}>
             all
           </span>
-          {locations.map((location) => (
+          {data.locations.map((location) => (
             <span
               key={location}
               className={`${activeLocation === location ? "active" : ""}`}
@@ -206,7 +175,7 @@ const PropertiesPage: React.FC = () => {
 
       <div className="property-listings">
         <div className="container">
-          {loading ? (
+          {isLoading ? (
             <Loader />
           ) : filteredProperties.length > 0 ? (
             <div className="properties">
