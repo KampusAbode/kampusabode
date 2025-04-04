@@ -5,6 +5,7 @@ import { getAllMessages } from "../utils";
 import Link from "next/link";
 import { format, isToday, isYesterday } from "date-fns";
 import "./admin.css";
+import Loader from "../components/loader/Loader";
 
 const formatTimestamp = (timestamp: any): string => {
   // Try to convert the timestamp to a Date instance
@@ -60,7 +61,7 @@ const AdminChat = () => {
         <p>Click on a user to view messages</p>
         <ul>
           {users === null ? (
-            <p>Loading messages...</p>
+            <Loader/>
           ) : users.length > 0 ? (
             users.map((msg, index) => {
               const formattedTime = formatTimestamp(msg.timestamp);

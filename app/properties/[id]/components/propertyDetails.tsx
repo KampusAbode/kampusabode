@@ -245,8 +245,10 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
               feel free to contact us.
             </p>
           </div>
+        </div>
+
           <div className="prop-cta">
-            <>
+            <div className='container'>
               <Link
                 className="btn"
                 href={user ? `/chat/${user.id}/${user.name}` : `/auth/login`}>
@@ -257,10 +259,8 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                 href={user ? `tel:+2347050721686` : `/auth/login`}>
                 Make a call
               </Link>
-            </>
+            </div>
           </div>
-        </div>
-
 
         <div className='customer-support'>
           <FcCustomerSupport />

@@ -17,8 +17,8 @@
   --light-gray: #f8f8f8;
   --dark-gray: #6d6d6d;
 
-  --font-color-h: #212529;
-  --font-color-p: #535353;
+  --font-color-h: #555555;
+  --font-color-p: #5f5f5f;
   --font-light: #adb5bd;
   --font-white: #ffffff;
 
@@ -70,8 +70,7 @@
   outline: none;
   list-style-type: none;
   text-decoration: none;
-  font-weight: 500;
-  // border: var(--border);
+  scroll-behavior: smooth;
 
   &:focus,
   &:active {
@@ -91,23 +90,19 @@
 }
 
 html {
-  font-size: 16px;
   scroll-behavior: smooth;
-  overflow-x: hidden !important;
-  position: relative;
+  // overflow-x: hidden !important;
 }
 
 body {
   font-family: var(--font-poppins);
+  font-weight: 500;
   line-height: var(--line-height-md);
   color: var(--font-color-p);
   background-color: var(--background-white);
-  position: relative;
 }
 
 .wrapper {
-  position: relative;
-
   &.grid {
     display: grid;
     grid-template-columns: 18% 82%;
@@ -179,7 +174,6 @@ main {
   overflow-x: hidden;
   overflow-y: auto;
   position: relative;
-  border-radius: calc(2 * var(--border-radius));
 }
 .container {
   width: 90%;

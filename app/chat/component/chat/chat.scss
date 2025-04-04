@@ -1,7 +1,13 @@
 .chat-page {
   position: relative;
+  max-width: 900px;
+  min-height: 100vh;
   height: 100vh;
-  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--spacing);
+  border: 3px solid black;
 
   .delete-dialog {
     display: flex;
@@ -56,102 +62,99 @@
     }
   }
 
-  .container {
-    max-width: 900px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  .chat-display {
+    height: auto;
+    overflow-y: auto;
+    padding-block: var(--spacing);
 
+    .loading-text {
+      text-align: center;
+      margin-top: 50px;
+    }
 
-    .chat-display {
-      height: auto;
-      overflow-y: auto;
-      padding-block: var(--spacing);
-
-      .loading-text {
-        text-align: center;
-        margin-top: 50px;
-      }
-
+    &::-webkit-scrollbar {
+      visibility: hidden;
+    }
+    &:hover {
       &::-webkit-scrollbar {
-        visibility: hidden;
+        visibility: visible;
       }
-      &:hover {
-        &::-webkit-scrollbar {
-          visibility: visible;
-        }
-        &::-webkit-scrollbar-thumb {
-          height: 100px;
+      &::-webkit-scrollbar-thumb {
+        height: 100px;
+      }
+    }
+
+    .message-box {
+      padding: var(--spacing-h);
+      margin-bottom: var(--spacing-h);
+      border-radius: var(--border-radius);
+      border-top-left-radius: 0;
+      width: fit-content;
+      color: var(--font-color-p);
+      background-color: var(--light-gray);
+      max-width: 70%;
+
+      .message-detail {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--spacing-2x);
+        padding: var(--spacing-h) var(--spacing);
+
+        span {
+          color: var(--font-color-p);
+          font-size: var(--font-size-xs);
         }
       }
 
-      .message-box {
-        padding: var(--spacing-h);
-        margin-bottom: var(--spacing-h);
-        border-radius: var(--border-radius);
-        border-top-left-radius: 0;
-        width: fit-content;
+      .message-content {
+        padding-block: var(--spacing);
         color: var(--font-color-p);
-        background-color: var(--light-gray);
-        max-width: 70%;
+        size: var(--font-size-sm);
+        user-select: none;
+      }
+
+      &.right {
+        margin-left: auto;
+        color: var(--font-white);
+        border-radius: var(--border-radius);
+        border-top-right-radius: 0;
+        background-color: var(--background-dark);
 
         .message-detail {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: var(--spacing-2x);
-          padding: var(--spacing-h) var(--spacing);
-
           span {
-            color: var(--font-color-p);
-            font-size: var(--font-size-xs);
+            color: var(--font-white);
           }
         }
-
         .message-content {
           padding-block: var(--spacing);
-          color: var(--font-color-p);
-          size: var(--font-size-sm);
-          user-select: none;
-        }
-
-        &.right {
-          margin-left: auto;
-          color: var(--font-white);
-          border-radius: var(--border-radius);
-          border-top-right-radius: 0;
-          background-color: var(--background-dark);
-
-          .message-detail {
-            span {
-              color: var(--font-white);
-            }
-          }
-          .message-content {
-            padding-block: var(--spacing);
-            p {
-              color: var(--font-white);
-              size: var(--font-size-sm);
-            }
+          p {
+            color: var(--font-white);
+            size: var(--font-size-sm);
           }
         }
       }
     }
+  }
 
-    .chat-input {
-      width: 100%;
-      max-width: 900px;
-      margin: 0 auto;
+  .chat-input {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding-block: var(--spacing);
+    background-color: var(--light-gray);
+
+    .container {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border: var(--border);
-      border-radius: var(--border-radius);
+      // border: var(--border);
+      // border-radius: var(--border-radius);
 
       input {
         flex: 1;
         border: none;
+        border-radius: 0;
         color: var(--font-light-p);
       }
       button {

@@ -122,7 +122,6 @@ const ChatComponent: React.FC<ChatProps> = ({
     return format(messageDate, "dd-MM-yyyy");
   };
 
-
   const handleLongPress = (message) => {
     if (message.senderId === currentUserId || currentUserRole === "admin") {
       setLongPressedMessage(message);
@@ -156,11 +155,14 @@ const ChatComponent: React.FC<ChatProps> = ({
 
   return (
     <section className="chat-page">
-      <div className="container">
-        <div className="chat-header">
+      <div className="chat-header">
+        <div className="container">
           <h4 className="page-heading">{receiverName}</h4>
         </div>
-        <div className="chat-display">
+      </div>
+
+      <div className="chat-display">
+        <div className="container">
           {isLoadingMessages ? (
             <Loader />
           ) : messages.length > 0 ? (
@@ -187,7 +189,10 @@ const ChatComponent: React.FC<ChatProps> = ({
           )}
           <div ref={messagesEndRef}></div>
         </div>
-        <div className="chat-input">
+      </div>
+
+      <div className="chat-input">
+        <div className="container">
           <input
             type="text"
             value={message}

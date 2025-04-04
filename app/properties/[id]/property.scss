@@ -260,7 +260,7 @@
 
           .list-prop {
             flex: 0 0 90%;
-            max-width: 200px;
+            max-width: 130px;
             border-radius: var(--border-radius);
             transition: var(--transition);
             cursor: pointer;
@@ -326,13 +326,21 @@
     .contact {
       margin-top: var(--spacing-4x);
     }
+  }
+
+  .prop-cta {
+    position: fixed;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    border: var(--border);
     
-    .prop-cta {
+    .container {
       margin-top: var(--spacing-3x);
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: var(--spacing);
-      
+
       .btn {
         display: block;
         width: 100%;
@@ -342,17 +350,17 @@
     }
   }
 
-
-  .customer-support{
+  .customer-support {
     position: fixed;
     bottom: 10%;
     right: 10%;
-    width: 200px;
-    height: 200px;
+    width: 80px;
+    height: 80px;
     border-radius: 100%;
     background: var(--light-gray);
     display: grid;
     place-content: center;
+    z-index: 9999;
   }
 }
 
