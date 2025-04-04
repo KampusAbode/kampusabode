@@ -50,7 +50,7 @@ export default function App() {
     <>
       <section className="hero-section">
         <video
-          src="https://cloud.appwrite.io/v1/storage/buckets/678f4d10003d2ef8a648/files/67c3511600049967c9a8/view?project=678caa89001b08049b5f&mode=admin"
+          src={'/assets/hero_video.mp4'}
           className="hero_video"
           autoPlay
           muted

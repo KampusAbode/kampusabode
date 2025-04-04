@@ -1,22 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchPropertiesRealtime } from "../../utils"; // Assuming this fetches real-time data
-import { PropertyType } from "../../fetch/types";
-import { TrendType } from "../../fetch/types";
-import { AddSavedState } from "../../fetch/types";
-import storage from "redux-persist/lib/storage"; // Use localStorage
-import { persistReducer } from "redux-persist";
+import { PropertyType, TrendType, AddSavedState } from "../../fetch/types";
 
 // Initial State
 const initialState: AddSavedState = {
   savedProperties: [],
   savedTrends: [],
-};
-
-// Redux Persist Configuration
-const persistConfig = {
-  key: "addsaved",
-  storage,
-  whitelist: ["savedProperties", "savedTrends"],
 };
 
 // Slice Definition
@@ -61,11 +49,10 @@ const addsavedSlice = createSlice({
   },
 });
 
-// Persist the reducer
-const persistedReducer = persistReducer(persistConfig, addsavedSlice.reducer);
+
 
 // Redux Actions
 export const { addSaved, removeSaved } = addsavedSlice.actions;
 
 // Reducer with Persistence
-export default persistedReducer;
+export default addsavedSlice.reducer;

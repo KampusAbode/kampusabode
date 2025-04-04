@@ -297,6 +297,17 @@
   text-align: center;
   margin-top: var(--spacing);
 }
+.properties-details-page .customer-support {
+  position: fixed;
+  bottom: 10%;
+  right: 10%;
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
+  background: var(--light-gray);
+  display: grid;
+  place-content: center;
+}
 
 @media screen and (max-width: 768px) {
   .properties-details-page .prop-image-details .property-images {
