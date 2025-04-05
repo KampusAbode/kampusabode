@@ -8,5 +8,10 @@
   text-transform: capitalize;
   background: var(--light-gray);
   border-radius: var(--border-radius);
+  border: var(--border);
+  border-color: transparent;
   cursor: pointer;
+}
+.messages-page .container .filter-messages span.active {
+  border: var(--border);
 }/*# sourceMappingURL=messages.css.map */

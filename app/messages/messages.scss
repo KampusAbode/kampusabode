@@ -9,7 +9,13 @@
         text-transform: capitalize;
         background: var(--light-gray);
         border-radius: var(--border-radius);
+        border: var(--border);
+        border-color: transparent;
         cursor: pointer;
+
+        &.active{
+          border: var(--border);
+        }
       }
     }
   }

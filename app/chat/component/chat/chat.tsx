@@ -2,10 +2,19 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import toast from "react-hot-toast";
-import { isToday, isYesterday, format } from "date-fns";
+import {
+  format,
+  isToday,
+  isYesterday,
+  isThisWeek,
+  isThisYear,
+  differenceInMinutes,
+  differenceInHours,
+  differenceInDays,
+  differenceInYears,
+} from "date-fns";
 import { FiSend } from "react-icons/fi";
 import { MdBubbleChart } from "react-icons/md";
-
 import {
   sendMessage,
   listenToMessagesForConversation,
@@ -103,24 +112,26 @@ const ChatComponent: React.FC<ChatProps> = ({
     }
   };
 
-  const formatTimestamp = (timestamp: any) => {
-    const now = new Date();
-    // Convert Firestore Timestamp to JS Date if needed
-    const messageDate =
-      timestamp && typeof timestamp.toDate === "function"
-        ? timestamp.toDate()
-        : new Date(timestamp);
-    const diffInMinutes = Math.floor(
-      (now.getTime() - messageDate.getTime()) / 60000
-    );
+ const formatTimestamp = (timestamp: any): string => {
+   const now = new Date();
+   const date =
+     timestamp && typeof timestamp.toDate === "function"
+       ? timestamp.toDate()
+       : new Date(timestamp);
 
-    if (diffInMinutes < 1) return "Now";
-    if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
-    if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}h ago`;
-    if (isYesterday(messageDate)) return "Yesterday";
-    if (isToday(messageDate)) return format(messageDate, "hh:mm a");
-    return format(messageDate, "dd-MM-yyyy");
-  };
+   const minutesDiff = differenceInMinutes(now, date);
+   const hoursDiff = differenceInHours(now, date);
+   const daysDiff = differenceInDays(now, date);
+
+   if (minutesDiff < 1) return "Just now";
+   if (minutesDiff < 60) return `${minutesDiff}m`;
+   if (hoursDiff < 24 && isToday(date)) return `${hoursDiff}h`;
+   if (isYesterday(date)) return `Yesterday at ${format(date, "h:mm a")}`;
+   if (isThisWeek(date))
+     return `${format(date, "EEEE")} at ${format(date, "h:mm a")}`;
+   if (isThisYear(date)) return format(date, "MMM d");
+   return format(date, "MMM d, yyyy");
+ };
 
   const handleLongPress = (message) => {
     if (message.senderId === currentUserId || currentUserRole === "admin") {
