@@ -1,0 +1,17 @@
+.quick-service{
+    position: fixed;
+    bottom: 15%;
+    right: 10%;
+    width: 75px;
+    height: 75px;
+    border-radius: 100%;
+    background: var(--light-gray);
+    box-shadow: var(--shadow);
+    display: grid;
+    place-content: center;
+    z-index: 9999;
+
+    i{
+      font-size: var(--font-size-lg);
+    }
+  }

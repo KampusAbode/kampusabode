@@ -1,5 +1,4 @@
 .properties-details-page {
-  overflow-x: hidden;
   animation: slideIn 0.2s ease-in-out forwards;
 }
 @keyframes slideIn {
@@ -290,7 +289,6 @@
   bottom: 10px;
   left: 0;
   right: 0;
-  border: var(--border);
 }
 .properties-details-page .prop-cta .container {
   margin-top: var(--spacing-3x);
@@ -303,18 +301,6 @@
   width: 100%;
   text-align: center;
   margin-top: var(--spacing);
-}
-.properties-details-page .customer-support {
-  position: fixed;
-  bottom: 10%;
-  right: 10%;
-  width: 80px;
-  height: 80px;
-  border-radius: 100%;
-  background: var(--light-gray);
-  display: grid;
-  place-content: center;
-  z-index: 9999;
 }
 
 @media screen and (max-width: 768px) {

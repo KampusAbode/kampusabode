@@ -1,21 +1,20 @@
-// layout.tsx (Server Component)
 import type { Metadata } from "next";
 import "./globals.css";
 import ClientRootLayout from "./ClientRootLayout";
 import { NotificationProvider } from "./context/NotificationContext";
 
 export const metadata: Metadata = {
-  title: "Kampusabode App - Property Listing Site",
+  title: "Kampusabode App - apartment Listing Site",
   description:
-    "Find your ideal property with Kampusabode. Explore a wide range of listings and discover your next apartment.",
+    "Find your ideal apartment with Kampusabode. Explore a wide range of listings and discover your next apartment.",
   keywords: [
-    "property listings",
+    "apartment listings",
     "real estate",
     "apartments",
     "houses",
     "rentals",
-    "buy property",
-    "sell property",
+    "students",
+    "oau",
   ],
 };
 

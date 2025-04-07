@@ -6,6 +6,7 @@ import WelcomeMessage from "./components/welcome/WelcomeMessage";
 import Navigation from "./components/navigation/Navigation";
 import UseIsUser from "./hooks/useIsUser";
 import Nav from "./components/navMenu/nav";
+import QuickService from "./components/quickservice/QuickService";
 import { useSelector } from "react-redux";
 import { RootState } from "./redux/store";
 import { ReduxProvider } from "./redux/provider";
@@ -36,6 +37,8 @@ function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
         <main>
           <Header />
           {children}
+
+          <QuickService />
         </main>
         <Navigation />
       </UseIsUser>

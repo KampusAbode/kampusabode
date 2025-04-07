@@ -17,7 +17,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import toast from "react-hot-toast";
 import { formatDistanceToNowStrict } from "date-fns";
-import { FcCustomerSupport } from "react-icons/fc";
 import "../property.css";
 
 interface PropertyDetailsProps {
@@ -261,10 +260,6 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
               </Link>
             </div>
           </div>
-
-        <div className='customer-support'>
-          <FcCustomerSupport />
-        </div>
       </section>
     </SaveVisitedProperty>
   );

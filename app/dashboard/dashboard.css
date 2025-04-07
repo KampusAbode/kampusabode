@@ -118,7 +118,6 @@
   display: grid;
   grid-template-columns: auto 2.5rem;
   background-color: var(--light-gray);
-  border: var(--border);
   border-radius: var(--border-radius);
   position: relative;
 }

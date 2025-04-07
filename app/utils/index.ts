@@ -9,6 +9,7 @@ export * from "./properties";
 export * from "./user";
 export * from "./reviews";
 export * from "./trends";
+export * from "./notifications";
 
 //ACTIONS
 

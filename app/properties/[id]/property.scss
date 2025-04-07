@@ -1,5 +1,4 @@
 .properties-details-page {
-  overflow-x: hidden;
   animation: slideIn 0.2s ease-in-out forwards;
 
   @keyframes slideIn {
@@ -333,8 +332,7 @@
     bottom: 10px;
     left: 0;
     right: 0;
-    border: var(--border);
-    
+
     .container {
       margin-top: var(--spacing-3x);
       display: grid;
@@ -350,31 +348,9 @@
     }
   }
 
-  .customer-support {
-    position: fixed;
-    bottom: 10%;
-    right: 10%;
-    width: 80px;
-    height: 80px;
-    border-radius: 100%;
-    background: var(--light-gray);
-    display: grid;
-    place-content: center;
-    z-index: 9999;
-  }
+  
 }
 
-// @media screen and (max-width: 1400px) {
-//   .properties-details-page {
-//     .property-images {
-//       .display-image {
-//         img {
-//           width: 100%;
-//         }
-//       }
-//     }
-//   }
-// }
 
 @media screen and (max-width: 768px) {
   .properties-details-page {
@@ -450,8 +426,6 @@
         }
       }
 
-      // .contact {
-      // }
       .prop-cta {
         position: fixed;
         right: 0;
@@ -462,12 +436,6 @@
         z-index: 99999;
         padding: var(--spacing);
       }
-
-      // .agent-listings {
-      //   & > div {
-      //     grid-template-columns: 1fr;
-      //   }
-      // }
     }
   }
 }
