@@ -2,8 +2,8 @@
     position: fixed;
     bottom: 15%;
     right: 10%;
-    width: 75px;
-    height: 75px;
+    width: 70px;
+    height: 70px;
     border-radius: 100%;
     background: var(--light-gray);
     border: var(--border);
