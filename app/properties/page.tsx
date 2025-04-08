@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPropertiesRealtime } from "../utils";
+import { fetchPropertiesRealtime } from "../utils"; // Ensure this function returns real-time properties
 import PropCard from "./propcard/PropCard";
 import Loader from "../components/loader/Loader";
 import "./properties.css";
@@ -17,51 +17,51 @@ import {
   filterProperties,
 } from "../redux/stateSlice/propertySlice";
 import { RootState } from "../redux/store";
-import data from "../fetch/contents"
-
+import data from "../fetch/contents";
+import { useLoadPropertiesFromStorage } from "../hooks/useLoadPropertiesFromStorage";
 
 const PropertiesPage: React.FC = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Get initial search values from URL
+  // Get initial search values from URL parameters
   const initialSearchQuery = searchParams.get("q") || "";
   const initialActiveLocation = searchParams.get("loc") || "all";
 
-  // Select values from Redux store
-  const {
-    properties,
-    filteredProperties,
-    isLoading,
-    searchQuery,
-    activeLocation,
-  } = useSelector((state: RootState) => state.properties);
+  // Select values from the Redux store
+  const { filteredProperties, isLoading, searchQuery, activeLocation } =
+    useSelector((state: RootState) => state.properties);
 
+  // Load persisted data from localStorage on the client
+  useLoadPropertiesFromStorage();
+
+  // Listen for real-time updates from Firestore
   useEffect(() => {
     dispatch(setLoading(true));
 
-    // Listen for real-time updates from Firestore
     const unsubscribe = fetchPropertiesRealtime((fetchedProperties) => {
       dispatch(setProperties(fetchedProperties));
-      dispatch(setLoading(false)); // Stop loading after setting properties
+      dispatch(setLoading(false)); // Stop loading once properties are set
     });
 
     return () => unsubscribe(); // Cleanup listener on component unmount
-  }, []); // No need for dispatch in dependencies
+  }, [dispatch]);
 
-  // Apply filters when the component first loads
+  // Apply filters on component mount based on URL params
   useEffect(() => {
     dispatch(setSearchQuery(initialSearchQuery));
     dispatch(setActiveLocation(initialActiveLocation));
 
-    // Delay filtering until the properties are set
-    setTimeout(() => {
+    // Delay filtering slightly so properties are set
+    const timeout = setTimeout(() => {
       dispatch(filterProperties());
     }, 100);
-  }, [initialSearchQuery, initialActiveLocation]);
 
-  // Update URL when search query or location changes
+    return () => clearTimeout(timeout);
+  }, [dispatch, initialSearchQuery, initialActiveLocation]);
+
+  // Update URL when search query or active location changes, then apply filtering
   useEffect(() => {
     router.replace(
       `/properties?q=${encodeURIComponent(
@@ -69,9 +69,9 @@ const PropertiesPage: React.FC = () => {
       )}&loc=${encodeURIComponent(activeLocation)}`
     );
     dispatch(filterProperties());
-  }, [searchQuery, activeLocation]);
+  }, [searchQuery, activeLocation, dispatch, router]);
 
-  // Handle search input
+  // Handle search input change
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearchQuery(e.target.value));
   };
