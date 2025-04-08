@@ -1,4 +1,4 @@
-// import axios from "axios";
+
 import { db, auth } from "../lib/firebaseConfig";
 import {
   createUserWithEmailAndPassword,
@@ -12,18 +12,33 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
-
 import CryptoJS from "crypto-js";
 import { UserSignupInput } from "../auth/signup/page";
 import { UserType } from "../fetch/types";
-// import { PropertyType } from "../fetch/types";
+
+// Helper encryption functions (unchanged)
+export const encryptData = (data: any, key: string) => {
+  return CryptoJS.AES.encrypt(JSON.stringify(data), key).toString();
+};
+
+export const decryptData = (encryptedData: string, key: string) => {
+  try {
+    const decrypted = CryptoJS.AES.decrypt(encryptedData, key).toString(
+      CryptoJS.enc.Utf8
+    );
+    return JSON.parse(decrypted);
+  } catch (err) {
+    console.error("Decryption error:", err);
+    return null;
+  }
+};
 
 export const signupUser = async (userData: UserSignupInput) => {
   const { email, password, userType, university, avatar, phoneNumber } =
     userData;
 
   try {
-    // Create user in Firebase Authentication
+    // Create user in Firebase Auth
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
@@ -31,21 +46,20 @@ export const signupUser = async (userData: UserSignupInput) => {
     );
     const user = userCredential.user;
 
-    // Construct user data
     const newUser: UserType = {
       id: user.uid,
       name: userData.username,
       email: email,
-      bio: "", // Default empty bio
-      avatar: avatar || "", // Default empty avatar
-      phoneNumber: phoneNumber || "", // Default empty phone number
+      bio: "",
+      avatar: avatar || "",
+      phoneNumber: phoneNumber || "",
       university: university || "",
-      userType: userType,
+      userType,
       userInfo:
         userType === "student"
           ? {
               department: userData.studentInfo?.department || "",
-              currentYear: parseInt(userData.studentInfo?.currentYear || "1"), // Ensure number type
+              currentYear: parseInt(userData.studentInfo?.currentYear || "1"),
               savedProperties: [],
               wishlist: [],
             }
@@ -64,7 +78,6 @@ export const signupUser = async (userData: UserSignupInput) => {
     return { message: "Signup successful" };
   } catch (error: any) {
     console.error("Error signing up user", error);
-
     if (error.code === "auth/email-already-in-use") {
       throw {
         message: "Email already in use. Please try another one.",
@@ -93,6 +106,7 @@ interface UserLoginInput {
   email: string;
   password: string;
 }
+
 export const loginUser = async (userData: UserLoginInput) => {
   const { email, password } = userData;
 
@@ -110,36 +124,32 @@ export const loginUser = async (userData: UserLoginInput) => {
 
     const userDataFromDB = userRef.docs[0].data();
 
-    // Sign in with email and password using Firebase Auth
+    // Sign in user with Firebase Auth
     await signInWithEmailAndPassword(auth, email, password);
 
-    // Convert userStore object to JSON string before encrypting
-    const encryptedData = CryptoJS.AES.encrypt(
-      JSON.stringify(userDataFromDB), // Convert to string
-      process.env.NEXT_PUBLIC__ENCSECRET_KEY
-    ).toString();
-
-    // Store the encrypted data in localStorage
-    localStorage.setItem(
-      process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY,
-      encryptedData
+    const encryptedData = encryptData(
+      userDataFromDB,
+      process.env.NEXT_PUBLIC__ENCSECRET_KEY!
     );
 
-    return { message: `Welcome abode! ${userDataFromDB.name}` };
-  } catch (error) {
-    // Check for Firebase Auth error codes
-    console.log(error);
+    // Make sure localStorage is only accessed on the client
+    if (typeof window !== "undefined") {
+      localStorage.setItem(
+        process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!,
+        encryptedData
+      );
+    }
 
+    return { message: `Welcome abode! ${userDataFromDB.name}` };
+  } catch (error: any) {
+    console.error("Login error:", error);
     if (error.code === "auth/invalid-credential") {
       throw {
         message: "Incorrect credentials. Please try again.",
         statusCode: 401,
       };
     } else if (error.code === "auth/user-not-found") {
-      throw {
-        message: "User not found. Please sign up.",
-        statusCode: 404,
-      };
+      throw { message: "User not found. Please sign up.", statusCode: 404 };
     } else if (error.code === "") {
       throw { message: "Email not found", statusCode: 404 };
     } else {
@@ -153,34 +163,28 @@ export const loginUser = async (userData: UserLoginInput) => {
 
 export const logoutUser = async () => {
   try {
-    // Sign out the user from Firebase Authentication
     await auth.signOut();
 
-    localStorage.setItem("hasSeenWelcome", JSON.stringify(false));
-    localStorage.removeItem(process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("hasSeenWelcome", JSON.stringify(false));
+      localStorage.removeItem(process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!);
+    }
 
     return { message: "Successfully logged out" };
-  } catch (error) {
-    // Handle Firebase specific errors or other issues
+  } catch (error: any) {
     if (error.code) {
-      // Firebase error
       throw {
         message: error.message || "Error logging out from Firebase",
         statusCode: 500,
       };
     } else {
-      // General error (like decryption failure or other unexpected issues)
-      throw {
-        message: error.message || "Error logging out",
-        statusCode: 500,
-      };
+      throw { message: error.message || "Error logging out", statusCode: 500 };
     }
   }
 };
 
 export const getAuthState = async (): Promise<{ isAuthenticated: boolean }> => {
   try {
-    // Ensure localStorage is accessible (browser-only check)
     if (typeof window === "undefined") {
       return { isAuthenticated: false };
     }
@@ -196,21 +200,5 @@ export const getAuthState = async (): Promise<{ isAuthenticated: boolean }> => {
   } catch (error) {
     console.error("Error accessing authentication state:", error);
     return { isAuthenticated: false };
-  }
-};
-
-export const encryptData = (data: any, key: string) => {
-  return CryptoJS.AES.encrypt(JSON.stringify(data), key).toString();
-};
-
-export const decryptData = (encryptedData: string, key: string) => {
-  try {
-    const decryptedData = CryptoJS.AES.decrypt(encryptedData, key).toString(
-      CryptoJS.enc.Utf8
-    );
-    return JSON.parse(decryptedData);
-  } catch (err) {
-    console.error("Decryption error:", err);
-    return null;
   }
 };

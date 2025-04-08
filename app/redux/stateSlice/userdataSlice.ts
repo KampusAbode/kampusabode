@@ -1,8 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserType, StudentUserInfo, AgentUserInfo } from "../../fetch/types";
+import { UserType, StudentUserInfo, AgentUserInfo } from "../../fetch/types"
+import CryptoJS from "crypto-js";
 
-// Helper function to safely retrieve saved properties from localStorage
+// Helper function to safely retrieve saved properties from localStorage (only in the browser)
 const getSavedPropertiesFromLocalStorage = (): string[] => {
+  if (typeof window === "undefined") {
+    // Return empty array on the server
+    return [];
+  }
   try {
     const localSavedProperties = localStorage.getItem("SavedProperties");
     return localSavedProperties ? JSON.parse(localSavedProperties) : [];
@@ -54,10 +59,12 @@ const userdataSlice = createSlice({
           action.payload,
         ];
 
-        localStorage.setItem(
-          "SavedProperties",
-          JSON.stringify(updatedSavedProperties)
-        );
+        if (typeof window !== "undefined") {
+          localStorage.setItem(
+            "SavedProperties",
+            JSON.stringify(updatedSavedProperties)
+          );
+        }
 
         return {
           ...state,
@@ -75,10 +82,12 @@ const userdataSlice = createSlice({
           state.userInfo as StudentUserInfo
         ).savedProperties.filter((id) => id !== action.payload);
 
-        localStorage.setItem(
-          "SavedProperties",
-          JSON.stringify(updatedSavedProperties)
-        );
+        if (typeof window !== "undefined") {
+          localStorage.setItem(
+            "SavedProperties",
+            JSON.stringify(updatedSavedProperties)
+          );
+        }
 
         return {
           ...state,

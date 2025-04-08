@@ -6,6 +6,7 @@
     height: 75px;
     border-radius: 100%;
     background: var(--light-gray);
+    border: var(--border);
     box-shadow: var(--shadow);
     display: grid;
     place-content: center;

@@ -48,6 +48,9 @@ const QuickService = () => {
 
   if (!currentConfig && !user.id) return null;
 
+  console.log(currentConfig);
+  
+
   const Icon = currentConfig.icon;
   const link = currentConfig.getLink();
 
