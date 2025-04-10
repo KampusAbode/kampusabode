@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { PropertyType, UserType } from "../fetch/types";
+import { AgentUserInfo, PropertyType, UserType } from "../fetch/types";
 import {
   getFirestore,
   doc,
@@ -117,7 +117,7 @@ export const useUserStore = create<UserState>()(
       addListedProperty: (id) => {
         const user = get().user;
         if (!user || user.userType !== "agent") return;
-        const currentListed = (user.userInfo as any)
+        const currentListed = (user.userInfo as AgentUserInfo)
           .propertiesListed as string[];
         if (!currentListed.includes(id)) {
           const updatedUser: UserType = {

@@ -1,16 +1,14 @@
 "use client";
 
 import React, { useEffect } from "react";
+import "./upload.css";
 import { useRouter } from "next/navigation";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useProperties } from "../../utils";
 import toast from "react-hot-toast";
 import { PropertyType } from "../../fetch/types";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import CryptoJS from "crypto-js";
-import "./upload.css";
+import { useUserStore } from "../../store/userStore";
 
 const locationOptions = [
   "asherifa",
@@ -74,8 +72,8 @@ const validationSchema = Yup.object().shape({
 
 const UploadProperty = () => {
   const router = useRouter();
-  const user = useSelector((state: RootState) => state.user);
   const { listProperty, uploadPropertyImagesToAppwrite } = useProperties();
+  const { user, addListedProperty } = useUserStore((state) => state);
 
   useEffect(() => {
     if (!user || user.userType !== "agent") {
@@ -91,63 +89,30 @@ const UploadProperty = () => {
     setSubmitting(true);
 
     try {
-      // Upload images to Appwrite
       const imageUrls = await uploadPropertyImagesToAppwrite(
         values.images,
         process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID
       );
 
-      // Prepare property data for database insertion
       const propertyData: PropertyType = {
         ...values,
-        agentId: user.id,
+        agentId: user?.id ?? "", // fallback in case user is null (shouldn't be)
         images: imageUrls,
         available: values.available ? true : false,
         approved: false,
       };
 
       const response = await listProperty(propertyData);
-      // Assume response returns: { success: string, url: string, id: string }
+
       toast.success(response.success);
       setStatus({ success: "Property uploaded successfully!" });
       resetForm();
 
-      // Update local storage for agent's properties
-      if (user.userType === "agent") {
-        const storageKey = process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!;
-        const encKey = process.env.NEXT_PUBLIC__ENCSECRET_KEY!;
-        const storedData = localStorage.getItem(storageKey);
-        if (storedData) {
-          try {
-            const decryptedData = CryptoJS.AES.decrypt(
-              storedData,
-              encKey
-            ).toString(CryptoJS.enc.Utf8);
-            const userData: any = JSON.parse(decryptedData);
-            // Update propertiesListed array if it exists
-            if (
-              userData.userType === "agent" &&
-              userData.userInfo &&
-              userData.userInfo.propertiesListed
-            ) {
-              userData.userInfo.propertiesListed = [
-                ...userData.userInfo.propertiesListed,
-                response.id, // New property id returned from listProperty
-              ];
-              // Encrypt and store updated userData
-              const encryptedData = CryptoJS.AES.encrypt(
-                JSON.stringify(userData),
-                encKey
-              ).toString();
-              localStorage.setItem(storageKey, encryptedData);
-            }
-          } catch (err) {
-            console.error("Error updating local storage:", err);
-          }
-        }
+      // ✅ Use the store method to update listed properties in Zustand + Firestore
+      if (user?.userType === "agent") {
+        addListedProperty(response.id);
       }
 
-      // Redirect to the new property's page
       router.push(response.url);
     } catch (error: any) {
       toast.error(error.message);
@@ -156,7 +121,6 @@ const UploadProperty = () => {
       setSubmitting(false);
     }
   };
-
   return (
     <div className="upload-property">
       <div className="container">
