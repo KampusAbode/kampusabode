@@ -1,53 +1,80 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchPropertiesRealtime } from "../../utils";
-import { useDispatch, useSelector } from "react-redux";
 import { PropertyType } from "../../fetch/types";
+import { useUserStore } from "../../store/userStore";
+import { useProperties } from "../../utils";
+import Loader from "../loader/Loader";
 import Link from "next/link";
 import Image from "next/image";
-import { setLoading, setProperties } from "../../redux/stateSlice/propertySlice";
-import Loader from "../loader/Loader";
-import { error } from "console";
-import { RootState } from "../../redux/store";
-// import toast from "react-hot-toast";
+import toast from "react-hot-toast";
+import { AgentUserInfo, StudentUserInfo } from "../../fetch/types";
 
-const BookmarkedProperties = ({ user }) => {
-  const bookmarkedIds = user?.userInfo?.savedProperties || [];
-  const dispatch = useDispatch();
+// Type guard to check if user is a tenant (student)
+const isUserType = (
+  userType: string,
+  userInfo: AgentUserInfo | StudentUserInfo
+): userInfo is StudentUserInfo => {
+  return userType === "student";
+};
 
-  // Select values from Redux store
-  const {
-    properties,
-    filteredProperties,
-    isLoading,
-    searchQuery,
-    activeLocation,
-  } = useSelector((state: RootState) => state.properties);
+const BookmarkedProperties = () => {
+  const { getPropertiesByIds } = useProperties();
+  const user = useUserStore((state) => state.user);
+  const [bookmarkedProperties, setBookmarkedProperties] = useState<PropertyType[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const bookmarkedIds: string[] =
+    user && isUserType(user.userType, user.userInfo)
+      ? user.userInfo.savedProperties || []
+      : [];
 
   useEffect(() => {
-      dispatch(setLoading(true));
-  
-      // Listen for real-time updates from Firestore
-      const unsubscribe = fetchPropertiesRealtime((fetchedProperties) => {
-        dispatch(setProperties(fetchedProperties));
-        dispatch(setLoading(false)); // Stop loading after setting properties
-      });
-  
-      return () => unsubscribe(); // Cleanup listener on component unmount
-    }, []); // No need for dispatch in dependencies
+    const fetchBookmarkedProperties = async () => {
+      if (!user || !isUserType(user.userType, user.userInfo)) {
+        setBookmarkedProperties([]);
+        setLoading(false);
+        return;
+      }
 
-  // Filter properties based on bookmarkedIds
-  const bookmarkedProperties = properties.filter((property) =>
-    bookmarkedIds.includes(property.id)
-  );
+      try {
+        setLoading(true);
+        setError(null);
+
+        if (bookmarkedIds.length === 0) {
+          setBookmarkedProperties([]);
+          return;
+        }
+
+        const fetched = await getPropertiesByIds(bookmarkedIds);
+        setBookmarkedProperties(fetched);
+      } catch (err: unknown) {
+        const errorMessage =
+          err instanceof Error ? err.message : "An unknown error occurred.";
+        console.error("Error fetching bookmarked properties:", errorMessage);
+        setError(errorMessage);
+        toast.error("Failed to load bookmarked properties.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBookmarkedProperties();
+  }, [user, bookmarkedIds]);
+
+  if (!user || !isUserType(user.userType, user.userInfo)) {
+    return <p>This section is only available to student users.</p>;
+  }
 
   return (
     <div className="bookmarked-properties">
       <h5>Your Bookmarked Properties</h5>
       <div className="property-list">
-        {isLoading ? (
-          <Loader/>
+        {loading ? (
+          <Loader />
+        ) : error ? (
+          <p className="error">{error}</p>
         ) : bookmarkedProperties.length > 0 ? (
           <ul>
             {bookmarkedProperties.map((property) => (
@@ -58,12 +85,12 @@ const BookmarkedProperties = ({ user }) => {
                     src={property.images[0]}
                     width={800}
                     height={800}
-                    alt="property image"
+                    alt={property.title}
                   />
                   <div>
                     <p>{property.title}</p>
                     <span>
-                      {property.price} - {property.location}
+                      ₦{property.price} - {property.location}
                     </span>
                   </div>
                 </Link>

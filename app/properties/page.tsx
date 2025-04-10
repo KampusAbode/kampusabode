@@ -2,90 +2,85 @@
 
 import React, { useEffect } from "react";
 import Image from "next/image";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchPropertiesRealtime } from "../utils"; // Ensure this function returns real-time properties
+import { useProperties } from "../utils"; // Ensure this function returns real-time properties
 import PropCard from "./propcard/PropCard";
 import Loader from "../components/loader/Loader";
 import "./properties.css";
 import { FaSearch } from "react-icons/fa";
 import { useSearchParams, useRouter } from "next/navigation";
-import {
-  setProperties,
-  setLoading,
-  setSearchQuery,
-  setActiveLocation,
-  filterProperties,
-} from "../redux/stateSlice/propertySlice";
-import { RootState } from "../redux/store";
+import { usePropertiesStore } from "../store/propertiesStore"; // Zustand store
 import data from "../fetch/contents";
-import { useLoadPropertiesFromStorage } from "../hooks/useLoadPropertiesFromStorage";
 
 const PropertiesPage: React.FC = () => {
-  const dispatch = useDispatch();
+  const { fetchPropertiesRealtime } = useProperties();
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  // Zustand state
+  const {
+    searchQuery,
+    activeLocation,
+    isLoading,
+    filteredProperties,
+    setSearchQuery,
+    setActiveLocation,
+    setLoading,
+    setProperties,
+    filterProperties,
+  } = usePropertiesStore();
 
   // Get initial search values from URL parameters
   const initialSearchQuery = searchParams.get("q") || "";
   const initialActiveLocation = searchParams.get("loc") || "all";
 
-  // Select values from the Redux store
-  const { filteredProperties, isLoading, searchQuery, activeLocation } =
-    useSelector((state: RootState) => state.properties);
-
-  // Load persisted data from localStorage on the client
-  useLoadPropertiesFromStorage();
-
   // Listen for real-time updates from Firestore
   useEffect(() => {
-    dispatch(setLoading(true));
+    setLoading(true);
 
     const unsubscribe = fetchPropertiesRealtime((fetchedProperties) => {
-      dispatch(setProperties(fetchedProperties));
-      dispatch(setLoading(false)); // Stop loading once properties are set
+      setProperties(fetchedProperties);
+      setLoading(false); // Stop loading once properties are set
     });
 
     return () => unsubscribe(); // Cleanup listener on component unmount
-  }, [dispatch]);
+  }, [setLoading, setProperties, fetchPropertiesRealtime]);
 
   // Apply filters on component mount based on URL params
   useEffect(() => {
-    dispatch(setSearchQuery(initialSearchQuery));
-    dispatch(setActiveLocation(initialActiveLocation));
+    setSearchQuery(initialSearchQuery);
+    setActiveLocation(initialActiveLocation);
 
     // Delay filtering slightly so properties are set
     const timeout = setTimeout(() => {
-      dispatch(filterProperties());
+      filterProperties();
     }, 100);
 
     return () => clearTimeout(timeout);
-  }, [dispatch, initialSearchQuery, initialActiveLocation]);
+  }, [setSearchQuery, setActiveLocation, initialSearchQuery, initialActiveLocation, filterProperties]);
 
   // Update URL when search query or active location changes, then apply filtering
   useEffect(() => {
     router.replace(
-      `/properties?q=${encodeURIComponent(
-        searchQuery
-      )}&loc=${encodeURIComponent(activeLocation)}`
+      `/properties?q=${encodeURIComponent(searchQuery)}&loc=${encodeURIComponent(activeLocation)}`
     );
-    dispatch(filterProperties());
-  }, [searchQuery, activeLocation, dispatch, router]);
+    filterProperties();
+  }, [searchQuery, activeLocation, router, filterProperties]);
 
   // Handle search input change
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSearchQuery(e.target.value));
+    setSearchQuery(e.target.value);
   };
 
   // Handle search on Enter key press
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      dispatch(filterProperties());
+      filterProperties();
     }
   };
 
   // Handle location filter change
   const filterByLocation = (location: string) => {
-    dispatch(setActiveLocation(location));
+    setActiveLocation(location);
   };
 
   return (
@@ -149,7 +144,7 @@ const PropertiesPage: React.FC = () => {
           />
           <div
             className="search-icon"
-            onClick={() => dispatch(filterProperties())}>
+            onClick={() => filterProperties()}>
             <FaSearch />
           </div>
         </div>

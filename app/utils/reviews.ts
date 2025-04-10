@@ -5,6 +5,7 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
+import { ReviewType } from "../fetch/types";
 
 const db = getFirestore();
 
@@ -62,7 +63,7 @@ export const fetchReviewsByAuthor = async (userId) => {
 };
 
 
-export const fetchReviewsByAgentId = async (agentId) => {
+export const fetchReviewsByAgentId = async (agentId: string) => {
   try {
     // Reference to the "reviews" collection
     const reviewsCollection = collection(db, "Reviews");
@@ -77,8 +78,8 @@ export const fetchReviewsByAgentId = async (agentId) => {
     const querySnapshot = await getDocs(reviewsQuery);
 
     // Map through the documents and return their data
-    const reviews = querySnapshot.docs.map((doc) => ({
-      ...doc.data(), // Spread the document data
+    const reviews: ReviewType[] = querySnapshot.docs.map((doc) => ({
+      ...doc.data() as ReviewType, 
     }));
 
     return reviews;

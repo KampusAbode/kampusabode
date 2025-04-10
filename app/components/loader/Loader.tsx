@@ -1,7 +1,7 @@
-import React from "react";
+import React, { FC } from "react";
 import "./Loader.css";
 
-function Loader() {
+const Loader: FC = () => {
   return (
     <div className="loader">
       <div className="circle">
@@ -22,6 +22,6 @@ function Loader() {
       </div>
     </div>
   );
-}
+};
 
 export default Loader;

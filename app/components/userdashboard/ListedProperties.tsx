@@ -1,17 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { fetchPropertiesByIds } from "../../utils";
-import { UserType, PropertyType } from "../../fetch/types";
+import { useProperties } from "../../utils";
+import { PropertyType } from "../../fetch/types";
 import { SlOptionsVertical } from "react-icons/sl";
-import { deleteProperty } from "../../utils/properties";
 import Link from "next/link";
 import Image from "next/image";
 import Loader from "../loader/Loader";
 import Prompt from "../prompt/Prompt";
 import toast from "react-hot-toast";
+import { useUserStore } from "../../store/userStore";
 
-const ListedProperties = ({ user }: { user: UserType }) => {
+const ListedProperties = () => {
+  const user = useUserStore((state) => state.user);
+  const { deleteProperty, getPropertiesByIds } = useProperties();
   const [filteredProperties, setFilteredProperties] = useState<PropertyType[]>(
     []
   );
@@ -29,14 +31,14 @@ const ListedProperties = ({ user }: { user: UserType }) => {
         setLoading(true);
         setError(null);
 
-        if ("propertiesListed" in user.userInfo) {
+        if (user && "propertiesListed" in user.userInfo) {
           const propertiesListed = user.userInfo.propertiesListed || [];
           if (propertiesListed.length === 0) {
             setFilteredProperties([]);
             return;
           }
 
-          const fetchedProperties: PropertyType[] = await fetchPropertiesByIds(
+          const fetchedProperties: PropertyType[] = await getPropertiesByIds(
             propertiesListed
           );
           setFilteredProperties(fetchedProperties);
@@ -51,7 +53,9 @@ const ListedProperties = ({ user }: { user: UserType }) => {
       }
     };
 
-    fetchPropertiesFromDB();
+    if (user) {
+      fetchPropertiesFromDB();
+    }
   }, [user]);
 
   const handleDeleteClick = (propertyId: string) => {
@@ -66,17 +70,14 @@ const ListedProperties = ({ user }: { user: UserType }) => {
       const propertyToDelete = filteredProperties.find(
         (p) => p.id === selectedPropertyId
       );
-
       if (!propertyToDelete) {
         toast.error("Property not found!");
         return;
       }
 
       const response = await deleteProperty(
-        selectedPropertyId,
-        propertyToDelete.images
+        selectedPropertyId
       );
-
       if (response.success) {
         toast.success(response.message);
         setFilteredProperties((prev) =>
@@ -86,8 +87,8 @@ const ListedProperties = ({ user }: { user: UserType }) => {
         toast.error(response.message || "Failed to delete property.");
       }
     } catch (error) {
-      console.error("Error deleting property:", error);
-      toast.error("An unexpected error occurred while deleting the property.");
+      // console.log("Error deleting property:", error);
+      toast.error(error || "An unexpected error occurred while deleting the property.");
     } finally {
       setShowPrompt(false);
       setSelectedPropertyId(null);
@@ -152,7 +153,6 @@ const ListedProperties = ({ user }: { user: UserType }) => {
         )}
       </div>
 
-      {/* Show Prompt Component */}
       <Prompt
         message="This property can't be restored if deleted"
         isOpen={showPrompt}

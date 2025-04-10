@@ -144,7 +144,7 @@
 }
 .service-section .container .services .service {
   padding: var(--spacing);
-  background-image: url(https://cloud.appwrite.io/v1/storage/buckets/678f4d10003d2ef8a648/files/67917bcf002325e7302f/view?project=678caa89001b08049b5f&project=678caa89001b08049b5f&mode=admin);
+  background-image: url(/assets/service1.jpg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -167,10 +167,10 @@
   z-index: -1;
 }
 .service-section .container .services .service:nth-child(2) {
-  background-image: url(https://cloud.appwrite.io/v1/storage/buckets/678f4d10003d2ef8a648/files/67917be3002cea8142aa/view?project=678caa89001b08049b5f&project=678caa89001b08049b5f&mode=admin);
+  background-image: url(/assets/service2.jpg);
 }
 .service-section .container .services .service:nth-child(3) {
-  background-image: url(https://cloud.appwrite.io/v1/storage/buckets/678f4d10003d2ef8a648/files/67917bf2002e06647676/view?project=678caa89001b08049b5f&project=678caa89001b08049b5f&mode=admin);
+  background-image: url(/assets/service3.jpg);
 }
 .service-section .container .services .service h5 {
   text-transform: capitalize;

@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
+import { useUserStore } from "../../../store/userStore"; // Import Zustand store
 
 // Custom Hook to save visited properties
 function SaveVisitedProperty({
@@ -12,30 +11,14 @@ function SaveVisitedProperty({
   id: string;
   children: React.ReactNode;
 }) {
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.user.isAuthenticated
-  );
+  const { user, addView } = useUserStore(); // Access Zustand store
 
   useEffect(() => {
-    if (!id || !isAuthenticated) return;
+    if (!id || !user || user.userType !== "student") return;
 
-    // Get visited properties from localStorage or set an empty array
-    const savedVisitedProperties = JSON.parse(
-      localStorage.getItem("visitedProperties") || "[]"
-    );
-
-    // Check if the property is already in the list
-    if (!savedVisitedProperties.includes(id)) {
-      // Add the new property ID
-      const updatedVisitedProperties = [...savedVisitedProperties, id];
-
-      // Update localStorage with the new list
-      localStorage.setItem(
-        "visitedProperties",
-        JSON.stringify(updatedVisitedProperties)
-      );
-    }
-  }, [id, isAuthenticated]);
+    // Call addView function to track the viewed property
+    addView(id);
+  }, [id, user, addView]); // Dependency on user and id
 
   return children;
 }

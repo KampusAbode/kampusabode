@@ -1,7 +1,8 @@
 // app/properties/[id]/page.tsx
 import { Metadata } from "next";
+import { useEffect } from "react";
 import PropertyDetails from "./components/propertyDetails";
-import { fetchPropertyById } from "../../utils";
+import { useProperties } from "../../utils";
 
 type Params = {
   params: { id: string };
@@ -9,8 +10,10 @@ type Params = {
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { id } = params;
-  
-  const propertyDetails = await fetchPropertyById(id);
+
+  // Fetch property details from your data source (could be API or DB)
+  const { getPropertyById } = useProperties();
+  const propertyDetails = await getPropertyById(id);
 
   if (!propertyDetails) {
     return {
@@ -51,7 +54,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 const PropertyPage = ({ params }: Params) => {
-  return <PropertyDetails id={params.id} />;
+  const { id } = params;
+
+  return <PropertyDetails id={id} />;
 };
 
 export default PropertyPage;

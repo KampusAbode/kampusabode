@@ -3,9 +3,9 @@
 import React, { ChangeEvent, useState } from "react";
 import { toast } from "react-hot-toast";
 import {
-  deleteAppwriteImage,
   updateUserProfile,
   uploadImageToAppwrite,
+  useProperties
 } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
@@ -20,6 +20,7 @@ const CreateProfilePage = () => {
   const router = useRouter();
   // const user = useSelector((state: RootState) => state.user);
   const userdata = useSelector((state: RootState) => state.userdata);
+  const { deleteAppwriteImage }= useProperties();
   const dispatch = useDispatch();
 
   const [formValues, setFormValues] = useState<UserType>();

@@ -3,7 +3,6 @@ import Image from "next/image";
 import { UserType } from "../../fetch/types";
 
 const ProfileOverview = ({ user }: { user: UserType }) => {
-  console.log(user);
   
   return (
     <div className="profile-overview">

@@ -4,7 +4,6 @@ import { Toaster } from "react-hot-toast";
 import Header from "./components/header/Header";
 import WelcomeMessage from "./components/welcome/WelcomeMessage";
 import Navigation from "./components/navigation/Navigation";
-import UseIsUser from "./hooks/useIsUser";
 import Nav from "./components/navMenu/nav";
 import QuickService from "./components/quickservice/QuickService";
 import { useSelector } from "react-redux";
@@ -32,16 +31,14 @@ function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className={`wrapper ${user.isAuthenticated ? "grid" : "none"}`}>
-      <UseIsUser>
-        <Nav />
-        <main>
-          <Header />
-          {children}
+      <Nav />
+      <main>
+        <Header />
+        {children}
 
-          <QuickService />
-        </main>
-        <Navigation />
-      </UseIsUser>
+        <QuickService />
+      </main>
+      <Navigation />
     </div>
   );
 }

@@ -7,38 +7,33 @@ import Quotes from "./components/quotes/Quotes";
 import Footer from "./components/footer/Footer";
 import Link from "next/link";
 import { TrendType } from "./fetch/types";
-import { allTrends, fetchPropertiesRealtime } from "./utils";
-
+import { allTrends, useProperties } from "./utils";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { useState, useEffect } from "react";
-import { RootState } from "./redux/store";
-import { useDispatch, useSelector } from "react-redux";
-import { setProperties } from "./redux/stateSlice/propertySlice";
+// Import the Zustand store for properties
+import { useUserStore } from "./store/userStore";
 
 const { homeSection } = data;
 const { hero, about, testimonials } = homeSection;
 
 export default function App() {
   const [trends, setTrends] = useState<TrendType[]>([]);
-  const dispatch = useDispatch();
-
-  // Select values from Redux store
-  const {
-    properties,
-  } = useSelector((state: RootState) => state.properties);
+  const { fetchPropertiesRealtime } = useProperties();
+  // Using Zustand for properties state
+  const properties = useUserStore((state) => state.properties);
+  const setProperties = useUserStore((state) => state.setProperties);
 
   useEffect(() => {
-
-    // Listen for real-time updates from Firestore
+    // Listen for realtime updates from Firestore and update Zustand store
     const unsubscribe = fetchPropertiesRealtime((fetchedProperties) => {
-      dispatch(setProperties(fetchedProperties));
+      setProperties(fetchedProperties);
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [setProperties]);
 
   useEffect(() => {
-    // Fetch trends using allTrends function
+    // Fetch trends using allTrends function and update local state
     const unsubscribe = allTrends((items) => {
       setTrends(items);
     });
@@ -50,7 +45,7 @@ export default function App() {
     <>
       <section className="hero-section">
         <video
-          src={'/assets/hero_video.mp4'}
+          src={"/assets/hero_video.mp4"}
           className="hero_video"
           autoPlay
           muted
@@ -168,48 +163,46 @@ export default function App() {
             </p>
           </div>
           <div className="testimonies">
-            {testimonials.map((testi) => {
-              return (
-                <div key={testi.author} className="testimonial-card">
-                  <div className="details">
+            {testimonials.map((testi) => (
+              <div key={testi.author} className="testimonial-card">
+                <div className="details">
+                  <div>
+                    <Image
+                      priority
+                      src={testi.image}
+                      width={500}
+                      height={500}
+                      alt="testi-img"
+                    />
                     <div>
-                      <Image
-                        priority
-                        src={testi.image}
-                        width={500}
-                        height={500}
-                        alt="testi-img"
-                      />
-                      <div>
-                        <h6 className="name">{testi.author}</h6>
-                        <span className="company">{testi.company}</span>
-                      </div>
+                      <h6 className="name">{testi.author}</h6>
+                      <span className="company">{testi.company}</span>
                     </div>
+                  </div>
 
-                    {testi.rating && (
-                      <div className="rating">
-                        {Array.from({ length: testi.rating }, (_, i) => (
-                          <span key={i}>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              id="Outline"
-                              viewBox="0 0 24 24"
-                              width="24"
-                              height="24"
-                              fill="#f09036">
-                              <path d="M23.836,8.794a3.179,3.179,0,0,0-3.067-2.226H16.4L15.073,2.432a3.227,3.227,0,0,0-6.146,0L7.6,6.568H3.231a3.227,3.227,0,0,0-1.9,5.832L4.887,15,3.535,19.187A3.178,3.178,0,0,0,4.719,22.8a3.177,3.177,0,0,0,3.8-.019L12,20.219l3.482,2.559a3.227,3.227,0,0,0,4.983-3.591L19.113,15l3.56-2.6A3.177,3.177,0,0,0,23.836,8.794Zm-2.343,1.991-4.144,3.029a1,1,0,0,0-.362,1.116L18.562,19.8a1.227,1.227,0,0,1-1.895,1.365l-4.075-3a1,1,0,0,0-1.184,0l-4.075,3a1.227,1.227,0,0,1-1.9-1.365L7.013,14.93a1,1,0,0,0-.362-1.116L2.507,10.785a1.227,1.227,0,0,1,.724-2.217h5.1a1,1,0,0,0,.952-.694l1.55-4.831a1.227,1.227,0,0,1,2.336,0l1.55,4.831a1,1,0,0,0,.952.694h5.1a1.227,1.227,0,0,1,.724,2.217Z" />
-                            </svg>
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                  <div className="testi-content">
-                    <span className="testi">{testi.testimonial}</span>
-                  </div>
+                  {testi.rating && (
+                    <div className="rating">
+                      {Array.from({ length: testi.rating }, (_, i) => (
+                        <span key={i}>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            id="Outline"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            fill="#f09036">
+                            <path d="M23.836,8.794a3.179,3.179,0,0,0-3.067-2.226H16.4L15.073,2.432a3.227,3.227,0,0,0-6.146,0L7.6,6.568H3.231a3.227,3.227,0,0,0-1.9,5.832L4.887,15,3.535,19.187A3.178,3.178,0,0,0,4.719,22.8a3.177,3.177,0,0,0,3.8-.019L12,20.219l3.482,2.559a3.227,3.227,0,0,0,4.983-3.591L19.113,15l3.56-2.6A3.177,3.177,0,0,0,23.836,8.794Zm-2.343,1.991-4.144,3.029a1,1,0,0,0-.362,1.116L18.562,19.8a1.227,1.227,0,0,1-1.895,1.365l-4.075-3a1,1,0,0,0-1.184,0l-4.075,3a1.227,1.227,0,0,1-1.9-1.365L7.013,14.93a1,1,0,0,0-.362-1.116L2.507,10.785a1.227,1.227,0,0,1,.724-2.217h5.1a1,1,0,0,0,.952-.694l1.55-4.831a1,1,0,0,1,2.336,0l1.55,4.831a1,1,0,0,0,.952.694h5.1a1.227,1.227,0,0,1,.724,2.217Z" />
+                          </svg>
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              );
-            })}
+                <div className="testi-content">
+                  <span className="testi">{testi.testimonial}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -225,49 +218,46 @@ export default function App() {
             </p>
           </div>
           <div className="trends">
-            {trends.slice(0, 4).map((trend) => {
-              return (
-                <div key={trend.title} className="trend">
-                  <Link href={`/trends/${trend.id}`}>
-                    <div className="trend-image">
-                      <Image
-                        priority
-                        src={trend.image}
-                        width={500}
-                        height={500}
-                        alt="trend image"
-                      />
-                    </div>
-                  </Link>
-                  <div className="trend-content">
-                    <h5>{trend.title}</h5>
-                    <p>{trend.content}</p>
-                    <div>
-                      <Link href={`/trends/${trend.id}`}>
-                        Learn more{" "}
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          id="Outline"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24">
-                          <path d="M23.12,9.91,19.25,6a1,1,0,0,0-1.42,0h0a1,1,0,0,0,0,1.41L21.39,11H1a1,1,0,0,0-1,1H0a1,1,0,0,0,1,1H21.45l-3.62,3.61a1,1,0,0,0,0,1.42h0a1,1,0,0,0,1.42,0l3.87-3.88A3,3,0,0,0,23.12,9.91Z" />
-                        </svg>
-                      </Link>
-                    </div>
-
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      id="Outline"
-                      viewBox="0 0 24 24"
-                      width="512"
-                      height="512">
-                      <path d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z" />
-                    </svg>
+            {trends.slice(0, 4).map((trend) => (
+              <div key={trend.title} className="trend">
+                <Link href={`/trends/${trend.id}`}>
+                  <div className="trend-image">
+                    <Image
+                      priority
+                      src={trend.image}
+                      width={500}
+                      height={500}
+                      alt="trend image"
+                    />
                   </div>
+                </Link>
+                <div className="trend-content">
+                  <h5>{trend.title}</h5>
+                  <p>{trend.content}</p>
+                  <div>
+                    <Link href={`/trends/${trend.id}`}>
+                      Learn more{" "}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        id="Outline"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24">
+                        <path d="M23.12,9.91,19.25,6a1,1,0,0,0-1.42,0h0a1,1,0,0,0,0,1.41L21.39,11H1a1,1,0,0,0-1,1H0a1,1,0,0,0,1,1H21.45l-3.62,3.61a1,1,0,0,0,0,1.42h0a1,1,0,0,0,1.42,0l3.87-3.88A3,3,0,0,0,23.12,9.91Z" />
+                      </svg>
+                    </Link>
+                  </div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    id="Outline"
+                    viewBox="0 0 24 24"
+                    width="512"
+                    height="512">
+                    <path d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z" />
+                  </svg>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         </div>
       </section>

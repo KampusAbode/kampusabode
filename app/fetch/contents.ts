@@ -2,12 +2,12 @@ import { HomeType, LinkType } from "./types";
 
 const homeSection: HomeType = {
   hero: {
-    p: "Making apartment renting safer, affordable, and stress-free for OAU students.",
+    p: "Making apartment renting safer, affordable, and stress-free for all university students.",
     btn: "listing property",
   },
   about: {
     heading: "who are we?",
-    waw: "Kampus Abode connects OAU students with trusted agents to find safe, affordable, and convenient hostel apartments. Our platform offers verified listings, direct communication with agents, and insights into hostel areas—all from your phone. Making apartment renting hassle-free and tailored to your needs!",
+    waw: "Kampus Abode connects students with trusted agents to find safe, affordable, and convenient hostel apartments. Our platform offers verified listings, direct communication with agents, and insights into hostel areas—all from your phone. Making apartment renting hassle-free and tailored to your needs!",
     services: [
       {
         heading: "Area Insights",
@@ -87,13 +87,13 @@ const homeSection: HomeType = {
       { name: "properties", to: "/properties" },
       { name: "trends", to: "/trends" },
       { name: "marketplace", to: "/marketplace" },
-      { name: "FAQs", to: "/legal/faqs" },
-      { name: "testimonials", to: "/legal/testimonials" },
+      // { name: "FAQs", to: "/legal/faqs" },
+      // { name: "testimonials", to: "/legal/testimonials" },
     ],
     support: [
       // { name: "FAQs", to: "/legal/faq" },
-      { name: "terms and conditions", to: "/legal/termsandconditions" },
-      { name: "policies", to: "/legal/policies" },
+      // { name: "terms and conditions", to: "/legal/termsandconditions" },
+      // { name: "policies", to: "/legal/policies" },
       { name: "disclaimer", to: "/legal/disclaimer" },
       { name: "user agreement", to: "/legal/useragreement" },
       // { name: "contact", to: "/contact" },

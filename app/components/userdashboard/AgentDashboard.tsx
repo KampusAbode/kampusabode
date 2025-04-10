@@ -16,8 +16,8 @@ const AgentDashboard = ({ user }: AgentDashboardProps) => {
     <div className="agent-dashboard">
       
       {/* <Notifications user={user} /> */}
-      <ListedProperties user={user} />
-      <StudentReviews user={user} />
+      <ListedProperties />
+      <StudentReviews/>
      
     </div>
   );

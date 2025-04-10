@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import Image from "next/image";
 import "./dashboard.css";
+import Loader from "../components/loader/Loader";
 
 const Dashboard = () => {
   const userData = useSelector((state: RootState) => state.userdata);
@@ -25,7 +26,7 @@ const Dashboard = () => {
   if (!userData) {
     return (
       <div className="container" style={{ marginTop: "16px" }}>
-        Loading...
+        <Loader/>
       </div>
     );
   }

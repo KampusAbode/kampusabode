@@ -1,47 +1,45 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-// import { trends } from "../fetch/data/trends";
-import { fetchPropertiesRealtime, fetchPropertiesByIds } from "../utils";
-import "./saved.css";
+import { useProperties } from "../utils";
 import TrendCard from "../trends/component/trendCard/TrendCard";
 import { TrendType, PropertyType } from "../fetch/types";
 import Link from "next/link";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
+import { useUserStore } from "../store/userStore"; // assuming you have a Zustand store for user data
 
 const SavedPage = () => {
-  // const [properties, setProperties] = useState([]);
   const [currentTab, setCurrentTab] = useState("properties");
-  const [savedProperties, setsavedProperties] = useState([]);
-  const [savedTrends] = useState([]);
-  const userData = useSelector((state: RootState) => state.userdata);
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.user?.isAuthenticated
-  );
+  const [savedProperties, setSavedProperties] = useState<PropertyType[]>([]);
+  const { getPropertiesByIds } = useProperties();
 
-  async () => {
-    if (
-      isAuthenticated &&
-      userData.userType === "student" &&
-      "savedProperties" in userData.userInfo
-    ) {
-      const savedsavedProperties = userData.userInfo.savedProperties;
-      const updatedsavedProperties = [...savedsavedProperties];
-      const fetchedProperties: PropertyType[] = await fetchPropertiesByIds(
-        updatedsavedProperties
-      );
-      setsavedProperties(fetchedProperties);
-    }
-  };
+  // Zustand store for user data
+  const userData = useUserStore((state) => state.user);
 
-  function savedTab(tab: string) {
-    if (tab === "trends") {
-      return savedTrends.map((read) => {
-        return <TrendCard key={read.title} trendData={read as TrendType} />;
-      });
-    } else {
-      if (tab === "properties" && savedProperties) {
+  useEffect(() => {
+    const fetchSavedProperties = async () => {
+      if (
+        userData &&
+        userData.userType === "student" &&
+        "savedProperties" in userData.userInfo
+      ) {
+        const savedPropertiesIds = userData.userInfo.savedProperties;
+        const fetchedProperties: PropertyType[] = await getPropertiesByIds(
+          savedPropertiesIds
+        );
+        setSavedProperties(fetchedProperties);
+      }
+    };
+
+    fetchSavedProperties();
+  }, [ userData, getPropertiesByIds]);
+
+  const savedTab = (tab: string) => {
+    // if (tab === "trends") {
+    //   return savedTrends.map((trend) => {
+    //     return <TrendCard key={trend.title} trendData={trend as TrendType} />;
+    //   });
+    // } else {
+      if (tab === "properties" && savedProperties.length > 0) {
         return (
           <div className="saved-props">
             {savedProperties.map((property) => {
@@ -63,8 +61,8 @@ const SavedPage = () => {
           </div>
         );
       }
-    }
-  }
+    // }
+  };
 
   return (
     <section className="saved-page">
@@ -75,11 +73,11 @@ const SavedPage = () => {
             className={currentTab === "properties" ? "active" : ""}>
             properties
           </span>
-          <span
+          {/* <span
             onClick={() => setCurrentTab("trends")}
             className={currentTab === "trends" ? "active" : ""}>
             trends
-          </span>
+          </span> */}
         </div>
       </div>
 

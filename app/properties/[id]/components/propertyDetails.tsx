@@ -6,8 +6,7 @@ import SaveVisitedProperty from "../functions/SaveVIsitedProperties";
 import {
   fetchUsersById,
   fetchReviewsByPropertyId,
-  fetchPropertyById,
-  fetchPropertiesByIds,
+  useProperties,
 } from "../../../utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,6 +23,10 @@ interface PropertyDetailsProps {
 }
 
 const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
+  const {
+    getPropertyById,
+    getPropertiesByIds,
+  } = useProperties();
   const [agentDetails, setAgentDetails] = useState<UserType>();
   const [agentPropertyListings, setAgentPropertyListings] = useState<
     PropertyType[]
@@ -38,7 +41,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   // Fetch property details and agent details
   const fetchPropertyDetails = useCallback(async () => {
     try {
-      const details = await fetchPropertyById(id);
+      const details = await getPropertyById(id);
       setPropertyDetails(details);
       const agentId = details.agentId;
 
@@ -47,7 +50,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
 
       setAgentDetails(agent);
       if (agent) {
-        const properties = await fetchPropertiesByIds(
+        const properties = await getPropertiesByIds(
           "propertiesListed" in agent.userInfo
             ? agent.userInfo.propertiesListed.filter(
                 (propertyId: string) => propertyId !== id

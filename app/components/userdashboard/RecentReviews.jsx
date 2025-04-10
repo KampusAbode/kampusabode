@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { fetchReviewsByAuthor } from "../../utils";
 import toast from "react-hot-toast";
+import ReviewType from "../../fetch/types";
 
 const RecentReviews = ({ user }) => {
-  const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState<ReviewType>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -45,8 +46,8 @@ const RecentReviews = ({ user }) => {
               <div className="review-author">
                 <strong>{review.date}</strong>
               </div>
-              <div className="review-content">{review.content}</div>
-              <div className="review-rating">Rating: {review.rating}★</div>
+              <p className="review-content">{review.content}</p>
+              <span className="review-rating">Rating: {review.rating}★</span>
             </li>
           ))}
         </ul>

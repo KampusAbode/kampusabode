@@ -87,7 +87,7 @@ export interface ItemType {
 
 export interface ReviewType {
   id: string;
-  author: {name: string; id: string};
+  author: {name: string; id: string, avatar: string};
   propertyId: string;
   content: string;
   rating: number;
@@ -112,6 +112,7 @@ export interface StudentUserInfo {
   department: string;
   currentYear: number;
   savedProperties: string[];
+  viewedProperties: string[];
   wishlist: string[];
 }
 

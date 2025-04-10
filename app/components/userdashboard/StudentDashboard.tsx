@@ -19,7 +19,7 @@ const StudentDashboard = ({ user }: StudentDashboardProps) => {
 
       {/* <Notifications user={user} /> */}
 
-      <BookmarkedProperties user={user} />
+      <BookmarkedProperties/>
 
       <RecentReviews user={user} />
 

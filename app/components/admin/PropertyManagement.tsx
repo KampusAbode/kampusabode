@@ -2,14 +2,17 @@
 
 import { useState, useEffect } from "react";
 import {
-  fetchAllPropertiesWithoutQuery,
-  deleteProperty,
-  togglePropertyApproval,
+  useProperties
 } from "../../utils";
 import { PropertyType } from "../../fetch/types";
 import Link from "next/link";
 
 const PropertyManagement = () => {
+  const {
+    getAllProperties,
+    deleteProperty,
+    togglePropertyApproval,
+  }= useProperties()
   const [properties, setProperties] = useState<PropertyType[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -20,7 +23,7 @@ const PropertyManagement = () => {
       setError("");
 
       try {
-        const propertyData = await fetchAllPropertiesWithoutQuery();
+        const propertyData = await getAllProperties();
         setProperties(propertyData);
       } catch (error: any) {
         console.error("Error fetching properties:", error);
@@ -37,7 +40,7 @@ const PropertyManagement = () => {
     if (!confirm("Are you sure you want to delete this property?")) return;
 
     try {
-      await deleteProperty(id, images);
+      await deleteProperty(id);
       setProperties((prev) => prev.filter((property) => property.id !== id));
     } catch (error) {
       console.error("Error deleting property:", error);

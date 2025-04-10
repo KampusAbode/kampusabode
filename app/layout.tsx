@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import ClientRootLayout from "./ClientRootLayout";
 import { NotificationProvider } from "./context/NotificationContext";
+import ProtectedRoute from "./lib/useAuthListener";
 
 export const metadata: Metadata = {
   title: "Kampusabode App - apartment Listing Site",
@@ -26,9 +27,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <NotificationProvider>
-          <ClientRootLayout>{children}</ClientRootLayout>
-        </NotificationProvider>
+        <ProtectedRoute>
+          <NotificationProvider>
+            <ClientRootLayout>{children}</ClientRootLayout>
+          </NotificationProvider>
+        </ProtectedRoute>
       </body>
     </html>
   );

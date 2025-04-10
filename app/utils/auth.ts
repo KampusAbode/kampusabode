@@ -1,4 +1,4 @@
-
+// authService.ts
 import { db, auth } from "../lib/firebaseConfig";
 import {
   createUserWithEmailAndPassword,
@@ -11,24 +11,32 @@ import {
   query,
   where,
   getDocs,
+  getDoc,
 } from "firebase/firestore";
-import CryptoJS from "crypto-js";
 import { UserSignupInput } from "../auth/signup/page";
 import { UserType } from "../fetch/types";
+import { useUserStore } from "../store/userStore";
 
-// Helper encryption functions (unchanged)
-export const encryptData = (data: any, key: string) => {
-  return CryptoJS.AES.encrypt(JSON.stringify(data), key).toString();
+// Utility to set session storage with expiry
+const setSessionData = (key: string, data: any, ttlMs: number) => {
+  const expiry = Date.now() + ttlMs;
+  const value = { data, expiry };
+  sessionStorage.setItem(key, JSON.stringify(value));
 };
 
-export const decryptData = (encryptedData: string, key: string) => {
+// Utility to get session data and validate expiry
+export const getSessionData = (key: string) => {
+  const itemStr = sessionStorage.getItem(key);
+  if (!itemStr) return null;
   try {
-    const decrypted = CryptoJS.AES.decrypt(encryptedData, key).toString(
-      CryptoJS.enc.Utf8
-    );
-    return JSON.parse(decrypted);
+    const item = JSON.parse(itemStr);
+    if (Date.now() > item.expiry) {
+      sessionStorage.removeItem(key);
+      return null;
+    }
+    return item.data;
   } catch (err) {
-    console.error("Decryption error:", err);
+    console.error("Failed to parse session data", err);
     return null;
   }
 };
@@ -61,6 +69,7 @@ export const signupUser = async (userData: UserSignupInput) => {
               department: userData.studentInfo?.department || "",
               currentYear: parseInt(userData.studentInfo?.currentYear || "1"),
               savedProperties: [],
+              viewedProperties: [],
               wishlist: [],
             }
           : {
@@ -69,7 +78,7 @@ export const signupUser = async (userData: UserSignupInput) => {
             },
     };
 
-    // Store user data in Firestore
+    // Store user data directly in Firestore
     await setDoc(doc(db, "users", user.uid), {
       ...newUser,
       createdAt: new Date().toISOString(),
@@ -122,23 +131,18 @@ export const loginUser = async (userData: UserLoginInput) => {
       return { message: "Email not found", statusCode: 404 };
     }
 
-    const userDataFromDB = userRef.docs[0].data();
+    const userDataFromDB = userRef.docs[0].data() as UserType;
 
     // Sign in user with Firebase Auth
     await signInWithEmailAndPassword(auth, email, password);
 
-    const encryptedData = encryptData(
-      userDataFromDB,
-      process.env.NEXT_PUBLIC__ENCSECRET_KEY!
-    );
+    // Set session storage with an expiry of 3 days
+    const SESSION_TTL = 3 * 24 * 60 * 60 * 1000; // 3 days in milliseconds
+    const storageKey = process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!;
+    setSessionData(storageKey, userDataFromDB, SESSION_TTL);
 
-    // Make sure localStorage is only accessed on the client
-    if (typeof window !== "undefined") {
-      localStorage.setItem(
-        process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!,
-        encryptedData
-      );
-    }
+    // Update the Zustand store with user data
+    useUserStore.getState().setUser(userDataFromDB);
 
     return { message: `Welcome abode! ${userDataFromDB.name}` };
   } catch (error: any) {
@@ -150,8 +154,6 @@ export const loginUser = async (userData: UserLoginInput) => {
       };
     } else if (error.code === "auth/user-not-found") {
       throw { message: "User not found. Please sign up.", statusCode: 404 };
-    } else if (error.code === "") {
-      throw { message: "Email not found", statusCode: 404 };
     } else {
       throw {
         message: "Something went wrong. Please try again later.",
@@ -166,20 +168,20 @@ export const logoutUser = async () => {
     await auth.signOut();
 
     if (typeof window !== "undefined") {
-      localStorage.setItem("hasSeenWelcome", JSON.stringify(false));
-      localStorage.removeItem(process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!);
+      sessionStorage.removeItem(process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!);
+      sessionStorage.setItem("hasSeenWelcome", JSON.stringify(false));
     }
+
+    // Also clear the Zustand user state
+    useUserStore.getState().logoutUser();
 
     return { message: "Successfully logged out" };
   } catch (error: any) {
-    if (error.code) {
-      throw {
-        message: error.message || "Error logging out from Firebase",
-        statusCode: 500,
-      };
-    } else {
-      throw { message: error.message || "Error logging out", statusCode: 500 };
-    }
+    console.error("Logout error:", error);
+    throw {
+      message: error.message || "Error logging out",
+      statusCode: 500,
+    };
   }
 };
 
@@ -189,14 +191,22 @@ export const getAuthState = async (): Promise<{ isAuthenticated: boolean }> => {
       return { isAuthenticated: false };
     }
 
-    const userDataStorageKey = process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY;
-    if (!userDataStorageKey) {
+    const storageKey = process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY;
+    if (!storageKey) {
       console.warn("Storage key is not defined in environment variables.");
       return { isAuthenticated: false };
     }
 
-    const localData = localStorage.getItem(userDataStorageKey);
-    return localData ? { isAuthenticated: true } : { isAuthenticated: false };
+    const sessionDataStr = sessionStorage.getItem(storageKey);
+    if (!sessionDataStr) return { isAuthenticated: false };
+
+    const { expiry } = JSON.parse(sessionDataStr);
+    if (Date.now() > expiry) {
+      sessionStorage.removeItem(storageKey);
+      return { isAuthenticated: false };
+    }
+
+    return { isAuthenticated: true };
   } catch (error) {
     console.error("Error accessing authentication state:", error);
     return { isAuthenticated: false };
