@@ -46,10 +46,8 @@ const QuickService = () => {
     return quickServiceConfig.find((cfg) => cfg.match(pathname));
   }, [pathname, quickServiceConfig]);
 
-  if (!currentConfig && !user.id) return null;
-
-  console.log(currentConfig);
-  
+  // ✅ Only render if there's a matching config
+  if (!currentConfig) return null;
 
   const Icon = currentConfig.icon;
   const link = currentConfig.getLink();
