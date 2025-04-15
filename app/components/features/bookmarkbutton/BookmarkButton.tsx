@@ -42,7 +42,7 @@ const BookmarkButton = ({ propertyId }: { propertyId: string }) => {
         newBookmarkState ? "add" : "remove"
       );
 
-      // Update Redux state
+      // Update state
       if (newBookmarkState) {
         addBookmark(propertyId);
         toast.success("Property added to bookmarks.");

@@ -1,11 +1,10 @@
-// import { useSelector } from "react-redux"; // If using Redux
+
 // // import { useEffect, useState } from "react"; // For fetching from backend
+import { useUserStore } from "../../../store/userStore";
 
 // const Notifications = (user) => {
-//   // Example if you're fetching from state (e.g., Redux):
-//   const notifications = useSelector((state) => state.notifications.items);
+//   const notifications = useNotificationStore((state) => state.notifications.items);
 
-//   // // For local state or fetching from a backend (replace with actual API call):
 //   // const [notifications, setNotifications] = useState([]);
 
 //   // useEffect(() => {

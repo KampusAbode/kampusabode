@@ -3,35 +3,23 @@ import React from "react";
 import StudentDashboard from "../components/userdashboard/StudentDashboard";
 import AgentDashboard from "../components/userdashboard/AgentDashboard";
 import { UserType } from "../fetch/types";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
 import Image from "next/image";
 import "./dashboard.css";
 import Loader from "../components/loader/Loader";
+import { useUserStore } from "../store/userStore";
 
 const Dashboard = () => {
-  const userData = useSelector((state: RootState) => state.userdata);
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.user?.isAuthenticated
-  );
+  const {user} = useUserStore((state) => state);
 
-  if (!isAuthenticated) {
+  if (!user) {
     return (
-      <div className="container" style={{ marginTop: "16px" }}>
+      <div className="container" style={{ marginTop: "5rem" }}>
         User not found
       </div>
     );
   }
 
-  if (!userData) {
-    return (
-      <div className="container" style={{ marginTop: "16px" }}>
-        <Loader/>
-      </div>
-    );
-  }
 
-  const userRole = userData.userType;
 
   return (
     <section className="dashboard">
@@ -44,13 +32,13 @@ const Dashboard = () => {
             height={800}
             alt="profile picture"
           />
-          <h5>Hi, {userData.name} 👋</h5>
+          <h5>Hi, {user.name} 👋</h5>
         </div>
 
-        {userRole === "student" ? (
-          <StudentDashboard user={userData as UserType} />
-        ) : userRole === "agent" ? (
-          <AgentDashboard user={userData as UserType} />
+        {user.userType === "student" ? (
+          <StudentDashboard user={user as UserType} />
+        ) : user.userType === "agent" ? (
+          <AgentDashboard user={user as UserType} />
         ) : (
           <div>Unknown user role</div>
         )}

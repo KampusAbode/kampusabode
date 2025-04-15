@@ -10,8 +10,7 @@ import { FaBookmark, FaShare } from "react-icons/fa";
 import { getCommentsByTrendId, sendUserComment } from "../../utils/comments";
 import { format, parseISO } from "date-fns";
 import "./trend.css";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { useUserStore } from "../../store/userStore";
 
 type Params = {
   params: { id: string };
@@ -32,7 +31,7 @@ const TrendPage = ({ params }: Params) => {
   const [comments, setComments] = useState<CommentType[]>([]);
   const [content, setContent] = useState<string>("");
   // const [relatedTrends, setRelatedTrends] = useState<TrendType[]>([]);
-  const user = useSelector((state: RootState) => state.userdata);
+  const {user} = useUserStore((state) => state);
 
   console.log(user);
 

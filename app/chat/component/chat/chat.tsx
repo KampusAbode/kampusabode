@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
 import toast from "react-hot-toast";
 import {
   format,
@@ -23,6 +21,7 @@ import {
 import "./chat.css";
 import Loader from "../../../components/loader/Loader";
 import Prompt from "../../../components/prompt/Prompt";
+import { useUserStore } from "../../../store/userStore";
 
 type ChatProps = {
   currentUserId: string;
@@ -48,7 +47,7 @@ const ChatComponent: React.FC<ChatProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const user = useSelector((state: RootState) => state.userdata);
+  const {user} = useUserStore((state) => state);
 
   // Fetch messages
   useEffect(() => {

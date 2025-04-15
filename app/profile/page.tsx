@@ -2,20 +2,18 @@
 
 import React from "react";
 import ProfileOverview from "../components/userdashboard/ProfileOverview";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
 import "./profile.css";
 import Link from "next/link";
+import { useUserStore } from "../store/userStore";
 
 const ProfilePage = () => {
-  const user = useSelector((state: RootState) => state.userdata);
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.user?.isAuthenticated
-  );
+  const {user} = useUserStore((state) => state);
+
+
   return (
     <section className="profile-page">
       <div className="container">
-        {isAuthenticated ? (
+        {user ? (
           <>
             <ProfileOverview user={user} />
 

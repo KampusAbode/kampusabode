@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import CryptoJS from "crypto-js";
 import Loader from "../components/loader/Loader";
 import UserManagement from "../components/admin/UserManagement";
 import PropertyManagement from "../components/admin/PropertyManagement";
@@ -10,26 +9,9 @@ import ReviewManagement from "../components/admin/ReviewManagement";
 import Analytics from "../components/admin/Analytics";
 import Notifications from "../components/admin/Notifications";
 import "./admin.css";
-import { UserType } from "../fetch/types";
+import { useUserStore } from "../store/userStore";
 
-const getStoredUserData = () => {
-  try {
-    const encryptedData = localStorage.getItem(
-      process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!
-    );
-    if (!encryptedData) return null;
 
-    const decryptedData = CryptoJS.AES.decrypt(
-      encryptedData,
-      process.env.NEXT_PUBLIC__ENCSECRET_KEY!
-    ).toString(CryptoJS.enc.Utf8);
-
-    return decryptedData ? JSON.parse(decryptedData) : null;
-  } catch (error) {
-    console.error("Error decrypting user data:", error);
-    return null;
-  }
-};
 
 const pages = ["users", "properties", "reviews", "analytics", "notifications"];
 
@@ -41,14 +23,15 @@ const AdminPage = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const {user} = useUserStore((state)=>state)
+
   useEffect(() => {
-    const userData: UserType = getStoredUserData();
-    if (!userData) {
+    if (!user) {
       router.push("/auth/login");
       return;
     }
 
-    if (userData.id === process.env.NEXT_PUBLIC_ADMINS) {
+    if (user.id === process.env.NEXT_PUBLIC_ADMINS) {
       setIsAdmin(true);
     } else {
       router.push("/properties");
