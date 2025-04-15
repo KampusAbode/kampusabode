@@ -43,7 +43,7 @@ const PropertiesPage: React.FC = () => {
     });
 
     return () => unsubscribe(); // Cleanup listener on component unmount
-  }, [setLoading, setProperties, fetchPropertiesRealtime]);
+  }, []);
 
   // Apply filters on component mount based on URL params
   useEffect(() => {

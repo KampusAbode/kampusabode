@@ -28,6 +28,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   useEffect(() => {
     const verifyAuth = async () => {
       const { isAuthenticated } = await getAuthState();
+      console.log(isAuthenticated)
       if (!isAuthenticated) {
         // If session has expired or is invalid, clear the user state
         logoutUser();

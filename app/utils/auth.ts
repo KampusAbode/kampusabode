@@ -18,7 +18,7 @@ import { UserType } from "../fetch/types";
 import { useUserStore } from "../store/userStore";
 
 // Utility to set session storage with expiry
-const setSessionData = (key: string, data: any, ttlMs: number) => {
+const setSessionData = (key: string, data: UserType, ttlMs: number) => {
   const expiry = Date.now() + ttlMs;
   const value = { data, expiry };
   sessionStorage.setItem(key, JSON.stringify(value));
@@ -199,7 +199,8 @@ export const getAuthState = async (): Promise<{ isAuthenticated: boolean }> => {
 
     const sessionDataStr = sessionStorage.getItem(storageKey);
     if (!sessionDataStr) return { isAuthenticated: false };
-
+    console.log(sessionDataStr);
+    
     const { expiry } = JSON.parse(sessionDataStr);
     if (Date.now() > expiry) {
       sessionStorage.removeItem(storageKey);

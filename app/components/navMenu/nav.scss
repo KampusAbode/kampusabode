@@ -6,6 +6,7 @@
   height: 100vh;
   border-right: var(--border);
   padding: var(--spacing);
+  background-color: var(--white);
   overflow-y: scroll;
 
   &.notlogged {
