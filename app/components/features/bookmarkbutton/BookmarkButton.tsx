@@ -1,56 +1,36 @@
-'use client'
+"use client";
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "../../../redux/store";
 import { toast } from "react-hot-toast";
-import {
-  removeSavedProperty,
-  updateSavedProperties,
-} from "../../../redux/stateSlice/userdataSlice";
-import {updateBookmarkInDB} from '../../../utils'
-import {
-  FaBookmark,
-  FaBookReader,
-} from "react-icons/fa";
-
-import { FaRegBookmark } from "react-icons/fa6";
+import { updateBookmarkInDB } from "../../../utils";
+import { FaBookmark } from "react-icons/fa";
 import "./bookmarkbutton.css";
+import { useUserStore } from "../../../store/userStore";
 
 const BookmarkButton = ({ propertyId }: { propertyId: string }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
 
-  // Get user data from Redux
-  const userData = useSelector((state: RootState) => state.userdata);
+  const { user, addBookmark, removeBookmark } = useUserStore((state) => state);
 
   useEffect(() => {
-    if (
-      userData?.userType === "student" &&
-      "savedProperties" in userData.userInfo
-    ) {
-      const savedProperties = userData.userInfo.savedProperties || [];
+    if (user?.userType === "student" && "savedProperties" in user.userInfo) {
+      const savedProperties = user.userInfo.savedProperties || [];
       setIsBookmarked(savedProperties.includes(propertyId));
     }
-  }, [propertyId, userData]);
-
-  
+  }, [propertyId, user]);
 
   const toggleBookmark = async () => {
-    if (!userData) {
+    if (!user) {
       toast.error("Please log in to bookmark properties.");
       return;
     }
 
-    if (
-      userData.userType !== "student" ||
-      !("savedProperties" in userData.userInfo)
-    ) {
+    if (user.userType !== "student" || !("savedProperties" in user.userInfo)) {
       toast.error("Only students can bookmark properties.");
       return;
     }
 
-    const userId = userData.id;
+    const userId = user.id;
     const newBookmarkState = !isBookmarked;
 
     setLoading(true);
@@ -64,10 +44,10 @@ const BookmarkButton = ({ propertyId }: { propertyId: string }) => {
 
       // Update Redux state
       if (newBookmarkState) {
-        dispatch(updateSavedProperties(propertyId));
+        addBookmark(propertyId);
         toast.success("Property added to bookmarks.");
       } else {
-        dispatch(removeSavedProperty(propertyId));
+        removeBookmark(propertyId);
         toast.success("Property removed from bookmarks.");
       }
 
@@ -81,7 +61,7 @@ const BookmarkButton = ({ propertyId }: { propertyId: string }) => {
     }
   };
 
-  if (userData.userType === "agent") {
+  if (user.userType === "agent") {
     return null;
   }
 

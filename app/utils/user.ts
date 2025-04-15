@@ -161,7 +161,7 @@ export const updateUserProfile = async (userId: string, updates) => {
     return {
       success: true,
       message: "Profile updated successfully!",
-      userData: updatedDoc.data(),
+      userData: updatedDoc.data() as UserType,
     };
   } catch (error) {
     throw new Error("Failed to update profile.");

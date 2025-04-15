@@ -7,28 +7,22 @@ import {
   uploadImageToAppwrite,
   useProperties
 } from "../../utils";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import { UserType, StudentUserInfo, AgentUserInfo } from "../../fetch/types";
 import "./updateprofile.css";
 import { useRouter } from "next/navigation";
-import { setUser } from "../../redux/stateSlice/userSlice";
-import { setUserData } from "../../redux/stateSlice/userdataSlice";
-import CryptoJS from "crypto-js";
+import { useUserStore } from "../../store/userStore";
 
 const CreateProfilePage = () => {
   const router = useRouter();
-  // const user = useSelector((state: RootState) => state.user);
-  const userdata = useSelector((state: RootState) => state.userdata);
+  const {user, setUser}=useUserStore((state)=>state)
   const { deleteAppwriteImage }= useProperties();
-  const dispatch = useDispatch();
 
   const [formValues, setFormValues] = useState<UserType>();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(
-    userdata?.avatar || null
+    user?.avatar || null
   );
 
   const handleInputChange = (
@@ -55,12 +49,12 @@ const CreateProfilePage = () => {
     setIsSubmitting(true);
 
     try {
-      let avatarUrl = userdata?.avatar || "";
+      let avatarUrl = user?.avatar || "";
 
       // If a new image is uploaded
       if (imageFile) {
-        if (userdata?.avatar) {
-          await deleteAppwriteImage(userdata.avatar);
+        if (user?.avatar) {
+          await deleteAppwriteImage(user.avatar);
         }
         const uploadedImageUrl = await uploadImageToAppwrite(
           imageFile,
@@ -72,9 +66,9 @@ const CreateProfilePage = () => {
       }
 
       // Filter out unchanged fields
-      const updatedUserData = Object.entries(formValues || {}).reduce(
+      const updateduser = Object.entries(formValues || {}).reduce(
         (acc, [key, value]) => {
-          if (value !== userdata[key as keyof UserType]) {
+          if (value !== user[key as keyof UserType]) {
             acc[key as keyof UserType] = value;
           }
           return acc;
@@ -83,8 +77,8 @@ const CreateProfilePage = () => {
       );
 
       if (
-        Object.keys(updatedUserData).length === 0 &&
-        avatarUrl === userdata?.avatar
+        Object.keys(updateduser).length === 0 &&
+        avatarUrl === user?.avatar
       ) {
         toast.error("No changes made.");
         setIsSubmitting(false);
@@ -92,41 +86,19 @@ const CreateProfilePage = () => {
       }
 
       // Add avatar to update if it changed
-      if (avatarUrl !== userdata?.avatar) {
-        updatedUserData.avatar = avatarUrl;
+      if (avatarUrl !== user?.avatar) {
+        updateduser.avatar = avatarUrl;
       }
 
-      const response = await updateUserProfile(userdata?.id, updatedUserData);
+      const response = await updateUserProfile(user?.id, updateduser);
 
       const newData = response.userData;
 
       if (response.success) {
         toast.success(`${response.message} 🎉`);
 
-        // Encrypt and store in localStorage
-        const encryptedData = CryptoJS.AES.encrypt(
-          JSON.stringify({ newData }),
-          process.env.NEXT_PUBLIC__ENCSECRET_KEY!
-        ).toString();
-
-        localStorage.setItem(
-          process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!,
-          encryptedData
-        );
-
-        // Dispatch updates to Redux store
-        dispatch(
-          setUser({
-            id: userdata?.id,
-            username: newData.name,
-            email: newData.email,
-            userType: newData.userType,
-            isAuthenticated: true,
-          })
-        );
-
-        // Dispatch updates to Redux store
-        dispatch(setUserData({ ...userdata, ...newData }));
+        // update the use store
+        setUser(newData);
 
         router.push("/profile");
       }
@@ -169,7 +141,7 @@ const CreateProfilePage = () => {
                 id="name"
                 value={formValues?.name}
                 onChange={handleInputChange}
-                disabled={userdata?.name !== ""}
+                disabled={user?.name !== ""}
               />
             </div>
 
@@ -182,7 +154,7 @@ const CreateProfilePage = () => {
                 id="email"
                 value={formValues?.email}
                 onChange={handleInputChange}
-                disabled={userdata?.email !== ""}
+                disabled={user?.email !== ""}
               />
             </div>
 

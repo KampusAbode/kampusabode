@@ -4,10 +4,8 @@ import { useState, useEffect } from "react";
 import "./header.css";
 import data from "../../fetch/contents";
 import Link from "next/link";
-// import Image from "next/image";
-import { useDispatch, useSelector } from "react-redux";
-import { openMenu, closeMenu } from "../../redux/stateSlice/menuSlice";
-import { FaTimes, FaBars, FaArrowLeft } from "react-icons/fa";
+import Image from "next/image";
+import { FaBars } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -19,8 +17,6 @@ const { links } = data;
 
 export default function Header() {
   const pathname = usePathname();
-
-  const dispatch = useDispatch();
 
   const { user, logoutUser } = useUserStore((state) => state);
   const { isNavOpen, toggleNav } = useNavStore((state) => state);
@@ -87,7 +83,7 @@ export default function Header() {
           ) : (
             <div className={`logo ${!user ? "loggedIn" : ""}`}>
               <Link href="/">
-                <img
+                <Image
                   src={"/LOGO/RED_LOGO_T.png"}
                   width={500}
                   height={500}
