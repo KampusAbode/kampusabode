@@ -12,11 +12,13 @@ import { FaUser } from "react-icons/fa6";
 import { IoChatboxEllipses } from "react-icons/io5";
 import toast from "react-hot-toast";
 import "./navigation.css";
-import { getAllMessages } from "../../utils"; // adjust the path as needed
+import { getAllMessages } from "../../utils";
 import { useUserStore } from "../../store/userStore";
 
+
 export default function Navigation() {
-  const {id} = useUserStore((state) => state.user);
+  const user = useUserStore((state) => state.user);
+  const id = user?.id;
   const [loading, setLoading] = useState(true);
   const [unreadCount, setUnreadCount] = useState(0);
   const pathname = usePathname();
