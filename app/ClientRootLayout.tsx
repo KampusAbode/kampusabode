@@ -6,9 +6,7 @@ import WelcomeMessage from "./components/welcome/WelcomeMessage";
 import Navigation from "./components/navigation/Navigation";
 import Nav from "./components/navMenu/nav";
 import QuickService from "./components/quickservice/QuickService";
-import { useSelector } from "react-redux";
-import { RootState } from "./redux/store";
-import { ReduxProvider } from "./redux/provider";
+import { useUserStore } from "./store/userStore";
 
 export default function ClientRootLayout({
   children,
@@ -16,21 +14,19 @@ export default function ClientRootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ReduxProvider>
+    <>
       <Toaster />
       <WelcomeMessage />
       <AuthenticatedLayout>{children}</AuthenticatedLayout>
-    </ReduxProvider>
+    </>
   );
 }
 
 function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
-  const user = useSelector((state: RootState) => state.user) || {
-    isAuthenticated: false,
-  };
+  const {user} = useUserStore((state) => state)
 
   return (
-    <div className={`wrapper ${user.isAuthenticated ? "grid" : "none"}`}>
+    <div className={`wrapper ${user ? "grid" : "none"}`}>
       <Nav />
       <main>
         <Header />

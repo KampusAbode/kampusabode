@@ -18,7 +18,7 @@ function SaveVisitedProperty({
 
     // Call addView function to track the viewed property
     addView(id);
-  }, [id, user, addView]); // Dependency on user and id
+  }, [id]); // Dependency on user and id
 
   return children;
 }

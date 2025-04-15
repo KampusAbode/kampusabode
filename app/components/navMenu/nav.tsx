@@ -8,12 +8,12 @@ import { GrUserAdmin } from "react-icons/gr";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import { logoutUser } from "../../utils";
 import toast from "react-hot-toast";
-import { clearUser } from "../../redux/stateSlice/userSlice";
 import { closeMenu } from "../../redux/stateSlice/menuSlice";
 import "./nav.css";
+import useNavStore from "../../store/menuStore";
+import { useUserStore } from "../../store/userStore";
 
 const pageAvailability = {
   "/adminchatroom": true,
@@ -28,16 +28,15 @@ const pageAvailability = {
 function Nav() {
   const pathname = usePathname();
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user);
-  const isMenu = useSelector((state: RootState) => state.menu);
+  const {user} = useUserStore((state) => state);
+  const { isNavOpen, toggleNav } = useNavStore((state) => state);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   const logOut = async () => {
     try {
       const response = await logoutUser();
-      toast.success(`${response.message} 👌`);
-      dispatch(clearUser());
+      toast.success(`logged out successfully 👌`);
       router.push("/");
     } catch (error) {
       toast.error(error?.message || "An unexpected error occurred.");
@@ -56,7 +55,7 @@ function Nav() {
       });
     } else {
       router.push(href);
-      dispatch(closeMenu());
+      toggleNav()
     }
   };
 
@@ -66,10 +65,10 @@ function Nav() {
 
   return (
     <div
-      className={`nav-menu ${user?.isAuthenticated ? "sideNav" : "notlogged"} 
-      ${isMenu ? "fadeIn" : "fadeOut"}`}>
+      className={`nav-menu ${user ? "sideNav" : "notlogged"} 
+      ${isNavOpen ? "fadeIn" : "fadeOut"}`}>
       <div>
-        <div className="close-div" onClick={() => dispatch(closeMenu())}>
+        <div className="close-div" onClick={() => toggleNav()}>
           <div className="logo">
             <button onClick={() => handleNavigation("/")}>
               <img
@@ -104,23 +103,19 @@ function Nav() {
               properties
             </button>
           </li>
-          {user?.isAuthenticated &&
-            user?.id === process.env.NEXT_PUBLIC_ADMINS && (
-              <li className={pathname === "/adminchatroom" ? "active" : ""}>
-                <button onClick={() => handleNavigation("/adminchatroom")}>
-                  <GrUserAdmin />
-                  admin
-                </button>
-              </li>
-            )}
+          {user && user?.id === process.env.NEXT_PUBLIC_ADMINS && (
+            <li className={pathname === "/adminchatroom" ? "active" : ""}>
+              <button onClick={() => handleNavigation("/adminchatroom")}>
+                <GrUserAdmin />
+                admin
+              </button>
+            </li>
+          )}
           <li
             className={`$ {pathname === "/dashboard" || pathname === "/" ? "active" : ""}`}>
-            <button
-              onClick={() =>
-                handleNavigation(user?.isAuthenticated ? "/dashboard" : "/")
-              }>
-              {user?.isAuthenticated ? <CiViewBoard /> : <CiHome />}
-              {user?.isAuthenticated ? "dashboard" : "home"}
+            <button onClick={() => handleNavigation(user ? "/dashboard" : "/")}>
+              {user ? <CiViewBoard /> : <CiHome />}
+              {user ? "dashboard" : "home"}
             </button>
           </li>
           <li className={pathname === "/profile" ? "active" : ""}>
@@ -129,16 +124,16 @@ function Nav() {
               profile
             </button>
           </li>
-          {user?.isAuthenticated && (
+          {user && (
             <li
               className={
-                pathname === `/chat/${user?.id}/${user?.username}`
+                pathname === `/chat/${user?.id}/${user?.name}`
                   ? "active"
                   : ""
               }>
               <button
                 onClick={() =>
-                  handleNavigation(`/chat/${user?.id}/${user?.username}`)
+                  handleNavigation(`/chat/${user?.id}/${user?.name}`)
                 }>
                 <IoChatbubblesOutline />
                 chat
@@ -150,7 +145,7 @@ function Nav() {
       <div className="logout">
         <span>
           ©️ 2024. All rights reserved.
-          {user?.isAuthenticated ? (
+          {user ? (
             <button className="btn btn-secondary" onClick={logOut}>
               Logout
             </button>

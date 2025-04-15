@@ -13,10 +13,10 @@ import Link from "next/link";
 import PropertyImages from "../components/propertyImages/PropertyImages";
 import type { PropertyType, ReviewType, UserType } from "../../../fetch/types";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
 import toast from "react-hot-toast";
 import { formatDistanceToNowStrict } from "date-fns";
 import "../property.css";
+import { useUserStore } from "../../../store/userStore";
 
 interface PropertyDetailsProps {
   id: string;
@@ -38,7 +38,8 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
     null
   );
 
-  const user = useSelector((state: RootState) => state.userdata);
+  
+    const {user} = useUserStore((state) => state);
 
   // Fetch property details and agent details
   const fetchPropertyDetails = useCallback(async () => {

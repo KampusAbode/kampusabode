@@ -6,15 +6,14 @@ import data from "../../fetch/contents";
 import Link from "next/link";
 // import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { clearUser } from "../../redux/stateSlice/userSlice";
 import { openMenu, closeMenu } from "../../redux/stateSlice/menuSlice";
-import { logoutUser } from "../../utils";
 import { FaTimes, FaBars, FaArrowLeft } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { RootState } from "../../redux/store";
 import BackButton from "../features/backbutton/BackButton";
+import { useUserStore } from "../../store/userStore";
+import useNavStore from "../../store/menuStore";
 
 const { links } = data;
 
@@ -22,8 +21,9 @@ export default function Header() {
   const pathname = usePathname();
 
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user);
-  const isMenu = useSelector((state: RootState) => state.menu);
+
+  const { user, logoutUser } = useUserStore((state) => state);
+  const { isNavOpen, toggleNav } = useNavStore((state) => state);
   // Move the useRouter hook here (at the top of the component)
   const router = useRouter();
 
@@ -33,7 +33,7 @@ export default function Header() {
   const handleScroll = () => {
     window.requestAnimationFrame(() => {
       setIsHeader(window.scrollY <= lastScrollY);
-      if (isMenu) dispatch(closeMenu());
+      if (isNavOpen) toggleNav();
       setLastScrollY(window.scrollY);
     });
   };
@@ -41,8 +41,7 @@ export default function Header() {
   const logOut = async () => {
     try {
       const response = await logoutUser();
-      toast.success(`${response.message} 👌`);
-      dispatch(clearUser());
+      toast.success(`logged out successfully 👌`);
       router.push("/");
     } catch (error) {
       toast.error(error?.message || "An unexpected error occurred.");
@@ -52,7 +51,7 @@ export default function Header() {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY, isMenu]);
+  }, [lastScrollY, isNavOpen]);
 
   // Pages where the header will show the back button and page name
   const pagesWithBackButton = [
@@ -86,7 +85,7 @@ export default function Header() {
           {showBackButton ? (
             <BackButton />
           ) : (
-            <div className={`logo ${!user?.isAuthenticated ? "loggedIn" : ""}`}>
+            <div className={`logo ${!user ? "loggedIn" : ""}`}>
               <Link href="/">
                 <img
                   src={"/LOGO/RED_LOGO_T.png"}
@@ -110,11 +109,11 @@ export default function Header() {
             </ul>
             <div className="cta">
               <Link
-                href={user?.isAuthenticated ? "/contact" : "/auth/signup"}
+                href={user ? "/contact" : "/auth/signup"}
                 className="btn btn-secondary">
-                {user?.isAuthenticated ? "get in touch" : "signup"}
+                {user ? "get in touch" : "signup"}
               </Link>
-              {user?.isAuthenticated ? (
+              {user ? (
                 user?.userType === "student" ? (
                   <span className="btn" onClick={() => logOut()}>
                     logout
@@ -132,7 +131,7 @@ export default function Header() {
             </div>
           </nav>
 
-          <div className="menu" onClick={() => dispatch(openMenu())}>
+          <div className="menu" onClick={() => toggleNav()}>
             <FaBars />
           </div>
         </div>

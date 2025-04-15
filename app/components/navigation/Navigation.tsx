@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import type { RootState } from "../../redux/store";
-import { useSelector } from "react-redux";
 import {
   FaBookmark,
   FaBookReader,
@@ -15,11 +13,10 @@ import { IoChatboxEllipses } from "react-icons/io5";
 import toast from "react-hot-toast";
 import "./navigation.css";
 import { getAllMessages } from "../../utils"; // adjust the path as needed
+import { useUserStore } from "../../store/userStore";
 
 export default function Navigation() {
-  const user = useSelector((state: RootState) => state.user);
-  const isAuthenticated = user?.isAuthenticated;
-  const userId = user?.id; // Ensure your Redux store provides the user's id
+  const {id} = useUserStore((state) => state.user);
   const [loading, setLoading] = useState(true);
   const [unreadCount, setUnreadCount] = useState(0);
   const pathname = usePathname();
@@ -36,19 +33,19 @@ export default function Navigation() {
 
   // Listen for unread messages (only for authenticated users)
   useEffect(() => {
-    if (!isAuthenticated || !userId) return;
+    if (!id) return;
 
     // Subscribe to all conversations from Firebase
     const unsubscribe = getAllMessages((allConversations) => {
       // Filter for conversations where the logged in user is the receiver and the message is unread
       const unreadMessages = allConversations.filter(
-        (convo) => convo.receiverId === userId && !convo.read
+        (convo) => convo.receiverId === id && !convo.read
       );
       setUnreadCount(unreadMessages.length);
     });
 
     return () => unsubscribe();
-  }, [isAuthenticated, userId]);
+  }, [id]);
 
   // Exclude navigation on certain paths
   const excludedPaths = [
@@ -89,7 +86,7 @@ export default function Navigation() {
 
   return (
     <nav className="navigation">
-      <ul className={isAuthenticated ? "grid" : "flex"}>
+      <ul className={id ? "grid" : "flex"}>
         <li className={pathname === "/properties" ? "active" : ""}>
           <button onClick={() => handleNavigation("/properties")}>
             <FaSearchLocation />
@@ -97,7 +94,7 @@ export default function Navigation() {
           </button>
         </li>
 
-        {isAuthenticated && (
+        {id && (
           <li className={pathname === "/messages" ? "active" : ""}>
             <button onClick={() => handleNavigation("/messages")}>
               <IoChatboxEllipses />
@@ -114,7 +111,7 @@ export default function Navigation() {
           </button>
         </li>
 
-        {isAuthenticated && (
+        {id && (
           <li className={pathname === "/saved" ? "active" : ""}>
             <button onClick={() => handleNavigation("/saved")}>
               <FaBookmark />
@@ -131,10 +128,10 @@ export default function Navigation() {
           }>
           <button
             onClick={() =>
-              handleNavigation(isAuthenticated ? "/marketplace" : "/auth/login")
+              handleNavigation(id ? "/marketplace" : "/auth/login")
             }>
-            {isAuthenticated ? <FaShoppingCart /> : <FaUser />}
-            {isAuthenticated ? <span>market</span> : <span>login</span>}
+            {id ? <FaShoppingCart /> : <FaUser />}
+            {id ? <span>market</span> : <span>login</span>}
           </button>
         </li>
       </ul>

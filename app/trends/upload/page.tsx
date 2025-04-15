@@ -4,12 +4,11 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getApp } from "firebase/app";
-import { useSelector } from "react-redux";
 import { Client, Storage, ID } from "appwrite";
-import type { RootState } from "../../redux/store";
 import "./uploadtrend.css";
 import toast from "react-hot-toast";
 import { uploadImageToAppwrite } from "../../utils";
+import { useUserStore } from "../../store/userStore";
 
 const categories = [
   "Real estate market",
@@ -32,7 +31,7 @@ function UploadTrend() {
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const user = useSelector((state: RootState) => state.user);
+  const {user} = useUserStore((state) => state);
 
   const client = new Client();
   client
@@ -64,7 +63,7 @@ function UploadTrend() {
       const trendData = {
         title,
         content,
-        author: user?.username || "Anonymous",
+        author: user?.name || "Anonymous",
         image: imageUrl,
         published_date: new Date().toISOString(),
         likes: 0,
