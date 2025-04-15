@@ -22,6 +22,8 @@ interface PropertyDetailsProps {
   id: string;
 }
 
+
+
 const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   const {
     getPropertyById,
