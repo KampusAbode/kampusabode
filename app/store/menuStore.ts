@@ -1,4 +1,4 @@
-import create from "zustand";
+import { create } from "zustand";
 
 const useNavStore = create((set) => ({
   isNavOpen: false, // initial state of the nav (closed)
