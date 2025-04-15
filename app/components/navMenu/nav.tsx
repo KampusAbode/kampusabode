@@ -7,10 +7,7 @@ import { CiViewBoard, CiHome } from "react-icons/ci";
 import { GrUserAdmin } from "react-icons/gr";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { usePathname } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "../../utils";
 import toast from "react-hot-toast";
-import { closeMenu } from "../../redux/stateSlice/menuSlice";
 import "./nav.css";
 import useNavStore from "../../store/menuStore";
 import { useUserStore } from "../../store/userStore";
@@ -27,15 +24,14 @@ const pageAvailability = {
 
 function Nav() {
   const pathname = usePathname();
-  const dispatch = useDispatch();
-  const {user} = useUserStore((state) => state);
-  const { isNavOpen, toggleNav } = useNavStore((state) => state);
+  const {user, logoutUser} = useUserStore((state) => state);
+  const {   isNavOpen, toggleNav } = useNavStore();
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   const logOut = async () => {
     try {
-      const response = await logoutUser();
+      logoutUser();
       toast.success(`logged out successfully 👌`);
       router.push("/");
     } catch (error) {
@@ -47,7 +43,7 @@ function Nav() {
     setLoading(false);
   }, [user]);
 
-  const handleNavigation = (href) => {
+  const handleNavigation = (href: string) => {
     if (pageAvailability[href] === false) {
       toast.error("🚧 Page not available", {
         position: "top-center",
