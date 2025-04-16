@@ -50,7 +50,7 @@ const PropertyManagement = () => {
 
   const handleToggleApprove = async (id: string, currentStatus: boolean) => {
     try {
-      await togglePropertyApproval(id, !currentStatus);
+      await togglePropertyApproval(id, currentStatus);
       setProperties((prev) =>
         prev.map((property) =>
           property.id === id
