@@ -29,7 +29,7 @@ export const useProperties = () => {
       const propertyWithId: PropertyType = {
         ...data,
         id: docRef.id,
-        url: `/property/${docRef.id}`,
+        url: `/properties/${docRef.id}`,
       };
 
       // Step 3: Write the full data (including id & url) using setDoc
