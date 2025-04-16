@@ -136,40 +136,43 @@ export const useProperties = () => {
   };
 
   const deleteProperty = async (propertyId: string) => {
-    try {
-      const propertyRef = doc(db, "properties", propertyId);
-      const propertySnap = await getDoc(propertyRef);
+  try {
+    const propertyRef = doc(db, "properties", propertyId);
+    const propertySnap = await getDoc(propertyRef);
 
-      if (!propertySnap.exists()) {
-        throw new Error("Property not found.");
-      }
-
-      const propertyData = propertySnap.data();
-      const imageId = propertyData.images;
-
-      // 1. Delete the image from Appwrite
-      if (imageId) {
-        await deleteAppwriteImage(imageId);
-      }
-
-      // 2. Delete the property document from Firestore
-      await deleteDoc(propertyRef);
-
-      // 3. Remove propertyId from the agent's properties array
-      const userRef = doc(db, "users", propertyData.agentId);
-      await updateDoc(userRef, {
-        userInfo: { propertiesListed: arrayRemove(propertyId) },
-      });
-
-      return { success: true, message: "property has been deleted" };
-    } catch (error) {
-      console.error("Error deleting property:", error);
-      throw {
-        message: (error as Error).message || "Failed to delete property.",
-        statusCode: 500,
-      };
+    if (!propertySnap.exists()) {
+      throw new Error("Property not found.");
     }
-  };
+
+    const propertyData = propertySnap.data();
+    const imageIds: string[] = propertyData.images;
+
+    // 1. Delete all images from Appwrite
+    if (Array.isArray(imageIds) && imageIds.length > 0) {
+      await Promise.all(
+        imageIds.map((imageId) => deleteAppwriteImage(imageId))
+      );
+    }
+
+    // 2. Delete the property document from Firestore
+    await deleteDoc(propertyRef);
+
+    // 3. Remove propertyId from the agent's properties array
+    const userRef = doc(db, "users", propertyData.agentId);
+    await updateDoc(userRef, {
+      userInfo: { propertiesListed: arrayRemove(propertyId) },
+    });
+
+    return { success: true, message: "Property has been deleted." };
+  } catch (error) {
+    console.error("Error deleting property:", error);
+    throw {
+      message: (error as Error).message || "Failed to delete property.",
+      statusCode: 500,
+    };
+  }
+};
+
 
   const deleteAppwriteImage = async (imageUrl: string) => {
     try {
