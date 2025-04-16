@@ -44,20 +44,28 @@ export const useProperties = () => {
 
 
   const uploadPropertyImagesToAppwrite = async (
-    file: File | null,
-    bucketId: string
-  ): Promise<string> => {
-    if (!file) return "";
-    try {
-      const uniqueID = ID.unique();
-      const response = await storage.createFile(bucketId, uniqueID, file);
-  
-      return `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${bucketId}/files/${response.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin`;
-    } catch (error) {
-      console.error("Error uploading image: ", error);
-      return "";
-    }
-  };
+  files: File[] | null,
+  bucketId: string
+): Promise<string[]> => {
+  if (!files || files.length === 0) return [];
+
+  try {
+    const urls = await Promise.all(
+      files.map(async (file) => {
+        const uniqueID = ID.unique();
+        const response = await storage.createFile(bucketId, uniqueID, file);
+
+        return `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${bucketId}/files/${response.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin`;
+      })
+    );
+
+    return urls;
+  } catch (error) {
+    console.error("Error uploading images: ", error);
+    return [];
+  }
+};
+
 
   const getAllProperties = async (): Promise<PropertyType[]> => {
     try {
