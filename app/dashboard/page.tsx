@@ -27,7 +27,7 @@ const Dashboard = () => {
         <div className="welcome">
           <Image
             priority
-            src={user?.avatar}
+            src={user?.avatar || "/assets/user_avatar.jpg"}
             width={800}
             height={800}
             alt="profile picture"
