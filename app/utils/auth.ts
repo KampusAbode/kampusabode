@@ -18,7 +18,7 @@ import { UserType } from "../fetch/types";
 import { useUserStore } from "../store/userStore";
 
 // Utility to set session storage with expiry
-const setSessionData = (key: string, data: UserType, ttlMs: number) => {
+const setSessionData = (key: string, data: {isAuthenticated: boolean}, ttlMs: number) => {
   const expiry = Date.now() + ttlMs;
   const value = { data, expiry };
   sessionStorage.setItem(key, JSON.stringify(value));
@@ -139,7 +139,7 @@ export const loginUser = async (userData: UserLoginInput) => {
     // Set session storage with an expiry of 3 days
     const SESSION_TTL = 3 * 24 * 60 * 60 * 1000; // 3 days in milliseconds
     const storageKey = process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!;
-    setSessionData(storageKey, userDataFromDB, SESSION_TTL);
+    setSessionData(storageKey, {isAuthenticated: true}, SESSION_TTL);
 
     // Update the Zustand store with user data
     useUserStore.getState().setUser(userDataFromDB);

@@ -8,18 +8,12 @@ import { useUserStore } from "../store/userStore";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  /** The page to redirect to if the session is not active. */
   redirectTo?: string;
 }
 
-/**
- * ProtectedRoute checks if the user session is active using getAuthState.
- * If not, it clears the Zustand user state and redirects the user.
- * If the session is still active, the child components are rendered.
- */
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
-  redirectTo = "/auth/login", // You may choose "/properties" if needed.
+  redirectTo = "/auth/login",
 }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -28,23 +22,27 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   useEffect(() => {
     const verifyAuth = async () => {
       const { isAuthenticated } = await getAuthState();
-      console.log(isAuthenticated)
+      console.log("Authenticated:", isAuthenticated);
       if (!isAuthenticated) {
-        // If session has expired or is invalid, clear the user state
         logoutUser();
-        // Redirect the user
+        
+        setLoading(false);
+        console.log("Authenticated:", isAuthenticated);
+        console.log(loading);
         router.push(redirectTo);
+        
+      } else {
+        setLoading(false);
+        console.log(loading);
       }
-      // End the loading phase
-      setLoading(false);
     };
 
     verifyAuth();
   }, [logoutUser, router, redirectTo]);
 
-  if (loading) return null
+  if (loading) return <Loader />;
 
-  return children;
+  return <>{children}</>;
 };
 
 export default ProtectedRoute;
