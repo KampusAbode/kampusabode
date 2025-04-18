@@ -180,22 +180,7 @@ const CreateProfilePage = () => {
               />
             </div>
 
-            {/* Conditional Fields */}
-            {user?.userType === "student" && (
-              <div className="input-box">
-                <label htmlFor="department">Department</label>
-                <input
-                  type="text"
-                  id="department"
-                  name="studentInfo.department"
-                  value={
-                    (formValues?.userInfo as StudentUserInfo).department || ""
-                  }
-                  onChange={handleInputChange}
-                />
-              </div>
-            )}
-
+      
             {user?.userType === "agent" && (
               <>
                 <div className="input-box">
@@ -205,7 +190,7 @@ const CreateProfilePage = () => {
                     name="agencyName"
                     id="agencyName"
                     placeholder={
-                      (formValues?.userInfo as AgentUserInfo).agencyName
+                      (user?.userInfo as AgentUserInfo).agencyName
                     }
                     onChange={handleInputChange}
                   />
