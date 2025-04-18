@@ -141,7 +141,7 @@ const CreateProfilePage = () => {
                 id="name"
                 value={formValues?.name}
                 onChange={handleInputChange}
-                disabled={user?.name !== ""}
+                
               />
             </div>
 
@@ -181,7 +181,7 @@ const CreateProfilePage = () => {
             </div>
 
             {/* Conditional Fields */}
-            {formValues?.userType === "student" && (
+            {user?.userType === "student" && (
               <div className="input-box">
                 <label htmlFor="department">Department</label>
                 <input
@@ -196,7 +196,7 @@ const CreateProfilePage = () => {
               </div>
             )}
 
-            {formValues?.userType === "agent" && (
+            {user?.userType === "agent" && (
               <>
                 <div className="input-box">
                   <label htmlFor="agencyName">Agency Name</label>

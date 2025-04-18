@@ -28,8 +28,8 @@ const Dashboard = () => {
           <Image
             priority
             src={user?.avatar || "/assets/user_avatar.jpg"}
-            width={800}
-            height={800}
+            width={400}
+            height={400}
             alt="profile picture"
           />
           <h5>Hi, {user.name} 👋</h5>
