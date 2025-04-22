@@ -15,7 +15,7 @@ const ProfilePage = () => {
       <div className="container">
         {user ? (
           <>
-            <ProfileOverview user={user} />
+            <ProfileOverview  />
 
             <div className="cp">
               <Link href={`/profile/${user.id}`} className="btn">

@@ -81,7 +81,7 @@ html {
 
 body {
   font-family: var(--font-poppins);
-  font-weight: 400;
+  font-weight: 500;
   line-height: var(--line-height-md);
   color: var(--font-color-p);
   background-color: var(--background-white);
