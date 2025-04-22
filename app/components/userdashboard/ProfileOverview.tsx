@@ -1,9 +1,11 @@
 import React from "react";
 import Image from "next/image";
 import { UserType } from "../../fetch/types";
+import { useUserStore } from "../../store/userStore";
 
-const ProfileOverview = ({ user }: { user: UserType }) => {
-  
+const ProfileOverview = () => {
+  const { user } = useUserStore((state) => state);
+
   return (
     <div className="profile-overview">
       <div className="dt">
@@ -23,7 +25,12 @@ const ProfileOverview = ({ user }: { user: UserType }) => {
           <span>University: {user?.university}</span>
           <span>Status: {user?.userType}</span>
           {user?.userType === "student" && "department" in user.userInfo ? (
-            <span>Department: user?.userInfo?.department</span>
+            <span>Department: {user?.userInfo?.department}</span>
+          ) : (
+            ""
+          )}
+          {user?.userType === "agent" && "agencyName" in user.userInfo ? (
+            <span>Department: {user?.userInfo?.agencyName}</span>
           ) : (
             ""
           )}

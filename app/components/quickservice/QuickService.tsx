@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { FaPlus, FaHeadset } from "react-icons/fa";
 import { BsChatRightText } from "react-icons/bs";
-import { useMemo } from "react";
 import { useUserStore } from "../../store/userStore";
 
 const QuickService = () => {
@@ -14,38 +13,31 @@ const QuickService = () => {
 
   if (!user) return null;
 
-  const quickServiceConfig = useMemo(
-    () => [
-      {
-        match: (path: string) => path === "/properties",
-        icon: user.userType === "agent" ? FaPlus : FaHeadset,
-        getLink: () =>
-          user.userType === "agent"
-            ? "/properties/upload"
-            : `/chat/${user.id}/${user.name}`,
-      },
-      {
-        match: (path: string) => /^\/properties\/[^/]+$/.test(path),
-        icon: FaHeadset,
-        getLink: () => `/chat/${user.id}/${user.name}`,
-      },
-      {
-        match: (path: string) => path === "/messages",
-        icon: BsChatRightText,
-        getLink: () => `/chat/${user.id}/${user.name}`,
-      },
-    ],
-    [user]
-  );
+  let config;
 
-  const currentConfig = useMemo(() => {
-    return quickServiceConfig.find((cfg) => cfg.match(pathname));
-  }, [pathname, quickServiceConfig]);
+  if (pathname === "/properties") {
+    config = {
+      icon: user.userType === "agent" ? FaPlus : FaHeadset,
+      link:
+        user.userType === "agent"
+          ? "/properties/upload"
+          : `/chat/${user.id}/${user.name}`,
+    };
+  } else if (/^\/properties\/[^/]+$/.test(pathname)) {
+    config = {
+      icon: FaHeadset,
+      link: `/chat/${user.id}/${user.name}`,
+    };
+  } else if (pathname === "/messages") {
+    config = {
+      icon: BsChatRightText,
+      link: `/chat/${user.id}/${user.name}`,
+    };
+  }
 
-  if (!currentConfig) return null;
+  if (!config) return null;
 
-  const Icon = currentConfig.icon;
-  const link = currentConfig.getLink();
+  const { icon: Icon, link } = config;
 
   return (
     <Link href={link} className="quick-service">

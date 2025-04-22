@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import ReviewType from "../../fetch/types";
 
 const RecentReviews = ({ user }) => {
-  const [reviews, setReviews] = useState<ReviewType>([]);
+  const [reviews, setReviews] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -13,7 +13,7 @@ const RecentReviews = ({ user }) => {
       try {
         const fetchedReviews = await fetchReviewsByAuthor(user?.id);
         setReviews(fetchedReviews);
-        toast.success("Reviews loaded successfully!");
+       
       } catch (err) {
         console.error("Error fetching reviews:", err);
         setError("Failed to fetch reviews.");
