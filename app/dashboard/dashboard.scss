@@ -218,18 +218,18 @@
   .dashboard {
     .student-dashboard,
     .agent-dashboard {
-      // .bookmarked-properties {
-      //   ul {
-      //     grid-template-columns: 1fr;
-      //     li {
-      //       a {
-      //         img {
-      //           // aspect-ratio: 1/1;
-      //         }
-      //       }
-      //     }
-      //   }
-      // }
+      .bookmarked-properties {
+        ul {
+          grid-template-columns: 1fr;
+          // li {
+          //   a {
+          //     img {
+          //       // aspect-ratio: 1/1;
+          //     }
+          //   }
+          // }
+        }
+      }
 
       .listed-properties {
         .property-list {
