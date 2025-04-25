@@ -124,6 +124,10 @@ const LoginPage = () => {
               )}
             </div>
 
+            <div>
+              <a href="/forget-password" className="forget-password">Forget password</a>
+            </div>
+
             <button className="btn" type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Logging in..." : "Login"}
             </button>

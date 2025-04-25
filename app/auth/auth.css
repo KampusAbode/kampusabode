@@ -81,6 +81,9 @@
             color: #555;
           }
         }
+        .forget-password{
+          text-decoration: underline;
+        }
         button {
           margin: var(--spacing) auto;
           padding: var(--spacing);
