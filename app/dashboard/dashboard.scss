@@ -53,10 +53,12 @@
             grid-template-columns: 30% 1fr;
             align-items: center;
             width: 100%;
+            color: var(--text-color-h);
 
             img {
               width: 100%;
-              aspect-ratio: 1/1;
+              height: 75px;
+              // aspect-ratio: 2/3;
               object-fit: cover;
             }
 
@@ -216,18 +218,18 @@
   .dashboard {
     .student-dashboard,
     .agent-dashboard {
-      .bookmarked-properties {
-        ul {
-          grid-template-columns: 1fr;
-          li {
-            a {
-              img {
-                aspect-ratio: 1/1;
-              }
-            }
-          }
-        }
-      }
+      // .bookmarked-properties {
+      //   ul {
+      //     grid-template-columns: 1fr;
+      //     li {
+      //       a {
+      //         img {
+      //           // aspect-ratio: 1/1;
+      //         }
+      //       }
+      //     }
+      //   }
+      // }
 
       .listed-properties {
         .property-list {

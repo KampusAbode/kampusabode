@@ -8,6 +8,34 @@
 .prop-card .prop-image {
   position: relative;
 }
+.prop-card .prop-image .agent-image {
+  position: absolute;
+  top: var(--spacing);
+  left: var(--spacing);
+  z-index: 2;
+}
+.prop-card .prop-image .agent-image img {
+  width: 90px;
+  height: 90px;
+  border-radius: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  box-shadow: var(--shadow);
+}
+.prop-card .prop-image .agent-image span {
+  display: block;
+  text-align: center;
+  color: var(--white);
+  text-transform: capitalize;
+  transform: translateY(-50px);
+  opacity: 0;
+  transition: var(--transition);
+  z-index: -3;
+}
+.prop-card .prop-image .agent-image:hover span {
+  transform: translateY(0);
+  opacity: 1;
+}
 .prop-card .prop-image .actions {
   position: absolute;
   top: var(--spacing);
@@ -16,15 +44,6 @@
   flex-direction: column;
   gap: var(--spacing-h);
   z-index: 2;
-}
-.prop-card .prop-image .actions .bookmark-button {
-  background-color: transparent;
-}
-.prop-card .prop-image .actions .bookmark-button svg path {
-  fill: var(--white);
-}
-.prop-card .prop-image .actions .bookmark-button.saved svg path {
-  fill: var(--primary-color);
 }
 .prop-card .swiper {
   aspect-ratio: 20/19;

@@ -48,7 +48,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       const agentId = details.agentId;
 
       const agent = await fetchUsersById(agentId);
-      console.log(agent);
+      
 
       setAgentDetails(agent);
       if (agent) {

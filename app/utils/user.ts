@@ -75,7 +75,7 @@ export const togglePropertyApproval = async (
       approved: newStatus,
     });
 
-    console.log(`Property ${propertyId} appoved updated to ${newStatus}`);
+   
   } catch (error) {
     console.error("Error updating property appoved:", error);
     throw new Error("Failed to update property appoved.");

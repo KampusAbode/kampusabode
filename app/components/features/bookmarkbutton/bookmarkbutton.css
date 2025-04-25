@@ -5,12 +5,15 @@
   width: 32px;
   height: 32px;
   background-color: var(--white);
-  border: var(--border);
-  border-color: transparent;
   cursor: pointer;
 }
 .bookmark-button:hover {
+  background-color: var(--light-gray);
   border: var(--border);
+}
+.bookmark-button.saved svg {
+  width: 23px;
+  height: 23px;
 }
 .bookmark-button.saved svg path {
   fill: var(--primary-color);

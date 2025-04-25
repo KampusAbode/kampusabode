@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { PropertyType } from "../../fetch/types";
+import { PropertyType, UserType } from "../../fetch/types";
 import "./PropCard.css";
 
 // Import Swiper core and required modules
@@ -16,6 +16,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation"; // Import navigation styles
 import BookmarkButton from "../../components/features/bookmarkbutton/BookmarkButton";
 import { FaLocationDot } from "react-icons/fa6";
+import { fetchUsersById } from "../../utils";
 
 interface PropCardType {
   propertyData: PropertyType;
@@ -23,23 +24,53 @@ interface PropCardType {
 
 const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
   const [isDesktop, setIsDesktop] = useState(false);
+  const [agentDetails, setAgentDetails] = useState<UserType>();
+
+  
 
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsDesktop(window.innerWidth >= 1024); // Adjust this breakpoint as needed
+      setIsDesktop(window.innerWidth >= 1024); // Adjust breakpoint if needed
     };
 
     checkScreenSize();
     window.addEventListener("resize", checkScreenSize);
 
-    return () => window.removeEventListener("resize", checkScreenSize);
+    const fetchAgentDetails = async () => {
+      const fetchedAgentDetails = await fetchUsersById(propertyData.agentId);
+      console.log(fetchedAgentDetails);
+      setAgentDetails(fetchedAgentDetails);
+      console.log(agentDetails)
+    };
+
+    fetchAgentDetails();
+
+    return () => {
+      window.removeEventListener("resize", checkScreenSize);
+    };
   }, []);
+
 
   return (
     <div className="prop-card">
       <div className="prop-image">
         <div className="actions">
           <BookmarkButton propertyId={propertyData.id} />
+        </div>
+        <div className="agent-image">
+          <Image
+            priority
+            src={agentDetails?.avatar}
+            width={800}
+            height={800}
+            alt={`${propertyData.title} image`}
+          />
+          <span>
+            {agentDetails?.userType === "agent" &&
+            "agencyName" in agentDetails.userInfo
+              ? agentDetails.userInfo.agencyName
+              : ""}
+          </span>
         </div>
         <Link href={propertyData.url}>
           <Swiper

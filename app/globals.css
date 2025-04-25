@@ -202,12 +202,6 @@ span {
   border: var(--border);
 }
 
-svg {
-  width: 20px;
-  height: 20px;
-  stroke-width: 1px;
-}
-
 img {
   width: 100%;
 }

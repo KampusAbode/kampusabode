@@ -18,7 +18,7 @@ const ProfilePage = () => {
             <ProfileOverview  />
 
             <div className="cp">
-              <Link href={`/profile/${user.id}`} className="btn">
+              <Link href={`/profile/@${user.name}`} className="btn">
                 edit profile
               </Link>
             </div>

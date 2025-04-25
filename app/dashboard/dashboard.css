@@ -56,11 +56,12 @@
   grid-template-columns: 30% 1fr;
   align-items: center;
   width: 100%;
+  color: var(--text-color-h);
 }
 .dashboard .student-dashboard .bookmarked-properties ul li a img,
 .dashboard .agent-dashboard .bookmarked-properties ul li a img {
   width: 100%;
-  aspect-ratio: 1/1;
+  height: 75px;
   -o-object-fit: cover;
      object-fit: cover;
 }
@@ -201,14 +202,6 @@
   }
 }
 @media screen and (max-width: 480px) {
-  .dashboard .student-dashboard .bookmarked-properties ul,
-  .dashboard .agent-dashboard .bookmarked-properties ul {
-    grid-template-columns: 1fr;
-  }
-  .dashboard .student-dashboard .bookmarked-properties ul li a img,
-  .dashboard .agent-dashboard .bookmarked-properties ul li a img {
-    aspect-ratio: 1/1;
-  }
   .dashboard .student-dashboard .listed-properties .property-list ul,
   .dashboard .agent-dashboard .listed-properties .property-list ul {
     grid-template-columns: 1fr;

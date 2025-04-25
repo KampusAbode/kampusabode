@@ -22,18 +22,14 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   useEffect(() => {
     const verifyAuth = async () => {
       const { isAuthenticated } = await getAuthState();
-      console.log("Authenticated:", isAuthenticated);
       if (!isAuthenticated) {
         logoutUser();
         
         setLoading(false);
-        console.log("Authenticated:", isAuthenticated);
-        console.log(loading);
         router.push(redirectTo);
         
       } else {
         setLoading(false);
-        console.log(loading);
       }
     };
 

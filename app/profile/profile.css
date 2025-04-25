@@ -17,6 +17,9 @@
      object-fit: cover;
   border-radius: var(--border-radius);
 }
+.profile-page .container .profile-overview .dt .tdt {
+  padding: var(--spacing);
+}
 .profile-page .container .profile-overview .dt .tdt span {
   display: block;
   margin-bottom: var(--spacing-h);

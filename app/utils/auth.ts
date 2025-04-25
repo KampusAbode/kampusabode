@@ -199,7 +199,7 @@ export const getAuthState = async (): Promise<{ isAuthenticated: boolean }> => {
 
     const sessionDataStr = sessionStorage.getItem(storageKey);
     if (!sessionDataStr) return { isAuthenticated: false };
-    console.log(sessionDataStr);
+
     
     const { expiry } = JSON.parse(sessionDataStr);
     if (Date.now() > expiry) {

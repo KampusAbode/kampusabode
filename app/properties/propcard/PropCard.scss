@@ -4,12 +4,42 @@
 
   a {
     outline: none;
-
   }
 
   .prop-image {
     position: relative;
 
+    .agent-image {
+      position: absolute;
+      top: var(--spacing);
+      left: var(--spacing);
+      z-index: 2;
+
+      img {
+        width: 90px;
+        height: 90px;
+        border-radius: 100%;
+        object-fit: cover;
+        box-shadow: var(--shadow);
+      }
+      span {
+        display: block;
+        text-align: center;
+        color: var(--white);
+        text-transform: capitalize;
+        transform: translateY(-50px);
+        opacity: 0;
+        transition: var(--transition);
+        z-index: -3;
+      }
+
+      &:hover {
+        span {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+    }
     .actions {
       position: absolute;
       top: var(--spacing);
@@ -20,21 +50,7 @@
       gap: var(--spacing-h);
       z-index: 2;
 
-      .bookmark-button {
-        background-color: transparent;
-        svg {
-          path {
-            fill: var(--white);
-          }
-        }
-        &.saved {
-          svg {
-            path {
-              fill: var(--primary-color);
-            }
-          }
-        }
-      }
+     
     }
   }
   .swiper {
@@ -52,8 +68,8 @@
     .swiper-button-prev,
     .swiper-button-next {
       color: var(--font-color-h);
-        width: 2.8rem;
-        height: 2.8rem;
+      width: 2.8rem;
+      height: 2.8rem;
 
       &::after {
         font-size: var(--font-size-md);

@@ -33,7 +33,6 @@ const TrendPage = ({ params }: Params) => {
   // const [relatedTrends, setRelatedTrends] = useState<TrendType[]>([]);
   const {user} = useUserStore((state) => state);
 
-  console.log(user);
 
   useEffect(() => {
     const fetchTrendData = async () => {
@@ -79,7 +78,6 @@ const TrendPage = ({ params }: Params) => {
 
   const handleCommentSubmit = async (comment: string) => {
     try {
-      console.log(user);
 
       if (!user || !user?.id || !user?.userInfo || !user?.avatar) {
         toast.error("Please sign in to add a comment.");
