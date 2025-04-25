@@ -53,7 +53,7 @@ export const usePropertiesStore = create<PropertiesState>()(
       },
     }),
     {
-      name: "properties-store",
+      name: "propertiesstore",
     }
   )
 );

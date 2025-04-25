@@ -138,6 +138,7 @@ export const useUserStore = create<UserState>()(
       },
 
       properties: [],
+      
       setProperties: (properties) => set({ properties }),
     }),
     {

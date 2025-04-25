@@ -4,7 +4,7 @@
   gap: var(--spacing-2x);
   justify-content: space-between;
   height: 100vh;
-  border-right: var(--border);
+  box-shadow: var(--shadow);
   padding: var(--spacing);
   background-color: var(--white);
   overflow-y: scroll;
