@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { loginUser } from "../../utils";
-
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import "../auth.css";
 import Image from "next/image";
@@ -13,11 +12,13 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State to toggle password visibility
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({ email: "", password: "" });
 
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectPath = searchParams.get("redirect") || "/properties"; 
 
   const validateForm = () => {
     let formErrors = { email: "", password: "" };
@@ -43,7 +44,7 @@ const LoginPage = () => {
     return valid;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validateForm()) return;
@@ -57,12 +58,12 @@ const LoginPage = () => {
         toast.error(response.message);
       } else {
         toast.success(`${response.message} 👋`);
-        router.push("/properties");
+        router.push(redirectPath); // <--- Redirect properly here
       }
-
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error.message || "An unexpected error occurred.");
     }
+
     setIsSubmitting(false);
   };
 
@@ -125,7 +126,9 @@ const LoginPage = () => {
             </div>
 
             <div>
-              <a href="/auth/forget-password" className="forget-password">Forget password</a>
+              <Link href="/auth/forget-password" className="forget-password">
+                Forget password
+              </Link>
             </div>
 
             <button className="btn" type="submit" disabled={isSubmitting}>

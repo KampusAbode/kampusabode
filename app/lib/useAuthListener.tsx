@@ -15,6 +15,8 @@ const PUBLIC_ROUTES = [
   "/auth/login",
   "/auth/signup",
   "/auth/forget-password",
+  "/about",
+  "/contact",
 ];
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
@@ -32,14 +34,19 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     const verifyAuth = async () => {
       if (isPublicPage) {
         setLoading(false);
-        return; // ✅ No authentication needed for public pages
+        return;
       }
 
       const { isAuthenticated } = await getAuthState();
       if (!isAuthenticated) {
         logoutUser();
         setLoading(false);
-        router.push(redirectTo);
+
+        // Save the page the user was trying to access
+        const redirectUrl = `${redirectTo}?redirect=${encodeURIComponent(
+          pathname
+        )}`;
+        router.push(redirectUrl);
       } else {
         setLoading(false);
       }
