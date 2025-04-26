@@ -125,7 +125,7 @@ const LoginPage = () => {
             </div>
 
             <div>
-              <a href="/forget-password" className="forget-password">Forget password</a>
+              <a href="/auth/forget-password" className="forget-password">Forget password</a>
             </div>
 
             <button className="btn" type="submit" disabled={isSubmitting}>
