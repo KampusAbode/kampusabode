@@ -11,8 +11,6 @@ import Notifications from "../components/admin/Notifications";
 import "./admin.css";
 import { useUserStore } from "../store/userStore";
 
-
-
 const pages = ["users", "properties", "reviews", "analytics", "notifications"];
 
 const AdminPage = () => {
@@ -23,7 +21,7 @@ const AdminPage = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const {user} = useUserStore((state)=>state)
+  const { user } = useUserStore((state) => state);
 
   useEffect(() => {
     if (!user) {
@@ -34,7 +32,7 @@ const AdminPage = () => {
     if (user.id === process.env.NEXT_PUBLIC_ADMINS) {
       setIsAdmin(true);
     } else {
-      router.push("/properties");
+      router.push("/apartment");
     }
 
     setLoading(false);

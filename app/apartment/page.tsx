@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useProperties } from "../utils"; // Ensure this function returns real-time properties
 import PropCard from "./propcard/PropCard";
 import Loader from "../components/loader/Loader";
-import "./properties.css";
+import "./apartment.css";
 import { FaSearch } from "react-icons/fa";
 import { useSearchParams, useRouter } from "next/navigation";
 import { usePropertiesStore } from "../store/propertiesStore"; // Zustand store
@@ -56,12 +56,20 @@ const PropertiesPage: React.FC = () => {
     }, 100);
 
     return () => clearTimeout(timeout);
-  }, [setSearchQuery, setActiveLocation, initialSearchQuery, initialActiveLocation, filterProperties]);
+  }, [
+    setSearchQuery,
+    setActiveLocation,
+    initialSearchQuery,
+    initialActiveLocation,
+    filterProperties,
+  ]);
 
   // Update URL when search query or active location changes, then apply filtering
   useEffect(() => {
     router.replace(
-      `/properties?q=${encodeURIComponent(searchQuery)}&loc=${encodeURIComponent(activeLocation)}`
+      `/apartment?q=${encodeURIComponent(searchQuery)}&loc=${encodeURIComponent(
+        activeLocation
+      )}`
     );
     filterProperties();
   }, [searchQuery, activeLocation, router, filterProperties]);
@@ -142,9 +150,7 @@ const PropertiesPage: React.FC = () => {
             onKeyDown={handleKeyDown}
             placeholder="Search by title, type, location ..."
           />
-          <div
-            className="search-icon"
-            onClick={() => filterProperties()}>
+          <div className="search-icon" onClick={() => filterProperties()}>
             <FaSearch />
           </div>
         </div>

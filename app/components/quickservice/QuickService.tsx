@@ -15,15 +15,15 @@ const QuickService = () => {
 
   let config;
 
-  if (pathname === "/properties") {
+  if (pathname === "/apartment") {
     config = {
       icon: user.userType === "agent" ? FaPlus : FaHeadset,
       link:
         user.userType === "agent"
-          ? "/properties/upload"
+          ? "/apartment/upload"
           : `/chat/${user.id}/${user.name}`,
     };
-  } else if (/^\/properties\/[^/]+$/.test(pathname)) {
+  } else if (/^\/apartment\/[^/]+$/.test(pathname)) {
     config = {
       icon: FaHeadset,
       link: `/chat/${user.id}/${user.name}`,

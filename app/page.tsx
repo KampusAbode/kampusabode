@@ -73,7 +73,7 @@ export default function App() {
             </h1>
             <p>{hero.p}</p>
             <div className="cta-hero cta">
-              <Link href="/properties" className="btn">
+              <Link href="/apartment" className="btn">
                 view apartments <FaArrowRightLong />
               </Link>
             </div>
@@ -139,7 +139,7 @@ export default function App() {
             ))}
           </div>
           <div className="more-listing">
-            <Link href="/properties">
+            <Link href="/apartment">
               more listing <FaArrowRightLong />
             </Link>
           </div>

@@ -44,7 +44,7 @@ const SavedPage = () => {
         <div className="saved-props">
           {savedProperties.map((property) => {
             return (
-              <Link key={property.id} href={`/properties/${property.id}`}>
+              <Link key={property.id} href={`/apartment/${property.id}`}>
                 <img src={property.images[0]} alt={property.title} />
               </Link>
             );

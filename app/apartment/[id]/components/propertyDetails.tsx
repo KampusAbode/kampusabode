@@ -209,7 +209,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                   {agentPropertyListings.slice(0, 3).map((listing) => (
                     <Link
                       key={listing.id}
-                      href={`/properties/${listing.id}`}
+                      href={`/apartment/${listing.id}`}
                       className="list-prop">
                       <div className="list-image">
                         <Image

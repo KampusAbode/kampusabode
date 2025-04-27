@@ -84,7 +84,7 @@ const homeSection: HomeType = {
   footer: {
     company: [
       { name: "about", to: "/about" },
-      { name: "properties", to: "/properties" },
+      { name: "properties", to: "/apartment" },
       { name: "trends", to: "/trends" },
       { name: "marketplace", to: "/marketplace" },
       // { name: "FAQs", to: "/legal/faqs" },
@@ -128,7 +128,7 @@ const bedroomOptions = [1, 2, 3, 4, 5];
 
 const links: LinkType[] = [
   { to: "about", direct: "/about" },
-  { to: "properties", direct: "/properties" },
+  { to: "properties", direct: "/apartment" },
   { to: "trends", direct: "/trends" },
   { to: "marketplace", direct: "/marketplace" },
   // { to: "contact", direct: "/contact" },

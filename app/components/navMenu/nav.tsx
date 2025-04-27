@@ -14,18 +14,18 @@ import { useUserStore } from "../../store/userStore";
 
 const pageAvailability = {
   "/adminchatroom": true,
-  "/properties/upload": true,
+  "/apartment/upload": true,
   "/admin": true,
   "/dashboard": true,
   "/profile": true,
-  "/properties": true,
+  "/apartment": true,
   "/chat": false,
 };
 
 function Nav() {
   const pathname = usePathname();
-  const {user, logoutUser} = useUserStore((state) => state);
-  const {   isNavOpen, toggleNav } = useNavStore();
+  const { user, logoutUser } = useUserStore((state) => state);
+  const { isNavOpen, toggleNav } = useNavStore();
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -51,7 +51,7 @@ function Nav() {
       });
     } else {
       router.push(href);
-      toggleNav()
+      toggleNav();
     }
   };
 
@@ -81,7 +81,7 @@ function Nav() {
         </div>
         {user?.userType === "agent" && (
           <button
-            onClick={() => handleNavigation("/properties/upload")}
+            onClick={() => handleNavigation("/apartment/upload")}
             className="btn">
             upload property
           </button>
@@ -93,8 +93,8 @@ function Nav() {
             </button>
           )}
         <ul>
-          <li className={pathname === "/properties" ? "active" : ""}>
-            <button onClick={() => handleNavigation("/properties")}>
+          <li className={pathname === "/apartment" ? "active" : ""}>
+            <button onClick={() => handleNavigation("/apartment")}>
               <FaSearchLocation />
               properties
             </button>
@@ -123,9 +123,7 @@ function Nav() {
           {user && (
             <li
               className={
-                pathname === `/chat/${user?.id}/${user?.name}`
-                  ? "active"
-                  : ""
+                pathname === `/chat/${user?.id}/${user?.name}` ? "active" : ""
               }>
               <button
                 onClick={() =>

@@ -62,9 +62,8 @@ export default function Navigation() {
     return null;
   }
 
-  
   const pageAvailability = {
-    "/properties": true,
+    "/apartment": true,
     "/messages": true,
     "/trends": true,
     "/saved": true,
@@ -87,8 +86,8 @@ export default function Navigation() {
   return (
     <nav className="navigation">
       <ul className={id ? "grid" : "flex"}>
-        <li className={pathname === "/properties" ? "active" : ""}>
-          <button onClick={() => handleNavigation("/properties")}>
+        <li className={pathname === "/apartment" ? "active" : ""}>
+          <button onClick={() => handleNavigation("/apartment")}>
             <FaSearchLocation />
             <span>properties</span>
           </button>
