@@ -14,9 +14,7 @@ interface ProtectedRouteProps {
 const PUBLIC_ROUTES = [
   "/",
   "/apartment",
-  "/apartment/",
   "/trends",
-  "/trends/",
   "/marketplace",
   "/auth/login",
   "/auth/signup",
