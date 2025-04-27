@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import PropStats from "../components/propertyStats/propStats";
+import PropStats from "./propertyStats/propStats";
 import SaveVisitedProperty from "../functions/SaveVIsitedProperties";
 import {
   fetchUsersById,
@@ -10,7 +10,7 @@ import {
 } from "../../../utils";
 import Image from "next/image";
 import Link from "next/link";
-import PropertyImages from "../components/propertyImages/PropertyImages";
+import PropertyImages from "./propertyImages/PropertyImages";
 import type { PropertyType, ReviewType, UserType } from "../../../fetch/types";
 import toast from "react-hot-toast";
 import { formatDistanceToNowStrict } from "date-fns";
@@ -21,13 +21,8 @@ interface PropertyDetailsProps {
   id: string;
 }
 
-
-
 const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
-  const {
-    getPropertyById,
-    getPropertiesByIds,
-  } = useProperties();
+  const { getPropertyById, getPropertiesByIds } = useProperties();
   const [agentDetails, setAgentDetails] = useState<UserType>();
   const [agentPropertyListings, setAgentPropertyListings] = useState<
     PropertyType[]
@@ -37,8 +32,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
     null
   );
 
-  
-    const {user} = useUserStore((state) => state);
+  const { user } = useUserStore((state) => state);
 
   // Fetch property details and agent details
   const fetchPropertyDetails = useCallback(async () => {
@@ -48,7 +42,6 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       const agentId = details.agentId;
 
       const agent = await fetchUsersById(agentId);
-      
 
       setAgentDetails(agent);
       if (agent) {
@@ -251,20 +244,20 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
           </div>
         </div>
 
-          <div className="prop-cta">
-            <div className='container'>
-              <Link
-                className="btn"
-                href={user ? `/chat/${user.id}/${user.name}` : `/auth/login`}>
-                for more info
-              </Link>
-              <Link
-                className="btn btn-secondary"
-                href={user ? `tel:+2347050721686` : `/auth/login`}>
-                Make a call
-              </Link>
-            </div>
+        <div className="prop-cta">
+          <div className="container">
+            <Link
+              className="btn"
+              href={user ? `/chat/${user.id}/${user.name}` : `/auth/login`}>
+              for more info
+            </Link>
+            <Link
+              className="btn btn-secondary"
+              href={user ? `tel:+2347050721686` : `/auth/login`}>
+              Make a call
+            </Link>
           </div>
+        </div>
       </section>
     </SaveVisitedProperty>
   );

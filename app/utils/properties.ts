@@ -16,108 +16,112 @@ import {
   arrayRemove,
 } from "firebase/firestore";
 import { db } from "../lib/firebaseConfig";
-import { PropertyType } from "../fetch/types";
+import { apartmentType } from "../fetch/types";
 import { ID, storage } from "../lib/appwriteClient";
 
 export const useProperties = () => {
-  const listProperty = async (data: any) => {
+  const listapartment = async (data: any) => {
     try {
       // Step 1: Get a new document reference with generated UID
       const docRef = doc(collection(db, "properties")); // creates a ref without writing
 
       // Step 2: Create the final data with id and url
-      const propertyWithId: PropertyType = {
+      const apartmentWithId: apartmentType = {
         ...data,
         id: docRef.id,
-        url: `/properties/${docRef.id}`,
+        url: `/apartment/${docRef.id}`,
       };
 
       // Step 3: Write the full data (including id & url) using setDoc
-      await setDoc(docRef, propertyWithId);
+      await setDoc(docRef, apartmentWithId);
 
       // Step 4: Return an object
-      return { success: "property has been upload successfully", id: propertyWithId.id,  url: propertyWithId.url};
+      return {
+        success: "apartment has been upload successfully",
+        id: apartmentWithId.id,
+        url: apartmentWithId.url,
+      };
     } catch (error) {
-      throw new Error((error as Error).message || "Failed to list property");
+      throw new Error((error as Error).message || "Failed to list apartment");
     }
   };
 
+  const uploadapartmentImagesToAppwrite = async (
+    files: File[] | null,
+    bucketId: string
+  ): Promise<string[]> => {
+    if (!files || files.length === 0) return [];
 
-  const uploadPropertyImagesToAppwrite = async (
-  files: File[] | null,
-  bucketId: string
-): Promise<string[]> => {
-  if (!files || files.length === 0) return [];
+    try {
+      const urls = await Promise.all(
+        files.map(async (file) => {
+          const uniqueID = ID.unique();
+          const response = await storage.createFile(bucketId, uniqueID, file);
 
-  try {
-    const urls = await Promise.all(
-      files.map(async (file) => {
-        const uniqueID = ID.unique();
-        const response = await storage.createFile(bucketId, uniqueID, file);
+          return `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${bucketId}/files/${response.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin`;
+        })
+      );
 
-        return `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${bucketId}/files/${response.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin`;
-      })
-    );
+      return urls;
+    } catch (error) {
+      console.error("Error uploading images: ", error);
+      return [];
+    }
+  };
 
-    return urls;
-  } catch (error) {
-    console.error("Error uploading images: ", error);
-    return [];
-  }
-};
-
-
-  const getAllProperties = async (): Promise<PropertyType[]> => {
+  const getAllProperties = async (): Promise<apartmentType[]> => {
     try {
       const q = query(collection(db, "properties"));
       const snap = await getDocs(q);
       return snap.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-      })) as PropertyType[];
+      })) as apartmentType[];
     } catch (error) {
       throw new Error((error as Error).message || "Failed to fetch properties");
     }
   };
 
-  const getPropertyById = async (id: string): Promise<PropertyType | null> => {
+  const getapartmentById = async (
+    id: string
+  ): Promise<apartmentType | null> => {
     try {
       const docRef = doc(db, "properties", id);
       const snap = await getDoc(docRef);
       return snap.exists()
-        ? ({ id: snap.id, ...snap.data() } as PropertyType)
+        ? ({ id: snap.id, ...snap.data() } as apartmentType)
         : null;
     } catch (error) {
-      throw new Error((error as Error).message || "Failed to fetch property");
+      throw new Error((error as Error).message || "Failed to fetch apartment");
     }
   };
 
-   const getPropertiesByIds = async (
-     ids: string[]
-   ): Promise<PropertyType[]> => {
-     try {
-       const propertyPromises = ids.map(async (id) => {
-         const docRef = doc(db, "properties", id);
-         const docSnap = await getDoc(docRef);
-         if (docSnap.exists()) {
-           return { id: docSnap.id, ...docSnap.data() } as PropertyType;
-         }
-         return null;
-       });
+  const getPropertiesByIds = async (
+    ids: string[]
+  ): Promise<apartmentType[]> => {
+    try {
+      const apartmentPromises = ids.map(async (id) => {
+        const docRef = doc(db, "properties", id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          return { id: docSnap.id, ...docSnap.data() } as apartmentType;
+        }
+        return null;
+      });
 
-       const results = await Promise.all(propertyPromises);
-       return results.filter(
-         (property): property is PropertyType => property !== null
-       );
-     } catch (error) {
-       console.error("Error fetching properties by IDs:", error);
-       throw error;
-     }
-   };
+      const results = await Promise.all(apartmentPromises);
+      return results.filter(
+        (apartment): apartment is apartmentType => apartment !== null
+      );
+    } catch (error) {
+      console.error("Error fetching properties by IDs:", error);
+      throw error;
+    }
+  };
 
   const getPropertiesByAgent = async (
     agentId: string
-  ): Promise<PropertyType[]> => {
+  ): Promise<apartmentType[]> => {
     try {
       const q = query(
         collection(db, "properties"),
@@ -127,7 +131,7 @@ export const useProperties = () => {
       return snap.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-      })) as PropertyType[];
+      })) as apartmentType[];
     } catch (error) {
       throw new Error(
         (error as Error).message || "Failed to fetch agent properties"
@@ -135,44 +139,43 @@ export const useProperties = () => {
     }
   };
 
-  const deleteProperty = async (propertyId: string) => {
-  try {
-    const propertyRef = doc(db, "properties", propertyId);
-    const propertySnap = await getDoc(propertyRef);
+  const deleteapartment = async (apartmentId: string) => {
+    try {
+      const apartmentRef = doc(db, "properties", apartmentId);
+      const apartmentSnap = await getDoc(apartmentRef);
 
-    if (!propertySnap.exists()) {
-      throw new Error("Property not found.");
+      if (!apartmentSnap.exists()) {
+        throw new Error("apartment not found.");
+      }
+
+      const apartmentData = apartmentSnap.data();
+      const imageIds: string[] = apartmentData.images;
+
+      // 1. Delete all images from Appwrite
+      if (Array.isArray(imageIds) && imageIds.length > 0) {
+        await Promise.all(
+          imageIds.map((imageId) => deleteAppwriteImage(imageId))
+        );
+      }
+
+      // 2. Delete the apartment document from Firestore
+      await deleteDoc(apartmentRef);
+
+      // 3. Remove apartmentId from the agent's properties array
+      const userRef = doc(db, "users", apartmentData.agentId);
+      await updateDoc(userRef, {
+        userInfo: { propertiesListed: arrayRemove(apartmentId) },
+      });
+
+      return { success: true, message: "apartment has been deleted." };
+    } catch (error) {
+      console.error("Error deleting apartment:", error);
+      throw {
+        message: (error as Error).message || "Failed to delete apartment.",
+        statusCode: 500,
+      };
     }
-
-    const propertyData = propertySnap.data();
-    const imageIds: string[] = propertyData.images;
-
-    // 1. Delete all images from Appwrite
-    if (Array.isArray(imageIds) && imageIds.length > 0) {
-      await Promise.all(
-        imageIds.map((imageId) => deleteAppwriteImage(imageId))
-      );
-    }
-
-    // 2. Delete the property document from Firestore
-    await deleteDoc(propertyRef);
-
-    // 3. Remove propertyId from the agent's properties array
-    const userRef = doc(db, "users", propertyData.agentId);
-    await updateDoc(userRef, {
-      userInfo: { propertiesListed: arrayRemove(propertyId) },
-    });
-
-    return { success: true, message: "Property has been deleted." };
-  } catch (error) {
-    console.error("Error deleting property:", error);
-    throw {
-      message: (error as Error).message || "Failed to delete property.",
-      statusCode: 500,
-    };
-  }
-};
-
+  };
 
   const deleteAppwriteImage = async (imageUrl: string) => {
     try {
@@ -180,7 +183,7 @@ export const useProperties = () => {
       if (!fileId) throw new Error("File ID extraction failed.");
 
       await storage.deleteFile(
-        process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID!,
+        process.env.NEXT_PUBLIC_APPWRITE_apartment_BUCKET_ID!,
         fileId
       );
 
@@ -204,21 +207,21 @@ export const useProperties = () => {
     }
   };
 
-  const updateProperty = async (
-    propertyId: string,
-    updates: Partial<PropertyType>
+  const updateapartment = async (
+    apartmentId: string,
+    updates: Partial<apartmentType>
   ) => {
     try {
-      const docRef = doc(db, "properties", propertyId);
+      const docRef = doc(db, "properties", apartmentId);
       await updateDoc(docRef, updates);
       return { success: true };
     } catch (error) {
-      throw new Error((error as Error).message || "Failed to update property");
+      throw new Error((error as Error).message || "Failed to update apartment");
     }
   };
 
   const fetchPropertiesRealtime = (
-    callback: (properties: PropertyType[]) => void
+    callback: (properties: apartmentType[]) => void
   ) => {
     try {
       const q = query(
@@ -229,7 +232,7 @@ export const useProperties = () => {
         const properties = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
-        })) as PropertyType[];
+        })) as apartmentType[];
         callback(properties);
       });
     } catch (error) {
@@ -237,18 +240,18 @@ export const useProperties = () => {
     }
   };
 
-  // Toggle property approval
-  const togglePropertyApproval = async (
-    propertyId: string,
+  // Toggle apartment approval
+  const toggleapartmentApproval = async (
+    apartmentId: string,
     currentStatus: boolean
   ) => {
     try {
       const updatedStatus = !currentStatus;
-      const docRef = doc(db, "properties", propertyId);
+      const docRef = doc(db, "properties", apartmentId);
       await updateDoc(docRef, { approved: updatedStatus });
-      return { success: true, message: "Property approval status updated." };
+      return { success: true, message: "apartment approval status updated." };
     } catch (error) {
-      console.error("Error toggling property approval:", error);
+      console.error("Error toggling apartment approval:", error);
       throw new Error(
         (error as Error).message || "Failed to update approval status."
       );
@@ -256,16 +259,16 @@ export const useProperties = () => {
   };
 
   return {
-    listProperty,
+    listapartment,
     getAllProperties,
-    getPropertyById,
+    getapartmentById,
     getPropertiesByIds,
     getPropertiesByAgent,
-    deleteProperty,
-    updateProperty,
+    deleteapartment,
+    updateapartment,
     fetchPropertiesRealtime,
-    togglePropertyApproval,
+    toggleapartmentApproval,
     deleteAppwriteImage,
-    uploadPropertyImagesToAppwrite,
+    uploadapartmentImagesToAppwrite,
   };
 };
