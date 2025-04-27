@@ -3,14 +3,14 @@
 import React, { useState, useEffect } from "react";
 import { useProperties } from "../utils";
 import TrendCard from "../trends/component/trendCard/TrendCard";
-import { TrendType, PropertyType } from "../fetch/types";
+import { TrendType, ApartmentType } from "../fetch/types";
 import Link from "next/link";
 import { useUserStore } from "../store/userStore"; // assuming you have a Zustand store for user data
 
 const SavedPage = () => {
   const [currentTab, setCurrentTab] = useState("properties");
-  const [savedProperties, setSavedProperties] = useState<PropertyType[]>([]);
-  const { getPropertiesByIds } = useProperties();
+  const [savedProperties, setSavedProperties] = useState<ApartmentType[]>([]);
+  const { getApartmentsByIds } = useProperties();
 
   // Zustand store for user data
   const userData = useUserStore((state) => state.user);
@@ -23,7 +23,7 @@ const SavedPage = () => {
         "savedProperties" in userData.userInfo
       ) {
         const savedPropertiesIds = userData.userInfo.savedProperties;
-        const fetchedProperties: PropertyType[] = await getPropertiesByIds(
+        const fetchedProperties: ApartmentType[] = await getApartmentsByIds(
           savedPropertiesIds
         );
         setSavedProperties(fetchedProperties);
@@ -31,7 +31,7 @@ const SavedPage = () => {
     };
 
     fetchSavedProperties();
-  }, [ userData, getPropertiesByIds]);
+  }, [userData, getApartmentsByIds]);
 
   const savedTab = (tab: string) => {
     // if (tab === "trends") {
@@ -39,28 +39,28 @@ const SavedPage = () => {
     //     return <TrendCard key={trend.title} trendData={trend as TrendType} />;
     //   });
     // } else {
-      if (tab === "properties" && savedProperties.length > 0) {
-        return (
-          <div className="saved-props">
-            {savedProperties.map((property) => {
-              return (
-                <Link key={property.id} href={`/properties/${property.id}`}>
-                  <img src={property.images[0]} alt={property.title} />
-                </Link>
-              );
-            })}
-          </div>
-        );
-      } else {
-        return (
-          <div className="saved-props">
-            <p>
-              Oops! Your saved list is empty! Why not start discovering your
-              dream apartment now? 💡
-            </p>
-          </div>
-        );
-      }
+    if (tab === "properties" && savedProperties.length > 0) {
+      return (
+        <div className="saved-props">
+          {savedProperties.map((property) => {
+            return (
+              <Link key={property.id} href={`/properties/${property.id}`}>
+                <img src={property.images[0]} alt={property.title} />
+              </Link>
+            );
+          })}
+        </div>
+      );
+    } else {
+      return (
+        <div className="saved-props">
+          <p>
+            Oops! Your saved list is empty! Why not start discovering your dream
+            apartment now? 💡
+          </p>
+        </div>
+      );
+    }
     // }
   };
 

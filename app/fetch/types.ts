@@ -31,7 +31,7 @@ export interface HomeType {
     rating: number;
     date: string;
   }[];
-  tags: string[]; 
+  tags: string[];
   footer: {
     company: {
       name: string;
@@ -44,7 +44,7 @@ export interface HomeType {
   };
 }
 
-export interface PropertyType {
+export interface ApartmentType {
   id: string;
   url: string;
   agentId: string;
@@ -81,13 +81,13 @@ export interface ItemType {
   condition: string;
   imageUrl: string;
   price: string;
-  sellerContact: {name: string, whatsappNumber: string};
+  sellerContact: { name: string; whatsappNumber: string };
   timestamp: Date;
 }
 
 export interface ReviewType {
   id: string;
-  author: {name: string; id: string, avatar: string};
+  author: { name: string; id: string; avatar: string };
   propertyId: string;
   content: string;
   rating: number;
@@ -100,12 +100,12 @@ export interface LinkType {
 }
 
 export interface AddSavedState {
-  savedProperties: PropertyType[];
+  savedProperties: ApartmentType[];
   savedTrends: TrendType[];
 }
 
 export interface BookmarkState {
-  items: PropertyType[];
+  items: ApartmentType[];
 }
 
 export interface StudentUserInfo {
@@ -128,7 +128,7 @@ export interface UserType {
   avatar: string;
   phoneNumber: string;
   email: string;
-  university: string,
+  university: string;
   userType: "student" | "agent" | "";
   userInfo: StudentUserInfo | AgentUserInfo;
 }

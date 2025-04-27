@@ -7,7 +7,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useProperties } from "../../utils";
 import toast from "react-hot-toast";
-import { PropertyType } from "../../fetch/types";
+import { ApartmentType } from "../../fetch/types";
 import { useUserStore } from "../../store/userStore";
 
 const locationOptions = [
@@ -72,7 +72,7 @@ const validationSchema = Yup.object().shape({
 
 const UploadProperty = () => {
   const router = useRouter();
-  const { listProperty, uploadPropertyImagesToAppwrite } = useProperties();
+  const { listApartment, uploadApartmentImagesToAppwrite } = useProperties();
   const { user, addListedProperty } = useUserStore((state) => state);
 
   useEffect(() => {
@@ -89,12 +89,12 @@ const UploadProperty = () => {
     setSubmitting(true);
 
     try {
-      const imageUrls = await uploadPropertyImagesToAppwrite(
+      const imageUrls = await uploadApartmentImagesToAppwrite(
         values.images,
         process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID
       );
 
-      const propertyData: PropertyType = {
+      const propertyData: ApartmentType = {
         ...values,
         agentId: user?.id ?? "", // fallback in case user is null (shouldn't be)
         images: imageUrls,
@@ -102,7 +102,7 @@ const UploadProperty = () => {
         approved: false,
       };
 
-      const response = await listProperty(propertyData);
+      const response = await listApartment(propertyData);
 
       toast.success(response.success);
       setStatus({ success: "Property uploaded successfully!" });

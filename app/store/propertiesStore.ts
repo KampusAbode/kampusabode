@@ -1,17 +1,17 @@
 // store/propertiesStore.ts
 
-import { PropertyType } from "../fetch/types";
+import { ApartmentType } from "../fetch/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface PropertiesState {
-  properties: PropertyType[];
-  filteredProperties: PropertyType[];
+  properties: ApartmentType[];
+  filteredProperties: ApartmentType[];
   isLoading: boolean;
   searchQuery: string;
   activeLocation: string;
-  setProperties: (properties: PropertyType[]) => void;
-  setFilteredProperties: (filtered: PropertyType[]) => void;
+  setProperties: (properties: ApartmentType[]) => void;
+  setFilteredProperties: (filtered: ApartmentType[]) => void;
   setLoading: (loading: boolean) => void;
   setSearchQuery: (query: string) => void;
   setActiveLocation: (location: string) => void;

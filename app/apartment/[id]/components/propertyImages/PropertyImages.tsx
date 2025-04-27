@@ -4,13 +4,13 @@ import React, { useState } from "react";
 import BookmarkButton from "../../../../components/features/bookmarkbutton/BookmarkButton";
 import ShareButton from "../../../../components/features/sharebutton/ShareButton";
 import Image from "next/image";
-import { PropertyType } from "../../../../fetch/types";
+import { ApartmentType } from "../../../../fetch/types";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 function PropertyImages({
   propertyDetails,
 }: {
-  propertyDetails: PropertyType;
+  propertyDetails: ApartmentType;
 }) {
   const [imageCount, setImageCount] = useState(0);
   const maxImageCount: number = propertyDetails?.images?.length;

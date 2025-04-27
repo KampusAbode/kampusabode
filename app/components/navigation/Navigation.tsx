@@ -15,7 +15,6 @@ import "./navigation.css";
 import { getAllMessages } from "../../utils";
 import { useUserStore } from "../../store/userStore";
 
-
 export default function Navigation() {
   const user = useUserStore((state) => state.user);
   const id = user?.id;
@@ -51,12 +50,11 @@ export default function Navigation() {
 
   // Exclude navigation on certain paths
   const excludedPaths = [
-    "login",
-    "signup",
     "chat",
     "adminchatroom",
     "about",
     "properties/",
+    "auth",
   ];
   const isExcludedPath = excludedPaths.some((path) => pathname.includes(path));
 
@@ -64,7 +62,7 @@ export default function Navigation() {
     return null;
   }
 
-  // Define page availability (true means available, false means not available)
+  
   const pageAvailability = {
     "/properties": true,
     "/messages": true,

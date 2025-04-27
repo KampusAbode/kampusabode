@@ -137,7 +137,7 @@ export const loginUser = async (userData: UserLoginInput) => {
     await signInWithEmailAndPassword(auth, email, password);
 
     // Set session storage with an expiry of 3 days
-    const SESSION_TTL = 3 * 24 * 60 * 60 * 1000; // 3 days in milliseconds
+    const SESSION_TTL = 3 * 24 * 60 * 60 * 1000;
     const storageKey = process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!;
     setSessionData(storageKey, {isAuthenticated: true}, SESSION_TTL);
 

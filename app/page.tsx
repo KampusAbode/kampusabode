@@ -267,7 +267,7 @@ export default function App() {
           <span>SEEN ENOUGH?</span>
           <h3>Get in touch with us today</h3>
           <p>
-            Are you ready to find your dream home or investment property? Kampus
+            Are you ready to find your dream home or a perfect property? Kampus
             Abode is here to help. With our years of experience and dedication
           </p>
           <div className="cta">

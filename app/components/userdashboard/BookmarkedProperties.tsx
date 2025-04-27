@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PropertyType } from "../../fetch/types";
+import { ApartmentType } from "../../fetch/types";
 import { useUserStore } from "../../store/userStore";
 import { useProperties } from "../../utils";
 import Loader from "../loader/Loader";
@@ -19,9 +19,11 @@ const isUserType = (
 };
 
 const BookmarkedProperties = () => {
-  const { getPropertiesByIds } = useProperties();
+  const { getApartmentsByIds } = useProperties();
   const user = useUserStore((state) => state.user);
-  const [bookmarkedProperties, setBookmarkedProperties] = useState<PropertyType[]>([]);
+  const [bookmarkedProperties, setBookmarkedProperties] = useState<
+    ApartmentType[]
+  >([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -47,7 +49,7 @@ const BookmarkedProperties = () => {
           return;
         }
 
-        const fetched = await getPropertiesByIds(bookmarkedIds);
+        const fetched = await getApartmentsByIds(bookmarkedIds);
         setBookmarkedProperties(fetched);
       } catch (err: unknown) {
         const errorMessage =

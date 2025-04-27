@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { AgentUserInfo, PropertyType, UserType } from "../fetch/types";
+import { AgentUserInfo, ApartmentType, UserType } from "../fetch/types";
 import {
   getFirestore,
   doc,
@@ -25,8 +25,8 @@ interface UserState {
   addListedProperty: (id: string) => void;
 
   // For properties (could be used elsewhere in your app)
-  properties: PropertyType[];
-  setProperties: (properties: PropertyType[]) => void;
+  properties: ApartmentType[];
+  setProperties: (properties: ApartmentType[]) => void;
 }
 
 export const useUserStore = create<UserState>()(
@@ -138,7 +138,7 @@ export const useUserStore = create<UserState>()(
       },
 
       properties: [],
-      
+
       setProperties: (properties) => set({ properties }),
     }),
     {

@@ -12,8 +12,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { id } = params;
 
   // Fetch property details from your data source (could be API or DB)
-  const { getPropertyById } = useProperties();
-  const propertyDetails = await getPropertyById(id);
+  const { getApartmentById } = useProperties();
+  const propertyDetails = await getApartmentById(id);
 
   if (!propertyDetails) {
     return {

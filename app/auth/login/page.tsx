@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { loginUser } from "../../utils";
 import Link from "next/link";
@@ -17,8 +17,6 @@ const LoginPage = () => {
   const [errors, setErrors] = useState({ email: "", password: "" });
 
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const redirectPath = searchParams.get("redirect") || "/properties"; 
 
   const validateForm = () => {
     let formErrors = { email: "", password: "" };
@@ -58,7 +56,7 @@ const LoginPage = () => {
         toast.error(response.message);
       } else {
         toast.success(`${response.message} 👋`);
-        router.push(redirectPath); // <--- Redirect properly here
+        router.push("/apartment");
       }
     } catch (error: any) {
       toast.error(error.message || "An unexpected error occurred.");

@@ -12,6 +12,12 @@ interface ProtectedRouteProps {
 }
 
 const PUBLIC_ROUTES = [
+  "/",
+  "/apartment",
+  "/apartment/",
+  "/trends",
+  "/trends/",
+  "/marketplace",
   "/auth/login",
   "/auth/signup",
   "/auth/forget-password",
@@ -21,7 +27,7 @@ const PUBLIC_ROUTES = [
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
-  redirectTo = "/auth/login",
+  redirectTo = "/",
 }) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -42,11 +48,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
         logoutUser();
         setLoading(false);
 
-        // Save the page the user was trying to access
-        const redirectUrl = `${redirectTo}?redirect=${encodeURIComponent(
-          pathname
-        )}`;
-        router.push(redirectUrl);
+        router.push(redirectTo);
       } else {
         setLoading(false);
       }

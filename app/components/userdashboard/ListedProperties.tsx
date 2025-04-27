@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useProperties } from "../../utils";
-import { PropertyType } from "../../fetch/types";
+import { ApartmentType } from "../../fetch/types";
 import { SlOptionsVertical } from "react-icons/sl";
 import Link from "next/link";
 import Image from "next/image";
@@ -13,8 +13,8 @@ import { useUserStore } from "../../store/userStore";
 
 const ListedProperties = () => {
   const user = useUserStore((state) => state.user);
-  const { deleteProperty, getPropertiesByIds } = useProperties();
-  const [filteredProperties, setFilteredProperties] = useState<PropertyType[]>(
+  const { deleteApartment, getApartmentsByIds } = useProperties();
+  const [filteredProperties, setFilteredProperties] = useState<ApartmentType[]>(
     []
   );
   const [error, setError] = useState<string | null>(null);
@@ -38,7 +38,7 @@ const ListedProperties = () => {
             return;
           }
 
-          const fetchedProperties: PropertyType[] = await getPropertiesByIds(
+          const fetchedProperties: ApartmentType[] = await getApartmentsByIds(
             propertiesListed
           );
           setFilteredProperties(fetchedProperties);
@@ -75,9 +75,7 @@ const ListedProperties = () => {
         return;
       }
 
-      const response = await deleteProperty(
-        selectedPropertyId
-      );
+      const response = await deleteApartment(selectedPropertyId);
       if (response.success) {
         toast.success(response.message);
         setFilteredProperties((prev) =>
@@ -88,7 +86,9 @@ const ListedProperties = () => {
       }
     } catch (error) {
       // console.log("Error deleting property:", error);
-      toast.error(error || "An unexpected error occurred while deleting the property.");
+      toast.error(
+        error || "An unexpected error occurred while deleting the property."
+      );
     } finally {
       setShowPrompt(false);
       setSelectedPropertyId(null);

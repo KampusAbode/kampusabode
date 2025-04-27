@@ -101,7 +101,7 @@ const homeSection: HomeType = {
   },
 };
 
-const propertyTypes = [
+const ApartmentTypes = [
   "Studio Apartments",
   "Bedroom Apartments",
   "Condominiums",
@@ -138,7 +138,7 @@ const universities = ["OAU", "UNILAG", "UI", "UNN", "FUTA"];
 
 const data = {
   homeSection,
-  propertyTypes,
+  ApartmentTypes,
   locations,
   priceRanges,
   bedroomOptions,

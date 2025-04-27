@@ -11,7 +11,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import PropertyImages from "./propertyImages/PropertyImages";
-import type { PropertyType, ReviewType, UserType } from "../../../fetch/types";
+import { ApartmentType, ReviewType, UserType } from "../../../fetch/types";
 import toast from "react-hot-toast";
 import { formatDistanceToNowStrict } from "date-fns";
 import "../property.css";
@@ -22,13 +22,13 @@ interface PropertyDetailsProps {
 }
 
 const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
-  const { getPropertyById, getPropertiesByIds } = useProperties();
+  const { getApartmentById, getApartmentsByIds } = useProperties();
   const [agentDetails, setAgentDetails] = useState<UserType>();
   const [agentPropertyListings, setAgentPropertyListings] = useState<
-    PropertyType[]
+    ApartmentType[]
   >([]);
   const [propReviews, setPropReviews] = useState<ReviewType[]>([]);
-  const [propertyDetails, setPropertyDetails] = useState<PropertyType | null>(
+  const [propertyDetails, setPropertyDetails] = useState<ApartmentType | null>(
     null
   );
 
@@ -37,7 +37,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   // Fetch property details and agent details
   const fetchPropertyDetails = useCallback(async () => {
     try {
-      const details = await getPropertyById(id);
+      const details = await getApartmentById(id);
       setPropertyDetails(details);
       const agentId = details.agentId;
 
@@ -45,7 +45,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
 
       setAgentDetails(agent);
       if (agent) {
-        const properties = await getPropertiesByIds(
+        const properties = await getApartmentsByIds(
           "propertiesListed" in agent.userInfo
             ? agent.userInfo.propertiesListed.filter(
                 (propertyId: string) => propertyId !== id

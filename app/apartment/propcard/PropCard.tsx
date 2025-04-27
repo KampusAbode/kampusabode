@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { PropertyType, UserType } from "../../fetch/types";
+import { ApartmentType, UserType } from "../../fetch/types";
 import "./PropCard.css";
 
 // Import Swiper core and required modules
@@ -19,14 +19,12 @@ import { FaLocationDot } from "react-icons/fa6";
 import { fetchUsersById } from "../../utils";
 
 interface PropCardType {
-  propertyData: PropertyType;
+  propertyData: ApartmentType;
 }
 
 const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
   const [isDesktop, setIsDesktop] = useState(false);
   const [agentDetails, setAgentDetails] = useState<UserType>();
-
-  
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -40,7 +38,7 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
       const fetchedAgentDetails = await fetchUsersById(propertyData.agentId);
       console.log(fetchedAgentDetails);
       setAgentDetails(fetchedAgentDetails);
-      console.log(agentDetails)
+      console.log(agentDetails);
     };
 
     fetchAgentDetails();
@@ -49,7 +47,6 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
       window.removeEventListener("resize", checkScreenSize);
     };
   }, []);
-
 
   return (
     <div className="prop-card">

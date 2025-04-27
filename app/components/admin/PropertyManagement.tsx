@@ -1,19 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-  useProperties
-} from "../../utils";
-import { PropertyType } from "../../fetch/types";
+import { useProperties } from "../../utils";
+import { ApartmentType } from "../../fetch/types";
 import Link from "next/link";
 
 const PropertyManagement = () => {
-  const {
-    getAllProperties,
-    deleteProperty,
-    togglePropertyApproval,
-  }= useProperties()
-  const [properties, setProperties] = useState<PropertyType[]>([]);
+  const { getAllProperties, deleteApartment, toggleApartmentApproval } =
+    useProperties();
+  const [properties, setProperties] = useState<ApartmentType[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -40,7 +35,7 @@ const PropertyManagement = () => {
     if (!confirm("Are you sure you want to delete this property?")) return;
 
     try {
-      await deleteProperty(id);
+      await deleteApartment(id);
       setProperties((prev) => prev.filter((property) => property.id !== id));
     } catch (error) {
       console.error("Error deleting property:", error);
@@ -50,7 +45,7 @@ const PropertyManagement = () => {
 
   const handleToggleApprove = async (id: string, currentStatus: boolean) => {
     try {
-      await togglePropertyApproval(id, currentStatus);
+      await toggleApartmentApproval(id, currentStatus);
       setProperties((prev) =>
         prev.map((property) =>
           property.id === id
