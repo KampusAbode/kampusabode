@@ -66,7 +66,16 @@ const validationSchema = Yup.object().shape({
     .typeError("Area must be a number")
     .required("Area is required"),
   amenities: Yup.array().of(Yup.string()).required("Amenities are required"),
-  images: Yup.mixed().required("Images are required"),
+  images: Yup.array()
+    .of(
+      Yup.mixed().test(
+        "is-image",
+        "Only image files are allowed",
+        (file) => file && (file as File).type.startsWith("image/")
+      )
+    )
+    .min(3, "You must upload at least 3 images")
+    .required("Images are required"),
   available: Yup.boolean().required("Availability is required"),
 });
 

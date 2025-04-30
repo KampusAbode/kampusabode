@@ -61,7 +61,7 @@ const BookmarkButton = ({ propertyId }: { propertyId: string }) => {
     }
   };
 
-  if (user.userType === "agent") {
+  if (user && user?.userType === "agent") {
     return null;
   }
 

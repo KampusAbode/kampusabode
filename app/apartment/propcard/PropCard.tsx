@@ -36,9 +36,9 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
 
     const fetchAgentDetails = async () => {
       const fetchedAgentDetails = await fetchUsersById(propertyData.agentId);
-      console.log(fetchedAgentDetails);
+     
       setAgentDetails(fetchedAgentDetails);
-      console.log(agentDetails);
+      
     };
 
     fetchAgentDetails();
@@ -54,21 +54,23 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
         <div className="actions">
           <BookmarkButton propertyId={propertyData.id} />
         </div>
-        <div className="agent-image">
-          <Image
-            priority
-            src={agentDetails?.avatar}
-            width={800}
-            height={800}
-            alt={`${propertyData.title} image`}
-          />
-          <span>
-            {agentDetails?.userType === "agent" &&
-            "agencyName" in agentDetails.userInfo
-              ? agentDetails.userInfo.agencyName
-              : ""}
-          </span>
-        </div>
+        {agentDetails && (
+          <div className="agent-image">
+            <Image
+              priority
+              src={agentDetails?.avatar}
+              width={800}
+              height={800}
+              alt={`${propertyData.title} image`}
+            />
+            <span>
+              {agentDetails?.userType === "agent" &&
+              "agencyName" in agentDetails.userInfo
+                ? agentDetails.userInfo.agencyName
+                : ""}
+            </span>
+          </div>
+        )}
         <Link href={propertyData.url}>
           <Swiper
             modules={[Pagination, Navigation]}
