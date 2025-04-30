@@ -191,3 +191,16 @@ export const updateBookmarkInDB = async (
     throw new Error("Database update failed.");
   }
 };
+
+
+
+export const checkIsAdmin = (userId: string): boolean => {
+  const adminId = process.env.ADMIN_ID;
+
+  if (!adminId) {
+    console.warn("ADMIN_ID is not set in environment variables");
+    return false;
+  }
+
+  return userId === adminId;
+};

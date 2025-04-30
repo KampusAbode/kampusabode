@@ -8,6 +8,7 @@ import PropertyManagement from "../components/admin/PropertyManagement";
 import ReviewManagement from "../components/admin/ReviewManagement";
 import Analytics from "../components/admin/Analytics";
 import Notifications from "../components/admin/Notifications";
+import { checkIsAdmin } from "../utils/user";
 import "./admin.css";
 import { useUserStore } from "../store/userStore";
 
@@ -29,7 +30,7 @@ const AdminPage = () => {
       return;
     }
 
-    if (user.id === process.env.NEXT_PUBLIC_ADMINS) {
+    if (checkIsAdmin(user.id)) {
       setIsAdmin(true);
     } else {
       router.push("/apartment");
