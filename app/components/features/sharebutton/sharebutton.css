@@ -10,8 +10,4 @@
   border-color: transparent;
 
   cursor: pointer;
-
-  &:hover {
-    border: var(--border);
-  }
 }

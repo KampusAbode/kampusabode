@@ -98,7 +98,7 @@ const PropertiesPage: React.FC = () => {
           <span>your comfort</span>
           <h2>
             our priority
-            <svg width="50" height="49" viewBox="0 0 50 49" fill="none">
+            <svg width="30" height="30" viewBox="0 0 50 49" fill="none">
               <path
                 d="M24.6571 9.0258C18.75 12.9418 13.3443 17.4625 7.63462 21.628"
                 stroke="#CCD7FF"

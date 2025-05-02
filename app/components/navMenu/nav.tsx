@@ -1,26 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
 import { FaTimes, FaRegUserCircle, FaSearchLocation } from "react-icons/fa";
 import { CiViewBoard, CiHome } from "react-icons/ci";
 import { GrUserAdmin } from "react-icons/gr";
 import { IoChatbubblesOutline } from "react-icons/io5";
-import { usePathname } from "next/navigation";
 import toast from "react-hot-toast";
 import "./nav.css";
 import useNavStore from "../../store/menuStore";
 import { useUserStore } from "../../store/userStore";
-
-const pageAvailability = {
-  "/adminchatroom": true,
-  "/apartment/upload": true,
-  "/admin": true,
-  "/dashboard": true,
-  "/profile": true,
-  "/apartment": true,
-  "/chat": false,
-};
 
 function Nav() {
   const pathname = usePathname();
@@ -43,99 +33,100 @@ function Nav() {
     setLoading(false);
   }, [user]);
 
-  const handleNavigation = (href: string) => {
-    if (pageAvailability[href] === false) {
-      toast.error("🚧 Page not available", {
-        position: "top-center",
-        duration: 3000,
-      });
-    } else {
-      router.push(href);
-      toggleNav();
-    }
-  };
-
-  if (loading) {
-    return;
-  }
+  if (loading) return null;
 
   return (
     <div
-      className={`nav-menu ${user ? "sideNav" : "notlogged"} 
-      ${isNavOpen ? "fadeIn" : "fadeOut"}`}>
+      className={`nav-menu ${user ? "sideNav" : "notlogged"} ${
+        isNavOpen ? "fadeIn" : "fadeOut"
+      }`}
+    >
       <div>
-        <div className="close-div" onClick={() => toggleNav()}>
+        <div className="close-div" onClick={toggleNav}>
           <div className="logo">
-            <button onClick={() => handleNavigation("/")}>
+            <Link href="/" onClick={toggleNav}>
               <img
                 src={"/LOGO/RED_LOGO_T.png"}
                 width={500}
                 height={500}
                 alt="logo"
               />
-            </button>
+            </Link>
           </div>
           <div className="close">
             <FaTimes />
           </div>
         </div>
+
         {user?.userType === "agent" && (
-          <button
-            onClick={() => handleNavigation("/apartment/upload")}
-            className="btn">
+          <Link href="/apartment/upload" className="btn" onClick={toggleNav}>
             upload property
-          </button>
+          </Link>
         )}
+
         {user?.userType === "agent" &&
-          user?.id === process.env.NEXT_PUBLIC_ADMINS && (
-            <button onClick={() => handleNavigation("/admin")} className="btn">
-              Admin Portal
-            </button>
+          user?.id === process.env.NEXT_PUBLIC_ADMIN_ID && (
+            <Link href="/admin" className="btn" onClick={toggleNav}>
+              Admin Dashboard
+            </Link>
           )}
+
         <ul>
           <li className={pathname === "/apartment" ? "active" : ""}>
-            <button onClick={() => handleNavigation("/apartment")}>
+            <Link href="/apartment" onClick={toggleNav}>
               <FaSearchLocation />
               properties
-            </button>
+            </Link>
           </li>
-          {user && user?.id === process.env.NEXT_PUBLIC_ADMINS && (
+
+          {user?.id === process.env.NEXT_PUBLIC_ADMIN_ID && (
             <li className={pathname === "/adminchatroom" ? "active" : ""}>
-              <button onClick={() => handleNavigation("/adminchatroom")}>
+              <Link href="/adminchatroom" onClick={toggleNav}>
                 <GrUserAdmin />
-                admin
-              </button>
+                User Messages
+              </Link>
             </li>
           )}
+
           <li
-            className={`$ {pathname === "/dashboard" || pathname === "/" ? "active" : ""}`}>
-            <button onClick={() => handleNavigation(user ? "/dashboard" : "/")}>
+            className={
+              pathname === "/dashboard" || pathname === "/" ? "active" : ""
+            }
+          >
+            <Link
+              href={user ? "/dashboard" : "/"}
+              onClick={toggleNav}
+            >
               {user ? <CiViewBoard /> : <CiHome />}
               {user ? "dashboard" : "home"}
-            </button>
+            </Link>
           </li>
+
           <li className={pathname === "/profile" ? "active" : ""}>
-            <button onClick={() => handleNavigation("/profile")}>
+            <Link href="/profile" onClick={toggleNav}>
               <FaRegUserCircle />
               profile
-            </button>
+            </Link>
           </li>
+
           {user && (
             <li
               className={
-                pathname === `/chat/${user?.id}/${user?.name}` ? "active" : ""
-              }>
-              <button
-                onClick={() =>
-                  handleNavigation(`/chat/${user?.id}/${user?.name}`)
-                }>
+                pathname === `/chat/${user.id}/${user.name}` ? "active" : ""
+              }
+            >
+              <Link
+                href={`/chat/${user.id}/${user.name}`}
+                onClick={toggleNav}
+              >
                 <IoChatbubblesOutline />
                 chat
-              </button>
+              </Link>
             </li>
           )}
         </ul>
       </div>
+
       <div className="logout">
         <span>
           ©️ 2024. All rights reserved.
@@ -144,11 +135,9 @@ function Nav() {
               Logout
             </button>
           ) : (
-            <button
-              className="btn btn-secondary"
-              onClick={() => handleNavigation("/auth/login")}>
-              Login
-            </button>
+            <Link href="/auth/login" onClick={toggleNav}>
+              <button className="btn btn-secondary">Login</button>
+            </Link>
           )}
         </span>
       </div>
