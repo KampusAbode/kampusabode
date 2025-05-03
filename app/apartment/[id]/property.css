@@ -353,6 +353,7 @@
     left: 0;
     right: 0;
     background-color: var(--white);
+    padding-block: var(--spacing);
     box-shadow: var(--shadow);
     z-index: 999;
   }
