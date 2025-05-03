@@ -328,29 +328,14 @@
   }
 
   .prop-cta {
-    position: fixed;
-    bottom: 10px;
-    left: 0;
-    right: 0;
-
+    margin-top: var(--spacing);
     .container {
-      margin-top: var(--spacing-3x);
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: var(--spacing);
-
-      .btn {
-        display: block;
-        width: 100%;
-        text-align: center;
-        margin-top: var(--spacing);
-      }
     }
   }
-
-  
 }
-
 
 @media screen and (max-width: 768px) {
   .properties-details-page {
@@ -425,17 +410,15 @@
           }
         }
       }
-
-      .prop-cta {
-        position: fixed;
-        right: 0;
-        left: 0;
-        bottom: var(--spacing);
-        width: 100%;
-
-        z-index: 99999;
-        padding: var(--spacing);
-      }
+    }
+    .prop-cta {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: var(--white);
+      box-shadow: var(--shadow);
+      z-index: 999;
     }
   }
 }

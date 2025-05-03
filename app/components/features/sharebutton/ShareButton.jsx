@@ -11,7 +11,7 @@ function ShareButton() {
   useEffect(() => {
     const title = document.title;
     const url = window.location.href;
-    const text = `Check out this property: ${title}`;
+    const text = `Check out this apartment:\n${title}`;
     setShareData({ title, text, url });
   }, []);
 

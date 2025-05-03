@@ -17,8 +17,8 @@
   --light-gray: #f8f8f8;
   --dark-gray: #6d6d6d;
 
-  --font-color-h: #2b2b2b;
-  --font-color-p: #5f5f5f;
+  --font-color-h: #222222;
+  --font-color-p: #6a6a6a;
   --font-light: #adb5bd;
   --font-white: #ffffff;
 
@@ -47,16 +47,15 @@
   --transition: all 0.3s ease-in-out;
 
   /* Fonts */
-  --font-poppins: 'Nunito', sans-serif;
+  --font-poppins: "Nunito", sans-serif;
 
   /* Font Sizes */
-  --font-size-xs: 0.75rem; /* 12px */
-  --font-size-sm: 0.875rem; /* 14px */
-  --font-size-nm: 1rem; /* 16px */
-  --font-size-md: 1.125rem; /* 18px */
-  --font-size-lg: 1.25rem; /* 20px */
-  --font-size-xl: 2.5rem; /* 40px */
-  --font-size-xxl: 2.75rem; /* 44px */
+  --font-size-xxl: 1.375rem;
+  --font-size-xl: 1.25rem;
+  --font-size-lg: 1.125rem;
+  --font-size-nm: 1rem;
+  --font-size-sm: 0.875rem;
+  --font-size-xs: 0.7125rem;
 
   /* Line Heights */
   --line-height-sm: 1.135;
@@ -219,6 +218,7 @@ span {
 // }
 img {
   width: 100%;
+  user-select: none;
 }
 
 .cta {
@@ -269,7 +269,7 @@ img {
   transition: var(--transition);
 }
 
-button{
+button {
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -295,12 +295,6 @@ button{
 @media screen and (max-width: 768px) {
   :root {
     --spacing-s: 5rem;
-    --font-size-xxl: 1.375rem;
-    --font-size-xl: 1.25rem;
-    --font-size-lg: 1.125rem;
-    --font-size-nm: 1rem;
-    --font-size-sm: 0.875rem;
-    --font-size-xs: 0.8125rem;
   }
 
   h1 {
@@ -308,7 +302,7 @@ button{
   }
 
   h2 {
-    font-size: 1.75rem; 
+    font-size: 1.75rem;
   }
 
   h3 {
@@ -316,23 +310,30 @@ button{
   }
 
   h4 {
-    font-size: 1.25rem; 
+    font-size: 1.25rem;
   }
 
   h5 {
-    font-size: 1.125rem; 
+    font-size: 1.125rem;
   }
 
   h6 {
-    font-size: .9rem; 
+    font-size: 0.9rem;
   }
 
   p {
-    font-size: 1rem; 
+    font-size: 1rem;
   }
 
   button {
     font-size: var(--font-size-nm);
+  }
+
+  span {
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+    color: var(--font-color-p);
+    user-select: none;
   }
 
   input,

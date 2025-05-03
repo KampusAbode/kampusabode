@@ -1,20 +1,22 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { getAllMessages } from "../utils";
 import Link from "next/link";
 import { format, isToday, isYesterday } from "date-fns";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+
 import "./admin.css";
 import Loader from "../components/loader/Loader";
+import { checkIsAdmin, getAllMessages } from "../utils";
+import { useUserStore } from "../store/userStore";
 
 const formatTimestamp = (timestamp: any): string => {
-  // Try to convert the timestamp to a Date instance
   const date =
     timestamp && typeof timestamp.toDate === "function"
       ? timestamp.toDate()
       : new Date(timestamp);
 
-  // Check if the date is valid
   if (isNaN(date.getTime())) {
     return "Invalid date";
   }
@@ -28,14 +30,27 @@ const formatTimestamp = (timestamp: any): string => {
   }
 };
 
-
-
 const AdminChat = () => {
   const [users, setUsers] = useState<any[] | null>(null);
+  const [authorized, setAuthorized] = useState<boolean | null>(null);
+  const { user } = useUserStore((state) => state);
+  const router = useRouter();
 
   useEffect(() => {
+    if (!user?.id) return;
+
+    const isAdmin = checkIsAdmin(user.id);
+
+    if (!isAdmin) {
+      toast.error("Access denied: Admins only");
+      router.replace("/apartment");
+      return;
+    }
+
+    setAuthorized(true);
+    toast.success("Access granted!");
+
     const unsubscribe = getAllMessages((fetchedMessages) => {
-      // Sort messages by timestamp in ascending order
       const sortedMessages = fetchedMessages.sort((a, b) => {
         const timestampA =
           a.timestamp && typeof a.timestamp.toDate === "function"
@@ -45,14 +60,18 @@ const AdminChat = () => {
           b.timestamp && typeof b.timestamp.toDate === "function"
             ? b.timestamp.toDate()
             : new Date(b.timestamp);
-        return timestampA.getTime() - timestampB.getTime();
+        return timestampB.getTime() - timestampA.getTime(); // latest first
       });
       setUsers(sortedMessages);
     });
 
-    // Clean up the listener on unmount
     return () => unsubscribe();
-  }, []);
+  }, [user?.id]);
+
+  // Don't render anything until we know if user is authorized
+  if (authorized === null) {
+    return <Loader />;
+  }
 
   return (
     <section className="admin-chat-page">
@@ -61,11 +80,10 @@ const AdminChat = () => {
         <p>Click on a user to view messages</p>
         <ul>
           {users === null ? (
-            <Loader/>
+            <Loader />
           ) : users.length > 0 ? (
             users.map((msg, index) => {
               const formattedTime = formatTimestamp(msg.timestamp);
-
               return (
                 <Link
                   href={`/adminchatroom/${msg.userName}/${msg.senderId}`}

@@ -53,7 +53,7 @@ export default function Navigation() {
     "chat",
     "adminchatroom",
     "about",
-    "properties/",
+    "apartment/",
     "auth",
   ];
   const isExcludedPath = excludedPaths.some((path) => pathname.includes(path));

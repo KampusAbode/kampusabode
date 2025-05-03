@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   }
 
   return {
-    title: `${propertyDetails.title} - Kampusabode`,
+    title: `${propertyDetails.title} - at Kampusabode`,
     description: propertyDetails.description,
     keywords: "property listings, real estate, apartments, houses",
     openGraph: {
