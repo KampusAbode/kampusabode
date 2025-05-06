@@ -242,20 +242,18 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
               feel free to contact us.
             </p>
           </div>
-        </div>
 
-        <div className="prop-cta">
-          <div className="container">
-            <Link
-              className="btn"
-              href={user ? `/chat/${user.id}/${user.name}` : `/auth/login`}>
-              for more info
-            </Link>
-            <Link
-              className="btn btn-secondary"
-              href={user ? `tel:+2347050721686` : `/auth/login`}>
-              Make a call
-            </Link>
+          <div className="prop-cta">
+              <Link
+                className="btn"
+                href={user ? `/chat/${user.id}/${user.name}` : `/auth/login`}>
+                for more info
+              </Link>
+              <Link
+                className="btn btn-secondary"
+                href={user ? `tel:+2347050721686` : `/auth/login`}>
+                Make a call
+              </Link>
           </div>
         </div>
       </section>

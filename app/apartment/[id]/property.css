@@ -80,6 +80,9 @@
   align-items: center;
   z-index: 2;
 }
+.properties-details-page .prop-image-details .property-images .control-image {
+  padding-block: var(--spacing);
+}
 .properties-details-page .prop-image-details .property-images .control-image img {
   width: 70px;
   height: 70px;
@@ -286,10 +289,7 @@
 }
 .properties-details-page .prop-cta {
   margin-top: var(--spacing);
-}
-.properties-details-page .prop-cta .container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
   gap: var(--spacing);
 }
 

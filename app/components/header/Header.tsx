@@ -115,7 +115,7 @@ export default function Header() {
                     logout
                   </span>
                 ) : user?.userType === "agent" ? (
-                  <Link href="/apartment/upload" className="sign-up-btn btn">
+                  <Link href="/apartment/c/upload" className="sign-up-btn btn">
                     upload
                   </Link>
                 ) : null

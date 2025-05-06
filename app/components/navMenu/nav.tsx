@@ -39,8 +39,7 @@ function Nav() {
     <div
       className={`nav-menu ${user ? "sideNav" : "notlogged"} ${
         isNavOpen ? "fadeIn" : "fadeOut"
-      }`}
-    >
+      }`}>
       <div>
         <div className="close-div" onClick={toggleNav}>
           <div className="logo">
@@ -59,7 +58,7 @@ function Nav() {
         </div>
 
         {user?.userType === "agent" && (
-          <Link href="/apartment/upload" className="btn" onClick={toggleNav}>
+          <Link href="/apartment/c/upload" className="btn" onClick={toggleNav}>
             upload property
           </Link>
         )}
@@ -91,12 +90,8 @@ function Nav() {
           <li
             className={
               pathname === "/dashboard" || pathname === "/" ? "active" : ""
-            }
-          >
-            <Link
-              href={user ? "/dashboard" : "/"}
-              onClick={toggleNav}
-            >
+            }>
+            <Link href={user ? "/dashboard" : "/"} onClick={toggleNav}>
               {user ? <CiViewBoard /> : <CiHome />}
               {user ? "dashboard" : "home"}
             </Link>
@@ -113,12 +108,8 @@ function Nav() {
             <li
               className={
                 pathname === `/chat/${user.id}/${user.name}` ? "active" : ""
-              }
-            >
-              <Link
-                href={`/chat/${user.id}/${user.name}`}
-                onClick={toggleNav}
-              >
+              }>
+              <Link href={`/chat/${user.id}/${user.name}`} onClick={toggleNav}>
                 <IoChatbubblesOutline />
                 chat
               </Link>

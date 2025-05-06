@@ -3,6 +3,7 @@
 import "./quickservice.css";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { PiChats } from "react-icons/pi";
 import { FaPlus, FaHeadset } from "react-icons/fa";
 import { BsChatRightText } from "react-icons/bs";
 import { useUserStore } from "../../store/userStore";
@@ -17,10 +18,10 @@ const QuickService = () => {
 
   if (pathname === "/apartment") {
     config = {
-      icon: user.userType === "agent" ? FaPlus : FaHeadset,
+      icon: user.userType === "agent" ? FaPlus : PiChats,
       link:
         user.userType === "agent"
-          ? "/apartment/upload"
+          ? "/apartment/c/upload"
           : `/chat/${user.id}/${user.name}`,
     };
   } else if (/^\/apartment\/[^/]+$/.test(pathname)) {

@@ -63,7 +63,7 @@
 
 .user-search {
   padding-block: var(--spacing);
-  .container{
+  .container {
     max-width: 750px;
     margin: 0 auto;
     display: grid;
@@ -104,11 +104,11 @@
   // margin-block: var(--spacing);
   padding-block: var(--spacing);
   position: sticky;
-    top: 68px;
+  top: 0;
   z-index: 999;
 
   .container {
-    display: flex; 
+    display: flex;
     align-items: center;
     justify-content: left;
     gap: var(--spacing);
@@ -143,7 +143,7 @@
   .properties {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap:calc(1.5 *  var(--spacing));
+    gap: calc(1.5 * var(--spacing));
 
     span,
     svg path {
@@ -176,6 +176,7 @@
     }
   }
   .filter {
+    top: 68px;
     .container {
       justify-content: left;
     }
