@@ -1,30 +1,41 @@
 .saved-page {
   margin-bottom: var(--spacing-5x);
   .tabs {
-    margin-bottom: var(--spacing);
     background: var(--background-white);
+    border-radius: var(--border-radius);
+    margin-block: var(--spacing);
+    padding-block: var(--spacing);
     position: sticky;
-    top: 10px;
-    padding: var(--spacing);
-    z-index: 10;
+    top: 0;
+    z-index: 999;
 
     .container {
       display: flex;
+      align-items: center;
+      justify-content: left;
       gap: var(--spacing);
-      flex-wrap: nowrap;
+      overflow-x: scroll;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
 
       span {
         padding: var(--spacing-b);
+        border-radius: var(--border-radius);
         border: var(--border);
-        border-color: transparent;
-        background-color: var(--light-gray);
-        color: var(--font-color-p);
-        font-size: var(--font-size-nd);
+        text-transform: capitalize;
+        background: var(--light-gray);
+        white-space: nowrap;
         cursor: pointer;
+        transition: var(--transition);
+
+        &:hover,
         &.active {
-          border: var(--border);
-          color: var(--font-color-p);
-          font-weight: 600;
+          border: var(--border-hover);
+          color: var(--font-color-h);
         }
       }
     }
@@ -32,17 +43,20 @@
 
   .saved-items {
     .container {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: var(--spacing-2x);
-
-      img {
-        border-top-right-radius: var(--border-radius);
-      }
+     
       .saved-props {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
-        gap: var(--spacing-2x);
+        gap: var(--spacing);
+
+        a {
+          img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            display: block;
+          }
+        }
       }
     }
   }
@@ -51,12 +65,10 @@
 @media screen and (max-width: 1400px) {
   .saved-page {
     .saved-items {
-      .container {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .saved-props {
+      .container{
+        .saved-props {
         grid-template-columns: repeat(4, 1fr);
+      }
       }
     }
   }
@@ -65,7 +77,6 @@
   .saved-page {
     .saved-items {
       .container {
-        grid-template-columns: 1fr 1fr;
         .saved-props {
           grid-template-columns: repeat(3, 1fr);
         }
@@ -77,7 +88,6 @@
   .saved-page {
     .saved-items {
       .container {
-        grid-template-columns: 1fr;
         .saved-props {
           grid-template-columns: repeat(2, 1fr);
           gap: var(--spacing);
