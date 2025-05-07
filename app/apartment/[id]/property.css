@@ -287,7 +287,8 @@
 .properties-details-page .container .contact {
   margin-top: var(--spacing-4x);
 }
-.properties-details-page .prop-cta {
+
+.prop-cta {
   margin-top: var(--spacing);
   display: flex;
   gap: var(--spacing);
@@ -347,7 +348,7 @@
   .properties-details-page .container .agent-reviews .reviews .review-item {
     width: 90%;
   }
-  .properties-details-page .prop-cta {
+  .prop-cta {
     position: fixed;
     bottom: 0;
     left: 0;

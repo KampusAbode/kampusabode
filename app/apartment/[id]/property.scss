@@ -327,12 +327,11 @@
       margin-top: var(--spacing-4x);
     }
   }
-
-  .prop-cta {
-    margin-top: var(--spacing);
-      display: flex;
-      gap: var(--spacing);
-  }
+}
+.prop-cta {
+  margin-top: var(--spacing);
+  display: flex;
+  gap: var(--spacing);
 }
 
 @media screen and (max-width: 768px) {
@@ -409,16 +408,16 @@
         }
       }
     }
-    .prop-cta {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background-color: var(--white);
-      padding-block: var(--spacing);
-      box-shadow: var(--shadow);
-      z-index: 999;
-    }
+  }
+  .prop-cta {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--white);
+    padding-block: var(--spacing);
+    box-shadow: var(--shadow);
+    z-index: 999;
   }
 }
 

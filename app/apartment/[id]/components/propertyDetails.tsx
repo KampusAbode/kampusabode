@@ -14,6 +14,7 @@ import PropertyImages from "./propertyImages/PropertyImages";
 import { ApartmentType, ReviewType, UserType } from "../../../fetch/types";
 import toast from "react-hot-toast";
 import { formatDistanceToNowStrict } from "date-fns";
+import BookingConfirmationModal from "../../../components/modals/BookingConfirmationModal/BookingConfirmationModal";
 import "../property.css";
 import { useUserStore } from "../../../store/userStore";
 
@@ -31,6 +32,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   const [propertyDetails, setPropertyDetails] = useState<ApartmentType | null>(
     null
   );
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { user } = useUserStore((state) => state);
 
@@ -92,6 +94,12 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
     }
   };
 
+  const handleBookingConfirm = () => {
+    // Logic to move to payment or confirm booking
+    toast.success(`Booking confirmed for:${propertyDetails.title}`);
+    setIsModalOpen(false);
+  };
+
   useEffect(() => {
     fetchPropertyDetails();
     fetchReviews();
@@ -114,12 +122,16 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
             <div className="pq">
               <h3 className="title">{propertyDetails.title}</h3>
               <span className="price">
-                Total package: ₦{propertyDetails.price}{" "}
+                Total package: ₦{propertyDetails.price.toLocaleString()}{" "}
               </span>
               <div className="features">
-                <span>{propertyDetails.bedrooms} bedrooms</span>
-                <span>{propertyDetails.bathrooms} bathrooms</span>
-                <span>{propertyDetails.area} sqft</span>
+                <span>
+                  {propertyDetails.bedrooms.toLocaleString()} bedrooms
+                </span>
+                <span>
+                  {propertyDetails.bathrooms.toLocaleString()} bathrooms
+                </span>
+                <span>{propertyDetails.area.toLocaleString()} sqft</span>
               </div>
               <div className="description">
                 <h5>Overview</h5>
@@ -157,7 +169,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                     <span>
                       Properties:{" "}
                       {"propertiesListed" in agentDetails.userInfo
-                        ? agentDetails.userInfo.propertiesListed.length
+                        ? agentDetails.userInfo.propertiesListed.length.toLocaleString()
                         : 0}
                     </span>
                   </>
@@ -242,21 +254,28 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
               feel free to contact us.
             </p>
           </div>
-
-          <div className="prop-cta">
-              <Link
-                className="btn"
-                href={user ? `/chat/${user.id}/${user.name}` : `/auth/login`}>
-                for more info
-              </Link>
-              <Link
-                className="btn btn-secondary"
-                href={user ? `tel:+2347050721686` : `/auth/login`}>
-                Make a call
-              </Link>
-          </div>
         </div>
       </section>
+      
+      <div className="prop-cta">
+        <Link
+          className="btn"
+          href={user ? `/chat/${user.id}/${user.name}` : `/auth/login`}>
+          for more info
+        </Link>
+        <Link
+          className="btn btn-secondary"
+          href={user ? `tel:+2347050721686` : `/auth/login`}>
+          Make a call
+        </Link>
+      </div>
+
+      <BookingConfirmationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        apartment={propertyDetails.price}
+        onConfirm={handleBookingConfirm}
+      />
     </SaveVisitedProperty>
   );
 };

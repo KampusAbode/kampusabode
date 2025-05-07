@@ -47,6 +47,7 @@
   -o-object-fit: cover;
      object-fit: cover;
   display: block;
+  border-radius: var(--border-radius);
 }
 
 @media screen and (max-width: 1400px) {
