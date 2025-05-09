@@ -21,7 +21,7 @@ const QuickService = () => {
       icon: user.userType === "agent" ? FaPlus : PiChats,
       link:
         user.userType === "agent"
-          ? `/apartment/c/${user?.id}/upload`
+          ? `/apartment/c/${user?.id}`
           : `/chat/${user.id}/${user.name}`,
     };
   } else if (/^\/apartment\/[^/]+$/.test(pathname)) {
