@@ -1,0 +1,21 @@
+.property-upload-guide {
+  .container {
+    max-width: 1024px;
+    section{
+        padding-block: var(--spacing-2x);
+        
+        ul{
+          margin-top: var(--spacing);
+        }
+    }
+
+
+    div{
+      p{
+        a{
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
