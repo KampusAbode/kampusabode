@@ -11,22 +11,34 @@ import toast from "react-hot-toast";
 import "./nav.css";
 import useNavStore from "../../store/menuStore";
 import { useUserStore } from "../../store/userStore";
+import Prompt from "../prompt/Prompt";
+
 
 function Nav() {
   const pathname = usePathname();
+  const router = useRouter();
   const { user, logoutUser } = useUserStore((state) => state);
   const { isNavOpen, toggleNav } = useNavStore();
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
+  const [showPrompt, setShowPrompt] = useState(false);
 
-  const logOut = async () => {
+  const handleLogoutClick = () => {
+    setShowPrompt(true);
+  };
+
+  const confirmLogout = async () => {
+    setShowPrompt(false);
     try {
-      logoutUser();
-      toast.success(`logged out successfully 👌`);
+      await logoutUser();
+      toast.success("Logged out successfully 👌");
       router.push("/");
     } catch (error) {
       toast.error(error?.message || "An unexpected error occurred.");
     }
+  };
+
+  const cancelLogout = () => {
+    setShowPrompt(false);
   };
 
   useEffect(() => {
@@ -36,103 +48,126 @@ function Nav() {
   if (loading) return null;
 
   return (
-    <div
-      className={`nav-menu ${user ? "sideNav" : "notlogged"} ${
-        isNavOpen ? "fadeIn" : "fadeOut"
-      }`}>
-      <div>
-        <div className="close-div" onClick={toggleNav}>
-          <div className="logo">
-            <Link href="/" onClick={toggleNav}>
-              <img
-                src={"/LOGO/RED_LOGO_T.png"}
-                width={500}
-                height={500}
-                alt="logo"
-              />
-            </Link>
+    <>
+      <div
+        className={`nav-menu ${user ? "sideNav" : "notlogged"} ${
+          isNavOpen ? "fadeIn" : "fadeOut"
+        }`}>
+        <div>
+          <div className="close-div" onClick={toggleNav}>
+            <div className="logo">
+              <Link href="/" onClick={toggleNav}>
+                <img
+                  src="/LOGO/RED_LOGO_T.png"
+                  width={500}
+                  height={500}
+                  alt="logo"
+                />
+              </Link>
+            </div>
+            <div className="close">
+              <FaTimes />
+            </div>
           </div>
-          <div className="close">
-            <FaTimes />
-          </div>
-        </div>
 
-        {user?.userType === "agent" && (
-          <Link href="/apartment/c/upload" className="btn" onClick={toggleNav}>
-            upload property
-          </Link>
-        )}
-
-        {user?.userType === "agent" &&
-          user?.id === process.env.NEXT_PUBLIC_ADMIN_ID && (
-            <Link href="/admin" className="btn" onClick={toggleNav}>
-              Admin Dashboard
+          {user?.userType === "agent" && (
+            <Link
+              href={`/apartment/c/${user.id}`}
+              className="btn"
+              onClick={toggleNav}
+            >
+              upload property
             </Link>
           )}
 
-        <ul>
-          <li className={pathname === "/apartment" ? "active" : ""}>
-            <Link href="/apartment" onClick={toggleNav}>
-              <FaSearchLocation />
-              properties
-            </Link>
-          </li>
+          {user?.userType === "agent" &&
+            user?.id === process.env.NEXT_PUBLIC_ADMIN_ID && (
+              <Link href="/admin" className="btn" onClick={toggleNav}>
+                Admin Dashboard
+              </Link>
+            )}
 
-          {user?.id === process.env.NEXT_PUBLIC_ADMIN_ID && (
-            <li className={pathname === "/adminchatroom" ? "active" : ""}>
-              <Link href="/adminchatroom" onClick={toggleNav}>
-                <GrUserAdmin />
-                User Messages
+          <ul>
+            <li className={pathname === "/apartment" ? "active" : ""}>
+              <Link href="/apartment" onClick={toggleNav}>
+                <FaSearchLocation />
+                properties
               </Link>
             </li>
-          )}
 
-          <li
-            className={
-              pathname === "/dashboard" || pathname === "/" ? "active" : ""
-            }>
-            <Link href={user ? "/dashboard" : "/"} onClick={toggleNav}>
-              {user ? <CiViewBoard /> : <CiHome />}
-              {user ? "dashboard" : "home"}
-            </Link>
-          </li>
+            {user?.id === process.env.NEXT_PUBLIC_ADMIN_ID && (
+              <li
+                className={
+                  pathname === "/adminchatroom" ? "active" : ""
+                }
+              >
+                <Link href="/adminchatroom" onClick={toggleNav}>
+                  <GrUserAdmin />
+                  User Messages
+                </Link>
+              </li>
+            )}
 
-          <li className={pathname === "/profile" ? "active" : ""}>
-            <Link href="/profile" onClick={toggleNav}>
-              <FaRegUserCircle />
-              profile
-            </Link>
-          </li>
-
-          {user && (
             <li
               className={
-                pathname === `/chat/${user.id}/${user.name}` ? "active" : ""
-              }>
-              <Link href={`/chat/${user.id}/${user.name}`} onClick={toggleNav}>
-                <IoChatbubblesOutline />
-                chat
+                pathname === "/dashboard" || pathname === "/" ? "active" : ""
+              }
+            >
+              <Link href={user ? "/dashboard" : "/"} onClick={toggleNav}>
+                {user ? <CiViewBoard /> : <CiHome />}
+                {user ? "dashboard" : "home"}
               </Link>
             </li>
-          )}
-        </ul>
+
+            <li className={pathname === "/profile" ? "active" : ""}>
+              <Link href="/profile" onClick={toggleNav}>
+                <FaRegUserCircle />
+                profile
+              </Link>
+            </li>
+
+            {user && (
+              <li
+                className={
+                  pathname === `/chat/${user.id}/${user.name}` ? "active" : ""
+                }
+              >
+                <Link
+                  href={`/chat/${user.id}/${user.name}`}
+                  onClick={toggleNav}
+                >
+                  <IoChatbubblesOutline />
+                  chat
+                </Link>
+              </li>
+            )}
+          </ul>
+        </div>
+
+        <div className="logout">
+          <span>
+            ©️ 2024. All rights reserved.
+            {user ? (
+              <button className="btn btn-secondary" onClick={handleLogoutClick}>
+                Logout
+              </button>
+            ) : (
+              <Link href="/auth/login" onClick={toggleNav}>
+                <button className="btn btn-secondary">Login</button>
+              </Link>
+            )}
+          </span>
+        </div>
       </div>
 
-      <div className="logout">
-        <span>
-          ©️ 2024. All rights reserved.
-          {user ? (
-            <button className="btn btn-secondary" onClick={logOut}>
-              Logout
-            </button>
-          ) : (
-            <Link href="/auth/login" onClick={toggleNav}>
-              <button className="btn btn-secondary">Login</button>
-            </Link>
-          )}
-        </span>
-      </div>
-    </div>
+      {/* Logout confirmation prompt */}
+      <Prompt
+        message="Are you sure you want to logout?"
+        isOpen={showPrompt}
+        onConfirm={confirmLogout}
+        onCancel={cancelLogout}
+      />
+    </>
   );
 }
 

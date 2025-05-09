@@ -35,9 +35,7 @@ const NotificationContext = createContext<NotificationContextType | undefined>(
 
 export const NotificationProvider = ({ children }: { children: ReactNode }) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
-const user = useUserStore((state)=>state.user)
-
-  
+  const user = useUserStore((state) => state.user);
 
   useEffect(() => {
     if (!user || user.id !== process.env.NEXT_PUBLIC_ADMINS) {
@@ -93,7 +91,7 @@ const user = useUserStore((state)=>state.user)
     const unsubProperties = listenToCollection("properties", "property");
     const unsubReviews = listenToCollection("Reviews", "review");
     const unsubMarketItems = listenToCollection("Marketitems", "market item");
-    const unsubComments = listenToCollection("comments", "comment");
+    const unsubComments = listenToCollection("trendcomments", "comment");
     const unsubConversations = listenToCollection(
       "conversations",
       "conversation"

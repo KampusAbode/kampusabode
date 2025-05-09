@@ -213,3 +213,4 @@ export const getAuthState = async (): Promise<{ isAuthenticated: boolean }> => {
     return { isAuthenticated: false };
   }
 };
+

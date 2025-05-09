@@ -3,7 +3,6 @@ import "./globals.css";
 import ClientRootLayout from "./ClientRootLayout";
 import { NotificationProvider } from "./context/NotificationContext";
 import ProtectedRoute from "./lib/useAuthListener";
-import Head from "next/head";
 
 export const metadata: Metadata = {
   title: "Kampusabode App - apartment Listing Site",
@@ -27,7 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Head>
+      <head>
         {/* Google Analytics */}
         <script
           async
@@ -42,7 +41,7 @@ export default function RootLayout({
             `,
           }}
         />
-      </Head>
+      </head>
       <body>
         <ProtectedRoute>
           <NotificationProvider>

@@ -99,7 +99,7 @@ const ListedProperties = () => {
     <div className="listed-properties">
       <h5>
         Your Listings{" "}
-        <Link href={"/apartment/c/upload"} className="btn">
+        <Link href={`/apartment/c/${user?.id}`} className="btn">
           Upload
         </Link>
       </h5>

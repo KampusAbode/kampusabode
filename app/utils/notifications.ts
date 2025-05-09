@@ -39,11 +39,27 @@ export const startNotificationListeners = (
   callback: (notif: any) => void
 ): (() => void) => {
   const unsubUsers = listenToCollection("users", "user", callback);
-  const unsubProperties = listenToCollection("properties", "property", callback);
+  const unsubProperties = listenToCollection(
+    "properties",
+    "property",
+    callback
+  );
   const unsubReviews = listenToCollection("Reviews", "review", callback);
-  const unsubMarketItems = listenToCollection("Marketitems", "market item", callback);
-  const unsubComments = listenToCollection("comments", "comment", callback);
-  const unsubConversations = listenToCollection("conversations", "conversation", callback);
+  const unsubMarketItems = listenToCollection(
+    "Marketitems",
+    "market item",
+    callback
+  );
+  const unsubComments = listenToCollection(
+    "trendcomments",
+    "comment",
+    callback
+  );
+  const unsubConversations = listenToCollection(
+    "conversations",
+    "conversation",
+    callback
+  );
   const unsubTrends = listenToCollection("trends", "trend", callback);
 
   return () => {

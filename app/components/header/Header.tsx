@@ -6,25 +6,25 @@ import data from "../../fetch/contents";
 import Link from "next/link";
 import Image from "next/image";
 import { FaBars } from "react-icons/fa";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import BackButton from "../features/backbutton/BackButton";
 import { useUserStore } from "../../store/userStore";
 import useNavStore from "../../store/menuStore";
+import Prompt from "../prompt/Prompt"; 
 
 const { links } = data;
 
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
 
   const { user, logoutUser } = useUserStore((state) => state);
   const { isNavOpen, toggleNav } = useNavStore((state) => state);
-  // Move the useRouter hook here (at the top of the component)
-  const router = useRouter();
 
   const [isHeader, setIsHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [showPrompt, setShowPrompt] = useState(false);
 
   const handleScroll = () => {
     window.requestAnimationFrame(() => {
@@ -34,14 +34,19 @@ export default function Header() {
     });
   };
 
-  const logOut = async () => {
+  const confirmLogout = async () => {
+    setShowPrompt(false);
     try {
-      const response = await logoutUser();
-      toast.success(`logged out successfully 👌`);
+      await logoutUser();
+      toast.success("Logged out successfully 👌");
       router.push("/");
     } catch (error) {
       toast.error(error?.message || "An unexpected error occurred.");
     }
+  };
+
+  const handleLogoutClick = () => {
+    setShowPrompt(true);
   };
 
   useEffect(() => {
@@ -49,7 +54,6 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY, isNavOpen]);
 
-  // Pages where the header will show the back button and page name
   const pagesWithBackButton = [
     "profile",
     "apartment/",
@@ -62,15 +66,9 @@ export default function Header() {
     "about",
     "trends",
   ];
-
   const showBackButton = pagesWithBackButton.some((path) =>
     pathname.includes(`/${path}`)
   );
-
-  const pageName =
-    pagesWithBackButton.find((path) => pathname.includes(`/${path}`)) || "";
-
-  // Render the header only if the pathname contains any of the excluded paths
   const excludedPaths = ["login", "signup"];
   if (excludedPaths.some((path) => pathname.includes(`/${path}`))) {
     return null;
@@ -86,7 +84,7 @@ export default function Header() {
             <div className={`logo ${!user ? "loggedIn" : ""}`}>
               <Link href="/">
                 <Image
-                  src={"/LOGO/RED_LOGO_T.png"}
+                  src="/LOGO/RED_LOGO_T.png"
                   width={500}
                   height={500}
                   alt="logo"
@@ -112,12 +110,14 @@ export default function Header() {
                 {user ? "get in touch" : "signup"}
               </Link>
               {user ? (
-                user?.userType === "student" ? (
-                  <span className="btn" onClick={() => logOut()}>
+                user.userType === "student" ? (
+                  <span className="btn" onClick={handleLogoutClick}>
                     logout
                   </span>
-                ) : user?.userType === "agent" ? (
-                  <Link href="/apartment/c/upload" className="sign-up-btn btn">
+                ) : user.userType === "agent" ? (
+                  <Link
+                    href={`/apartment/c/${user.id}`}
+                    className="sign-up-btn btn">
                     upload
                   </Link>
                 ) : null
@@ -129,11 +129,20 @@ export default function Header() {
             </div>
           </nav>
 
-          <div className="menu" onClick={() => toggleNav()}>
+          <div className="menu" onClick={toggleNav}>
             <FaBars />
           </div>
         </div>
       </header>
+
+
+      {/* Logout confirmation prompt */}
+      <Prompt
+        message="Are you sure you want to logout?"
+        isOpen={showPrompt}
+        onConfirm={confirmLogout}
+        onCancel={() => setShowPrompt(false)}
+      />
     </>
   );
 }

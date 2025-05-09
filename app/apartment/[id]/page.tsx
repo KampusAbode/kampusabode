@@ -1,6 +1,5 @@
 // app/apartment/[id]/page.tsx
 import { Metadata } from "next";
-import { useEffect } from "react";
 import PropertyDetails from "./components/propertyDetails";
 import { useProperties } from "../../utils";
 

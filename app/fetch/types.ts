@@ -61,6 +61,7 @@ export interface ApartmentType {
   images: string[];
   available: boolean;
   approved: boolean;
+  views: number;
 }
 
 export interface TrendType {

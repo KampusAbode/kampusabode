@@ -5,10 +5,10 @@ import "./upload.css";
 import { useRouter } from "next/navigation";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useProperties } from "../../../utils";
+import { useProperties } from "../../../../utils";
 import toast from "react-hot-toast";
-import { ApartmentType } from "../../../fetch/types";
-import { useUserStore } from "../../../store/userStore";
+import { ApartmentType } from "../../../../fetch/types";
+import { useUserStore } from "../../../../store/userStore";
 
 const locationOptions = [
   "asherifa",
