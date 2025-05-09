@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
@@ -96,18 +96,20 @@ function PropertyUploadGuide() {
           <p>
             If you have any questions or need assistance, please contact our
             support team at{" "}
-            <a href="mailto: contactkampusabode@gmail.com">send a mail</a>
-            or reach out to us on our
+            <a href="mailto: contactkampusabode@gmail.com">send a mail</a> or
+            reach out to us on our
             <a href="https://wa.me/2347050721686" target="_blank">
               {" "}
               WhatsApp
-            </a>
+            </a>{" "}
             for immediate assistance.
           </p>
         </div>
 
         <div className="upload-btn">
-          <a href={`/apartment/c/${user?.id}/upload`} className="btn">next <FaArrowRightLong/></a>
+          <a href={`/apartment/c/${user?.id}/upload`} className="btn">
+            next <FaArrowRightLong />
+          </a>
         </div>
       </div>
     </div>
