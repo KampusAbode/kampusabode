@@ -7,7 +7,7 @@ import { SlOptionsVertical } from "react-icons/sl";
 import Link from "next/link";
 import Image from "next/image";
 import Loader from "../loader/Loader";
-import Prompt from "../prompt/Prompt";
+import Prompt from "../modals/prompt/Prompt";
 import toast from "react-hot-toast";
 import { useUserStore } from "../../store/userStore";
 

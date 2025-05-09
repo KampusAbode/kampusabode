@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 import BackButton from "../features/backbutton/BackButton";
 import { useUserStore } from "../../store/userStore";
 import useNavStore from "../../store/menuStore";
-import Prompt from "../prompt/Prompt"; 
+import Prompt from "../modals/prompt/Prompt";
 
 const { links } = data;
 
@@ -134,7 +134,6 @@ export default function Header() {
           </div>
         </div>
       </header>
-
 
       {/* Logout confirmation prompt */}
       <Prompt

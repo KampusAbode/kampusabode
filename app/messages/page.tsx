@@ -5,8 +5,7 @@ import Link from "next/link";
 import { useUserStore } from "../store/userStore";
 import { getMessagesForUser, deleteMessageFromFirebase } from "../utils";
 import MessageCard from "./components/MessageCard";
-import Prompt from "../components/prompt/Prompt";
-
+import Prompt from "../components/modals/prompt/Prompt";
 
 interface Message {
   id: string;
@@ -17,7 +16,6 @@ interface Message {
   read: boolean;
   timestamp: number;
 }
-
 
 const Messages = () => {
   const { user } = useUserStore((state) => state);

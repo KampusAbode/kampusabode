@@ -11,8 +11,7 @@ import toast from "react-hot-toast";
 import "./nav.css";
 import useNavStore from "../../store/menuStore";
 import { useUserStore } from "../../store/userStore";
-import Prompt from "../prompt/Prompt";
-
+import Prompt from "../modals/prompt/Prompt";
 
 function Nav() {
   const pathname = usePathname();
@@ -74,8 +73,7 @@ function Nav() {
             <Link
               href={`/apartment/c/${user.id}`}
               className="btn"
-              onClick={toggleNav}
-            >
+              onClick={toggleNav}>
               upload property
             </Link>
           )}
@@ -96,11 +94,7 @@ function Nav() {
             </li>
 
             {user?.id === process.env.NEXT_PUBLIC_ADMIN_ID && (
-              <li
-                className={
-                  pathname === "/adminchatroom" ? "active" : ""
-                }
-              >
+              <li className={pathname === "/adminchatroom" ? "active" : ""}>
                 <Link href="/adminchatroom" onClick={toggleNav}>
                   <GrUserAdmin />
                   User Messages
@@ -111,8 +105,7 @@ function Nav() {
             <li
               className={
                 pathname === "/dashboard" || pathname === "/" ? "active" : ""
-              }
-            >
+              }>
               <Link href={user ? "/dashboard" : "/"} onClick={toggleNav}>
                 {user ? <CiViewBoard /> : <CiHome />}
                 {user ? "dashboard" : "home"}
@@ -130,12 +123,10 @@ function Nav() {
               <li
                 className={
                   pathname === `/chat/${user.id}/${user.name}` ? "active" : ""
-                }
-              >
+                }>
                 <Link
                   href={`/chat/${user.id}/${user.name}`}
-                  onClick={toggleNav}
-                >
+                  onClick={toggleNav}>
                   <IoChatbubblesOutline />
                   chat
                 </Link>

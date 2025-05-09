@@ -96,7 +96,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
 
   const handleBookingConfirm = () => {
     // Logic to move to payment or confirm booking
-    toast.success(`Booking confirmed for:${propertyDetails.title}`);
+    toast.success(`Booking confirmed for: ${propertyDetails.title} with the total package of ₦${propertyDetails.price.toLocaleString()}`);
     setIsModalOpen(false);
   };
 

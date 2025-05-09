@@ -358,7 +358,7 @@
     background-color: var(--white);
     padding-block: var(--spacing);
     box-shadow: var(--shadow);
-    z-index: 99999;
+    z-index: 9999;
   }
   .prop-cta .container {
     display: grid;

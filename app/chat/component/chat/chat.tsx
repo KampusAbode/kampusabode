@@ -20,7 +20,7 @@ import {
 } from "../../../utils";
 import "./chat.css";
 import Loader from "../../../components/loader/Loader";
-import Prompt from "../../../components/prompt/Prompt";
+import Prompt from "../../../components/modals/prompt/Prompt";
 import { useUserStore } from "../../../store/userStore";
 
 type ChatProps = {
@@ -47,7 +47,7 @@ const ChatComponent: React.FC<ChatProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const {user} = useUserStore((state) => state);
+  const { user } = useUserStore((state) => state);
 
   // Fetch messages
   useEffect(() => {
@@ -111,26 +111,26 @@ const ChatComponent: React.FC<ChatProps> = ({
     }
   };
 
- const formatTimestamp = (timestamp: any): string => {
-   const now = new Date();
-   const date =
-     timestamp && typeof timestamp.toDate === "function"
-       ? timestamp.toDate()
-       : new Date(timestamp);
+  const formatTimestamp = (timestamp: any): string => {
+    const now = new Date();
+    const date =
+      timestamp && typeof timestamp.toDate === "function"
+        ? timestamp.toDate()
+        : new Date(timestamp);
 
-   const minutesDiff = differenceInMinutes(now, date);
-   const hoursDiff = differenceInHours(now, date);
-   const daysDiff = differenceInDays(now, date);
+    const minutesDiff = differenceInMinutes(now, date);
+    const hoursDiff = differenceInHours(now, date);
+    const daysDiff = differenceInDays(now, date);
 
-   if (minutesDiff < 1) return "Just now";
-   if (minutesDiff < 60) return `${minutesDiff}m`;
-   if (hoursDiff < 24 && isToday(date)) return `${hoursDiff}h`;
-   if (isYesterday(date)) return `Yesterday at ${format(date, "h:mm a")}`;
-   if (isThisWeek(date))
-     return `${format(date, "EEEE")} at ${format(date, "h:mm a")}`;
-   if (isThisYear(date)) return format(date, "MMM d");
-   return format(date, "MMM d, yyyy");
- };
+    if (minutesDiff < 1) return "Just now";
+    if (minutesDiff < 60) return `${minutesDiff}m`;
+    if (hoursDiff < 24 && isToday(date)) return `${hoursDiff}h`;
+    if (isYesterday(date)) return `Yesterday at ${format(date, "h:mm a")}`;
+    if (isThisWeek(date))
+      return `${format(date, "EEEE")} at ${format(date, "h:mm a")}`;
+    if (isThisYear(date)) return format(date, "MMM d");
+    return format(date, "MMM d, yyyy");
+  };
 
   const handleLongPress = (message) => {
     if (message.senderId === currentUserId || currentUserRole === "admin") {
