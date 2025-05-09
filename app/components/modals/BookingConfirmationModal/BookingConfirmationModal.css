@@ -43,7 +43,6 @@
 }
 .booking-modal .modal-body .modal-disclaimer {
   font-size: calc(0.875 * var(--spacing));
-  color: var(--light-gray);
   margin-top: 8px;
   line-height: 1.5;
 }
