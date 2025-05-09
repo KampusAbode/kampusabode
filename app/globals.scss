@@ -78,13 +78,8 @@
   &:focus-visible {
     border: var(--border);
   }
-  &::-webkit-scrollbar-track {
-    background: tranparent;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: var(--light-gray);
-    border-radius: 8px;
-    width: 8px;
+  *:not(body)::-webkit-scrollbar {
+    display: none;
   }
 }
 
@@ -350,9 +345,7 @@ button {
     font-size: var(--font-size-sm);
     line-height: var(--line-height-sm);
   }
-  *:not(body)::-webkit-scrollbar {
-    display: none;
-  }
+  
 
   .heading-section {
     text-align: left;
