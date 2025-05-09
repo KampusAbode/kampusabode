@@ -29,7 +29,7 @@ export default function Header() {
   const handleScroll = () => {
     window.requestAnimationFrame(() => {
       setIsHeader(window.scrollY <= lastScrollY);
-      if (isNavOpen) toggleNav();
+      
       setLastScrollY(window.scrollY);
     });
   };
