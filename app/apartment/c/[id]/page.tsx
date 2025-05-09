@@ -107,7 +107,7 @@ function PropertyUploadGuide() {
         </div>
 
         <div className="upload-btn">
-          <a href={`apartment/c/${user?.id}/upload`} className="btn">next <FaArrowRightLong/></a>
+          <a href={`/apartment/c/${user?.id}/upload`} className="btn">next <FaArrowRightLong/></a>
         </div>
       </div>
     </div>
