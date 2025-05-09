@@ -290,6 +290,8 @@
 
 .prop-cta {
   margin-top: var(--spacing);
+}
+.prop-cta .container {
   display: flex;
   gap: var(--spacing);
 }
@@ -356,7 +358,12 @@
     background-color: var(--white);
     padding-block: var(--spacing);
     box-shadow: var(--shadow);
-    z-index: 999;
+    z-index: 99999;
+  }
+  .prop-cta .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing);
   }
 }
 @media screen and (max-width: 480px) {

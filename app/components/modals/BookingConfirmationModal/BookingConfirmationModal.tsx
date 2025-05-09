@@ -8,7 +8,9 @@ export default function BookingConfirmationModal({
 }) {
   if (!isOpen) return null;
 
-  const totalPrice = apartment.rent + apartment.serviceFee;
+  const totalPriceWithServiceFee = apartment.price;
+  const serviceFee = totalPriceWithServiceFee * 0.1; 
+  const rent = totalPriceWithServiceFee - serviceFee;
 
   return (
     <div className="modal-overlay">
@@ -30,16 +32,16 @@ export default function BookingConfirmationModal({
 
           <div className="modal-section">
             <label>Rent:</label>
-            <p>₦{apartment.rent.toLocaleString()}</p>
+            <p>₦{rent.toLocaleString()}</p>
 
             <label>Service Fee:</label>
-            <p>₦{apartment.serviceFee.toLocaleString()}</p>
+            <p>₦{serviceFee.toLocaleString()}</p>
           </div>
 
           <div className="modal-section total">
             <label>Total Payment:</label>
             <p>
-              <strong>₦{totalPrice.toLocaleString()}</strong>
+              <strong>₦{totalPriceWithServiceFee.toLocaleString()}</strong>
             </p>
           </div>
 

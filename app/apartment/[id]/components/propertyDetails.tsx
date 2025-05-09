@@ -256,24 +256,24 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
           </div>
         </div>
       </section>
-      
+
       <div className="prop-cta">
-        <Link
-          className="btn"
-          href={user ? `/chat/${user.id}/${user.name}` : `/auth/login`}>
-          for more info
-        </Link>
-        <Link
-          className="btn btn-secondary"
-          href={user ? `tel:+2347050721686` : `/auth/login`}>
-          Make a call
-        </Link>
+        <div className="container">
+          <span className="btn" onClick={() => setIsModalOpen(true)}>
+            for more info
+          </span>
+          <Link
+            className="btn btn-secondary"
+            href={user ? `tel:+2347050721686` : `/auth/login`}>
+            Make a call
+          </Link>
+        </div>
       </div>
 
       <BookingConfirmationModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        apartment={propertyDetails.price}
+        apartment={propertyDetails}
         onConfirm={handleBookingConfirm}
       />
     </SaveVisitedProperty>
