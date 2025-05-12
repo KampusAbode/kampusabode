@@ -27,7 +27,7 @@ export default function Navigation() {
     // Simulate a delay to wait for user authentication status
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -87,15 +87,15 @@ export default function Navigation() {
     <nav className="navigation">
       <ul className={id ? "grid" : "flex"}>
         <li className={pathname === "/apartment" ? "active" : ""}>
-          <button onClick={() => handleNavigation("/apartment")}>
+          <button title="Apartments"  onClick={() => handleNavigation("/apartment")}>
             <FaSearchLocation />
-            <span>properties</span>
+            <span>apartments</span>
           </button>
         </li>
 
         {id && (
           <li className={pathname === "/messages" ? "active" : ""}>
-            <button onClick={() => handleNavigation("/messages")}>
+            <button title="Messages" onClick={() => handleNavigation("/messages")}>
               <IoChatboxEllipses />
               <span>messages</span>
               {unreadCount > 0 && <div className="unread">{unreadCount}</div>}
@@ -104,7 +104,7 @@ export default function Navigation() {
         )}
 
         <li className={pathname === "/trends" ? "active" : ""}>
-          <button onClick={() => handleNavigation("/trends")}>
+          <button title="Trends" onClick={() => handleNavigation("/trends")}>
             <FaBookReader />
             <span>trends</span>
           </button>
@@ -112,7 +112,7 @@ export default function Navigation() {
 
         {id && (
           <li className={pathname === "/saved" ? "active" : ""}>
-            <button onClick={() => handleNavigation("/saved")}>
+            <button title="Saved" onClick={() => handleNavigation("/saved") }>
               <FaBookmark />
               <span>saved</span>
             </button>
@@ -126,6 +126,7 @@ export default function Navigation() {
               : ""
           }>
           <button
+            title="Marketplace"
             onClick={() =>
               handleNavigation(id ? "/marketplace" : "/auth/login")
             }>

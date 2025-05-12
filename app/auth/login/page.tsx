@@ -131,7 +131,7 @@ const LoginPage = () => {
 
             <button
               className="btn"
-              title="button"
+              title="Button"
               type="submit"
               disabled={isSubmitting}>
               {isSubmitting ? "Logging in..." : "Login"}

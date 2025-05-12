@@ -73,6 +73,7 @@ function Nav() {
             <Link
               href={`/apartment/c/${user.id}`}
               className="btn"
+              title="Button"
               onClick={toggleNav}>
               upload property
             </Link>
@@ -83,22 +84,22 @@ function Nav() {
               <Link
                 href="/admin"
                 className="btn"
-                title="button"
+                title="Button"
                 onClick={toggleNav}>
                 Admin Dashboard
               </Link>
             )}
 
           <ul>
-            <li className={pathname === "/apartment" ? "active" : ""}>
+            <li title="Apartment" className={pathname === "/apartment" ? "active" : ""}>
               <Link href="/apartment" onClick={toggleNav}>
                 <FaSearchLocation />
-                properties
+                Apartment
               </Link>
             </li>
 
             {user?.id === process.env.NEXT_PUBLIC_ADMIN_ID && (
-              <li className={pathname === "/adminchatroom" ? "active" : ""}>
+              <li title="Admin Chat" className={pathname === "/adminchatroom" ? "active" : ""}>
                 <Link href="/adminchatroom" onClick={toggleNav}>
                   <GrUserAdmin />
                   User Messages
@@ -107,6 +108,7 @@ function Nav() {
             )}
 
             <li
+              title={user ? "Dashboard" : "Home"}
               className={
                 pathname === "/dashboard" || pathname === "/" ? "active" : ""
               }>
@@ -116,7 +118,9 @@ function Nav() {
               </Link>
             </li>
 
-            <li className={pathname === "/profile" ? "active" : ""}>
+            <li
+              title="Profile"
+              className={pathname === "/profile" ? "active" : ""}>
               <Link href="/profile" onClick={toggleNav}>
                 <FaRegUserCircle />
                 profile
@@ -125,6 +129,7 @@ function Nav() {
 
             {user && (
               <li
+                title="Chat"
                 className={
                   pathname === `/chat/${user.id}/${user.name}` ? "active" : ""
                 }>
@@ -143,12 +148,17 @@ function Nav() {
           <span>
             ©️ 2024. All rights reserved.
             {user ? (
-              <button className="btn btn-secondary" onClick={handleLogoutClick}>
+              <button
+                className="btn secondary-btn"
+                title="Logout"
+                onClick={handleLogoutClick}>
                 Logout
               </button>
             ) : (
               <Link href="/auth/login" onClick={toggleNav}>
-                <button className="btn btn-secondary">Login</button>
+                <button className="btn secondary-btn" title="Login">
+                  Login
+                </button>
               </Link>
             )}
           </span>

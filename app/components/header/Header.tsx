@@ -106,14 +106,15 @@ export default function Header() {
             <div className="cta">
               <Link
                 href={user ? "/contact" : "/auth/signup"}
-                className="btn btn-secondary">
+                className="btn secondary-btn"
+                title="Button">
                 {user ? "get in touch" : "signup"}
               </Link>
               {user ? (
                 user.userType === "student" ? (
                   <span
                     className="btn"
-                    title="button"
+                    title="Button"
                     onClick={handleLogoutClick}>
                     logout
                   </span>

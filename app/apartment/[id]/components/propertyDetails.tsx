@@ -265,12 +265,13 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
         <div className="container">
           <span
             className="btn"
-            title="button"
+            title="Button"
             onClick={() => setIsModalOpen(true)}>
             inspect apartment
           </span>
           <Link
-            className="btn btn-secondary"
+            className="btn secondary-btn"
+            title="Button"
             href={user ? `tel:+2347050721686` : `/auth/login`}>
             Make a call
           </Link>

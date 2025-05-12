@@ -187,7 +187,7 @@ const TrendPage = ({ params }: Params) => {
               />
               <div
                 className="btn"
-                title="button"
+                title="Button"
                 onClick={() => handleCommentSubmit(content)}>
                 send comment
               </div>
