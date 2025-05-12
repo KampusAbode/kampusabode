@@ -81,8 +81,9 @@
             color: #555;
           }
         }
-        .forget-password{
+        .forget-password {
           text-decoration: underline;
+          font-size: var(--font-size-sm);
         }
         button {
           margin: var(--spacing) auto;
@@ -90,7 +91,6 @@
           width: 100%;
           display: block;
           text-align: center;
-          /* text-decoration: ; */
 
           &.disable {
             user-select: none;
@@ -122,8 +122,6 @@
       }
 
       .fm {
-        padding: var(--spacing-2x);
-
         h4 {
           margin-bottom: var(--spacing-2x);
           text-align: center;

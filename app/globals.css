@@ -319,6 +319,9 @@ button {
     font-size: var(--font-size-sm);
     line-height: var(--line-height-sm);
   }
+  .container {
+    width: 95%;
+  }
   .heading-section {
     text-align: left;
   }

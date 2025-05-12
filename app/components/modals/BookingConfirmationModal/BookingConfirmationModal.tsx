@@ -9,7 +9,7 @@ export default function BookingConfirmationModal({
   if (!isOpen) return null;
 
   const totalPriceWithServiceFee = apartment.price;
-  const serviceFee = totalPriceWithServiceFee * 0.1; 
+  const serviceFee = totalPriceWithServiceFee * 0.1;
   const rent = totalPriceWithServiceFee - serviceFee;
 
   return (
@@ -56,7 +56,7 @@ export default function BookingConfirmationModal({
           <button className="btn secondary-btn" onClick={onClose}>
             Cancel
           </button>
-          <button className="btn" onClick={onConfirm}>
+          <button className="btn" title="button" onClick={onConfirm}>
             Proceed to Payment
           </button>
         </div>

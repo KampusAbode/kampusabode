@@ -96,7 +96,11 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
 
   const handleBookingConfirm = () => {
     // Logic to move to payment or confirm booking
-    toast.success(`Booking confirmed for: ${propertyDetails.title} with the total package of ₦${propertyDetails.price.toLocaleString()}`);
+    toast.success(
+      `Booking confirmed for: ${
+        propertyDetails.title
+      } with the total package of ₦${propertyDetails.price.toLocaleString()}`
+    );
     setIsModalOpen(false);
   };
 
@@ -259,8 +263,11 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
 
       <div className="prop-cta">
         <div className="container">
-          <span className="btn" onClick={() => setIsModalOpen(true)}>
-            for more info
+          <span
+            className="btn"
+            title="button"
+            onClick={() => setIsModalOpen(true)}>
+            inspect apartment
           </span>
           <Link
             className="btn btn-secondary"

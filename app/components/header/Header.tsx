@@ -29,7 +29,7 @@ export default function Header() {
   const handleScroll = () => {
     window.requestAnimationFrame(() => {
       setIsHeader(window.scrollY <= lastScrollY);
-      
+
       setLastScrollY(window.scrollY);
     });
   };
@@ -111,7 +111,10 @@ export default function Header() {
               </Link>
               {user ? (
                 user.userType === "student" ? (
-                  <span className="btn" onClick={handleLogoutClick}>
+                  <span
+                    className="btn"
+                    title="button"
+                    onClick={handleLogoutClick}>
                     logout
                   </span>
                 ) : user.userType === "agent" ? (

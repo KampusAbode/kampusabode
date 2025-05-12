@@ -80,7 +80,11 @@ function Nav() {
 
           {user?.userType === "agent" &&
             user?.id === process.env.NEXT_PUBLIC_ADMIN_ID && (
-              <Link href="/admin" className="btn" onClick={toggleNav}>
+              <Link
+                href="/admin"
+                className="btn"
+                title="button"
+                onClick={toggleNav}>
                 Admin Dashboard
               </Link>
             )}

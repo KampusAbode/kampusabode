@@ -78,7 +78,7 @@ const LoginPage = () => {
           />
         </div>
         <div className="fm">
-          <h4>Login with your account</h4>
+          <h4>Welcome back!</h4>
           <form onSubmit={handleSubmit}>
             <div className="input-box">
               <label htmlFor="email">Email</label>
@@ -129,7 +129,11 @@ const LoginPage = () => {
               </Link>
             </div>
 
-            <button className="btn" type="submit" disabled={isSubmitting}>
+            <button
+              className="btn"
+              title="button"
+              type="submit"
+              disabled={isSubmitting}>
               {isSubmitting ? "Logging in..." : "Login"}
             </button>
           </form>

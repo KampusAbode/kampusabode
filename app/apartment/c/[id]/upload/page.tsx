@@ -286,7 +286,11 @@ const UploadProperty = () => {
                   className="error"
                 />
               </div>
-              <button type="submit" className="btn" disabled={isSubmitting}>
+              <button
+                type="submit"
+                className="btn"
+                title="button"
+                disabled={isSubmitting}>
                 {isSubmitting ? "Uploading..." : "Upload Property"}
               </button>
               {status && status.success && (

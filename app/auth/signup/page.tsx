@@ -208,7 +208,11 @@ const SignupPage = () => {
               </div>
             )}
 
-            <button type="submit" className="btn" disabled={isSubmitting}>
+            <button
+              type="submit"
+              className="btn"
+              title="button"
+              disabled={isSubmitting}>
               {isSubmitting ? "Signing up..." : "Sign Up"}
             </button>
           </form>

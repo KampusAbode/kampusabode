@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 import {
   updateUserProfile,
   uploadImageToAppwrite,
-  useProperties
+  useProperties,
 } from "../../utils";
 import { UserType, StudentUserInfo, AgentUserInfo } from "../../fetch/types";
 import "./updateprofile.css";
@@ -14,8 +14,8 @@ import { useUserStore } from "../../store/userStore";
 
 const CreateProfilePage = () => {
   const router = useRouter();
-  const {user, setUser}=useUserStore((state)=>state)
-  const { deleteAppwriteImage }= useProperties();
+  const { user, setUser } = useUserStore((state) => state);
+  const { deleteAppwriteImage } = useProperties();
 
   const [formValues, setFormValues] = useState<UserType>();
 
@@ -76,10 +76,7 @@ const CreateProfilePage = () => {
         {} as Partial<UserType>
       );
 
-      if (
-        Object.keys(updateduser).length === 0 &&
-        avatarUrl === user?.avatar
-      ) {
+      if (Object.keys(updateduser).length === 0 && avatarUrl === user?.avatar) {
         toast.error("No changes made.");
         setIsSubmitting(false);
         return;
@@ -141,7 +138,6 @@ const CreateProfilePage = () => {
                 id="name"
                 value={formValues?.name}
                 onChange={handleInputChange}
-                
               />
             </div>
 
@@ -180,7 +176,6 @@ const CreateProfilePage = () => {
               />
             </div>
 
-      
             {user?.userType === "agent" && (
               <>
                 <div className="input-box">
@@ -189,16 +184,18 @@ const CreateProfilePage = () => {
                     type="text"
                     name="agencyName"
                     id="agencyName"
-                    placeholder={
-                      (user?.userInfo as AgentUserInfo).agencyName
-                    }
+                    placeholder={(user?.userInfo as AgentUserInfo).agencyName}
                     onChange={handleInputChange}
                   />
                 </div>
               </>
             )}
 
-            <button className="btn" type="submit" disabled={isSubmitting}>
+            <button
+              className="btn"
+              title="button"
+              type="submit"
+              disabled={isSubmitting}>
               {isSubmitting ? "Updating..." : "Update"}
             </button>
           </form>

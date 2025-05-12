@@ -31,8 +31,7 @@ const TrendPage = ({ params }: Params) => {
   const [comments, setComments] = useState<CommentType[]>([]);
   const [content, setContent] = useState<string>("");
   // const [relatedTrends, setRelatedTrends] = useState<TrendType[]>([]);
-  const {user} = useUserStore((state) => state);
-
+  const { user } = useUserStore((state) => state);
 
   useEffect(() => {
     const fetchTrendData = async () => {
@@ -78,7 +77,6 @@ const TrendPage = ({ params }: Params) => {
 
   const handleCommentSubmit = async (comment: string) => {
     try {
-
       if (!user || !user?.id || !user?.userInfo || !user?.avatar) {
         toast.error("Please sign in to add a comment.");
         return;
@@ -179,7 +177,7 @@ const TrendPage = ({ params }: Params) => {
                 ))
               )}
             </div>
-            
+
             <div className="send-comment">
               <textarea
                 placeholder="Add a comment..."
@@ -187,7 +185,10 @@ const TrendPage = ({ params }: Params) => {
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
-              <div className="btn" onClick={() => handleCommentSubmit(content)}>
+              <div
+                className="btn"
+                title="button"
+                onClick={() => handleCommentSubmit(content)}>
                 send comment
               </div>
             </div>
