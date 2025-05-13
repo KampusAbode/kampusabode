@@ -50,12 +50,8 @@ const PropertiesPage: React.FC = () => {
     setSearchQuery(initialSearchQuery);
     setActiveLocation(initialActiveLocation);
 
-    // Delay filtering slightly so properties are set
-    const timeout = setTimeout(() => {
-      filterProperties();
-    }, 100);
 
-    return () => clearTimeout(timeout);
+    filterProperties();
   }, [
     setSearchQuery,
     setActiveLocation,

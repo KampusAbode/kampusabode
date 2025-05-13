@@ -42,7 +42,7 @@ export const usePropertiesStore = create<PropertiesState>()(
           const titleWords = property.title.toLowerCase().split(/\s+/);
           const matches =
             queryWords.filter((word) => titleWords.includes(word)).length >=
-              3 ||
+              2 ||
             property.location.toLowerCase().includes(query) ||
             property.type.toLowerCase().includes(query);
           const locationMatch =

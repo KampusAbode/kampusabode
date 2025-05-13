@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import { useProperties } from "../utils";
-import TrendCard from "../trends/component/trendCard/TrendCard";
+// import TrendCard from "../trends/component/trendCard/TrendCard";
 import { TrendType, ApartmentType } from "../fetch/types";
 import Link from "next/link";
-import { useUserStore } from "../store/userStore"; // assuming you have a Zustand store for user data
+import { useUserStore } from "../store/userStore";
+import "./saved.css";
 
 const SavedPage = () => {
   const [currentTab, setCurrentTab] = useState("properties");
@@ -55,7 +56,7 @@ const SavedPage = () => {
       return (
         <div className="saved-props">
           <p style={{ textAlign: "center", marginTop: "8rem" }}>
-            No saved properties yet! 🏠
+            No saved apartments yet! 🏠
           </p>
         </div>
       );

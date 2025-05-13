@@ -3,10 +3,9 @@
 import React, { useEffect, useState } from "react";
 import { allTrends } from "../utils";
 import TrendCard from "./component/trendCard/TrendCard";
-import "./trends.css";
-// import { FaSearch } from "react-icons/fa";
 import Loader from "../components/loader/Loader";
 import { TrendType } from "../fetch/types";
+import "./trends.css";
 
 export default function trendsPage() {
   const [trends, setTrends] = useState<TrendType[]>([]);
@@ -75,7 +74,7 @@ export default function trendsPage() {
         <h2 className="page-heading">Trends</h2>
       </div>
 
-      <div className="filter">
+      <div className="trends-filter">
         <div className="container">
           {/* <div className="search-trends">
             <input
@@ -118,7 +117,8 @@ export default function trendsPage() {
             </div>
           ) : (
             <p style={{ marginBlock: "2rem", textAlign: "center" }}>
-              No trend available.
+              {`${activeCategory === "all" ? "No" : `No ${activeCategory}`}`}{" "}
+              trend available.
             </p>
           )
         ) : (
