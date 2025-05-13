@@ -54,7 +54,7 @@ export default function BookingConfirmationModal({
 
         <div className="modal-footer">
           <button
-            className="btn secondary-btn"
+            className="btn btn-secondary"
             title="Button"
             onClick={onClose}>
             Cancel

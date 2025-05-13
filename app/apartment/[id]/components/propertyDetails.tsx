@@ -270,7 +270,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
             inspect apartment
           </span>
           <Link
-            className="btn secondary-btn"
+            className="btn btn-secondary"
             title="Button"
             href={user ? `tel:+2347050721686` : `/auth/login`}>
             Make a call

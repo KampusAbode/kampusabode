@@ -81,7 +81,7 @@ const PropertyManagement = () => {
             </div>
             <div className="action">
               <button
-                className="btn secondary-btn"
+                className="btn btn-secondary"
                 title="Button"
                 onClick={() =>
                   handleToggleApprove(property.id, property.approved)

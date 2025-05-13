@@ -10,9 +10,9 @@
   --white: #ffffff;
   --black: #000000;
   --gray: #a8abad;
-  --light-gray: #f8f8f8;
+  --light-gray: #eeeeee;
   --dark-gray: #6d6d6d;
-  --font-color-h: #222222;
+  --font-color-h: #2e2e2e;
   --font-color-p: #6a6a6a;
   --font-light: #adb5bd;
   --font-white: #ffffff;
@@ -318,12 +318,6 @@ button {
   small {
     font-size: var(--font-size-sm);
     line-height: var(--line-height-sm);
-  }
-  .container {
-    width: 95%;
-  }
-  .heading-section {
-    text-align: left;
   }
   .heading-section p {
     width: 100%;

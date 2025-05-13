@@ -115,6 +115,7 @@
   .login,
   .signup {
     .container {
+      width: 90%;
       grid-template-columns: 1fr;
 
       .im {

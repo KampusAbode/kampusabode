@@ -65,11 +65,14 @@ export default function Header() {
     "marketplace",
     "about",
     "trends",
+    "auth/login",
+    "auth/signup"
   ];
   const showBackButton = pagesWithBackButton.some((path) =>
     pathname.includes(`/${path}`)
   );
-  const excludedPaths = ["login", "signup"];
+  // const excludedPaths = ["login", "signup"];
+  const excludedPaths = [];
   if (excludedPaths.some((path) => pathname.includes(`/${path}`))) {
     return null;
   }
@@ -106,7 +109,7 @@ export default function Header() {
             <div className="cta">
               <Link
                 href={user ? "/contact" : "/auth/signup"}
-                className="btn secondary-btn"
+                className="btn btn-secondary"
                 title="Button">
                 {user ? "get in touch" : "signup"}
               </Link>

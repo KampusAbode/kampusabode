@@ -91,7 +91,9 @@ function Nav() {
             )}
 
           <ul>
-            <li title="Apartment" className={pathname === "/apartment" ? "active" : ""}>
+            <li
+              title="Apartment"
+              className={pathname === "/apartment" ? "active" : ""}>
               <Link href="/apartment" onClick={toggleNav}>
                 <FaSearchLocation />
                 Apartment
@@ -99,7 +101,9 @@ function Nav() {
             </li>
 
             {user?.id === process.env.NEXT_PUBLIC_ADMIN_ID && (
-              <li title="Admin Chat" className={pathname === "/adminchatroom" ? "active" : ""}>
+              <li
+                title="Admin Chat"
+                className={pathname === "/adminchatroom" ? "active" : ""}>
                 <Link href="/adminchatroom" onClick={toggleNav}>
                   <GrUserAdmin />
                   User Messages
@@ -149,14 +153,14 @@ function Nav() {
             ©️ 2024. All rights reserved.
             {user ? (
               <button
-                className="btn secondary-btn"
+                className="btn btn-secondary"
                 title="Logout"
                 onClick={handleLogoutClick}>
                 Logout
               </button>
             ) : (
               <Link href="/auth/login" onClick={toggleNav}>
-                <button className="btn secondary-btn" title="Login">
+                <button className="btn btn-secondary" title="Login">
                   Login
                 </button>
               </Link>

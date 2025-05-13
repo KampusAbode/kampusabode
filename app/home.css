@@ -373,6 +373,9 @@
   -o-object-fit: cover;
      object-fit: cover;
 }
+.testimonials-section .container .testimonies .testimonial-card .details > div div span {
+  font-size: var(--font-size-xm);
+}
 .testimonials-section .container .testimonies .testimonial-card .details .rating {
   display: flex;
   gap: var(--spacing-h);
