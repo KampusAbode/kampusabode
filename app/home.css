@@ -360,32 +360,24 @@
   border-top-right-radius: var(--border-radius);
   padding: var(--spacing);
 }
-.testimonials-section .container .testimonies .testimonial-card .details > div {
+.testimonials-section .container .testimonies .testimonial-card .details .testi-profile {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--spacing);
 }
-.testimonials-section .container .testimonies .testimonial-card .details > div img {
+.testimonials-section .container .testimonies .testimonial-card .details .testi-profile img {
   width: 60px;
   height: 60px;
   border-radius: 100%;
   -o-object-fit: cover;
      object-fit: cover;
 }
-.testimonials-section .container .testimonies .testimonial-card .details > div div span {
-  font-size: var(--font-size-xm);
+.testimonials-section .container .testimonies .testimonial-card .details .testi-profile div span {
+  font-size: var(--font-size-xs);
 }
-.testimonials-section .container .testimonies .testimonial-card .details .rating {
-  display: flex;
-  gap: var(--spacing-h);
-  padding: var(--spacing-h);
-  background: var(--light-gray);
-  border-radius: var(--border-radius-r);
-}
-.testimonials-section .container .testimonies .testimonial-card .details .rating svg {
-  width: 10px;
-  height: 10px;
+.testimonials-section .container .testimonies .testimonial-card .details .rating svg path {
+  fill: green;
 }
 .testimonials-section .container .testimonies .testimonial-card .testi-content {
   border-top: var(--border);
