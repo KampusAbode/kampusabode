@@ -47,8 +47,16 @@
           }
         }
       }
-      .filter-trends {
-        .categories {
+      .filter {
+        background: var(--background-white);
+        border-radius: var(--border-radius);
+        // margin-block: var(--spacing);
+        padding-block: var(--spacing);
+        position: sticky;
+        top: 0;
+        z-index: 999;
+
+        .container {
           display: flex;
           align-items: center;
           justify-content: left;
@@ -56,17 +64,14 @@
           overflow-x: scroll;
           scrollbar-width: none;
           -ms-overflow-style: none;
-          position: sticky;
-          top: 0px;
 
           &::-webkit-scrollbar {
             display: none;
           }
 
-          .category-trend {
+          span {
             padding: var(--spacing-b);
-            border-radius: var(--border-radius);
-            border: 1px solid transparent;
+            border-radius: var(--border-radius-r);
             text-transform: capitalize;
             background: var(--light-gray);
             white-space: nowrap;
@@ -74,10 +79,9 @@
             transition: var(--transition);
 
             &:hover,
-            &:active,
             &.active {
-              border: var(--border-hover);
-              color: var(--font-color-h);
+              background-color: var(--black);
+              color: var(--font-white);
             }
           }
         }

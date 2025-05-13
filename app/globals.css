@@ -8,14 +8,15 @@
   --background-dark: #191c1f;
   --background-transparent: #00000042;
   --white: #ffffff;
-  --black: #000000;
+  --black: #0c0c0c;
   --gray: #a8abad;
-  --light-gray: #eeeeee;
+  --light-gray: #f0f0f0;
   --dark-gray: #6d6d6d;
   --font-color-h: #2e2e2e;
   --font-color-p: #6a6a6a;
   --font-light: #adb5bd;
   --font-white: #ffffff;
+  --font-black: #0c0c0c;
   --border: 1px solid #757575;
   --border-hover: 1px solid #474747;
   /* Border Radius */

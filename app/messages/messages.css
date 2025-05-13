@@ -2,16 +2,21 @@
   display: flex;
   gap: var(--spacing);
   margin-block: var(--spacing-2x);
+  overflow-x: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.messages-page .container .filter-messages::-webkit-scrollbar {
+  display: none;
 }
 .messages-page .container .filter-messages span {
   padding: var(--spacing-b);
   text-transform: capitalize;
   background: var(--light-gray);
-  border-radius: var(--border-radius);
-  border: var(--border);
-  border-color: transparent;
+  border-radius: var(--border-radius-r);
   cursor: pointer;
 }
 .messages-page .container .filter-messages span.active {
-  border: var(--border);
+  background-color: var(--black);
+  color: var(--font-white);
 }/*# sourceMappingURL=messages.css.map */

@@ -54,9 +54,8 @@ const SavedPage = () => {
     } else {
       return (
         <div className="saved-props">
-          <p>
-            Oops! Your saved list is empty! Why not start discovering your dream
-            apartment now? 💡
+          <p style={{ textAlign: "center", marginTop: "8rem" }}>
+            No saved properties yet! 🏠
           </p>
         </div>
       );
@@ -73,6 +72,7 @@ const SavedPage = () => {
             className={currentTab === "properties" ? "active" : ""}>
             properties
           </span>
+
           {/* <span
             onClick={() => setCurrentTab("trends")}
             className={currentTab === "trends" ? "active" : ""}>

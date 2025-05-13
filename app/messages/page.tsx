@@ -6,6 +6,7 @@ import { useUserStore } from "../store/userStore";
 import { getMessagesForUser, deleteMessageFromFirebase } from "../utils";
 import MessageCard from "./components/MessageCard";
 import Prompt from "../components/modals/prompt/Prompt";
+import "./messages.css";
 
 interface Message {
   id: string;
@@ -83,10 +84,16 @@ const Messages = () => {
       <div className="container">
         <h2 className="page-heading">Messages</h2>
 
-        <MessageFilter
-          selectedFilter={selectedFilter}
-          setSelectedFilter={setSelectedFilter}
-        />
+        <div className="filter-messages">
+          {["all", "read", "unread"].map((filter) => (
+            <span
+              key={filter}
+              className={filter === selectedFilter ? "active" : ""}
+              onClick={() => setSelectedFilter(filter)}>
+              {filter}
+            </span>
+          ))}
+        </div>
 
         <div className="messages-list">
           {filtered.length > 0 ? (
@@ -120,21 +127,3 @@ const Messages = () => {
 
 export default Messages;
 
-const MessageFilter = ({
-  selectedFilter,
-  setSelectedFilter,
-}: {
-  selectedFilter: string;
-  setSelectedFilter: (f: string) => void;
-}) => (
-  <div className="filter-messages">
-    {["all", "read", "unread"].map((filter) => (
-      <span
-        key={filter}
-        className={filter === selectedFilter ? "active" : ""}
-        onClick={() => setSelectedFilter(filter)}>
-        {filter}
-      </span>
-    ))}
-  </div>
-);

@@ -75,7 +75,7 @@ export default function trendsPage() {
         <h2 className="page-heading">Trends</h2>
       </div>
 
-      <div className="trends-page-filter">
+      <div className="filter">
         <div className="container">
           {/* <div className="search-trends">
             <input
@@ -92,27 +92,19 @@ export default function trendsPage() {
             </div>
           </div> */}
 
-          <div className="filter-trends">
-            <div className="categories">
-              <span
-                className={`category-trend ${
-                  activeCategory === "all" ? "active" : ""
-                }`}
-                onClick={() => filterByCategory("all")}>
-                All
-              </span>
-              {trendCategories.map((category, index) => (
-                <span
-                  key={index}
-                  className={`category-trend ${
-                    activeCategory === category ? "active" : ""
-                  }`}
-                  onClick={() => filterByCategory(category)}>
-                  {category}
-                </span>
-              ))}
-            </div>
-          </div>
+          <span
+            className={`${activeCategory === "all" ? "active" : ""}`}
+            onClick={() => filterByCategory("all")}>
+            All
+          </span>
+          {trendCategories.map((category, index) => (
+            <span
+              key={index}
+              className={`${activeCategory === category ? "active" : ""}`}
+              onClick={() => filterByCategory(category)}>
+              {category}
+            </span>
+          ))}
         </div>
       </div>
 

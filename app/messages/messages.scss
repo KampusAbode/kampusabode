@@ -4,17 +4,23 @@
       display: flex;
       gap: var(--spacing);
       margin-block: var(--spacing-2x);
+      overflow-x: scroll;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
       span {
         padding: var(--spacing-b);
         text-transform: capitalize;
         background: var(--light-gray);
-        border-radius: var(--border-radius);
-        border: var(--border);
-        border-color: transparent;
+        border-radius: var(--border-radius-r);
         cursor: pointer;
 
-        &.active{
-          border: var(--border);
+        &.active {
+          background-color: var(--black);
+          color: var(--font-white);
         }
       }
     }
