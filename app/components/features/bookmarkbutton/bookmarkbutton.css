@@ -11,10 +11,6 @@
   background-color: var(--light-gray);
   border: var(--border);
 }
-.bookmark-button.saved svg {
-  width: 23px;
-  height: 23px;
-}
 .bookmark-button.saved svg path {
   fill: var(--primary-color);
 }/*# sourceMappingURL=bookmarkbutton.css.map */
