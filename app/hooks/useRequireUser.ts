@@ -16,7 +16,6 @@ export const useRequireUser = () => {
       const { isAuthenticated } = await getAuthState();
       if (!isAuthenticated) {
         toast.error("Please log in to access this page.");
-        logoutUser(); 
         setAuthenticated(false);
       } else {
         setAuthenticated(true);

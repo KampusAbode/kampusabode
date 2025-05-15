@@ -30,8 +30,10 @@ const SavedPage = () => {
       <section className="saved-page">
         <div className="container">
           <h4 className="page-heading">Saved</h4>
-          <p>Please log in to access your saved apartments.</p>
-          <Link href="/auth/login">Log in</Link>
+          <div style={{ textAlign: "center", marginTop: "28px" }}>
+            <p>Please log in to access your saved apartments.</p>
+            <Link href="/auth/login">Log in</Link>
+          </div>
         </div>
       </section>
     );

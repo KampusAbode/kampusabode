@@ -30,23 +30,23 @@ const Messages = () => {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const { authenticated, checking } = useRequireUser();
 
-
   if (checking) {
-    return <Loader/>;
+    return <Loader />;
   }
   if (!authenticated) {
     return (
       <section className="messages-page">
         <div className="container">
           <h4 className="page-heading">Messages</h4>
-          <p>Please log in to access your messages.</p>
-          <Link href="/auth/login">Log in</Link>
+
+          <div style={{ textAlign: "center", marginTop: "28px" }}>
+            <p>Please log in to access your messages.</p>
+            <Link href="/auth/login">Log in</Link>
+          </div>
         </div>
       </section>
     );
   }
-
-  
 
   useEffect(() => {
     if (!user) return;
@@ -88,7 +88,6 @@ const Messages = () => {
     }
   };
 
-
   return (
     <section className="messages-page">
       <div className="container">
@@ -98,7 +97,9 @@ const Messages = () => {
           {["all", "read", "unread"].map((filter) => (
             <span
               key={filter}
-              className={`filter-btn ${filter === selectedFilter ? "active" : ""}`}
+              className={`filter-btn ${
+                filter === selectedFilter ? "active" : ""
+              }`}
               onClick={() => setSelectedFilter(filter)}>
               {filter}
             </span>
@@ -136,4 +137,3 @@ const Messages = () => {
 };
 
 export default Messages;
-

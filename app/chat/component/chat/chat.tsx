@@ -60,8 +60,11 @@ const ChatComponent: React.FC<ChatProps> = ({
       <section className="chat-page">
         <div className="container">
           <h4 className="page-heading">Chat</h4>
-          <p>Please log in to access the chat feature.</p>
-          <Link href="/auth/login">Log in</Link>
+
+          <div style={{ textAlign: "center", marginTop: "28px" }}>
+            <p>Please log in to access your chat.</p>
+            <Link href="/auth/login">Log in</Link>
+          </div>
         </div>
       </section>
     );

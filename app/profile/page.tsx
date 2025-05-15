@@ -20,8 +20,10 @@ const ProfilePage = () => {
       <section className="profile-page">
         <div className="container">
           <h4 className="page-heading">Profile</h4>
-          <p>Please log in to access your profile page.</p>
-          <Link href="/auth/login">Log in</Link>
+          <div style={{ textAlign: "center", marginTop: "28px" }}>
+            <p>Please log in to access your profile.</p>
+            <Link href="/auth/login">Log in</Link>
+          </div>
         </div>
       </section>
     );
