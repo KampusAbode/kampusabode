@@ -10,7 +10,6 @@ export * from "./user";
 export * from "./reviews";
 export * from "./trends";
 export * from "./notifications";
-export * from "./session";
 
 
 
