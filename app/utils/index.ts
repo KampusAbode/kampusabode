@@ -10,9 +10,13 @@ export * from "./user";
 export * from "./reviews";
 export * from "./trends";
 export * from "./notifications";
+export * from "./session";
+
+
+
+
 
 //ACTIONS
-
 export const formatNumber = (num: number): string => {
   if (num >= 1000000) {
     return (num / 1000000).toFixed(1) + "m";

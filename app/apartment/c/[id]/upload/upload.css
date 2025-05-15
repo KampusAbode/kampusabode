@@ -14,6 +14,7 @@
   font-size: var(--font-size-xs);
 }
 .upload-property .container form .btn {
+  display: block;
   width: 100%;
   text-align: center;
 }
@@ -28,7 +29,9 @@
   padding: var(--spacing);
   width: 100%;
   border: var(--border);
+  border-width: 2px;
   border-radius: var(--border-radius);
+  background-color: var(--white);
 }
 .upload-property .container form .form-group textarea {
   resize: none;
@@ -36,8 +39,18 @@
 }
 .upload-property .container form .form-group option {
   padding: var(--spacing-h);
+  background-color: var(--white);
 }
 .upload-property .container form .form-group .error {
   font-size: var(--font-size-sm);
   color: var(--primary-color);
+}
+.upload-property .container form .confirm-datails {
+  margin-block: var(--spacing-2x);
+  max-width: 600px;
+  margin: 0 auto;
+}
+.upload-property .container form .confirm-datails p {
+  text-align: center;
+  font-size: var(--font-size-xs);
 }/*# sourceMappingURL=upload.css.map */

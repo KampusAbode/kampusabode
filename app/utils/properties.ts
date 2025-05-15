@@ -194,6 +194,7 @@ export const useProperties = () => {
     }
   };
 
+
   // Function to extract Appwrite File ID from URL
   const extractAppwriteFileId = (imageUrl: string) => {
     try {
@@ -207,6 +208,8 @@ export const useProperties = () => {
     }
   };
 
+   
+  
   const updateapartment = async (
     apartmentId: string,
     updates: Partial<ApartmentType>

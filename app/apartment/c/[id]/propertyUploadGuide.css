@@ -13,16 +13,17 @@
       }
     }
 
-    div {
+    &>div {
+      margin-top: var(--spacing-2x)
       p {
         a {
           text-decoration: underline;
         }
       }
 
-      &.upload-btn {
-        margin-top: var(--spacing-2x);
-      }
+      
     }
+
+    
   }
 }

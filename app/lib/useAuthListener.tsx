@@ -32,9 +32,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const [loading, setLoading] = useState(true);
   const logoutUser = useUserStore((state) => state.logoutUser);
 
-  const isPublicPage = PUBLIC_ROUTES.includes(pathname);
 
   useEffect(() => {
+    const isPublicPage = PUBLIC_ROUTES.includes(pathname);
     const verifyAuth = async () => {
       if (isPublicPage) {
         setLoading(false);
@@ -44,16 +44,15 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       const { isAuthenticated } = await getAuthState();
       if (!isAuthenticated) {
         logoutUser();
-        setLoading(false);
-
         router.push(redirectTo);
-      } else {
-        setLoading(false);
       }
+
+      setLoading(false);
     };
 
     verifyAuth();
-  }, [router]);
+  }, [pathname, redirectTo, logoutUser, router]);
+
 
   if (loading) return <Loader />;
 

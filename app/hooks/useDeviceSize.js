@@ -5,12 +5,15 @@ const BREAKPOINTS = {
   tablet: 1024,
 };
 
+
 /**
  * useDeviceSize
  * Returns:
  *   width, height: current viewport dimensions
  *   device: one of "mobile" | "tablet" | "desktop"
  */
+
+
 export default function useDeviceSize() {
   const getDeviceInfo = () => {
     const width = window.innerWidth;
@@ -25,6 +28,7 @@ export default function useDeviceSize() {
 
     return { width, height, device };
   };
+  
 
   const [deviceInfo, setDeviceInfo] = useState({
     width: typeof window !== "undefined" ? window.innerWidth : 0,

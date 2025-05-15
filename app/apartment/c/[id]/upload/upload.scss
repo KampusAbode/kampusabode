@@ -14,6 +14,7 @@
             }
 
             .btn{
+                display: block;
                 width: 100%;
                 text-align: center;
             }
@@ -29,18 +30,32 @@
                     padding: var(--spacing);
                     width: 100%;
                     border: var(--border);
+                    border-width: 2px;
                     border-radius: var(--border-radius);
+                    background-color: var(--white);
                 }
+
                 textarea{
                     resize: none;
                     height: 150px;
                 }
                 option{
                     padding: var(--spacing-h);
+                    background-color: var(--white);
                 }
                 .error{
                     font-size: var(--font-size-sm);
                     color: var(--primary-color);
+                }
+            }
+
+            .confirm-datails{
+                margin-block: var(--spacing-2x);
+                max-width: 600px;
+                margin: 0 auto;
+                p{
+                    text-align: center;
+                    font-size: var(--font-size-xs);
                 }
             }
         }

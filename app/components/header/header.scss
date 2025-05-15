@@ -7,7 +7,7 @@ header {
   right: 0;
   background-color: var(--white);
   box-shadow: var(--shadow);
-  z-index: 99999;
+  z-index: 9999;
   transition: transform 0.3s ease, opacity 0.3s ease;
 
   &.hide {
