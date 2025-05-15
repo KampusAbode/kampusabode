@@ -54,15 +54,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <script defer src="/_vercel/insights/script.js"></script>
+      </head>
       <body>
-         <Toaster containerStyle={{
-    zIndex: 999999, 
-  }}/>
+        <Toaster
+          containerStyle={{
+            zIndex: 999999,
+          }}
+        />
         <WelcomeMessage />
-        
-          <NotificationProvider>
-            <ClientRootLayout>{children}</ClientRootLayout>
-          </NotificationProvider>
+
+        <NotificationProvider>
+          <ClientRootLayout>{children}</ClientRootLayout>
+        </NotificationProvider>
       </body>
     </html>
   );
