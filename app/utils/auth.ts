@@ -191,7 +191,7 @@ export const getAuthState = async (): Promise<{ isAuthenticated: boolean }> => {
       return { isAuthenticated: false };
     }
 
-    const storageKey = process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY;
+    const storageKey = process.env.NEXT_PUBLIC_USERDATA_STORAGE_KEY;
     if (!storageKey) {
       console.warn("Storage key is not defined in environment variables.");
       return { isAuthenticated: false };
