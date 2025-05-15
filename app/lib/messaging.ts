@@ -36,3 +36,5 @@ export const generateToken = async (): Promise<string | null> => {
     return null;
   }
 };
+
+export const messaging = getMessaging(app);
