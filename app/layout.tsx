@@ -4,7 +4,7 @@ import ClientRootLayout from "./ClientRootLayout";
 import { NotificationProvider } from "./context/NotificationContext";
 import { Toaster } from "react-hot-toast";
 import WelcomeMessage from "./components/welcome/WelcomeMessage";
-
+import { Analytics } from '@vercel/analytics/next';
 
 export async function generateMetadata(): Promise<Metadata> {
 
@@ -54,9 +54,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <script defer src="/_vercel/insights/script.js"></script>
-      </head>
       <body>
         <Toaster
           containerStyle={{
@@ -68,6 +65,8 @@ export default function RootLayout({
         <NotificationProvider>
           <ClientRootLayout>{children}</ClientRootLayout>
         </NotificationProvider>
+
+        <Analytics />
       </body>
     </html>
   );
