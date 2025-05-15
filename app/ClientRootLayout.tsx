@@ -5,7 +5,7 @@ import Navigation from "./components/navigation/Navigation";
 import Nav from "./components/navMenu/nav";
 import QuickService from "./components/quickservice/QuickService";
 import { useUserStore } from "./store/userStore";
-import { generateToken, messaging } from "./lib/messaging";
+// import { generateToken, messaging } from "./lib/messaging";
 import { onMessage } from "firebase/messaging";
 import { useEffect } from "react";
 
@@ -25,13 +25,13 @@ export default function ClientRootLayout({
 function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   const { user } = useUserStore((state) => state);
 
-  useEffect(() => {
-    generateToken();
-    onMessage(messaging, (payload) => {
-      console.log("Message received. ", payload);
-      // Handle the message here
-    });
-  }, []);
+  // useEffect(() => {
+  //   generateToken();
+  //   onMessage(messaging, (payload) => {
+  //     console.log("Message received. ", payload);
+  //     // Handle the message here
+  //   });
+  // }, []);
 
   return (
     <div className={`wrapper ${user ? "grid" : "none"}`}>

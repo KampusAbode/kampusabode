@@ -29,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "Kampusabode",
       images: [
         {
-          url: "/LOGO/logored_white.jpg",
+          url: "../public/LOGO/logored_white.jpg",
           width: 1200,
           height: 630,
           alt: "Kampusabode - Apartment Listing Site",
@@ -42,7 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: "Kampusabode App - apartment Listing Site",
       description:
         "Find your ideal apartment with Kampusabode. Explore a wide range of listings and discover your next apartment.",
-      images: ["/LOGO/logored_white"], // ✅ Same or different image URL
+      images: ["../public/LOGO/logored_white.jpg"],
     },
   };
 }
