@@ -15,9 +15,33 @@ export const metadata: Metadata = {
     "houses",
     "rentals",
     "students",
-    "oau",
+    "university",
   ],
+  openGraph: {
+    title: "Kampusabode App - apartment Listing Site",
+    description:
+      "Find your ideal apartment with Kampusabode. Explore a wide range of listings and discover your next apartment.",
+    url: "https://kampusabode.com",
+    siteName: "Kampusabode",
+    images: [
+      {
+        url: "/LOGO/logored_white", // ✅ Replace with your image URL
+        width: 1200,
+        height: 630,
+        alt: "Kampusabode - Apartment Listing Site",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kampusabode App - apartment Listing Site",
+    description:
+      "Find your ideal apartment with Kampusabode. Explore a wide range of listings and discover your next apartment.",
+    images: ["/LOGO/logored_white"], // ✅ Same or different image URL
+  },
 };
+
 
 export default function RootLayout({
   children,
