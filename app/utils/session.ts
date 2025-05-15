@@ -1,3 +1,5 @@
+import { cookies } from "next/headers";
+
 // /utils/session.ts
 export interface SessionData {
   isAuthenticated: boolean;
