@@ -4,18 +4,19 @@ import { app } from "./firebaseConfig";
 import { getMessaging, getToken } from "firebase/messaging";
 
 export const generateToken = async (): Promise<string | null> => {
-  if (typeof window === "undefined") return null;
+  if (
+    typeof window === "undefined" ||
+    !("Notification" in window) ||
+    !("serviceWorker" in navigator)
+  ) {
+    console.warn("Firebase Messaging not supported in this environment.");
+    return null;
+  }
 
   try {
     const permission = await Notification.requestPermission();
     if (permission !== "granted") {
       console.log("Notification permission not granted");
-      return null;
-    }
-
-    const vapidKey = process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY;
-    if (!vapidKey) {
-      console.error("Missing VAPID key");
       return null;
     }
 
@@ -25,11 +26,10 @@ export const generateToken = async (): Promise<string | null> => {
     );
 
     const token = await getToken(messaging, {
-      vapidKey,
+      vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY!,
       serviceWorkerRegistration: registration,
     });
 
-    console.log("Token generated:", token);
     return token;
   } catch (err) {
     console.error("Error generating token:", err);
