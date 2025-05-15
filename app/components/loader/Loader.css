@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   padding-block: var(--spacing-2x);
-  margin-top: var(--spacing-4x);
+  margin-top: var(--spacing-s);
   --color: hsl(0, 0%, 87%);
   --animation: 2s ease-in-out infinite;
 }

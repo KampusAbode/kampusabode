@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import ClientRootLayout from "./ClientRootLayout";
 import { NotificationProvider } from "./context/NotificationContext";
-import ProtectedRoute from "./lib/useAuthListener";
+import { Toaster } from "react-hot-toast";
+import WelcomeMessage from "./components/welcome/WelcomeMessage";
 
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -28,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "Kampusabode",
       images: [
         {
-          url: "/LOGO/logored_white", // ✅ Replace with your image URL
+          url: "/LOGO/logored_white.jpg",
           width: 1200,
           height: 630,
           alt: "Kampusabode - Apartment Listing Site",
@@ -53,28 +54,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        {/* Google Analytics */}
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-4PMR34V8VF"></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-4PMR34V8VF');
-            `,
-          }}
-        />
-      </head>
       <body>
-        <ProtectedRoute>
+         <Toaster containerStyle={{
+    zIndex: 999999, 
+  }}/>
+        <WelcomeMessage />
+        
           <NotificationProvider>
             <ClientRootLayout>{children}</ClientRootLayout>
           </NotificationProvider>
-        </ProtectedRoute>
       </body>
     </html>
   );

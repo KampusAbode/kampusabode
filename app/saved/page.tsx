@@ -7,6 +7,9 @@ import { TrendType, ApartmentType } from "../fetch/types";
 import Link from "next/link";
 import { useUserStore } from "../store/userStore";
 import "./saved.css";
+import Loader from "../components/loader/Loader";
+import { useRequireUser } from "../hooks/useRequireUser";
+import Image from "next/image";
 
 const SavedPage = () => {
   const [currentTab, setCurrentTab] = useState("properties");
@@ -15,6 +18,24 @@ const SavedPage = () => {
 
   // Zustand store for user data
   const userData = useUserStore((state) => state.user);
+
+  // Check if user is logged in
+  const { authenticated, checking } = useRequireUser();
+
+  if (checking) {
+    return <Loader />;
+  }
+  if (!authenticated) {
+    return (
+      <section className="saved-page">
+        <div className="container">
+          <h4 className="page-heading">Saved</h4>
+          <p>Please log in to access your saved apartments.</p>
+          <Link href="/auth/login">Log in</Link>
+        </div>
+      </section>
+    );
+  }
 
   useEffect(() => {
     const fetchSavedProperties = async () => {
@@ -46,7 +67,7 @@ const SavedPage = () => {
           {savedProperties.map((property) => {
             return (
               <Link key={property.id} href={`/apartment/${property.id}`}>
-                <img src={property.images[0]} alt={property.title} />
+                <Image src={property.images[0]} width={500} height={500} alt={property.title} />
               </Link>
             );
           })}
@@ -54,8 +75,11 @@ const SavedPage = () => {
       );
     } else {
       return (
-        <div className="saved-props">
-          <p style={{ textAlign: "center", marginTop: "8rem" }}>
+        <div className="no-saved" style={{textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", height: "100vh"}}>
+          
+          <Image src="/icon/save_apartment.png" alt="no saved" width={400} height={400} style={{width: "210px"}} />
+
+          <p style={{ textAlign: "center", marginTop: "2rem" }}>
             No saved apartments yet! 🏠
           </p>
         </div>
@@ -68,6 +92,8 @@ const SavedPage = () => {
     <section className="saved-page">
       <div className="tabs">
         <div className="container">
+          <h4 className="page-heading">Saved</h4>
+
           <span
             onClick={() => setCurrentTab("properties")}
             className={currentTab === "properties" ? "active" : ""}>

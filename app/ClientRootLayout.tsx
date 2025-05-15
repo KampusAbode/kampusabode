@@ -1,8 +1,6 @@
 "use client";
 
-import { Toaster } from "react-hot-toast";
 import Header from "./components/header/Header";
-import WelcomeMessage from "./components/welcome/WelcomeMessage";
 import Navigation from "./components/navigation/Navigation";
 import Nav from "./components/navMenu/nav";
 import QuickService from "./components/quickservice/QuickService";
@@ -18,8 +16,7 @@ export default function ClientRootLayout({
 }) {
   return (
     <>
-      <Toaster />
-      <WelcomeMessage />
+     
       <AuthenticatedLayout>{children}</AuthenticatedLayout>
     </>
   );

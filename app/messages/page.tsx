@@ -7,6 +7,8 @@ import { getMessagesForUser, deleteMessageFromFirebase } from "../utils";
 import MessageCard from "./components/MessageCard";
 import Prompt from "../components/modals/prompt/Prompt";
 import "./messages.css";
+import { useRequireUser } from "../hooks/useRequireUser";
+import Loader from "../components/loader/Loader";
 
 interface Message {
   id: string;
@@ -26,6 +28,25 @@ const Messages = () => {
     null
   );
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const { authenticated, checking } = useRequireUser();
+
+
+  if (checking) {
+    return <Loader/>;
+  }
+  if (!authenticated) {
+    return (
+      <section className="messages-page">
+        <div className="container">
+          <h4 className="page-heading">Messages</h4>
+          <p>Please log in to access your messages.</p>
+          <Link href="/auth/login">Log in</Link>
+        </div>
+      </section>
+    );
+  }
+
+  
 
   useEffect(() => {
     if (!user) return;
@@ -67,17 +88,6 @@ const Messages = () => {
     }
   };
 
-  if (!user)
-    return (
-      <section className="messages-page">
-        <div className="container">
-          <p>You must log in to view messages.</p>
-          <Link href="/auth/login" className="btn">
-            Log in
-          </Link>
-        </div>
-      </section>
-    );
 
   return (
     <section className="messages-page">

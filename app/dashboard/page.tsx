@@ -7,15 +7,25 @@ import Image from "next/image";
 import "./dashboard.css";
 import Loader from "../components/loader/Loader";
 import { useUserStore } from "../store/userStore";
+import { useRequireUser } from "../hooks/useRequireUser";
+import Link from "next/link";
 
 const Dashboard = () => {
-  const {user} = useUserStore((state) => state);
+  const { user } = useUserStore((state) => state);
+  const { authenticated, checking } = useRequireUser();
 
-  if (!user) {
+  
+  if (checking) {
+    return <Loader />;
+  }
+  if (!authenticated) {
     return (
-      <div className="container" style={{ marginTop: "5rem" }}>
-        User not found
-      </div>
+      <section className="dashboard">
+        <div className="container">
+          <p>Please log in to access your dashboard.</p>
+          <Link href="/auth/login">Log in</Link>
+        </div>
+      </section>
     );
   }
 

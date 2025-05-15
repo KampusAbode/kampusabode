@@ -5,35 +5,38 @@ import ProfileOverview from "../components/userdashboard/ProfileOverview";
 import "./profile.css";
 import Link from "next/link";
 import { useUserStore } from "../store/userStore";
+import { useRequireUser } from "../hooks/useRequireUser";
+import Loader from "../components/loader/Loader";
 
 const ProfilePage = () => {
-  const {user} = useUserStore((state) => state);
+  const { user } = useUserStore((state) => state);
+  const { authenticated, checking } = useRequireUser();
 
+  if (checking) {
+    return <Loader />;
+  }
+  if (!authenticated) {
+    return (
+      <section className="profile-page">
+        <div className="container">
+          <h4 className="page-heading">Profile</h4>
+          <p>Please log in to access your profile page.</p>
+          <Link href="/auth/login">Log in</Link>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="profile-page">
       <div className="container">
-        {user ? (
-          <>
-            <ProfileOverview  />
+        <ProfileOverview />
 
-            <div className="cp">
-              <Link href={`/profile/@${user.name}`} className="btn">
-                edit profile
-              </Link>
-            </div>
-          </>
-        ) : (
-          <p style={{ marginTop: "1rem" }}>
-            Login to access your profile page. <br />
-            <Link
-              className="btn"
-              style={{ marginTop: "1rem" }}
-              href={"/auth/login"}>
-              login
-            </Link>
-          </p>
-        )}
+        <div className="cp">
+          <Link href={`/profile/@${user.name}`} className="btn">
+            edit profile
+          </Link>
+        </div>
       </div>
     </section>
   );

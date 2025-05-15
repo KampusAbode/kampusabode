@@ -46,9 +46,9 @@
   //   }
   // }
 
+
   .trends-filter {
     background: var(--background-white);
-    // margin-block: var(--spacing);
     padding-block: var(--spacing);
     position: sticky;
     top: 0;
@@ -57,8 +57,7 @@
     .container {
       display: flex;
       gap: var(--spacing);
-
-      
+      flex-wrap: nowrap;
     }
   }
 }

@@ -8,6 +8,20 @@
   justify-content: space-between;
   gap: var(--spacing);
 
+  & > .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--spacing);
+    padding: var(--spacing);
+    margin-top: var(--spacing-3x);
+    height: 100%;
+
+    a{
+      text-decoration: underline;
+    }
+  }
+
   .chat-display {
     height: auto;
     overflow-y: auto;

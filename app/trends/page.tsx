@@ -88,6 +88,7 @@ export default function trendsPage() {
               <FaSearch />
             </div>
           </div> */}
+          
       <div className="trends-filter">
         <div className="container">
 

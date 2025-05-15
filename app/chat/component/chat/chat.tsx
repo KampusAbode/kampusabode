@@ -22,6 +22,8 @@ import "./chat.css";
 import Loader from "../../../components/loader/Loader";
 import Prompt from "../../../components/modals/prompt/Prompt";
 import { useUserStore } from "../../../store/userStore";
+import Link from "next/link";
+import { useRequireUser } from "../../../hooks/useRequireUser";
 
 type ChatProps = {
   currentUserId: string;
@@ -46,8 +48,24 @@ const ChatComponent: React.FC<ChatProps> = ({
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
   const { user } = useUserStore((state) => state);
+  const { authenticated, checking } = useRequireUser();
+
+  if (checking) {
+    return <Loader />;
+  }
+
+  if (!authenticated) {
+    return (
+      <section className="chat-page">
+        <div className="container">
+          <h4 className="page-heading">Chat</h4>
+          <p>Please log in to access the chat feature.</p>
+          <Link href="/auth/login">Log in</Link>
+        </div>
+      </section>
+    );
+  }
 
   // Fetch messages
   useEffect(() => {
