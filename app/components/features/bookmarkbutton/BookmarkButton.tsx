@@ -21,7 +21,7 @@ const BookmarkButton = ({ propertyId }: { propertyId: string }) => {
 
   const toggleBookmark = async () => {
     if (!user) {
-      toast.error("Please log in to bookmark properties.");
+      toast.error("Please log in to bookmark apartment.");
       return;
     }
 
@@ -45,10 +45,10 @@ const BookmarkButton = ({ propertyId }: { propertyId: string }) => {
       // Update state
       if (newBookmarkState) {
         addBookmark(propertyId);
-        toast.success("Property added to bookmarks.");
+        toast.success("Apartment added to bookmarks.");
       } else {
         removeBookmark(propertyId);
-        toast.success("Property removed from bookmarks.");
+        toast.success("Apartment removed from bookmarks.");
       }
 
       setIsBookmarked(newBookmarkState);
