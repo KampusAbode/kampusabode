@@ -203,6 +203,7 @@ export const getAuthState = async (): Promise<{ isAuthenticated: boolean }> => {
     
     const { expiry } = JSON.parse(sessionDataStr);
     if (Date.now() > expiry) {
+      console.log({"currentDATE": Date.now(), "expiry": expiry})
       sessionStorage.removeItem(storageKey);
       return { isAuthenticated: false };
     }
