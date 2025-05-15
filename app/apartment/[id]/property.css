@@ -244,7 +244,7 @@
 }
 .properties-details-page .container .agent-listings > div .agentProps .list-prop {
   flex: 0 0 90%;
-  max-width: 130px;
+  max-width: 210px;
   border-radius: var(--border-radius);
   transition: var(--transition);
   cursor: pointer;
@@ -283,6 +283,20 @@
   -webkit-box-orient: vertical;
   margin-top: var(--spacing-h);
   font-size: var(--font-size-sm);
+}
+@media (min-width: 768px) {
+  .properties-details-page .container .agent-listings > div .agentProps .list-prop {
+    flex: 0 0 48%; /* Medium screens */
+  }
+}
+@media (min-width: 1024px) {
+  .properties-details-page .container .agent-listings > div .agentProps .list-prop {
+    flex: 0 0 30%; /* Desktop screens */
+    max-width: 350px;
+  }
+  .properties-details-page .container .agent-listings > div .agentProps .list-prop .list-image img {
+    height: 170px;
+  }
 }
 .properties-details-page .container .contact {
   margin-top: var(--spacing-4x);
