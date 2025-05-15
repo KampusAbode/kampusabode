@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
 import { app } from "./firebaseConfig";
 import { getMessaging, getToken } from "firebase/messaging";
 
-export const generateToken = async (): Promise<string|null> => {
+export const generateToken = async (): Promise<string | null> => {
   if (typeof window === "undefined") return null;
 
   try {
@@ -13,14 +13,19 @@ export const generateToken = async (): Promise<string|null> => {
       return null;
     }
 
+    const vapidKey = process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY;
+    if (!vapidKey) {
+      console.error("Missing VAPID key");
+      return null;
+    }
+
     const messaging = getMessaging(app);
     const registration = await navigator.serviceWorker.register(
       "/firebase-messaging-sw.js"
     );
-    await navigator.serviceWorker.ready;
 
     const token = await getToken(messaging, {
-      vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY!,
+      vapidKey,
       serviceWorkerRegistration: registration,
     });
 
@@ -31,6 +36,3 @@ export const generateToken = async (): Promise<string|null> => {
     return null;
   }
 };
-
-
-export const messaging = getMessaging(app);
