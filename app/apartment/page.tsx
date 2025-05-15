@@ -155,14 +155,16 @@ const PropertiesPage: React.FC = () => {
       <div className="filter">
         <div className="container">
           <span
-            className={`${activeLocation === "all" ? "active" : ""}`}
+            className={`filter-btn ${activeLocation === "all" ? "active" : ""}`}
             onClick={() => filterByLocation("all")}>
             all
           </span>
           {data.locations.map((location) => (
             <span
               key={location}
-              className={`${activeLocation === location ? "active" : ""}`}
+              className={`filter-btn ${
+                activeLocation === location ? "active" : ""
+              }`}
               onClick={() => filterByLocation(location)}>
               {location}
             </span>

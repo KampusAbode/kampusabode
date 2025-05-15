@@ -88,7 +88,7 @@ const Messages = () => {
           {["all", "read", "unread"].map((filter) => (
             <span
               key={filter}
-              className={filter === selectedFilter ? "active" : ""}
+              className={`filter-btn ${filter === selectedFilter ? "active" : ""}`}
               onClick={() => setSelectedFilter(filter)}>
               {filter}
             </span>

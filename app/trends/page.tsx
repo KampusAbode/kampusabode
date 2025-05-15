@@ -74,8 +74,6 @@ export default function trendsPage() {
         <h2 className="page-heading">Trends</h2>
       </div>
 
-      <div className="trends-filter">
-        <div className="container">
           {/* <div className="search-trends">
             <input
               type="text"
@@ -90,16 +88,18 @@ export default function trendsPage() {
               <FaSearch />
             </div>
           </div> */}
+      <div className="trends-filter">
+        <div className="container">
 
           <span
-            className={`${activeCategory === "all" ? "active" : ""}`}
+            className={`filter-btn ${activeCategory === "all" ? "active" : ""}`}
             onClick={() => filterByCategory("all")}>
             All
           </span>
           {trendCategories.map((category, index) => (
             <span
               key={index}
-              className={`${activeCategory === category ? "active" : ""}`}
+              className={`filter-btn ${activeCategory === category ? "active" : ""}`}
               onClick={() => filterByCategory(category)}>
               {category}
             </span>

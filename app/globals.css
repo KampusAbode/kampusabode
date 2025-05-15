@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
 :root {
   /* Colors */
-  --primary-color: #da1425;
-  --primary-color-hover: #f7192c;
+  --primary-color: #c1121f;
+  --primary-color-hover: #d72638;
   --background-white: #ffffff;
   --background-light: #f8f9fa;
   --background-dark: #191c1f;
@@ -253,6 +253,20 @@ button {
   border: none;
   background-color: transparent;
   cursor: pointer;
+}
+
+.filter-btn {
+  padding: var(--spacing-b);
+  border-radius: var(--border-radius-r);
+  text-transform: capitalize;
+  background: var(--light-gray);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.filter-btn:hover, .filter-btn.active {
+  background-color: var(--black);
+  color: var(--font-white);
 }
 
 .heading-section {
