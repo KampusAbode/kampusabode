@@ -14,6 +14,7 @@ interface ProtectedRouteProps {
 const PUBLIC_ROUTES = [
   "/",
   "/apartment",
+  "/apartment/",
   "/trends",
   "/marketplace",
   "/auth/login",
@@ -25,13 +26,12 @@ const PUBLIC_ROUTES = [
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
-  redirectTo = "/",
+  redirectTo = "/auth/login",
 }) => {
   const router = useRouter();
   const pathname = usePathname();
   const [loading, setLoading] = useState(true);
   const logoutUser = useUserStore((state) => state.logoutUser);
-
 
   useEffect(() => {
     const isPublicPage = PUBLIC_ROUTES.includes(pathname);
@@ -52,7 +52,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
     verifyAuth();
   }, [pathname, redirectTo, logoutUser, router]);
-
 
   if (loading) return <Loader />;
 
