@@ -29,15 +29,10 @@ function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   const { authenticated, checking } = useRequireUser();
 
 
-  useEffect(() => {
-    if (!authenticated && !checking) {
-      logoutUser();
-    }
-  }, [checking, authenticated]);
-
-  if (checking) {
+  if (checking && authenticated === null) {
     return <Loader/>;
   }
+
 
 
 
