@@ -7,8 +7,6 @@ import { TrendType, ApartmentType } from "../fetch/types";
 import Link from "next/link";
 import { useUserStore } from "../store/userStore";
 import "./saved.css";
-import Loader from "../components/loader/Loader";
-import { useRequireUser } from "../hooks/useRequireUser";
 import Image from "next/image";
 
 const SavedPage = () => {
@@ -19,20 +17,16 @@ const SavedPage = () => {
   // Zustand store for user data
   const userData = useUserStore((state) => state.user);
 
-  // Check if user is logged in
-  const { authenticated, checking } = useRequireUser();
 
-  if (checking) {
-    return <Loader />;
-  }
-  if (!authenticated) {
+  if (!userData) {
     return (
       <section className="saved-page">
         <div className="container">
           <h4 className="page-heading">Saved</h4>
+
           <div style={{ textAlign: "center", marginTop: "28px" }}>
             <p>Please log in to access your saved apartments.</p>
-            <Link href="/auth/login">Log in</Link>
+            <Link href="/auth/login" style={{textDecoration:"underline"}}>Log in</Link>
           </div>
         </div>
       </section>

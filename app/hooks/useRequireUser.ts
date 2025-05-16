@@ -3,8 +3,6 @@
 
 import { useEffect, useState } from "react";
 import { getAuthState } from "../utils";
-import { useUserStore } from "../store/userStore";
-import { toast } from "react-hot-toast";
 
 export const useRequireUser = () => {
   const [checking, setChecking] = useState(true);

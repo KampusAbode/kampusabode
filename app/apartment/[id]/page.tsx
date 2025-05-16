@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
         description: "Sorry, the property you're looking for does not exist.",
         images: [
           {
-            url: "/LOGO/REDTR.png",
+            url: "/LOGO/logored_white.jpg",
             width: 400,
             height: 400,
             alt: "Property Not Found",

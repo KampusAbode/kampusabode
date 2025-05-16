@@ -5,24 +5,20 @@ import ProfileOverview from "../components/userdashboard/ProfileOverview";
 import "./profile.css";
 import Link from "next/link";
 import { useUserStore } from "../store/userStore";
-import { useRequireUser } from "../hooks/useRequireUser";
-import Loader from "../components/loader/Loader";
 
 const ProfilePage = () => {
   const { user } = useUserStore((state) => state);
-  const { authenticated, checking } = useRequireUser();
 
-  if (checking) {
-    return <Loader />;
-  }
-  if (!authenticated) {
+
+  if (!user) {
     return (
       <section className="profile-page">
         <div className="container">
           <h4 className="page-heading">Profile</h4>
+          
           <div style={{ textAlign: "center", marginTop: "28px" }}>
             <p>Please log in to access your profile.</p>
-            <Link href="/auth/login">Log in</Link>
+            <Link href="/auth/login" style={{textDecoration:"underline"}}>Log in</Link>
           </div>
         </div>
       </section>

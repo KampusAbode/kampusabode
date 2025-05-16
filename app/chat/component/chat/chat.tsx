@@ -23,7 +23,7 @@ import Loader from "../../../components/loader/Loader";
 import Prompt from "../../../components/modals/prompt/Prompt";
 import { useUserStore } from "../../../store/userStore";
 import Link from "next/link";
-import { useRequireUser } from "../../../hooks/useRequireUser";
+
 
 type ChatProps = {
   currentUserId: string;
@@ -49,13 +49,10 @@ const ChatComponent: React.FC<ChatProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { user } = useUserStore((state) => state);
-  const { authenticated, checking } = useRequireUser();
 
-  if (checking) {
-    return <Loader />;
-  }
 
-  if (!authenticated) {
+
+  if (!user) {
     return (
       <section className="chat-page">
         <div className="container">
@@ -63,7 +60,7 @@ const ChatComponent: React.FC<ChatProps> = ({
 
           <div style={{ textAlign: "center", marginTop: "28px" }}>
             <p>Please log in to access your chat.</p>
-            <Link href="/auth/login">Log in</Link>
+            <Link href="/auth/login" style={{textDecoration: "underline"}}>Log in</Link>
           </div>
         </div>
       </section>

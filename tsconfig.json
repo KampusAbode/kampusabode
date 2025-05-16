@@ -25,6 +25,6 @@
     "**/*.tsx",
     "app/api/signup/route.ts",
     "app/components/authentication.js"
-, "app/utils/api.ts"  ],
+, "app/utils/api.ts", "app/ClientRootLayout.tsx"  ],
   "exclude": ["node_modules"]
 }

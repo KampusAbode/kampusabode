@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import "./marketplace.css";
+import { useEffect, useState } from "react";
 import ItemCard from "./component/itemCard/ItemCard";
 import { ItemType } from "../fetch/types";
 import { allMarketplaceItems } from "../utils";
-import "./marketplace.css";
 import Loader from "../components/loader/Loader";
 import { FaSearch } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";

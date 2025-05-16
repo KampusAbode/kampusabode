@@ -8,6 +8,9 @@ import { useUserStore } from "./store/userStore";
 // import { generateToken, messaging } from "./lib/messaging";
 import { onMessage } from "firebase/messaging";
 import { useEffect } from "react";
+import { useRequireUser } from "./hooks/useRequireUser";
+import { logoutUser } from "./utils";
+import Loader from "./components/loader/Loader";
 
 export default function ClientRootLayout({
   children,
@@ -16,7 +19,6 @@ export default function ClientRootLayout({
 }) {
   return (
     <>
-     
       <AuthenticatedLayout>{children}</AuthenticatedLayout>
     </>
   );
@@ -24,6 +26,20 @@ export default function ClientRootLayout({
 
 function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   const { user } = useUserStore((state) => state);
+  const { authenticated, checking } = useRequireUser();
+
+
+  useEffect(() => {
+    if (!authenticated && !checking) {
+      logoutUser();
+    }
+  }, [checking, authenticated]);
+
+  if (checking) {
+    return <Loader/>;
+  }
+
+
 
   // useEffect(() => {
   //   generateToken();
