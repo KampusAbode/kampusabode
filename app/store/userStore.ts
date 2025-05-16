@@ -43,7 +43,10 @@ export const useUserStore = create<UserState>()(
         }
       },
 
-      logoutUser: () => set({ user: null }),
+      logoutUser: () => {
+        console.log("log user out");
+        set({ user: null });
+      },
 
       addBookmark: (id) => {
         const user = get().user;
@@ -142,7 +145,7 @@ export const useUserStore = create<UserState>()(
       setProperties: (properties) => set({ properties }),
     }),
     {
-      name: "userstore", // persist key for Zustand
+      name: "userstore",
     }
   )
 );

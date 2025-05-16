@@ -12,11 +12,12 @@ import "./nav.css";
 import useNavStore from "../../store/menuStore";
 import { useUserStore } from "../../store/userStore";
 import Prompt from "../modals/prompt/Prompt";
+import { logoutUser } from "../../utils/auth";
 
 function Nav() {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, logoutUser } = useUserStore((state) => state);
+  const { user } = useUserStore((state) => state);
   const { isNavOpen, toggleNav } = useNavStore();
   const [loading, setLoading] = useState(true);
   const [showPrompt, setShowPrompt] = useState(false);

@@ -12,6 +12,7 @@ import BackButton from "../features/backbutton/BackButton";
 import { useUserStore } from "../../store/userStore";
 import useNavStore from "../../store/menuStore";
 import Prompt from "../modals/prompt/Prompt";
+import {logoutUser} from "../../utils/auth";
 
 const { links } = data;
 
@@ -19,7 +20,7 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const { user, logoutUser } = useUserStore((state) => state);
+  const { user } = useUserStore((state) => state);
   const { isNavOpen, toggleNav } = useNavStore((state) => state);
 
   const [isHeader, setIsHeader] = useState(true);

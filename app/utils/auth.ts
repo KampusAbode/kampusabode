@@ -198,6 +198,7 @@ export const getAuthState = async (): Promise<{ isAuthenticated: boolean }> => {
     }
 
     const sessionDataStr = sessionStorage.getItem(storageKey);
+    console.log({"sessionDataStr": sessionDataStr})
     if (!sessionDataStr) return { isAuthenticated: false };
 
     

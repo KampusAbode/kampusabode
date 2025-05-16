@@ -6,10 +6,10 @@ import Nav from "./components/navMenu/nav";
 import QuickService from "./components/quickservice/QuickService";
 import { useUserStore } from "./store/userStore";
 // import { generateToken, messaging } from "./lib/messaging";
-import { onMessage } from "firebase/messaging";
-import { useEffect } from "react";
+// import { onMessage } from "firebase/messaging";
+// import { useEffect } from "react";
 import { useRequireUser } from "./hooks/useRequireUser";
-import { logoutUser } from "./utils";
+// import { logoutUser } from "./utils";
 import Loader from "./components/loader/Loader";
 
 export default function ClientRootLayout({
