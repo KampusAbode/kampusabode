@@ -11,6 +11,7 @@ import { useUserStore } from "./store/userStore";
 import { useRequireUser } from "./hooks/useRequireUser";
 // import { logoutUser } from "./utils";
 import Loader from "./components/loader/Loader";
+import { useAuthListener } from "./hooks/useAuthListener";
 
 export default function ClientRootLayout({
   children,
@@ -18,19 +19,23 @@ export default function ClientRootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    
       <AuthenticatedLayout>{children}</AuthenticatedLayout>
-    </>
+    
   );
 }
 
 function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
-  const { user } = useUserStore((state) => state);
-  const { authenticated, checking } = useRequireUser();
+  // const { user } = useUserStore((state) => state);
+  // const { authenticated, checking } = useRequireUser();
+  const { user } = useUserStore();
+  const { initializing } = useAuthListener();
 
-
-  if (checking && authenticated === null) {
-    return <Loader/>;
+  // if (checking && authenticated === null) {
+  //   return <Loader/>;
+  // }
+  if (initializing) {
+    return <Loader />;
   }
 
 
