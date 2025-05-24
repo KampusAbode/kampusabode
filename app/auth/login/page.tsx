@@ -55,8 +55,8 @@ const LoginPage = () => {
       if (response.message === "Email not found") {
         toast.error(response.message);
       } else {
-        router.push(`/profile/${response.userId}`);
-        router.refresh();
+        router.push("/profile");
+        // router.refresh();
         toast.success(`${response.message} 👋`);
       }
     } catch (error: any) {
