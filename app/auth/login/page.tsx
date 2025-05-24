@@ -57,6 +57,7 @@ const LoginPage = () => {
       } else {
         toast.success(`${response.message} 👋`);
         router.push("/apartment");
+        router.refresh();
       }
     } catch (error: any) {
       toast.error(error.message || "An unexpected error occurred.");
