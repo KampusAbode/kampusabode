@@ -220,12 +220,9 @@
 .properties-details-page .container .agent-reviews .reviews .review-item div span {
   display: block;
 }
-.properties-details-page .container .agent-reviews .reviews::-webkit-scrollbar {
-  display: none;
-}
 .properties-details-page .container .agent-reviews .reviews {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 .properties-details-page .container .agent-listings > div .agentProps {
   display: flex;

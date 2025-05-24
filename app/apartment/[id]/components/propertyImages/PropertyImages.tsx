@@ -40,8 +40,8 @@ function PropertyImages({
         <Image
           priority
           src={propertyDetails?.images[imageCount]}
-          width={1000}
-          height={1000}
+          width={5000}
+          height={5000}
           alt={`${propertyDetails?.title} image`}
         />
         <div className="image-pagination">

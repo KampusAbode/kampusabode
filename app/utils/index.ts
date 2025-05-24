@@ -11,10 +11,6 @@ export * from "./reviews";
 export * from "./trends";
 export * from "./notifications";
 
-
-
-
-
 //ACTIONS
 export const formatNumber = (num: number): string => {
   if (num >= 1000000) {

@@ -230,13 +230,13 @@
         }
       }
 
-      .reviews::-webkit-scrollbar {
-        display: none;
-      }
+      // .reviews::-webkit-scrollbar {
+      //   display: none;
+      // }
 
       .reviews {
-        -ms-overflow-style: none; /* IE and Edge */
-        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none;
+        scrollbar-width: none;
       }
     }
 

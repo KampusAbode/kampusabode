@@ -106,6 +106,31 @@
       }
     }
 
+
+    .agent-matrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--spacing-2x);
+      margin-top: var(--spacing-2x);
+
+      .matric {
+        background-color: var(--light-gray);
+        padding: var(--spacing-2x);
+        border-radius: var(--border-radius);
+        text-align: center;
+
+        h6 {
+          margin-bottom: var(--spacing-h);
+          color: var(--text-color-h);
+        }
+
+        p {
+          color: var(--text-color-l);
+          font-size: 0.875rem;
+        }
+      }
+    }
+
     .listed-properties {
       .property-list {
         ul {

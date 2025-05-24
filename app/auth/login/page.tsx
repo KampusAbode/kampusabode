@@ -55,9 +55,9 @@ const LoginPage = () => {
       if (response.message === "Email not found") {
         toast.error(response.message);
       } else {
-        toast.success(`${response.message} 👋`);
-        router.push("/apartment");
+        router.push(`/profile/${response.userId}`);
         router.refresh();
+        toast.success(`${response.message} 👋`);
       }
     } catch (error: any) {
       toast.error(error.message || "An unexpected error occurred.");

@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 :root {
   /* Colors */
   --primary-color: #c1121f;
@@ -38,7 +38,7 @@
   --shadow-below: 0 6px 20px 0 rgba(0, 0, 0, 0.1);
   --transition: all 0.3s ease-in-out;
   /* Fonts */
-  --font-poppins: "Nunito", sans-serif;
+  --font-inter: "Inter", sans-serif;
   /* Font Sizes */
   --font-size-xxl: 1.375rem;
   --font-size-xl: 1.25rem;
@@ -50,10 +50,8 @@
   --line-height-sm: 1.135;
   --line-height-md: 1.36;
   /* Breakpoints */
-  --desktop-width: 80%;
-  --desktop-max-width: 1200px;
-  --tablet-width: 90%;
-  --tablet-max-width: 768px;
+  --large-width: 90%;
+  --large-max-width: 1400px;
   --mobile-width: 95%;
   --mobile-max-width: 425px;
 }
@@ -73,16 +71,13 @@
 *:focus-visible {
   border: var(--border);
 }
-* *:not(body)::-webkit-scrollbar {
-  display: none;
-}
 
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  font-family: var(--font-poppins);
+  font-family: var(--font-inter);
   font-weight: 500;
   line-height: var(--line-height-md);
   color: var(--font-color-p);
@@ -166,8 +161,8 @@ main {
 }
 
 .container {
-  width: var(--desktop-width);
-  max-width: var(--desktop-max-width);
+  width: var(--large-width);
+  max-width: var(--large-max-width);
   margin: 0 auto;
 }
 
@@ -298,6 +293,9 @@ button {
   :root {
     --spacing-s: 5rem;
   }
+  * *:not(body)::-webkit-scrollbar {
+    display: none;
+  }
   h1 {
     font-size: 2rem;
   }
@@ -344,10 +342,6 @@ button {
   }
   .heading-section p {
     width: 100%;
-  }
-  .container {
-    width: var(--tablet-width);
-    max-width: var(--tablet-max-width);
   }
 }
 @media screen and (max-width: 425px) {
