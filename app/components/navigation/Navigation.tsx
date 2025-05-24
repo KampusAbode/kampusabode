@@ -55,6 +55,7 @@ export default function Navigation() {
     "about",
     "apartment/",
     "auth",
+    "profile/"
   ];
   const isExcludedPath = excludedPaths.some((path) => pathname.includes(path));
 

@@ -7,10 +7,11 @@ import {
   uploadImageToAppwrite,
   useProperties,
 } from "../../utils";
-import { UserType, StudentUserInfo, AgentUserInfo } from "../../fetch/types";
+import { UserType, AgentUserInfo } from "../../fetch/types";
 import "./updateprofile.css";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "../../store/userStore";
+import Prompt from "../../components/modals/prompt/Prompt"; // Adjust path if needed
 
 const CreateProfilePage = () => {
   const router = useRouter();
@@ -18,12 +19,15 @@ const CreateProfilePage = () => {
   const { deleteAppwriteImage } = useProperties();
 
   const [formValues, setFormValues] = useState<UserType>();
-
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(
     user?.avatar || null
   );
+
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [pendingSubmit, setPendingSubmit] =
+    useState<React.FormEvent<HTMLFormElement> | null>(null);
 
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -32,7 +36,7 @@ const CreateProfilePage = () => {
 
     setFormValues((prevState) => ({
       ...prevState,
-      ...(value.trim() !== "" && { [name]: value }), // Only store non-empty values
+      ...(value.trim() !== "" && { [name]: value }),
     }));
   };
 
@@ -40,18 +44,25 @@ const CreateProfilePage = () => {
     const file = e.target.files?.[0];
     if (file) {
       setImageFile(file);
-      setImagePreview(URL.createObjectURL(file)); // Show preview
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setPendingSubmit(e);
+    setShowPrompt(true);
+  };
+
+  const submitProfileUpdate = async () => {
+    if (!pendingSubmit) return;
+
+    setShowPrompt(false);
     setIsSubmitting(true);
 
     try {
       let avatarUrl = user?.avatar || "";
 
-      // If a new image is uploaded
       if (imageFile) {
         if (user?.avatar) {
           await deleteAppwriteImage(user.avatar);
@@ -65,7 +76,6 @@ const CreateProfilePage = () => {
         }
       }
 
-      // Filter out unchanged fields
       const updateduser = Object.entries(formValues || {}).reduce(
         (acc, [key, value]) => {
           if (value !== user[key as keyof UserType]) {
@@ -82,21 +92,15 @@ const CreateProfilePage = () => {
         return;
       }
 
-      // Add avatar to update if it changed
       if (avatarUrl !== user?.avatar) {
         updateduser.avatar = avatarUrl;
       }
 
       const response = await updateUserProfile(user?.id, updateduser);
 
-      const newData = response.userData;
-
       if (response.success) {
         toast.success(`${response.message} 🎉`);
-
-        // update the use store
-        setUser(newData);
-
+        setUser(response.userData);
         router.push("/profile");
       }
     } catch (error: any) {
@@ -112,9 +116,8 @@ const CreateProfilePage = () => {
         <div className="fm">
           <h4>Upload Profile</h4>
           <form onSubmit={handleSubmit}>
-            {/* Profile Picture Upload */}
             <div className="input-box">
-              <label>Profile Picture</label>
+              <label style={{ textAlign: "center" }}>Profile Picture</label>
               {imagePreview && (
                 <img
                   src={imagePreview}
@@ -129,19 +132,18 @@ const CreateProfilePage = () => {
               />
             </div>
 
-            {/* Username */}
             <div className="input-box">
-              <label htmlFor="name">Username</label>
+              <label htmlFor="name">Username: {user?.name}</label>
               <input
                 type="text"
                 name="name"
                 id="name"
                 value={formValues?.name}
+                placeholder={user ? user.name : "Enter new username"}
                 onChange={handleInputChange}
               />
             </div>
 
-            {/* Email */}
             <div className="input-box">
               <label htmlFor="email">Email</label>
               <input
@@ -160,7 +162,9 @@ const CreateProfilePage = () => {
                 type="text"
                 name="phoneNumber"
                 id="phoneNumber"
-                placeholder={formValues?.phoneNumber}
+                placeholder={
+                  user ? user.phoneNumber : "Enter your phone number"
+                }
                 onChange={handleInputChange}
               />
             </div>
@@ -170,25 +174,23 @@ const CreateProfilePage = () => {
               <textarea
                 name="bio"
                 id="bio"
-                placeholder="Tell us about yourself"
+                placeholder={user ? user.bio : "Tell us about yourself"}
                 value={formValues?.bio || ""}
                 onChange={handleInputChange}
               />
             </div>
 
             {user?.userType === "agent" && (
-              <>
-                <div className="input-box">
-                  <label htmlFor="agencyName">Agency Name</label>
-                  <input
-                    type="text"
-                    name="agencyName"
-                    id="agencyName"
-                    placeholder={(user?.userInfo as AgentUserInfo).agencyName}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </>
+              <div className="input-box">
+                <label htmlFor="agencyName">Agency Name</label>
+                <input
+                  type="text"
+                  name="agencyName"
+                  id="agencyName"
+                  placeholder={(user.userInfo as AgentUserInfo)?.agencyName}
+                  onChange={handleInputChange}
+                />
+              </div>
             )}
 
             <button
@@ -201,6 +203,13 @@ const CreateProfilePage = () => {
           </form>
         </div>
       </div>
+
+      <Prompt
+        message="Are you sure you want to update your profile?"
+        isOpen={showPrompt}
+        onConfirm={submitProfileUpdate}
+        onCancel={() => setShowPrompt(false)}
+      />
     </div>
   );
 };

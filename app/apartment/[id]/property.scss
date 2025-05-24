@@ -337,6 +337,10 @@
   .container {
     display: flex;
     gap: var(--spacing);
+
+    .btn{
+      text-align: center;
+    }
   }
 }
 

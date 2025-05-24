@@ -306,6 +306,9 @@
   display: flex;
   gap: var(--spacing);
 }
+.prop-cta .container .btn {
+  text-align: center;
+}
 
 @media screen and (max-width: 768px) {
   .properties-details-page .prop-image-details .property-images {
