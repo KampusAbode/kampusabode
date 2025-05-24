@@ -95,7 +95,11 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   };
 
   const handleBookingConfirm = () => {
-    // Logic to move to payment or confirm booking
+    if (!user) {
+      toast.error("Please log in to confirm your booking.");
+      return;
+    }
+    
     toast.success(
       `Booking confirmed for: ${
         propertyDetails.title
