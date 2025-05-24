@@ -61,6 +61,16 @@
   /* Line Heights */
   --line-height-sm: 1.135;
   --line-height-md: 1.36;
+
+
+
+  /* Breakpoints */
+  --desktop-width: 80%;
+  --desktop-max-width: 1200px;
+  --tablet-width: 90%;
+  --tablet-max-width: 768px;
+  --mobile-width: 95%;
+  --mobile-max-width: 425px;
 }
 
 * {
@@ -172,7 +182,8 @@ main {
   position: relative;
 }
 .container {
-  width: 90%;
+  width: var(--desktop-width);
+  max-width: var(--desktop-max-width);
   margin: 0 auto;
 }
 
@@ -368,4 +379,54 @@ button {
       width: 100%;
     }
   }
+
+  .container {
+    width: var(--tablet-width);
+    max-width: var(--tablet-max-width);
+  }
+}
+
+
+@media screen and (max-width: 425px) {
+  :root {
+    --spacing-s: 4rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  h3 {
+    font-size: 1.125rem;
+  }
+
+  h4 {
+    font-size: 1rem;
+  }
+
+  h5 {
+    font-size: calc(0.675rem + 0.225vw);
+  }
+
+  h6 {
+    font-size: calc(0.675rem + 0.225vw);
+  }
+
+  p {
+    font-size: calc(0.875rem + 0.25vw);
+  }
+
+  button {
+    font-size: var(--font-size-sm);
+  }
+
+  .container {
+    width: var(--mobile-width);
+    max-width: var(--mobile-max-width);
+  }
+  
 }
