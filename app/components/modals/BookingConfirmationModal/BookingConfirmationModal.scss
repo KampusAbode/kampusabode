@@ -59,7 +59,7 @@
     display: flex;
     justify-content: flex-end;
     gap: calc(0.875 * var(--spacing));
-    margin-top: 8px;
+    margin-top: var(--spacing);
 
   }
 }

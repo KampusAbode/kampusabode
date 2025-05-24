@@ -124,7 +124,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
           <div className="top">
             {/* Property Details */}
             <div className="pq">
-              <h3 className="title">{propertyDetails.title}</h3>
+              <h2 className="title">{propertyDetails.title}</h2>
               <span className="price">
                 Total package: ₦{propertyDetails.price.toLocaleString()}{" "}
               </span>
@@ -138,7 +138,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                 <span>{propertyDetails.area.toLocaleString()} sqft</span>
               </div>
               <div className="description">
-                <h5>Overview</h5>
+                <h4>Overview</h4>
                 <p>{propertyDetails.description}</p>
               </div>
               <div className="amenities">
@@ -155,7 +155,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
 
             {/* About Agent */}
             <div className="about-agent">
-              <h5>Agent details</h5>
+              <h4>Agent details</h4>
               <div className="agent-details">
                 {agentDetails ? (
                   <>
@@ -166,7 +166,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                       height={200}
                       alt={`${agentDetails.name}'s profile picture`}
                     />
-                    <h5>{agentDetails.name}</h5>
+                    <h4>{agentDetails.name}</h4>
                     {"agencyName" in agentDetails.userInfo && (
                       <p>{agentDetails.userInfo.agencyName}</p>
                     )}
@@ -198,7 +198,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
 
           {/* Reviews Section */}
           <div className="agent-reviews">
-            <h5>{`Reviews (${propReviews.length})`}</h5>
+            <h4>{`Reviews (${propReviews.length})`}</h4>
             <div className="reviews">
               {propReviews.length ? (
                 propReviews.map((review) => (
@@ -218,7 +218,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
 
           {/* Agent Listings */}
           <div className="agent-listings">
-            <h5>{agentDetails?.name}'s Listed Properties</h5>
+            <h4>{agentDetails?.name}'s Listed Properties</h4>
             <div>
               {agentPropertyListings.length !== 0 ? (
                 <div className="agentProps">
@@ -251,7 +251,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
 
           {/* Contact Section */}
           <div className="contact">
-            <h5>From Kampusabode</h5>
+            <h4>From Kampusabode</h4>
             <p>
               We're excited to help you find your ideal property! Pricing is
               non-negotiable to ensure fairness and transparency. For inquiries,

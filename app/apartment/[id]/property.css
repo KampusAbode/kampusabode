@@ -103,7 +103,7 @@
 .properties-details-page .container > div {
   margin-block: var(--spacing-4x);
 }
-.properties-details-page .container h5 {
+.properties-details-page .container h4 {
   margin-bottom: var(--spacing);
 }
 .properties-details-page .container .top {
@@ -118,7 +118,7 @@
 .properties-details-page .container .top .pq .price {
   text-decoration: underline;
   font-style: italic;
-  font-size: var(--font-size-nd);
+  font-size: var(--font-size-sm);
   margin-bottom: var(--spacing);
 }
 .properties-details-page .container .top .pq .features,

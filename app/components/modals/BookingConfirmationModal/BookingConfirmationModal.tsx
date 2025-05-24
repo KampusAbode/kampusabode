@@ -45,11 +45,11 @@ export default function BookingConfirmationModal({
             </p>
           </div>
 
-          <p className="modal-disclaimer">
+          <span className="modal-disclaimer">
             Full apartment address and agent contact will only be shared after
             payment is confirmed. This helps protect agent privacy and ensure
             safe bookings through Kampus Abode.
-          </p>
+          </span>
         </div>
 
         <div className="modal-footer">
@@ -60,7 +60,7 @@ export default function BookingConfirmationModal({
             Cancel
           </button>
           <button className="btn" title="Button" onClick={onConfirm}>
-            Proceed to Payment
+            Proceed
           </button>
         </div>
       </div>

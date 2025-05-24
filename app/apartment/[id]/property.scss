@@ -113,7 +113,7 @@
     & > div {
       margin-block: var(--spacing-4x);
     }
-    h5 {
+    h4 {
       margin-bottom: var(--spacing);
     }
     .top {
@@ -128,7 +128,7 @@
         .price {
           text-decoration: underline;
           font-style: italic;
-          font-size: var(--font-size-nd);
+          font-size: var(--font-size-sm);
           margin-bottom: var(--spacing);
         }
         .features,
