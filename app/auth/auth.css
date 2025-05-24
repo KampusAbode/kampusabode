@@ -12,12 +12,12 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     .im {
-      background: #ff5e5e;
+      background: var(--primary-color);
 
       display: grid;
       place-items: center;
       img {
-        width: 60%;
+        width: 70%;
         height: auto;
       }
     }
@@ -32,7 +32,7 @@
       }
 
       form {
-        width: 95%;
+        width: 50%;
         margin: 0 auto;
         .input-box {
           position: relative;

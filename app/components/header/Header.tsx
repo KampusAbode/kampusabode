@@ -72,8 +72,7 @@ export default function Header() {
   const showBackButton = pagesWithBackButton.some((path) =>
     pathname.includes(`/${path}`)
   );
-  // const excludedPaths = ["login", "signup"];
-  const excludedPaths = [];
+  const excludedPaths = ["login", "signup"];
   if (excludedPaths.some((path) => pathname.includes(`/${path}`))) {
     return null;
   }
