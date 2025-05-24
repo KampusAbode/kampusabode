@@ -50,11 +50,11 @@
             resize: none;
           }
 
-          span {
+          span.input-error {
             position: absolute;
             bottom: -30%;
             left: var(--spacing);
-            color: #f10909;
+            color: #d32f2f;
           }
         }
         button {
@@ -67,6 +67,8 @@
 
           &.disable {
             user-select: none;
+            background-color: var(--light-gray);
+            cursor: not-allowed;
           }
         }
       }

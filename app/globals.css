@@ -50,9 +50,9 @@
   --line-height-sm: 1.135;
   --line-height-md: 1.36;
   /* Breakpoints */
-  --large-width: 90%;
+  --large-width: 85%;
   --large-max-width: 1400px;
-  --mobile-width: 95%;
+  --mobile-width: 92%;
   --mobile-max-width: 425px;
 }
 
