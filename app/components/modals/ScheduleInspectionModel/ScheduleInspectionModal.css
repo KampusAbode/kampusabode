@@ -26,7 +26,6 @@
 .schedule-inspection-modal .modal-body .modal-section {
   margin-bottom: var(--spacing);
   background-color: var(--light-gray);
-  padding: var(--spacing);
   border-radius: var(--border-radius);
 }
 .schedule-inspection-modal .modal-body .modal-section label {
@@ -51,4 +50,4 @@
     opacity: 1;
     transform: scale(1);
   }
-}/*# sourceMappingURL=ScheduleInspectionModel.css.map */
+}/*# sourceMappingURL=ScheduleInspectionModal.css.map */

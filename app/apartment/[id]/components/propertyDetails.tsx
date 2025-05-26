@@ -312,11 +312,11 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
         isOpen={isInspectionModelOpen}
         onClose={() => setInspectionModelOpen(false)}
         apartment={{ id: propertyDetails.id, title: propertyDetails.title }}
-        agentEmail={agentDetails.email}
-        agentNumber={agentDetails.phoneNumber}
-        agencyName={
-          "agencyName" in agentDetails.userInfo
-            ? agentDetails.userInfo.agencyName
+        agentEmail={agentDetails && agentDetails?.email}
+        agentNumber={agentDetails && agentDetails?.phoneNumber}
+        agencyName={agentDetails && 
+          "agencyName" in agentDetails?.userInfo
+            ? agentDetails?.userInfo.agencyName
             : ""
         }
         onSubmit={handleInspectionFormSubmit}
