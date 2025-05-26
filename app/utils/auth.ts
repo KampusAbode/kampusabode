@@ -85,7 +85,7 @@ export const signupUser = async (userData: UserSignupInput) => {
       createdAt: new Date().toISOString(),
     });
 
-    return { message: "Signup successful" };
+    return { message: "Signup successful", user };
   } catch (error: any) {
     console.error("Error signing up user", error);
     if (error.code === "auth/email-already-in-use") {

@@ -1,17 +1,17 @@
 "use client";
 
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import {
   updateUserProfile,
   uploadImageToAppwrite,
   useProperties,
 } from "../../utils";
-import { UserType, AgentUserInfo } from "../../fetch/types";
+import { UserType, AgentUserInfo, StudentUserInfo } from "../../fetch/types";
 import "./updateprofile.css";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "../../store/userStore";
-import Prompt from "../../components/modals/prompt/Prompt"; // Ensure path is correct
+import Prompt from "../../components/modals/prompt/Prompt";
 
 interface FormErrors {
   name?: string;
@@ -19,6 +19,16 @@ interface FormErrors {
   phoneNumber?: string;
   bio?: string;
   agencyName?: string;
+}
+
+interface ProfileFormValues {
+  id: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  bio: string;
+  avatar: string;
+  userInfo: StudentUserInfo | AgentUserInfo;
 }
 
 const CreateProfilePage = () => {
@@ -30,12 +40,30 @@ const CreateProfilePage = () => {
     user?.avatar || null
   );
 
-  // Initialize form with user's existing data or empty strings
-  const [formValues, setFormValues] = useState<UserType>();
+  // Initialize formValues with user data or empty defaults
+  const [formValues, setFormValues] = useState<ProfileFormValues>();
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
+
+  // Sync formValues to user when user changes (on mount and updates)
+  useEffect(() => {
+    if (user) {
+      setFormValues({
+        name: user.name || "",
+        email: user.email || "",
+        phoneNumber: user.phoneNumber || "",
+        bio: user.bio || "",
+        avatar: user.avatar || "",
+        id: user.id || "",
+        userInfo:
+          (user.userInfo as AgentUserInfo) ||
+          (user.userInfo as StudentUserInfo),
+      });
+      setImagePreview(user.avatar || null);
+    }
+  }, [user]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -45,23 +73,23 @@ const CreateProfilePage = () => {
     }
   };
 
-  // Helper: email validation regex
   const validateEmail = (email: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  // Handle form input changes with validation
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
 
-    // Clone previous errors and values
     let newErrors: FormErrors = { ...errors };
-    let newFormValues: UserType = { ...formValues };
+    // Clone formValues deeply enough
+    let newFormValues: ProfileFormValues = {
+      ...formValues,
+      userInfo: { ...formValues?.userInfo },
+    };
 
     switch (name) {
       case "name": {
-        // Remove spaces, only allow letters, numbers, underscore
         const noSpaces = value.replace(/\s/g, "");
         if (!/^[a-zA-Z0-9_]*$/.test(noSpaces)) {
           newErrors.name =
@@ -87,7 +115,6 @@ const CreateProfilePage = () => {
       }
 
       case "phoneNumber": {
-        // Allow digits only, trim leading '234', max 10 digits stored
         let digitsOnly = value.replace(/\D/g, "").replace(/^234/, "");
         digitsOnly = digitsOnly.slice(0, 10);
         newFormValues.phoneNumber = digitsOnly;
@@ -102,12 +129,12 @@ const CreateProfilePage = () => {
 
       case "bio": {
         newFormValues.bio = value;
-        // Optional validation can be added here if needed
         break;
       }
 
       case "agencyName": {
-        if ("agencyName" in newFormValues.userInfo) {
+        // Only update agencyName if userInfo exists
+        if (newFormValues.userInfo) {
           (newFormValues.userInfo as AgentUserInfo).agencyName = value;
         }
         break;
@@ -121,7 +148,6 @@ const CreateProfilePage = () => {
     setErrors(newErrors);
   };
 
-  // Format phone number for display: +234 XXX XXX XXXX
   const formatPhoneNumber = (phone: string) => {
     if (!phone) return "";
     const parts = phone.match(/^(\d{0,3})(\d{0,3})(\d{0,4})$/);
@@ -129,28 +155,27 @@ const CreateProfilePage = () => {
     return `+234 ${[parts[1], parts[2], parts[3]].filter(Boolean).join(" ")}`;
   };
 
-  // Final validation before submit
   const validateBeforeSubmit = () => {
     let valid = true;
     let newErrors: FormErrors = {};
 
-    if (!formValues.name || formValues.name.length < 3) {
+    if (!formValues?.name || formValues?.name.length < 3) {
       newErrors.name = "Username must be at least 3 characters";
       valid = false;
     }
 
-    if (!formValues.email) {
+    if (!formValues?.email) {
       newErrors.email = "Email is required";
       valid = false;
-    } else if (!validateEmail(formValues.email)) {
+    } else if (!validateEmail(formValues?.email)) {
       newErrors.email = "Invalid email format";
       valid = false;
     }
 
-    if (!formValues.phoneNumber) {
+    if (!formValues?.phoneNumber) {
       newErrors.phoneNumber = "Phone number is required";
       valid = false;
-    } else if (formValues.phoneNumber.length !== 10) {
+    } else if (formValues?.phoneNumber.length !== 10) {
       newErrors.phoneNumber = "Phone number must be exactly 10 digits";
       valid = false;
     }
@@ -170,7 +195,6 @@ const CreateProfilePage = () => {
     setShowPrompt(true);
   };
 
-  // Called when user confirms update in prompt
   const confirmUpdate = async () => {
     setShowPrompt(false);
     setIsSubmitting(true);
@@ -193,7 +217,7 @@ const CreateProfilePage = () => {
 
       const updatedUser = Object.entries(formValues || {}).reduce(
         (acc, [key, value]) => {
-          if (value !== user[key as keyof UserType]) {
+          if (value !== user?.[key as keyof UserType]) {
             acc[key as keyof UserType] = value;
           }
           return acc;
@@ -250,7 +274,6 @@ const CreateProfilePage = () => {
               />
             </div>
 
-            {/* Username */}
             <div className="input-box">
               <label htmlFor="name">Username</label>
               <input
@@ -258,7 +281,7 @@ const CreateProfilePage = () => {
                 id="name"
                 name="name"
                 placeholder={user ? user.name : "Enter new username"}
-                value={formValues.name}
+                value={formValues?.name || ""}
                 onChange={handleInputChange}
                 autoComplete="username"
                 aria-describedby="name-error"
@@ -270,15 +293,14 @@ const CreateProfilePage = () => {
               )}
             </div>
 
-            {/* Email */}
             <div className="input-box">
               <label htmlFor="email">Email</label>
               <input
                 type="email"
                 id="email"
                 name="email"
-                placeholder={user? user.email : "Enter your email address"}
-                value={formValues.email}
+                placeholder={user ? user.email : "Enter your email address"}
+                value={formValues?.email || ""}
                 onChange={handleInputChange}
                 disabled={!!user?.email}
                 autoComplete="email"
@@ -291,7 +313,6 @@ const CreateProfilePage = () => {
               )}
             </div>
 
-            {/* Phone Number */}
             <div className="input-box">
               <label htmlFor="phoneNumber">Phone Number</label>
               <input
@@ -301,7 +322,7 @@ const CreateProfilePage = () => {
                 placeholder={
                   user ? user.phoneNumber : "Enter your phone number"
                 }
-                value={formatPhoneNumber(formValues.phoneNumber)}
+                value={formatPhoneNumber(formValues?.phoneNumber || "")}
                 onChange={handleInputChange}
                 autoComplete="tel"
                 aria-describedby="phone-error"
@@ -313,25 +334,18 @@ const CreateProfilePage = () => {
               )}
             </div>
 
-            {/* Bio */}
             <div className="input-box">
               <label htmlFor="bio">Bio</label>
               <textarea
                 id="bio"
                 name="bio"
                 placeholder={user ? user.bio : "Tell us about yourself"}
-                value={formValues.bio}
+                value={formValues?.bio || ""}
                 onChange={handleInputChange}
                 rows={4}
               />
-              {errors.bio && (
-                <span className="input-error" id="bio-error" role="alert">
-                  {errors.bio}
-                </span>
-              )}
             </div>
 
-            {/* Agency Name */}
             {user?.userType === "agent" && (
               <div className="input-box">
                 <label htmlFor="agencyName">Agency Name</label>
@@ -340,41 +354,36 @@ const CreateProfilePage = () => {
                   id="agencyName"
                   name="agencyName"
                   placeholder={
-                    user && user.userType === "agent"
-                      ? (user.userInfo as AgentUserInfo).agencyName
-                      : "Enter your agency name"
+                    (user.userInfo as AgentUserInfo)?.agencyName ||
+                    "Enter your agency name"
                   }
                   value={
-                    user?.userType === "agent"
-                      ? (formValues.userInfo as AgentUserInfo)?.agencyName || ""
-                      : ""
+                    (formValues?.userInfo as AgentUserInfo)?.agencyName || ""
                   }
                   onChange={handleInputChange}
                 />
-                {errors.agencyName && (
-                  <span className="input-error" id="agencyName-error" role="alert">
-                    {errors.agencyName}
-                  </span>
-                )}
               </div>
             )}
 
-            {/* Submit Button */}
-
-            <button type="submit" className="btn" disabled={isSubmitting}>
-              {isSubmitting ? "Updating..." : "Update"}
+            <button
+              type="submit"
+              className="submit-btn"
+              disabled={isSubmitting}
+              aria-busy={isSubmitting}>
+              {isSubmitting ? "Updating..." : "Update Profile"}
             </button>
           </form>
         </div>
       </div>
 
-      {/* Confirmation prompt */}
-      <Prompt
-        isOpen={showPrompt}
-        message="Are you sure you want to update your profile?"
-        onConfirm={confirmUpdate}
-        onCancel={() => setShowPrompt(false)}
-      />
+      {showPrompt && (
+        <Prompt
+          isOpen={showPrompt}
+          message="Are you sure you want to update your profile?"
+          onConfirm={confirmUpdate}
+          onCancel={() => setShowPrompt(false)}
+        />
+      )}
     </div>
   );
 };
