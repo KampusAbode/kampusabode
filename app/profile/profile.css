@@ -21,7 +21,8 @@
   padding: var(--spacing);
 }
 .profile-page .container .profile-overview .dt .tdt span {
-  display: block;
+  display: inline-block;
+  align-items: center;
   margin-bottom: var(--spacing-h);
 }
 .profile-page .container .profile-overview .dt .tdt span .not-verified {

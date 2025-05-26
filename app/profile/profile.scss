@@ -20,7 +20,8 @@
         .tdt {
           padding: var(--spacing);
           span {
-            display: block;
+            display: inline-block;
+            align-items: center;
             margin-bottom: var(--spacing-h);
 
             .not-verified {
