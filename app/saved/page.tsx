@@ -63,7 +63,7 @@ const SavedPage = () => {
           {savedProperties.map((property) => {
             return (
               <Link key={property.id} href={`/apartment/${property.id}`}>
-                <Image src={property.images[0]} width={500} height={500} alt={property.title} />
+                <Image src={property.images[0]} width={4000} height={4000} alt={property.title} />
               </Link>
             );
           })}
@@ -73,7 +73,7 @@ const SavedPage = () => {
       return (
         <div className="no-saved" style={{textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", height: "100vh"}}>
           
-          <Image src="/icon/save_apartment.png" alt="no saved" width={400} height={400} style={{width: "210px"}} />
+          <Image src="/icons/save_apartment.png" alt="no saved" width={3000} height={3000} style={{width: "210px", height: 'auto'}} />
 
           <p style={{ textAlign: "center", marginTop: "2rem" }}>
             No saved apartments yet! 🏠
@@ -86,10 +86,11 @@ const SavedPage = () => {
 
   return (
     <section className="saved-page">
+      <div className="container">
+        <h4 className="page-heading">Saved</h4>
+      </div>
       <div className="tabs">
         <div className="container">
-          <h4 className="page-heading">Saved</h4>
-
           <span
             onClick={() => setCurrentTab("properties")}
             className={currentTab === "properties" ? "active" : ""}>

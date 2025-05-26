@@ -15,11 +15,11 @@
   .prop-image-details {
     .property-images {
       display: grid;
-      grid-template-columns: 1.5fr 1fr;
+      grid-template-columns: 1.2fr 1fr;
       gap: var(--spacing);
 
       .display-image {
-        height: 70vh;
+        height: 65vh;
         display: flex;
         place-items: center;
         padding-bottom: var(--spacing);
@@ -283,7 +283,7 @@
             .list-details {
               padding-block: var(--spacing-h);
 
-              h6 {
+              h5 {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: -webkit-box;
@@ -329,11 +329,14 @@
 
     .contact {
       margin-top: var(--spacing-4x);
+      background-color: var(--light-gray);
+      padding: var(--spacing-2x);
+      border-radius: var(--border-radius);
     }
   }
 }
 .prop-cta {
-  margin-top: var(--spacing);
+  margin-block: var(--spacing-2x);
   .container {
     display: flex;
     gap: var(--spacing);
@@ -417,6 +420,10 @@
           }
         }
       }
+
+      .contact {
+      padding: var(--spacing);
+    }
     }
   }
   .prop-cta {
@@ -428,6 +435,7 @@
     padding-block: var(--spacing);
     box-shadow: var(--shadow);
     z-index: 9999;
+    margin: 0;
 
     .container {
       display: grid;

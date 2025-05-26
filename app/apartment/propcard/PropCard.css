@@ -95,7 +95,7 @@
   color: var(--font-color-h);
   font-weight: 600;
 }
-.prop-card .card-details h5 {
+.prop-card .card-details h4 {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;

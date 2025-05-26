@@ -17,6 +17,8 @@ import { formatDistanceToNowStrict } from "date-fns";
 import BookingConfirmationModal from "../../../components/modals/BookingConfirmationModal/BookingConfirmationModal";
 import "../property.css";
 import { useUserStore } from "../../../store/userStore";
+import ScheduleInspectionModal from "../../../components/modals/ScheduleInspectionModel/ScheduleInspectionModel";
+import Loader from "../../../components/loader/Loader";
 
 interface PropertyDetailsProps {
   id: string;
@@ -32,7 +34,8 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   const [propertyDetails, setPropertyDetails] = useState<ApartmentType | null>(
     null
   );
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isBookingModalOpen, setBookingModalOpen] = useState(false);
+  const [isInspectionModelOpen, setInspectionModelOpen] = useState(false);
 
   const { user } = useUserStore((state) => state);
 
@@ -99,13 +102,30 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       toast.error("Please log in to confirm your booking.");
       return;
     }
-    
-    toast.success(
-      `Booking confirmed for: ${
-        propertyDetails.title
-      } with the total package of ₦${propertyDetails.price.toLocaleString()}`
-    );
-    setIsModalOpen(false);
+ 
+    setBookingModalOpen(false);
+    setInspectionModelOpen(true);
+  };
+
+  const handleInspectionFormSubmit = async (data) => {
+    try {
+      // Send to your API route
+      const res = await fetch("/api/notify-agent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (res.ok) {
+        toast.success("Inspection booked successfully!");
+        setInspectionModelOpen(false);
+      } else {
+        toast.error("Failed to notify agent. Please try again.");
+      }
+    } catch (err) {
+      console.error("Submit Error:", err);
+      toast.error("Something went wrong!");
+    }
   };
 
   useEffect(() => {
@@ -114,7 +134,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   }, [id, fetchPropertyDetails, fetchReviews]);
 
   if (!propertyDetails) {
-    return <p>Loading...</p>;
+    return <Loader/>;
   }
 
   return (
@@ -241,7 +261,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                         />
                       </div>
                       <div className="list-details">
-                        <h6>{listing.title}</h6>
+                        <h5>{listing.title}</h5>
                         <span>{listing.description}</span>
                       </div>
                     </Link>
@@ -270,7 +290,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
           <span
             className="btn"
             title="Button"
-            onClick={() => setIsModalOpen(true)}>
+            onClick={() => setBookingModalOpen(true)}>
             inspect apartment
           </span>
           <Link
@@ -283,10 +303,23 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       </div>
 
       <BookingConfirmationModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isBookingModalOpen}
+        onClose={() => setBookingModalOpen(false)}
         apartment={propertyDetails}
         onConfirm={handleBookingConfirm}
+      />
+      <ScheduleInspectionModal
+        isOpen={isInspectionModelOpen}
+        onClose={() => setInspectionModelOpen(false)}
+        apartment={{ id: propertyDetails.id, title: propertyDetails.title }}
+        agentEmail={agentDetails.email}
+        agentNumber={agentDetails.phoneNumber}
+        agencyName={
+          "agencyName" in agentDetails.userInfo
+            ? agentDetails.userInfo.agencyName
+            : ""
+        }
+        onSubmit={handleInspectionFormSubmit}
       />
     </SaveVisitedProperty>
   );
