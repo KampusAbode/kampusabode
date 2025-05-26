@@ -367,7 +367,8 @@ const CreateProfilePage = () => {
 
             <button
               type="submit"
-              className="submit-btn"
+
+              className="btn"
               disabled={isSubmitting}
               aria-busy={isSubmitting}>
               {isSubmitting ? "Updating..." : "Update Profile"}

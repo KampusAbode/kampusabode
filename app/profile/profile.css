@@ -24,6 +24,11 @@
   display: block;
   margin-bottom: var(--spacing-h);
 }
+.profile-page .container .profile-overview .dt .tdt span .not-verified {
+  color: var(--error);
+  margin-left: 6px;
+  font-size: var(--font-size-xs);
+}
 .profile-page .container .cp {
   margin-top: var(--spacing-2x);
 }
