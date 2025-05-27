@@ -21,14 +21,15 @@
   padding: var(--spacing);
 }
 .profile-page .container .profile-overview .dt .tdt span {
-  display: inline-block;
+  display: block;
   align-items: center;
   margin-bottom: var(--spacing-h);
 }
 .profile-page .container .profile-overview .dt .tdt span .not-verified {
   color: var(--error);
-  margin-left: 6px;
+  margin-left: 8px;
   font-size: var(--font-size-xs);
+  line-height: var(--line-height-md);
 }
 .profile-page .container .cp {
   margin-top: var(--spacing-2x);

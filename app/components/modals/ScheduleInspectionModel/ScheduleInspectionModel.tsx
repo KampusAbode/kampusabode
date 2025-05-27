@@ -5,39 +5,27 @@ import "./ScheduleInspectionModal.css";
 import { useUserStore } from "../../../store/userStore";
 import toast from "react-hot-toast";
 
-interface Apartment {
-  id: string;
-  title: string;
-}
+
+
 
 interface ScheduleInspectionModalProps {
   isOpen: boolean;
   onClose: () => void;
-  apartment: Apartment;
-  agentEmail: string;
-  agentNumber: string;
-  agencyName: string;
+  apartmentTitle: string;
   onSubmit: (data: {
-    apartmentId: string;
     name: string;
     email: string;
     phone: string;
     preferredDate: string;
     preferredTime: string;
-    notes?: string;
-    agentEmail: string;
-    agentNumber: string;
-    agencyName: string;
-  }) => Promise<void>;
+    notes: string;
+  }) => Promise<any>;
 }
 
 export default function ScheduleInspectionModal({
   isOpen,
   onClose,
-  apartment,
-  agentEmail,
-  agentNumber,
-  agencyName,
+  apartmentTitle,
   onSubmit,
 }: ScheduleInspectionModalProps) {
   const { user } = useUserStore();
@@ -68,20 +56,9 @@ export default function ScheduleInspectionModal({
         throw new Error("Please fill in all required fields.");
       }
 
-      await onSubmit({
-        apartmentId: apartment.id,
-        name,
-        email,
-        phone,
-        preferredDate,
-        preferredTime,
-        notes,
-        agentEmail,
-        agentNumber,
-        agencyName,
-      });
+       await onSubmit({name, email, phone, preferredDate, preferredTime, notes});
 
-      setSuccessMsg("Inspection scheduled successfully!");
+      
     } catch (error: any) {
       setErrorMsg(error.message || "Something went wrong.");
     } finally {
@@ -93,13 +70,13 @@ export default function ScheduleInspectionModal({
     <div className="modal-overlay">
       <div className="schedule-inspection-modal">
         <div className="modal-header">
-          <h2>Schedule an Inspection</h2>
+          <h3>Schedule Inspection</h3>
         </div>
 
         <form className="modal-body" onSubmit={handleSubmit}>
           <div className="modal-section">
             <label>Apartment:</label>
-            <p>{apartment.title}</p>
+            <p>{apartmentTitle}</p>
           </div>
 
           <div className="modal-section">
@@ -144,30 +121,27 @@ export default function ScheduleInspectionModal({
             />
           </div>
 
-          <div className="modal-section">
-            <label htmlFor="preferredDate">
-              Preferred Date <span className="required">*</span>
+          <div className="modal-section date-time">
+            <label>
+              Preferred Date and Time <span className="required">*</span>
             </label>
-            <input
-              id="preferredDate"
-              type="date"
-              value={preferredDate}
-              onChange={(e) => setPreferredDate(e.target.value)}
-              required
-            />
-          </div>
 
-          <div className="modal-section">
-            <label htmlFor="preferredTime">
-              Preferred Time <span className="required">*</span>
-            </label>
-            <input
-              id="preferredTime"
-              type="time"
-              value={preferredTime}
-              onChange={(e) => setPreferredTime(e.target.value)}
-              required
-            />
+            <div>
+              <input
+                id="preferredDate"
+                type="date"
+                value={preferredDate}
+                onChange={(e) => setPreferredDate(e.target.value)}
+                required
+              />
+              <input
+                id="preferredTime"
+                type="time"
+                value={preferredTime}
+                onChange={(e) => setPreferredTime(e.target.value)}
+                required
+              />
+            </div>
           </div>
 
           <div className="modal-section">

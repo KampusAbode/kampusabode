@@ -19,6 +19,7 @@ import "../property.css";
 import { useUserStore } from "../../../store/userStore";
 import ScheduleInspectionModal from "../../../components/modals/ScheduleInspectionModel/ScheduleInspectionModel";
 import Loader from "../../../components/loader/Loader";
+// import { sendInspectionEmail } from "../../../utils/sendInspectionEmail";
 
 interface PropertyDetailsProps {
   id: string;
@@ -49,6 +50,8 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       const agent = await fetchUsersById(agentId);
 
       setAgentDetails(agent);
+      // console.log("Agent Details:", agent);
+      
       if (agent) {
         const properties = await getApartmentsByIds(
           "propertiesListed" in agent.userInfo
@@ -102,29 +105,81 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       toast.error("Please log in to confirm your booking.");
       return;
     }
- 
+
     setBookingModalOpen(false);
     setInspectionModelOpen(true);
   };
 
-  const handleInspectionFormSubmit = async (data) => {
-    try {
-      // Send to your API route
-      const res = await fetch("/api/notify-agent", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+  const handleInspectionFormSubmit = async (userdata: {
+    name: string;
+    email: string;
+    phone: string;
+    preferredDate: string;
+    preferredTime: string;
+    notes?: string;
+  }) => {
+    const data: {
+      apartmentId: string;
+      apartmentTitle: string;
+      agentEmail: string;
+      agentNumber: string;
+      agencyName: string;
 
-      if (res.ok) {
-        toast.success("Inspection booked successfully!");
-        setInspectionModelOpen(false);
-      } else {
-        toast.error("Failed to notify agent. Please try again.");
-      }
+      name: string;
+      email: string;
+      phone: string;
+      preferredDate: string;
+      preferredTime: string;
+      note?: string;
+    } = {
+      apartmentId: propertyDetails?.id || "",
+      apartmentTitle: propertyDetails?.title || "",
+      agentEmail: agentDetails?.email || "",
+      agentNumber: agentDetails?.phoneNumber || "",
+      agencyName:
+        "agencyName" in agentDetails?.userInfo
+          ? agentDetails.userInfo.agencyName
+          : "",
+      ...userdata,
+    };
+    console.log("Form Data:", data);
+    
+    try {
+      // const emailSent = await sendInspectionEmail(data);
+
+      // if (emailSent.success) {
+      //   toast.success("Email sent successfully! Redirecting to WhatsApp...");
+      //   console.log("Email sent successfully:", emailSent.message);
+      //   console.log("Twilio Message ID:", emailSent.twilioMessageId);
+        
+      // } else {
+      //   console.error("Failed to send email:", emailSent.message);
+      //   toast.error("Failed to send email. Please try again later.");
+      //   console.log("Error details:", emailSent.error);
+        
+      // }
+
+      
+
+      // Now handle WhatsApp redirect on the client
+      const message = `Hello ${agentDetails.name}, I'm ${
+        data.name
+      } and I would like to schedule an apartment inspection.\n\n📞 Phone: ${
+        data.phone
+      }\n📅 Date: ${data.preferredDate}\n⏰ Time: ${
+        data.preferredTime
+      }\n📝 Note: ${
+        data.note || "No additional notes"
+      }\n\nPlease let me know if this works for you.`;
+
+      window.open(
+        `https://wa.me/${agentDetails.phoneNumber}?text=${encodeURIComponent(message)}`
+      );
+
+      toast.success("Redirecting to WhatsApp...");
+      setInspectionModelOpen(false);
     } catch (err) {
-      console.error("Submit Error:", err);
-      toast.error("Something went wrong!");
+      toast.error(err.message || "Failed to book inspection");
     }
   };
 
@@ -134,7 +189,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   }, [id, fetchPropertyDetails, fetchReviews]);
 
   if (!propertyDetails) {
-    return <Loader/>;
+    return <Loader />;
   }
 
   return (
@@ -311,14 +366,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       <ScheduleInspectionModal
         isOpen={isInspectionModelOpen}
         onClose={() => setInspectionModelOpen(false)}
-        apartment={{ id: propertyDetails.id, title: propertyDetails.title }}
-        agentEmail={agentDetails && agentDetails?.email}
-        agentNumber={agentDetails && agentDetails?.phoneNumber}
-        agencyName={agentDetails && 
-          "agencyName" in agentDetails?.userInfo
-            ? agentDetails?.userInfo.agencyName
-            : ""
-        }
+        apartmentTitle={propertyDetails.title}
         onSubmit={handleInspectionFormSubmit}
       />
     </SaveVisitedProperty>

@@ -21,7 +21,7 @@
   animation: fadeIn 0.25s ease-in-out;
 
   .modal-header {
-    h2 {
+    h3 {
       margin-bottom: var(--spacing);
     }
   }
@@ -29,15 +29,30 @@
   .modal-body {
     .modal-section {
       margin-bottom: var(--spacing);
-      background-color: var(--light-gray);
+      // background-color: var(--light-gray);
       // padding: var(--spacing);
-      border-radius: var(--border-radius);
+      // border-radius: var(--border-radius);
+
+      &.date-time {
+        div {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: var(--spacing);
+        }
+      }
 
       label {
-        font-size: calc(0.875 * var(--spacing));
+        font-size: var(--font-size-xs);
         color: var(--text-color-p);
         display: block;
         margin-bottom: var(--spacing-h);
+      }
+
+      input,
+      textarea{
+        max-height: 200px;
+        resize: none;
+        width: 100%;
       }
     }
   }

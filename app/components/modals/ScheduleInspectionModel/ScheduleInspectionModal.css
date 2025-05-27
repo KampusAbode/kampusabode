@@ -20,19 +20,28 @@
   padding: calc(1.5 * var(--spacing));
   animation: fadeIn 0.25s ease-in-out;
 }
-.schedule-inspection-modal .modal-header h2 {
+.schedule-inspection-modal .modal-header h3 {
   margin-bottom: var(--spacing);
 }
 .schedule-inspection-modal .modal-body .modal-section {
   margin-bottom: var(--spacing);
-  background-color: var(--light-gray);
-  border-radius: var(--border-radius);
+}
+.schedule-inspection-modal .modal-body .modal-section.date-time div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing);
 }
 .schedule-inspection-modal .modal-body .modal-section label {
-  font-size: calc(0.875 * var(--spacing));
+  font-size: var(--font-size-xs);
   color: var(--text-color-p);
   display: block;
   margin-bottom: var(--spacing-h);
+}
+.schedule-inspection-modal .modal-body .modal-section input,
+.schedule-inspection-modal .modal-body .modal-section textarea {
+  max-height: 200px;
+  resize: none;
+  width: 100%;
 }
 .schedule-inspection-modal .modal-footer {
   display: flex;

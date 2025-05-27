@@ -1,6 +1,9 @@
 .modal-overlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
@@ -18,7 +21,7 @@
   animation: fadeIn 0.25s ease-in-out;
 
   .modal-header {
-    h2 {
+    h3{
       margin-bottom: var(--spacing);
     }
   }
@@ -27,44 +30,54 @@
     .modal-section {
       margin-bottom: var(--spacing);
 
+      &.fees{
+        display: flex;
+        gap: var(--spacing-2x);
+
+      }
+
       label {
-        font-size: calc(0.875 * var(--spacing));
+        font-size: var(--font-size-sm);
         color: var(--text-color-p);
         display: block;
         margin-bottom: var(--spacing-h);
       }
 
-   
-
       &.total {
-        border-top: var(--border);
-        padding-top: calc(0.875 * var(--spacing));
+        // border-top: var(--border);
+        padding: var(--spacing);
+        background-color: var(--light-gray);
+        border-radius: var(--border-radius);
+        margin-block: var(--spacing);
 
         p {
-          font-size: var(--font-size-lg);
-          font-weight: 700;
+          font-size: var(--font-size-nm);
+          font-weight: 600;
           color: var(--text-color-h);
         }
       }
     }
 
     .modal-disclaimer {
-      font-size: calc(0.875 * var(--spacing));
-      margin-top: 8px;
-      line-height: 1.5;
+      font-size: var(--font-size-xs);
     }
   }
 
   .modal-footer {
     display: flex;
     justify-content: flex-end;
-    gap: calc(0.875 * var(--spacing));
+    gap: var(--spacing);
     margin-top: var(--spacing);
-
   }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

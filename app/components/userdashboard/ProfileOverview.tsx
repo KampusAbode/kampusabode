@@ -13,9 +13,9 @@ const ProfileOverview = ({userdata}) => {
         <div className="img">
           <Image
             priority
-            src={user?.avatar || "/assets/person3.jpg"}
-            width={1000}
-            height={1000}
+            src={user?.avatar || "/assets/user.svg"}
+            width={3000}
+            height={3000}
             alt="profile picture"
           />
         </div>

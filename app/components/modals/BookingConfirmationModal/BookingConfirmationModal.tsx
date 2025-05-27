@@ -13,10 +13,10 @@ export default function BookingConfirmationModal({
   const rent = totalPriceWithServiceFee - serviceFee;
 
   return (
-    <div className="modal-overlay">
+    <div className="modal-overlay" onClick={onClose}>
       <div className="booking-modal">
         <div className="modal-header">
-          <h2>Confirm Your Booking</h2>
+          <h3>Confirm Booking</h3>
         </div>
 
         <div className="modal-body">
@@ -30,12 +30,16 @@ export default function BookingConfirmationModal({
             <p>{apartment.area}</p>
           </div>
 
-          <div className="modal-section">
-            <label>Rent:</label>
-            <p>₦{rent.toLocaleString()}</p>
+          <div className="modal-section fees">
+            <div>
+              <label>Rent:</label>
+              <p>₦{rent.toLocaleString()}</p>
+            </div>
 
-            <label>Service Fee:</label>
-            <p>₦{serviceFee.toLocaleString()}</p>
+            <div>
+              <label>Service Fee:</label>
+              <p>₦{serviceFee.toLocaleString()}</p>
+            </div>
           </div>
 
           <div className="modal-section total">
@@ -55,11 +59,11 @@ export default function BookingConfirmationModal({
         <div className="modal-footer">
           <button
             className="btn btn-secondary"
-            title="Button"
+            title="cancel"
             onClick={onClose}>
             Cancel
           </button>
-          <button className="btn" title="Button" onClick={onConfirm}>
+          <button className="btn" title="confirm" onClick={onConfirm}>
             Proceed
           </button>
         </div>

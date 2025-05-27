@@ -116,11 +116,11 @@ const CreateProfilePage = () => {
 
       case "phoneNumber": {
         let digitsOnly = value.replace(/\D/g, "").replace(/^234/, "");
-        digitsOnly = digitsOnly.slice(0, 10);
+        digitsOnly = digitsOnly.slice(0, 11);
         newFormValues.phoneNumber = digitsOnly;
 
-        if (digitsOnly.length > 0 && digitsOnly.length !== 10) {
-          newErrors.phoneNumber = "Phone number must be exactly 10 digits";
+        if (digitsOnly.length > 0 && digitsOnly.length !== 11) {
+          newErrors.phoneNumber = "Phone number must be exactly 11 digits";
         } else {
           delete newErrors.phoneNumber;
         }
@@ -150,7 +150,7 @@ const CreateProfilePage = () => {
 
   const formatPhoneNumber = (phone: string) => {
     if (!phone) return "";
-    const parts = phone.match(/^(\d{0,3})(\d{0,3})(\d{0,4})$/);
+    const parts = phone.match(/^(\d{0,4})(\d{0,3})(\d{0,4})$/);
     if (!parts) return phone;
     return `+234 ${[parts[1], parts[2], parts[3]].filter(Boolean).join(" ")}`;
   };
@@ -175,8 +175,8 @@ const CreateProfilePage = () => {
     if (!formValues?.phoneNumber) {
       newErrors.phoneNumber = "Phone number is required";
       valid = false;
-    } else if (formValues?.phoneNumber.length !== 10) {
-      newErrors.phoneNumber = "Phone number must be exactly 10 digits";
+    } else if (formValues?.phoneNumber.length !== 11) {
+      newErrors.phoneNumber = "Phone number must be exactly 11 digits";
       valid = false;
     }
 

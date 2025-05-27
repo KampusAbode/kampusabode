@@ -20,14 +20,15 @@
         .tdt {
           padding: var(--spacing);
           span {
-            display: inline-block;
+            display: block;
             align-items: center;
             margin-bottom: var(--spacing-h);
 
             .not-verified {
               color: var(--error);
-              margin-left: 6px;
+              margin-left: 8px;
               font-size: var(--font-size-xs);
+              line-height: var(--line-height-md);
             }
           }
         }

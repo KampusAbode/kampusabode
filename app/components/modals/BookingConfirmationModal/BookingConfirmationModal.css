@@ -20,36 +20,40 @@
   padding: calc(1.5 * var(--spacing));
   animation: fadeIn 0.25s ease-in-out;
 }
-.booking-modal .modal-header h2 {
+.booking-modal .modal-header h3 {
   margin-bottom: var(--spacing);
 }
 .booking-modal .modal-body .modal-section {
   margin-bottom: var(--spacing);
 }
+.booking-modal .modal-body .modal-section.fees {
+  display: flex;
+  gap: var(--spacing-2x);
+}
 .booking-modal .modal-body .modal-section label {
-  font-size: calc(0.875 * var(--spacing));
+  font-size: var(--font-size-sm);
   color: var(--text-color-p);
   display: block;
   margin-bottom: var(--spacing-h);
 }
 .booking-modal .modal-body .modal-section.total {
-  border-top: var(--border);
-  padding-top: calc(0.875 * var(--spacing));
+  padding: var(--spacing);
+  background-color: var(--light-gray);
+  border-radius: var(--border-radius);
+  margin-block: var(--spacing);
 }
 .booking-modal .modal-body .modal-section.total p {
-  font-size: var(--font-size-lg);
-  font-weight: 700;
+  font-size: var(--font-size-nm);
+  font-weight: 600;
   color: var(--text-color-h);
 }
 .booking-modal .modal-body .modal-disclaimer {
-  font-size: calc(0.875 * var(--spacing));
-  margin-top: 8px;
-  line-height: 1.5;
+  font-size: var(--font-size-xs);
 }
 .booking-modal .modal-footer {
   display: flex;
   justify-content: flex-end;
-  gap: calc(0.875 * var(--spacing));
+  gap: var(--spacing);
   margin-top: var(--spacing);
 }
 
