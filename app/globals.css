@@ -1,8 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 :root {
   /* Colors */
   --primary-color: #c1121f;
   --primary-color-hover: #d72638;
+  --error: #e63946;
   --background-white: #ffffff;
   --background-light: #f8f9fa;
   --background-dark: #191c1f;
@@ -38,7 +39,7 @@
   --shadow-below: 0 6px 20px 0 rgba(0, 0, 0, 0.1);
   --transition: all 0.3s ease-in-out;
   /* Fonts */
-  --font-poppins: "Nunito", sans-serif;
+  --font-inter: "Inter", sans-serif;
   /* Font Sizes */
   --font-size-xxl: 1.375rem;
   --font-size-xl: 1.25rem;
@@ -49,6 +50,11 @@
   /* Line Heights */
   --line-height-sm: 1.135;
   --line-height-md: 1.36;
+  /* Breakpoints */
+  --large-width: 85%;
+  --large-max-width: 1400px;
+  --mobile-width: 92%;
+  --mobile-max-width: 425px;
 }
 
 * {
@@ -66,16 +72,13 @@
 *:focus-visible {
   border: var(--border);
 }
-* *:not(body)::-webkit-scrollbar {
-  display: none;
-}
 
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  font-family: var(--font-poppins);
+  font-family: var(--font-inter);
   font-weight: 500;
   line-height: var(--line-height-md);
   color: var(--font-color-p);
@@ -159,7 +162,8 @@ main {
 }
 
 .container {
-  width: 90%;
+  width: var(--large-width);
+  max-width: var(--large-max-width);
   margin: 0 auto;
 }
 
@@ -212,7 +216,7 @@ img {
 }
 
 .btn {
-  display: inline-flex;
+  display: inline-block;
   align-items: center;
   gap: 0.3rem;
   font-size: var(--font-size-nm);
@@ -290,6 +294,9 @@ button {
   :root {
     --spacing-s: 5rem;
   }
+  * *:not(body)::-webkit-scrollbar {
+    display: none;
+  }
   h1 {
     font-size: 2rem;
   }
@@ -336,5 +343,38 @@ button {
   }
   .heading-section p {
     width: 100%;
+  }
+}
+@media screen and (max-width: 425px) {
+  :root {
+    --spacing-s: 4rem;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+  h2 {
+    font-size: 1.25rem;
+  }
+  h3 {
+    font-size: 1.125rem;
+  }
+  h4 {
+    font-size: 1rem;
+  }
+  h5 {
+    font-size: calc(0.675rem + 0.225vw);
+  }
+  h6 {
+    font-size: calc(0.675rem + 0.225vw);
+  }
+  p {
+    font-size: calc(0.875rem + 0.25vw);
+  }
+  button {
+    font-size: var(--font-size-sm);
+  }
+  .container {
+    width: var(--mobile-width);
+    max-width: var(--mobile-max-width);
   }
 }/*# sourceMappingURL=globals.css.map */

@@ -2,8 +2,9 @@ import React from "react";
 import Image from "next/image";
 import { UserType } from "../../fetch/types";
 import { useUserStore } from "../../store/userStore";
+import { MdVerified, MdErrorOutline } from "react-icons/md";
 
-const ProfileOverview = () => {
+const ProfileOverview = ({userdata}) => {
   const { user } = useUserStore((state) => state);
 
   return (
@@ -12,15 +13,30 @@ const ProfileOverview = () => {
         <div className="img">
           <Image
             priority
-            src={user?.avatar || "/assets/person3.jpg"}
-            width={1000}
-            height={1000}
+            src={user?.avatar || "/assets/user.svg"}
+            width={3000}
+            height={3000}
             alt="profile picture"
           />
         </div>
         <div className="tdt">
           <span>Name: {user?.name}</span>
-          <span>Email: {user?.email}</span>
+          <span>
+            Email: {user?.email}{" "}
+            {userdata.emailVerified ? (
+              <span className="verified">
+                <MdVerified size={20} color="#2ecc71" title="Verified" />
+              </span>
+            ) : (
+              <span className="not-verified">
+                <MdErrorOutline
+                  size={20}
+                  color="#e74c3c"
+                  title="Not Verified"
+                />
+              </span>
+            )}
+          </span>
           <span>Phone: {user?.phoneNumber}</span>
           <span>University: {user?.university}</span>
           <span>Status: {user?.userType}</span>

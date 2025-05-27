@@ -50,7 +50,7 @@ function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   // }, []);
 
   return (
-    <div className={`wrapper ${user ? "grid" : "none"}`}>
+    <div className={`wrapper `}>
       <Nav />
       <main>
         <Header />

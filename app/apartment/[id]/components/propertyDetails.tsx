@@ -17,6 +17,9 @@ import { formatDistanceToNowStrict } from "date-fns";
 import BookingConfirmationModal from "../../../components/modals/BookingConfirmationModal/BookingConfirmationModal";
 import "../property.css";
 import { useUserStore } from "../../../store/userStore";
+import ScheduleInspectionModal from "../../../components/modals/ScheduleInspectionModel/ScheduleInspectionModel";
+import Loader from "../../../components/loader/Loader";
+// import { sendInspectionEmail } from "../../../utils/sendInspectionEmail";
 
 interface PropertyDetailsProps {
   id: string;
@@ -32,7 +35,8 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   const [propertyDetails, setPropertyDetails] = useState<ApartmentType | null>(
     null
   );
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isBookingModalOpen, setBookingModalOpen] = useState(false);
+  const [isInspectionModelOpen, setInspectionModelOpen] = useState(false);
 
   const { user } = useUserStore((state) => state);
 
@@ -46,6 +50,8 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       const agent = await fetchUsersById(agentId);
 
       setAgentDetails(agent);
+      // console.log("Agent Details:", agent);
+      
       if (agent) {
         const properties = await getApartmentsByIds(
           "propertiesListed" in agent.userInfo
@@ -95,13 +101,86 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   };
 
   const handleBookingConfirm = () => {
-    // Logic to move to payment or confirm booking
-    toast.success(
-      `Booking confirmed for: ${
-        propertyDetails.title
-      } with the total package of ₦${propertyDetails.price.toLocaleString()}`
-    );
-    setIsModalOpen(false);
+    if (!user) {
+      toast.error("Please log in to confirm your booking.");
+      return;
+    }
+
+    setBookingModalOpen(false);
+    setInspectionModelOpen(true);
+  };
+
+  const handleInspectionFormSubmit = async (userdata: {
+    name: string;
+    email: string;
+    phone: string;
+    preferredDate: string;
+    preferredTime: string;
+    notes?: string;
+  }) => {
+    const data: {
+      apartmentId: string;
+      apartmentTitle: string;
+      agentEmail: string;
+      agentNumber: string;
+      agencyName: string;
+
+      name: string;
+      email: string;
+      phone: string;
+      preferredDate: string;
+      preferredTime: string;
+      note?: string;
+    } = {
+      apartmentId: propertyDetails?.id || "",
+      apartmentTitle: propertyDetails?.title || "",
+      agentEmail: agentDetails?.email || "",
+      agentNumber: agentDetails?.phoneNumber || "",
+      agencyName:
+        "agencyName" in agentDetails?.userInfo
+          ? agentDetails.userInfo.agencyName
+          : "",
+      ...userdata,
+    };
+    console.log("Form Data:", data);
+    
+    try {
+      // const emailSent = await sendInspectionEmail(data);
+
+      // if (emailSent.success) {
+      //   toast.success("Email sent successfully! Redirecting to WhatsApp...");
+      //   console.log("Email sent successfully:", emailSent.message);
+      //   console.log("Twilio Message ID:", emailSent.twilioMessageId);
+        
+      // } else {
+      //   console.error("Failed to send email:", emailSent.message);
+      //   toast.error("Failed to send email. Please try again later.");
+      //   console.log("Error details:", emailSent.error);
+        
+      // }
+
+      
+
+      // Now handle WhatsApp redirect on the client
+      const message = `Hello ${agentDetails.name}, I'm ${
+        data.name
+      } and I would like to schedule an apartment inspection.\n\n📞 Phone: ${
+        data.phone
+      }\n📅 Date: ${data.preferredDate}\n⏰ Time: ${
+        data.preferredTime
+      }\n📝 Note: ${
+        data.note || "No additional notes"
+      }\n\nPlease let me know if this works for you.`;
+
+      window.open(
+        `https://wa.me/${agentDetails.phoneNumber}?text=${encodeURIComponent(message)}`
+      );
+
+      toast.success("Redirecting to WhatsApp...");
+      setInspectionModelOpen(false);
+    } catch (err) {
+      toast.error(err.message || "Failed to book inspection");
+    }
   };
 
   useEffect(() => {
@@ -110,7 +189,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   }, [id, fetchPropertyDetails, fetchReviews]);
 
   if (!propertyDetails) {
-    return <p>Loading...</p>;
+    return <Loader />;
   }
 
   return (
@@ -124,7 +203,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
           <div className="top">
             {/* Property Details */}
             <div className="pq">
-              <h3 className="title">{propertyDetails.title}</h3>
+              <h2 className="title">{propertyDetails.title}</h2>
               <span className="price">
                 Total package: ₦{propertyDetails.price.toLocaleString()}{" "}
               </span>
@@ -138,7 +217,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                 <span>{propertyDetails.area.toLocaleString()} sqft</span>
               </div>
               <div className="description">
-                <h5>Overview</h5>
+                <h4>Overview</h4>
                 <p>{propertyDetails.description}</p>
               </div>
               <div className="amenities">
@@ -155,7 +234,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
 
             {/* About Agent */}
             <div className="about-agent">
-              <h5>Agent details</h5>
+              <h4>Agent details</h4>
               <div className="agent-details">
                 {agentDetails ? (
                   <>
@@ -166,7 +245,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                       height={200}
                       alt={`${agentDetails.name}'s profile picture`}
                     />
-                    <h5>{agentDetails.name}</h5>
+                    <h4>{agentDetails.name}</h4>
                     {"agencyName" in agentDetails.userInfo && (
                       <p>{agentDetails.userInfo.agencyName}</p>
                     )}
@@ -198,7 +277,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
 
           {/* Reviews Section */}
           <div className="agent-reviews">
-            <h5>{`Reviews (${propReviews.length})`}</h5>
+            <h4>{`Reviews (${propReviews.length})`}</h4>
             <div className="reviews">
               {propReviews.length ? (
                 propReviews.map((review) => (
@@ -218,7 +297,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
 
           {/* Agent Listings */}
           <div className="agent-listings">
-            <h5>{agentDetails?.name}'s Listed Properties</h5>
+            <h4>{agentDetails?.name}'s Listed Properties</h4>
             <div>
               {agentPropertyListings.length !== 0 ? (
                 <div className="agentProps">
@@ -237,7 +316,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                         />
                       </div>
                       <div className="list-details">
-                        <h6>{listing.title}</h6>
+                        <h5>{listing.title}</h5>
                         <span>{listing.description}</span>
                       </div>
                     </Link>
@@ -251,7 +330,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
 
           {/* Contact Section */}
           <div className="contact">
-            <h5>From Kampusabode</h5>
+            <h4>From Kampusabode</h4>
             <p>
               We're excited to help you find your ideal property! Pricing is
               non-negotiable to ensure fairness and transparency. For inquiries,
@@ -266,7 +345,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
           <span
             className="btn"
             title="Button"
-            onClick={() => setIsModalOpen(true)}>
+            onClick={() => setBookingModalOpen(true)}>
             inspect apartment
           </span>
           <Link
@@ -279,10 +358,16 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       </div>
 
       <BookingConfirmationModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isBookingModalOpen}
+        onClose={() => setBookingModalOpen(false)}
         apartment={propertyDetails}
         onConfirm={handleBookingConfirm}
+      />
+      <ScheduleInspectionModal
+        isOpen={isInspectionModelOpen}
+        onClose={() => setInspectionModelOpen(false)}
+        apartmentTitle={propertyDetails.title}
+        onSubmit={handleInspectionFormSubmit}
       />
     </SaveVisitedProperty>
   );

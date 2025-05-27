@@ -85,7 +85,7 @@ export const signupUser = async (userData: UserSignupInput) => {
       createdAt: new Date().toISOString(),
     });
 
-    return { message: "Signup successful" };
+    return { message: "Signup successful", user };
   } catch (error: any) {
     console.error("Error signing up user", error);
     if (error.code === "auth/email-already-in-use") {
@@ -136,16 +136,10 @@ export const loginUser = async (userData: UserLoginInput) => {
 
     // Sign in user with Firebase Auth
     await signInWithEmailAndPassword(auth, email, password);
-
-    // Set session storage with an expiry of 3 days
-    // const SESSION_TTL = 3 * 24 * 60 * 60 * 1000;
-    // const storageKey = process.env.NEXT_PUBLIC_USERDATA_STORAGE_KEY!;
-    // setSessionData(storageKey, {isAuthenticated: true}, SESSION_TTL);
-
-    // Update the Zustand store with user data
+    const userId = userDataFromDB.id;
     useUserStore.getState().setUser(userDataFromDB);
 
-    return { message: `Welcome abode! ${userDataFromDB.name}` };
+    return { message: `Welcome abode! ${userDataFromDB.name}`, userId };
   } catch (error: any) {
     console.error("Login error:", error);
     if (error.code === "auth/invalid-credential") {

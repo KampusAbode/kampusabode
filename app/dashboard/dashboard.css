@@ -108,6 +108,30 @@
   display: block;
   text-transform: capitalize;
 }
+.dashboard .student-dashboard .agent-matrics,
+.dashboard .agent-dashboard .agent-matrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-2x);
+  margin-top: var(--spacing-2x);
+}
+.dashboard .student-dashboard .agent-matrics .matric,
+.dashboard .agent-dashboard .agent-matrics .matric {
+  background-color: var(--light-gray);
+  padding: var(--spacing-2x);
+  border-radius: var(--border-radius);
+  text-align: center;
+}
+.dashboard .student-dashboard .agent-matrics .matric h6,
+.dashboard .agent-dashboard .agent-matrics .matric h6 {
+  margin-bottom: var(--spacing-h);
+  color: var(--text-color-h);
+}
+.dashboard .student-dashboard .agent-matrics .matric p,
+.dashboard .agent-dashboard .agent-matrics .matric p {
+  color: var(--text-color-l);
+  font-size: 0.875rem;
+}
 .dashboard .student-dashboard .listed-properties .property-list ul,
 .dashboard .agent-dashboard .listed-properties .property-list ul {
   display: grid;

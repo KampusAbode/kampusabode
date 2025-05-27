@@ -1,57 +1,207 @@
 "use client";
 
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import {
   updateUserProfile,
   uploadImageToAppwrite,
   useProperties,
 } from "../../utils";
-import { UserType, StudentUserInfo, AgentUserInfo } from "../../fetch/types";
+import { UserType, AgentUserInfo, StudentUserInfo } from "../../fetch/types";
 import "./updateprofile.css";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "../../store/userStore";
+import Prompt from "../../components/modals/prompt/Prompt";
+
+interface FormErrors {
+  name?: string;
+  email?: string;
+  phoneNumber?: string;
+  bio?: string;
+  agencyName?: string;
+}
+
+interface ProfileFormValues {
+  id: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  bio: string;
+  avatar: string;
+  userInfo: StudentUserInfo | AgentUserInfo;
+}
 
 const CreateProfilePage = () => {
   const router = useRouter();
   const { user, setUser } = useUserStore((state) => state);
   const { deleteAppwriteImage } = useProperties();
-
-  const [formValues, setFormValues] = useState<UserType>();
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(
     user?.avatar || null
   );
 
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
+  // Initialize formValues with user data or empty defaults
+  const [formValues, setFormValues] = useState<ProfileFormValues>();
 
-    setFormValues((prevState) => ({
-      ...prevState,
-      ...(value.trim() !== "" && { [name]: value }), // Only store non-empty values
-    }));
-  };
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPrompt, setShowPrompt] = useState(false);
+
+  // Sync formValues to user when user changes (on mount and updates)
+  useEffect(() => {
+    if (user) {
+      setFormValues({
+        name: user.name || "",
+        email: user.email || "",
+        phoneNumber: user.phoneNumber || "",
+        bio: user.bio || "",
+        avatar: user.avatar || "",
+        id: user.id || "",
+        userInfo:
+          (user.userInfo as AgentUserInfo) ||
+          (user.userInfo as StudentUserInfo),
+      });
+      setImagePreview(user.avatar || null);
+    }
+  }, [user]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setImageFile(file);
-      setImagePreview(URL.createObjectURL(file)); // Show preview
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const validateEmail = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+
+    let newErrors: FormErrors = { ...errors };
+    // Clone formValues deeply enough
+    let newFormValues: ProfileFormValues = {
+      ...formValues,
+      userInfo: { ...formValues?.userInfo },
+    };
+
+    switch (name) {
+      case "name": {
+        const noSpaces = value.replace(/\s/g, "");
+        if (!/^[a-zA-Z0-9_]*$/.test(noSpaces)) {
+          newErrors.name =
+            "Username can only contain letters, numbers, and underscores";
+        } else if (noSpaces.length > 0 && noSpaces.length < 3) {
+          newErrors.name = "Username must be at least 3 characters";
+        } else {
+          delete newErrors.name;
+        }
+        newFormValues.name = noSpaces;
+        break;
+      }
+
+      case "email": {
+        const trimmed = value.trim();
+        newFormValues.email = trimmed;
+        if (trimmed && !validateEmail(trimmed)) {
+          newErrors.email = "Invalid email format";
+        } else {
+          delete newErrors.email;
+        }
+        break;
+      }
+
+      case "phoneNumber": {
+        let digitsOnly = value.replace(/\D/g, "").replace(/^234/, "");
+        digitsOnly = digitsOnly.slice(0, 11);
+        newFormValues.phoneNumber = digitsOnly;
+
+        if (digitsOnly.length > 0 && digitsOnly.length !== 11) {
+          newErrors.phoneNumber = "Phone number must be exactly 11 digits";
+        } else {
+          delete newErrors.phoneNumber;
+        }
+        break;
+      }
+
+      case "bio": {
+        newFormValues.bio = value;
+        break;
+      }
+
+      case "agencyName": {
+        // Only update agencyName if userInfo exists
+        if (newFormValues.userInfo) {
+          (newFormValues.userInfo as AgentUserInfo).agencyName = value;
+        }
+        break;
+      }
+
+      default:
+        break;
+    }
+
+    setFormValues(newFormValues);
+    setErrors(newErrors);
+  };
+
+  const formatPhoneNumber = (phone: string) => {
+    if (!phone) return "";
+    const parts = phone.match(/^(\d{0,4})(\d{0,3})(\d{0,4})$/);
+    if (!parts) return phone;
+    return `+234 ${[parts[1], parts[2], parts[3]].filter(Boolean).join(" ")}`;
+  };
+
+  const validateBeforeSubmit = () => {
+    let valid = true;
+    let newErrors: FormErrors = {};
+
+    if (!formValues?.name || formValues?.name.length < 3) {
+      newErrors.name = "Username must be at least 3 characters";
+      valid = false;
+    }
+
+    if (!formValues?.email) {
+      newErrors.email = "Email is required";
+      valid = false;
+    } else if (!validateEmail(formValues?.email)) {
+      newErrors.email = "Invalid email format";
+      valid = false;
+    }
+
+    if (!formValues?.phoneNumber) {
+      newErrors.phoneNumber = "Phone number is required";
+      valid = false;
+    } else if (formValues?.phoneNumber.length !== 11) {
+      newErrors.phoneNumber = "Phone number must be exactly 11 digits";
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    return valid;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateBeforeSubmit()) {
+      toast.error("Please fix errors before submitting.");
+      return;
+    }
+
+    setShowPrompt(true);
+  };
+
+  const confirmUpdate = async () => {
+    setShowPrompt(false);
     setIsSubmitting(true);
 
     try {
       let avatarUrl = user?.avatar || "";
 
-      // If a new image is uploaded
       if (imageFile) {
         if (user?.avatar) {
           await deleteAppwriteImage(user.avatar);
@@ -65,10 +215,9 @@ const CreateProfilePage = () => {
         }
       }
 
-      // Filter out unchanged fields
-      const updateduser = Object.entries(formValues || {}).reduce(
+      const updatedUser = Object.entries(formValues || {}).reduce(
         (acc, [key, value]) => {
-          if (value !== user[key as keyof UserType]) {
+          if (value !== user?.[key as keyof UserType]) {
             acc[key as keyof UserType] = value;
           }
           return acc;
@@ -76,27 +225,22 @@ const CreateProfilePage = () => {
         {} as Partial<UserType>
       );
 
-      if (Object.keys(updateduser).length === 0 && avatarUrl === user?.avatar) {
+      if (Object.keys(updatedUser).length === 0 && avatarUrl === user?.avatar) {
         toast.error("No changes made.");
         setIsSubmitting(false);
         return;
       }
 
-      // Add avatar to update if it changed
       if (avatarUrl !== user?.avatar) {
-        updateduser.avatar = avatarUrl;
+        updatedUser.avatar = avatarUrl;
       }
 
-      const response = await updateUserProfile(user?.id, updateduser);
-
+      const response = await updateUserProfile(user?.id, updatedUser);
       const newData = response.userData;
 
       if (response.success) {
         toast.success(`${response.message} 🎉`);
-
-        // update the use store
         setUser(newData);
-
         router.push("/profile");
       }
     } catch (error: any) {
@@ -111,10 +255,11 @@ const CreateProfilePage = () => {
       <div className="container">
         <div className="fm">
           <h4>Upload Profile</h4>
-          <form onSubmit={handleSubmit}>
-            {/* Profile Picture Upload */}
+          <form onSubmit={handleSubmit} noValidate>
             <div className="input-box">
-              <label>Profile Picture</label>
+              <label style={{ textAlign: "center", paddingLeft: "0rem" }}>
+                Profile Picture
+              </label>
               {imagePreview && (
                 <img
                   src={imagePreview}
@@ -129,78 +274,117 @@ const CreateProfilePage = () => {
               />
             </div>
 
-            {/* Username */}
             <div className="input-box">
               <label htmlFor="name">Username</label>
               <input
                 type="text"
-                name="name"
                 id="name"
-                value={formValues?.name}
+                name="name"
+                placeholder={user ? user.name : "Enter new username"}
+                value={formValues?.name || ""}
                 onChange={handleInputChange}
+                autoComplete="username"
+                aria-describedby="name-error"
               />
+              {errors.name && (
+                <span className="input-error" id="name-error" role="alert">
+                  {errors.name}
+                </span>
+              )}
             </div>
 
-            {/* Email */}
             <div className="input-box">
               <label htmlFor="email">Email</label>
               <input
                 type="email"
-                name="email"
                 id="email"
-                value={formValues?.email}
+                name="email"
+                placeholder={user ? user.email : "Enter your email address"}
+                value={formValues?.email || ""}
                 onChange={handleInputChange}
-                disabled={user?.email !== ""}
+                disabled={!!user?.email}
+                autoComplete="email"
+                aria-describedby="email-error"
               />
+              {errors.email && (
+                <span className="input-error" id="email-error" role="alert">
+                  {errors.email}
+                </span>
+              )}
             </div>
 
             <div className="input-box">
               <label htmlFor="phoneNumber">Phone Number</label>
               <input
-                type="text"
-                name="phoneNumber"
+                type="tel"
                 id="phoneNumber"
-                placeholder={formValues?.phoneNumber}
+                name="phoneNumber"
+                placeholder={
+                  user ? user.phoneNumber : "Enter your phone number"
+                }
+                value={formatPhoneNumber(formValues?.phoneNumber || "")}
                 onChange={handleInputChange}
+                autoComplete="tel"
+                aria-describedby="phone-error"
               />
+              {errors.phoneNumber && (
+                <span className="input-error" id="phone-error" role="alert">
+                  {errors.phoneNumber}
+                </span>
+              )}
             </div>
 
             <div className="input-box">
               <label htmlFor="bio">Bio</label>
               <textarea
-                name="bio"
                 id="bio"
-                placeholder="Tell us about yourself"
+                name="bio"
+                placeholder={user ? user.bio : "Tell us about yourself"}
                 value={formValues?.bio || ""}
                 onChange={handleInputChange}
+                rows={4}
               />
             </div>
 
             {user?.userType === "agent" && (
-              <>
-                <div className="input-box">
-                  <label htmlFor="agencyName">Agency Name</label>
-                  <input
-                    type="text"
-                    name="agencyName"
-                    id="agencyName"
-                    placeholder={(user?.userInfo as AgentUserInfo).agencyName}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </>
+              <div className="input-box">
+                <label htmlFor="agencyName">Agency Name</label>
+                <input
+                  type="text"
+                  id="agencyName"
+                  name="agencyName"
+                  placeholder={
+                    (user.userInfo as AgentUserInfo)?.agencyName ||
+                    "Enter your agency name"
+                  }
+                  value={
+                    (formValues?.userInfo as AgentUserInfo)?.agencyName || ""
+                  }
+                  onChange={handleInputChange}
+                />
+              </div>
             )}
 
             <button
-              className="btn"
-              title="Button"
               type="submit"
-              disabled={isSubmitting}>
-              {isSubmitting ? "Updating..." : "Update"}
+
+              className="btn"
+              disabled={isSubmitting}
+              aria-busy={isSubmitting}>
+              {isSubmitting ? "Updating..." : "Update Profile"}
             </button>
           </form>
         </div>
       </div>
+
+      {showPrompt && (
+        <Prompt
+          isOpen={showPrompt}
+          message="Are you sure you want to update your profile?"
+          onConfirm={confirmUpdate}
+          onCancel={() => setShowPrompt(false)}
+        />
+      )}
     </div>
   );
 };

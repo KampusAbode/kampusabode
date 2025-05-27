@@ -117,7 +117,7 @@
 }
 .property-listings .properties {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: calc(1.5 * var(--spacing));
 }
 .property-listings .properties span,

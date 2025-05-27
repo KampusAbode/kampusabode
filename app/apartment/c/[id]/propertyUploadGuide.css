@@ -7,23 +7,19 @@
 
       ol {
         margin-top: var(--spacing);
-        li{
+        li {
           margin-bottom: var(--spacing-h);
         }
       }
     }
 
-    &>div {
-      margin-top: var(--spacing-2x)
+    & > div {
+      margin-top: var(--spacing-2x);
       p {
         a {
           text-decoration: underline;
         }
       }
-
-      
     }
-
-    
   }
 }

@@ -11,6 +11,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { uploadImageToAppwrite } from "../../utils"; // Appwrite upload function
 import { UserType } from "../../fetch/types";
 import data from "../../fetch/contents";
+import { sendEmailVerification } from "firebase/auth";
 
 export type UserSignupInput = {
   username: string;
@@ -94,8 +95,13 @@ const SignupPage = () => {
 
     try {
       const response = await signupUser({ ...formValues, avatar: avatarUrl });
+      // ✅ Send email verification
+      if (response?.user) {
+        await sendEmailVerification(response.user);
+      }
       toast.success(`${response.message} 🎉`);
-      router.push("/auth/login");
+      router.push("/auth/verify-email");
+      // router.push("/auth/login");
     } catch (error: any) {
       toast.error(error.message || "An unexpected error occurred.");
     } finally {

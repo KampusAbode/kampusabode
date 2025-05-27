@@ -1,10 +1,9 @@
 /* ========== header section open ========== */
 header {
   padding-block: var(--spacing);
-  position: absolute;
+  position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  width: 100%;
   background-color: var(--white);
   box-shadow: var(--shadow);
   z-index: 9999;
@@ -22,12 +21,6 @@ header .container {
 }
 header .container .page-title {
   display: none;
-}
-header .container .logo {
-  visibility: hidden;
-}
-header .container .logo.loggedIn {
-  visibility: visible;
 }
 header .container .logo a {
   cursor: pointer;

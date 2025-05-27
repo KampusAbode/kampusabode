@@ -11,7 +11,7 @@
   z-index: 99999;
 }
 
-.booking-modal {
+.schedule-inspection-modal {
   background: white;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
@@ -21,7 +21,7 @@
   animation: fadeIn 0.25s ease-in-out;
 
   .modal-header {
-    h3{
+    h3 {
       margin-bottom: var(--spacing);
     }
   }
@@ -29,44 +29,38 @@
   .modal-body {
     .modal-section {
       margin-bottom: var(--spacing);
+      // background-color: var(--light-gray);
+      // padding: var(--spacing);
+      // border-radius: var(--border-radius);
 
-      &.fees{
-        display: flex;
-        gap: var(--spacing-2x);
-
+      &.date-time {
+        div {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: var(--spacing);
+        }
       }
 
       label {
-        font-size: var(--font-size-sm);
+        font-size: var(--font-size-xs);
         color: var(--text-color-p);
         display: block;
         margin-bottom: var(--spacing-h);
       }
 
-      &.total {
-        // border-top: var(--border);
-        padding: var(--spacing);
-        background-color: var(--light-gray);
-        border-radius: var(--border-radius);
-        margin-block: var(--spacing);
-
-        p {
-          font-size: var(--font-size-nm);
-          font-weight: 600;
-          color: var(--text-color-h);
-        }
+      input,
+      textarea{
+        max-height: 200px;
+        resize: none;
+        width: 100%;
       }
-    }
-
-    .modal-disclaimer {
-      font-size: var(--font-size-xs);
     }
   }
 
   .modal-footer {
     display: flex;
     justify-content: flex-end;
-    gap: var(--spacing);
+    gap: calc(0.875 * var(--spacing));
     margin-top: var(--spacing);
   }
 }

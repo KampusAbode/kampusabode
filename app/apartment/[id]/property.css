@@ -13,11 +13,11 @@
 }
 .properties-details-page .prop-image-details .property-images {
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
+  grid-template-columns: 1.2fr 1fr;
   gap: var(--spacing);
 }
 .properties-details-page .prop-image-details .property-images .display-image {
-  height: 70vh;
+  height: 65vh;
   display: flex;
   place-items: center;
   padding-bottom: var(--spacing);
@@ -103,7 +103,7 @@
 .properties-details-page .container > div {
   margin-block: var(--spacing-4x);
 }
-.properties-details-page .container h5 {
+.properties-details-page .container h4 {
   margin-bottom: var(--spacing);
 }
 .properties-details-page .container .top {
@@ -118,7 +118,7 @@
 .properties-details-page .container .top .pq .price {
   text-decoration: underline;
   font-style: italic;
-  font-size: var(--font-size-nd);
+  font-size: var(--font-size-sm);
   margin-bottom: var(--spacing);
 }
 .properties-details-page .container .top .pq .features,
@@ -220,12 +220,9 @@
 .properties-details-page .container .agent-reviews .reviews .review-item div span {
   display: block;
 }
-.properties-details-page .container .agent-reviews .reviews::-webkit-scrollbar {
-  display: none;
-}
 .properties-details-page .container .agent-reviews .reviews {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 .properties-details-page .container .agent-listings > div .agentProps {
   display: flex;
@@ -266,7 +263,7 @@
 .properties-details-page .container .agent-listings > div .agentProps .list-prop .list-details {
   padding-block: var(--spacing-h);
 }
-.properties-details-page .container .agent-listings > div .agentProps .list-prop .list-details h6 {
+.properties-details-page .container .agent-listings > div .agentProps .list-prop .list-details h5 {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -300,14 +297,20 @@
 }
 .properties-details-page .container .contact {
   margin-top: var(--spacing-4x);
+  background-color: var(--light-gray);
+  padding: var(--spacing-2x);
+  border-radius: var(--border-radius);
 }
 
 .prop-cta {
-  margin-top: var(--spacing);
+  margin-block: var(--spacing-2x);
 }
 .prop-cta .container {
   display: flex;
   gap: var(--spacing);
+}
+.prop-cta .container .btn {
+  text-align: center;
 }
 
 @media screen and (max-width: 768px) {
@@ -364,6 +367,9 @@
   .properties-details-page .container .agent-reviews .reviews .review-item {
     width: 90%;
   }
+  .properties-details-page .container .contact {
+    padding: var(--spacing);
+  }
   .prop-cta {
     position: fixed;
     bottom: 0;
@@ -373,6 +379,7 @@
     padding-block: var(--spacing);
     box-shadow: var(--shadow);
     z-index: 9999;
+    margin: 0;
   }
   .prop-cta .container {
     display: grid;
