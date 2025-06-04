@@ -9,6 +9,7 @@ import { useProperties } from "../../../../utils";
 import { useUserStore } from "../../../../store/userStore";
 import { ApartmentType } from "../../../../fetch/types";
 import Prompt from "../../../../components/modals/prompt/Prompt";
+import"./upload.css";
 
 const MAX_FILE_SIZE = 3 * 1024 * 1024; // 7MB
 const MAX_VIDEO_SIZE = 5 * 1024 * 1024; // 5MB
