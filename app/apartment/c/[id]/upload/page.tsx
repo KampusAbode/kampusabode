@@ -496,7 +496,7 @@ const UploadProperty = () => {
                   </div>
                 )}
 
-                <button type="submit" disabled={isSubmitting}>
+                <button type="submit" className="btn" disabled={isSubmitting}>
                   {isSubmitting ? "Uploading..." : "Upload Property"}
                 </button>
               </Form>
