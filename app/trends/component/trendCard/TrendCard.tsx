@@ -91,6 +91,15 @@ const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
 
   const formattedLikes = formatNumber(likes);
 
+  const getFirstParagraphFromHTML = (html: string): string => {
+    if (typeof window === "undefined") return "";
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    const paragraphs = div.querySelectorAll("p");
+    return paragraphs.length > 0 ? paragraphs[0].outerHTML : "";
+  };
+  
+
   return (
     <div className="trend">
       <div className="trend-image">
@@ -115,7 +124,12 @@ const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
           </span>
         </div>
         <h5 className="trend-title">{trendData?.title || "Untitled"}</h5>
-        <p>{trendData?.content || "No description available."}</p>
+        <p
+          className="trend-snippet"
+          dangerouslySetInnerHTML={{
+            __html: getFirstParagraphFromHTML(trendData.content),
+          }}
+        />
       </div>
     </div>
   );

@@ -3,6 +3,7 @@
 }
 .upload-property .container {
   max-width: 900px;
+  padding-block: var(--spacing-2x);
 }
 .upload-property .container form {
   margin-block: var(--spacing-3x);
@@ -25,7 +26,9 @@
   display: block;
   margin-bottom: var(--spacing-h);
 }
-.upload-property .container form .form-group input, .upload-property .container form .form-group select, .upload-property .container form .form-group textarea {
+.upload-property .container form .form-group input,
+.upload-property .container form .form-group select,
+.upload-property .container form .form-group textarea {
   padding: var(--spacing);
   width: 100%;
   border: var(--border);
@@ -44,6 +47,25 @@
 .upload-property .container form .form-group .error {
   font-size: var(--font-size-sm);
   color: var(--primary-color);
+}
+.upload-property .container form .thumbnail-preview div {
+  display: flex;
+  gap: var(--spacing);
+  padding: var(--spacing);
+  background: var(--light-gray);
+  border-radius: var(--border-radius);
+}
+.upload-property .container form .thumbnail-preview div img {
+  width: 70px;
+  height: 70px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border: var(--border);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+}
+.upload-property .container form .thumbnail-preview div img.active {
+  border: 2px solid green;
 }
 .upload-property .container form .confirm-datails {
   margin-block: var(--spacing-2x);

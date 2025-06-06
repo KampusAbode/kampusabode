@@ -321,16 +321,9 @@ const UploadProperty = () => {
 
                 {/* Thumbnail preview and selection */}
                 {Object.entries(thumbnailMap).map(([videoName, thumbs]) => (
-                  <div key={videoName}>
+                  <div key={videoName} className="thumbnail-preview">
                     <p>Select a thumbnail for: {videoName}</p>
-                    <div
-                      style={{
-                        display: "flex",
-                        gap: "16px",
-                        padding: "8px",
-                        background: "#f8f8f9",
-                        borderRadius: "8px",
-                      }}>
+                    <div>
                       {thumbs.map((thumb, idx) => {
                         const objectUrl = URL.createObjectURL(thumb);
                         return (
@@ -338,18 +331,11 @@ const UploadProperty = () => {
                             key={thumb.name + idx}
                             src={objectUrl}
                             alt={`thumb-${idx}`}
-                            style={{
-                              width: 100,
-                              height: 100,
-                              objectFit: "cover",
-                              borderRadius: "8px",
-                              border:
-                                selectedThumbnails[videoName]?.name ===
+                            className={selectedThumbnails[videoName]?.name ===
                                 thumb.name
-                                  ? "2px solid green"
-                                  : "2px solid gray",
-                              cursor: "pointer",
-                            }}
+                                  ? "active"
+                                  : ""
+                            }
                             onClick={() =>
                               setSelectedThumbnails((prev) => ({
                                 ...prev,

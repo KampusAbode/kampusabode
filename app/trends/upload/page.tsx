@@ -9,6 +9,9 @@ import "./uploadtrend.css";
 import toast from "react-hot-toast";
 import { uploadImageToAppwrite } from "../../utils";
 import { useUserStore } from "../../store/userStore";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+
 
 const categories = [
   "Real estate market",
@@ -96,13 +99,30 @@ function UploadTrend() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="content">content</label>
-          <textarea
-            id="content"
+          <label htmlFor="content">Content</label>
+          <ReactQuill
+            theme="snow"
             value={content}
-            onChange={(e) => setContent(e.target.value)}
-            required></textarea>
+            onChange={setContent}
+            modules={{
+              toolbar: [
+                [{ header: [1, 2, false] }],
+                ["bold", "italic", "underline"],
+                [{ list: "ordered" }, { list: "bullet" }],
+                ["clean"],
+              ],
+            }}
+            formats={[
+              "header",
+              "bold",
+              "italic",
+              "underline",
+              "list",
+              "bullet",
+            ]}
+          />
         </div>
+
         <div className="form-group">
           <label htmlFor="category">Category</label>
           <select

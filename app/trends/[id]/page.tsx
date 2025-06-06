@@ -137,11 +137,16 @@ const TrendPage = ({ params }: Params) => {
           </div>
 
           {/* Article Content */}
-          <div className="trend-description">
+          <div
+            className="trend-description"
+            dangerouslySetInnerHTML={{ __html: trendData.content }}
+          />
+
+          {/* <div className="trend-description">
             {trendData?.content?.split(/\r?\n/).map((paragraph, index) => (
               <p key={index}>{paragraph}</p>
             ))}
-          </div>
+          </div> */}
 
           {/* Comment Section */}
           <div className="comments-section">
@@ -172,6 +177,7 @@ const TrendPage = ({ params }: Params) => {
                           : "Invalid date"}
                       </span>
                     </div>
+
                     <p className="comment-content">{comment.comment}</p>
                   </div>
                 ))
