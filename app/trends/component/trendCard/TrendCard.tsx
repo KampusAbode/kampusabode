@@ -18,7 +18,18 @@ const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
   const [likes, setLikes] = useState<number>(trendData.likes || 0);
   const [userAction, setUserAction] = useState<"like" | "unlike">("unlike");
   const [loading, setLoading] = useState<boolean>(false);
-  const [snippet, setSnippet] = useState("");
+  const [snippet, setSnippet] = useState<string>("");
+
+  useEffect(() => {
+    // Prevent SSR usage of `document`
+    if (typeof window !== "undefined" && trendData?.content) {
+      // Ensure `document` access happens here only
+      const div = document.createElement("div");
+      div.innerHTML = trendData.content;
+      const firstP = div.querySelector("p");
+      setSnippet(firstP ? firstP.outerHTML : "");
+    }
+  }, [trendData.content]);
 
   useEffect(() => {
     const encryptedActions = localStorage.getItem("trendActions");
@@ -92,15 +103,7 @@ const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
 
   const formattedLikes = formatNumber(likes);
 
-  useEffect(() => {
-   
-    if (typeof window !== "undefined") {
-      const div = document.createElement("div");
-      div.innerHTML = trendData.content;
-      const p = div.querySelector("p");
-      setSnippet(p ? p.outerHTML : "");
-    }
-  }, [trendData.content]);
+  
   
 
   return (
@@ -127,12 +130,7 @@ const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
           </span>
         </div>
         <h5 className="trend-title">{trendData?.title || "Untitled"}</h5>
-        <p
-          className="trend-snippet"
-          dangerouslySetInnerHTML={{
-            __html: snippet
-          }}
-        />
+        <p dangerouslySetInnerHTML={{ __html: snippet }} />
       </div>
     </div>
   );
