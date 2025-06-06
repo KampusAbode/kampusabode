@@ -100,7 +100,7 @@ const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
       const p = div.querySelector("p");
       setSnippet(p ? p.outerHTML : "");
     }
-  }, []);
+  }, [trendData.content]);
   
 
   return (
