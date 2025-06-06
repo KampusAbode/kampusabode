@@ -18,30 +18,6 @@ import { UserSignupInput } from "../auth/signup/page";
 import { UserType } from "../fetch/types";
 import { useUserStore } from "../store/userStore";
 
-// Utility to set session storage with expiry
-// const setSessionData = (key: string, data: {isAuthenticated: boolean}, ttlMs: number) => {
-//   const expiry = Date.now() + ttlMs;
-//   const value = { data, expiry };
-//   sessionStorage.setItem(key, JSON.stringify(value));
-// };
-
-// // Utility to get session data and validate expiry
-// export const getSessionData = (key: string) => {
-//   const itemStr = sessionStorage.getItem(key);
-//   if (!itemStr) return null;
-//   try {
-//     const item = JSON.parse(itemStr);
-//     if (Date.now() > item.expiry) {
-//       sessionStorage.removeItem(key);
-//       return null;
-//     }
-//     return item.data;
-//   } catch (err) {
-//     console.error("Failed to parse session data", err);
-//     return null;
-//   }
-// };
-
 export const signupUser = async (userData: UserSignupInput) => {
   const { email, password, userType, university, avatar, phoneNumber } =
     userData;
@@ -179,37 +155,3 @@ export const logoutUser = async () => {
     };
   }
 };
-
-// export const getAuthState = async (): Promise<{ isAuthenticated: boolean }> => {
-//   try {
-    // if (typeof window === "undefined") {
-    //   return { isAuthenticated: false };
-    // }
-
-    // const storageKey = process.env.NEXT_PUBLIC_USERDATA_STORAGE_KEY;
-    // if (!storageKey) {
-    //   console.warn("Storage key is not defined in environment variables.");
-    //   return { isAuthenticated: false };
-    // }
-
-    // const sessionDataStr = sessionStorage.getItem(storageKey);
-    // console.log({"sessionDataStr": sessionDataStr})
-    // if (!sessionDataStr) return { isAuthenticated: false };
-
-    
-    // const { expiry } = JSON.parse(sessionDataStr);
-    // if (Date.now() > expiry) {
-    //   console.log({"currentDATE": Date.now(), "expiry": expiry})
-    //   sessionStorage.removeItem(storageKey);
-    //   return { isAuthenticated: false };
-    // }
-
-    // return { isAuthenticated: true };
-//       const auth = getAuth(); 
-//       return { isAuthenticated: !!auth.currentUser };
-//   } catch (error) {
-//     console.error("Error accessing authentication state:", error);
-//     return { isAuthenticated: false };
-//   }
-// };
-
