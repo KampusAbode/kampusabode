@@ -13,6 +13,7 @@ import useNavStore from "../../store/menuStore";
 import { useUserStore } from "../../store/userStore";
 import Prompt from "../modals/prompt/Prompt";
 import { logoutUser } from "../../utils/auth";
+import { checkIsAdmin } from "../../utils/user";
 
 function Nav() {
   const pathname = usePathname();
@@ -70,7 +71,7 @@ function Nav() {
             </div>
           </div>
 
-          {user?.userType === "agent" && (
+          {user?.userType === "agent" && checkIsAdmin(user.id) && (
             <Link
               href={`/apartment/c/${user.id}`}
               className="btn"
@@ -80,8 +81,7 @@ function Nav() {
             </Link>
           )}
 
-          {user?.userType === "agent" &&
-            user?.id === process.env.NEXT_PUBLIC_ADMIN_ID && (
+           {checkIsAdmin(user?.id || "") && (
               <Link
                 href="/admin"
                 className="btn"
@@ -101,7 +101,7 @@ function Nav() {
               </Link>
             </li>
 
-            {user?.id === process.env.NEXT_PUBLIC_ADMIN_ID && (
+            {checkIsAdmin(user?.id || "") && (
               <li
                 title="Admin Chat"
                 className={pathname === "/adminchatroom" ? "active" : ""}>
