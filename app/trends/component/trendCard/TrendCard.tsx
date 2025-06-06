@@ -18,6 +18,7 @@ const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
   const [likes, setLikes] = useState<number>(trendData.likes || 0);
   const [userAction, setUserAction] = useState<"like" | "unlike">("unlike");
   const [loading, setLoading] = useState<boolean>(false);
+  const [snippet, setSnippet] = useState("");
 
   useEffect(() => {
     const encryptedActions = localStorage.getItem("trendActions");
@@ -91,13 +92,15 @@ const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
 
   const formattedLikes = formatNumber(likes);
 
-  const getFirstParagraphFromHTML = (html: string): string => {
-    if (typeof window === "undefined") return "";
-    const div = document.createElement("div");
-    div.innerHTML = html;
-    const paragraphs = div.querySelectorAll("p");
-    return paragraphs.length > 0 ? paragraphs[0].outerHTML : "";
-  };
+  useEffect(() => {
+   
+    if (typeof window !== "undefined") {
+      const div = document.createElement("div");
+      div.innerHTML = trendData.content;
+      const p = div.querySelector("p");
+      setSnippet(p ? p.outerHTML : "");
+    }
+  }, []);
   
 
   return (
@@ -127,7 +130,7 @@ const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
         <p
           className="trend-snippet"
           dangerouslySetInnerHTML={{
-            __html: getFirstParagraphFromHTML(trendData.content),
+            __html: snippet
           }}
         />
       </div>
