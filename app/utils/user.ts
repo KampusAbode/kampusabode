@@ -195,12 +195,14 @@ export const updateBookmarkInDB = async (
 
 
 export const checkIsAdmin = (userId: string): boolean => {
-  const adminId = process.env.NEXT_PUBLIC_ADMIN_ID;
+  const adminIdOne = process.env.NEXT_PUBLIC_ADMIN_ID_ONE;
+  const adminIdTwo = process.env.NEXT_PUBLIC_ADMIN_ID_TWO;
 
-  if (!adminId) {
+  if (!adminIdOne || !adminIdTwo) {
     console.warn("ADMIN_ID is not set in environment variables");
     return false;
   }
 
-  return userId === adminId;
+  return userId === adminIdOne || userId === adminIdTwo;
+
 };
