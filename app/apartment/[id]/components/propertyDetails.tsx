@@ -173,7 +173,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       }\n\nPlease let me know if this works for you.`;
 
       window.open(
-        `https://wa.me/${agentDetails.phoneNumber}?text=${encodeURIComponent(message)}`
+        `https://wa.me/+234${agentDetails.phoneNumber}?text=${encodeURIComponent(message)}`
       );
 
       toast.success("Redirecting to WhatsApp...");
