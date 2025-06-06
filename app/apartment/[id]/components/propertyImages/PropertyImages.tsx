@@ -32,42 +32,44 @@ function PropertyImages({
   };
   return (
     <div className="property-images">
-      <div className="display-image">
-        <div className="features">
-          <ShareButton />
-          <BookmarkButton propertyId={propertyDetails?.id} />
-        </div>
-        <Image
-          priority
-          src={propertyDetails?.images[imageCount]}
-          width={5000}
-          height={5000}
-          alt={`${propertyDetails?.title} image`}
-        />
-        <div className="image-pagination">
-          <div className="left" onClick={decreamentImageCount}>
-            <FaChevronLeft />
+      <div className="container">
+        <div className="display-image">
+          <div className="features">
+            <ShareButton />
+            <BookmarkButton propertyId={propertyDetails?.id} />
           </div>
-          <div className="right" onClick={increamentImageCount}>
-            <FaChevronRight />
-          </div>
-        </div>
-        <div className="image-counter">
-          <span>{imageCount + 1 + "/" + maxImageCount}</span>
-        </div>
-      </div>
-      <div className="control-image">
-        {propertyDetails?.images?.map((img: string, index: number) => (
-          <img
-            key={index + img}
-            src={img}
-            width={400}
-            height={400}
-            alt="property-details thumbnail"
-            onClick={() => setImageCount(index)}
-            className={imageCount === index ? "active" : ""}
+          <Image
+            priority
+            src={propertyDetails?.images[imageCount]}
+            width={5000}
+            height={5000}
+            alt={`${propertyDetails?.title} image`}
           />
-        ))}
+          <div className="image-pagination">
+            <div className="left" onClick={decreamentImageCount}>
+              <FaChevronLeft />
+            </div>
+            <div className="right" onClick={increamentImageCount}>
+              <FaChevronRight />
+            </div>
+          </div>
+          <div className="image-counter">
+            <span>{imageCount + 1 + "/" + maxImageCount}</span>
+          </div>
+        </div>
+        <div className="control-image">
+          {propertyDetails?.images?.map((img: string, index: number) => (
+            <img
+              key={index + img}
+              src={img}
+              width={400}
+              height={400}
+              alt="property-details thumbnail"
+              onClick={() => setImageCount(index)}
+              className={imageCount === index ? "active" : ""}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

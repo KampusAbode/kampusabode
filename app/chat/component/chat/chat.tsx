@@ -213,7 +213,7 @@ const ChatComponent: React.FC<ChatProps> = ({
               </div>
             ))
           ) : (
-            <p>No messages yet.</p>
+            <p style={{textAlign: 'center'}}>No messages yet.</p>
           )}
           <div ref={messagesEndRef}></div>
         </div>

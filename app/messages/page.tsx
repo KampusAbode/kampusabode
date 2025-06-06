@@ -86,8 +86,10 @@ const Messages = () => {
     <section className="messages-page">
       <div className="container">
         <h2 className="page-heading">Messages</h2>
+      </div>
 
-        <div className="filter-messages">
+      <div className="filter">
+        <div className="container">
           {["all", "read", "unread"].map((filter) => (
             <span
               key={filter}
@@ -99,7 +101,9 @@ const Messages = () => {
             </span>
           ))}
         </div>
+      </div>
 
+      <div className="container">
         <div className="messages-list">
           {filtered.length > 0 ? (
             filtered.map((convo) => (

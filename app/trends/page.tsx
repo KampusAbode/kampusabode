@@ -89,7 +89,7 @@ export default function trendsPage() {
             </div>
           </div> */}
           
-      <div className="trends-filter">
+      <div className="filter">
         <div className="container">
 
           <span

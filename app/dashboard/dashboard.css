@@ -39,16 +39,11 @@
 }
 .dashboard .student-dashboard .bookmarked-properties ul li,
 .dashboard .agent-dashboard .bookmarked-properties ul li {
-  background: var(--light-gray);
   border-radius: var(--border-radius);
   border: var(--border-hover);
   border-color: transparent;
   overflow: hidden;
   cursor: pointer;
-}
-.dashboard .student-dashboard .bookmarked-properties ul li:hover,
-.dashboard .agent-dashboard .bookmarked-properties ul li:hover {
-  border: var(--border-hover);
 }
 .dashboard .student-dashboard .bookmarked-properties ul li a,
 .dashboard .agent-dashboard .bookmarked-properties ul li a {
@@ -60,8 +55,10 @@
 }
 .dashboard .student-dashboard .bookmarked-properties ul li a img,
 .dashboard .agent-dashboard .bookmarked-properties ul li a img {
-  width: 100%;
-  height: 75px;
+  width: 70px;
+  height: 70px;
+  aspect-ratio: 1/1;
+  border-radius: var(--border-radius);
   -o-object-fit: cover;
      object-fit: cover;
 }
@@ -84,6 +81,8 @@
 }
 .dashboard .student-dashboard .bookmarked-properties ul li a div span,
 .dashboard .agent-dashboard .bookmarked-properties ul li a div span {
+  color: var(--text-color-p);
+  font-size: var(--font-size-sm);
   margin-top: var(--spacing-h);
 }
 .dashboard .student-dashboard .viewed-properties .display-viewed-properties,

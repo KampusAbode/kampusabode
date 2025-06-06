@@ -1,6 +1,7 @@
 .admin-dashboard {
     .container{
-        padding-block: var(--spacing-s);
+        margin-block: var(--spacing-s);
+        padding-block: var(--spacing-2x);
         .dashboard-navigation{
             display: flex;
           flex-wrap: nowrap;

@@ -195,7 +195,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   return (
     <SaveVisitedProperty id={id}>
       <section className="properties-details-page">
-        <div className="prop-image-details">
+        <div className="prop-image-details" data-aos="fade-up">
           <PropertyImages propertyDetails={propertyDetails} />
         </div>
 
@@ -245,7 +245,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                       height={200}
                       alt={`${agentDetails.name}'s profile picture`}
                     />
-                    <h4>{agentDetails.name}</h4>
+                    <h5>{agentDetails.name}</h5>
                     {"agencyName" in agentDetails.userInfo && (
                       <p>{agentDetails.userInfo.agencyName}</p>
                     )}
@@ -316,7 +316,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                         />
                       </div>
                       <div className="list-details">
-                        <h5>{listing.title}</h5>
+                        <h6>{listing.title}</h6>
                         <span>{listing.description}</span>
                       </div>
                     </Link>
@@ -330,12 +330,12 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
 
           {/* Contact Section */}
           <div className="contact">
-            <h4>From Kampusabode</h4>
-            <p>
+            <p>From Kampusabode</p>
+            <span>
               We're excited to help you find your ideal property! Pricing is
               non-negotiable to ensure fairness and transparency. For inquiries,
               feel free to contact us.
-            </p>
+            </span>
           </div>
         </div>
       </section>

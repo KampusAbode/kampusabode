@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 import {
   FaBookmark,
   FaBookReader,
@@ -10,7 +11,6 @@ import {
 } from "react-icons/fa";
 import { FaUser } from "react-icons/fa6";
 import { IoChatboxEllipses } from "react-icons/io5";
-import toast from "react-hot-toast";
 import "./navigation.css";
 import { getAllMessages } from "../../utils";
 import { useUserStore } from "../../store/userStore";
@@ -18,122 +18,95 @@ import { useUserStore } from "../../store/userStore";
 export default function Navigation() {
   const user = useUserStore((state) => state.user);
   const id = user?.id;
-  const [loading, setLoading] = useState(true);
-  const [unreadCount, setUnreadCount] = useState(0);
   const pathname = usePathname();
-  const router = useRouter();
+  const [unreadCount, setUnreadCount] = useState(0);
 
-  useEffect(() => {
-    // Simulate a delay to wait for user authentication status
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Listen for unread messages (only for authenticated users)
+  // Subscribe to messages if user is logged in
   useEffect(() => {
     if (!id) return;
 
-    // Subscribe to all conversations from Firebase
     const unsubscribe = getAllMessages((allConversations) => {
-      // Filter for conversations where the logged in user is the receiver and the message is unread
-      const unreadMessages = allConversations.filter(
+      const unread = allConversations.filter(
         (convo) => convo.receiverId === id && !convo.read
       );
-      setUnreadCount(unreadMessages.length);
+      setUnreadCount(unread.length);
     });
 
     return () => unsubscribe();
   }, [id]);
 
-  // Exclude navigation on certain paths
   const excludedPaths = [
-    "chat",
-    "adminchatroom",
-    "about",
-    "apartment/",
-    "auth",
-    "profile/"
+    "/chat",
+    "/adminchatroom",
+    "/about",
+    "/auth",
+    "/apartment/",
+    "/profile/",
   ];
-  const isExcludedPath = excludedPaths.some((path) => pathname.includes(path));
+  const isExcluded = excludedPaths.some((path) => pathname.startsWith(path));
+  if (isExcluded) return null;
 
-  if (isExcludedPath || loading) {
-    return null;
-  }
-
-  const pageAvailability = {
-    "/apartment": true,
-    "/messages": true,
-    "/trends": true,
-    "/saved": true,
-    "/marketplace": true,
-    "/auth/login": true,
-  };
-
-  // Handle navigation with page availability check
-  const handleNavigation = (href: string) => {
-    if (pageAvailability[href] === false) {
-      toast.error("🚧 Page not available", {
-        position: "top-center",
-        duration: 3000,
-      });
-    } else {
-      router.push(href);
-    }
-  };
+  const navLinks = [
+    {
+      href: "/apartment",
+      icon: <FaSearchLocation />,
+      label: "apartments",
+      authOnly: false,
+    },
+    {
+      href: "/messages",
+      icon: <IoChatboxEllipses />,
+      label: "messages",
+      authOnly: true,
+      hasBadge: true,
+    },
+    {
+      href: "/trends",
+      icon: <FaBookReader />,
+      label: "trends",
+      authOnly: false,
+    },
+    {
+      href: "/saved",
+      icon: <FaBookmark />,
+      label: "saved",
+      authOnly: true,
+    },
+  ];
 
   return (
     <nav className="navigation">
       <ul className={id ? "grid" : "flex"}>
-        <li className={pathname === "/apartment" ? "active" : ""}>
-          <button title="Apartments"  onClick={() => handleNavigation("/apartment")}>
-            <FaSearchLocation />
-            <span>apartments</span>
-          </button>
-        </li>
+        {navLinks.map(({ href, icon, label, authOnly, hasBadge }) => {
+          if (authOnly && !id) return null;
 
-        {id && (
-          <li className={pathname === "/messages" ? "active" : ""}>
-            <button title="Messages" onClick={() => handleNavigation("/messages")}>
-              <IoChatboxEllipses />
-              <span>messages</span>
-              {unreadCount > 0 && <div className="unread">{unreadCount}</div>}
-            </button>
-          </li>
-        )}
-
-        <li className={pathname === "/trends" ? "active" : ""}>
-          <button title="Trends" onClick={() => handleNavigation("/trends")}>
-            <FaBookReader />
-            <span>trends</span>
-          </button>
-        </li>
-
-        {id && (
-          <li className={pathname === "/saved" ? "active" : ""}>
-            <button title="Saved" onClick={() => handleNavigation("/saved") }>
-              <FaBookmark />
-              <span>saved</span>
-            </button>
-          </li>
-        )}
+          return (
+            <li key={href} className={pathname === href ? "active" : ""}>
+              <Link href={href}>
+                <div title={label}>
+                  {icon}
+                  <span>{label}</span>
+                  {hasBadge && unreadCount > 0 && (
+                    <div className="unread">{unreadCount}</div>
+                  )}
+                </div>
+              </Link>
+            </li>
+          );
+        })}
 
         <li
           className={
-            pathname === "/auth/login" || pathname === "/marketplace"
+            pathname === "/marketplace" || pathname === "/auth/login"
               ? "active"
               : ""
           }>
-          <button
-            title="Marketplace"
-            onClick={() =>
-              handleNavigation(id ? "/marketplace" : "/auth/login")
-            }>
-            {id ? <FaShoppingCart /> : <FaUser />}
-            {id ? <span>market</span> : <span>login</span>}
-          </button>
+          <Link href={id ? "/marketplace" : "/auth/login"}>
+            <div title={id ? "Marketplace" : "Login"}>
+              {id ? <FaShoppingCart /> : <FaUser />}
+              <span>{id ? "market" : "login"}</span>
+            </div>
+          </Link>
         </li>
       </ul>
     </nav>

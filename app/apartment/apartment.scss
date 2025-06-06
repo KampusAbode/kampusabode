@@ -98,29 +98,6 @@
   }
 }
 
-.filter {
-  background: var(--background-white);
-  border-radius: var(--border-radius);
-  // margin-block: var(--spacing);
-  padding-block: var(--spacing);
-  position: sticky;
-  top: 0;
-  z-index: 999;
-
-  .container {
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    gap: var(--spacing);
-    overflow-x: scroll;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
-}
 .property-listings {
   margin: var(--spacing) 0 var(--spacing-3x);
   .properties {

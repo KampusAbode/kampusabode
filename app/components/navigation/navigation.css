@@ -41,7 +41,7 @@
 .navigation ul li.active svg path {
   fill: var(--primary-color);
 }
-.navigation ul li button {
+.navigation ul li div {
   width: 100%;
   cursor: pointer;
   text-align: center;
@@ -53,13 +53,13 @@
   flex-direction: column;
   gap: var(--spacing-h);
 }
-.navigation ul li button span {
+.navigation ul li div span {
   font-size: var(--font-size-xs);
   color: var(--font-color-p);
   text-transform: capitalize;
   transition: var(--transition);
 }
-.navigation ul li button svg {
+.navigation ul li div svg {
   transition: var(--transition);
 }
 

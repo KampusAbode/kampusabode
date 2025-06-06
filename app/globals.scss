@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-
-
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 :root {
   /* Colors */
@@ -18,7 +16,7 @@
   --black: #0c0c0c;
 
   --gray: #a8abad;
-  --light-gray: #f8f8f9;
+  --light-gray: #fafafa;
   --dark-gray: #6d6d6d;
 
   --font-color-h: #2e2e2e;
@@ -63,10 +61,7 @@
   --font-size-xs: 0.7125rem;
 
   /* Line Heights */
-  --line-height-sm: 1.135;
-  --line-height-md: 1.36;
-
-
+  --line-height: 1.25;
 
   /* Breakpoints */
   --large-width: 85%;
@@ -105,7 +100,7 @@ body {
   font-family: var(--font-inter);
 
   font-weight: 500;
-  line-height: var(--line-height-md);
+  line-height: var(--line-height);
   color: var(--font-color-p);
   background-color: var(--background-white);
 }
@@ -128,7 +123,7 @@ a {
   font-size: var(--font-size-nm);
   color: var(--font-color-p);
   text-decoration: none;
-  line-height: var(--line-height-sm);
+  line-height: var(--line-height);
 
   &:hover {
     color: var(--primary-color);
@@ -142,7 +137,7 @@ h4,
 h5,
 h6 {
   color: var(--font-color-h);
-  line-height: var(--line-height-sm);
+  line-height: var(--line-height);
   user-select: none;
 }
 h1 {
@@ -200,13 +195,13 @@ textarea {
 
 label {
   font-size: var(--font-size-sm);
-  line-height: var(--line-height-sm);
+  line-height: var(--line-height);
   color: var(--font-color-p);
 }
 
 span {
-  font-size: var(--font-size-sm);
-  line-height: var(--line-height-sm);
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height);
   color: var(--font-color-p);
   user-select: none;
 }
@@ -317,16 +312,41 @@ button {
   margin-top: var(--spacing);
 }
 
+
+.filter {
+  background: var(--background-white);
+  border-radius: var(--border-radius);
+  // margin-block: var(--spacing);
+  padding-block: var(--spacing);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: var(--spacing);
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
 @media screen and (max-width: 768px) {
   :root {
     --spacing-s: 5rem;
   }
 
-    * {
-  *:not(body)::-webkit-scrollbar {
-    display: none;
+  * {
+    *:not(body)::-webkit-scrollbar {
+      display: none;
+    }
   }
-}
 
   h1 {
     font-size: 2rem;
@@ -360,13 +380,6 @@ button {
     font-size: var(--font-size-nm);
   }
 
-  span {
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-sm);
-    color: var(--font-color-p);
-    user-select: none;
-  }
-
   input,
   textarea {
     font-size: var(--font-size-nm);
@@ -374,12 +387,12 @@ button {
 
   label {
     font-size: var(--font-size-sm);
-    line-height: var(--line-height-sm);
+    line-height: var(--line-height);
   }
 
   small {
     font-size: var(--font-size-sm);
-    line-height: var(--line-height-sm);
+    line-height: var(--line-height);
   }
 
   .heading-section {
@@ -387,17 +400,12 @@ button {
       width: 100%;
     }
   }
-
 }
-
 
 @media screen and (max-width: 425px) {
   :root {
     --spacing-s: 4rem;
   }
-
-  
-
 
   h1 {
     font-size: 1.5rem;
@@ -435,5 +443,4 @@ button {
     width: var(--mobile-width);
     max-width: var(--mobile-max-width);
   }
-  
 }

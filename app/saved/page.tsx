@@ -13,6 +13,7 @@ const SavedPage = () => {
   const [currentTab, setCurrentTab] = useState("properties");
   const [savedProperties, setSavedProperties] = useState<ApartmentType[]>([]);
   const { getApartmentsByIds } = useProperties();
+  const [loading, setLoading] = useState(false);
 
   // Zustand store for user data
   const userData = useUserStore((state) => state.user);
@@ -40,16 +41,24 @@ const SavedPage = () => {
         userData.userType === "student" &&
         "savedProperties" in userData.userInfo
       ) {
-        const savedPropertiesIds = userData.userInfo.savedProperties;
-        const fetchedProperties: ApartmentType[] = await getApartmentsByIds(
-          savedPropertiesIds
-        );
-        setSavedProperties(fetchedProperties);
+        setLoading(true);
+        try {
+          const savedPropertiesIds = userData.userInfo.savedProperties;
+          const fetchedProperties: ApartmentType[] = await getApartmentsByIds(
+            savedPropertiesIds
+          );
+          setSavedProperties(fetchedProperties);
+        } catch (error) {
+          console.error("Failed to fetch saved properties", error);
+        } finally {
+          setLoading(false);
+        }
       }
     };
 
     fetchSavedProperties();
-  }, [userData, getApartmentsByIds]);
+  }, [userData]);
+  
 
   const savedTab = (tab: string) => {
     // if (tab === "trends") {
@@ -106,7 +115,17 @@ const SavedPage = () => {
       </div>
 
       <div className="saved-items">
-        <div className="container">{savedTab(currentTab)}</div>
+        <div className="container">
+          {loading ? (
+            <div
+              className="loading"
+              style={{ textAlign: "center", marginTop: "2rem" }}>
+              <p>Loading saved apartments...</p>
+            </div>
+          ) : (
+            savedTab(currentTab)
+          )}
+        </div>
       </div>
     </section>
   );

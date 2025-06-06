@@ -4,6 +4,7 @@ import React from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { useUserStore } from "../../../store/userStore";
 import "./propertyUploadGuide.css";
+import Link from "next/link";
 
 function PropertyUploadGuide() {
   const { user } = useUserStore((state) => state);
@@ -96,20 +97,20 @@ function PropertyUploadGuide() {
           <p>
             If you have any questions or need assistance, please contact our
             support team at{" "}
-            <a href="mailto: contactkampusabode@gmail.com">send a mail</a> or
+            <Link href="mailto: contactkampusabode@gmail.com">send a mail</Link> or
             reach out to us on our
-            <a href="https://wa.me/2347050721686" target="_blank">
+            <Link href="https://wa.me/2347050721686" target="_blank">
               {" "}
               WhatsApp
-            </a>{" "}
+            </Link>{" "}
             for immediate assistance.
           </p>
         </div>
 
         <div className="upload-btn">
-          <a href={`/apartment/c/${user?.id}/upload`} className="btn">
+          <Link href={`/apartment/c/${user?.id}/upload`} className="btn">
             next <FaArrowRightLong />
-          </a>
+          </Link>
         </div>
       </div>
     </div>

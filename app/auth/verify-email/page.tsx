@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
+import Link from "next/link";
 
 export default function VerifyEmailPage() {
   const router = useRouter();
@@ -68,13 +69,13 @@ export default function VerifyEmailPage() {
         and click the link to verify your account.
       </p>
 
-      <a
+      <Link
         href={gmailLink}
         target="_blank"
         rel="noopener noreferrer"
         className="open-gmail-btn">
         Open Gmail App
-      </a>
+      </Link>
     </div>
   );
 }

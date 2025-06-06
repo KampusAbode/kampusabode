@@ -47,19 +47,6 @@
   // }
 
 
-  .trends-filter {
-    background: var(--background-white);
-    padding-block: var(--spacing);
-    position: sticky;
-    top: 0;
-    z-index: 9999;
-
-    .container {
-      display: flex;
-      gap: var(--spacing);
-      flex-wrap: nowrap;
-    }
-  }
 }
 
 @media screen and (max-width: 1400px) {

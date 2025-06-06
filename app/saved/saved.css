@@ -39,6 +39,7 @@
 }
 .saved-page .saved-items .container .saved-props a img {
   width: 100%;
+  height: 300px;
   aspect-ratio: 1/1;
   -o-object-fit: cover;
      object-fit: cover;
