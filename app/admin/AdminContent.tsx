@@ -8,11 +8,12 @@ import PropertyManagement from "../components/admin/PropertyManagement";
 import ReviewManagement from "../components/admin/ReviewManagement";
 import Analytics from "../components/admin/Analytics";
 import Notifications from "../components/admin/Notifications";
+import AgentList from "../components/admin/AgentList";
 import { checkIsAdmin } from "../utils/user";
 import "./admin.css";
 import { useUserStore } from "../store/userStore";
 
-const pages = ["users", "properties", "reviews", "analytics", "notifications"];
+const pages = ["users", "properties", "reviews", "analytics", "notifications", "agents"];
 
 const AdminContent = () => {
   const router = useRouter();
@@ -66,6 +67,7 @@ const AdminContent = () => {
           {currentPage === "reviews" && <ReviewManagement />}
           {currentPage === "analytics" && <Analytics />}
           {currentPage === "notifications" && <Notifications />}
+          {currentPage === "agents" && <AgentList />}
         </main>
       </div>
     </div>
