@@ -91,9 +91,9 @@ const PropertiesPage: React.FC = () => {
     <section className="listings-page">
       <div className="banner">
         <div className="container">
-          <span>your comfort</span>
+          <span>Rent Smart</span>
           <h2>
-            our priority
+            Rent Better
             <svg width="30" height="30" viewBox="0 0 50 49" fill="none">
               <path
                 d="M24.6571 9.0258C18.75 12.9418 13.3443 17.4625 7.63462 21.628"
