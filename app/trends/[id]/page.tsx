@@ -162,7 +162,7 @@ const TrendPage = ({ params }: Params) => {
         userProfile: user?.avatar,
         createdAt: new Date().toISOString(),
       };
-      await sendUserComment(newComment, user?.id);
+      await sendUserComment(newComment, id, user?.id);
       setComments([...comments, newComment]);
       toast.success("Comment added!");
 
