@@ -11,7 +11,7 @@ import { ApartmentType } from "../../../../fetch/types";
 import Prompt from "../../../../components/modals/prompt/Prompt";
 import"./upload.css";
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const MAX_FILE_SIZE = 8 * 1024 * 1024; // 8MB
 const MAX_VIDEO_SIZE = 6 * 1024 * 1024; // 6MB
 const FRAME_COUNT = 6;
 
@@ -129,7 +129,7 @@ const UploadProperty = () => {
     for (const file of files) {
       if (file.type.startsWith("video/")) {
         if (file.size > MAX_VIDEO_SIZE) {
-          toast.error(`${file.name} exceeds max video size of 5MB`);
+          toast.error(`${file.name} exceeds max video size of 6MB`);
           continue;
         }
         try {
@@ -154,7 +154,7 @@ const UploadProperty = () => {
 
     const totalSize = finalFiles.reduce((acc, f) => acc + f.size, 0);
     if (totalSize > MAX_FILE_SIZE) {
-      toast.error("Total file size exceeds 7MB");
+      toast.error("Total file size exceeds 8MB");
       return;
     }
 
@@ -166,14 +166,14 @@ const UploadProperty = () => {
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
     description: Yup.string()
-      .min(100, "Description must be at least 100 characters")
-      .max(500, "Description cannot exceed 500 characters")
+      .min(500, "Description must be at least 100 characters")
+      .max(2000, "Description cannot exceed 500 characters")
       .required("Description is required"),
     price: Yup.number()
       .typeError("Price must be a number")
       .required("Price is required"),
     location: Yup.string().required("Location is required"),
-    neighborhood_overview: Yup.string().required(
+    neighborhood_overview: Yup.string().min(300, "overview must be at least 100 characters").required(
       "Neighborhood overview is required"
     ),
     type: Yup.string().required("Property type is required"),
