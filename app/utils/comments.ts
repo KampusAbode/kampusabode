@@ -11,10 +11,10 @@ import {
 } from "firebase/firestore";
 
 // Function to collect comments data of a particular trend article using ID
-export async function getCommentsByTrendId(trendId: string) {
-  const commentsCollection = collection(db, "trendcomments");
-  const q = query(commentsCollection, where("trendId", "==", trendId));
-  const querySnapshot = await getDocs(q);
+export async function getCommentsByTrendId(trendId: string, userId: string) {
+  const commentsCollection = collection(db, "trends", trendId, "comments", userId);
+  
+  const querySnapshot = await getDocs(commentsCollection);
   const comments = querySnapshot.docs.map((doc) => doc.data());
   return comments;
 }
@@ -28,8 +28,8 @@ type CommentType = {
 };
 
 // Function to send user comments
-export async function sendUserComment(newComment: CommentType) {
-  const commentsCollection = collection(db, "trendcomments");
+export async function sendUserComment(newComment: CommentType, userId: string) {
+  const commentsCollection = collection(db,  "trends", trendId, "comments", userId);
 
   const docRef = await addDoc(commentsCollection, newComment);
   return docRef.id;
