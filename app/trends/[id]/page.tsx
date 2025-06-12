@@ -1,5 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { doc, updateDoc, increment, getDoc, setDoc, deleteDoc } from "firebase/firestore";
+import { db } from "../../lib/firebaseConfig"; 
 import { TrendType } from "../../fetch/types";
 import { fetchTrendByID } from "../../utils";
 import Image from "next/image";
@@ -32,6 +34,7 @@ const TrendPage = ({ params }: Params) => {
   const [content, setContent] = useState<string>("");
   // const [relatedTrends, setRelatedTrends] = useState<TrendType[]>([]);
   const { user } = useUserStore((state) => state);
+  const [isLiking, setIsLiking] = useState(false);
 
   useEffect(() => {
     const fetchTrendData = async () => {
@@ -67,9 +70,62 @@ const TrendPage = ({ params }: Params) => {
     fetchComments();
   }, [id]);
 
-  const handleLike = () => {
-    toast.success("Liked the article!");
+  useEffect(() => {
+  const checkIfLiked = async () => {
+    if (!user || !user.id) return;
+
+    const likeRef = doc(db, "trends", id, "likes", user.id);
+    const likeDoc = await getDoc(likeRef);
+    setIsLiking(likeDoc.exists());
   };
+
+  checkIfLiked();
+}, [id, user]);
+
+  const handleLike = async () => {
+  if (!user || !user.id) {
+    toast.error("Please sign in to like this trend.");
+    return;
+  }
+
+  if (isLiking) return; // Throttle rapid clicks
+  setIsLiking(true);
+
+  const trendRef = doc(db, "trends", id);
+  const likeRef = doc(db, "trends", id, "likes", user.id);
+
+  try {
+    const likeDoc = await getDoc(likeRef);
+
+    if (likeDoc.exists()) {
+      await deleteDoc(likeRef);
+      await updateDoc(trendRef, {
+        likes: increment(-1),
+      });
+
+      setTrendData((prev) => prev ? { ...prev, likes: prev.likes - 1 } : prev);
+      toast.success("Like removed.");
+    } else {
+      await setDoc(likeRef, {
+        userId: user.id,
+        likedAt: new Date().toISOString(),
+      });
+      await updateDoc(trendRef, {
+        likes: increment(1),
+      });
+
+      setTrendData((prev) => prev ? { ...prev, likes: prev.likes + 1 } : prev);
+      toast.success("Liked!");
+    }
+  } catch (error) {
+    console.error("Like toggle failed:", error);
+    toast.error("Failed to update like.");
+  } finally {
+    // Allow re-click after 1 second
+    setTimeout(() => setIsLiking(false), 1000);
+  }
+};
+
 
   const handleShare = () => {
     toast.success("Shared the article!");
@@ -125,8 +181,8 @@ const TrendPage = ({ params }: Params) => {
 
           {/* Like and Share buttons */}
           <div className="interaction-buttons">
-            <button onClick={handleLike}>
-              <BiLike /> {trendData.likes}
+            <button onClick={handleLike} disabled={isLiking}>
+              <BiLike /> {trendData?.likes}
             </button>
             <button onClick={handleShare}>
               <FaShare /> Share
