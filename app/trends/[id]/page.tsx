@@ -127,9 +127,26 @@ const TrendPage = ({ params }: Params) => {
 };
 
 
-  const handleShare = () => {
-    toast.success("Shared the article!");
-  };
+  const handleShare = async () => {
+  const trendUrl = `${window.location.origin}/trend/${id}`;
+
+  try {
+    if (navigator.share) {
+      await navigator.share({
+        title: trendData?.title || "Check out this trend",
+        text: "Check this out 👀",
+        url: trendUrl,
+      });
+      toast.success("Link shared successfully!");
+    } else {
+      await navigator.clipboard.writeText(trendUrl);
+      toast.success("Link copied to clipboard!");
+    }
+  } catch (error) {
+    console.error("Share failed:", error);
+    toast.error("Could not share this trend.");
+  }
+};
 
   const handleCommentSubmit = async (comment: string) => {
     try {
