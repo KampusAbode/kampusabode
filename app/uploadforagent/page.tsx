@@ -13,8 +13,8 @@ import Prompt from "../components/modals/prompt/Prompt";
 import { checkIsAdmin } from "../utils/user";
 import "./uploadforagent.css";
 
-const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3MB
-const MAX_VIDEO_SIZE = 5 * 1024 * 1024; // 5MB
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const MAX_VIDEO_SIZE = 6 * 1024 * 1024; // 6MB
 const FRAME_COUNT = 6;
 
 const UploadForAgent = () => {
