@@ -117,8 +117,8 @@ const TrendPage = ({ params }: Params) => {
             <Image
               priority
               src={trendData?.image}
-              width={800}
-              height={800}
+              width={1500}
+              height={1500}
               alt="trend image"
             />
           </div>
@@ -147,6 +147,7 @@ const TrendPage = ({ params }: Params) => {
               <p key={index}>{paragraph}</p>
             ))}
           </div> */}
+
 
           {/* Comment Section */}
           <div className="comments-section">
@@ -187,7 +188,7 @@ const TrendPage = ({ params }: Params) => {
             <div className="send-comment">
               <textarea
                 placeholder="Add a comment..."
-                rows={3}
+                rows={5}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
