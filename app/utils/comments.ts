@@ -11,8 +11,8 @@ import {
 } from "firebase/firestore";
 
 // Function to collect comments data of a particular trend article using ID
-export async function getCommentsByTrendId(trendId: string, userId: string) {
-  const commentsCollection = collection(db, "trends", trendId, "comments", userId);
+export async function getCommentsByTrendId(trendId: string) {
+  const commentsCollection = collection(db, "trends", trendId, "comments");
   
   const querySnapshot = await getDocs(commentsCollection);
   const comments = querySnapshot.docs.map((doc) => doc.data());
