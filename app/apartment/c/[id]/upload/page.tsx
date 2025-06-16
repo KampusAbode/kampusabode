@@ -42,6 +42,7 @@ const UploadProperty = () => {
     "parakin estate",
     "may fair",
     "lagere",
+    "OAU campus"
   ];
 
   const typeOptions = [

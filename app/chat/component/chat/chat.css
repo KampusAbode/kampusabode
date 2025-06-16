@@ -3,71 +3,105 @@
   max-width: 900px;
   min-height: 100vh;
   height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   gap: var(--spacing);
 }
+
 .chat-page > .container {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   gap: var(--spacing);
   padding: var(--spacing);
   margin-top: var(--spacing-3x);
   height: 100%;
 }
+
 .chat-page > .container a {
   text-decoration: underline;
 }
+
 .chat-page .chat-display {
   height: auto;
   overflow-y: auto;
   padding-block: var(--spacing);
 }
+
 .chat-page .chat-display .loading-text {
   text-align: center;
   margin-top: 50px;
 }
+
 .chat-page .chat-display::-webkit-scrollbar {
   visibility: hidden;
 }
+
 .chat-page .chat-display:hover::-webkit-scrollbar {
   visibility: visible;
 }
+
 .chat-page .chat-display:hover::-webkit-scrollbar-thumb {
   height: 100px;
 }
+
 .chat-page .chat-display .message-box {
   padding: var(--spacing-h);
   margin-bottom: var(--spacing-h);
   border-radius: var(--border-radius);
   border-top-left-radius: 0;
+  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   color: var(--font-color-p);
   background-color: var(--light-gray);
   max-width: 70%;
 }
+
 .chat-page .chat-display .message-box .message-detail {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   gap: var(--spacing-2x);
   padding: var(--spacing-h) var(--spacing);
 }
+
 .chat-page .chat-display .message-box .message-detail span {
   color: var(--font-color-p);
   font-size: var(--font-size-xs);
 }
+
 .chat-page .chat-display .message-box .message-content {
   padding-block: var(--spacing);
   color: var(--font-color-p);
   size: var(--font-size-sm);
   -webkit-user-select: none;
      -moz-user-select: none;
+      -ms-user-select: none;
           user-select: none;
 }
+
 .chat-page .chat-display .message-box.right {
   margin-left: auto;
   color: var(--font-white);
@@ -75,16 +109,20 @@
   border-top-right-radius: 0;
   background-color: var(--background-dark);
 }
+
 .chat-page .chat-display .message-box.right .message-detail span {
   color: var(--font-white);
 }
+
 .chat-page .chat-display .message-box.right .message-content {
   padding-block: var(--spacing);
 }
+
 .chat-page .chat-display .message-box.right .message-content p {
   color: var(--font-white);
   size: var(--font-size-sm);
 }
+
 .chat-page .chat-input {
   width: 100%;
   max-width: 900px;
@@ -92,18 +130,30 @@
   padding-block: var(--spacing);
   background-color: var(--light-gray);
 }
+
 .chat-page .chat-input .container {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
+
 .chat-page .chat-input .container input {
-  flex: 1;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
   border: none;
   border-radius: 0;
   color: var(--font-light-p);
 }
+
 .chat-page .chat-input .container button {
   padding: var(--spacing);
   border: none;
-}/*# sourceMappingURL=chat.css.map */
+}
+/*# sourceMappingURL=chat.css.map */

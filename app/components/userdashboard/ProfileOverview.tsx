@@ -20,9 +20,10 @@ const ProfileOverview = ({userdata}) => {
           />
         </div>
         <div className="tdt">
-          <span>Name: {user?.name}</span>
+          <span><strong>Name:</strong> {user?.name}</span>
           <span>
-            Email: {user?.email}{" "}
+            <strong>
+            Email:</strong> {user?.email}{" "}
             {userdata.emailVerified ? (
               <span className="verified">
                 <MdVerified size={20} color="#2ecc71" title="Verified" />
@@ -37,16 +38,16 @@ const ProfileOverview = ({userdata}) => {
               </span>
             )}
           </span>
-          <span>Phone: {user?.phoneNumber}</span>
-          <span>University: {user?.university}</span>
-          <span>Status: {user?.userType}</span>
+          <span><strong>Phone:</strong> {user?.phoneNumber}</span>
+          <span><strong>University:</strong> {user?.university}</span>
+          <span><strong>Status:</strong> {user?.userType}</span>
           {user?.userType === "student" && "department" in user.userInfo ? (
-            <span>Department: {user?.userInfo?.department}</span>
+            <span><strong>Department:</strong> {user?.userInfo?.department}</span>
           ) : (
             ""
           )}
           {user?.userType === "agent" && "agencyName" in user.userInfo ? (
-            <span>Department: {user?.userInfo?.agencyName}</span>
+            <span><strong>Agency:</strong> {user?.userInfo?.agencyName}</span>
           ) : (
             ""
           )}

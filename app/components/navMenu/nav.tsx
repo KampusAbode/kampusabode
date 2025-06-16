@@ -54,8 +54,10 @@ function Nav() {
         className={`nav-menu ${user ? "sideNav" : "notlogged"} ${
           isNavOpen ? "fadeIn" : "fadeOut"
         }`}>
-        <div>
-          <div className="close-div" onClick={toggleNav}>
+        <div className="container">
+        <div className="top">
+          <div className="nav-header">
+          <div className="close-div" >
             <div className="logo">
               <Link href="/" onClick={toggleNav}>
                 <img
@@ -66,12 +68,13 @@ function Nav() {
                 />
               </Link>
             </div>
-            <div className="close">
+            <div className="close" onClick={toggleNav}>
               <FaTimes />
             </div>
           </div>
 
-          {user?.userType === "agent" && checkIsAdmin(user.id) && (
+         <div className="nav-btns">
+         {user?.userType === "agent" && checkIsAdmin(user.id) && (
             <Link
               href={`/apartment/c/${user.id}`}
               className="btn"
@@ -90,6 +93,8 @@ function Nav() {
                 Admin Dashboard
               </Link>
             )}
+         </div>
+          </div>
 
           <ul>
             <li
@@ -167,6 +172,7 @@ function Nav() {
               </Link>
             )}
           </span>
+        </div>
         </div>
       </div>
 

@@ -1,1 +1,9 @@
-{"version":3,"sources":[],"names":[],"mappings":"","file":"quotes.css"}
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "quotes.scss"
+    ],
+    "names": [],
+    "file": "quotes.css"
+}

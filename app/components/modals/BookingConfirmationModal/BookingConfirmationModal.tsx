@@ -16,7 +16,7 @@ export default function BookingConfirmationModal({
     <div className="modal-overlay" onClick={onClose}>
       <div className="booking-modal">
         <div className="modal-header">
-          <h3>Confirm Booking</h3>
+          <h4>Confirm Booking</h4>
         </div>
 
         <div className="modal-body">
@@ -30,7 +30,7 @@ export default function BookingConfirmationModal({
             <p>{apartment.area}</p>
           </div>
 
-          <div className="modal-section fees">
+          {/* <div className="modal-section fees">
             <div>
               <label>Rent:</label>
               <p>₦{rent.toLocaleString()}</p>
@@ -40,12 +40,12 @@ export default function BookingConfirmationModal({
               <label>Service Fee:</label>
               <p>₦{serviceFee.toLocaleString()}</p>
             </div>
-          </div>
+          </div> */}
 
           <div className="modal-section total">
             <label>Total Payment:</label>
             <p>
-              <strong>₦{totalPriceWithServiceFee.toLocaleString()}</strong>
+              ₦{totalPriceWithServiceFee.toLocaleString()}
             </p>
           </div>
 

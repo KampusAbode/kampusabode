@@ -2,11 +2,17 @@
   margin-block: var(--spacing-s);
   padding-block: var(--spacing-2x);
 }
+
 .admin-dashboard .container .dashboard-navigation {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
   overflow-x: auto;
-  justify-content: left;
+  -webkit-box-pack: left;
+      -ms-flex-pack: left;
+          justify-content: left;
   scroll-behavior: smooth;
   gap: var(--spacing);
   padding-block: var(--spacing);
@@ -14,9 +20,11 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
 .admin-dashboard .container .dashboard-navigation::-webkit-scrollbar {
   display: none;
 }
+
 .admin-dashboard .container .dashboard-navigation button {
   border: var(--border);
   border-color: transparent;
@@ -28,38 +36,55 @@
   text-transform: capitalize;
   cursor: pointer;
 }
+
 .admin-dashboard .container .dashboard-navigation button.active {
   border: var(--border-hover);
 }
+
 .admin-dashboard .container .dashboard-content {
   padding-block: var(--spacing);
 }
+
 .admin-dashboard .container .dashboard-content .user-management .input-box {
   margin-block: var(--spacing);
 }
+
 .admin-dashboard .container .dashboard-content .user-management .input-box input {
   padding: var(--spacing-h) var(--spacing);
 }
+
 .admin-dashboard .container .dashboard-content .user-management h6 {
   margin-block: var(--spacing);
 }
+
 .admin-dashboard .container .dashboard-content .property-management ul li {
   padding: var(--spacing);
   background-color: var(--light-gray);
   margin-block: var(--spacing);
   border-radius: var(--border-radius);
 }
+
 .admin-dashboard .container .dashboard-content .property-management ul li .flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
 }
+
 .admin-dashboard .container .dashboard-content .property-management ul li .flex .info p {
   margin-bottom: var(--spacing-h);
 }
+
 .admin-dashboard .container .dashboard-content .property-management ul li .flex span {
   display: block;
 }
+
 .admin-dashboard .container .dashboard-content .property-management ul li .action {
   margin-top: var(--spacing);
-}/*# sourceMappingURL=admin.css.map */
+}
+/*# sourceMappingURL=admin.css.map */

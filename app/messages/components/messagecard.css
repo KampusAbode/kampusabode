@@ -5,8 +5,14 @@
   margin-bottom: var(--spacing);
   cursor: pointer;
 }
+
 .message-card .message-header {
   margin-bottom: var(--spacing);
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
-}/*# sourceMappingURL=messagecard.css.map */
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+/*# sourceMappingURL=messagecard.css.map */
