@@ -1,4 +1,5 @@
 .bookmark-button {
+  display: -ms-grid;
   display: grid;
   place-items: center;
   border-radius: 100%;
@@ -7,10 +8,13 @@
   background-color: var(--white);
   cursor: pointer;
 }
+
 .bookmark-button:hover {
   background-color: var(--light-gray);
   border: var(--border);
 }
+
 .bookmark-button.saved svg path {
   fill: var(--primary-color);
-}/*# sourceMappingURL=bookmarkbutton.css.map */
+}
+/*# sourceMappingURL=bookmarkbutton.css.map */

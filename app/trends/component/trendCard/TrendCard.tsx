@@ -14,7 +14,8 @@ interface TrendCardProp {
   trendData: TrendType;
 }
 
-const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
+// const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
+const TrendCard = ({ trendData }) => {
   const [likes, setLikes] = useState<number>(trendData.likes || 0);
   const [userAction, setUserAction] = useState<"like" | "unlike">("unlike");
   const [loading, setLoading] = useState<boolean>(false);
@@ -109,9 +110,9 @@ const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
   
 
   return (
+        <Link href={`/trends/${trendData?.id}`}>
     <div className="trend">
       <div className="trend-image">
-        <Link href={`/trends/${trendData?.id}`}>
           <Image
             priority
             src={trendData?.image}
@@ -119,7 +120,6 @@ const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
             height={1000}
             alt="trend image"
           />
-        </Link>
         <span className="category">{trendData?.category || "Unknown"}</span>
       </div>
       <div className="trend-content">
@@ -135,6 +135,7 @@ const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
         <p dangerouslySetInnerHTML={{ __html: snippet }} />
       </div>
     </div>
+        </Link>
   );
 };
 

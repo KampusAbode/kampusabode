@@ -28,7 +28,7 @@ type CommentType = {
 };
 
 // Function to send user comments
-export async function sendUserComment(newComment: CommentType, trendId : string, userId: string) {
+export async function sendUserComment(newComment: CommentType, trendId: string, userId: string){
   const commentsCollection = collection(db,  "trends", trendId, "comments", userId);
 
   const docRef = await addDoc(commentsCollection, newComment);

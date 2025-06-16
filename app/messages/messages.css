@@ -1,4 +1,6 @@
 .messages-page .container .filter-messages {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   gap: var(--spacing);
   margin-block: var(--spacing-2x);
@@ -6,9 +8,11 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+
 .messages-page .container .filter-messages::-webkit-scrollbar {
   display: none;
 }
+
 .messages-page .container .filter-messages span {
   padding: var(--spacing-b);
   text-transform: capitalize;
@@ -16,7 +20,9 @@
   border-radius: var(--border-radius-r);
   cursor: pointer;
 }
+
 .messages-page .container .filter-messages span.active {
   background-color: var(--black);
   color: var(--font-white);
-}/*# sourceMappingURL=messages.css.map */
+}
+/*# sourceMappingURL=messages.css.map */

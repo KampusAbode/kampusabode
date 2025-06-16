@@ -117,6 +117,7 @@ const locations = [
   "parakin estate",
   "may fair",
   "lagere",
+  "OAU campus"
 ];
 const priceRanges = [
   { label: "0 - 200,000", value: [100, 100000] },

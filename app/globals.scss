@@ -15,7 +15,7 @@
   --white: #ffffff;
   --black: #0c0c0c;
 
-  --gray: #a8abad;
+  --gray: #f1f1f1;
   --light-gray: #fafafa;
   --dark-gray: #6d6d6d;
 
@@ -233,7 +233,7 @@ img {
 }
 
 .btn {
-  display: inline-block;
+  display: flex;
   align-items: center;
   gap: 0.3rem;
 
