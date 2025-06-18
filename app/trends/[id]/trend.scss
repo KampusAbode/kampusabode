@@ -66,7 +66,8 @@
     }
 
     .comments-section {
-      margin-block: var(--spacing-2x);
+      margin-top: var(--spacing-s);
+      margin-bottom: var(--spacing-2x);
       max-width: 500px;
       
       .comments-list {
