@@ -16,17 +16,14 @@ import "react-quill/dist/quill.snow.css";
 
 
 const categories = [
-  "Real estate market",
-  "Rental market",
-  "Interior design",
-  "OAU updates",
-  "Home Buying",
+  "Trending",
+  "School updates",
+  "Events",
+  "Sports",
+  "Music & Entertainment",
   "Football",
-  "Student investment",
-  "Study methods",
-  "Real Estate Investment",
-  "Skills",
-  "Business",
+  "Tech & Innovations",
+  "Departments",
 ];
 
 function UploadTrend() {
