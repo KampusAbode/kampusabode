@@ -22,7 +22,7 @@ export async function getCommentsByTrendId(trendId: string) {
     const querySnapshot = await getDocs(commentsQuery);
 
     return querySnapshot.docs.map((doc) => ({
-      id: doc.id,
+    
       ...doc.data(),
     }));
   } catch (error) {
