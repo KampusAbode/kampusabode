@@ -20,6 +20,7 @@ type Params = {
 
 type CommentType = {
   trendId: string;
+  userId: string;
   userName: string;
   comment: string;
   userProfile: string;
@@ -55,6 +56,7 @@ const TrendPage = ({ params }: Params) => {
         setComments(
           comments.map((comment: any) => ({
             trendId: comment.trendId,
+            userId: comment.userId,
             userName: comment.userName,
             comment: comment.comment,
             userProfile: comment.userProfile,
@@ -157,12 +159,13 @@ const TrendPage = ({ params }: Params) => {
 
       const newComment: CommentType = {
         trendId: id,
-        userName: user.name,
+        userId: user?.id,
+        userName: user?.name,
         comment,
         userProfile: user?.avatar,
         createdAt: new Date().toISOString(),
       };
-      await sendUserComment(newComment, id, user?.id);
+      await sendUserComment(newComment);
       setComments([...comments, newComment]);
       toast.success("Comment added!");
 
