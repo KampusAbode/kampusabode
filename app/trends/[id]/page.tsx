@@ -35,6 +35,7 @@ const TrendPage = ({ params }: Params) => {
   const [content, setContent] = useState<string>("");
   // const [relatedTrends, setRelatedTrends] = useState<TrendType[]>([]);
   const { user } = useUserStore((state) => state);
+  const [isLike, setIsLike] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
 
   useEffect(() => {
@@ -78,7 +79,7 @@ const TrendPage = ({ params }: Params) => {
 
     const likeRef = doc(db, "trends", id, "likes", user.id);
     const likeDoc = await getDoc(likeRef);
-    setIsLiking(likeDoc.exists());
+    setIsLike(likeDoc.exists());
   };
 
   checkIfLiked();
@@ -201,7 +202,7 @@ const TrendPage = ({ params }: Params) => {
 
           {/* Like and Share buttons */}
           <div className="interaction-buttons">
-            <button onClick={handleLike} disabled={isLiking}>
+            <button onClick={handleLike} disabled={isLiking} className={isLike}>
               <BiLike /> {trendData?.likes}
             </button>
             <button onClick={handleShare}>
