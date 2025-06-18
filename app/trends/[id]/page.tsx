@@ -64,7 +64,7 @@ const TrendPage = ({ params }: Params) => {
             userName: comment.userName,
             comment: comment.comment,
             userProfile: comment.userProfile,
-            createdAt: new Date(comment.createdAt).toISOString(),
+            createdAt: comment.createdAt.toISOString(),
           }))
         );
       } catch (error) {
