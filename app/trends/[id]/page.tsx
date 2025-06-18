@@ -46,6 +46,9 @@ const TrendPage = ({ params }: Params) => {
         setLoading(false);
         // Fetch related articles (simulated)
         // setRelatedTrends([trend, trend]); // This is just an example. Replace with actual fetch.
+
+
+        fetchComments();
       } catch (error) {
         toast.error("Failed to fetch trend data.");
       }
@@ -70,7 +73,7 @@ const TrendPage = ({ params }: Params) => {
     };
 
     fetchTrendData();
-    fetchComments();
+    
   }, [id]);
 
   useEffect(() => {
