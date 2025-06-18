@@ -87,7 +87,8 @@
 }
 
 .trend-details-page .container .comments-section {
-  margin-block: var(--spacing-2x);
+  margin-too: vat(--spacing-s);
+      margin-bottom: var(--spacing-2x);
   max-width: 500px;
 }
 
