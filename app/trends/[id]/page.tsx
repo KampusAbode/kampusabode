@@ -202,7 +202,7 @@ const TrendPage = ({ params }: Params) => {
 
           {/* Like and Share buttons */}
           <div className="interaction-buttons">
-            <button onClick={handleLike} disabled={isLiking} className={isLike}>
+            <button onClick={handleLike} disabled={isLiking} className={isLike ? "active" : ""}>
               <BiLike /> {trendData?.likes}
             </button>
             <button onClick={handleShare}>
