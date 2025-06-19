@@ -134,7 +134,7 @@ const TrendPage = ({ params }: Params) => {
 
 
   const handleShare = async () => {
-  const trendUrl = `${window.location.origin}/trend/${id}`;
+  const trendUrl = `${window.location.origin}/trends/${id}`;
 
   try {
     if (navigator.share) {
