@@ -9,7 +9,7 @@ import { Analytics } from '@vercel/analytics/next';
 export async function generateMetadata(): Promise<Metadata> {
 
   return {
-    title: "Kampusabode App - apartment Listing Site",
+    title: "Kampusabode",
     description:
       "Find your ideal apartment with Kampusabode. Explore a wide range of listings and discover your next apartment.",
     keywords: [
