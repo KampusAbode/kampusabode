@@ -34,77 +34,9 @@ const TrendCard = ({ trendData }) => {
 
 
 
-  useEffect(() => {
-    const encryptedActions = localStorage.getItem("trendActions");
-    if (encryptedActions) {
-      try {
-        const bytes = CryptoJS.AES.decrypt(
-          encryptedActions,
-          process.env.NEXT_PUBLIC__ENCSECRET_KEY || ""
-        );
-        const decryptedActions = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-        const action = decryptedActions.find(
-          (item: { id: string; status: string }) => item.id === trendData.id
-        );
-        if (action) {
-          setUserAction(action.status as "like");
-        }
-      } catch (error) {
-        console.error("Failed to decrypt actions:", error);
-      }
-    }
-  }, [trendData.id]);
+    
 
-  const updateLocalStorage = (id: string, status: "like" | "unlike") => {
-    try {
-      const encryptedActions = localStorage.getItem("trendActions");
-      let storedActions: { id: string; status: "like" | "unlike" }[] = [];
-      if (encryptedActions) {
-        const bytes = CryptoJS.AES.decrypt(
-          encryptedActions,
-          process.env.NEXT_PUBLIC__ENCSECRET_KEY || ""
-        );
-        storedActions = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-      }
-      const updatedActions = storedActions.filter(
-        (item: { id: string }) => item.id !== id
-      );
-      if (status) {
-        updatedActions.push({ id, status });
-      }
-      const encryptedData = CryptoJS.AES.encrypt(
-        JSON.stringify(updatedActions),
-        process.env.NEXT_PUBLIC__ENCSECRET_KEY || ""
-      ).toString();
-      localStorage.setItem("trendActions", encryptedData);
-    } catch (error) {
-      console.error("Failed to update local storage:", error);
-    }
-  };
-
-  const handleLikeToggle = async () => {
-    setLoading(true);
-    try {
-      const action = userAction === "like" ? "unlike" : "like";
-      await updateLikes({ id: trendData.id, action });
-
-      if (userAction === "like") {
-        setLikes((prevLikes) => prevLikes - 1);
-        setUserAction("unlike");
-        updateLocalStorage(trendData.id, "unlike");
-      } else {
-        setLikes((prevLikes) => prevLikes + 1);
-        setUserAction("like");
-        updateLocalStorage(trendData.id, "like");
-      }
-    } catch (error) {
-      console.error("Error updating likes:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const formattedLikes = formatNumber(likes);
+  const formattedLikes = formatNumber(trendData?.likes);
 
   
   
