@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { doc, updateDoc, increment, getDoc, setDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../../lib/firebaseConfig"; 
 import { TrendType } from "../../fetch/types";
-import { fetchTrendByID } from "../../utils";
+import { fetchTrendBySlug } from "../../utils";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import Loader from "../../components/loader/Loader";
