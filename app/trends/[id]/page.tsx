@@ -1,7 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { doc, updateDoc, increment, getDoc, setDoc, deleteDoc } from "firebase/firestore";
-import { db } from "../../lib/firebaseConfig"; 
+import {
+  doc,
+  updateDoc,
+  increment,
+  getDoc,
+  setDoc,
+  deleteDoc,
+} from "firebase/firestore";
+import { db } from "../../lib/firebaseConfig";
 import { TrendType } from "../../fetch/types";
 import { fetchTrendBySlug } from "../../utils";
 import Image from "next/image";
@@ -10,12 +17,12 @@ import Loader from "../../components/loader/Loader";
 import { BiLike } from "react-icons/bi";
 import { FaBookmark, FaShare } from "react-icons/fa";
 import { getCommentsByTrendId, sendUserComment } from "../../utils/comments";
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 import "./trend.css";
 import { useUserStore } from "../../store/userStore";
 
 type Params = {
-  params: { id: string };
+  params: { slug: string };
 };
 
 type CommentType = {
@@ -33,7 +40,6 @@ const TrendPage = ({ params }: Params) => {
   const [loading, setLoading] = useState(true);
   const [comments, setComments] = useState<CommentType[]>([]);
   const [content, setContent] = useState<string>("");
-  // const [relatedTrends, setRelatedTrends] = useState<TrendType[]>([]);
   const { user } = useUserStore((state) => state);
   const [isLike, setIsLike] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
@@ -44,19 +50,16 @@ const TrendPage = ({ params }: Params) => {
         const trend: TrendType = await fetchTrendBySlug(slug);
         setTrendData(trend);
         setLoading(false);
-        // Fetch related articles (simulated)
-        // setRelatedTrends([trend, trend]); // This is just an example. Replace with actual fetch.
-
-
-        fetchComments();
+        fetchComments(trend.id); // use document ID for comments
+        checkIfLiked(trend.id);  // use document ID for like status
       } catch (error) {
         toast.error("Failed to fetch trend data.");
       }
     };
 
-    const fetchComments = async () => {
+    const fetchComments = async (trendId: string) => {
       try {
-        const comments = await getCommentsByTrendId(id);
+        const comments = await getCommentsByTrendId(trendId);
         setComments(
           comments.map((comment: any) => ({
             trendId: comment.trendId,
@@ -72,109 +75,92 @@ const TrendPage = ({ params }: Params) => {
       }
     };
 
+    const checkIfLiked = async (trendId: string) => {
+      if (!user || !user.id) return;
+      const likeRef = doc(db, "trends", trendId, "likes", user.id);
+      const likeDoc = await getDoc(likeRef);
+      setIsLike(likeDoc.exists());
+    };
+
     fetchTrendData();
-    
-  }, [id]);
-
-  useEffect(() => {
-  const checkIfLiked = async () => {
-    if (!user || !user.id) return;
-
-    const likeRef = doc(db, "trends", id, "likes", user.id);
-    const likeDoc = await getDoc(likeRef);
-    setIsLike(likeDoc.exists());
-  };
-
-  checkIfLiked();
-}, [id, user]);
+  }, [slug, user]);
 
   const handleLike = async () => {
-  if (!user || !user.id) {
-    toast.error("Please sign in to like this trend.");
-    return;
-  }
-
-  if (isLiking) return; // Throttle rapid clicks
-  setIsLiking(true);
-
-  const trendRef = doc(db, "trends", id);
-  const likeRef = doc(db, "trends", id, "likes", user.id);
-
-  try {
-    const likeDoc = await getDoc(likeRef);
-
-    if (likeDoc.exists()) {
-      await deleteDoc(likeRef);
-      await updateDoc(trendRef, {
-        likes: increment(-1),
-      });
-
-      setTrendData((prev) => prev ? { ...prev, likes: prev.likes - 1 } : prev);
-      toast.success("Like removed.");
-    } else {
-      await setDoc(likeRef, {
-        userId: user.id,
-        likedAt: new Date().toISOString(),
-      });
-      await updateDoc(trendRef, {
-        likes: increment(1),
-      });
-
-      setTrendData((prev) => prev ? { ...prev, likes: prev.likes + 1 } : prev);
-      toast.success("Liked!");
+    if (!user || !user.id || !trendData?.id) {
+      toast.error("Please sign in to like this trend.");
+      return;
     }
-  } catch (error) {
-    console.error("Like toggle failed:", error);
-    toast.error("Failed to update like.");
-  } finally {
-    // Allow re-click after 1 second
-    setTimeout(() => setIsLiking(false), 1000);
-  }
-};
 
+    if (isLiking) return;
+    setIsLiking(true);
+
+    const trendRef = doc(db, "trends", trendData.id);
+    const likeRef = doc(db, "trends", trendData.id, "likes", user.id);
+
+    try {
+      const likeDoc = await getDoc(likeRef);
+
+      if (likeDoc.exists()) {
+        await deleteDoc(likeRef);
+        await updateDoc(trendRef, { likes: increment(-1) });
+        setTrendData((prev) => prev ? { ...prev, likes: prev.likes - 1 } : prev);
+        toast.success("Like removed.");
+      } else {
+        await setDoc(likeRef, {
+          userId: user.id,
+          likedAt: new Date().toISOString(),
+        });
+        await updateDoc(trendRef, { likes: increment(1) });
+        setTrendData((prev) => prev ? { ...prev, likes: prev.likes + 1 } : prev);
+        toast.success("Liked!");
+      }
+    } catch (error) {
+      toast.error("Failed to update like.");
+    } finally {
+      setTimeout(() => setIsLiking(false), 1000);
+    }
+  };
 
   const handleShare = async () => {
-  const trendUrl = `${window.location.origin}/trends/${trendData.slug}`;
-
-  try {
-    if (navigator.share) {
-      await navigator.share({
-        title: trendData?.title || "Check out this trend",
-        text: "Check this out 👀",
-        url: trendUrl,
-      });
-      toast.success("Link shared successfully!");
-    } else {
-      await navigator.clipboard.writeText(trendUrl);
-      toast.success("Link copied to clipboard!");
+    const trendUrl = `${window.location.origin}/trends/${trendData?.slug}`;
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: trendData?.title || "Check out this trend",
+          text: "Check this out 👀",
+          url: trendUrl,
+        });
+        toast.success("Link shared!");
+      } else {
+        await navigator.clipboard.writeText(trendUrl);
+        toast.success("Link copied!");
+      }
+    } catch {
+      toast.error("Could not share this trend.");
     }
-  } catch (error) {
-    console.error("Share failed:", error);
-    toast.error("Could not share this trend.");
-  }
-};
+  };
 
   const handleCommentSubmit = async (comment: string) => {
-    try {
-      if (!user || !user?.id || !user?.userInfo || !user?.avatar) {
-        toast.error("Please sign in to add a comment.");
-        return;
-      }
+    if (!user || !user.id || !trendData?.id) {
+      toast.error("Please sign in to add a comment.");
+      return;
+    }
 
-      const newComment: CommentType = {
-        trendId: id,
-        userId: user?.id,
-        userName: user?.name,
-        comment,
-        userProfile: user?.avatar,
-        createdAt: new Date().toISOString(),
-      };
+    const newComment: CommentType = {
+      trendId: trendData.id,
+      userId: user.id,
+      userName: user.name,
+      comment,
+      userProfile: user.avatar,
+      createdAt: new Date().toISOString(),
+    };
+
+    try {
       await sendUserComment(newComment);
       setComments([...comments, newComment]);
-      toast.success("Comment added!");
-
       setContent("");
-    } catch (error) {
+      toast.success("Comment added!");
+    } catch {
       toast.error("Failed to add comment.");
     }
   };
@@ -189,10 +175,11 @@ const TrendPage = ({ params }: Params) => {
             <span>By {trendData?.author}</span>
             <span>
               {trendData?.published_date
-                ? format(new Date(trendData?.published_date), "d MMM, yyyy")
+                ? format(new Date(trendData.published_date), "d MMM, yyyy")
                 : "Invalid date"}
             </span>
           </div>
+
           <div className="trend-image">
             <Image
               priority
@@ -203,7 +190,6 @@ const TrendPage = ({ params }: Params) => {
             />
           </div>
 
-          {/* Like and Share buttons */}
           <div className="interaction-buttons">
             <button onClick={handleLike} disabled={isLiking} className={isLike ? "active" : ""}>
               <BiLike /> {trendData?.likes}
@@ -216,20 +202,11 @@ const TrendPage = ({ params }: Params) => {
             </button>
           </div>
 
-          {/* Article Content */}
           <div
             className="trend-description"
             dangerouslySetInnerHTML={{ __html: trendData.content }}
           />
 
-          {/* <div className="trend-description">
-            {trendData?.content?.split(/\r?\n/).map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
-          </div> */}
-
-
-          {/* Comment Section */}
           <div className="comments-section">
             <h5>Comments</h5>
             <div className="comments-list">
@@ -250,15 +227,11 @@ const TrendPage = ({ params }: Params) => {
                         <span>{comment.userName}</span>
                       </div>
                       <span className="created-at">
-                        {/* {comment.createdAt
-                          ? format(comment.createdAt, "d MMM yyyy")
-                          : "Invalid date"} */}
                         {comment.createdAt
                           ? format(new Date(comment.createdAt), "d MMM, yyyy")
                           : "Invalid date"}
                       </span>
                     </div>
-
                     <p className="comment-content">{comment.comment}</p>
                   </div>
                 ))
@@ -272,27 +245,11 @@ const TrendPage = ({ params }: Params) => {
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
-              <div
-                className="btn"
-                title="Button"
-                onClick={() => handleCommentSubmit(content)}>
+              <div className="btn" title="Button" onClick={() => handleCommentSubmit(content)}>
                 send comment
               </div>
             </div>
           </div>
-
-          {/* Related Articles */}
-          {/* <div className="related-Trends">
-            <h5>Related Trends</h5>
-            <div className="related-Trends-list">
-              {relatedTrends.map((trend, index) => (
-                <div key={index} className="related-trend">
-                  <h5>{trend.title}</h5>
-                  <p>{trend.author}</p>
-                </div>
-              ))}
-            </div>
-          </div> */}
         </div>
       ) : (
         <Loader />
@@ -302,3 +259,4 @@ const TrendPage = ({ params }: Params) => {
 };
 
 export default TrendPage;
+    
