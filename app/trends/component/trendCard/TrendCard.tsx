@@ -33,11 +33,6 @@ const TrendCard = ({ trendData }) => {
   }, [trendData.content]);
 
 
-
-    
-
-  const formattedLikes = formatNumber(trendData?.likes);
-
   
   
 
