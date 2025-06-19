@@ -67,6 +67,7 @@ export const fetchTrendByID = async (trendId: string) => {
 
 
 
+
 export const fetchTrendBySlug = async (trendSlug: string) => {
   try {
     
@@ -74,17 +75,18 @@ export const fetchTrendBySlug = async (trendSlug: string) => {
 const trendQuery = query(
   trendsRef, 
   where("slug", "==", trendSlug),
-  orderBy("createdAt", "desc")
+  
 );
     
     // Fetch the document
-    const trendDoc = await getDoc(trendQuery);
+    const snapshot = await getDoc(trendQuery);
 
-    if (!trendDoc.exists()) {
+    if (snapshot.empty) {
       // Throw a custom error if the document doesn't exist
       throw new Error("No trend found with the provided ID");
     }
 
+    const trendDoc = snapshot.docs[0];
     
     return {
       slug: trendDoc.data().slug,
