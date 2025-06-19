@@ -79,6 +79,7 @@ function UploadTrend() {
         content,
         author: user?.name || "Anonymous",
         image: imageUrl,
+        likes: 0,
         published_date: new Date().toISOString(),
         category,
       };
@@ -87,7 +88,7 @@ function UploadTrend() {
 
       setLoading(false);
       toast.success(`${trendData.content}  uploaded`);
-      router.push(`/trends/${docRef.slug}`);
+      router.push(`/trends/${trendData.slug}`);
     } catch (error) {
       console.error("Error uploading trend: ", error);
       setLoading(false);
