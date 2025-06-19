@@ -74,7 +74,7 @@ function UploadTrend() {
       const slug = generateSlug(title);
 
       const trendData = {
-        slug
+        slug,
         title,
         content,
         author: user?.name || "Anonymous",
