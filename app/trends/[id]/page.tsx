@@ -22,7 +22,7 @@ import "./trend.css";
 import { useUserStore } from "../../store/userStore";
 
 type Params = {
-  params: { slug: string };
+  params: { id: string };
 };
 
 type CommentType = {
