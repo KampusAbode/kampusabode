@@ -48,6 +48,15 @@ function UploadTrend() {
     }
   };
 
+  function generateSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -62,13 +71,15 @@ function UploadTrend() {
         process.env.NEXT_PUBLIC_APPWRITE_TREND_BUCKET_ID
       );
 
+      const slug = generateSlug(title);
+
       const trendData = {
+        slug
         title,
         content,
         author: user?.name || "Anonymous",
         image: imageUrl,
         published_date: new Date().toISOString(),
-        likes: 0,
         category,
       };
 
@@ -76,7 +87,7 @@ function UploadTrend() {
 
       setLoading(false);
       toast.success(`${trendData.content}  uploaded`);
-      router.push(`/trends/${docRef.id}`);
+      router.push(`/trends/${docRef.slug}`);
     } catch (error) {
       console.error("Error uploading trend: ", error);
       setLoading(false);
