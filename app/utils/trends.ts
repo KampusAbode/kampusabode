@@ -42,13 +42,13 @@ export const fetchTrendByID = async (trendId: string) => {
 
     
     return {
+      slug: trendDoc.data().slug,
       id: trendDoc.data().id,
       title: trendDoc.data().title,
       content: trendDoc.data().content,
       author: trendDoc.data().author,
       image: trendDoc.data().image,
       published_date: trendDoc.data().published_date,
-      likes: trendDoc.data().likes,
       category: trendDoc.data().category,
     };
   } catch (error) {
@@ -63,6 +63,49 @@ export const fetchTrendByID = async (trendId: string) => {
   }
 };
 
+
+
+export const fetchTrendBySlug = async (trendSlug: string) => {
+  try {
+    // Reference a specific document using `doc` for better precision
+    const trendDocRef = doc(db, "trends");
+
+    const trendQuery = query(
+      trendDocRef,
+      where("slug", "==", trendSlug),
+      orderBy("createdAt", "desc") // optional
+    );
+    
+    // Fetch the document
+    const trendDoc = await getDoc(trendQuery);
+
+    if (!trendDoc.exists()) {
+      // Throw a custom error if the document doesn't exist
+      throw new Error("No trend found with the provided ID");
+    }
+
+    
+    return {
+      slug: trendDoc.data().slug,
+      id: trendDoc.data().id,
+      title: trendDoc.data().title,
+      content: trendDoc.data().content,
+      author: trendDoc.data().author,
+      image: trendDoc.data().image,
+      published_date: trendDoc.data().published_date,
+      category: trendDoc.data().category,
+    };
+  } catch (error) {
+    // Handle and throw errors with a unified structure
+    throw {
+      message: (error as Error).message || "Error fetching trend by ID",
+      statusCode:
+        error instanceof Error && error.message.includes("No trend found")
+          ? 404
+          : 500,
+    };
+  }
+};
 
 
 
