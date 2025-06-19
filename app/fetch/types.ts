@@ -65,13 +65,13 @@ export interface ApartmentType {
 }
 
 export interface TrendType {
+  slug: string;
   id: string;
   title: string;
   content: string;
   author: string;
   image: string;
   published_date: string;
-  likes: number;
   category: string;
 }
 
