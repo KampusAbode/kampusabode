@@ -68,14 +68,13 @@ export const fetchTrendByID = async (trendId: string) => {
 
 export const fetchTrendBySlug = async (trendSlug: string) => {
   try {
-    // Reference a specific document using `doc` for better precision
-    const trendDocRef = doc(db, "trends");
-
-    const trendQuery = query(
-      trendDocRef,
-      where("slug", "==", trendSlug),
-      orderBy("createdAt", "desc") // optional
-    );
+    
+    const trendsRef = collection(db, "trends");
+const trendQuery = query(
+  trendsRef, 
+  where("slug", "==", trendSlug),
+  orderBy("createdAt", "desc")
+);
     
     // Fetch the document
     const trendDoc = await getDoc(trendQuery);
