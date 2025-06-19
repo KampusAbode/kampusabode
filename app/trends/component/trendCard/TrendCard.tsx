@@ -110,7 +110,7 @@ const TrendCard = ({ trendData }) => {
   
 
   return (
-        <Link href={`/trends/${trendData?.id}`}>
+        <Link href={`/trends/${trendData?.slug}`}>
     <div className="trend">
       <div className="trend-image">
           <Image
