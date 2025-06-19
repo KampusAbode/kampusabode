@@ -79,15 +79,18 @@
 }
 
 .trend-details-page .container .trend-description {
-  margin-block: var(--spacing-2x);
+  margin-block: var(--spacing-3x);
 }
 
 .trend-details-page .container .trend-description p {
   margin-block: var(--spacing-h);
 }
+.trend-details-page .container .trend-description h2 {
+  font-size: var(--font-size-lg);
+}
 
 .trend-details-page .container .comments-section {
-  margin-too: vat(--spacing-s);
+  margin-top: var(--spacing-s);
       margin-bottom: var(--spacing-2x);
   max-width: 500px;
 }
