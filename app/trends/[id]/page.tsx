@@ -28,7 +28,7 @@ type CommentType = {
 };
 
 const TrendPage = ({ params }: Params) => {
-  const { id } = params;
+  const slug = params.id;
   const [trendData, setTrendData] = useState<TrendType>();
   const [loading, setLoading] = useState(true);
   const [comments, setComments] = useState<CommentType[]>([]);
@@ -41,7 +41,7 @@ const TrendPage = ({ params }: Params) => {
   useEffect(() => {
     const fetchTrendData = async () => {
       try {
-        const trend: TrendType = await fetchTrendByID(id);
+        const trend: TrendType = await fetchTrendBySlug(slug);
         setTrendData(trend);
         setLoading(false);
         // Fetch related articles (simulated)
@@ -134,7 +134,7 @@ const TrendPage = ({ params }: Params) => {
 
 
   const handleShare = async () => {
-  const trendUrl = `${window.location.origin}/trends/${id}`;
+  const trendUrl = `${window.location.origin}/trends/${trendData.slug}`;
 
   try {
     if (navigator.share) {
