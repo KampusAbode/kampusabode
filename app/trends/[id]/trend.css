@@ -92,6 +92,9 @@
 .trend-details-page .container .comments-section {
   margin-top: var(--spacing-s);
       margin-bottom: var(--spacing-2x);
+  padding: var(--spacing);
+      background: var(--light-gray);
+      border-radius: var(--border-radius);
   max-width: 500px;
 }
 
