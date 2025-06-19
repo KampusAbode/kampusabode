@@ -79,7 +79,7 @@ const trendQuery = query(
 );
     
     // Fetch the document
-    const snapshot = await getDoc(trendQuery);
+    const snapshot = await getDocs(trendQuery);
 
     if (snapshot.empty) {
       // Throw a custom error if the document doesn't exist
