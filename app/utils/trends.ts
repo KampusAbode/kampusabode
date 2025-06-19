@@ -11,6 +11,7 @@ import {
   orderBy,
   doc,
   getDoc,
+  getDocs,
 } from "firebase/firestore";
 
 export const allTrends = (callback: any) => {
