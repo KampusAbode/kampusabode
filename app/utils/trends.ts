@@ -48,6 +48,7 @@ export const fetchTrendByID = async (trendId: string) => {
       content: trendDoc.data().content,
       author: trendDoc.data().author,
       image: trendDoc.data().image,
+      likes: trendDoc.data().likes,
       published_date: trendDoc.data().published_date,
       category: trendDoc.data().category,
     };
@@ -92,6 +93,7 @@ export const fetchTrendBySlug = async (trendSlug: string) => {
       content: trendDoc.data().content,
       author: trendDoc.data().author,
       image: trendDoc.data().image,
+      likes: trendDoc.data().likes,
       published_date: trendDoc.data().published_date,
       category: trendDoc.data().category,
     };
