@@ -50,8 +50,8 @@ const TrendPage = ({ params }: Params) => {
         const trend: TrendType = await fetchTrendBySlug(slug);
         setTrendData(trend);
         setLoading(false);
-        fetchComments(trend.id); // use document ID for comments
-        checkIfLiked(trend.id);  // use document ID for like status
+        fetchComments(trendData?.id); // use document ID for comments
+        checkIfLiked(trendData?.id);  // use document ID for like status
       } catch (error) {
         toast.error("Failed to fetch trend data.");
       }
