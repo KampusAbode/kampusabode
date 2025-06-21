@@ -44,6 +44,7 @@ export interface HomeType {
   };
 }
 
+
 export interface ApartmentType {
   id: string;
   url: string;
