@@ -7,7 +7,7 @@ const homeSection: HomeType = {
   },
   about: {
     heading: "who are we?",
-    waw: "Kampus Abode connects students with trusted agents to find safe, affordable, and convenient hostel apartments. Our platform offers verified listings, direct communication with agents, and insights into hostel areas—all from your phone. Making apartment renting hassle-free and tailored to your needs!",
+    waw: "Kampus Abode connects students with trusted agents to find safe, and convenient hostel apartments. Our platform offers verified listings, and insights into hostel areas—all from your phone. Making apartment renting hassle-free and tailored to your needs!",
     services: [
       {
         heading: "Area Insights",
@@ -84,11 +84,12 @@ const homeSection: HomeType = {
   footer: {
     company: [
       { name: "about", to: "/about" },
-      { name: "properties", to: "/apartment" },
-      { name: "trends", to: "/trends" },
-      { name: "marketplace", to: "/marketplace" },
-      // { name: "FAQs", to: "/legal/faqs" },
-      // { name: "testimonials", to: "/legal/testimonials" },
+   //   { name: "properties", to: "/apartment" },
+     // { name: "trends", to: "/trends" },
+    //  { name: "marketplace", to: "/marketplace" },
+      { name: "FAQs", to: "/legal/faqs" },
+     { name: "testimonials", to: "/legal/testimonials" },
+      { name: "contact", to: "/contact" },
     ],
     support: [
       // { name: "FAQs", to: "/legal/faq" },
