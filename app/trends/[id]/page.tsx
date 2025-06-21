@@ -56,6 +56,7 @@ const TrendPage = ({ params }: Params) => {
         toast.error("Failed to fetch trend data.");
       }
     };
+    
 
     const fetchComments = async (trendId: string) => {
       try {
