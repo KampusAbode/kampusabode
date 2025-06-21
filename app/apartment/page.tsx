@@ -132,7 +132,7 @@ const PropertiesPage: React.FC = () => {
           className="building"
           width={387}
           height={253}
-          src="/assets/Building.svg"
+          src="/assets/Building.png"
           alt="buildings"
         />
       </div>
