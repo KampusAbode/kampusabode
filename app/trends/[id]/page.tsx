@@ -141,7 +141,7 @@ const TrendPage = ({ params }: Params) => {
   };
 
   const handleCommentSubmit = async (comment: string) => {
-    if (!user || !user.id || !trendData?.id) {
+    if (!user) {
       toast.error("Please sign in to add a comment.");
       return;
     }
