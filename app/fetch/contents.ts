@@ -118,6 +118,7 @@ const locations = [
   "parakin estate",
   "may fair",
   "lagere",
+  "road 7",
   "OAU campus"
 ];
 const priceRanges = [
