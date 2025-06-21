@@ -240,7 +240,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                   <>
                     <Image
                       priority
-                      src={agentDetails?.avatar}
+                      src={agentDetails?.avatar ? agentDetails?.avatar : "/assets/user_avatar.jpg"}
                       width={200}
                       height={200}
                       alt={`${agentDetails.name}'s profile picture`}
