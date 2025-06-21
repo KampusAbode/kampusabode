@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useProperties } from "../../../../utils";
 import { useUserStore } from "../../../../store/userStore";
 import { ApartmentType } from "../../../../fetch/types";
+import data from "../../../../fetch/contents";
 import Prompt from "../../../../components/modals/prompt/Prompt";
 import"./upload.css";
 
@@ -382,7 +383,7 @@ const UploadProperty = () => {
                   <label htmlFor="location">Location</label>
                   <Field as="select" id="location" name="location">
                     <option value="">Select Location</option>
-                    {locationOptions.map((location) => (
+                    {data.locations.map((location) => (
                       <option key={location} value={location}>
                         {location}
                       </option>
