@@ -86,7 +86,7 @@ const TrendPage = ({ params }: Params) => {
   }, [slug, user]);
 
   const handleLike = async () => {
-    if (!user || !user.id || !trendData?.id) {
+    if (!user) {
       toast.error("Please sign in to like this trend.");
       return;
     }
