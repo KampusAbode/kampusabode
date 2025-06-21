@@ -96,8 +96,8 @@ export default function App() {
                 <Image
                   priority
                   src={service.icon}
-                  width={300}
-                  height={300}
+                  width={500}
+                  height={500}
                   alt="service icon"
                 />
 
