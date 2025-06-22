@@ -53,13 +53,13 @@ const homeSection: HomeType = {
   ],
   testimonials: [
     {
-      author: "John Smith",
-      company: "ABC Real Estate",
+      author: "Matthew",
+      company: "Student",
       image: "/assets/person1.jpg",
       testimonial:
-        "I was impressed by the dedication and expertise of the team at ABC Real Estate. They helped me find my dream home in no time!",
+        "Kampus Abode is the best there is and the best there’ll ever be. I highly recommend Kampus Abode to anyone looking to rent. Their integrity, attention to detail, and customer-first approach truly set them apart.",
       rating: 5,
-      date: "2024-05-05",
+      date: "2025-06-22",
     },
     {
       author: "Emily Johnson",
