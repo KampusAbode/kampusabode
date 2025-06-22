@@ -22,6 +22,7 @@ export default function ClientRootLayout({
   );
 }
 
+
 function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   const { user } = useUserStore();
   const { initializing } = useAuthListener();
