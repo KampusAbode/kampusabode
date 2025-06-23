@@ -14,13 +14,14 @@ import {
   setDoc,
   deleteField,
   arrayRemove,
+  orderBy,
 } from "firebase/firestore";
 import { db } from "../lib/firebaseConfig";
 import { ApartmentType } from "../fetch/types";
 import { ID, storage } from "../lib/appwriteClient";
 
-export const useProperties = () => {
-  const listApartment = async (data: any) => {
+
+  export const listApartment = async (data: any) => {
     try {
       // Step 1: Get a new document reference with generated UID
       const docRef = doc(collection(db, "properties")); // creates a ref without writing
@@ -46,7 +47,7 @@ export const useProperties = () => {
     }
   };
 
-  const uploadApartmentImagesToAppwrite = async (
+  export const uploadApartmentImagesToAppwrite = async (
     files: File[] | null,
     bucketId: string
   ): Promise<string[]> => {
@@ -69,7 +70,7 @@ export const useProperties = () => {
     }
   };
 
-  const getAllProperties = async (): Promise<ApartmentType[]> => {
+  export const getAllProperties = async (): Promise<ApartmentType[]> => {
     try {
       const q = query(collection(db, "properties"));
       const snap = await getDocs(q);
@@ -82,7 +83,7 @@ export const useProperties = () => {
     }
   };
 
-  const getApartmentById = async (
+  export const getApartmentById = async (
     id: string
   ): Promise<ApartmentType | null> => {
     try {
@@ -96,7 +97,7 @@ export const useProperties = () => {
     }
   };
 
-  const getApartmentsByIds = async (
+  export const getApartmentsByIds = async (
     ids: string[]
   ): Promise<ApartmentType[]> => {
     try {
@@ -119,7 +120,7 @@ export const useProperties = () => {
     }
   };
 
-  const getPropertiesByAgent = async (
+  export const getPropertiesByAgent = async (
     agentId: string
   ): Promise<ApartmentType[]> => {
     try {
@@ -139,7 +140,7 @@ export const useProperties = () => {
     }
   };
 
-  const deleteApartment = async (apartmentId: string) => {
+  export const deleteApartment = async (apartmentId: string) => {
     try {
       const apartmentRef = doc(db, "properties", apartmentId);
       const apartmentSnap = await getDoc(apartmentRef);
@@ -177,7 +178,7 @@ export const useProperties = () => {
     }
   };
 
-  const deleteAppwriteImage = async (imageUrl: string) => {
+  export const deleteAppwriteImage = async (imageUrl: string) => {
     try {
       const fileId = extractAppwriteFileId(imageUrl);
       if (!fileId) throw new Error("File ID extraction failed.");
@@ -196,7 +197,7 @@ export const useProperties = () => {
 
 
   // Function to extract Appwrite File ID from URL
-  const extractAppwriteFileId = (imageUrl: string) => {
+  export const extractAppwriteFileId = (imageUrl: string) => {
     try {
       const match = imageUrl.match(/\/files\/(.*?)\/view/);
       if (match && match[1]) {
@@ -210,7 +211,7 @@ export const useProperties = () => {
 
    
   
-  const updateapartment = async (
+  export const updateapartment = async (
     apartmentId: string,
     updates: Partial<ApartmentType>
   ) => {
@@ -223,13 +224,14 @@ export const useProperties = () => {
     }
   };
 
-  const fetchPropertiesRealtime = (
+  export const fetchPropertiesRealtime = (
     callback: (properties: ApartmentType[]) => void
   ) => {
     try {
       const q = query(
         collection(db, "properties"),
-        where("approved", "==", true)
+        where("approved", "==", true),
+        orderBy("createdAt", "desc"),
       );
       return onSnapshot(q, (snapshot) => {
         const properties = snapshot.docs.map((doc) => ({
@@ -244,7 +246,7 @@ export const useProperties = () => {
   };
 
   // Toggle apartment approval
-  const toggleApartmentApproval = async (
+  export const toggleApartmentApproval = async (
     apartmentId: string,
     currentStatus: boolean
   ) => {
@@ -261,17 +263,16 @@ export const useProperties = () => {
     }
   };
 
-  return {
-    listApartment,
-    getAllProperties,
-    getApartmentById,
-    getApartmentsByIds,
-    getPropertiesByAgent,
-    deleteApartment,
-    updateapartment,
-    fetchPropertiesRealtime,
-    toggleApartmentApproval,
-    deleteAppwriteImage,
-    uploadApartmentImagesToAppwrite,
-  };
-};
+// export default {
+//     listApartment,
+//     getAllProperties,
+//     getApartmentById,
+//     getApartmentsByIds,
+//     getPropertiesByAgent,
+//     deleteApartment,
+//     updateapartment,
+//     fetchPropertiesRealtime,
+//     toggleApartmentApproval,
+//     deleteAppwriteImage,
+//     uploadApartmentImagesToAppwrite,
+//   };

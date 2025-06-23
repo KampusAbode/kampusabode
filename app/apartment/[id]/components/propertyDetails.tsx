@@ -6,7 +6,7 @@ import SaveVisitedProperty from "../functions/SaveVIsitedProperties";
 import {
   fetchUsersById,
   fetchReviewsByPropertyId,
-  useProperties,
+  getApartmentById, getApartmentsByIds,
 } from "../../../utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -26,7 +26,7 @@ interface PropertyDetailsProps {
 }
 
 const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
-  const { getApartmentById, getApartmentsByIds } = useProperties();
+  // const { getApartmentById, getApartmentsByIds } = useProperties();
   const [agentDetails, setAgentDetails] = useState<UserType>();
   const [agentPropertyListings, setAgentPropertyListings] = useState<
     ApartmentType[]
@@ -285,7 +285,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                     <p>"{review.content}"</p>
                     <div>
                       <span>by {review.author.name}</span>
-                      <span>{getFormattedDateDistance(review.date)} ago</span>
+                      <span>{getFormattedDateDistance(review.date.toString())} ago</span>
                     </div>
                   </div>
                 ))

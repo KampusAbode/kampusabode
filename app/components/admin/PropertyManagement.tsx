@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useProperties } from "../../utils";
+import { getAllProperties, deleteApartment, toggleApartmentApproval } from "../../utils";
 import { ApartmentType } from "../../fetch/types";
 import Link from "next/link";
 
 const PropertyManagement = () => {
-  const { getAllProperties, deleteApartment, toggleApartmentApproval } =
-    useProperties();
+  // const { getAllProperties, deleteApartment, toggleApartmentApproval } =
+  //   useProperties();
   const [properties, setProperties] = useState<ApartmentType[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");

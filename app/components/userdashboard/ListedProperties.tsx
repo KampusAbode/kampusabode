@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useProperties } from "../../utils";
+import { deleteApartment, getApartmentsByIds } from "../../utils";
 import { ApartmentType } from "../../fetch/types";
 import { SlOptionsVertical } from "react-icons/sl";
 import Link from "next/link";
@@ -13,7 +13,7 @@ import { useUserStore } from "../../store/userStore";
 
 const ListedProperties = () => {
   const user = useUserStore((state) => state.user);
-  const { deleteApartment, getApartmentsByIds } = useProperties();
+  // const { deleteApartment, getApartmentsByIds } = useProperties();
   const [filteredProperties, setFilteredProperties] = useState<ApartmentType[]>(
     []
   );

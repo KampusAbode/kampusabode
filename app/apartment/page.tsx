@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import Image from "next/image";
-import { useProperties } from "../utils"; // Ensure this function returns real-time properties
+import { fetchPropertiesRealtime } from "../utils"; // Ensure this function returns real-time properties
 import PropCard from "./propcard/PropCard";
 import Loader from "../components/loader/Loader";
 import "./apartment.css";
@@ -12,7 +12,7 @@ import { usePropertiesStore } from "../store/propertiesStore"; // Zustand store
 import data from "../fetch/contents";
 
 const PropertiesPage: React.FC = () => {
-  const { fetchPropertiesRealtime } = useProperties();
+  // const { fetchPropertiesRealtime } = useProperties();
   const router = useRouter();
   const searchParams = useSearchParams();
 

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { ApartmentType } from "../../fetch/types";
 import { useUserStore } from "../../store/userStore";
-import { useProperties } from "../../utils";
+import { getApartmentsByIds } from "../../utils";
 import Loader from "../loader/Loader";
 import Link from "next/link";
 import Image from "next/image";
@@ -19,7 +19,7 @@ const isUserType = (
 };
 
 const BookmarkedProperties = () => {
-  const { getApartmentsByIds } = useProperties();
+  // const { getApartmentsByIds } = useProperties();
   const user = useUserStore((state) => state.user);
   const [bookmarkedProperties, setBookmarkedProperties] = useState<
     ApartmentType[]

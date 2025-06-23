@@ -6,7 +6,7 @@ import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useProperties } from "../utils";
+import { listApartment, uploadApartmentImagesToAppwrite } from "../utils/properties";
 import { useUserStore } from "../store/userStore";
 import { ApartmentType } from "../fetch/types";
 import Prompt from "../components/modals/prompt/Prompt";
@@ -34,7 +34,7 @@ const UploadForAgent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const agentId = searchParams.get("agentId") || "";
-  const { listApartment, uploadApartmentImagesToAppwrite } = useProperties();
+  // const  = useProperties();
   const { user } = useUserStore((state) => state);
 
   // Access guard: only admins with a valid agentId can use this page

@@ -24,8 +24,8 @@ export const fetchReviewsByPropertyId = async (propertyId) => {
     const querySnapshot = await getDocs(reviewsQuery);
 
     // Map through the documents and return their data
-    const reviews = querySnapshot.docs.map((doc) => ({
-      ...doc.data(), // Spread the document data
+    const reviews: ReviewType[] = querySnapshot.docs.map((doc) => ({
+      ...doc.data() as ReviewType, 
     }));
 
     return reviews;
@@ -44,15 +44,15 @@ export const fetchReviewsByAuthor = async (userId) => {
     // Query to fetch reviews where "authorId" matches
     const reviewsQuery = query(
       reviewsCollection,
-      where("author", "==", userId)
+      where("author.id", "==", userId)
     );
 
     // Fetch the documents
     const querySnapshot = await getDocs(reviewsQuery);
 
     // Map through the documents and return their data
-    const reviews = querySnapshot.docs.map((doc) => ({
-      ...doc.data(), // Spread the document data
+    const reviews: ReviewType[] = querySnapshot.docs.map((doc) => ({
+      ...doc.data() as ReviewType, 
     }));
 
     return reviews;
@@ -88,3 +88,8 @@ export const fetchReviewsByAgentId = async (agentId: string) => {
     throw error;
   }
 };
+
+
+export const sendReview = async (review: ReviewType) => {
+
+}

@@ -9,7 +9,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { db } from "../../lib/firebaseConfig";
-import { TrendType } from "../../fetch/types";
+import { TrendType, CommentType } from "../../fetch/types";
 import { fetchTrendBySlug } from "../../utils";
 import Image from "next/image";
 import toast from "react-hot-toast";
@@ -25,14 +25,7 @@ type Params = {
   params: { id: string };
 };
 
-type CommentType = {
-  trendId: string;
-  userId: string;
-  userName: string;
-  comment: string;
-  userProfile: string;
-  createdAt: string;
-};
+
 
 const TrendPage = ({ params }: Params) => {
   const slug = params.id;
@@ -151,8 +144,8 @@ const TrendPage = ({ params }: Params) => {
       trendId: trendData.id,
       userId: user.id,
       userName: user.name,
-      comment,
       userProfile: user.avatar,
+      comment,
       createdAt: new Date().toISOString(),
     };
 

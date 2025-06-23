@@ -62,6 +62,7 @@ export interface ApartmentType {
   images: string[];
   available: boolean;
   approved: boolean;
+  createdAt: Date;
   views: number;
 }
 
@@ -92,10 +93,20 @@ export interface ReviewType {
   id: string;
   author: { name: string; id: string; avatar: string };
   propertyId: string;
+  agentId: string;
   content: string;
   rating: number;
   date: string;
 }
+
+export interface CommentType {
+  trendId: string;
+  userId: string;
+  userName: string;
+  userProfile: string;
+  comment: string;
+  createdAt: string;
+};
 
 export interface LinkType {
   to: string;

@@ -5,7 +5,7 @@ import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { useProperties } from "../../../../utils";
+import { listApartment, uploadApartmentImagesToAppwrite } from "../../../../utils";
 import { useUserStore } from "../../../../store/userStore";
 import { ApartmentType } from "../../../../fetch/types";
 import data from "../../../../fetch/contents";
@@ -25,7 +25,7 @@ const UploadProperty = () => {
   >({});
 
   const router = useRouter();
-  const { listApartment, uploadApartmentImagesToAppwrite } = useProperties();
+  // const { listApartment, uploadApartmentImagesToAppwrite } = useProperties();
   const { user, addListedProperty } = useUserStore((state) => state);
 
   useEffect(() => {

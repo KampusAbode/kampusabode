@@ -1,5 +1,6 @@
 
 
+import { CommentType } from "../fetch/types";
 import { db } from "../lib/firebaseConfig";
 import {
   collection,
@@ -18,7 +19,7 @@ import {
 export async function getCommentsByTrendId(trendId: string) {
   try {
     const commentsRef = collection(db, "trends", trendId, "comments");
-    const commentsQuery = query(commentsRef, orderBy("createdAt", "asc"));
+    const commentsQuery = query(commentsRef, orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(commentsQuery);
 
     return querySnapshot.docs.map((doc) => ({
@@ -44,8 +45,6 @@ export async function getUserComments(userId: string) {
     const querySnapshot = await getDocs(userCommentsQuery);
 
     return querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      trendId: doc.ref.parent.parent?.id ?? null,
       ...doc.data(),
     }));
   } catch (error) {
@@ -56,33 +55,19 @@ export async function getUserComments(userId: string) {
 
 // ----------------------
 // Comment data structure
-// ----------------------
-type CommentType = {
-  trendId: string;
-  userId: string;
-  userName: string;
-  comment: string;
-  userProfile: string;
-  createdAt: Timestamp;
-};
+
 
 // ----------------------
 // Post a user comment under a specific trend
 // ----------------------
 export async function sendUserComment(
-  newComment: Omit<CommentType, "createdAt">,
+  newComment: CommentType,
   
 ) {
   try {
     const commentsCollection = collection(db, "trends", newComment.trendId, "comments");
 
-    const commentWithTimestamp: CommentType = {
-      ...newComment,
-      
-      createdAt: Timestamp.now(),
-    };
-
-    const docRef = await addDoc(commentsCollection, commentWithTimestamp);
+    const docRef = await addDoc(commentsCollection, newComment);
     return docRef.id;
   } catch (error) {
     console.error("Error sending comment:", error);

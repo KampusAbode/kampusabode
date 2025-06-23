@@ -12,8 +12,7 @@ import Link from "next/link";
 const Dashboard = () => {
   const { user } = useUserStore((state) => state);
 
-
-
+  
   if (!user) {
     return (
       <section className="dashboard">

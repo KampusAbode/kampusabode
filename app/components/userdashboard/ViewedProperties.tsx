@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Loader from "../loader/Loader";
-import { useProperties } from "../../utils";
+import { fetchPropertiesRealtime } from "../../utils";
 import { useUserStore } from "../../store/userStore";
 
 const ViewedProperties: React.FC = () => {
@@ -12,7 +12,7 @@ const ViewedProperties: React.FC = () => {
   // (if you're combining properties under the userStore, we get it from there too)
   const properties = useUserStore((state) => state.properties);
   const setProperties = useUserStore((state) => state.setProperties);
-  const { fetchPropertiesRealtime } = useProperties();
+  // const { fetchPropertiesRealtime } = useProperties();
 
   // Retrieve the logged-in user data from the store.
   const user = useUserStore((state) => state.user);

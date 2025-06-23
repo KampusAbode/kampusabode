@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 import {
   updateUserProfile,
   uploadImageToAppwrite,
-  useProperties,
+  deleteAppwriteImage,
 } from "../../utils";
 import { UserType, AgentUserInfo, StudentUserInfo } from "../../fetch/types";
 import "./updateprofile.css";
@@ -34,7 +34,7 @@ interface ProfileFormValues {
 const CreateProfilePage = () => {
   const router = useRouter();
   const { user, setUser } = useUserStore((state) => state);
-  const { deleteAppwriteImage } = useProperties();
+  // const { deleteAppwriteImage } = useProperties();
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(
     user?.avatar || null

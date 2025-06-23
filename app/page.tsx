@@ -7,7 +7,7 @@ import Quotes from "./components/quotes/Quotes";
 import Footer from "./components/footer/Footer";
 import Link from "next/link";
 import { TrendType } from "./fetch/types";
-import { allTrends, useProperties } from "./utils";
+import { allTrends, fetchPropertiesRealtime } from "./utils";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { RiVerifiedBadgeLine } from "react-icons/ri";
 import { useState, useEffect } from "react";
@@ -20,7 +20,7 @@ const { hero, about, testimonials } = homeSection;
 
 export default function App() {
   const [trends, setTrends] = useState<TrendType[]>([]);
-  const { fetchPropertiesRealtime } = useProperties();
+  // const { fetchPropertiesRealtime } = useProperties();
   // Using Zustand for properties state
   const properties = useUserStore((state) => state.properties);
   const setProperties = useUserStore((state) => state.setProperties);

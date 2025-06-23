@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useProperties } from "../utils";
+import { getApartmentsByIds } from "../utils";
 // import TrendCard from "../trends/component/trendCard/TrendCard";
 import { TrendType, ApartmentType } from "../fetch/types";
 import Link from "next/link";
@@ -12,7 +12,7 @@ import Image from "next/image";
 const SavedPage = () => {
   const [currentTab, setCurrentTab] = useState("properties");
   const [savedProperties, setSavedProperties] = useState<ApartmentType[]>([]);
-  const { getApartmentsByIds } = useProperties();
+  // const { getApartmentsByIds } = useProperties();
   const [loading, setLoading] = useState(false);
 
   // Zustand store for user data
