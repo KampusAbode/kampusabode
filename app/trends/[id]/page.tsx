@@ -7,6 +7,10 @@ import {
   getDoc,
   setDoc,
   deleteDoc,
+  collection,
+  query,
+  orderBy,
+  onSnapshot,
 } from "firebase/firestore";
 import { db } from "../../lib/firebaseConfig";
 import { TrendType, CommentType } from "../../fetch/types";
@@ -59,6 +63,9 @@ const TrendPage = ({ params }: Params) => {
   };
 
   useEffect(() => {
+       if (!trendData?.id) return;
+
+    
     const fetchTrendData = async () => {
       try {
         const trend: TrendType = await fetchTrendBySlug(slug);
@@ -71,8 +78,32 @@ const TrendPage = ({ params }: Params) => {
         setLoading(false);
       }
     };
-
     fetchTrendData();
+
+ 
+
+  const commentsRef = collection(db, "trends", trendData.id, "comments");
+  const commentsQuery = query(commentsRef, orderBy("createdAt", "desc"));
+
+  const unsubscribe = onSnapshot(commentsQuery, (snapshot) => {
+    const updatedComments = snapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        trendId: trendData.id,
+        userId: data.userId,
+        userName: data.userName,
+        comment: data.comment,
+        userProfile: data.userProfile,
+        createdAt: data.createdAt?.toDate
+          ? data.createdAt.toDate().toISOString()
+          : data.createdAt,
+      };
+    });
+    setComments(updatedComments);
+  });
+
+  return () => unsubscribe(); 
   }, [slug, user]);
 
   const handleLike = async () => {
@@ -126,38 +157,38 @@ const TrendPage = ({ params }: Params) => {
   };
 
   const handleCommentSubmit = async () => {
-    if (!user) {
-      toast.error("Please sign in to add a comment.");
-      return;
-    }
+  if (!user || !trendData?.id) {
+    toast.error("Please sign in to add a comment.");
+    return;
+  }
 
-    if (!content.trim() || !trendData) {
-      toast.error("Comment cannot be empty.");
-      return;
-    }
+  if (!content.trim()) {
+    toast.error("Comment cannot be empty.");
+    return;
+  }
 
-    const newComment: CommentType = {
-      id: "", // Firestore will generate the actual ID
-      trendId: trendData.id,
-      userId: user.id,
-      userName: user.name,
-      comment: content,
-      userProfile: user.avatar,
-      createdAt: new Date().toISOString(),
-    };
-
-    try {
-      setIsSending(true);
-      await sendUserComment(newComment);
-      await fetchComments(trendData.id); // re-fetch instead of manually updating
-      setContent("");
-      toast.success("Comment added!");
-    } catch {
-      toast.error("Failed to add comment.");
-    } finally {
-      setIsSending(false);
-    }
+  const newComment = {
+    id: "",
+    trendId: trendData.id,
+    userId: user.id,
+    userName: user.name,
+    comment: content,
+    userProfile: user.avatar,
+    createdAt: new Date(), // Firestore Timestamp will handle it
   };
+
+  try {
+    setIsSending(true);
+    await sendUserComment(newComment); 
+    setContent("");
+    toast.success("Comment added!");
+  } catch {
+    toast.error("Failed to send comment.");
+  } finally {
+    setIsSending(false);
+  }
+};
+
 
   return (
     <div className="trend-details-page">
