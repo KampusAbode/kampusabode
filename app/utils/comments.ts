@@ -1,4 +1,5 @@
 import { db } from "../lib/firebaseConfig";
+import {CommentType} from "../fetch/types";
 import {
   collection,
   getDocs,
@@ -52,18 +53,7 @@ export async function getUserComments(userId: string) {
   }
 }
 
-// ----------------------
-// Comment data structure
-// ----------------------
-export type CommentType = {
-  id: string;
-  trendId: string;
-  userId: string;
-  userName: string;
-  comment: string;
-  userProfile: string;
-  createdAt: Timestamp;
-};
+
 
 // ----------------------
 // Post a user comment under a specific trend
