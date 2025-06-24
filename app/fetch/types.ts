@@ -76,6 +76,15 @@ export interface TrendType {
   published_date: string;
   category: string;
 }
+export type CommentType = {
+  id: string;
+  trendId: string;
+  userId: string;
+  userName: string;
+  comment: string;
+  userProfile: string;
+  createdAt: Timestamp;
+};
 
 export interface ItemType {
   name: string;
