@@ -83,7 +83,7 @@ export type CommentType = {
   userName: string;
   comment: string;
   userProfile: string;
-  createdAt: Timestamp;
+  createdAt: string | Date;
 };
 
 export interface ItemType {
