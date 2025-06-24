@@ -7,6 +7,7 @@ import { PiChats } from "react-icons/pi";
 import { FaPlus, FaHeadset } from "react-icons/fa";
 import { BsChatRightText } from "react-icons/bs";
 import { useUserStore } from "../../store/userStore";
+import { checkIsAdmin } from "../../utils/user";
 
 const QuickService = () => {
   const pathname = usePathname();
