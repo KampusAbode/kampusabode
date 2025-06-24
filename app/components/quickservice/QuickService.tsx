@@ -35,7 +35,7 @@ const QuickService = () => {
       icon: BsChatRightText,
       link: `/chat/${user.id}/${user.name}`,
     };
-  } else if  (pathname === "/trends" && checkIsAdmin(user.id) {
+  } else if  (pathname === "/trends" && checkIsAdmin(user.id) ){
     config = {
       icon: FaPlus,
       link: "/trends/upload",
