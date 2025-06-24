@@ -75,7 +75,7 @@ export async function sendUserComment(
 
     const commentWithTimestamp: CommentType = {
       ...newComment,
-      createdAt: Timestamp.now(),
+      createdAt: Timestamp.now().toDate(),
     };
 
     const docRef = await addDoc(commentsCollection, commentWithTimestamp);
