@@ -1,5 +1,3 @@
-
-
 import { db } from "../lib/firebaseConfig";
 import {
   collection,
@@ -18,10 +16,11 @@ import {
 export async function getCommentsByTrendId(trendId: string) {
   try {
     const commentsRef = collection(db, "trends", trendId, "comments");
-    const commentsQuery = query(commentsRef, orderBy("createdAt", "asc"));
+    const commentsQuery = query(commentsRef, orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(commentsQuery);
 
     return querySnapshot.docs.map((doc) => ({
+      id: doc.id,
       ...doc.data(),
     }));
   } catch (error) {
@@ -38,14 +37,13 @@ export async function getUserComments(userId: string) {
     const userCommentsQuery = query(
       collectionGroup(db, "comments"),
       where("userId", "==", userId),
-      orderBy("createdAt", "desc") // optional
+      orderBy("createdAt", "desc")
     );
 
     const querySnapshot = await getDocs(userCommentsQuery);
 
     return querySnapshot.docs.map((doc) => ({
       id: doc.id,
-      trendId: doc.ref.parent.parent?.id ?? null,
       ...doc.data(),
     }));
   } catch (error) {
@@ -57,7 +55,8 @@ export async function getUserComments(userId: string) {
 // ----------------------
 // Comment data structure
 // ----------------------
-type CommentType = {
+export type CommentType = {
+  id: string;
   trendId: string;
   userId: string;
   userName: string;
@@ -70,15 +69,22 @@ type CommentType = {
 // Post a user comment under a specific trend
 // ----------------------
 export async function sendUserComment(
-  newComment: Omit<CommentType, "createdAt">,
-  
+  newComment: Omit<CommentType, "createdAt">
 ) {
   try {
-    const commentsCollection = collection(db, "trends", newComment.trendId, "comments");
+    if (!newComment.trendId) {
+      throw new Error("Invalid trend ID.");
+    }
+
+    const commentsCollection = collection(
+      db,
+      "trends",
+      newComment.trendId,
+      "comments"
+    );
 
     const commentWithTimestamp: CommentType = {
       ...newComment,
-      
       createdAt: Timestamp.now(),
     };
 
