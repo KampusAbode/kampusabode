@@ -62,49 +62,50 @@ const TrendPage = ({ params }: Params) => {
     setIsLike(likeDoc.exists());
   };
 
+
   useEffect(() => {
-       if (!trendData?.id) return;
+  const fetchTrendData = async () => {
+    try {
+      const trend: TrendType = await fetchTrendBySlug(slug);
+      setTrendData(trend);
 
-    
-    const fetchTrendData = async () => {
-      try {
-        const trend: TrendType = await fetchTrendBySlug(slug);
-        setTrendData(trend);
-        await fetchComments(trend.id);
-        await checkIfLiked(trend.id);
-        setLoading(false);
-      } catch (error) {
-        toast.error("Failed to fetch trend data.");
-        setLoading(false);
-      }
-    };
-    fetchTrendData();
+      await fetchComments(trend.id); // optional if using onSnapshot
+      await checkIfLiked(trend.id);
 
- 
+      const commentsRef = collection(db, "trends", trend.id, "comments");
+      const commentsQuery = query(commentsRef, orderBy("createdAt", "desc"));
 
-  const commentsRef = collection(db, "trends", trendData.id, "comments");
-  const commentsQuery = query(commentsRef, orderBy("createdAt", "desc"));
+      const unsubscribe = onSnapshot(commentsQuery, (snapshot) => {
+        const updatedComments = snapshot.docs.map((doc) => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            trendId: trend.id,
+            userId: data.userId,
+            userName: data.userName,
+            comment: data.comment,
+            userProfile: data.userProfile,
+            createdAt: data.createdAt?.toDate
+              ? data.createdAt.toDate().toISOString()
+              : data.createdAt,
+          };
+        });
+        setComments(updatedComments);
+      });
 
-  const unsubscribe = onSnapshot(commentsQuery, (snapshot) => {
-    const updatedComments = snapshot.docs.map((doc) => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        trendId: trendData.id,
-        userId: data.userId,
-        userName: data.userName,
-        comment: data.comment,
-        userProfile: data.userProfile,
-        createdAt: data.createdAt?.toDate
-          ? data.createdAt.toDate().toISOString()
-          : data.createdAt,
-      };
-    });
-    setComments(updatedComments);
-  });
+      setLoading(false); // ✅ loading ends here
 
-  return () => unsubscribe(); 
-  }, [slug, user]);
+      return () => unsubscribe(); // 🔁 cleanup on unmount
+    } catch (error) {
+      toast.error("Failed to fetch trend data.");
+      setLoading(false);
+    }
+  };
+
+  fetchTrendData();
+}, [slug, user]);
+  
+  
 
   const handleLike = async () => {
     if (!user) return toast.error("Please sign in to like this trend.");
