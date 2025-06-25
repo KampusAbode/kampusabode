@@ -56,7 +56,7 @@ const TrendPage = ({ params }: Params) => {
   };
 
   const checkIfLiked = async (trendId: string) => {
-    if (!user?.id) return;
+    
     const likeRef = doc(db, "trends", trendId, "likes", user.id);
     const likeDoc = await getDoc(likeRef);
     setIsLike(likeDoc.exists());
@@ -109,7 +109,7 @@ const TrendPage = ({ params }: Params) => {
 
   const handleLike = async () => {
     if (!user) return toast.error("Please sign in to like this trend.");
-    if (isLiking || !trendData) return;
+    if (isLiking) return;
 
     setIsLiking(true);
     const trendRef = doc(db, "trends", trendData.id);
@@ -158,7 +158,7 @@ const TrendPage = ({ params }: Params) => {
   };
 
   const handleCommentSubmit = async () => {
-  if (!user || !trendData?.id) {
+  if (!user) {
     toast.error("Please sign in to add a comment.");
     return;
   }
