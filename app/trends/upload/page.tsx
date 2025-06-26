@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getFirestore, collection, doc, setDoc } from "firebase/firestore";
 import { getApp } from "firebase/app";
 import { Client, Storage, ID } from "appwrite";
 import "./uploadtrend.css";
@@ -13,7 +13,6 @@ import dynamic from "next/dynamic";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
-
 
 const categories = [
   "Trending",
@@ -33,7 +32,7 @@ function UploadTrend() {
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const {user} = useUserStore((state) => state);
+  const { user } = useUserStore((state) => state);
 
   const client = new Client();
   client
@@ -49,12 +48,12 @@ function UploadTrend() {
   };
 
   function generateSlug(title: string): string {
-  return title
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
+    return title
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-");
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -72,8 +71,11 @@ function UploadTrend() {
       );
 
       const slug = generateSlug(title);
+      const newTrendId = ID.unique(); // generate custom ID
+      const docRef = doc(trendRef, newTrendId); // manually create the document
 
       const trendData = {
+        id: newTrendId,
         slug,
         title,
         content,
@@ -84,13 +86,14 @@ function UploadTrend() {
         category,
       };
 
-      const docRef = await addDoc(trendRef, trendData);
+      await setDoc(docRef, trendData);
 
       setLoading(false);
-      toast.success(`${trendData.content}  uploaded`);
+      toast.success(`${trendData.title} uploaded`);
       router.push(`/trends/${trendData.slug}`);
     } catch (error) {
       console.error("Error uploading trend: ", error);
+      toast.error("Failed to upload trend.");
       setLoading(false);
     }
   };
@@ -109,6 +112,7 @@ function UploadTrend() {
             required
           />
         </div>
+
         <div className="form-group">
           <label htmlFor="content">Content</label>
           <ReactQuill
@@ -140,7 +144,8 @@ function UploadTrend() {
             id="category"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            required>
+            required
+          >
             {categories.map((cat) => (
               <option key={cat} value={cat}>
                 {cat}
@@ -148,6 +153,7 @@ function UploadTrend() {
             ))}
           </select>
         </div>
+
         <div className="form-group">
           <label htmlFor="image">Image</label>
           <input
@@ -158,6 +164,7 @@ function UploadTrend() {
             required
           />
         </div>
+
         <button type="submit" disabled={loading}>
           {loading ? "Uploading..." : "Upload Trend"}
         </button>

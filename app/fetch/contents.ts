@@ -62,11 +62,11 @@ const homeSection: HomeType = {
       date: "2025-06-22",
     },
     {
-      author: "Emily Johnson",
+      author: "Wale",
       company: "student",
       image: "/assets/person2.jpg",
       testimonial:
-        "Great service and excellent communication throughout the entire process. Highly recommend!",
+        "Wow, I'm impressed by how fast and reliable Kampus Abode is! It's incredibly easy to use, and being able to rent through my phone adds an extra layer of convenience. Thanks!",
       rating: 4,
       date: "2024-04-20",
     },

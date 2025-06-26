@@ -7,6 +7,7 @@ import { auth, db } from "../lib/firebaseConfig";
 import { useUserStore } from "../store/userStore";
 import { UserType } from "../fetch/types";
 
+
 export function useAuthListener() {
   const [initializing, setInitializing] = useState(true);
   const { setUser, logoutUser } = useUserStore();
