@@ -55,124 +55,125 @@ function Nav() {
           isNavOpen ? "fadeIn" : "fadeOut"
         }`}>
         <div className="container">
-        <div className="top">
-          <div className="nav-header">
-          <div className="close-div" >
-            <div className="logo">
-              <Link href="/" onClick={toggleNav}>
-                <img
-                  src="/LOGO/RED_LOGO_T.png"
-                  width={500}
-                  height={500}
-                  alt="logo"
-                />
-              </Link>
+          <div className="top">
+            <div className="nav-header">
+              <div className="close-div">
+                <div className="logo">
+                  <Link href="/" onClick={toggleNav}>
+                    <img
+                      src="/LOGO/RED_LOGO_T.png"
+                      width={500}
+                      height={500}
+                      alt="logo"
+                    />
+                  </Link>
+                </div>
+                <div className="close" onClick={toggleNav}>
+                  <FaTimes />
+                </div>
+              </div>
+
+              <div className="nav-btns">
+                {user?.userType === "agent" && checkIsAdmin(user.id) && (
+                  <Link
+                    href={`/apartment/c/${user.id}`}
+                    className="btn"
+                    title="Button"
+                    onClick={toggleNav}>
+                    upload property
+                  </Link>
+                )}
+
+                {checkIsAdmin(user?.id || "") && (
+                  <Link
+                    href="/admin"
+                    className="btn"
+                    title="Button"
+                    onClick={toggleNav}>
+                    Admin Dashboard
+                  </Link>
+                )}
+              </div>
             </div>
-            <div className="close" onClick={toggleNav}>
-              <FaTimes />
-            </div>
-          </div>
 
-         <div className="nav-btns">
-         {user?.userType === "agent" && checkIsAdmin(user.id) && (
-            <Link
-              href={`/apartment/c/${user.id}`}
-              className="btn"
-              title="Button"
-              onClick={toggleNav}>
-              upload property
-            </Link>
-          )}
-
-           {checkIsAdmin(user?.id || "") && (
-              <Link
-                href="/admin"
-                className="btn"
-                title="Button"
-                onClick={toggleNav}>
-                Admin Dashboard
-              </Link>
-            )}
-         </div>
-          </div>
-
-          <ul>
-            <li
-              title="Apartment"
-              className={pathname === "/apartment" ? "active" : ""}>
-              <Link href="/apartment" onClick={toggleNav}>
-                <FaSearchLocation />
-                Apartment
-              </Link>
-            </li>
-
-            {checkIsAdmin(user?.id || "") && (
+            <ul>
               <li
-                title="Admin Chat"
-                className={pathname === "/adminchatroom" ? "active" : ""}>
-                <Link href="/adminchatroom" onClick={toggleNav}>
-                  <GrUserAdmin />
-                  User Messages
-                </Link>
-              </li>
-            )}
-
-            <li
-              title={user ? "Dashboard" : "Home"}
-              className={
-                pathname === "/dashboard" || pathname === "/" ? "active" : ""
-              }>
-              <Link href={user ? "/dashboard" : "/"} onClick={toggleNav}>
-                {user ? <CiViewBoard /> : <CiHome />}
-                {user ? "dashboard" : "home"}
-              </Link>
-            </li>
-
-            <li
-              title="Profile"
-              className={pathname === "/profile" ? "active" : ""}>
-              <Link href="/profile" onClick={toggleNav}>
-                <FaRegUserCircle />
-                profile
-              </Link>
-            </li>
-
-            {user && (
-              <li
-                title="Chat"
+                title={user ? "Dashboard" : "Home"}
                 className={
-                  pathname === `/chat/${user.id}/${user.name}` ? "active" : ""
+                  pathname === "/dashboard" || pathname === "/" ? "active" : ""
                 }>
-                <Link
-                  href={`/chat/${user.id}/${user.name}`}
-                  onClick={toggleNav}>
-                  <IoChatbubblesOutline />
-                  chat
+                <Link href={user ? "/dashboard" : "/"} onClick={toggleNav}>
+                  {user ? <CiViewBoard /> : <CiHome />}
+                  {user ? "dashboard" : "home"}
                 </Link>
               </li>
-            )}
-          </ul>
-        </div>
 
-        <div className="logout">
-          <span>
-            ©️ 2024. All rights reserved.
-            {user ? (
-              <button
-                className="btn btn-secondary"
-                title="Logout"
-                onClick={handleLogoutClick}>
-                Logout
-              </button>
-            ) : (
-              <Link href="/auth/login" onClick={toggleNav}>
-                <button className="btn btn-secondary" title="Login">
-                  Login
+              
+              <li
+                title="Apartment"
+                className={pathname === "/apartment" ? "active" : ""}>
+                <Link href="/apartment" onClick={toggleNav}>
+                  <FaSearchLocation />
+                  Apartment
+                </Link>
+              </li>
+
+              {checkIsAdmin(user?.id || "") && (
+                <li
+                  title="Admin Chat"
+                  className={pathname === "/adminchatroom" ? "active" : ""}>
+                  <Link href="/adminchatroom" onClick={toggleNav}>
+                    <GrUserAdmin />
+                    User Messages
+                  </Link>
+                </li>
+              )}
+
+              <li
+                title="Profile"
+                className={pathname === "/profile" ? "active" : ""}>
+                <Link href="/profile" onClick={toggleNav}>
+                  <FaRegUserCircle />
+                  profile
+                </Link>
+              </li>
+
+              {user && (
+                <li
+                  title="Chat"
+                  className={
+                    pathname === `/chat/${user.id}/${user.name}` ? "active" : ""
+                  }>
+                  <Link
+                    href={`/chat/${user.id}/${user.name}`}
+                    onClick={toggleNav}>
+                    <IoChatbubblesOutline />
+                    chat
+                  </Link>
+                </li>
+              )}
+            </ul>
+          </div>
+
+          <div className="logout">
+            <span>
+              ©️ 2024. All rights reserved.
+              {user ? (
+                <button
+                  className="btn btn-secondary"
+                  title="Logout"
+                  onClick={handleLogoutClick}>
+                  Logout
                 </button>
-              </Link>
-            )}
-          </span>
-        </div>
+              ) : (
+                <Link href="/auth/login" onClick={toggleNav}>
+                  <button className="btn btn-secondary" title="Login">
+                    Login
+                  </button>
+                </Link>
+              )}
+            </span>
+          </div>
         </div>
       </div>
 

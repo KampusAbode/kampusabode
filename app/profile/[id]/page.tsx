@@ -12,6 +12,8 @@ import "./updateprofile.css";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "../../store/userStore";
 import Prompt from "../../components/modals/prompt/Prompt";
+import { FaP } from "react-icons/fa6";
+import { FaPlusCircle } from "react-icons/fa";
 
 interface FormErrors {
   name?: string;
@@ -256,22 +258,29 @@ const CreateProfilePage = () => {
         <div className="fm">
           <h4>Upload Profile</h4>
           <form onSubmit={handleSubmit} noValidate>
-            <div className="input-box">
-              <label style={{ textAlign: "center", paddingLeft: "0rem" }}>
-                Profile Picture
-              </label>
-              {imagePreview && (
-                <img
-                  src={imagePreview}
-                  alt="Profile Preview"
-                  className="profile-preview"
+            <div className="input-box top">
+              <label htmlFor="file">
+                Select Profile Picture
+                {imagePreview && (
+                  <img
+                    src={imagePreview}
+                    alt="Profile Preview"
+                    className="profile-preview"
+                  />
+                )}
+                <input
+                  name="text"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="file-input"
+                  id="file"
+                  aria-describedby="file-error"
                 />
-              )}
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-              />
+                <label htmlFor="file" className="icon-label">
+                  <FaPlusCircle />
+                </label>
+              </label>
             </div>
 
             <div className="input-box">
@@ -367,7 +376,6 @@ const CreateProfilePage = () => {
 
             <button
               type="submit"
-
               className="btn"
               disabled={isSubmitting}
               aria-busy={isSubmitting}>

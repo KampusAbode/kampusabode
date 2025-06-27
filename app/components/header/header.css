@@ -5,78 +5,49 @@ header {
   top: 0;
   width: 100%;
   background-color: var(--white);
-  -webkit-box-shadow: var(--shadow);
-          box-shadow: var(--shadow);
+  box-shadow: var(--shadow);
   z-index: 9999;
-  -webkit-transition: opacity 0.3s ease, -webkit-transform 0.3s ease;
-  transition: opacity 0.3s ease, -webkit-transform 0.3s ease;
   transition: transform 0.3s ease, opacity 0.3s ease;
-  transition: transform 0.3s ease, opacity 0.3s ease, -webkit-transform 0.3s ease;
 }
-
 header.hide {
-  -webkit-transform: translateY(-100%);
-          transform: translateY(-100%);
+  transform: translateY(-100%);
   opacity: 0;
 }
-
 header .container {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: space-between;
+  align-items: center;
   position: relative;
 }
-
 header .container .page-title {
   display: none;
 }
-
 header .container .logo a {
   cursor: pointer;
 }
-
 header .container .logo a img {
   width: 35px;
   height: 35px;
 }
-
 header .container nav {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
-
 header .container nav .nav-links {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   gap: var(--spacing);
 }
-
 header .container nav .nav-links li a {
   text-transform: capitalize;
   color: var(--font-color);
-  -webkit-transition: var(--transition);
   transition: var(--transition);
 }
-
 header .container nav .cta {
   margin-left: var(--spacing-3x);
 }
-
 header .container nav .cta .btn {
   padding-block: var(--spacing-h);
 }
-
 header .container .menu {
   display: none;
 }
@@ -108,7 +79,6 @@ header .container .menu {
     display: none;
   }
   header .container .menu {
-    display: -ms-grid;
     display: grid;
     place-items: center;
     border-radius: 100%;
@@ -117,5 +87,4 @@ header .container .menu {
     background-color: var(--light-gray);
     cursor: pointer;
   }
-}
-/*# sourceMappingURL=header.css.map */
+}/*# sourceMappingURL=header.css.map */

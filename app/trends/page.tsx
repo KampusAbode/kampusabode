@@ -15,17 +15,14 @@ export default function trendsPage() {
   const [activeCategory, setActiveCategory] = useState<string>("all");
 
   const trendCategories = [
-    "Real estate market",
-    "Rental market",
-    "Interior design",
-    "OAU updates",
-    "Home Buying",
+    "Trending",
+    "School updates",
+    "Events",
+    "Sports",
+    "Music & Entertainment",
     "Football",
-    "Student investment",
-    "Study methods",
-    "Real Estate Investment",
-    "Skills",
-    "Business",
+    "Tech & Innovations",
+    "Departments",
   ];
 
   useEffect(() => {

@@ -58,7 +58,7 @@ export default function RootLayout({
       <body>
         <Toaster
           containerStyle={{
-            zIndex: 999999,
+            zIndex: 9999999,
           }}
         />
         <WelcomeMessage />

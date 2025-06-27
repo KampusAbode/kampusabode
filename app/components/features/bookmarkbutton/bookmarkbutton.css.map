@@ -1,9 +1,1 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,gBAAgB,CAAC;EACf,OAAO,EAAE,IAAI;EACb,WAAW,EAAE,MAAM;EACnB,aAAa,EAAE,IAAI;EAEnB,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,IAAI;EACZ,gBAAgB,EAAE,YAAY;EAE9B,MAAM,EAAE,OAAO;CAchB;;AAvBD,AAWE,gBAXc,AAWb,MAAM,CAAC;EACN,gBAAgB,EAAE,iBAAiB;EACnC,MAAM,EAAE,aAAa;CACtB;;AAdH,AAkBM,gBAlBU,AAgBb,MAAM,CACL,GAAG,CACD,IAAI,CAAC;EACH,IAAI,EAAE,oBAAoB;CAC3B",
-    "sources": [
-        "bookmarkbutton.scss"
-    ],
-    "names": [],
-    "file": "bookmarkbutton.css"
-}
+{"version":3,"sources":["bookmarkbutton.scss","bookmarkbutton.css"],"names":[],"mappings":"AAAA;EACE,aAAA;EACA,mBAAA;EACA,mBAAA;EAEA,WAAA;EACA,YAAA;EACA,8BAAA;EAEA,eAAA;ACDF;ADGE;EACE,mCAAA;EACA,qBAAA;ACDJ;ADMM;EACE,0BAAA;ACJR","file":"bookmarkbutton.css"}

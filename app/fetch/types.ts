@@ -77,7 +77,7 @@ export interface TrendType {
   published_date: string;
   category: string;
 }
-export type CommentType = {
+export interface CommentType{
   id: string;
   trendId: string;
   userId: string;
@@ -108,14 +108,6 @@ export interface ReviewType {
   date: string;
 }
 
-export interface CommentType {
-  trendId: string;
-  userId: string;
-  userName: string;
-  userProfile: string;
-  comment: string;
-  createdAt: string;
-};
 
 export interface LinkType {
   to: string;

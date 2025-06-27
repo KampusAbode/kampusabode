@@ -156,7 +156,7 @@
       z-index: 1;
 
       .service {
-        padding: var(--spacing);
+        padding: var(--spacing-3x) var(--spacing);
         background-image: url(/assets/service1.jpg);
         background-position: center;
         background-repeat: no-repeat;
@@ -179,7 +179,7 @@
           left: 0;
           background: linear-gradient(
             to top,
-            rgb(0, 0, 0, 0.7),
+            rgb(0, 0, 0, 0.9),
             rgb(0, 0, 0, 0)
           );
           z-index: -1;

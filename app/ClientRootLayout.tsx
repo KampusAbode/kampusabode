@@ -5,8 +5,6 @@ import Navigation from "./components/navigation/Navigation";
 import Nav from "./components/navMenu/nav";
 import QuickService from "./components/quickservice/QuickService";
 import { useUserStore } from "./store/userStore";
-import { useRequireUser } from "./hooks/useRequireUser";
-// import { logoutUser } from "./utils";
 import Loader from "./components/loader/Loader";
 import { useAuthListener } from "./hooks/useAuthListener";
 

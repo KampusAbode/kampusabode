@@ -1,39 +1,30 @@
 .trends-page .container .trends {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1.5fr)[4];
-      grid-template-columns: repeat(4, 1.5fr);
+  grid-template-columns: repeat(4, 1.5fr);
   gap: var(--spacing);
   margin-block: var(--spacing-2x);
 }
 
 @media screen and (max-width: 1400px) {
   .trends-page .container .trends {
-    -ms-grid-columns: (1fr)[3];
-        grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing-2x);
   }
 }
-
 @media screen and (max-width: 900px) {
   .trends-page .container .trends {
-    -ms-grid-columns: 1fr 1fr;
-        grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 }
-
 @media screen and (max-width: 768px) {
   .trends-page .container .trends {
-    -ms-grid-columns: 1fr;
-        grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
   }
   .trends-page .trends-page-filter .container .search-trends {
-    -ms-grid-columns: 8fr 1.5fr;
-        grid-template-columns: 8fr 1.5fr;
+    grid-template-columns: 8fr 1.5fr;
   }
   .trends-page .trends-page-filter .container .search-trends .search-icon svg {
     width: 20px;
     height: 20px;
   }
-}
-/*# sourceMappingURL=trends.css.map */
+}/*# sourceMappingURL=trends.css.map */

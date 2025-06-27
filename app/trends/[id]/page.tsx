@@ -19,9 +19,9 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 import Loader from "../../components/loader/Loader";
 import { BiLike } from "react-icons/bi";
-import { FaBookmark, FaShare } from "react-icons/fa";
+import { FaBookmark, FaRegComment, FaShare } from "react-icons/fa";
 import { getCommentsByTrendId, sendUserComment } from "../../utils/comments";
-import { format } from "date-fns";
+import { format, formatDistanceToNow } from "date-fns";
 import "./trend.css";
 import { useUserStore } from "../../store/userStore";
 
@@ -29,11 +29,6 @@ type Params = {
   params: { id: string };
 };
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 11620ee6100d85cea13e961ef08ae002424d91ee
 const TrendPage = ({ params }: Params) => {
   const slug = params.id;
   const [trendData, setTrendData] = useState<TrendType>();
@@ -45,71 +40,51 @@ const TrendPage = ({ params }: Params) => {
   const [isLike, setIsLike] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
 
-  // Fetch comments separately to reuse
-  const fetchComments = async (trendId: string) => {
-    try {
-      const fetched = await getCommentsByTrendId(trendId);
-      setComments(
-        fetched.map((comment: any) => ({
-          ...comment,
-          createdAt: new Date(comment.createdAt),
-        }))
-      );
-    } catch (error) {
-      toast.error("Failed to fetch comments.");
-    }
-  };
-
-  const checkIfLiked = async (trendId: string) => {
-    
-    const likeRef = doc(db, "trends", trendId, "likes", user.id);
-    const likeDoc = await getDoc(likeRef);
-    setIsLike(likeDoc.exists());
-  };
-
-
   useEffect(() => {
-  const fetchTrendData = async () => {
-    try {
-      const trend: TrendType = await fetchTrendBySlug(slug);
-      setTrendData(trend);
+    let unsubscribe = () => {};
 
-      await fetchComments(trend.id); // optional if using onSnapshot
-      await checkIfLiked(trend.id);
+    const fetchTrendDataAndListenToComments = async () => {
+      try {
+        const trend: TrendType = await fetchTrendBySlug(slug);
+        setTrendData(trend);
 
-      const commentsRef = collection(db, "trends", trend.id, "comments");
-      const commentsQuery = query(commentsRef, orderBy("createdAt", "desc"));
+        const commentsRef = collection(db, "trends", trend.id, "comments");
+        const q = query(commentsRef, orderBy("createdAt", "desc"));
 
-      const unsubscribe = onSnapshot(commentsQuery, (snapshot) => {
-        const updatedComments = snapshot.docs.map((doc) => {
-          const data = doc.data();
-          return {
-            id: doc.id,
-            trendId: trend.id,
-            userId: data.userId,
-            userName: data.userName,
-            comment: data.comment,
-            userProfile: data.userProfile,
-            createdAt: data.createdAt?.toDate
-              ? data.createdAt.toDate().toISOString()
-              : data.createdAt,
-          };
+        // 🔄 Real-time listener
+        unsubscribe = onSnapshot(q, (snapshot) => {
+          const updatedComments = snapshot.docs.map((doc) => {
+            const data = doc.data();
+            return {
+              id: doc.id,
+              trendId: data.trendId,
+              userId: data.userId,
+              userName: data.userName,
+              comment: data.comment,
+              userProfile: data.userProfile,
+              createdAt: data.createdAt?.toDate
+                ? data.createdAt.toDate()
+                : new Date(data.createdAt),
+            } as CommentType;
+          });
+          setComments(updatedComments);
         });
-        setComments(updatedComments);
-      });
 
-      setLoading(false); // ✅ loading ends here
+        // 🔁 Fetch like status
+        const likeRef = doc(db, "trends", trend.id, "likes", user.id);
+        const likeDoc = await getDoc(likeRef);
+        setIsLike(likeDoc.exists());
+      } catch (error) {
+        toast.error(error.message || "Failed to fetch trend data.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      return () => unsubscribe(); // 🔁 cleanup on unmount
-    } catch (error) {
-      toast.error("Failed to fetch trend data.");
-      setLoading(false);
-    }
-  };
+    fetchTrendDataAndListenToComments();
 
-  fetchTrendData();
-}, [slug, user]);
-  
+    return () => unsubscribe(); // ✅ Clean up listener
+  }, [slug, user]);
   
 
   const handleLike = async () => {
@@ -163,50 +138,44 @@ const TrendPage = ({ params }: Params) => {
   };
 
   const handleCommentSubmit = async () => {
-  if (!user) {
-    toast.error("Please sign in to add a comment.");
-    return;
-  }
+    if (!user) {
+      toast.error("Please sign in to add a comment.");
+      return;
+    }
 
-<<<<<<< HEAD
-    const newComment: CommentType = {
+    if (!content.trim()) {
+      toast.error("Comment cannot be empty.");
+      return;
+    }
+
+    const newComment = {
+      id: "",
       trendId: trendData.id,
       userId: user.id,
       userName: user.name,
+      comment: content,
       userProfile: user.avatar,
-      comment,
       createdAt: new Date().toISOString(),
     };
-=======
-  if (!content.trim()) {
-    toast.error("Comment cannot be empty.");
-    return;
-  }
->>>>>>> 11620ee6100d85cea13e961ef08ae002424d91ee
 
-  const newComment = {
-    id: "",
-    trendId: trendData.id,
-    userId: user.id,
-    userName: user.name,
-    comment: content,
-    userProfile: user.avatar,
-    createdAt: new Date(), // Firestore Timestamp will handle it
+    try {
+      setIsSending(true);
+      await sendUserComment(newComment); // 👈 this must accept Timestamp
+      setContent("");
+      toast.success("Comment added!");
+    } catch {
+      toast.error("Failed to send comment.");
+    } finally {
+      setIsSending(false);
+    }
   };
+  
 
-  try {
-    setIsSending(true);
-    await sendUserComment(newComment); 
-    setContent("");
-    toast.success("Comment added!");
-  } catch {
-    toast.error("Failed to send comment.");
-  } finally {
-    setIsSending(false);
-  }
-};
-
-
+  const getRelativeTime = (date: Date) => {
+    const relative = formatDistanceToNow(date, { addSuffix: true });
+    return relative.includes("less than a minute") ? "just now" : relative;
+  };
+  
   return (
     <div className="trend-details-page">
       {!loading ? (
@@ -236,9 +205,11 @@ const TrendPage = ({ params }: Params) => {
             <button
               onClick={handleLike}
               disabled={isLiking}
-              className={isLike ? "active" : ""}
-            >
+              className={isLike ? "active" : ""}>
               <BiLike /> {trendData?.likes}
+            </button>
+            <button>
+              <FaRegComment /> {comments?.length}
             </button>
             <button onClick={handleShare}>
               <FaShare /> Share
@@ -274,8 +245,8 @@ const TrendPage = ({ params }: Params) => {
                       </div>
                       <span className="created-at">
                         {comment.createdAt
-                          ? format(new Date(comment.createdAt), "d MMM, yyyy")
-                          : "Invalid date"}
+                          ? getRelativeTime(new Date(comment.createdAt))
+                          : "just now"}
                       </span>
                     </div>
                     <p className="comment-content">{comment.comment}</p>
@@ -287,15 +258,14 @@ const TrendPage = ({ params }: Params) => {
             <div className="send-comment">
               <textarea
                 placeholder="Add a comment..."
-                rows={5}
+                rows={6}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
               <button
                 className="btn"
                 onClick={handleCommentSubmit}
-                disabled={isSending || !content.trim()}
-              >
+                disabled={isSending || !content.trim()}>
                 {isSending ? "Sending..." : "Send Comment"}
               </button>
             </div>

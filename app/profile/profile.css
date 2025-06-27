@@ -1,38 +1,25 @@
 .profile-page {
   margin-bottom: var(--spacing-3x);
 }
-
 .profile-page .container {
   max-width: 700px;
 }
-
 .profile-page .container .profile-overview {
-  -webkit-box-shadow: var(--shadow);
-          box-shadow: var(--shadow);
+  box-shadow: var(--shadow);
   margin-top: var(--spacing);
   padding: var(--spacing-2x);
 }
-
 .profile-page .container .profile-overview .dt {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
   align-items: center;
   gap: var(--spacing-2x);
 }
-
 .profile-page .container .profile-overview .dt .img {
-  display: -ms-grid;
   display: grid;
   place-content: center;
 }
-
 .profile-page .container .profile-overview .dt .img img {
   width: 200px;
   height: 200px;
@@ -40,51 +27,35 @@
   -o-object-fit: cover;
      object-fit: cover;
 }
-
 .profile-page .container .profile-overview .dt .tdt {
   padding: var(--spacing);
 }
-
 .profile-page .container .profile-overview .dt .tdt > span {
   display: block;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   margin-bottom: var(--spacing-h);
 }
-
 .profile-page .container .profile-overview .dt .tdt > span span, .profile-page .container .profile-overview .dt .tdt > span .not-verified {
   color: var(--error);
   margin-left: var(--spacing-h);
   font-size: var(--font-size-xs);
   line-height: var(--line-height-md);
 }
-
 .profile-page .container .cp {
   margin-top: var(--spacing-2x);
 }
 
 @media screen and (max-width: 786px) {
   .profile-page .container .profile-overview .dt {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    flex-direction: column;
   }
   .profile-page .container .profile-overview .dt .tdt {
     text-align: center;
   }
   .profile-page .container .profile-overview .dt .tdt > span {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
+    align-items: center;
+    justify-content: center;
     gap: var(--spacing-h);
   }
-}
-/*# sourceMappingURL=profile.css.map */
+}/*# sourceMappingURL=profile.css.map */

@@ -143,7 +143,7 @@
   z-index: 1;
 }
 .service-section .container .services .service {
-  padding: var(--spacing);
+  padding: var(--spacing-3x) var(--spacing);
   background-image: url(/assets/service1.jpg);
   background-position: center;
   background-repeat: no-repeat;
@@ -163,7 +163,7 @@
   height: 100%;
   top: 0;
   left: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0));
   z-index: -1;
 }
 .service-section .container .services .service:nth-child(2) {
@@ -395,76 +395,6 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--spacing-2x);
-}
-.trends-section .trends .trend {
-  border-radius: var(--border-radius);
-  background: var(--background-white);
-  box-shadow: var(--shadow);
-  transition: var(--transition);
-}
-.trends-section .trends .trend .trend-image {
-  height: 180px;
-  border-radius: var(--border-radius);
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-  overflow: hidden;
-}
-.trends-section .trends .trend .trend-image img {
-  -o-object-fit: cover;
-     object-fit: cover;
-}
-.trends-section .trends .trend .trend-content {
-  padding: var(--spacing);
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-.trends-section .trends .trend .trend-content > svg {
-  position: absolute;
-  width: 150px;
-  height: 150px;
-  top: -23px;
-  right: -23px;
-  transform: rotate(90deg);
-  z-index: -1;
-  opacity: 0.02;
-}
-.trends-section .trends .trend .trend-content h5 {
-  text-transform: capitalize;
-  margin-bottom: var(--spacing);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  line-clamp: 2;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-.trends-section .trends .trend .trend-content p {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  line-clamp: 3;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-}
-.trends-section .trends .trend .trend-content a {
-  margin-top: var(--spacing);
-  display: inline-flex;
-  align-items: center;
-  color: var(--font-color-p);
-}
-.trends-section .trends .trend .trend-content a svg {
-  margin-left: 0.3rem;
-  transition: var(--transition);
-}
-.trends-section .trends .trend .trend-content a svg path {
-  fill: var(--font-color);
-}
-.trends-section .trends .trend .trend-content a:hover {
-  text-decoration: underline;
-}
-.trends-section .trends .trend .trend-content a:hover svg {
-  margin-left: var(--spacing-h);
 }
 
 /* ========== trends section close ========== */

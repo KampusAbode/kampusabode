@@ -81,7 +81,7 @@ export default function Footer() {
 
         <div className="footer-bottom">
           <address>
-            &copy; 2024 created by{" "}
+            &copy; 2025 created by{" "}
             <Link
               href="https://aj-tolulope.github.io/portfolio"
               aria-label="Portfolio"

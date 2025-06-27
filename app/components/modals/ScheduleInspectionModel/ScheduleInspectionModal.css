@@ -5,94 +5,58 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.4);
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
   z-index: 99999;
 }
 
 .schedule-inspection-modal {
   background: white;
   border-radius: var(--border-radius);
-  -webkit-box-shadow: var(--shadow);
-          box-shadow: var(--shadow);
+  box-shadow: var(--shadow);
   width: 90%;
   max-width: 420px;
   padding: calc(1.5 * var(--spacing));
-  -webkit-animation: fadeIn 0.25s ease-in-out;
-          animation: fadeIn 0.25s ease-in-out;
+  animation: fadeIn 0.25s ease-in-out;
 }
-
 .schedule-inspection-modal .modal-header h3 {
   margin-bottom: var(--spacing);
 }
-
 .schedule-inspection-modal .modal-body .modal-section {
   margin-bottom: var(--spacing);
 }
-
 .schedule-inspection-modal .modal-body .modal-section.date-time div {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr 1fr;
-      grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: var(--spacing);
 }
-
 .schedule-inspection-modal .modal-body .modal-section label {
   font-size: var(--font-size-xs);
   color: var(--text-color-p);
   display: block;
   margin-bottom: var(--spacing-h);
 }
-
 .schedule-inspection-modal .modal-body .modal-section input,
 .schedule-inspection-modal .modal-body .modal-section textarea {
   max-height: 200px;
   resize: none;
   width: 100%;
 }
-
 .schedule-inspection-modal .modal-footer {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  justify-content: flex-end;
   gap: calc(0.875 * var(--spacing));
   margin-top: var(--spacing);
-}
-
-@-webkit-keyframes fadeIn {
-  from {
-    opacity: 0;
-    -webkit-transform: scale(0.95);
-            transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    -webkit-transform: scale(1);
-            transform: scale(1);
-  }
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    -webkit-transform: scale(0.95);
-            transform: scale(0.95);
+    transform: scale(0.95);
   }
   to {
     opacity: 1;
-    -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
-}
-/*# sourceMappingURL=ScheduleInspectionModal.css.map */
+}/*# sourceMappingURL=ScheduleInspectionModal.css.map */

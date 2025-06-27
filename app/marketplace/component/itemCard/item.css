@@ -2,32 +2,25 @@
   background-color: #fff;
   padding: var(--spacing-h);
   border-radius: var(--border-radius);
-  -webkit-box-shadow: var(--shadow);
-          box-shadow: var(--shadow);
+  box-shadow: var(--shadow);
   text-align: center;
 }
-
 .item .item-image {
   position: relative;
   overflow: hidden;
   height: 200px;
 }
-
 .item .item-image img {
   max-width: 100%;
   height: 100%;
   border-radius: var(--border-radius);
   -o-object-fit: cover;
      object-fit: cover;
-  -webkit-transition: var(--transition);
   transition: var(--transition);
 }
-
 .item .item-image img:hover {
-  -webkit-transform: scale(1.2);
-          transform: scale(1.2);
+  transform: scale(1.2);
 }
-
 .item .item-image span {
   position: absolute;
   top: 5px;
@@ -36,16 +29,13 @@
   border: var(--border);
   border-color: var(--white);
   border-radius: var(--border-radius);
-  -webkit-box-shadow: var(--shadow);
-          box-shadow: var(--shadow);
+  box-shadow: var(--shadow);
   font-weight: 600;
   color: var(--white);
 }
-
 .item .item-title {
   margin: var(--spacing) 0 var(--spacing-h);
 }
-
 .item .item-description {
   margin-bottom: var(--spacing-h);
   display: -webkit-box;
@@ -55,37 +45,25 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 .item .bt {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: space-between;
+  align-items: center;
   padding-top: var(--spacing);
 }
-
 .item .bt .item-price {
   font-weight: bold;
   padding: var(--spacing-h);
   background-color: var(--light-gray);
 }
-
 .item .bt .contact-seller-btn {
   padding: var(--spacing-b);
   text-decoration: underline;
   border-radius: calc(0.5 * var(--border-radius));
-  -webkit-transition: background-color 0.3s ease;
   transition: background-color 0.3s ease;
   cursor: pointer;
 }
-
 .item .bt .contact-seller-btn:hover {
   background-color: var(--primary-color);
   color: var(--white);
-}
-/*# sourceMappingURL=item.css.map */
+}/*# sourceMappingURL=item.css.map */

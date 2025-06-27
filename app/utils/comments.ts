@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 
-
-import { CommentType } from "../fetch/types";
-=======
->>>>>>> 11620ee6100d85cea13e961ef08ae002424d91ee
 import { db } from "../lib/firebaseConfig";
 import {CommentType} from "../fetch/types";
 import {
@@ -15,6 +10,8 @@ import {
   Timestamp,
   orderBy,
   collectionGroup,
+  doc,
+  setDoc,
 } from "firebase/firestore";
 
 // ----------------------
@@ -50,10 +47,7 @@ export async function getUserComments(userId: string) {
     const querySnapshot = await getDocs(userCommentsQuery);
 
     return querySnapshot.docs.map((doc) => ({
-<<<<<<< HEAD
-=======
       id: doc.id,
->>>>>>> 11620ee6100d85cea13e961ef08ae002424d91ee
       ...doc.data(),
     }));
   } catch (error) {
@@ -62,29 +56,19 @@ export async function getUserComments(userId: string) {
   }
 }
 
-<<<<<<< HEAD
-// ----------------------
-// Comment data structure
-=======
->>>>>>> 11620ee6100d85cea13e961ef08ae002424d91ee
 
 
 // ----------------------
-// Post a user comment under a specific trend
-// ----------------------
+// Send a new comment to a specific trend
 export async function sendUserComment(
-<<<<<<< HEAD
-  newComment: CommentType,
-  
-=======
-  newComment: Omit<CommentType, "createdAt">
->>>>>>> 11620ee6100d85cea13e961ef08ae002424d91ee
+  newComment: CommentType
 ) {
   try {
     if (!newComment.trendId) {
       throw new Error("Invalid trend ID.");
     }
 
+    // Reference to the comments collection
     const commentsCollection = collection(
       db,
       "trends",
@@ -92,19 +76,21 @@ export async function sendUserComment(
       "comments"
     );
 
-<<<<<<< HEAD
-    const docRef = await addDoc(commentsCollection, newComment);
-=======
-    const commentWithTimestamp: CommentType = {
+    // Generate a new document reference (with a manual ID)
+    const newCommentRef = doc(commentsCollection); // Generates a random unique ID
+
+    const commentWithMeta: CommentType = {
       ...newComment,
-      createdAt: Timestamp.now().toDate(),
+      id: newCommentRef.id
     };
 
-    const docRef = await addDoc(commentsCollection, commentWithTimestamp);
->>>>>>> 11620ee6100d85cea13e961ef08ae002424d91ee
-    return docRef.id;
+    // Save the comment using the generated ID
+    await setDoc(newCommentRef, commentWithMeta);
+
+    return newCommentRef.id;
   } catch (error) {
     console.error("Error sending comment:", error);
     throw error;
   }
 }
+

@@ -1,113 +1,82 @@
 .properties-details-page .prop-image-details .property-images .container {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1.2fr 1fr;
-      grid-template-columns: 1.2fr 1fr;
+  grid-template-columns: 1.2fr 1fr;
   gap: var(--spacing);
 }
-
 .properties-details-page .prop-image-details .property-images .container .display-image {
   height: 65vh;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   place-items: center;
   padding-bottom: var(--spacing);
   position: relative;
 }
-
 .properties-details-page .prop-image-details .property-images .container .display-image img {
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: var(--border-radius);
-  -webkit-transition: var(--transition);
   transition: var(--transition);
 }
-
 .properties-details-page .prop-image-details .property-images .container .display-image .image-pagination .left,
 .properties-details-page .prop-image-details .property-images .container .display-image .image-pagination .right {
   position: absolute;
   width: 40px;
   height: 40px;
   background-color: #fff;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   top: 50%;
-  display: -ms-grid;
   display: grid;
   place-items: center;
   color: var(--font-color-h);
   border-radius: 100%;
   cursor: pointer;
-  -webkit-box-shadow: var(--shadow);
-          box-shadow: var(--shadow);
-  -webkit-transition: var(--transition);
+  box-shadow: var(--shadow);
   transition: var(--transition);
 }
-
 .properties-details-page .prop-image-details .property-images .container .display-image .image-pagination .left:hover,
 .properties-details-page .prop-image-details .property-images .container .display-image .image-pagination .right:hover {
-  -webkit-transform: translateY(-50%) scale(1.125);
-          transform: translateY(-50%) scale(1.125);
+  transform: translateY(-50%) scale(1.125);
 }
-
 .properties-details-page .prop-image-details .property-images .container .display-image .image-pagination .left {
   left: 30px;
 }
-
 .properties-details-page .prop-image-details .property-images .container .display-image .image-pagination .right {
   right: 30px;
 }
-
 .properties-details-page .prop-image-details .property-images .container .display-image .image-counter {
   font-size: var(--font-size-sm);
   position: absolute;
   bottom: 30px;
   left: 50%;
-  -webkit-transform: translateX(-50%);
-          transform: translateX(-50%);
+  transform: translateX(-50%);
   background-color: #fff;
   border-radius: var(--border-radius);
   text-align: center;
   letter-spacing: 5px;
   padding-inline: var(--spacing);
-  -webkit-box-shadow: var(--shadow);
-          box-shadow: var(--shadow);
+  box-shadow: var(--shadow);
   -webkit-user-select: none;
      -moz-user-select: none;
-      -ms-user-select: none;
           user-select: none;
 }
-
 .properties-details-page .prop-image-details .property-images .container .display-image .features {
   position: absolute;
   top: 32px;
   right: 32px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   gap: var(--spacing);
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   z-index: 2;
 }
-
 .properties-details-page .prop-image-details .property-images .container .control-image {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   gap: var(--spacing);
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
   overflow-x: scroll;
 }
-
 .properties-details-page .prop-image-details .property-images .container .control-image::-webkit-scrollbar {
   display: none;
 }
-
 .properties-details-page .prop-image-details .property-images .container .control-image img {
   width: 70px;
   height: 70px;
@@ -116,58 +85,41 @@
      object-fit: cover;
   cursor: pointer;
   opacity: 0.3;
-  -webkit-transition: var(--transition);
   transition: var(--transition);
 }
-
 .properties-details-page .prop-image-details .property-images .container .control-image img.active {
   opacity: 1;
-  -webkit-box-shadow: var(--shadow);
-          box-shadow: var(--shadow);
+  box-shadow: var(--shadow);
 }
-
 .properties-details-page .container > div {
   margin-block: var(--spacing-2x);
 }
-
 .properties-details-page .container h4 {
   margin-bottom: var(--spacing);
 }
-
 .properties-details-page .container .top {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 2fr 1fr;
-      grid-template-columns: 2fr 1fr;
+  grid-template-columns: 2fr 1fr;
   gap: var(--spacing-2x);
   margin-top: var(--spacing);
 }
-
 .properties-details-page .container .top .pq .title {
   margin-bottom: var(--spacing);
 }
-
 .properties-details-page .container .top .pq .price {
   text-decoration: underline;
   font-style: italic;
   font-size: var(--font-size-sm);
   margin-bottom: var(--spacing);
 }
-
 .properties-details-page .container .top .pq .features,
 .properties-details-page .container .top .pq .amenities {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
   gap: var(--spacing-h);
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   padding-block: var(--spacing);
 }
-
 .properties-details-page .container .top .pq .features span,
 .properties-details-page .container .top .pq .amenities span {
   padding: var(--spacing-b);
@@ -175,80 +127,50 @@
   background-color: var(--light-gray);
   -webkit-user-select: none;
      -moz-user-select: none;
-      -ms-user-select: none;
           user-select: none;
 }
-
 .properties-details-page .container .top .pq .description {
   margin-block: var(--spacing-2x);
 }
-
 .properties-details-page .container .top .about-agent .agent-details {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: var(--spacing-h);
   padding: var(--spacing-2x);
   border-radius: var(--border-radius);
   background-color: var(--light-gray);
   -webkit-user-select: none;
      -moz-user-select: none;
-      -ms-user-select: none;
           user-select: none;
 }
-
 .properties-details-page .container .top .about-agent .agent-details img {
   -webkit-user-select: none;
      -moz-user-select: none;
-      -ms-user-select: none;
           user-select: none;
   border-radius: 100%;
   width: 80px;
   height: 80px;
   -o-object-fit: cover;
      object-fit: cover;
-  -webkit-box-shadow: var(--shadow);
-          box-shadow: var(--shadow);
+  box-shadow: var(--shadow);
 }
-
 .properties-details-page .container .top .about-agent .agent-details h5 {
   margin: 0;
   font-size: var(--font-size-nm);
 }
-
 .properties-details-page .container .top .about-agent .agent-stats {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr 1fr;
-      grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: var(--spacing);
   padding-block: var(--spacing);
 }
-
 .properties-details-page .container .top .about-agent .agent-stats div {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: var(--spacing-h);
   padding: var(--spacing);
   border-radius: var(--border-radius);
@@ -256,67 +178,48 @@
   text-align: center;
   -webkit-user-select: none;
      -moz-user-select: none;
-      -ms-user-select: none;
           user-select: none;
 }
-
 .properties-details-page .container .top .about-agent .bio {
   margin-top: var(--spacing);
   -webkit-user-select: none;
      -moz-user-select: none;
-      -ms-user-select: none;
           user-select: none;
 }
-
 .properties-details-page .container .agent-reviews .reviews {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   overflow-x: auto;
-  -ms-scroll-snap-type: x mandatory;
-      scroll-snap-type: x mandatory;
+  scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   gap: var(--spacing);
   scroll-padding: 0 16px;
   padding-right: var(--spacing-h);
 }
-
 .properties-details-page .container .agent-reviews .reviews .review-item {
   width: 45%;
   border: var(--border);
   border-radius: var(--border-radius);
   scroll-snap-align: center;
-  -ms-flex-negative: 0;
-      flex-shrink: 0;
+  flex-shrink: 0;
   padding: var(--spacing);
-  -webkit-box-shadow: var(--shadow);
-          box-shadow: var(--shadow);
+  box-shadow: var(--shadow);
   text-align: center;
 }
-
 .properties-details-page .container .agent-reviews .reviews .review-item div {
   margin-top: var(--spacing-2x);
 }
-
 .properties-details-page .container .agent-reviews .reviews .review-item div span {
   display: block;
 }
-
 .properties-details-page .container .agent-reviews .reviews {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-
 .properties-details-page .container .agent-listings > div .agentProps {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: nowrap;
-      flex-wrap: nowrap;
+  flex-wrap: nowrap;
   overflow-x: auto;
-  -webkit-box-pack: left;
-      -ms-flex-pack: left;
-          justify-content: left;
+  justify-content: left;
   scroll-behavior: smooth;
   gap: var(--spacing);
   padding-bottom: var(--spacing-h);
@@ -324,32 +227,23 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-
 .properties-details-page .container .agent-listings > div .agentProps::-webkit-scrollbar {
   display: none;
 }
-
 .properties-details-page .container .agent-listings > div .agentProps .list-prop {
-  -webkit-box-flex: 0;
-      -ms-flex: 0 0 90%;
-          flex: 0 0 90%;
+  flex: 0 0 90%;
   max-width: 210px;
   border-radius: var(--border-radius);
-  -webkit-transition: var(--transition);
   transition: var(--transition);
   cursor: pointer;
 }
-
 .properties-details-page .container .agent-listings > div .agentProps .list-prop:hover {
   color: var(--font-color-p);
-  -webkit-transform: scale(0.992);
-          transform: scale(0.992);
+  transform: scale(0.992);
 }
-
 .properties-details-page .container .agent-listings > div .agentProps .list-prop .list-image {
   overflow: hidden;
 }
-
 .properties-details-page .container .agent-listings > div .agentProps .list-prop .list-image img {
   border-radius: var(--border-radius);
   width: 100%;
@@ -357,11 +251,9 @@
   -o-object-fit: cover;
      object-fit: cover;
 }
-
 .properties-details-page .container .agent-listings > div .agentProps .list-prop .list-details {
   padding-block: var(--spacing-h);
 }
-
 .properties-details-page .container .agent-listings > div .agentProps .list-prop .list-details h5 {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -370,7 +262,6 @@
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 }
-
 .properties-details-page .container .agent-listings > div .agentProps .list-prop .list-details span {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -381,29 +272,20 @@
   margin-top: var(--spacing-h);
   font-size: var(--font-size-sm);
 }
-
 @media (min-width: 768px) {
   .properties-details-page .container .agent-listings > div .agentProps .list-prop {
-    -webkit-box-flex: 0;
-        -ms-flex: 0 0 48%;
-            flex: 0 0 48%;
-    /* Medium screens */
+    flex: 0 0 48%; /* Medium screens */
   }
 }
-
 @media (min-width: 1024px) {
   .properties-details-page .container .agent-listings > div .agentProps .list-prop {
-    -webkit-box-flex: 0;
-        -ms-flex: 0 0 30%;
-            flex: 0 0 30%;
-    /* Desktop screens */
+    flex: 0 0 30%; /* Desktop screens */
     max-width: 350px;
   }
   .properties-details-page .container .agent-listings > div .agentProps .list-prop .list-image img {
     height: 170px;
   }
 }
-
 .properties-details-page .container .contact {
   margin-block: var(--spacing-4x);
   background-color: var(--light-gray);
@@ -414,22 +296,17 @@
 .prop-cta {
   margin-block: var(--spacing-2x);
 }
-
 .prop-cta .container {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   gap: var(--spacing);
 }
-
 .prop-cta .container .btn {
   text-align: center;
 }
 
 @media screen and (max-width: 768px) {
   .properties-details-page .prop-image-details .property-images .container {
-    -ms-grid-columns: 1fr;
-        grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
   }
   .properties-details-page .prop-image-details .property-images .container > div {
     margin-block: 0;
@@ -456,8 +333,7 @@
     right: 20px;
   }
   .properties-details-page .prop-image-details .property-images .container .control-image {
-    -ms-flex-wrap: nowrap;
-        flex-wrap: nowrap;
+    flex-wrap: nowrap;
   }
   .properties-details-page .prop-image-details .property-images .container .control-image img {
     width: 60px;
@@ -465,8 +341,7 @@
   }
   .properties-details-page .container .top {
     margin-top: var(--spacing-2x);
-    -ms-grid-columns: 1fr;
-        grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
     gap: 0;
   }
   .properties-details-page .container .top .about-agent {
@@ -488,23 +363,18 @@
     right: 0;
     background-color: var(--white);
     padding-block: var(--spacing);
-    -webkit-box-shadow: var(--shadow);
-            box-shadow: var(--shadow);
+    box-shadow: var(--shadow);
     z-index: 9999;
     margin: 0;
   }
   .prop-cta .container {
-    display: -ms-grid;
     display: grid;
-    -ms-grid-columns: 1fr 1fr;
-        grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: var(--spacing);
   }
 }
-
 @media screen and (max-width: 480px) {
   .properties-details-page .prop-image-details .property-images .container .display-image {
     height: 50vh;
   }
-}
-/*# sourceMappingURL=property.css.map */
+}/*# sourceMappingURL=property.css.map */

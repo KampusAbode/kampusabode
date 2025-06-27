@@ -1,9 +1,1 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,aAAa,CAAC;EACZ,aAAa,EAAE,oBAAoB;EACnC,gBAAgB,EAAE,iBAAiB;EACnC,OAAO,EAAE,cAAc;EACvB,aAAa,EAAE,cAAc;EAC7B,MAAM,EAAE,OAAO;CAQhB;;AAbD,AAOE,aAPW,CAOX,eAAe,CAAC;EACd,aAAa,EAAE,cAAc;EAC7B,OAAO,EAAE,IAAI;EACb,eAAe,EAAE,aAAa;CAE/B",
-    "sources": [
-        "messagecard.scss"
-    ],
-    "names": [],
-    "file": "messagecard.css"
-}
+{"version":3,"sources":["messagecard.scss","messagecard.css"],"names":[],"mappings":"AAAA;EACE,mCAAA;EACA,mCAAA;EACA,uBAAA;EACA,6BAAA;EACA,eAAA;ACCF;ADCE;EACE,6BAAA;EACA,aAAA;EACA,8BAAA;ACCJ","file":"messagecard.css"}

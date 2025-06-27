@@ -3,40 +3,33 @@
   position: relative;
   overflow: hidden;
 }
-
 @media screen and (min-width: 768px) {
   .banner {
     overflow: visible;
     margin: var(--spacing-5x) 0 var(--spacing);
   }
 }
-
 .banner .container {
   border-radius: var(--border-radius);
   background: var(--primary-color);
   color: var(--white);
   padding: var(--spacing-2x);
 }
-
 .banner .container span {
   margin-bottom: var(--spacing);
   color: var(--light-gray);
 }
-
 .banner .container h2 {
   color: var(--white);
 }
-
 .banner .container h2 {
   position: relative;
   text-transform: capitalize;
 }
-
 .banner .container h2 svg {
   position: absolute;
   top: -10px;
 }
-
 .banner .dot1,
 .banner .dot2 {
   width: auto;
@@ -44,15 +37,12 @@
   position: absolute;
   bottom: 0;
 }
-
 .banner .dot1 {
   right: 0;
 }
-
 .banner .dot2 {
   right: calc(10% + 357px);
 }
-
 .banner .building {
   width: 387px;
   height: 253px;
@@ -60,7 +50,6 @@
   bottom: 0;
   right: 10%;
 }
-
 @media screen and (max-width: 768px) {
   .banner .building {
     display: none;
@@ -70,42 +59,34 @@
 .user-search {
   padding-block: var(--spacing);
 }
-
 .user-search .container {
   max-width: 750px;
   margin: 0 auto;
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 8fr 1.3fr;
-      grid-template-columns: 8fr 1.3fr;
+  grid-template-columns: 8fr 1.3fr;
   background-color: var(--background-white);
   border: var(--border);
   border-radius: var(--border-radius-r);
   overflow: hidden;
 }
-
 .user-search .container input {
   border-top-left-radius: var(--border-radius);
   border-bottom-left-radius: var(--border-radius);
   padding: var(--spacing);
   border: none;
 }
-
 .user-search .container .search-icon {
   border-top-right-radius: var(--border-radius);
   border-bottom-right-radius: var(--border-radius);
-  display: -ms-grid;
   display: grid;
   place-content: center;
   cursor: pointer;
   background-color: var(--light-gray);
 }
-
 .user-search .container .search-icon svg {
   width: 25px;
   height: 25px;
 }
-
 .user-search .container .search-icon svg path {
   fill: var(--font-color-p);
 }
@@ -113,15 +94,11 @@
 .property-listings {
   margin: var(--spacing) 0 var(--spacing-3x);
 }
-
 .property-listings .properties {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1fr)[4];
-      grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: calc(1.5 * var(--spacing));
 }
-
 .property-listings .properties span,
 .property-listings .properties svg path {
   color: var(--font-color-p);
@@ -129,18 +106,15 @@
 
 @media screen and (max-width: 1400px) {
   .property-listings .properties {
-    -ms-grid-columns: (1fr)[3];
-        grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
-
 @media screen and (max-width: 768px) {
   .banner .container {
     padding: var(--spacing) var(--spacing-2x);
   }
   .user-search .container {
-    -ms-grid-columns: 9fr 1.5fr;
-        grid-template-columns: 9fr 1.5fr;
+    grid-template-columns: 9fr 1.5fr;
   }
   .user-search .container .search-icon svg {
     width: 20px;
@@ -150,21 +124,15 @@
     top: 68px;
   }
   .filter .container {
-    -webkit-box-pack: left;
-        -ms-flex-pack: left;
-            justify-content: left;
+    justify-content: left;
   }
   .property-listings .properties {
-    -ms-grid-columns: 1fr 1fr;
-        grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 }
-
 @media screen and (max-width: 580px) {
   .property-listings .properties {
-    -ms-grid-columns: 1fr;
-        grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
     gap: var(--spacing-2x);
   }
-}
-/*# sourceMappingURL=apartment.css.map */
+}/*# sourceMappingURL=apartment.css.map */

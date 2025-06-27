@@ -1,9 +1,7 @@
 .trend {
   border-radius: var(--border-radius);
-  -webkit-box-shadow: var(--shadow);
-          box-shadow: var(--shadow);
+  box-shadow: var(--shadow);
 }
-
 .trend .trend-image {
   height: 200px;
   border-top-left-radius: var(--border-radius);
@@ -11,14 +9,12 @@
   position: relative;
   overflow: hidden;
 }
-
 .trend .trend-image img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
 }
-
 .trend .trend-image .category {
   position: absolute;
   top: 10px;
@@ -28,53 +24,34 @@
   border-radius: var(--border-radius-r);
   color: var(--text-color-h);
 }
-
 .trend .trend-content {
   padding: var(--spacing);
 }
-
 .trend .trend-content .author-thumbs {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  align-items: center;
+  justify-content: space-between;
   gap: var(--spacing);
 }
-
 .trend .trend-content .author-thumbs .thumbs {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   gap: var(--spacing);
   background-color: var(--light-gray);
   padding: var(--spacing-h);
   border-radius: var(--border-radius);
 }
-
 .trend .trend-content .author-thumbs .thumbs svg {
   cursor: pointer;
-  -webkit-transition: var(--transition);
   transition: var(--transition);
 }
-
 .trend .trend-content .author-thumbs .thumbs svg:hover, .trend .trend-content .author-thumbs .thumbs svg.active {
   color: var(--primary-color);
-  -webkit-transform: scale(1.2);
-          transform: scale(1.2);
+  transform: scale(1.2);
 }
-
 .trend .trend-content h5 {
   margin-block: var(--spacing-h);
 }
-
 .trend .trend-content h5,
 .trend .trend-content P {
   overflow: hidden;
@@ -83,5 +60,4 @@
   -webkit-line-clamp: 2;
   line-clamp: 2;
   -webkit-box-orient: vertical;
-}
-/*# sourceMappingURL=trendCard.css.map */
+}/*# sourceMappingURL=trendCard.css.map */

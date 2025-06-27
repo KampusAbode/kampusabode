@@ -1,7 +1,6 @@
 .trend-details-page .container {
   padding-block: var(--spacing-s);
 }
-
 @media screen and (min-width: 768px) {
   .trend-details-page .container {
     padding-block: calc(var(--spacing-4x) * 2);
@@ -12,63 +11,43 @@
     margin: auto 0;
   }
 }
-
 .trend-details-page .container .trend-details {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  flex-direction: column;
+  align-items: center;
   gap: var(--spacing);
   text-align: center;
   margin-top: var(--spacing-2x);
 }
-
 .trend-details-page .container .trend-details .category {
   padding: var(--spacing-h);
   border-radius: var(--border-radius);
   background-color: var(--primary-color);
   color: var(--white);
 }
-
 .trend-details-page .container .trend-image {
   height: 280px;
   border-radius: var(--border-radius);
   overflow: hidden;
   margin: var(--spacing-2x) 0;
 }
-
 .trend-details-page .container .trend-image img {
   height: inherit;
   -o-object-fit: cover;
      object-fit: cover;
 }
-
 @media screen and (min-width: 768px) {
   .trend-details-page .container .trend-image {
     height: 400px;
   }
 }
-
 .trend-details-page .container .interaction-buttons {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   gap: var(--spacing);
 }
-
 .trend-details-page .container .interaction-buttons button {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   gap: var(--spacing);
   border: none;
   padding: var(--spacing-h) var(--spacing);
@@ -77,62 +56,44 @@
   color: var(--font-color-p);
   cursor: pointer;
 }
-
 .trend-details-page .container .trend-description {
-  margin-block: var(--spacing-3x);
+  margin-block: var(--spacing-2x);
 }
-
 .trend-details-page .container .trend-description p {
   margin-block: var(--spacing-h);
 }
 .trend-details-page .container .trend-description h2 {
   font-size: var(--font-size-lg);
 }
-
 .trend-details-page .container .comments-section {
   margin-top: var(--spacing-s);
-      margin-bottom: var(--spacing-2x);
+  margin-bottom: var(--spacing-2x);
   padding: var(--spacing);
-      background: var(--light-gray);
-      border-radius: var(--border-radius);
+  background: var(--light-gray);
+  border-radius: var(--border-radius);
   max-width: 500px;
 }
-
 .trend-details-page .container .comments-section .comments-list {
   margin-block: var(--spacing);
 }
-
 .trend-details-page .container .comments-section .comments-list .comment {
   padding: var(--spacing);
   background-color: var(--light-gray);
   border-radius: var(--border-radius);
   margin-block: var(--spacing);
 }
-
 .trend-details-page .container .comments-section .comments-list .comment .top {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   gap: var(--spacing);
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: var(--spacing);
 }
-
 .trend-details-page .container .comments-section .comments-list .comment .top div {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   gap: var(--spacing);
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
 }
-
 .trend-details-page .container .comments-section .comments-list .comment .top div img {
   width: 40px;
   height: 40px;
@@ -140,15 +101,12 @@
      object-fit: cover;
   border-radius: 100%;
 }
-
 .trend-details-page .container .comments-section .comments-list .comment .top .created-at {
   font-size: var(--font-size-xs);
 }
-
 .trend-details-page .container .comments-section .comments-list .comment .comment-content {
   font-size: var(--font-size-sm);
 }
-
 .trend-details-page .container .comments-section .send-comment textarea {
   width: 100%;
   max-width: 100%;
@@ -157,8 +115,6 @@
   border-radius: var(--border-radius);
   margin-block: var(--spacing);
 }
-
 .trend-details-page .container .comments-section .send-comment .btn {
   width: 100%;
-}
-/*# sourceMappingURL=trend.css.map */
+}/*# sourceMappingURL=trend.css.map */

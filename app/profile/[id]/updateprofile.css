@@ -16,6 +16,42 @@
           position: relative;
           margin-bottom: var(--spacing-2x);
 
+          &.top{
+            background-color: var(--light-gray);
+            padding: var(--spacing);
+            border-radius: var(--border-radius);
+            position: relative;
+
+
+            .icon-label{
+              position: absolute;
+              top: 40%;
+              left: 55%;
+              transform: translateY(-50%);
+              color: var(--white);
+              font-weight: 600;
+              font-size: 1.5rem;
+              pointer-events: none;
+            }
+
+            img{
+              
+              box-shadow: var(--shadow);
+            }
+
+            label{
+              text-align: center;
+              padding: 0;
+            }
+
+            input{
+              border: none;
+              text-align: center;
+              display: none;
+            }
+
+          }
+
           img {
             width: 100px;
             height: 100px;
@@ -35,9 +71,10 @@
           select,
           textarea {
             width: 100%;
-            border: var(--border);
+            /* border: var(--border); */
             border-radius: var(--border-radius);
             padding: var(--spacing);
+            background-color: var(--light-gray);
             font-size: var(--font-size-nm);
             color: var(--font-color-p);
 
