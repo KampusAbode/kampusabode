@@ -124,7 +124,7 @@
     width: 90%;
     height: 100%;
     transition: var(--transition);
-    z-index: 9999;
+    z-index: 99999;
   }
   .nav-menu.notlogged {
     display: flex;
