@@ -14,6 +14,10 @@ import { useState, useEffect } from "react";
 // Import the Zustand store for properties
 import { useUserStore } from "./store/userStore";
 import TrendCard from "./trends/component/trendCard/TrendCard";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
+
 
 const { homeSection } = data;
 const { hero, about, testimonials } = homeSection;
@@ -24,6 +28,32 @@ export default function App() {
   // Using Zustand for properties state
   const properties = useUserStore((state) => state.properties);
   const setProperties = useUserStore((state) => state.setProperties);
+
+
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Animate sections (you can add more classes)
+    gsap.utils
+      .toArray<HTMLElement>(
+        ".heading, .service, .pd, .testimonial-card, .trend, .cta-section, .hero-content"
+      )
+      .forEach((el) => {
+        gsap.from(el, {
+          opacity: 0,
+          y: 50,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 90%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      });
+  }, []);
+  
 
   useEffect(() => {
     // Listen for realtime updates from Firestore and update Zustand store
