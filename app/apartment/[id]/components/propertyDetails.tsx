@@ -83,15 +83,25 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   }, [id]);
 
   useEffect(() => {
-    // Prevent SSR usage of `document`
     if (typeof window !== "undefined" && propertyDetails?.description) {
-      // Ensure `document` access happens here only
-      const div = document.createElement("div");
-      div.innerHTML = propertyDetails?.description;
-      const firstP = div.querySelector("p");
-      setSnippet(firstP ? firstP.outerHTML : "");
+      const description = propertyDetails.description;
+
+      // Check if string contains any HTML tags
+      const isPlainText = !/<[a-z][\s\S]*>/i.test(description);
+
+      if (isPlainText) {
+        // Just plain text
+        setSnippet(description);
+      } else {
+        // HTML content - extract first paragraph
+        const div = document.createElement("div");
+        div.innerHTML = description;
+        const firstP = div.querySelector("p");
+        setSnippet(firstP ? firstP.outerHTML : "");
+      }
     }
   }, [propertyDetails?.description]);
+  
 
   // Calculate property rating
   const calculateRating = useCallback(() => {
