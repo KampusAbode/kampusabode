@@ -39,7 +39,6 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   const [isInspectionModelOpen, setInspectionModelOpen] = useState(false);
 
   const { user } = useUserStore((state) => state);
-  const [snippet, setSnippet] = useState<string>("");
   
    
 
@@ -82,25 +81,6 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
     }
   }, [id]);
 
-  useEffect(() => {
-    if (typeof window !== "undefined" && propertyDetails?.description) {
-      const description = propertyDetails.description;
-
-      // Check if string contains any HTML tags
-      const isPlainText = !/<[a-z][\s\S]*>/i.test(description);
-
-      if (isPlainText) {
-        // Just plain text
-        setSnippet(description);
-      } else {
-        // HTML content - extract first paragraph
-        const div = document.createElement("div");
-        div.innerHTML = description;
-        const firstP = div.querySelector("p");
-        setSnippet(firstP ? firstP.outerHTML : "");
-      }
-    }
-  }, [propertyDetails?.description]);
   
 
   // Calculate property rating
@@ -240,11 +220,13 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                 </span>
                 <span>{propertyDetails.area.toLocaleString()} sqft</span>
               </div>
+
               <div className="description">
                 <h4>Overview</h4>
                 {/* <p>{propertyDetails.description}</p> */}
-                <p dangerouslySetInnerHTML={{ __html: snippet }} />
+                <p dangerouslySetInnerHTML={{ __html: propertyDetails.description }} />
               </div>
+
               <div className="amenities">
                 <span>Amenities:</span>
                 {propertyDetails.amenities.length > 0 ? (
