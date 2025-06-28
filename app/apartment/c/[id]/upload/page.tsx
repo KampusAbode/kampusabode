@@ -221,6 +221,10 @@ const UploadProperty = () => {
     });
     setFormHelpers(helpers);
     setPromptOpen(true);
+    console.log("Submitting values:", {
+      ...values,
+    });
+    
   };
 
   const handleConfirm = async () => {
@@ -355,13 +359,25 @@ const UploadProperty = () => {
                     className="error"
                   />
                 </div>
-                <ReactQuill
-                  theme="snow"
-                  value={values.description}
-                  onChange={(value) => setFieldValue("description", value)}
-                  placeholder="Enter the property description..."
-                  modules={{ toolbar: false }} // hides toolbar completely
-                />
+                <div className="form-group">
+                  <label htmlFor="description">description</label>
+                  <Field />
+                  <ReactQuill
+                    theme="snow"
+                    id="description"
+                    className="quill-editor"
+                    value={values.description}
+                    onChange={(value) => setFieldValue("description", value)}
+                    placeholder="Enter the property description..."
+                    modules={{ toolbar: false }} // hides toolbar completely
+                  />
+                  <ErrorMessage
+                    name="description"
+                    component="div"
+                    className="error"
+                  />
+                </div>
+
                 <div className="form-group">
                   <label htmlFor="price">Price</label>
                   <Field type="number" id="price" name="price" />

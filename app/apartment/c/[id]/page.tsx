@@ -111,7 +111,7 @@ function PropertyUploadGuide() {
 
         <div className="upload-btn">
           <Link href={`/apartment/c/${user?.id}/upload`} className="btn">
-            Continue to Upload <FaArrowRightLong />
+            Proceed <FaArrowRightLong />
           </Link>
         </div>
       </div>

@@ -29,11 +29,11 @@
         }
         input,
         select,
-        textarea {
+        textarea,
+        quill-editor {
           padding: var(--spacing);
           width: 100%;
           border: var(--border);
-          border-width: 2px;
           border-radius: var(--border-radius);
           background-color: var(--white);
         }
