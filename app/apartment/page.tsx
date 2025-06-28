@@ -34,25 +34,21 @@ const PropertiesPage: React.FC = () => {
   const initialActiveLocation = searchParams.get("loc") || "all";
 
 
-
-  // Set initial state based on URL parameters
-  // console.log("Initial search query:", initialSearchQuery);
-  // console.log("Initial active location:", initialActiveLocation);
-  // console.log("Initial properties:", filteredProperties);
-  // console.log("Initial loading state:", isLoading);
-
   // Listen for real-time updates from Firestore
   useEffect(() => {
-    setLoading(true);
+    if (filteredProperties.length === 0) {
+      setLoading(true);
+    }
 
     const unsubscribe = fetchPropertiesRealtime((fetchedProperties) => {
       setProperties(fetchedProperties);
-      console.log("Fetched properties:", fetchedProperties);
-      setLoading(false); // Stop loading once properties are set
+      setLoading(false);
     });
 
-    return () => unsubscribe(); // Cleanup listener on component unmount
+    return () => unsubscribe();
   }, []);
+  
+  
 
   // Apply filters on component mount based on URL params
   useEffect(() => {
