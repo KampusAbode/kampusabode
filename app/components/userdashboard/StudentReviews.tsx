@@ -43,7 +43,7 @@ const StudentReviews = () => {
 
   return (
     <div className="student-reviews">
-      <h5>Student Reviews</h5>
+      <h4>Student Reviews</h4>
       {loading ? (
         <Loader />
       ) : error ? (

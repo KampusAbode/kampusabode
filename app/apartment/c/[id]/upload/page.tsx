@@ -13,6 +13,7 @@ import { ApartmentType } from "../../../../fetch/types";
 import data from "../../../../fetch/contents";
 import Prompt from "../../../../components/modals/prompt/Prompt";
 import"./upload.css";
+import { validateWithYupAndToast } from "../../../../utils/validateWithYupAndToast";
 
 const MAX_FILE_SIZE = 8 * 1024 * 1024; // 8MB
 const MAX_VIDEO_SIZE = 6 * 1024 * 1024; // 6MB
@@ -300,6 +301,9 @@ const UploadProperty = () => {
             available: false,
           }}
           validationSchema={validationSchema}
+          validate={(values) =>
+            validateWithYupAndToast(validationSchema, values)
+          }
           onSubmit={handleSubmit}>
           {({ values, setFieldValue, isSubmitting, status }) => (
             <>
@@ -361,7 +365,7 @@ const UploadProperty = () => {
                 </div>
                 <div className="form-group">
                   <label htmlFor="description">Description</label>
-                  
+
                   <ReactQuill
                     theme="snow"
                     id="description"
