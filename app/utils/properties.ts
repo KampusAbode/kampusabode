@@ -227,7 +227,6 @@ export const fetchPropertiesRealtime = (
     const q = query(
       collection(db, "properties"),
       where("approved", "==", true),
-      orderBy("createdAt", "desc")
     );
     return onSnapshot(q, (snapshot) => {
       const properties = snapshot.docs.map((doc) => ({

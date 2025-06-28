@@ -14,6 +14,7 @@ import { useUserStore } from "../../store/userStore";
 import Prompt from "../modals/prompt/Prompt";
 import { logoutUser } from "../../utils/auth";
 import { checkIsAdmin } from "../../utils/user";
+import Image from "next/image";
 
 function Nav() {
   const pathname = usePathname();
@@ -60,11 +61,12 @@ function Nav() {
               <div className="close-div">
                 <div className="logo">
                   <Link href="/" onClick={toggleNav}>
-                    <img
+                    <Image
                       src="/LOGO/RED_LOGO_T.png"
                       width={500}
                       height={500}
                       alt="logo"
+                      priority
                     />
                   </Link>
                 </div>

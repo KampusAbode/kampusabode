@@ -238,7 +238,7 @@ export default function App() {
           </div>
           <div className="trends">
             {trends.slice(0, 4).map((trendData) => (
-              <TrendCard trendData={trendData}/>
+              <TrendCard key={trendData.id} trendData={trendData}/>
             ))}
           </div>
         </div>

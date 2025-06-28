@@ -90,7 +90,8 @@ export default function Header() {
                   src="/LOGO/RED_LOGO_T.png"
                   width={500}
                   height={500}
-                  alt="logo"
+                    alt="logo"
+                    priority
                 />
               </Link>
             </div>

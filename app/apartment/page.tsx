@@ -43,12 +43,12 @@ const PropertiesPage: React.FC = () => {
 
   // Listen for real-time updates from Firestore
   useEffect(() => {
-    // setLoading(true);
+    setLoading(true);
 
     const unsubscribe = fetchPropertiesRealtime((fetchedProperties) => {
       setProperties(fetchedProperties);
       console.log("Fetched properties:", fetchedProperties);
-      // setLoading(false); // Stop loading once properties are set
+      setLoading(false); // Stop loading once properties are set
     });
 
     return () => unsubscribe(); // Cleanup listener on component unmount
