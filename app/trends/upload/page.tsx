@@ -121,7 +121,7 @@ function UploadTrend() {
             onChange={setContent}
             modules={{
               toolbar: [
-                [{ header: [1, 2, false] }],
+                [{ header: [2, false] }],
                 ["bold", "italic", "underline"],
                 [{ list: "ordered" }, { list: "bullet" }],
                 ["clean"],

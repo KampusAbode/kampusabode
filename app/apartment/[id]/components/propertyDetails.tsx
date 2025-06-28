@@ -39,6 +39,9 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   const [isInspectionModelOpen, setInspectionModelOpen] = useState(false);
 
   const { user } = useUserStore((state) => state);
+  const [snippet, setSnippet] = useState<string>("");
+  
+   
 
   // Fetch property details and agent details
   const fetchPropertyDetails = useCallback(async () => {
@@ -78,6 +81,17 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       toast.error("Failed to fetch reviews.");
     }
   }, [id]);
+
+  useEffect(() => {
+    // Prevent SSR usage of `document`
+    if (typeof window !== "undefined" && propertyDetails?.description) {
+      // Ensure `document` access happens here only
+      const div = document.createElement("div");
+      div.innerHTML = propertyDetails?.description;
+      const firstP = div.querySelector("p");
+      setSnippet(firstP ? firstP.outerHTML : "");
+    }
+  }, [propertyDetails?.description]);
 
   // Calculate property rating
   const calculateRating = useCallback(() => {
@@ -218,7 +232,8 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
               </div>
               <div className="description">
                 <h4>Overview</h4>
-                <p>{propertyDetails.description}</p>
+                {/* <p>{propertyDetails.description}</p> */}
+                <p dangerouslySetInnerHTML={{ __html: snippet }} />
               </div>
               <div className="amenities">
                 <span>Amenities:</span>
@@ -240,7 +255,11 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                   <>
                     <Image
                       priority
-                      src={agentDetails?.avatar ? agentDetails?.avatar : "/assets/user_avatar.jpg"}
+                      src={
+                        agentDetails?.avatar
+                          ? agentDetails?.avatar
+                          : "/assets/user_avatar.jpg"
+                      }
                       width={200}
                       height={200}
                       alt={`${agentDetails.name}'s profile picture`}
@@ -285,7 +304,9 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                     <p>"{review.content}"</p>
                     <div>
                       <span>by {review.author.name}</span>
-                      <span>{getFormattedDateDistance(review.date.toString())} ago</span>
+                      <span>
+                        {getFormattedDateDistance(review.date.toString())} ago
+                      </span>
                     </div>
                   </div>
                 ))
