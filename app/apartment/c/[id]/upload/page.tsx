@@ -253,6 +253,7 @@ const UploadProperty = () => {
         images: imageUrls,
         agentId: user?.id ?? "",
         approved: false,
+        createdAt: new Date().toISOString(),
       };
 
       const response = await listApartment(payload);

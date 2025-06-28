@@ -62,7 +62,7 @@ export interface ApartmentType {
   images: string[];
   available: boolean;
   approved: boolean;
-  createdAt: Date;
+  createdAt: Date | string;
   views: number;
 }
 
