@@ -31,6 +31,11 @@
   justify-content: space-between;
   align-items: center;
 }
+.dashboard .container .student-dashboard h4 a,
+.dashboard .container .agent-dashboard h4 a {
+  text-decoration: underline;
+  font-size: var(--font-size-sm);
+}
 .dashboard .container .student-dashboard > div,
 .dashboard .container .agent-dashboard > div {
   margin-block: var(--spacing-5x);

@@ -29,6 +29,11 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+
+        a{
+          text-decoration: underline;
+          font-size: var(--font-size-sm);
+        }
       }
 
       & > div {
