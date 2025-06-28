@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import ReactQuill from "react-quill"; // make sure it's imported
-import "react-quill/dist/quill.snow.css"; // import the Quill styles
+import "react-quill/dist/quill.white.css";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";

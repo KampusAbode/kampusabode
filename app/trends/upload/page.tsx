@@ -12,7 +12,7 @@ import { useUserStore } from "../../store/userStore";
 import dynamic from "next/dynamic";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-import "react-quill/dist/quill.snow.css";
+import "react-quill/dist/quill.white.css";
 
 const categories = [
   "Trending",
@@ -116,7 +116,7 @@ function UploadTrend() {
         <div className="form-group">
           <label htmlFor="content">Content</label>
           <ReactQuill
-            theme="snow"
+            theme="white"
             value={content}
             onChange={setContent}
             modules={{
