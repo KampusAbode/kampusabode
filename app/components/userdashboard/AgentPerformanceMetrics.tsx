@@ -8,13 +8,13 @@ function AgentPerformanceMetrics({user}) {
         {user?.userType === "agent"
           ? (user?.userInfo.propertiesListed?.length ?? 0).toString()
           : 0}
-        <span>apartment listed</span>
+        <span>listed</span>
       </div>
       <div className="matric">
         {user?.userType === "agent"
           ? (user?.userInfo.propertiesSold?.length ?? 0).toString()
           : 0}
-        <span>apartment sold</span>
+        <span>sold</span>
       </div>
       <div className="matric">
         {user?.userType === "agent"

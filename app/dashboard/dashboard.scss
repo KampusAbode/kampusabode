@@ -112,7 +112,7 @@
       .agent-matrics {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: var(--spacing-2x);
+        gap: var(--spacing);
         margin-top: var(--spacing-2x);
 
         .matric {
@@ -121,6 +121,7 @@
           flex-direction: column;
           justify-content: center;
           align-items: center;
+          padding: var(--spacing);
           border-radius: var(--border-radius);
           text-align: center;
 
@@ -227,6 +228,8 @@
 @media screen and (max-width: 768px) {
   .dashboard {
     .container {
+      
+    padding: 0;
       .student-dashboard,
       .agent-dashboard {
         .bookmarked-properties {

@@ -115,7 +115,7 @@
 .dashboard .container .agent-dashboard .agent-matrics {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing-2x);
+  gap: var(--spacing);
   margin-top: var(--spacing-2x);
 }
 .dashboard .container .student-dashboard .agent-matrics .matric,
@@ -125,6 +125,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: var(--spacing);
   border-radius: var(--border-radius);
   text-align: center;
 }
@@ -222,6 +223,9 @@
 }
 
 @media screen and (max-width: 768px) {
+  .dashboard .container {
+    padding: 0;
+  }
   .dashboard .container .student-dashboard .bookmarked-properties ul,
   .dashboard .container .agent-dashboard .bookmarked-properties ul {
     grid-template-columns: 1fr 1fr;
