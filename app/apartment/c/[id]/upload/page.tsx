@@ -355,7 +355,7 @@ const UploadProperty = () => {
                   />
                 </div>
                 <ReactQuill
-                  theme="snow"
+                  theme="white"
                   value={values.description}
                   onChange={(value) => setFieldValue("description", value)}
                   placeholder="Enter the property description..."

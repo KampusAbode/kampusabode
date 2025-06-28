@@ -36,10 +36,10 @@ const PropertiesPage: React.FC = () => {
 
 
   // Set initial state based on URL parameters
-  console.log("Initial search query:", initialSearchQuery);
-  console.log("Initial active location:", initialActiveLocation);
-  console.log("Initial properties:", filteredProperties);
-  console.log("Initial loading state:", isLoading);
+  // console.log("Initial search query:", initialSearchQuery);
+  // console.log("Initial active location:", initialActiveLocation);
+  // console.log("Initial properties:", filteredProperties);
+  // console.log("Initial loading state:", isLoading);
 
   // Listen for real-time updates from Firestore
   useEffect(() => {
