@@ -44,6 +44,9 @@
                 margin-block: var(--spacing);
                 input{
                   padding: var(--spacing-h) var(--spacing);
+                  width: 100%;
+                  max-width: 900px;
+                  margin: 0 auto;
                 }
               }
 

@@ -52,7 +52,7 @@ const UserManagement = () => {
       </div>
 
       {/* Students Section */}
-      <h6>Students</h6>
+      <h6>Students {`(${students.length})`}</h6>
       {students.length === 0 ? (
         <p>No students found.</p>
       ) : (
@@ -71,7 +71,7 @@ const UserManagement = () => {
       )}
 
       {/* Agents Section */}
-      <h6>Agents</h6>
+      <h6>Agents {`(${agents.length})`}</h6>
       {agents.length === 0 ? (
         <p>No agents found.</p>
       ) : (

@@ -8,108 +8,110 @@ import Link from "next/link";
 
 function PropertyUploadGuide() {
   const { user } = useUserStore((state) => state);
+
   return (
     <div className="property-upload-guide">
       <div className="container">
         <h2>Property Upload Guidelines</h2>
 
         <section>
-          <h3>Before You Upload</h3>
+          <h3>Getting Started</h3>
           <ol>
             <li>
-              Ensure the property is real, available, and ready for student
-              accommodation.
+              Only verified agents on Kampus Abode can upload listings. Make
+              sure your profile is verified before proceeding.
             </li>
             <li>
-              You must be a verified agent on Kampus Abode to upload properties.
+              You must have legal authority to list the apartment and handle
+              bookings on behalf of the property owner.
             </li>
             <li>
-              Only upload apartments you are legally authorized to list and
-              manage.
+              Every property must be genuine, currently available, and move-in
+              ready for students.
             </li>
           </ol>
         </section>
 
         <section>
-          <h3>Required Information</h3>
+          <h3>What You’ll Need</h3>
           <ol>
             <li>
-              <strong>Property Title:</strong> A short name for the apartment
-              (e.g., “2-Bedroom Flat near campus gate”).
+              <strong>Property Title:</strong> A clear, simple name students can
+              understand (e.g., “Self-Contained Room Near Main Gate”).
             </li>
             <li>
-              <strong>Location:</strong> Exact address or description (street
-              name, landmarks, etc.).
+              <strong>Location:</strong> Be specific—include street names,
+              landmarks, or nearby faculties.
             </li>
             <li>
-              <strong>Type:</strong> Self-contained, single room, flat, shared
-              apartment, etc.
+              <strong>Property Type:</strong> Specify if it’s a self-contained
+              unit, shared flat, single room, or full apartment.
             </li>
             <li>
-              <strong>Price:</strong> Rent amount .
+              <strong>Rent Price:</strong> Enter the accurate cost of rent.
             </li>
             <li>
-              <strong>Features:</strong> Include features like ensuite bathroom,
-              kitchen, furnished, electricity, water, etc. in your description.
+              <strong>Features:</strong> Highlight essentials like water,
+              electricity, kitchen, ensuite bathroom, WiFi, or furnishings.
             </li>
             <li>
-              <strong>Photos:</strong> Upload clear, real, and up-to-date images
-              of the apartment.
+              <strong>Photos:</strong> Upload real, high-quality, and recent
+              images that reflect the current state of the apartment.
             </li>
             <li>
-              <strong>Description:</strong> Provide any additional information
-              to help students decide.
+              <strong>Description:</strong> Provide extra context—who it’s best
+              suited for, proximity to key places, and unique features.
             </li>
           </ol>
         </section>
 
         <section>
-          <h3>Terms & Conditions</h3>
+          <h3>Important Guidelines</h3>
           <ol>
             <li>
-              False, misleading, or duplicate listings will be removed without
-              notice.
+              Duplicate, misleading, or false listings will be taken down
+              without notice.
             </li>
             <li>
-              All listed apartments must be accessible for viewing upon request.
+              Listed properties must be open and accessible for student
+              inspections when requested.
             </li>
             <li>
-              Agents are expected to respond to booking requests within 24
-              hours.
+              Agents should respond to booking inquiries within 24 hours to
+              maintain trust and visibility.
             </li>
             <li>
-              Kampus Abode reserves the right to suspend or ban agents who
-              violate listing standards.
+              Kampus Abode reserves the right to review, restrict, or suspend
+              any agent or listing that doesn’t align with our standards.
             </li>
           </ol>
         </section>
 
-        <div>
+        <div className="acknowledgment">
           <p>
             <em>
-              By continuing to upload, you agree to follow these guidelines and
-              uphold the quality of listings on Kampus Abode.
+              By continuing, you confirm that your listing complies with Kampus
+              Abode’s upload guidelines. Your commitment helps us maintain a
+              safe, trusted space for students.
             </em>
           </p>
         </div>
 
-        <div>
+        <div className="support-info">
           <p>
-            If you have any questions or need assistance, please contact our
-            support team at{" "}
-            <Link href="mailto: contactkampusabode@gmail.com">send a mail</Link> or
-            reach out to us on our
-            <Link href="https://wa.me/2347050721686" target="_blank">
-              {" "}
+            Need help? Our team is here to assist you.{" "}
+            <Link href="mailto:contactkampusabode@gmail.com">Email us</Link> or
+            chat directly on{" "}
+            <Link href="https://wa.me/23470121059595" target="_blank">
               WhatsApp
-            </Link>{" "}
-            for immediate assistance.
+            </Link>
+            .
           </p>
         </div>
 
         <div className="upload-btn">
           <Link href={`/apartment/c/${user?.id}/upload`} className="btn">
-            next <FaArrowRightLong />
+            Continue to Upload <FaArrowRightLong />
           </Link>
         </div>
       </div>

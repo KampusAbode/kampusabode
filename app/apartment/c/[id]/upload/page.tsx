@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
+import ReactQuill from "react-quill"; // make sure it's imported
+import "react-quill/dist/quill.snow.css"; // import the Quill styles
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -35,16 +37,7 @@ const UploadProperty = () => {
     }
   }, [user, router]);
 
-  const locationOptions = [
-    "asherifa",
-    "oduduwa estate",
-    "damico area",
-    "ibadan road",
-    "parakin estate",
-    "may fair",
-    "lagere",
-    "OAU campus"
-  ];
+
 
   const typeOptions = [
     "self contained",
@@ -303,7 +296,7 @@ const UploadProperty = () => {
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}>
-          {({ setFieldValue, isSubmitting, status }) => (
+          {({ values, setFieldValue, isSubmitting, status }) => (
             <>
               <Form>
                 <div className="form-group">
@@ -333,10 +326,10 @@ const UploadProperty = () => {
                             key={thumb.name + idx}
                             src={objectUrl}
                             alt={`thumb-${idx}`}
-                            className={selectedThumbnails[videoName]?.name ===
-                                thumb.name
-                                  ? "active"
-                                  : ""
+                            className={
+                              selectedThumbnails[videoName]?.name === thumb.name
+                                ? "active"
+                                : ""
                             }
                             onClick={() =>
                               setSelectedThumbnails((prev) => ({
@@ -361,15 +354,13 @@ const UploadProperty = () => {
                     className="error"
                   />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="description">Description</label>
-                  <Field as="textarea" id="description" name="description" />
-                  <ErrorMessage
-                    name="description"
-                    component="div"
-                    className="error"
-                  />
-                </div>
+                <ReactQuill
+                  theme="snow"
+                  value={values.description}
+                  onChange={(value) => setFieldValue("description", value)}
+                  placeholder="Enter the property description..."
+                  modules={{ toolbar: false }} // hides toolbar completely
+                />
                 <div className="form-group">
                   <label htmlFor="price">Price</label>
                   <Field type="number" id="price" name="price" />

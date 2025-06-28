@@ -55,6 +55,8 @@ const AdminContent = () => {
         <nav className="dashboard-navigation">
           {pages.map((page) => (
             <button
+              key={page}
+              type="button"
               onClick={() => setCurrentPage(page)}
               className={currentPage === page ? "active" : ""}>
               {page}
