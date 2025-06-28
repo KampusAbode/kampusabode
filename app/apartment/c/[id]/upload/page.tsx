@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
-import ReactQuill from "react-quill"; // make sure it's imported
-import "react-quill/dist/quill.white.css";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -356,7 +356,7 @@ const UploadProperty = () => {
                   />
                 </div>
                 <ReactQuill
-                  theme="white"
+                  theme="snow"
                   value={values.description}
                   onChange={(value) => setFieldValue("description", value)}
                   placeholder="Enter the property description..."
