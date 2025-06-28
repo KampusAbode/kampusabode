@@ -1,217 +1,223 @@
 .dashboard {
   margin-bottom: var(--spacing-3x);
 
-  .welcome {
+  .container {
+    max-width: 1200px;
     padding: var(--spacing-2x);
-    margin-top: var(--spacing-2x);
-    text-align: center;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-
-    img {
-      width: 90px;
-      height: 90px;
-      border-radius: 100%;
-      object-fit: cover;
-      margin-bottom: var(--spacing);
-    }
-  }
-
-  .student-dashboard,
-  .agent-dashboard {
-    margin-block: var(--spacing-2x);
-
-    h5 {
-      margin-bottom: var(--spacing);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    & > div {
-      margin-block: var(--spacing-5x);
-    }
-
-    .bookmarked-properties {
-      ul {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: var(--spacing);
-        li {
-          // background: var(--light-gray);
-          border-radius: var(--border-radius);
-          border: var(--border-hover);
-          border-color: transparent;
-          overflow: hidden;
-          cursor: pointer;
-
-          a {
-            display: grid;
-            grid-template-columns: 30% 1fr;
-            align-items: center;
-            width: 100%;
-            color: var(--text-color-h);
-
-            img {
-              width: 70px;
-              height: 70px;
-              aspect-ratio: 1/1;
-              border-radius: var(--border-radius);
-              object-fit: cover;
-            }
-
-            div {
-              padding-inline: var(--spacing);
-              span,
-              p {
-                color: var(--text-color-h);
-                display: block;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: -webkit-box;
-                line-clamp: 1;
-                -webkit-line-clamp: 1;
-                -webkit-box-orient: vertical;
-              }
-              span {
-                color: var(--text-color-p);
-                font-size: var(--font-size-sm);
-                margin-top: var(--spacing-h);
-              }
-            }
-          }
-        }
-      }
-    }
-
-    .viewed-properties {
-      .display-viewed-properties {
-        display: flex;
-        flex-wrap: nowrap;
-        gap: var(--spacing);
-        overflow-x: scroll;
-        align-items: center;
-        text-align: center;
-
-        img {
-          width: 90px;
-          height: 90px;
-          border-radius: 100%;
-          object-fit: cover;
-        }
-        span {
-          display: block;
-          text-transform: capitalize;
-        }
-      }
-    }
-
-
-    .agent-matrics {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--spacing-2x);
+    .welcome {
+      padding: var(--spacing-2x);
       margin-top: var(--spacing-2x);
+      text-align: center;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
 
-      .matric {
-        background-color: var(--light-gray);
-        padding: var(--spacing-2x);
-        border-radius: var(--border-radius);
-        text-align: center;
-
-        h6 {
-          margin-bottom: var(--spacing-h);
-          color: var(--text-color-h);
-        }
-
-        p {
-          color: var(--text-color-l);
-          font-size: 0.875rem;
-        }
+      img {
+        width: 90px;
+        height: 90px;
+        border-radius: 100%;
+        object-fit: cover;
+        margin-bottom: var(--spacing);
       }
     }
 
-    .listed-properties {
-      .property-list {
+    .student-dashboard,
+    .agent-dashboard {
+      margin-block: var(--spacing-2x);
+
+      h4 {
+        margin-bottom: var(--spacing);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      & > div {
+        margin-block: var(--spacing-5x);
+      }
+
+      .bookmarked-properties {
         ul {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          gap: var(--spacing-2x);
+          gap: var(--spacing);
           li {
-            display: grid;
-            grid-template-columns: auto 2.5rem;
-            background-color: var(--light-gray);
+            // background: var(--light-gray);
             border-radius: var(--border-radius);
-            position: relative;
+            border: var(--border-hover);
+            border-color: transparent;
+            overflow: hidden;
+            cursor: pointer;
+
             a {
               display: grid;
-              grid-template-columns: 1fr 2fr;
+              grid-template-columns: 30% 1fr;
+              align-items: center;
+              width: 100%;
+              color: var(--text-color-h);
 
               img {
-                height: 80px;
-                width: 100%;
-                object-fit: cover;
+                width: 70px;
+                height: 70px;
+                aspect-ratio: 1/1;
                 border-radius: var(--border-radius);
-                border-top-right-radius: 0;
-                border-bottom-right-radius: 0;
+                object-fit: cover;
               }
 
-              .detail {
-                padding: var(--spacing-h) var(--spacing);
-                span {
-                  &::first-child {
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    display: -webkit-box;
-                    line-clamp: 2;
-                    -webkit-line-clamp: 2;
-                    -webkit-box-orient: vertical;
-                  }
+              div {
+                padding-inline: var(--spacing);
+                span,
+                p {
+                  color: var(--text-color-h);
                   display: block;
-                  margin-bottom: var(--spacing-h);
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  display: -webkit-box;
+                  line-clamp: 1;
+                  -webkit-line-clamp: 1;
+                  -webkit-box-orient: vertical;
                 }
-              }
-            }
-
-            .option-btn {
-              padding: var(--spacing-h);
-              cursor: pointer;
-            }
-
-            .options {
-              box-shadow: var(--shadow);
-              background-color: var(--white);
-              border-radius: var(--border-radius);
-              border: var(--border);
-              overflow: hidden;
-              position: absolute;
-              bottom: 105%;
-              right: 0;
-
-              button{
-                width: 100%;
-                border: none;
-                background-color: var(--white);
-                display: block;
-                padding: var(--spacing-b);
-                text-align: center;
-                text-transform: capitalize;
-                cursor: pointer;
-
-                &:hover{
-                  background-color: var(--light-gray);
+                span {
+                  color: var(--text-color-p);
+                  font-size: var(--font-size-sm);
+                  margin-top: var(--spacing-h);
                 }
               }
             }
           }
         }
       }
-    }
 
-    .student-reviews {
-      ul {
-        li {
-          margin-bottom: var(--spacing);
+      .viewed-properties {
+        .display-viewed-properties {
+          display: flex;
+          flex-wrap: nowrap;
+          gap: var(--spacing);
+          overflow-x: scroll;
+          align-items: center;
+          text-align: center;
+
+          img {
+            width: 90px;
+            height: 90px;
+            border-radius: 100%;
+            object-fit: cover;
+          }
+          span {
+            display: block;
+            text-transform: capitalize;
+          }
+        }
+      }
+
+      .agent-matrics {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-2x);
+        margin-top: var(--spacing-2x);
+
+        .matric {
+          background-color: var(--light-gray);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          border-radius: var(--border-radius);
+          text-align: center;
+
+          h6 {
+            margin-bottom: var(--spacing-h);
+            color: var(--text-color-h);
+          }
+
+          p {
+            color: var(--text-color-l);
+            font-size: 0.875rem;
+          }
+        }
+      }
+
+      .listed-properties {
+        .property-list {
+          ul {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-2x);
+            li {
+              display: grid;
+              grid-template-columns: auto 2.5rem;
+              background-color: var(--light-gray);
+              border-radius: var(--border-radius);
+              position: relative;
+              a {
+                display: grid;
+                grid-template-columns: 1fr 2fr;
+
+                img {
+                  height: 80px;
+                  width: 100%;
+                  object-fit: cover;
+                  border-radius: var(--border-radius);
+                  border-top-right-radius: 0;
+                  border-bottom-right-radius: 0;
+                }
+
+                .detail {
+                  padding: var(--spacing-h) var(--spacing);
+                  span {
+                    &::first-child {
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      display: -webkit-box;
+                      line-clamp: 2;
+                      -webkit-line-clamp: 2;
+                      -webkit-box-orient: vertical;
+                    }
+                    display: block;
+                    margin-bottom: var(--spacing-h);
+                  }
+                }
+              }
+
+              .option-btn {
+                padding: var(--spacing-h);
+                cursor: pointer;
+              }
+
+              .options {
+                box-shadow: var(--shadow);
+                background-color: var(--white);
+                border-radius: var(--border-radius);
+                border: var(--border);
+                overflow: hidden;
+                position: absolute;
+                bottom: 105%;
+                right: 0;
+
+                button {
+                  width: 100%;
+                  border: none;
+                  background-color: var(--white);
+                  display: block;
+                  padding: var(--spacing-b);
+                  text-align: center;
+                  text-transform: capitalize;
+                  cursor: pointer;
+
+                  &:hover {
+                    background-color: var(--light-gray);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .student-reviews {
+        ul {
+          li {
+            margin-bottom: var(--spacing);
+          }
         }
       }
     }
@@ -220,18 +226,20 @@
 
 @media screen and (max-width: 768px) {
   .dashboard {
-    .student-dashboard,
-    .agent-dashboard {
-      .bookmarked-properties {
-        ul {
-          grid-template-columns: 1fr 1fr;
-        }
-      }
-
-      .listed-properties {
-        .property-list {
+    .container {
+      .student-dashboard,
+      .agent-dashboard {
+        .bookmarked-properties {
           ul {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 1fr 1fr;
+          }
+        }
+
+        .listed-properties {
+          .property-list {
+            ul {
+              grid-template-columns: repeat(2, 1fr);
+            }
           }
         }
       }
@@ -241,25 +249,27 @@
 
 @media screen and (max-width: 480px) {
   .dashboard {
-    .student-dashboard,
-    .agent-dashboard {
-      .bookmarked-properties {
-        ul {
-          grid-template-columns: 1fr;
-          // li {
-          //   a {
-          //     img {
-          //       // aspect-ratio: 1/1;
-          //     }
-          //   }
-          // }
-        }
-      }
-
-      .listed-properties {
-        .property-list {
+    .container {
+      .student-dashboard,
+      .agent-dashboard {
+        .bookmarked-properties {
           ul {
             grid-template-columns: 1fr;
+            // li {
+            //   a {
+            //     img {
+            //       // aspect-ratio: 1/1;
+            //     }
+            //   }
+            // }
+          }
+        }
+
+        .listed-properties {
+          .property-list {
+            ul {
+              grid-template-columns: 1fr;
+            }
           }
         }
       }

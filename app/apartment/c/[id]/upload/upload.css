@@ -29,12 +29,19 @@
 .upload-property .container form .form-group input,
 .upload-property .container form .form-group select,
 .upload-property .container form .form-group textarea,
-.upload-property .container form .form-group quill-editor {
+.upload-property .container form .form-group .quill-editor {
   padding: var(--spacing);
   width: 100%;
   border: var(--border);
   border-radius: var(--border-radius);
   background-color: var(--white);
+}
+.upload-property .container form .form-group input div,
+.upload-property .container form .form-group select div,
+.upload-property .container form .form-group textarea div,
+.upload-property .container form .form-group .quill-editor div {
+  padding: 0;
+  border: none;
 }
 .upload-property .container form .form-group textarea {
   resize: none;

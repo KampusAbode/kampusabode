@@ -30,13 +30,19 @@
         input,
         select,
         textarea,
-        quill-editor {
+        .quill-editor {
           padding: var(--spacing);
           width: 100%;
           border: var(--border);
           border-radius: var(--border-radius);
           background-color: var(--white);
+
+          div{
+            padding: 0;
+            border: none;
+          }
         }
+        
 
         textarea {
           resize: none;

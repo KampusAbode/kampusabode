@@ -97,12 +97,12 @@ const ListedProperties = () => {
 
   return (
     <div className="listed-properties">
-      <h5>
+      <h4>
         Your Listings{" "}
-        <Link href={`/apartment/c/${user?.id}`} className="btn">
+        <Link href={`/apartment/c/${user?.id}`}>
           Upload
         </Link>
-      </h5>
+      </h4>
       <div className="property-list">
         {loading ? (
           <Loader />

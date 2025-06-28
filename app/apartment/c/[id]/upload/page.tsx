@@ -360,8 +360,8 @@ const UploadProperty = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="description">description</label>
-                  <Field />
+                  <label htmlFor="description">Description</label>
+                  
                   <ReactQuill
                     theme="snow"
                     id="description"
