@@ -49,13 +49,18 @@
       button {
         display: flex;
         align-items: center;
-        gap: var(--spacing);
+        gap: var(--spacing-h);
         border: none;
         padding: var(--spacing-h) var(--spacing);
         background-color: var(--light-gray);
         border-radius: var(--border-radius-r);
         color: var(--font-color-p);
         cursor: pointer;
+
+        &.active i{
+          color: green;
+          font-size: var(--font-size-lg);
+        }
       }
     }
     .trend-description {
