@@ -59,7 +59,6 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* GA Script */}
-        
 <Script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}"></Script>
 <Script>
   window.dataLayer = window.dataLayer || [];
