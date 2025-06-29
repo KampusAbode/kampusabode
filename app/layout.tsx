@@ -59,14 +59,14 @@ export default function RootLayout({
       <head>
         {/* GA Script */}
         
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-LTGR69WRJB"></script>
-<script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LTGR69WRJB"></Script>
+<Script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
   gtag('config', 'G-LTGR69WRJB');
-</script>
+</Script>
       </head>
       <body>
         <Toaster
