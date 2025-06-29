@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Header from "./components/header/Header";
 import Navigation from "./components/navigation/Navigation";
@@ -6,13 +6,12 @@ import Nav from "./components/navMenu/nav";
 import QuickService from "./components/quickservice/QuickService";
 import { useUserStore } from "./store/userStore";
 import { useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { saveScroll, getScroll } from "./lib/scrollManager";
 import Loader from "./components/loader/Loader";
 import { useAuthListener } from "./hooks/useAuthListener";
 import { pageview } from './lib/ga';
-
-
+import Script from 'next/script'; // ✅ Import this
 
 export default function ClientRootLayout({
   children,
@@ -27,7 +26,6 @@ function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   const { initializing } = useAuthListener();
   const pathname = usePathname();
 
-  // Save scroll on route change or unload
   useEffect(() => {
     const handleSaveScroll = () => {
       saveScroll(pathname);
@@ -46,7 +44,6 @@ function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
     };
   }, [pathname]);
 
-  // Restore scroll on route load
   useEffect(() => {
     requestAnimationFrame(() => {
       const savedScroll = getScroll(pathname);
@@ -56,7 +53,6 @@ function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
     });
   }, [pathname]);
 
-      
   useEffect(() => {
     pageview(pathname);
   }, [pathname]);
@@ -65,6 +61,20 @@ function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="wrapper">
+      {/* ✅ Insert Scripts once */}
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-LTGR69WRJB"
+        strategy="afterInteractive"
+      />
+      <Script id="ga-init" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-LTGR69WRJB');
+        `}
+      </Script>
+
       <Nav />
       <main>
         <Header />
