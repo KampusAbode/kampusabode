@@ -195,8 +195,8 @@ const TrendPage = ({ params }: Params) => {
             <Image
               priority
               src={trendData?.image}
-              width={1500}
-              height={1500}
+              width={3000}
+              height={3000}
               alt="trend image"
             />
           </div>
