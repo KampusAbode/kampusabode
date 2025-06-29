@@ -10,6 +10,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { saveScroll, getScroll } from "./lib/scrollManager";
 import Loader from "./components/loader/Loader";
 import { useAuthListener } from "./hooks/useAuthListener";
+import { pageview } from './lib/ga';
+
 
 export default function ClientRootLayout({
   children,
@@ -51,6 +53,11 @@ function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
         window.scrollTo(0, savedScroll);
       }
     });
+  }, [pathname]);
+
+      
+  useEffect(() => {
+    pageview(pathname);
   }, [pathname]);
 
   if (initializing) return <Loader />;
