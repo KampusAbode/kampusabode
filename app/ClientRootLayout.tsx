@@ -7,7 +7,7 @@ import QuickService from "./components/quickservice/QuickService";
 import { useUserStore } from "./store/userStore";
 import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { saveScroll, getScroll } from "./scrollManager";
+import { saveScroll, getScroll } from "./lib/scrollManager";
 import Loader from "./components/loader/Loader";
 import { useAuthListener } from "./hooks/useAuthListener";
 
