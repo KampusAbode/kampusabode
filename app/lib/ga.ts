@@ -1,10 +1,16 @@
 
-// lib/ga.ts
+declare global {
+  interface Window {
+    gtag?: (...args: any[]) => void;
+  }
+}
+
 export const GA_MEASUREMENT_ID = 'G-LTGR69WRJB'; // Replace with yours
 
-// Optional: track pageviews manually
 export const pageview = (url: string) => {
-  window.gtag('config', GA_MEASUREMENT_ID, {
-    page_path: url,
-  });
+  if (typeof window !== "undefined" && typeof window.gtag === "function") {
+    window.gtag("config", GA_MEASUREMENT_ID, {
+      page_path: url,
+    });
+  }
 };
