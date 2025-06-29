@@ -48,13 +48,17 @@
 .trend-details-page .container .interaction-buttons button {
   display: flex;
   align-items: center;
-  gap: var(--spacing);
+  gap: var(--spacing-h);
   border: none;
   padding: var(--spacing-h) var(--spacing);
   background-color: var(--light-gray);
   border-radius: var(--border-radius-r);
   color: var(--font-color-p);
   cursor: pointer;
+}
+.trend-details-page .container .interaction-buttons button.active i{
+  color: green;
+  font-size: var(--font-size-lg);
 }
 .trend-details-page .container .trend-description {
   margin-block: var(--spacing-2x);
