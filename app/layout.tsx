@@ -6,7 +6,7 @@ import { NotificationProvider } from "./context/NotificationContext";
 import { Toaster } from "react-hot-toast";
 import WelcomeMessage from "./components/welcome/WelcomeMessage";
 import { Analytics } from '@vercel/analytics/next';
-import { GA_MEASUREMENT_ID } from "./lib/ga";
+
 
 export async function generateMetadata(): Promise<Metadata> {
 
@@ -57,17 +57,7 @@ export default function RootLayout({
   
   return (
     <html lang="en">
-      <head>
-        {/* GA Script */}
-<Script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}"></Script>
-<Script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', '${GA_MEASUREMENT_ID}');
-</Script>
-      </head>
+    
       <body>
         <Toaster
           containerStyle={{
