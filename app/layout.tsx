@@ -59,7 +59,7 @@ export default function RootLayout({
       <head>
         {/* GA Script */}
         
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-LTGR69WRJB"></Script>
+<Script async src="https://www.googletagmanager.com/gtag/js?id=G-LTGR69WRJB"></Script>
 <Script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
