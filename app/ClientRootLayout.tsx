@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 import { saveScroll, getScroll } from "./lib/scrollManager";
 import Loader from "./components/loader/Loader";
 import { useAuthListener } from "./hooks/useAuthListener";
-import { pageview } from './lib/ga';
+import { pageview, GA_MEASUREMENT_ID } from './lib/ga';
 import Script from 'next/script'; // ✅ Import this
 
 export default function ClientRootLayout({
