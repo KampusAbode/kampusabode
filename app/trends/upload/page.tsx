@@ -21,6 +21,7 @@ const categories = [
   "Sports",
   "Music & Entertainment",
   "Football",
+  "housing",
   "Tech & Innovations",
   "Departments",
 ];
