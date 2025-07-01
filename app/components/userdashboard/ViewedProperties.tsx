@@ -14,6 +14,7 @@ const ViewedProperties: React.FC = () => {
   const setProperties = useUserStore((state) => state.setProperties);
   // const { fetchPropertiesRealtime } = useProperties();
 
+  
   // Retrieve the logged-in user data from the store.
   const user = useUserStore((state) => state.user);
 
