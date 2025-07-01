@@ -14,7 +14,7 @@ function SaveVisitedProperty({
   const { user, addView } = useUserStore(); // Access Zustand store
 
   useEffect(() => {
-    if (!id || !user || user.userType !== "student") return;
+    if (!id || !user) return;
 
     // Call addView function to track the viewed property
     addView(id);
