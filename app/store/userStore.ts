@@ -94,28 +94,43 @@ export const useUserStore = create<UserState>()(
         }
       },
 
-      addView: (id) => {
-        const user = get().user;
-        if (!user || user.userType !== "student") return;
-        const currentViewed = (user.userInfo as any)
-          .viewedProperties as string[];
-        if (!currentViewed.includes(id)) {
-          const updatedUser: UserType = {
-            ...user,
-            userInfo: {
-              ...user.userInfo,
-              viewedProperties: [...currentViewed, id],
-            },
-          };
-          set({ user: updatedUser });
+      addView: async (id) => {
+  const user = get().user;
+  if (!user || user.userType !== "student") return;
 
-          // Update Firestore: Add viewed property
-          const userRef = doc(db, "users", user.id);
-          updateDoc(userRef, {
-            "userInfo.viewedProperties": arrayUnion(id),
-          });
-        }
+  const currentViewed = (user.userInfo as any).viewedProperties as string[];
+
+  // If the property hasn't been viewed by this student
+  if (!currentViewed.includes(id)) {
+    const updatedUser: UserType = {
+      ...user,
+      userInfo: {
+        ...user.userInfo,
+        viewedProperties: [...currentViewed, id],
       },
+    };
+
+    set({ user: updatedUser });
+
+    // Firestore references
+    const userRef = doc(db, "users", user.id);
+    const apartmentRef = doc(db, "apartment", id);
+
+    try {
+      // Update user's viewedProperties
+      await updateDoc(userRef, {
+        "userInfo.viewedProperties": arrayUnion(id),
+      });
+
+      // Increment view count for apartment
+      await updateDoc(apartmentRef, {
+        "views": increment(1), // Ensure 'views' exists or defaults to 0
+      });
+    } catch (err) {
+      console.error("Error updating views:", err);
+    }
+  }
+},
 
       addListedProperty: (id) => {
         const user = get().user;
