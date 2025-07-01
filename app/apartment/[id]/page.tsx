@@ -14,6 +14,10 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   // Fetch property details from your data source (could be API or DB)
   // const { getApartmentById } = useProperties();
   const propertyDetails = await getApartmentById(id);
+  const title = `${propertyDetails.title} - at Kampusabode`;
+  const description = propertyDetails.description || "Find quality student apartments on Kampusabode.";
+  const image = propertyDetails.images?.[0] || "https://kampusabode.com/LOGO/logored_white.jpg";
+  
 
   if (!propertyDetails) {
     return {
@@ -35,20 +39,37 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   }
 
   return {
-    title: `${propertyDetails.title} - at Kampusabode`,
-    description: propertyDetails.description,
-    keywords: "property listings, real estate, apartments, houses",
+    title,
+    description,
+    keywords: [
+      "apartment listings",
+      "real estate",
+      "apartments",
+      "houses",
+      "rentals",
+      "students",
+      "university",
+    ],
     openGraph: {
-      title: propertyDetails.title,
-      description: propertyDetails.description,
+      title,
+      description,
+      url: `https://kampusabode.com/apartment/${propertyDetails.id}`,
+      siteName: "Kampusabode",
       images: [
         {
-          url: propertyDetails.images[0],
-          width: 800,
-          height: 600,
-          alt: propertyDetails.title,
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: title,
         },
       ],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
     },
   };
 }
