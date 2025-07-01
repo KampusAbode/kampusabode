@@ -10,6 +10,7 @@ type Params = {
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { id } = params;
 
+  
   // Fetch property details from your data source (could be API or DB)
   // const { getApartmentById } = useProperties();
   const propertyDetails = await getApartmentById(id);
