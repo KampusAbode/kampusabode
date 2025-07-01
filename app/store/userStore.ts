@@ -8,6 +8,7 @@ import {
   updateDoc,
   arrayUnion,
   arrayRemove,
+  increment
 } from "firebase/firestore";
 import { db } from "../lib/firebaseConfig";
 
@@ -96,7 +97,7 @@ export const useUserStore = create<UserState>()(
 
       addView: async (id) => {
   const user = get().user;
-  if (!user || user.userType !== "student") return;
+  if (!user) return;
 
   const currentViewed = (user.userInfo as any).viewedProperties as string[];
 
