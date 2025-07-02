@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
           {
             url: "https://kampusabode.com/LOGO/logored_white.jpg",
             width: 1200,
-            height: 630,
+            height: 1200,
             alt: "Kampusabode - Apartment Listing Site",
           },
         ],
