@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import "./ScheduleInspectionModal.css";
 import { useUserStore } from "../../../store/userStore";
 import toast from "react-hot-toast";
+import { format, parseISO } from "date-fns";
 
 
 
@@ -43,28 +44,50 @@ export default function ScheduleInspectionModal({
 
   if (!user) {
     toast.error("sign up before scheduling an inspection");
+    return
   }
 
+
+  const getOrdinal = (n: number) => {
+  const s = ["th", "st", "nd", "rd"],
+    v = n % 100;
+  return s[(v - 20) % 10] || s[v] || s[0];
+};
+  
+
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrorMsg("");
-    setSuccessMsg("");
-    setLoading(true);
+  e.preventDefault();
+  setErrorMsg("");
+  setSuccessMsg("");
+  setLoading(true);
 
-    try {
-      if (!name || !email || !phone || !preferredDate || !preferredTime) {
-        throw new Error("Please fill in all required fields.");
-      }
-
-       await onSubmit({name, email, phone, preferredDate, preferredTime, notes});
-
-      
-    } catch (error: any) {
-      setErrorMsg(error.message || "Something went wrong.");
-    } finally {
-      setLoading(false);
+  try {
+    if (!name || !email || !phone || !preferredDate || !preferredTime) {
+      throw new Error("Please fill in all required fields.");
     }
-  };
+
+    const parsedDate = parseISO(preferredDate);
+    const day = parsedDate.getDate();
+    const formattedDate = `${format(parsedDate, "EEEE")} ${day}${getOrdinal(
+      day
+    )}, ${format(parsedDate, "yyyy")}`;
+
+    await onSubmit({
+      name,
+      email,
+      phone,
+      preferredDate: formattedDate,
+      preferredTime,
+      notes,
+    });
+
+  } catch (error: any) {
+    setErrorMsg(error.message || "Something went wrong.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="modal-overlay">
