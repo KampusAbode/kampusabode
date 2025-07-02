@@ -162,16 +162,17 @@ const UploadProperty = () => {
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
     description: Yup.string()
-      .min(500, "Description must be at least 100 characters")
-      .max(2000, "Description cannot exceed 500 characters")
+      .min(50, "Description must be at least 50 characters")
+      .max(500, "Description cannot exceed 500 characters")
       .required("Description is required"),
     price: Yup.number()
       .typeError("Price must be a number")
       .required("Price is required"),
     location: Yup.string().required("Location is required"),
-    neighborhood_overview: Yup.string().min(300, "overview must be at least 100 characters").required(
-      "Neighborhood overview is required"
-    ),
+    neighborhood_overview: Yup.string()
+      .min(50, "overview must be at least 50 characters")
+      .max(500, "Description cannot exceed 500 characters")
+      .required("Neighborhood overview is required"),
     type: Yup.string().required("Property type is required"),
     bedrooms: Yup.number()
       .typeError("Bedrooms must be a number")
