@@ -101,7 +101,7 @@ export const useUserStore = create<UserState>()(
 
   const currentViewed = (user.userInfo as any).viewedProperties as string[];
 
-  // If the property hasn't been viewed by this student
+  // If the property hasn't been viewed
   if (!currentViewed.includes(id)) {
     const updatedUser: UserType = {
       ...user,
@@ -115,7 +115,7 @@ export const useUserStore = create<UserState>()(
 
     // Firestore references
     const userRef = doc(db, "users", user.id);
-    const apartmentRef = doc(db, "apartment", id);
+    const apartmentRef = doc(db, "properties", id);
 
     try {
       // Update user's viewedProperties
