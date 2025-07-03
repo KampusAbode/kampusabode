@@ -15,9 +15,9 @@ import Prompt from "../../../../components/modals/prompt/Prompt";
 import"./upload.css";
 import { validateWithYupAndToast } from "../../../../utils/validateWithYupAndToast";
 
-const MAX_FILE_SIZE = 8 * 1024 * 1024; // 8MB
-const MAX_VIDEO_SIZE = 6 * 1024 * 1024; // 6MB
-const FRAME_COUNT = 6;
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+const MAX_VIDEO_SIZE = 10 * 1024 * 1024; // 10MB
+const FRAME_COUNT = 15;
 
 const UploadProperty = () => {
   const [mediaPreviews, setMediaPreviews] = useState<File[]>([]);
@@ -125,7 +125,7 @@ const UploadProperty = () => {
     for (const file of files) {
       if (file.type.startsWith("video/")) {
         if (file.size > MAX_VIDEO_SIZE) {
-          toast.error(`${file.name} exceeds max video size of 6MB`);
+          toast.error(`${file.name} exceeds max video size of 10MB`);
           continue;
         }
         try {
@@ -150,7 +150,7 @@ const UploadProperty = () => {
 
     const totalSize = finalFiles.reduce((acc, f) => acc + f.size, 0);
     if (totalSize > MAX_FILE_SIZE) {
-      toast.error("Total file size exceeds 8MB");
+      toast.error("Total file size exceeds 10MB");
       return;
     }
 
