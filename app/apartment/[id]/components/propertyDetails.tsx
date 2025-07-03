@@ -134,7 +134,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       phone: string;
       preferredDate: string;
       preferredTime: string;
-      note?: string;
+      notes?: string;
     } = {
       apartmentId: propertyDetails?.id || "",
       apartmentTitle: propertyDetails?.title || "",
@@ -146,7 +146,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
           : "",
       ...userdata,
     };
-    console.log("Form Data:", data);
+  //  console.log("Form Data:", data);
     
     try {
       // const emailSent = await sendInspectionEmail(data);
@@ -173,7 +173,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       }\n📅 Date: ${data.preferredDate}\n⏰ Time: ${
         data.preferredTime
       }\n📝 Note: ${
-        data.note || "No additional notes"
+        data.notes || "No additional notes"
       }\n\nPlease let me know if this works for you.`;
 
       window.open(
