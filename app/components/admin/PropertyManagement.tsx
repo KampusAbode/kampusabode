@@ -72,8 +72,9 @@ const PropertyManagement = () => {
                 <p>
                   <Link href={property.url}>{property.title}</Link>
                 </p>
-                <span>price - ${property.price}</span>
-                <span>pocation - {property.location}</span>
+                <span>price: {property.price}</span>
+                <span>pocation: {property.location}</span>
+                <span>views: {property.views} </span>
               </div>
               <span style={{ color: property.approved ? "green" : "red" }}>
                 ({property.approved ? "approved" : "Unapproved"})

@@ -85,4 +85,6 @@
 }
 .admin-dashboard .container .dashboard-content .property-management ul li .action {
   margin-top: var(--spacing);
+  display: flex;
+  gap: var(--spacing);
 }/*# sourceMappingURL=admin.css.map */
