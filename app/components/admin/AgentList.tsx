@@ -91,7 +91,7 @@ const AgentList = () => {
                     router.push(`/uploadforagent?agentId=${agent.id}`)
                   }
                 >
-                  Upload for this agent
+                  Upload
                 </button>
               </li>
             ))}
