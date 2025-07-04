@@ -4,17 +4,21 @@ import { useState, useEffect } from "react";
 import { fetchReviewsByAgentId } from "../../utils";
 import toast from "react-hot-toast";
 import Loader from "../loader/Loader";
+import { useUserStore } from "../../store/userStore"; 
+import { ReviewType } from "../../fetch/types";
 
-const StudentReviews = ({ user }) => {
-  const [reviews, setReviews] = useState([]);
+
+const StudentReviews = () => {
+  const user = useUserStore((state) => state.user);
+  const [reviews, setReviews] = useState<ReviewType[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        setLoading(true); 
-        setError(null); 
+        setLoading(true);
+        setError(null);
 
         if (user?.id) {
           const fetchedReviews = await fetchReviewsByAgentId(user.id);
@@ -30,7 +34,7 @@ const StudentReviews = ({ user }) => {
         setError(errorMessage);
         toast.error("Failed to fetch reviews.");
       } finally {
-        setLoading(false); // End loading
+        setLoading(false);
       }
     };
 
@@ -39,7 +43,7 @@ const StudentReviews = ({ user }) => {
 
   return (
     <div className="student-reviews">
-      <h5>Student Reviews</h5>
+      <h4>Student Reviews</h4>
       {loading ? (
         <Loader />
       ) : error ? (

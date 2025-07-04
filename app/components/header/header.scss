@@ -1,14 +1,14 @@
 /* ========== header section open ========== */
 header {
   padding-block: var(--spacing);
-  position: absolute;
+  position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  width: 100%;
   background-color: var(--white);
   box-shadow: var(--shadow);
-  z-index: 100;
+  z-index: 9999;
   transition: transform 0.3s ease, opacity 0.3s ease;
+
 
   &.hide {
     transform: translateY(-100%);
@@ -26,11 +26,6 @@ header {
     }
 
     .logo {
-      visibility: hidden;
-
-      &.loggedIn{
-        visibility: visible;
-      }
 
       a {
         cursor: pointer;
@@ -77,6 +72,7 @@ header {
 @media screen and (max-width: 768px) {
   /* ========== header section open ========== */
   header {
+    position: fixed;
     .container {
       .logo {
         visibility: visible;

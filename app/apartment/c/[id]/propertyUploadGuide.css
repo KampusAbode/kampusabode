@@ -1,0 +1,25 @@
+.property-upload-guide {
+  padding-block: var(--spacing-5x);
+  .container {
+    max-width: 1024px;
+    section {
+      padding-block: var(--spacing-2x);
+
+      ol {
+        margin-top: var(--spacing);
+        li {
+          margin-bottom: var(--spacing-h);
+        }
+      }
+    }
+
+    & > div {
+      margin-top: var(--spacing-2x);
+      p {
+        a {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

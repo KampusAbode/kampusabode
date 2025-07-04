@@ -23,8 +23,6 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    "app/api/signup/route.ts",
-    "app/components/authentication.js"
-, "app/utils/api.ts"  ],
+  ],
   "exclude": ["node_modules"]
 }

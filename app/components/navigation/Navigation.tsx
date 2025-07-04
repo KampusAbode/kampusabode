@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import type { RootState } from "../../redux/store";
-import { useSelector } from "react-redux";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 import {
   FaBookmark,
   FaBookReader,
@@ -12,130 +11,102 @@ import {
 } from "react-icons/fa";
 import { FaUser } from "react-icons/fa6";
 import { IoChatboxEllipses } from "react-icons/io5";
-import toast from "react-hot-toast";
 import "./navigation.css";
-import { getAllMessages } from "../../utils"; // adjust the path as needed
+import { getAllMessages } from "../../utils";
+import { useUserStore } from "../../store/userStore";
 
 export default function Navigation() {
-  const user = useSelector((state: RootState) => state.user);
-  const isAuthenticated = user?.isAuthenticated;
-  const userId = user?.id; // Ensure your Redux store provides the user's id
-  const [loading, setLoading] = useState(true);
-  const [unreadCount, setUnreadCount] = useState(0);
+  const user = useUserStore((state) => state.user);
+  const id = user?.id;
   const pathname = usePathname();
-  const router = useRouter();
+  const [unreadCount, setUnreadCount] = useState(0);
 
+  // Subscribe to messages if user is logged in
   useEffect(() => {
-    // Simulate a delay to wait for user authentication status
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    if (!id) return;
 
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Listen for unread messages (only for authenticated users)
-  useEffect(() => {
-    if (!isAuthenticated || !userId) return;
-
-    // Subscribe to all conversations from Firebase
     const unsubscribe = getAllMessages((allConversations) => {
-      // Filter for conversations where the logged in user is the receiver and the message is unread
-      const unreadMessages = allConversations.filter(
-        (convo) => convo.receiverId === userId && !convo.read
+      const unread = allConversations.filter(
+        (convo) => convo.receiverId === id && !convo.read
       );
-      setUnreadCount(unreadMessages.length);
+      setUnreadCount(unread.length);
     });
 
     return () => unsubscribe();
-  }, [isAuthenticated, userId]);
+  }, [id]);
 
-  // Exclude navigation on certain paths
   const excludedPaths = [
-    "login",
-    "signup",
-    "chat",
-    "adminchatroom",
-    "about",
-    "properties/",
+    "/chat",
+    "/adminchatroom",
+    "/about",
+    "/auth",
+    "/apartment/",
+    "/profile/",
   ];
-  const isExcludedPath = excludedPaths.some((path) => pathname.includes(path));
+  const isExcluded = excludedPaths.some((path) => pathname.startsWith(path));
+  if (isExcluded) return null;
 
-  if (isExcludedPath || loading) {
-    return null;
-  }
-
-  // Define page availability (true means available, false means not available)
-  const pageAvailability = {
-    "/properties": true,
-    "/messages": true,
-    "/trends": true,
-    "/saved": true,
-    "/marketplace": true,
-    "/auth/login": true,
-  };
-
-  // Handle navigation with page availability check
-  const handleNavigation = (href: string) => {
-    if (pageAvailability[href] === false) {
-      toast.error("🚧 Page not available", {
-        position: "top-center",
-        duration: 3000,
-      });
-    } else {
-      router.push(href);
-    }
-  };
+  const navLinks = [
+    {
+      href: "/apartment",
+      icon: <FaSearchLocation />,
+      label: "apartments",
+      authOnly: false,
+    },
+    {
+      href: "/messages",
+      icon: <IoChatboxEllipses />,
+      label: "messages",
+      authOnly: true,
+      hasBadge: true,
+    },
+    {
+      href: "/trends",
+      icon: <FaBookReader />,
+      label: "trends",
+      authOnly: false,
+    },
+    {
+      href: "/saved",
+      icon: <FaBookmark />,
+      label: "saved",
+      authOnly: true,
+    },
+  ];
 
   return (
     <nav className="navigation">
-      <ul className={isAuthenticated ? "grid" : "flex"}>
-        <li className={pathname === "/properties" ? "active" : ""}>
-          <button onClick={() => handleNavigation("/properties")}>
-            <FaSearchLocation />
-            <span>properties</span>
-          </button>
-        </li>
+      <ul className={id ? "grid" : "flex"}>
+        {navLinks.map(({ href, icon, label, authOnly, hasBadge }) => {
+          if (authOnly && !id) return null;
 
-        {isAuthenticated && (
-          <li className={pathname === "/messages" ? "active" : ""}>
-            <button onClick={() => handleNavigation("/messages")}>
-              <IoChatboxEllipses />
-              <span>messages</span>
-              {unreadCount > 0 && <div className="unread">{unreadCount}</div>}
-            </button>
-          </li>
-        )}
-
-        <li className={pathname === "/trends" ? "active" : ""}>
-          <button onClick={() => handleNavigation("/trends")}>
-            <FaBookReader />
-            <span>trends</span>
-          </button>
-        </li>
-
-        {isAuthenticated && (
-          <li className={pathname === "/saved" ? "active" : ""}>
-            <button onClick={() => handleNavigation("/saved")}>
-              <FaBookmark />
-              <span>saved</span>
-            </button>
-          </li>
-        )}
+          return (
+            <li key={href} className={pathname === href ? "active" : ""}>
+              <Link href={href}>
+                <div title={label}>
+                  {icon}
+                  <span>{label}</span>
+                  {hasBadge && unreadCount > 0 && (
+                    <div className="unread">{unreadCount}</div>
+                  )}
+                </div>
+              </Link>
+            </li>
+          );
+        })}
 
         <li
           className={
-            pathname === "/auth/login" || pathname === "/marketplace"
+            pathname === "/marketplace" || pathname === "/auth/login"
               ? "active"
               : ""
           }>
-          <button
-            onClick={() =>
-              handleNavigation(isAuthenticated ? "/marketplace" : "/auth/login")
-            }>
-            {isAuthenticated ? <FaShoppingCart /> : <FaUser />}
-            {isAuthenticated ? <span>market</span> : <span>login</span>}
-          </button>
+          <Link href={id ? "/marketplace" : "/auth/login"}>
+            <div title={id ? "Marketplace" : "Login"}>
+              {id ? <FaShoppingCart /> : <FaUser />}
+              <span>{id ? "market" : "login"}</span>
+            </div>
+          </Link>
         </li>
       </ul>
     </nav>

@@ -3,34 +3,32 @@ import React from "react";
 import StudentDashboard from "../components/userdashboard/StudentDashboard";
 import AgentDashboard from "../components/userdashboard/AgentDashboard";
 import { UserType } from "../fetch/types";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
 import Image from "next/image";
 import "./dashboard.css";
+import Loader from "../components/loader/Loader";
+import { useUserStore } from "../store/userStore";
+import Link from "next/link";
 
 const Dashboard = () => {
-  const userData = useSelector((state: RootState) => state.userdata);
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.user?.isAuthenticated
-  );
+  const { user } = useUserStore((state) => state);
 
-  if (!isAuthenticated) {
+  
+  if (!user) {
     return (
-      <div className="container" style={{ marginTop: "16px" }}>
-        User not found
-      </div>
+      <section className="dashboard">
+        <div className="container">
+          <h4 className="page-heading">Dashboard</h4>
+         
+          <div style={{ textAlign: "center", marginTop: "28px" }}>
+            <p>Please log in to access your dashboard.</p>
+            <Link href="/auth/login" style={{textDecoration: "underline"}}>Log in</Link>
+          </div>
+        </div>
+      </section>
     );
   }
 
-  if (!userData) {
-    return (
-      <div className="container" style={{ marginTop: "16px" }}>
-        Loading...
-      </div>
-    );
-  }
 
-  const userRole = userData.userType;
 
   return (
     <section className="dashboard">
@@ -38,18 +36,18 @@ const Dashboard = () => {
         <div className="welcome">
           <Image
             priority
-            src={"/assets/person3.jpg"}
-            width={800}
-            height={800}
+            src={user?.avatar || "/assets/user_avatar.jpg"}
+            width={400}
+            height={400}
             alt="profile picture"
           />
-          <h5>Hi, {userData.name} 👋</h5>
+          <h5>Hi, {user?.name} 👋</h5>
         </div>
 
-        {userRole === "student" ? (
-          <StudentDashboard user={userData as UserType} />
-        ) : userRole === "agent" ? (
-          <AgentDashboard user={userData as UserType} />
+        {user?.userType === "student" ? (
+          <StudentDashboard user={user as UserType} />
+        ) : user?.userType === "agent" ? (
+          <AgentDashboard user={user as UserType} />
         ) : (
           <div>Unknown user role</div>
         )}

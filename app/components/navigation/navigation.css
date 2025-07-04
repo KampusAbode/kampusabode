@@ -31,7 +31,17 @@
   justify-content: center;
   gap: var(--spacing-2x);
 }
-.navigation ul button {
+.navigation ul li.active span {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+.navigation ul li.active svg {
+  transform: translateY(-8px);
+}
+.navigation ul li.active svg path {
+  fill: var(--primary-color);
+}
+.navigation ul li div {
   width: 100%;
   cursor: pointer;
   text-align: center;
@@ -43,24 +53,14 @@
   flex-direction: column;
   gap: var(--spacing-h);
 }
-.navigation ul button span {
-  font-size: var(--font-size-sm);
-  color: var(--font-color-h);
+.navigation ul li div span {
+  font-size: var(--font-size-xs);
+  color: var(--font-color-p);
   text-transform: capitalize;
   transition: var(--transition);
 }
-.navigation ul button svg {
+.navigation ul li div svg {
   transition: var(--transition);
-}
-.navigation ul button.active span {
-  font-weight: 600;
-  color: var(--primary-color);
-}
-.navigation ul button.active svg {
-  transform: translateY(-8px);
-}
-.navigation ul button.active svg path {
-  fill: var(--primary-color);
 }
 
 @media screen and (min-width: 768px) {

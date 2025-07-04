@@ -156,8 +156,8 @@
       z-index: 1;
 
       .service {
-        padding: var(--spacing);
-        background-image: url(https://cloud.appwrite.io/v1/storage/buckets/678f4d10003d2ef8a648/files/67917bcf002325e7302f/view?project=678caa89001b08049b5f&project=678caa89001b08049b5f&mode=admin);
+        padding: var(--spacing-3x) var(--spacing);
+        background-image: url(/assets/service1.jpg);
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
@@ -179,17 +179,17 @@
           left: 0;
           background: linear-gradient(
             to top,
-            rgb(0, 0, 0, 0.7),
+            rgb(0, 0, 0, 0.9),
             rgb(0, 0, 0, 0)
           );
           z-index: -1;
         }
 
         &:nth-child(2) {
-          background-image: url(https://cloud.appwrite.io/v1/storage/buckets/678f4d10003d2ef8a648/files/67917be3002cea8142aa/view?project=678caa89001b08049b5f&project=678caa89001b08049b5f&mode=admin);
+          background-image: url(/assets/service2.jpg);
         }
         &:nth-child(3) {
-          background-image: url(https://cloud.appwrite.io/v1/storage/buckets/678f4d10003d2ef8a648/files/67917bf2002e06647676/view?project=678caa89001b08049b5f&project=678caa89001b08049b5f&mode=admin);
+          background-image: url(/assets/service3.jpg);
         }
         h5 {
           text-transform: capitalize;
@@ -329,7 +329,8 @@
 
       a {
         color: var(--font-color);
-
+        // padding: var(--spacing-b);
+        // border-radius: var(--border-radius-r);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -377,6 +378,7 @@
     width: 550px;
     height: 250px;
     border: var(--border);
+    border-color: var(--light-gray);
     border-bottom-right-radius: 50%;
     z-index: -1;
   }
@@ -414,7 +416,7 @@
           border-top-right-radius: var(--border-radius);
           padding: var(--spacing);
 
-          & > div {
+          .testi-profile {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -426,23 +428,25 @@
               border-radius: 100%;
               object-fit: cover;
             }
+            
+            div{
+              span{
+                font-size: var(--font-size-xs);
+              }
+            }
           }
           .rating {
-            display: flex;
-            gap: var(--spacing-h);
-            padding: var(--spacing-h);
-            background: var(--light-gray);
-            border-radius: var(--border-radius-r);
-
-            svg {
-              width: 10px;
-              height: 10px;
+            svg{
+              path{
+                fill: green;
+              }
             }
           }
         }
 
         .testi-content {
           border-top: var(--border);
+          border-color: var(--light-gray);
           padding: var(--spacing);
           position: relative;
 
@@ -461,89 +465,10 @@
   .trends {
     display: grid;
 
-    grid-template-columns: repeat(2, 1fr);
-    gap: 5rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-2x);
 
-    .trend {
-      border-radius: var(--border-radius);
-      background: var(--background-white);
-      box-shadow: var(--shadow);
-      transition: var(--transition);
-
-      .trend-image{
-        height: 180px;
-        border-radius: var(--border-radius);
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
-        overflow: hidden;
-
-        img{
-          object-fit: cover;
-        }
-      }
-
-      .trend-content {
-        padding: var(--spacing);
-        position: relative;
-        overflow: hidden;
-        z-index: 1;
-
-        & > svg {
-          position: absolute;
-          width: 150px;
-          height: 150px;
-          top: -23px;
-          right: -23px;
-          transform: rotate(90deg);
-          z-index: -1;
-          opacity: 0.02;
-        }
-
-      
-
-        h5 {
-          text-transform: capitalize;
-          margin-bottom: var(--spacing);
-
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          line-clamp: 2;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-        }
-        p{
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          line-clamp: 3;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-        }
-          a {
-            margin-top: var(--spacing);
-            display: inline-flex;
-            align-items: center;
-            color: var(--font-color-p);
-
-            svg {
-              margin-left: 0.3rem;
-              transition: var(--transition);
-
-              path {
-                fill: var(--font-color);
-              }
-            }
-
-            &:hover {
-              text-decoration: underline;
-              svg {
-                margin-left: var(--spacing-h);
-              }
-            }
-        }
-      }
-    }
+    
   }
 }
 /* ========== trends section close ========== */

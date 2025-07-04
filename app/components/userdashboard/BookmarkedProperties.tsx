@@ -1,49 +1,82 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchProperties } from "../../utils";
-import { PropertyType } from "../../fetch/types";
+import { ApartmentType } from "../../fetch/types";
+import { useUserStore } from "../../store/userStore";
+import { getApartmentsByIds } from "../../utils";
+import Loader from "../loader/Loader";
 import Link from "next/link";
 import Image from "next/image";
-// import toast from "react-hot-toast";
+import toast from "react-hot-toast";
+import { AgentUserInfo, StudentUserInfo } from "../../fetch/types";
 
-const BookmarkedProperties = ({ user }) => {
-  const bookmarkedIds = user?.userInfo?.savedProperties || [];
-  const [properties, setProperties] = useState<PropertyType[]>([]);
-  const [loading, setLoading] = useState(true);
+// Type guard to check if user is a tenant (student)
+const isUserType = (
+  userType: string,
+  userInfo: AgentUserInfo | StudentUserInfo
+): userInfo is StudentUserInfo => {
+  return userType === "student";
+};
+
+const BookmarkedProperties = () => {
+  // const { getApartmentsByIds } = useProperties();
+  const user = useUserStore((state) => state.user);
+  const [bookmarkedProperties, setBookmarkedProperties] = useState<
+    ApartmentType[]
+  >([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const bookmarkedIds: string[] =
+    user && isUserType(user.userType, user.userInfo)
+      ? user.userInfo.savedProperties || []
+      : [];
+
   useEffect(() => {
-    const fetchPropertiesFromDB = async () => {
+    const fetchBookmarkedProperties = async () => {
+      if (!user || !isUserType(user.userType, user.userInfo)) {
+        setBookmarkedProperties([]);
+        setLoading(false);
+        return;
+      }
+
       try {
-        const fetchedProperties = await fetchProperties();
-        setProperties(fetchedProperties);
-        // toast.success("Properties loaded successfully!");
-      } catch (err) {
-        console.error("Error fetching properties:", err);
-        setError("Failed to fetch properties. Please try again.");
-        // toast.error("Failed to load properties.");
+        setLoading(true);
+        setError(null);
+
+        if (bookmarkedIds.length === 0) {
+          setBookmarkedProperties([]);
+          return;
+        }
+
+        const fetched = await getApartmentsByIds(bookmarkedIds);
+        setBookmarkedProperties(fetched);
+      } catch (err: unknown) {
+        const errorMessage =
+          err instanceof Error ? err.message : "An unknown error occurred.";
+        console.error("Error fetching bookmarked properties:", errorMessage);
+        setError(errorMessage);
+        toast.error("Failed to load bookmarked properties.");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPropertiesFromDB();
-  }, []);
+    fetchBookmarkedProperties();
+  }, [user, bookmarkedIds]);
 
-  // Filter properties based on bookmarkedIds
-  const bookmarkedProperties = properties.filter((property) =>
-    bookmarkedIds.includes(property.id)
-  );
+  if (!user || !isUserType(user.userType, user.userInfo)) {
+    return <p>This section is only available to student users.</p>;
+  }
 
   return (
     <div className="bookmarked-properties">
       <h5>Your Bookmarked Properties</h5>
       <div className="property-list">
         {loading ? (
-          <p>Loading your bookmarked properties...</p>
+          <Loader />
         ) : error ? (
-          <p className="error-message">{error}</p>
+          <p className="error">{error}</p>
         ) : bookmarkedProperties.length > 0 ? (
           <ul>
             {bookmarkedProperties.map((property) => (
@@ -54,12 +87,12 @@ const BookmarkedProperties = ({ user }) => {
                     src={property.images[0]}
                     width={800}
                     height={800}
-                    alt="property image"
+                    alt={property.title}
                   />
                   <div>
                     <p>{property.title}</p>
                     <span>
-                      {property.price} - {property.location}
+                      ₦{property.price} - {property.location}
                     </span>
                   </div>
                 </Link>

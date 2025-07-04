@@ -11,6 +11,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { uploadImageToAppwrite } from "../../utils"; // Appwrite upload function
 import { UserType } from "../../fetch/types";
 import data from "../../fetch/contents";
+import { sendEmailVerification } from "firebase/auth";
 
 export type UserSignupInput = {
   username: string;
@@ -28,7 +29,6 @@ export type UserSignupInput = {
     agencyName: string;
   };
 };
-
 
 const SignupPage = () => {
   const router = useRouter();
@@ -95,8 +95,13 @@ const SignupPage = () => {
 
     try {
       const response = await signupUser({ ...formValues, avatar: avatarUrl });
+      // ✅ Send email verification
+      if (response?.user) {
+        await sendEmailVerification(response.user);
+      }
       toast.success(`${response.message} 🎉`);
-      router.push("/auth/login");
+      router.push("/auth/verify-email");
+      // router.push("/auth/login");
     } catch (error: any) {
       toast.error(error.message || "An unexpected error occurred.");
     } finally {
@@ -196,7 +201,6 @@ const SignupPage = () => {
               </select>
             </div>
 
-
             {formValues.userType === "agent" && (
               <div className="input-box">
                 <label htmlFor="agentInfo.agencyName">Agency Name</label>
@@ -210,7 +214,11 @@ const SignupPage = () => {
               </div>
             )}
 
-            <button type="submit" className="btn" disabled={isSubmitting}>
+            <button
+              type="submit"
+              className="btn"
+              title="Button"
+              disabled={isSubmitting}>
               {isSubmitting ? "Signing up..." : "Sign Up"}
             </button>
           </form>

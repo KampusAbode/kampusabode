@@ -75,7 +75,7 @@ export const togglePropertyApproval = async (
       approved: newStatus,
     });
 
-    console.log(`Property ${propertyId} appoved updated to ${newStatus}`);
+   
   } catch (error) {
     console.error("Error updating property appoved:", error);
     throw new Error("Failed to update property appoved.");
@@ -161,7 +161,7 @@ export const updateUserProfile = async (userId: string, updates) => {
     return {
       success: true,
       message: "Profile updated successfully!",
-      userData: updatedDoc.data(),
+      userData: updatedDoc.data() as UserType,
     };
   } catch (error) {
     throw new Error("Failed to update profile.");
@@ -190,4 +190,19 @@ export const updateBookmarkInDB = async (
     console.error("Failed to update bookmarks in Firebase:", error);
     throw new Error("Database update failed.");
   }
+};
+
+
+
+export const checkIsAdmin = (userId: string): boolean => {
+  const adminIdOne = process.env.NEXT_PUBLIC_ADMIN_ID_ONE;
+  const adminIdTwo = process.env.NEXT_PUBLIC_ADMIN_ID_TWO;
+
+  if (!adminIdOne || !adminIdTwo) {
+    console.warn("ADMIN_ID is not set in environment variables");
+    return false;
+  }
+
+  return userId === adminIdOne || userId === adminIdTwo;
+
 };

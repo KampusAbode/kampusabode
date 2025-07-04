@@ -4,6 +4,7 @@
 
   .container {
     width: 100%;
+    max-width: 100%;
     margin: 0 auto;
     min-height: 100vh;
     max-height: 100vh;
@@ -12,12 +13,12 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     .im {
-      background: #ff5e5e;
+      background: var(--primary-color);
 
       display: grid;
       place-items: center;
       img {
-        width: 60%;
+        width: 70%;
         height: auto;
       }
     }
@@ -32,7 +33,7 @@
       }
 
       form {
-        width: 95%;
+        width: 50%;
         margin: 0 auto;
         .input-box {
           position: relative;
@@ -81,13 +82,16 @@
             color: #555;
           }
         }
+        .forget-password {
+          text-decoration: underline;
+          font-size: var(--font-size-sm);
+        }
         button {
           margin: var(--spacing) auto;
           padding: var(--spacing);
           width: 100%;
           display: block;
           text-align: center;
-          /* text-decoration: ; */
 
           &.disable {
             user-select: none;
@@ -112,6 +116,7 @@
   .login,
   .signup {
     .container {
+      width: 90%;
       grid-template-columns: 1fr;
 
       .im {
@@ -119,8 +124,6 @@
       }
 
       .fm {
-        padding: var(--spacing-3x);
-
         h4 {
           margin-bottom: var(--spacing-2x);
           text-align: center;

@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { loginUser } from "../../utils";
-
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import "../auth.css";
 import Image from "next/image";
@@ -13,7 +12,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State to toggle password visibility
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({ email: "", password: "" });
 
@@ -43,7 +42,7 @@ const LoginPage = () => {
     return valid;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validateForm()) return;
@@ -56,13 +55,14 @@ const LoginPage = () => {
       if (response.message === "Email not found") {
         toast.error(response.message);
       } else {
+        router.push("/profile");
+        // router.refresh();
         toast.success(`${response.message} 👋`);
-        router.push("/properties");
       }
-
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error.message || "An unexpected error occurred.");
     }
+
     setIsSubmitting(false);
   };
 
@@ -79,7 +79,7 @@ const LoginPage = () => {
           />
         </div>
         <div className="fm">
-          <h4>Login with your account</h4>
+          <h4>Welcome back!</h4>
           <form onSubmit={handleSubmit}>
             <div className="input-box">
               <label htmlFor="email">Email</label>
@@ -124,7 +124,17 @@ const LoginPage = () => {
               )}
             </div>
 
-            <button className="btn" type="submit" disabled={isSubmitting}>
+            <div>
+              <Link href="/auth/forget-password" className="forget-password">
+                Forget password
+              </Link>
+            </div>
+
+            <button
+              className="btn"
+              title="Button"
+              type="submit"
+              disabled={isSubmitting}>
               {isSubmitting ? "Logging in..." : "Login"}
             </button>
           </form>

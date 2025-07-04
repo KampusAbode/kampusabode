@@ -35,29 +35,7 @@
       gap: var(--spacing-2x);
     }
 
-    button {
-      width: 100%;
-      cursor: pointer;
-      text-align: center;
-      text-decoration: none;
-      color: var(--font-color-p);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: var(--spacing-h);
-
-      span {
-        font-size: var(--font-size-sm);
-        color: var(--font-color-h);
-        text-transform: capitalize;
-
-        transition: var(--transition);
-      }
-      svg {
-        transition: var(--transition);
-      }
-
+    li{
       &.active {
         span {
           font-weight: 600;
@@ -70,6 +48,31 @@
           }
         }
       }
+      div {
+      width: 100%;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      color: var(--font-color-p);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: var(--spacing-h);
+
+      span {
+        font-size: var(--font-size-xs);
+        color: var(--font-color-p);
+        text-transform: capitalize;
+
+        transition: var(--transition);
+      }
+      svg {
+        transition: var(--transition);
+      }
+
+      
+    }
     }
   }
 }

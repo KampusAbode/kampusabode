@@ -1,109 +1,181 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { TrendType } from "../../fetch/types";
-import { fetchTrendByID } from "../../utils";
+import {
+  doc,
+  updateDoc,
+  increment,
+  getDoc,
+  setDoc,
+  deleteDoc,
+  collection,
+  query,
+  orderBy,
+  onSnapshot,
+} from "firebase/firestore";
+import { db } from "../../lib/firebaseConfig";
+import { TrendType, CommentType } from "../../fetch/types";
+import { fetchTrendBySlug } from "../../utils";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import Loader from "../../components/loader/Loader";
 import { BiLike } from "react-icons/bi";
-import { FaBookmark, FaShare } from "react-icons/fa";
+import { FaBookmark, FaRegComment, FaShare } from "react-icons/fa";
 import { getCommentsByTrendId, sendUserComment } from "../../utils/comments";
-import { format, parseISO } from "date-fns";
+import { format, formatDistanceToNow } from "date-fns";
 import "./trend.css";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { useUserStore } from "../../store/userStore";
 
 type Params = {
   params: { id: string };
 };
 
-type CommentType = {
-  trendId: string;
-  userName: string;
-  comment: string;
-  userProfile: string;
-  createdAt: string;
-};
-
 const TrendPage = ({ params }: Params) => {
-  const { id } = params;
+  const slug = params.id;
   const [trendData, setTrendData] = useState<TrendType>();
   const [loading, setLoading] = useState(true);
   const [comments, setComments] = useState<CommentType[]>([]);
   const [content, setContent] = useState<string>("");
-  // const [relatedTrends, setRelatedTrends] = useState<TrendType[]>([]);
-  const user = useSelector((state: RootState) => state.userdata);
-
-  console.log(user);
+  const [isSending, setIsSending] = useState(false);
+  const { user } = useUserStore((state) => state);
+  const [isLike, setIsLike] = useState(false);
+  const [isLiking, setIsLiking] = useState(false);
 
   useEffect(() => {
-    const fetchTrendData = async () => {
+    let unsubscribe = () => {};
+
+    const fetchTrendDataAndListenToComments = async () => {
       try {
-        const trend: TrendType = await fetchTrendByID(id);
+        const trend: TrendType = await fetchTrendBySlug(slug);
         setTrendData(trend);
+
+        const commentsRef = collection(db, "trends", trend.id, "comments");
+        const q = query(commentsRef, orderBy("createdAt", "desc"));
+
+        // 🔄 Real-time listener
+        unsubscribe = onSnapshot(q, (snapshot) => {
+          const updatedComments = snapshot.docs.map((doc) => {
+            const data = doc.data();
+            return {
+              id: doc.id,
+              trendId: data.trendId,
+              userId: data.userId,
+              userName: data.userName,
+              comment: data.comment,
+              userProfile: data.userProfile,
+              createdAt: data.createdAt?.toDate
+                ? data.createdAt.toDate()
+                : new Date(data.createdAt),
+            } as CommentType;
+          });
+          setComments(updatedComments);
+        });
+
+        // 🔁 Fetch like status
+        const likeRef = doc(db, "trends", trend.id, "likes", user.id);
+        const likeDoc = await getDoc(likeRef);
+        setIsLike(likeDoc.exists());
+      } catch (error) {
+        toast.error(error.message || "Failed to fetch trend data.");
+      } finally {
         setLoading(false);
-        // Fetch related articles (simulated)
-        // setRelatedTrends([trend, trend]); // This is just an example. Replace with actual fetch.
-      } catch (error) {
-        toast.error("Failed to fetch trend data.");
       }
     };
 
-    const fetchComments = async () => {
-      try {
-        const comments = await getCommentsByTrendId(id);
-        setComments(
-          comments.map((comment: any) => ({
-            trendId: comment.trendId,
-            userName: comment.userName,
-            comment: comment.comment,
-            userProfile: comment.userProfile,
-            createdAt: new Date(comment.createdAt).toISOString(),
-          }))
-        );
-      } catch (error) {
-        toast.error("Failed to fetch comments.");
-      }
-    };
+    fetchTrendDataAndListenToComments();
 
-    fetchTrendData();
-    fetchComments();
-  }, [id]);
+    return () => unsubscribe(); // ✅ Clean up listener
+  }, [slug, user]);
+  
 
-  const handleLike = () => {
-    toast.success("Liked the article!");
-  };
+  const handleLike = async () => {
+    if (!user) return toast.error("Please sign in to like this trend.");
+    if (isLiking) return;
 
-  const handleShare = () => {
-    toast.success("Shared the article!");
-  };
+    setIsLiking(true);
+    const trendRef = doc(db, "trends", trendData.id);
+    const likeRef = doc(db, "trends", trendData.id, "likes", user.id);
 
-  const handleCommentSubmit = async (comment: string) => {
     try {
-      console.log(user);
-
-      if (!user || !user?.id || !user?.userInfo || !user?.avatar) {
-        toast.error("Please sign in to add a comment.");
-        return;
+      const likeDoc = await getDoc(likeRef);
+      if (likeDoc.exists()) {
+        await deleteDoc(likeRef);
+        await updateDoc(trendRef, { likes: increment(-1) });
+        setTrendData({ ...trendData, likes: trendData.likes - 1 });
+        toast.success("Like removed.");
+      } else {
+        await setDoc(likeRef, {
+          userId: user.id,
+          likedAt: new Date().toISOString(),
+        });
+        await updateDoc(trendRef, { likes: increment(1) });
+        setTrendData({ ...trendData, likes: trendData.likes + 1 });
+        toast.success("Liked!");
       }
-
-      const newComment: CommentType = {
-        trendId: id,
-        userName: user.name,
-        comment,
-        userProfile: user?.avatar,
-        createdAt: new Date().toISOString(),
-      };
-      await sendUserComment(newComment);
-      setComments([...comments, newComment]);
-      toast.success("Comment added!");
-
-      setContent("");
     } catch (error) {
-      toast.error("Failed to add comment.");
+      toast.error("Failed to update like.");
+    } finally {
+      setTimeout(() => setIsLiking(false), 500);
     }
   };
 
+  const handleShare = async () => {
+    const trendUrl = `${window.location.origin}/trends/${trendData?.slug}`;
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: trendData?.title || "Check out this trend",
+          text: "Check this out 👀",
+          url: trendUrl,
+        });
+        toast.success("Link shared!");
+      } else {
+        await navigator.clipboard.writeText(trendUrl);
+        toast.success("Link copied!");
+      }
+    } catch {
+      toast.error("Could not share this trend.");
+    }
+  };
+
+  const handleCommentSubmit = async () => {
+    if (!user) {
+      toast.error("Please sign in to add a comment.");
+      return;
+    }
+
+    if (!content.trim()) {
+      toast.error("Comment cannot be empty.");
+      return;
+    }
+
+    const newComment = {
+      id: "",
+      trendId: trendData.id,
+      userId: user.id,
+      userName: user.name,
+      comment: content,
+      userProfile: user.avatar,
+      createdAt: new Date().toISOString(),
+    };
+
+    try {
+      setIsSending(true);
+      await sendUserComment(newComment); // 👈 this must accept Timestamp
+      setContent("");
+      toast.success("Comment added!");
+    } catch {
+      toast.error("Failed to send comment.");
+    } finally {
+      setIsSending(false);
+    }
+  };
+  
+
+  const getRelativeTime = (date: Date) => {
+    const relative = formatDistanceToNow(date, { addSuffix: true });
+    return relative.includes("less than a minute") ? "just now" : relative;
+  };
+  
   return (
     <div className="trend-details-page">
       {!loading ? (
@@ -114,24 +186,30 @@ const TrendPage = ({ params }: Params) => {
             <span>By {trendData?.author}</span>
             <span>
               {trendData?.published_date
-                ? format(new Date(trendData?.published_date), "d MMM, yyyy")
+                ? format(new Date(trendData.published_date), "d MMM, yyyy")
                 : "Invalid date"}
             </span>
           </div>
+
           <div className="trend-image">
             <Image
               priority
               src={trendData?.image}
-              width={800}
-              height={800}
+              width={3000}
+              height={3000}
               alt="trend image"
             />
           </div>
 
-          {/* Like and Share buttons */}
           <div className="interaction-buttons">
-            <button onClick={handleLike}>
-              <BiLike /> {trendData.likes}
+            <button
+              onClick={handleLike}
+              disabled={isLiking}
+              className={isLike ? "active" : ""}>
+              <BiLike /> {trendData?.likes}
+            </button>
+            <button>
+              <FaRegComment /> {comments?.length}
             </button>
             <button onClick={handleShare}>
               <FaShare /> Share
@@ -141,22 +219,19 @@ const TrendPage = ({ params }: Params) => {
             </button>
           </div>
 
-          {/* Article Content */}
-          <div className="trend-description">
-            {trendData?.content?.split(/\r?\n/).map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
-          </div>
+          <div
+            className="trend-description"
+            dangerouslySetInnerHTML={{ __html: trendData.content }}
+          />
 
-          {/* Comment Section */}
           <div className="comments-section">
             <h5>Comments</h5>
             <div className="comments-list">
               {comments.length === 0 ? (
                 <p>No comments yet.</p>
               ) : (
-                comments.map((comment, index) => (
-                  <div key={index} className="comment">
+                comments.map((comment) => (
+                  <div key={comment.id} className="comment">
                     <div className="top">
                       <div>
                         <Image
@@ -169,12 +244,9 @@ const TrendPage = ({ params }: Params) => {
                         <span>{comment.userName}</span>
                       </div>
                       <span className="created-at">
-                        {/* {comment.createdAt
-                          ? format(comment.createdAt, "d MMM yyyy")
-                          : "Invalid date"} */}
                         {comment.createdAt
-                          ? format(new Date(comment.createdAt), "d MMM, yyyy")
-                          : "Invalid date"}
+                          ? getRelativeTime(new Date(comment.createdAt))
+                          : "just now"}
                       </span>
                     </div>
                     <p className="comment-content">{comment.comment}</p>
@@ -182,31 +254,22 @@ const TrendPage = ({ params }: Params) => {
                 ))
               )}
             </div>
+
             <div className="send-comment">
               <textarea
                 placeholder="Add a comment..."
-                rows={3}
+                rows={6}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
-              <div className="btn" onClick={() => handleCommentSubmit(content)}>
-                send comment
-              </div>
+              <button
+                className="btn"
+                onClick={handleCommentSubmit}
+                disabled={isSending || !content.trim()}>
+                {isSending ? "Sending..." : "Send Comment"}
+              </button>
             </div>
           </div>
-
-          {/* Related Articles */}
-          {/* <div className="related-Trends">
-            <h5>Related Trends</h5>
-            <div className="related-Trends-list">
-              {relatedTrends.map((trend, index) => (
-                <div key={index} className="related-trend">
-                  <h5>{trend.title}</h5>
-                  <p>{trend.author}</p>
-                </div>
-              ))}
-            </div>
-          </div> */}
         </div>
       ) : (
         <Loader />

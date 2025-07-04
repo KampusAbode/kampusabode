@@ -2,12 +2,12 @@ import { HomeType, LinkType } from "./types";
 
 const homeSection: HomeType = {
   hero: {
-    p: "Making apartment renting safer, affordable, and stress-free for OAU students.",
+    p: "Making apartment renting safer, affordable, and stress-free for all university students.",
     btn: "listing property",
   },
   about: {
     heading: "who are we?",
-    waw: "Kampus Abode connects OAU students with trusted agents to find safe, affordable, and convenient hostel apartments. Our platform offers verified listings, direct communication with agents, and insights into hostel areas—all from your phone. Making apartment renting hassle-free and tailored to your needs!",
+    waw: "Kampus Abode connects students with trusted agents to find safe, and convenient hostel apartments. Our platform offers verified listings, and insights into hostel areas—all from your phone. Making apartment renting hassle-free and tailored to your needs!",
     services: [
       {
         heading: "Area Insights",
@@ -53,20 +53,20 @@ const homeSection: HomeType = {
   ],
   testimonials: [
     {
-      author: "John Smith",
-      company: "ABC Real Estate",
+      author: "Matthew",
+      company: "Student",
       image: "/assets/person1.jpg",
       testimonial:
-        "I was impressed by the dedication and expertise of the team at ABC Real Estate. They helped me find my dream home in no time!",
+        "Kampus Abode is the best there is and the best there’ll ever be. I highly recommend Kampus Abode to anyone looking to rent. Their integrity, attention to detail, and customer-first approach truly set them apart.",
       rating: 5,
-      date: "2024-05-05",
+      date: "2025-06-22",
     },
     {
-      author: "Emily Johnson",
+      author: "Wale",
       company: "student",
       image: "/assets/person2.jpg",
       testimonial:
-        "Great service and excellent communication throughout the entire process. Highly recommend!",
+        "Wow, I'm impressed by how fast and reliable Kampus Abode is! It's incredibly easy to use, and being able to rent through my phone adds an extra layer of convenience. Thanks!",
       rating: 4,
       date: "2024-04-20",
     },
@@ -84,16 +84,17 @@ const homeSection: HomeType = {
   footer: {
     company: [
       { name: "about", to: "/about" },
-      { name: "properties", to: "/properties" },
-      { name: "trends", to: "/trends" },
-      { name: "marketplace", to: "/marketplace" },
+   //   { name: "properties", to: "/apartment" },
+     // { name: "trends", to: "/trends" },
+    //  { name: "marketplace", to: "/marketplace" },
       { name: "FAQs", to: "/legal/faqs" },
-      { name: "testimonials", to: "/legal/testimonials" },
+     { name: "testimonials", to: "/legal/testimonials" },
+      { name: "contact", to: "/contact" },
     ],
     support: [
       // { name: "FAQs", to: "/legal/faq" },
-      { name: "terms and conditions", to: "/legal/termsandconditions" },
-      { name: "policies", to: "/legal/policies" },
+      // { name: "terms and conditions", to: "/legal/termsandconditions" },
+      // { name: "policies", to: "/legal/policies" },
       { name: "disclaimer", to: "/legal/disclaimer" },
       { name: "user agreement", to: "/legal/useragreement" },
       // { name: "contact", to: "/contact" },
@@ -101,7 +102,7 @@ const homeSection: HomeType = {
   },
 };
 
-const propertyTypes = [
+const ApartmentTypes = [
   "Studio Apartments",
   "Bedroom Apartments",
   "Condominiums",
@@ -117,6 +118,8 @@ const locations = [
   "parakin estate",
   "may fair",
   "lagere",
+  "road 7",
+  "OAU campus"
 ];
 const priceRanges = [
   { label: "0 - 200,000", value: [100, 100000] },
@@ -128,7 +131,7 @@ const bedroomOptions = [1, 2, 3, 4, 5];
 
 const links: LinkType[] = [
   { to: "about", direct: "/about" },
-  { to: "properties", direct: "/properties" },
+  { to: "properties", direct: "/apartment" },
   { to: "trends", direct: "/trends" },
   { to: "marketplace", direct: "/marketplace" },
   // { to: "contact", direct: "/contact" },
@@ -138,7 +141,7 @@ const universities = ["OAU", "UNILAG", "UI", "UNN", "FUTA"];
 
 const data = {
   homeSection,
-  propertyTypes,
+  ApartmentTypes,
   locations,
   priceRanges,
   bedroomOptions,

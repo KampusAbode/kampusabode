@@ -4,76 +4,74 @@ import { useState, useEffect } from "react";
 import "./header.css";
 import data from "../../fetch/contents";
 import Link from "next/link";
-// import Image from "next/image";
-import { useDispatch, useSelector } from "react-redux";
-import { clearUser } from "../../redux/stateSlice/userSlice";
-import { openMenu, closeMenu } from "../../redux/stateSlice/menuSlice";
-import { logoutUser } from "../../utils";
-import { FaTimes, FaBars, FaArrowLeft } from "react-icons/fa";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { FaBars } from "react-icons/fa";
+import { usePathname, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { RootState } from "../../redux/store";
 import BackButton from "../features/backbutton/BackButton";
+import { useUserStore } from "../../store/userStore";
+import useNavStore from "../../store/menuStore";
+import Prompt from "../modals/prompt/Prompt";
+import {logoutUser} from "../../utils/auth";
 
 const { links } = data;
 
 export default function Header() {
   const pathname = usePathname();
-
-  const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user);
-  const isMenu = useSelector((state: RootState) => state.menu);
-  // Move the useRouter hook here (at the top of the component)
   const router = useRouter();
+
+  const { user } = useUserStore((state) => state);
+  const { isNavOpen, toggleNav } = useNavStore((state) => state);
 
   const [isHeader, setIsHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [showPrompt, setShowPrompt] = useState(false);
 
   const handleScroll = () => {
     window.requestAnimationFrame(() => {
       setIsHeader(window.scrollY <= lastScrollY);
-      if (isMenu) dispatch(closeMenu());
+
       setLastScrollY(window.scrollY);
     });
   };
 
-  const logOut = async () => {
+  const confirmLogout = async () => {
+    setShowPrompt(false);
     try {
-      const response = await logoutUser();
-      toast.success(`${response.message} 👌`);
-      dispatch(clearUser());
+      await logoutUser();
+      toast.success("Logged out successfully 👌");
       router.push("/");
     } catch (error) {
       toast.error(error?.message || "An unexpected error occurred.");
     }
   };
 
+  const handleLogoutClick = () => {
+    setShowPrompt(true);
+  };
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY, isMenu]);
+  }, [lastScrollY, isNavOpen]);
 
-  // Pages where the header will show the back button and page name
   const pagesWithBackButton = [
     "profile",
-    "properties/",
+    "apartment/",
+    "messages",
+    "saved",
     "chat",
     "adminchatroom",
     "dashboard",
     "marketplace",
     "about",
     "trends",
+    "auth/login",
+    "auth/signup"
   ];
-
   const showBackButton = pagesWithBackButton.some((path) =>
     pathname.includes(`/${path}`)
   );
-
-  const pageName =
-    pagesWithBackButton.find((path) => pathname.includes(`/${path}`)) || "";
-
-  // Render the header only if the pathname contains any of the excluded paths
   const excludedPaths = ["login", "signup"];
   if (excludedPaths.some((path) => pathname.includes(`/${path}`))) {
     return null;
@@ -86,13 +84,14 @@ export default function Header() {
           {showBackButton ? (
             <BackButton />
           ) : (
-            <div className={`logo ${!user?.isAuthenticated ? "loggedIn" : ""}`}>
+            <div className={`logo ${!user ? "loggedIn" : ""}`}>
               <Link href="/">
-                <img
-                  src={"/LOGO/RED_LOGO_T.png"}
+                <Image
+                  src="/LOGO/RED_LOGO_T.png"
                   width={500}
                   height={500}
-                  alt="logo"
+                    alt="logo"
+                    priority
                 />
               </Link>
             </div>
@@ -110,17 +109,23 @@ export default function Header() {
             </ul>
             <div className="cta">
               <Link
-                href={user?.isAuthenticated ? "/contact" : "/auth/signup"}
-                className="btn btn-secondary">
-                {user?.isAuthenticated ? "get in touch" : "signup"}
+                href={user ? "/contact" : "/auth/signup"}
+                className="btn btn-secondary"
+                title="Button">
+                {user ? "get in touch" : "signup"}
               </Link>
-              {user?.isAuthenticated ? (
-                user?.userType === "student" ? (
-                  <span className="btn" onClick={() => logOut()}>
+              {user ? (
+                user.userType === "student" ? (
+                  <span
+                    className="btn"
+                    title="Button"
+                    onClick={handleLogoutClick}>
                     logout
                   </span>
-                ) : user?.userType === "agent" ? (
-                  <Link href="/properties/upload" className="sign-up-btn btn">
+                ) : user.userType === "agent" ? (
+                  <Link
+                    href={`/apartment/c/${user.id}`}
+                    className="sign-up-btn btn">
                     upload
                   </Link>
                 ) : null
@@ -132,11 +137,19 @@ export default function Header() {
             </div>
           </nav>
 
-          <div className="menu" onClick={() => dispatch(openMenu())}>
+          <div className="menu" onClick={toggleNav}>
             <FaBars />
           </div>
         </div>
       </header>
+
+      {/* Logout confirmation prompt */}
+      <Prompt
+        message="Are you sure you want to logout?"
+        isOpen={showPrompt}
+        onConfirm={confirmLogout}
+        onCancel={() => setShowPrompt(false)}
+      />
     </>
   );
 }

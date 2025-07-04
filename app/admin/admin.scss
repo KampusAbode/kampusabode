@@ -1,6 +1,7 @@
 .admin-dashboard {
     .container{
-        padding-block: var(--spacing-s);
+        margin-block: var(--spacing-s);
+        padding-block: var(--spacing-2x);
         .dashboard-navigation{
             display: flex;
           flex-wrap: nowrap;
@@ -43,6 +44,9 @@
                 margin-block: var(--spacing);
                 input{
                   padding: var(--spacing-h) var(--spacing);
+                  width: 100%;
+                  max-width: 900px;
+                  margin: 0 auto;
                 }
               }
 

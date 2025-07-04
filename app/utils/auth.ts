@@ -1,5 +1,6 @@
-// import axios from "axios";
+// authService.ts
 import { db, auth } from "../lib/firebaseConfig";
+import { getAuth } from "firebase/auth";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -11,39 +12,41 @@ import {
   query,
   where,
   getDocs,
+  getDoc,
 } from "firebase/firestore";
-
-import CryptoJS from "crypto-js";
 import { UserSignupInput } from "../auth/signup/page";
 import { UserType } from "../fetch/types";
-// import { PropertyType } from "../fetch/types";
-
-
+import { useUserStore } from "../store/userStore";
 
 export const signupUser = async (userData: UserSignupInput) => {
-  const { email, password, userType, university, avatar, phoneNumber } = userData;
+  const { email, password, userType, university, avatar, phoneNumber } =
+    userData;
 
   try {
-    // Create user in Firebase Authentication
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    // Create user in Firebase Auth
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     const user = userCredential.user;
 
-    // Construct user data
     const newUser: UserType = {
       id: user.uid,
       name: userData.username,
       email: email,
-      bio: "", // Default empty bio
-      avatar: avatar || "", // Default empty avatar
-      phoneNumber: phoneNumber || "", // Default empty phone number
+      bio: "",
+      avatar: avatar || "",
+      phoneNumber: phoneNumber || "",
       university: university || "",
-      userType: userType,
+      userType,
       userInfo:
         userType === "student"
           ? {
               department: userData.studentInfo?.department || "",
-              currentYear: parseInt(userData.studentInfo?.currentYear || "1"), // Ensure number type
+              currentYear: parseInt(userData.studentInfo?.currentYear || "1"),
               savedProperties: [],
+              viewedProperties: [],
               wishlist: [],
             }
           : {
@@ -52,36 +55,44 @@ export const signupUser = async (userData: UserSignupInput) => {
             },
     };
 
-    // Store user data in Firestore
+    // Store user data directly in Firestore
     await setDoc(doc(db, "users", user.uid), {
       ...newUser,
       createdAt: new Date().toISOString(),
     });
 
-    return { message: "Signup successful" };
+    return { message: "Signup successful", user };
   } catch (error: any) {
     console.error("Error signing up user", error);
-
     if (error.code === "auth/email-already-in-use") {
-      throw { message: "Email already in use. Please try another one.", statusCode: 409 };
+      throw {
+        message: "Email already in use. Please try another one.",
+        statusCode: 409,
+      };
     } else if (error.code === "auth/invalid-email") {
-      throw { message: "Invalid email format. Please check your email.", statusCode: 400 };
+      throw {
+        message: "Invalid email format. Please check your email.",
+        statusCode: 400,
+      };
     } else if (error.code === "auth/weak-password") {
-      throw { message: "Password is too weak. Please use a stronger password.", statusCode: 400 };
+      throw {
+        message: "Password is too weak. Please use a stronger password.",
+        statusCode: 400,
+      };
     } else {
-      throw { message: "Something went wrong. Please try again later.", statusCode: 500 };
+      throw {
+        message: "Something went wrong. Please try again later.",
+        statusCode: 500,
+      };
     }
   }
 };
-
-
-
-
 
 interface UserLoginInput {
   email: string;
   password: string;
 }
+
 export const loginUser = async (userData: UserLoginInput) => {
   const { email, password } = userData;
 
@@ -97,38 +108,23 @@ export const loginUser = async (userData: UserLoginInput) => {
       return { message: "Email not found", statusCode: 404 };
     }
 
-    const userDataFromDB = userRef.docs[0].data();
+    const userDataFromDB = userRef.docs[0].data() as UserType;
 
-    // Sign in with email and password using Firebase Auth
+    // Sign in user with Firebase Auth
     await signInWithEmailAndPassword(auth, email, password);
+    const userId = userDataFromDB.id;
+    useUserStore.getState().setUser(userDataFromDB);
 
-    // Convert userStore object to JSON string before encrypting
-    const encryptedData = CryptoJS.AES.encrypt(
-      JSON.stringify(userDataFromDB), // Convert to string
-      process.env.NEXT_PUBLIC__ENCSECRET_KEY
-    ).toString();
-
-    // Store the encrypted data in localStorage
-    localStorage.setItem(
-      process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY,
-      encryptedData
-    );
-
-    return { message: `Welcome abode! ${userDataFromDB.name}` };
-  } catch (error) {
-    // Check for Firebase Auth error codes
+    return { message: `Welcome abode! ${userDataFromDB.name}`, userId };
+  } catch (error: any) {
+    console.error("Login error:", error);
     if (error.code === "auth/invalid-credential") {
       throw {
         message: "Incorrect credentials. Please try again.",
         statusCode: 401,
       };
     } else if (error.code === "auth/user-not-found") {
-      throw {
-        message: "User not found. Please sign up.",
-        statusCode: 404,
-      };
-    } else if (error.code === "") {
-      throw { message: "Email not found", statusCode: 404 };
+      throw { message: "User not found. Please sign up.", statusCode: 404 };
     } else {
       throw {
         message: "Something went wrong. Please try again later.",
@@ -140,48 +136,22 @@ export const loginUser = async (userData: UserLoginInput) => {
 
 export const logoutUser = async () => {
   try {
-    // Sign out the user from Firebase Authentication
     await auth.signOut();
 
-    localStorage.setItem("hasSeenWelcome", JSON.stringify(false));
-    localStorage.removeItem(process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY);
+    if (typeof window !== "undefined") {
+      sessionStorage.removeItem(process.env.NEXT_PUBLIC_USERDATA_STORAGE_KEY!);
+      sessionStorage.setItem("hasSeenWelcome", JSON.stringify(false));
+    }
+
+    // Also clear the Zustand user state
+    useUserStore.getState().logoutUser();
 
     return { message: "Successfully logged out" };
-  } catch (error) {
-    // Handle Firebase specific errors or other issues
-    if (error.code) {
-      // Firebase error
-      throw {
-        message: error.message || "Error logging out from Firebase",
-        statusCode: 500,
-      };
-    } else {
-      // General error (like decryption failure or other unexpected issues)
-      throw {
-        message: error.message || "Error logging out",
-        statusCode: 500,
-      };
-    }
-  }
-};
-
-export const getAuthState = async (): Promise<{ isAuthenticated: boolean }> => {
-  try {
-    // Ensure localStorage is accessible (browser-only check)
-    if (typeof window === "undefined") {
-      return { isAuthenticated: false };
-    }
-
-    const userDataStorageKey = process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY;
-    if (!userDataStorageKey) {
-      console.warn("Storage key is not defined in environment variables.");
-      return { isAuthenticated: false };
-    }
-
-    const localData = localStorage.getItem(userDataStorageKey);
-    return localData ? { isAuthenticated: true } : { isAuthenticated: false };
-  } catch (error) {
-    console.error("Error accessing authentication state:", error);
-    return { isAuthenticated: false };
+  } catch (error: any) {
+    console.error("Logout error:", error);
+    throw {
+      message: error.message || "Error logging out",
+      statusCode: 500,
+    };
   }
 };

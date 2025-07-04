@@ -1,5 +1,6 @@
 .admin-dashboard .container {
-  padding-block: var(--spacing-s);
+  margin-block: var(--spacing-s);
+  padding-block: var(--spacing-2x);
 }
 .admin-dashboard .container .dashboard-navigation {
   display: flex;
@@ -38,6 +39,9 @@
 }
 .admin-dashboard .container .dashboard-content .user-management .input-box input {
   padding: var(--spacing-h) var(--spacing);
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
 }
 .admin-dashboard .container .dashboard-content .user-management h6 {
   margin-block: var(--spacing);

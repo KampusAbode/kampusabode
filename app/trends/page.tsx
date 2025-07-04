@@ -3,10 +3,9 @@
 import React, { useEffect, useState } from "react";
 import { allTrends } from "../utils";
 import TrendCard from "./component/trendCard/TrendCard";
-import "./trends.css";
-// import { FaSearch } from "react-icons/fa";
 import Loader from "../components/loader/Loader";
 import { TrendType } from "../fetch/types";
+import "./trends.css";
 
 export default function trendsPage() {
   const [trends, setTrends] = useState<TrendType[]>([]);
@@ -16,17 +15,14 @@ export default function trendsPage() {
   const [activeCategory, setActiveCategory] = useState<string>("all");
 
   const trendCategories = [
-    "Real estate market",
-    "Rental market",
-    "Interior design",
-    "OAU updates",
-    "Home Buying",
+    "Trending",
+    "School updates",
+    "Events",
+    "Sports",
+    "Music & Entertainment",
     "Football",
-    "Student investment",
-    "Study methods",
-    "Real Estate Investment",
-    "Skills",
-    "Business",
+    "Tech & Innovations",
+    "Departments",
   ];
 
   useEffect(() => {
@@ -75,8 +71,6 @@ export default function trendsPage() {
         <h2 className="page-heading">Trends</h2>
       </div>
 
-      <div className="trends-page-filter">
-        <div className="container">
           {/* <div className="search-trends">
             <input
               type="text"
@@ -91,28 +85,23 @@ export default function trendsPage() {
               <FaSearch />
             </div>
           </div> */}
+          
+      <div className="filter">
+        <div className="container">
 
-          <div className="filter-trends">
-            <div className="categories">
-              <span
-                className={`category-trend ${
-                  activeCategory === "all" ? "active" : ""
-                }`}
-                onClick={() => filterByCategory("all")}>
-                All
-              </span>
-              {trendCategories.map((category, index) => (
-                <span
-                  key={index}
-                  className={`category-trend ${
-                    activeCategory === category ? "active" : ""
-                  }`}
-                  onClick={() => filterByCategory(category)}>
-                  {category}
-                </span>
-              ))}
-            </div>
-          </div>
+          <span
+            className={`filter-btn ${activeCategory === "all" ? "active" : ""}`}
+            onClick={() => filterByCategory("all")}>
+            All
+          </span>
+          {trendCategories.map((category, index) => (
+            <span
+              key={index}
+              className={`filter-btn ${activeCategory === category ? "active" : ""}`}
+              onClick={() => filterByCategory(category)}>
+              {category}
+            </span>
+          ))}
         </div>
       </div>
 
@@ -126,7 +115,8 @@ export default function trendsPage() {
             </div>
           ) : (
             <p style={{ marginBlock: "2rem", textAlign: "center" }}>
-              No trend available.
+              {`${activeCategory === "all" ? "No" : `No ${activeCategory}`}`}{" "}
+              trend available.
             </p>
           )
         ) : (

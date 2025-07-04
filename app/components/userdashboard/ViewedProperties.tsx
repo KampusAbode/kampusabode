@@ -1,55 +1,57 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { fetchProperties } from "../../utils";
-import { PropertyType } from "../../fetch/types";
 import Image from "next/image";
 import Link from "next/link";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Loader from "../loader/Loader";
+import { fetchPropertiesRealtime } from "../../utils";
+import { useUserStore } from "../../store/userStore";
 
-function ViewedProperties() {
-  const [properties, setProperties] = useState<PropertyType[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+const ViewedProperties: React.FC = () => {
+  // Get the properties state from your Firebase properties store using Zustand
+  // (if you're combining properties under the userStore, we get it from there too)
+  const properties = useUserStore((state) => state.properties);
+  const setProperties = useUserStore((state) => state.setProperties);
+  // const { fetchPropertiesRealtime } = useProperties();
+
+  
+  // Retrieve the logged-in user data from the store.
+  const user = useUserStore((state) => state.user);
+
+  // Local loading state for properties retrieval
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchPropertiesFromDB = async () => {
-      try {
-        const fetchedProperties = await fetchProperties();
-        setProperties(fetchedProperties);
-        toast.success("Properties loaded successfully!");
-      } catch (err) {
-        console.error("Error fetching properties:", err);
-        setError("Failed to load properties. Please try again later.");
-        toast.error("Failed to load properties.");
-      } finally {
-        setLoading(false);
-      }
-    };
+    // Listen for realtime updates from Firestore for properties
+    const unsubscribe = fetchPropertiesRealtime((fetchedProperties) => {
+      setProperties(fetchedProperties);
+      setIsLoading(false);
+    });
 
-    fetchPropertiesFromDB();
-  }, []);
+    return () => unsubscribe();
+  }, [setProperties, fetchPropertiesRealtime]);
 
-  const visitedProperties = JSON.parse(
-    localStorage.getItem("visitedProperties") || "[]"
-  );
+  // Instead of reading localStorage, check the user's visited properties from the store.
+  // We assume the student has the 'viewedProperties' array in `user.userInfo`
+  const visitedProperties: string[] =
+    user && user.userType === "student" && "viewedProperties" in user.userInfo
+      ? (user.userInfo as any).viewedProperties
+      : [];
 
-  const checkProperties = visitedProperties.length
-    ? properties.filter((property) =>
-        visitedProperties.includes(property.id.toString())
-      )
-    : [];
+  // Filter the properties list based on visited property IDs
+  const checkProperties =
+    visitedProperties.length > 0
+      ? properties.filter((property) =>
+          visitedProperties.includes(property.id.toString())
+        )
+      : [];
 
   return (
     <div className="viewed-properties">
-      <ToastContainer />
       <h5>Viewed Properties</h5>
       <div className="display-viewed-properties">
-        {loading ? (
-          <p>Loading...</p>
-        ) : error ? (
-          <p>{error}</p>
+        {isLoading ? (
+          <Loader />
         ) : checkProperties.length > 0 ? (
           checkProperties.map((property) => (
             <Link key={property.id} href={property.url}>
@@ -69,6 +71,6 @@ function ViewedProperties() {
       </div>
     </div>
   );
-}
+};
 
 export default ViewedProperties;

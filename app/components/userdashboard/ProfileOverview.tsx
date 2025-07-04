@@ -1,30 +1,53 @@
 import React from "react";
 import Image from "next/image";
 import { UserType } from "../../fetch/types";
+import { useUserStore } from "../../store/userStore";
+import { MdVerified, MdErrorOutline } from "react-icons/md";
 
-const ProfileOverview = ({ user }: { user: UserType }) => {
-  console.log(user);
-  
+const ProfileOverview = ({userdata}) => {
+  const { user } = useUserStore((state) => state);
+
   return (
     <div className="profile-overview">
       <div className="dt">
         <div className="img">
           <Image
             priority
-            src={user?.avatar || "/assets/person3.jpg"}
-            width={1000}
-            height={1000}
+            src={user?.avatar || "/assets/user.svg"}
+            width={3000}
+            height={3000}
             alt="profile picture"
           />
         </div>
         <div className="tdt">
-          <span>Name: {user?.name}</span>
-          <span>Email: {user?.email}</span>
-          <span>Phone: {user?.phoneNumber}</span>
-          <span>University: {user?.university}</span>
-          <span>Status: {user?.userType}</span>
+          <span><strong>Name:</strong> {user?.name}</span>
+          <span>
+            <strong>
+            Email:</strong> {user?.email}{" "}
+            {userdata.emailVerified ? (
+              <span className="verified">
+                <MdVerified size={20} color="#2ecc71" title="Verified" />
+              </span>
+            ) : (
+              <span className="not-verified">
+                <MdErrorOutline
+                  size={20}
+                  color="#e74c3c"
+                  title="Not Verified"
+                />
+              </span>
+            )}
+          </span>
+          <span><strong>Phone:</strong> {user?.phoneNumber}</span>
+          <span><strong>University:</strong> {user?.university}</span>
+          <span><strong>Status:</strong> {user?.userType}</span>
           {user?.userType === "student" && "department" in user.userInfo ? (
-            <span>Department: user?.userInfo?.department</span>
+            <span><strong>Department:</strong> {user?.userInfo?.department}</span>
+          ) : (
+            ""
+          )}
+          {user?.userType === "agent" && "agencyName" in user.userInfo ? (
+            <span><strong>Agency:</strong> {user?.userInfo?.agencyName}</span>
           ) : (
             ""
           )}

@@ -16,12 +16,50 @@
           position: relative;
           margin-bottom: var(--spacing-2x);
 
-          img{
+          &.top{
+            background-color: var(--light-gray);
+            padding: var(--spacing);
+            border-radius: var(--border-radius);
+            position: relative;
+
+
+            .icon-label{
+              position: absolute;
+              top: 40%;
+              left: 55%;
+              transform: translateY(-50%);
+              color: var(--white);
+              font-weight: 600;
+              font-size: 1.5rem;
+              pointer-events: none;
+              cursor: pointer;
+            }
+
+            img{
+              
+              box-shadow: var(--shadow);
+            }
+
+            label{
+              text-align: center;
+              padding: 0;
+            }
+
+            input{
+              border: none;
+              text-align: center;
+              display: none;
+            }
+
+          }
+
+          img {
             width: 100px;
             height: 100px;
-            border: 100%;
-            margin: 0 auto;
-            
+            border-radius: 100%;
+            object-fit: cover;
+            display: block;
+            margin: var(--spacing) auto;
           }
 
           label {
@@ -34,9 +72,10 @@
           select,
           textarea {
             width: 100%;
-            border: var(--border);
+            /* border: var(--border); */
             border-radius: var(--border-radius);
             padding: var(--spacing);
+            background-color: var(--light-gray);
             font-size: var(--font-size-nm);
             color: var(--font-color-p);
 
@@ -45,15 +84,15 @@
             }
           }
 
-          textarea{
+          textarea {
             resize: none;
           }
 
-          span {
+          span.input-error {
             position: absolute;
             bottom: -30%;
             left: var(--spacing);
-            color: #f10909;
+            color: #d32f2f;
           }
         }
         button {
@@ -66,6 +105,8 @@
 
           &.disable {
             user-select: none;
+            background-color: var(--light-gray);
+            cursor: not-allowed;
           }
         }
       }

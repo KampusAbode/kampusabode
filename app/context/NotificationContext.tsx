@@ -7,7 +7,6 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import CryptoJS from "crypto-js";
 import { db } from "../lib/firebaseConfig";
 import {
   collection,
@@ -17,6 +16,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import toast from "react-hot-toast";
+import { useUserStore } from "../store/userStore";
 
 export type Notification = {
   id: string;
@@ -33,53 +33,12 @@ const NotificationContext = createContext<NotificationContextType | undefined>(
   undefined
 );
 
-const LOCAL_STORAGE_KEY = "persist_notifications";
-
-// Decrypt and get stored user data from localStorage
-const getStoredUserData = (): any => {
-  try {
-    const encryptedData = localStorage.getItem(
-      process.env.NEXT_PUBLIC__USERDATA_STORAGE_KEY!
-    );
-    if (!encryptedData) return null;
-    const decryptedData = CryptoJS.AES.decrypt(
-      encryptedData,
-      process.env.NEXT_PUBLIC__ENCSECRET_KEY!
-    ).toString(CryptoJS.enc.Utf8);
-    return decryptedData ? JSON.parse(decryptedData) : null;
-  } catch (error) {
-    console.error("Error decrypting user data:", error);
-    return null;
-  }
-};
-
 export const NotificationProvider = ({ children }: { children: ReactNode }) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
-
-  // Load notifications from localStorage on mount
-  useEffect(() => {
-    const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed)) {
-          setNotifications(parsed);
-        }
-      } catch (error) {
-        console.error("Error parsing notifications from localStorage:", error);
-      }
-    }
-  }, []);
-
-  // Save notifications to localStorage whenever they change
-  useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(notifications));
-  }, [notifications]);
+  const user = useUserStore((state) => state.user);
 
   useEffect(() => {
-    // Check if the current user is an admin
-    const userData = getStoredUserData();
-    if (!userData || userData.id !== process.env.NEXT_PUBLIC_ADMINS) {
+    if (!user || user.id !== process.env.NEXT_PUBLIC_ADMINS) {
       // Not an admin; do not attach notification listeners
       return;
     }
@@ -132,7 +91,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     const unsubProperties = listenToCollection("properties", "property");
     const unsubReviews = listenToCollection("Reviews", "review");
     const unsubMarketItems = listenToCollection("Marketitems", "market item");
-    const unsubComments = listenToCollection("comments", "comment");
+    const unsubComments = listenToCollection("trendcomments", "comment");
     const unsubConversations = listenToCollection(
       "conversations",
       "conversation"

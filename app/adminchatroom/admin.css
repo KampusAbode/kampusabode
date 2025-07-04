@@ -13,6 +13,7 @@
   box-shadow: var(--box-shadow);
   border-radius: var(--border-radius);
   border: var(--border);
+  border-color: transparent;
   background-color: var(--light-gray);
   display: flex;
   flex-direction: column;
@@ -20,7 +21,7 @@
   margin-bottom: var(--spacing-h);
 }
 .admin-chat-page .container ul .message:hover {
-  border: var(--border-hover);
+  background-color: var(--gray);
 }
 .admin-chat-page .container ul .message .content {
   font-weight: 600;

@@ -1,73 +1,103 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-// import { trends } from "../fetch/data/trends";
-import { fetchProperties, fetchPropertiesByIds } from "../utils";
-import "./saved.css";
-import TrendCard from "../trends/component/trendCard/TrendCard";
-import { TrendType, PropertyType } from "../fetch/types";
+import { getApartmentsByIds } from "../utils";
+// import TrendCard from "../trends/component/trendCard/TrendCard";
+import { TrendType, ApartmentType } from "../fetch/types";
 import Link from "next/link";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
+import { useUserStore } from "../store/userStore";
+import "./saved.css";
+import Image from "next/image";
 
 const SavedPage = () => {
-  // const [properties, setProperties] = useState([]);
   const [currentTab, setCurrentTab] = useState("properties");
-  const [savedProperties, setsavedProperties] = useState([]);
-  const [savedTrends, setsavedTrends] = useState([]);
-  const userData = useSelector((state: RootState) => state.userdata);
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.user?.isAuthenticated
-  );
+  const [savedProperties, setSavedProperties] = useState<ApartmentType[]>([]);
+  // const { getApartmentsByIds } = useProperties();
+  const [loading, setLoading] = useState(false);
 
-  async () => {
-    if (
-      isAuthenticated &&
-      userData.userType === "student" &&
-      "savedProperties" in userData.userInfo
-    ) {
-      const savedsavedProperties = userData.userInfo.savedProperties;
-      const updatedsavedProperties = [...savedsavedProperties];
-      const fetchedProperties: PropertyType[] = await fetchPropertiesByIds(
-        updatedsavedProperties
-      );
-      setsavedProperties(fetchedProperties);
-    }
-  };
+  // Zustand store for user data
+  const userData = useUserStore((state) => state.user);
 
-  function savedTab(tab: string) {
-    if (tab === "trends") {
-      return savedTrends.map((read) => {
-        return <TrendCard key={read.title} trendData={read as TrendType} />;
-      });
-    } else {
-      if (tab === "properties" && savedProperties) {
-        return (
-          <div className="saved-props">
-            {savedProperties.map((property) => {
-              return (
-                <Link key={property.id} href={`/properties/${property.id}`}>
-                  <img src={property.images[0]} alt={property.title} />
-                </Link>
-              );
-            })}
+
+  if (!userData) {
+    return (
+      <section className="saved-page">
+        <div className="container">
+          <h4 className="page-heading">Saved</h4>
+
+          <div style={{ textAlign: "center", marginTop: "28px" }}>
+            <p>Please log in to access your saved apartments.</p>
+            <Link href="/auth/login" style={{textDecoration:"underline"}}>Log in</Link>
           </div>
-        );
-      } else {
-        return (
-          <div className="saved-props">
-            <p>
-              Oops! Your saved list is empty! Why not start discovering your
-              dream property now? 💡
-            </p>
-          </div>
-        );
-      }
-    }
+        </div>
+      </section>
+    );
   }
+
+  useEffect(() => {
+    const fetchSavedProperties = async () => {
+      if (
+        userData &&
+        userData.userType === "student" &&
+        "savedProperties" in userData.userInfo
+      ) {
+        setLoading(true);
+        try {
+          const savedPropertiesIds = userData.userInfo.savedProperties;
+          const fetchedProperties: ApartmentType[] = await getApartmentsByIds(
+            savedPropertiesIds
+          );
+          setSavedProperties(fetchedProperties);
+        } catch (error) {
+          console.error("Failed to fetch saved properties", error);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchSavedProperties();
+  }, [userData]);
+  
+
+  const savedTab = (tab: string) => {
+    // if (tab === "trends") {
+    //   return savedTrends.map((trend) => {
+    //     return <TrendCard key={trend.title} trendData={trend as TrendType} />;
+    //   });
+    // } else {
+    if (tab === "properties" && savedProperties.length > 0) {
+      return (
+        <div className="saved-props">
+          {savedProperties.map((property) => {
+            return (
+              <Link key={property.id} href={`/apartment/${property.id}`}>
+                <Image src={property.images[0]} width={4000} height={4000} alt={property.title} />
+              </Link>
+            );
+          })}
+        </div>
+      );
+    } else {
+      return (
+        <div className="no-saved" style={{textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", height: "100vh"}}>
+          
+          <Image src="/icons/save_apartment.png" alt="no saved" width={3000} height={3000} style={{width: "210px", height: 'auto'}} />
+
+          <p style={{ textAlign: "center", marginTop: "2rem" }}>
+            No saved apartments yet! 🏠
+          </p>
+        </div>
+      );
+    }
+    // }
+  };
 
   return (
     <section className="saved-page">
+      <div className="container">
+        <h4 className="page-heading">Saved</h4>
+      </div>
       <div className="tabs">
         <div className="container">
           <span
@@ -75,16 +105,27 @@ const SavedPage = () => {
             className={currentTab === "properties" ? "active" : ""}>
             properties
           </span>
-          <span
+
+          {/* <span
             onClick={() => setCurrentTab("trends")}
             className={currentTab === "trends" ? "active" : ""}>
             trends
-          </span>
+          </span> */}
         </div>
       </div>
 
       <div className="saved-items">
-        <div className="container">{savedTab(currentTab)}</div>
+        <div className="container">
+          {loading ? (
+            <div
+              className="loading"
+              style={{ textAlign: "center", marginTop: "2rem" }}>
+              <p>Loading saved apartments...</p>
+            </div>
+          ) : (
+            savedTab(currentTab)
+          )}
+        </div>
       </div>
     </section>
   );

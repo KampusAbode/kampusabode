@@ -31,7 +31,7 @@ export interface HomeType {
     rating: number;
     date: string;
   }[];
-  tags: string[]; 
+  tags: string[];
   footer: {
     company: {
       name: string;
@@ -44,7 +44,8 @@ export interface HomeType {
   };
 }
 
-export interface PropertyType {
+
+export interface ApartmentType {
   id: string;
   url: string;
   agentId: string;
@@ -61,18 +62,30 @@ export interface PropertyType {
   images: string[];
   available: boolean;
   approved: boolean;
+  createdAt: Date | string;
+  views: number;
 }
 
 export interface TrendType {
+  slug: string;
   id: string;
   title: string;
   content: string;
   author: string;
   image: string;
-  published_date: string;
   likes: number;
+  published_date: string;
   category: string;
 }
+export interface CommentType{
+  id: string;
+  trendId: string;
+  userId: string;
+  userName: string;
+  comment: string;
+  userProfile: string;
+  createdAt: string | Date;
+};
 
 export interface ItemType {
   name: string;
@@ -81,18 +94,20 @@ export interface ItemType {
   condition: string;
   imageUrl: string;
   price: string;
-  sellerContact: {name: string, whatsappNumber: string};
+  sellerContact: { name: string; whatsappNumber: string };
   timestamp: Date;
 }
 
 export interface ReviewType {
   id: string;
-  author: {name: string; id: string};
+  author: { name: string; id: string; avatar: string };
   propertyId: string;
+  agentId: string;
   content: string;
   rating: number;
   date: string;
 }
+
 
 export interface LinkType {
   to: string;
@@ -100,18 +115,19 @@ export interface LinkType {
 }
 
 export interface AddSavedState {
-  savedProperties: PropertyType[];
+  savedProperties: ApartmentType[];
   savedTrends: TrendType[];
 }
 
 export interface BookmarkState {
-  items: PropertyType[];
+  items: ApartmentType[];
 }
 
 export interface StudentUserInfo {
   department: string;
   currentYear: number;
   savedProperties: string[];
+  viewedProperties: string[];
   wishlist: string[];
 }
 
@@ -127,7 +143,7 @@ export interface UserType {
   avatar: string;
   phoneNumber: string;
   email: string;
-  university: string,
+  university: string;
   userType: "student" | "agent" | "";
   userInfo: StudentUserInfo | AgentUserInfo;
 }

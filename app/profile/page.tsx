@@ -1,41 +1,103 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import {
+  onAuthStateChanged,
+  getAuth,
+  User as FirebaseUser,
+  sendEmailVerification,
+} from "firebase/auth";
 import ProfileOverview from "../components/userdashboard/ProfileOverview";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
 import "./profile.css";
 import Link from "next/link";
+import { useUserStore } from "../store/userStore";
+import { MdErrorOutline, MdVerified } from "react-icons/md";
 
 const ProfilePage = () => {
-  const user = useSelector((state: RootState) => state.userdata);
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.user?.isAuthenticated
-  );
+  const { user } = useUserStore((state) => state);
+  const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
+  const [sendingVerification, setSendingVerification] = useState(false);
+  const [verificationSent, setVerificationSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+      setFirebaseUser(authUser);
+      setVerificationSent(false);
+      setError(null);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleResendVerification = async () => {
+    if (!firebaseUser) return;
+    setSendingVerification(true);
+    setError(null);
+
+    try {
+      await sendEmailVerification(firebaseUser);
+      setVerificationSent(true);
+    } catch (err) {
+      setError("Failed to send verification email. Please try again later.");
+    } finally {
+      setSendingVerification(false);
+    }
+  };
+
+  if (!user || !firebaseUser) {
+    return (
+      <section className="profile-page">
+        <div className="container">
+          <h4 className="page-heading">Profile</h4>
+
+          <div style={{ textAlign: "center", marginTop: "28px" }}>
+            <p>Please log in to access your profile.</p>
+            <Link href="/auth/login" style={{ textDecoration: "underline" }}>
+              Log in
+            </Link>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="profile-page">
       <div className="container">
-        {isAuthenticated ? (
-          <>
-            <ProfileOverview user={user} />
+        <ProfileOverview userdata={firebaseUser} />
 
-            <div className="cp">
-              <Link href={`/profile/${user.id}`} className="btn">
-                edit profile
-              </Link>
+        <div className="email-status">
+         
+
+          {!firebaseUser.emailVerified && (
+            <div style={{ marginTop: "8px" }}>
+              <button
+                onClick={handleResendVerification}
+                disabled={sendingVerification}
+                className="btn btn-secondary">
+                {sendingVerification
+                  ? "Sending..."
+                  : "Resend Verification Email"}
+              </button>
+              {verificationSent && (
+                <p style={{ color: "#27ae60", marginTop: "8px" }}>
+                  Verification email sent! Please check your inbox.
+                </p>
+              )}
+              {error && (
+                <p style={{ color: "#e74c3c", marginTop: "8px" }}>{error}</p>
+              )}
             </div>
-          </>
-        ) : (
-          <p style={{ marginTop: "1rem" }}>
-            Login to access your profile page. <br />
-            <Link
-              className="btn"
-              style={{ marginTop: "1rem" }}
-              href={"/auth/login"}>
-              login
-            </Link>
-          </p>
-        )}
+          )}
+        </div>
+
+        <div className="cp">
+          <Link href={`/profile/@${user.name}`} className="btn">
+            edit profile
+          </Link>
+        </div>
       </div>
     </section>
   );
