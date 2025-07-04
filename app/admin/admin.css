@@ -54,6 +54,17 @@
 .admin-dashboard .container .dashboard-content .user-management ul li span {
   display: block;
 }
+@media (min-width: 768) {
+  .admin-dashboard .container .dashboard-content .user-management ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing);
+  }
+  .admin-dashboard .container .dashboard-content .user-management ul li {
+    padding: var(--spacing);
+    margin-block: var(--spacing-s);
+  }
+}
 .admin-dashboard .container .dashboard-content .property-management ul li {
   padding: var(--spacing);
   background-color: var(--light-gray);

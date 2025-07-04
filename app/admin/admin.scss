@@ -1,100 +1,108 @@
 .admin-dashboard {
-    .container{
-        margin-block: var(--spacing-s);
-        padding-block: var(--spacing-2x);
-        .dashboard-navigation{
-            display: flex;
-          flex-wrap: nowrap;
-          overflow-x: auto;
-          justify-content: left;
-          scroll-behavior: smooth;
-          gap: var(--spacing);
-          padding-block: var(--spacing);
+  .container {
+    margin-block: var(--spacing-s);
+    padding-block: var(--spacing-2x);
+    .dashboard-navigation {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      justify-content: left;
+      scroll-behavior: smooth;
+      gap: var(--spacing);
+      padding-block: var(--spacing);
 
-          /* Hide scrollbar */
-          &::-webkit-scrollbar {
-            display: none;
+      /* Hide scrollbar */
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+
+      button {
+        border: var(--border);
+        border-color: transparent;
+        padding: var(--spacing-b);
+        background-color: var(--light-gray);
+        border-radius: var(--border-radius);
+        text-wrap: nowrap;
+        font-size: var(--font-size-sm);
+        text-transform: capitalize;
+        cursor: pointer;
+
+        &.active {
+          border: var(--border-hover);
+        }
+      }
+    }
+    .dashboard-content {
+      padding-block: var(--spacing);
+
+      .user-management {
+        .input-box {
+          margin-block: var(--spacing);
+          input {
+            padding: var(--spacing);
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
           }
-          -ms-overflow-style: none;
-          scrollbar-width: none;
+        }
 
-          button{
-            border: var(--border);
-            border-color: transparent;
-            padding: var(--spacing-b);
+        h6 {
+          margin-block: var(--spacing);
+        }
+
+        ul {
+          li {
+            padding: var(--spacing-h);
             background-color: var(--light-gray);
             border-radius: var(--border-radius);
-            text-wrap: nowrap;
-            font-size: var(--font-size-sm);
-            text-transform: capitalize;
-            cursor: pointer;
-            
 
-            &.active{
-              border: var(--border-hover);
+            span {
+              display: block;
             }
           }
         }
-        .dashboard-content{
-            padding-block: var(--spacing);
-
-
-            .user-management{
-              .input-box{
-                margin-block: var(--spacing);
-                input{
-                  padding: var(--spacing);
-                  width: 100%;
-                  max-width: 900px;
-                  margin: 0 auto;
-
-                }
-              }
-
-              h6{
-                margin-block: var(--spacing);
-              }
-
-              ul{
-                li{
-                  padding: var(--spacing-h);
-                  background-color: var(--light-gray);
-                  border-radius: var(--border-radius);
-
-                  span{
-                    display: block;
-                  }
-                }
-              }
+        @media (min-width: 768) {
+          ul {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing);
+            li {
+              padding: var(--spacing);
+              margin-block: var(--spacing-s);
             }
-            .property-management{
-              ul{
-                li{
-                  padding: var(--spacing);
-                  background-color: var(--light-gray);
-                  margin-block: var(--spacing);
-                  border-radius: var(--border-radius);
-
-                  .flex{
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: flex-start;
-                    .info{
-                      p{
-                        margin-bottom: var(--spacing-h);
-                      }
-                    }
-                    span{
-                      display: block;
-                    }
-                  }
-
-                  .action{
-                    margin-top: var(--spacing);
-                  }
-                }
-              }
-            }
+          }
         }
+      }
+      .property-management {
+        ul {
+          li {
+            padding: var(--spacing);
+            background-color: var(--light-gray);
+            margin-block: var(--spacing);
+            border-radius: var(--border-radius);
+
+            .flex {
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-start;
+              .info {
+                p {
+                  margin-bottom: var(--spacing-h);
+                }
+              }
+              span {
+                display: block;
+              }
+            }
+
+            .action {
+              margin-top: var(--spacing);
+            }
+          }
+        }
+      }
     }
+  }
 }
