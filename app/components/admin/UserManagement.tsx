@@ -61,9 +61,14 @@ const UserManagement = () => {
             const studentInfo = student.userInfo as StudentUserInfo;
             return (
               <li key={student.id}>
-                <strong>{student.name}</strong> - {student.email} <br />
-                <em>{student.university}</em> | Dept: {studentInfo.department} |
-                Year: {studentInfo.currentYear}
+                <span>
+                  <strong>{student.name}</strong>{" "}
+                </span>
+                <span>Email: {student.email}</span>
+                <span>University: {student.university}</span>
+                <span>Dept: {studentInfo.department}</span>
+                <span>Year: {studentInfo.currentYear}</span>
+                <span>Views: {studentInfo.viewedProperties.length}</span>
               </li>
             );
           })}

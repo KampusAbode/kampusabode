@@ -56,7 +56,7 @@
   color: var(--font-color-p);
   cursor: pointer;
 }
-.trend-details-page .container .interaction-buttons button.active i{
+.trend-details-page .container .interaction-buttons button.active i {
   color: green;
   font-size: var(--font-size-lg);
 }
