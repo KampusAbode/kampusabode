@@ -96,7 +96,7 @@ body {
   max-height: 100vh;
   background-color: var(--gray);
 }
-.wrapper.grid > div, .wrapper.grid main {
+.wrapper.grid > div, .wrapper.grid > main {
   border-radius: var(--border-radius);
   background-color: var(--white);
 }
@@ -104,8 +104,9 @@ body {
   .wrapper.grid {
     grid-template-columns: 100%;
     background-color: var(--white);
+    padding: 0;
   }
-  .wrapper.grid > div {
+  .wrapper.grid > div, .wrapper.grid > main {
     border-radius: 0;
     padding: 0;
   }

@@ -64,7 +64,6 @@
   /* Line Heights */
   --line-height: 1.25;
 
-
   /* Breakpoints */
   --large-width: 90%;
   --mobile-width: 92%;
@@ -77,7 +76,7 @@
   box-sizing: border-box;
   outline: none;
   line-height: var(--line-height);
-    list-style-type: none;
+  list-style-type: none;
   text-decoration: none;
   scroll-behavior: smooth;
   font-weight: 500;
@@ -116,7 +115,8 @@ body {
     max-height: 100vh;
     background-color: var(--gray);
 
-    & > div, main{
+    & > div,
+    & > main {
       border-radius: var(--border-radius);
       background-color: var(--white);
     }
@@ -124,9 +124,10 @@ body {
     @media screen and (max-width: 768px) {
       grid-template-columns: 100%;
       background-color: var(--white);
+      padding: 0;
 
-
-      & > div{
+      & > div,
+      & > main {
         border-radius: 0;
         padding: 0;
       }
@@ -138,7 +139,7 @@ a {
   font-size: var(--font-size-nm);
   color: var(--font-color-p);
   text-decoration: none;
-  
+
   &:hover {
     color: var(--primary-color);
   }
@@ -151,7 +152,7 @@ h4,
 h5,
 h6 {
   color: var(--font-color-h);
-    user-select: none;
+  user-select: none;
 }
 h1 {
   font-size: 2.77rem;
@@ -162,7 +163,7 @@ h2 {
 }
 
 h3 {
-  font-size: 1.45rem; 
+  font-size: 1.45rem;
 }
 
 h4 {
@@ -170,7 +171,7 @@ h4 {
 }
 
 h5 {
-  font-size: 1.17rem; 
+  font-size: 1.17rem;
 }
 
 h6 {
@@ -213,12 +214,12 @@ textarea {
 
 label {
   font-size: var(--font-size-sm);
-    color: var(--font-color-p);
+  color: var(--font-color-p);
 }
 
 span {
   font-size: var(--font-size-xs);
-    color: var(--font-color-p);
+  color: var(--font-color-p);
   user-select: none;
 }
 
@@ -356,7 +357,7 @@ button {
 
   // @media screen and (max-width: 768px) {
   //   top: 0;
-    
+
   // }
 }
 
@@ -370,6 +371,7 @@ button {
       display: none;
     }
   }
+
 
   h1 {
     font-size: 2rem;
@@ -410,11 +412,11 @@ button {
 
   label {
     font-size: var(--font-size-sm);
-    }
+  }
 
   small {
     font-size: var(--font-size-sm);
-    }
+  }
 
   .heading-section {
     p {
@@ -443,7 +445,6 @@ button {
   // h4 {
   //   font-size: 1rem;
   // }
-
 
   button {
     font-size: var(--font-size-sm);
