@@ -1,12 +1,12 @@
 /* ========== header section open ========== */
 header {
   padding-block: var(--spacing);
-  position: fixed;
-  top: 0;
   width: 100%;
   background-color: var(--white);
   box-shadow: var(--shadow);
   z-index: 9999;
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 header.hide {
@@ -57,6 +57,7 @@ header .container .menu {
   /* ========== header section open ========== */
   header {
     position: fixed;
+    top: 0;
   }
   header .container .logo {
     visibility: visible;

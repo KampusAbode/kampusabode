@@ -6,12 +6,12 @@ import Link from "next/link";
 import Loader from "../loader/Loader";
 import { fetchPropertiesRealtime } from "../../utils";
 import { useUserStore } from "../../store/userStore";
+import { usePropertiesStore } from "../../store/propertiesStore";
 
 const ViewedProperties: React.FC = () => {
   // Get the properties state from your Firebase properties store using Zustand
   // (if you're combining properties under the userStore, we get it from there too)
-  const properties = useUserStore((state) => state.properties);
-  const setProperties = useUserStore((state) => state.setProperties);
+  const { properties, setProperties } = usePropertiesStore();
   // const { fetchPropertiesRealtime } = useProperties();
 
   

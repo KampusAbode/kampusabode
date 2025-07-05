@@ -9,6 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { AgentUserInfo, StudentUserInfo } from "../../fetch/types";
+import { usePropertiesStore } from "../../store/propertiesStore";
 
 // Type guard to check if user is a tenant (student)
 const isUserType = (
@@ -26,6 +27,7 @@ const BookmarkedProperties = () => {
   >([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const { getPropertiesByIds } = usePropertiesStore();
 
   const bookmarkedIds: string[] =
     user && isUserType(user.userType, user.userInfo)
@@ -49,7 +51,7 @@ const BookmarkedProperties = () => {
           return;
         }
 
-        const fetched = await getApartmentsByIds(bookmarkedIds);
+        const fetched = getPropertiesByIds(bookmarkedIds);
         setBookmarkedProperties(fetched);
       } catch (err: unknown) {
         const errorMessage =

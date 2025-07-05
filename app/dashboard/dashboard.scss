@@ -24,7 +24,7 @@
     .agent-dashboard {
       margin-block: var(--spacing-2x);
 
-      h4 {
+      h5 {
         margin-bottom: var(--spacing);
         display: flex;
         justify-content: space-between;
@@ -55,15 +55,23 @@
 
             a {
               display: grid;
-              grid-template-columns: 30% 1fr;
+              grid-template-columns: auto 1fr;
+              padding: var(--spacing-h);
+              gap: var(--spacing);
               align-items: center;
               width: 100%;
               color: var(--text-color-h);
 
+
+              &:hover{
+                background-color: var(--light-gray);
+                box-shadow: var(--shadow);
+              }
+
               img {
-                width: 70px;
-                height: 70px;
-                aspect-ratio: 1/1;
+                width: 55px;
+                height: 55px;
+                // aspect-ratio: 1/1;
                 border-radius: var(--border-radius);
                 object-fit: cover;
               }

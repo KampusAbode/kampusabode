@@ -32,7 +32,7 @@
   --spacing-4x: 4rem;
   --spacing-5x: 5rem;
   --spacing-s: 6rem;
-  --spacing-b: 0.8rem 1rem;
+  --spacing-b: 0.6rem 1rem;
   /* Shadow & Transition */
   --shadow: 0px 3px 10px rgba(27, 27, 27, 0.089),
     -0px -3px 8px rgba(22, 22, 22, 0.01);
@@ -72,6 +72,9 @@
 *:focus-visible {
   border: var(--border);
 }
+* *:not(body)::-webkit-scrollbar {
+  display: none;
+}
 
 html {
   scroll-behavior: smooth;
@@ -80,19 +83,30 @@ html {
 body {
   font-family: var(--font-inter);
   color: var(--font-color-p);
-  background-color: var(--background-white);
 }
 
 .wrapper.grid {
   display: grid;
-  grid-template-columns: 18% 82%;
+  grid-template-columns: 18% auto;
+  padding: var(--spacing-h);
+  gap: var(--spacing-h);
   overflow: hidden;
   height: 100vh;
   max-height: 100vh;
+  background-color: var(--gray);
+}
+.wrapper.grid > div, .wrapper.grid main {
+  border-radius: var(--border-radius);
+  background-color: var(--white);
 }
 @media screen and (max-width: 768px) {
   .wrapper.grid {
     grid-template-columns: 100%;
+    background-color: var(--white);
+  }
+  .wrapper.grid > div {
+    border-radius: 0;
+    padding: 0;
   }
 }
 
@@ -118,43 +132,48 @@ h6 {
 }
 
 h1 {
-  font-size: calc(1.15rem + 1.8vw);
+  font-size: 2.77rem;
 }
 
 h2 {
-  font-size: calc(1.125rem + 1.35vw);
+  font-size: 1.85rem;
 }
 
 h3 {
-  font-size: calc(1.08rem + 0.9vw);
+  font-size: 1.45rem;
 }
 
 h4 {
-  font-size: calc(0.9rem + 0.675vw);
+  font-size: 1.25;
 }
 
 h5 {
-  font-size: calc(0.7875rem + 0.45vw);
+  font-size: 1.17rem;
 }
 
 h6 {
-  font-size: calc(0.675rem + 0.225vw);
+  font-size: 0.99rem;
 }
 
 p {
-  font-size: calc(0.875rem + 0.25vw);
+  font-size: 1rem;
   color: var(--font-color-p);
 }
 
 section {
-  padding-block: var(--spacing-5x);
+  padding-block: var(--spacing);
+}
+@media screen and (max-width: 768px) {
+  section {
+    padding-block: var(--spacing-5x);
+  }
 }
 
 main {
-  min-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
   position: relative;
+  box-shadow: var(--shadow);
 }
 
 .container {
@@ -288,11 +307,13 @@ button {
 
 .filter {
   background: var(--background-white);
-  border-radius: var(--border-radius);
   padding-block: var(--spacing);
+  width: 100%;
   position: sticky;
   top: 0;
-  z-index: 999;
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+  z-index: 9999;
 }
 .filter .container {
   display: flex;
@@ -330,7 +351,7 @@ button {
     font-size: 1.125rem;
   }
   h6 {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
   p {
     font-size: 1rem;
@@ -355,27 +376,6 @@ button {
 @media screen and (max-width: 425px) {
   :root {
     --spacing-s: 4rem;
-  }
-  h1 {
-    font-size: 1.5rem;
-  }
-  h2 {
-    font-size: 1.25rem;
-  }
-  h3 {
-    font-size: 1.125rem;
-  }
-  h4 {
-    font-size: 1rem;
-  }
-  h5 {
-    font-size: calc(0.675rem + 0.225vw);
-  }
-  h6 {
-    font-size: calc(0.675rem + 0.225vw);
-  }
-  p {
-    font-size: calc(0.875rem + 0.25vw);
   }
   button {
     font-size: var(--font-size-sm);

@@ -41,7 +41,6 @@ export const useUserStore = create<UserState>()(
       },
 
       logoutUser: () => {
-        console.log("log user out");
         set({ user: null });
       },
 

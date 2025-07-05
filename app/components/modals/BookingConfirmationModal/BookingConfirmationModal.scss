@@ -5,7 +5,7 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(5px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,7 +22,7 @@
   animation: fadeIn 0.25s ease-in-out;
 
   .modal-header {
-    h4{
+    h4 {
       margin-bottom: var(--spacing);
     }
   }
@@ -31,10 +31,9 @@
     .modal-section {
       margin-bottom: var(--spacing);
 
-      &.fees{
+      &.fees {
         display: flex;
         gap: var(--spacing-2x);
-
       }
 
       label {

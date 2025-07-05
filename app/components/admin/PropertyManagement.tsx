@@ -18,7 +18,7 @@ const PropertyManagement = () => {
 
     try {
       await deleteApartment(id);
-      setProperties((prev) => prev.filter((property) => property.id !== id));
+      setProperties(properties.filter((property) => property.id !== id));
     } catch (error) {
       console.error("Error deleting property:", error);
       alert("Failed to delete property.");
@@ -28,8 +28,8 @@ const PropertyManagement = () => {
   const handleToggleApprove = async (id: string, currentStatus: boolean) => {
     try {
       await toggleApartmentApproval(id, currentStatus);
-      setProperties((prev) =>
-        prev.map((property) =>
+      setProperties(
+        properties.map((property) =>
           property.id === id
             ? { ...property, approved: !currentStatus }
             : property

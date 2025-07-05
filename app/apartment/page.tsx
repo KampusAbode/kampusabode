@@ -132,14 +132,14 @@ const PropertiesPage: React.FC = () => {
           src="/assets/Dots.png"
           alt="dots"
         />
-        <Image
+        {/* <Image
           priority
           className="building"
           width={387}
           height={253}
           src="/assets/Building.svg"
           alt="buildings"
-        />
+        /> */}
       </div>
 
       <div className="user-search">

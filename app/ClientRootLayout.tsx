@@ -60,28 +60,30 @@ function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   if (initializing) return <Loader />;
 
   return (
-    <div className="wrapper">
-      {/* ✅ Insert Scripts once */}
-      <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-LTGR69WRJB"
-        strategy="afterInteractive"
-      />
-      <Script id="ga-init" strategy="afterInteractive">
-        {`
+    <>
+      <Header />
+      <div className={`wrapper ${user ? "grid" : ""} `}>
+        {/* ✅ Insert Scripts once */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-LTGR69WRJB"
+          strategy="afterInteractive"
+        />
+        <Script id="ga-init" strategy="afterInteractive">
+          {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', 'G-LTGR69WRJB');
         `}
-      </Script>
+        </Script>
 
-      <Nav />
-      <main>
-        <Header />
-        {children}
-        <QuickService />
-      </main>
-      <Navigation />
-    </div>
+        <Nav />
+        <main>
+          {children}
+          <QuickService />
+        </main>
+        <Navigation />
+      </div>
+    </>
   );
 }

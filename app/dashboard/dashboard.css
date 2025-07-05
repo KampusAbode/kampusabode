@@ -24,15 +24,15 @@
 .dashboard .container .agent-dashboard {
   margin-block: var(--spacing-2x);
 }
-.dashboard .container .student-dashboard h4,
-.dashboard .container .agent-dashboard h4 {
+.dashboard .container .student-dashboard h5,
+.dashboard .container .agent-dashboard h5 {
   margin-bottom: var(--spacing);
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.dashboard .container .student-dashboard h4 a,
-.dashboard .container .agent-dashboard h4 a {
+.dashboard .container .student-dashboard h5 a,
+.dashboard .container .agent-dashboard h5 a {
   text-decoration: underline;
   font-size: var(--font-size-sm);
 }
@@ -57,16 +57,22 @@
 .dashboard .container .student-dashboard .bookmarked-properties ul li a,
 .dashboard .container .agent-dashboard .bookmarked-properties ul li a {
   display: grid;
-  grid-template-columns: 30% 1fr;
+  grid-template-columns: auto 1fr;
+  padding: var(--spacing-h);
+  gap: var(--spacing);
   align-items: center;
   width: 100%;
   color: var(--text-color-h);
 }
+.dashboard .container .student-dashboard .bookmarked-properties ul li a:hover,
+.dashboard .container .agent-dashboard .bookmarked-properties ul li a:hover {
+  background-color: var(--light-gray);
+  box-shadow: var(--shadow);
+}
 .dashboard .container .student-dashboard .bookmarked-properties ul li a img,
 .dashboard .container .agent-dashboard .bookmarked-properties ul li a img {
-  width: 70px;
-  height: 70px;
-  aspect-ratio: 1/1;
+  width: 55px;
+  height: 55px;
   border-radius: var(--border-radius);
   -o-object-fit: cover;
      object-fit: cover;

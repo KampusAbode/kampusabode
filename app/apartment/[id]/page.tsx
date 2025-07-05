@@ -42,6 +42,7 @@ const PropertyDetails = ({
   const [isInspectionModelOpen, setInspectionModelOpen] = useState(false);
   const { getPropertyById, getPropertiesByIds } = usePropertiesStore();
 
+
   const { user } = useUserStore((state) => state);
 
   // Fetch property details and agent details
@@ -333,7 +334,7 @@ const PropertyDetails = ({
                         />
                       </div>
                       <div className="list-details">
-                        <h5>{listing.title}</h5>
+                        <h6>{listing.title}</h6>
                         <span>{listing.description}</span>
                       </div>
                     </Link>

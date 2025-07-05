@@ -1,7 +1,7 @@
 // app/apartment/[id]/layout.tsx
 import { ReactNode } from "react";
 import { Metadata } from "next";
-import { getApartmentById } from "../../utils";
+import { usePropertiesStore } from "../../store/propertiesStore";
 
 type LayoutProps = {
   children: ReactNode;
@@ -15,7 +15,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id } = params;
 
-  const propertyDetails = await getApartmentById(id);
+  const propertyDetails = usePropertiesStore.getState().getPropertyById(id);
 
   if (!propertyDetails) {
     return {

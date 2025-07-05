@@ -1,12 +1,7 @@
 .banner {
   margin: var(--spacing) 0;
   position: relative;
-  overflow: hidden;
-
-  @media screen and (min-width: 768px) {
-    overflow: visible;
-    margin: var(--spacing-5x) 0 var(--spacing);
-  }
+  // overflow: hidden;
 
   .container {
     border-radius: var(--border-radius);
@@ -102,7 +97,7 @@
   margin: var(--spacing) 0 var(--spacing-3x);
   .properties {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: calc(1.5 * var(--spacing));
 
     span,
@@ -136,7 +131,7 @@
     }
   }
   .filter {
-    top: 68px;
+    top: 60px;
     .container {
       justify-content: left;
     }

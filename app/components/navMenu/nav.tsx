@@ -32,8 +32,8 @@ function Nav() {
     setShowPrompt(false);
     try {
       await logoutUser();
-      toast.success("Logged out successfully 👌");
       router.push("/");
+      toast.success("Logged out successfully 👌");
     } catch (error) {
       toast.error(error?.message || "An unexpected error occurred.");
     }
