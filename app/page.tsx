@@ -13,8 +13,8 @@ import { RiVerifiedBadgeLine } from "react-icons/ri";
 import { useState, useEffect } from "react";
 import TrendCard from "./trends/component/trendCard/TrendCard";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { usePropertiesStore } from "./store/propertiesStore";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 

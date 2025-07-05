@@ -80,6 +80,8 @@
 .properties-details-page .prop-image-details .property-images .container .control-image img {
   width: 70px;
   height: 70px;
+  min-width: 70px;
+  min-height: 70px;
   border-radius: var(--border-radius);
   -o-object-fit: cover;
      object-fit: cover;
@@ -338,6 +340,8 @@
   .properties-details-page .prop-image-details .property-images .container .control-image img {
     width: 60px;
     height: 60px;
+    min-width: 60px;
+    min-height: 60px;
   }
   .properties-details-page .container .top {
     margin-top: var(--spacing-2x);

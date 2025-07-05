@@ -329,7 +329,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
                         />
                       </div>
                       <div className="list-details">
-                        <h6>{listing.title}</h6>
+                        <h5>{listing.title}</h5>
                         <span>{listing.description}</span>
                       </div>
                     </Link>
@@ -359,13 +359,13 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
             className="btn"
             title="Button"
             onClick={() => setBookingModalOpen(true)}>
-            inspect apartment
+            Book Inspection
           </span>
           <Link
             className="btn btn-secondary"
             title="Button"
             href={user ? `tel:+2347050721686` : `/auth/login`}>
-            Make a call
+            Call Agent
           </Link>
         </div>
       </div>

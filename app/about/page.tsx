@@ -1,6 +1,11 @@
+"use client";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
+import type { Metadata } from "next";
 import Image from "next/image";
 import "./about.css";
-import type { Metadata } from "next";
+import { useEffect } from "react";
 
 export const metadata: Metadata = {
   title: "About Us - Kampusabode | Leading Real Estate Platform for Students",
@@ -11,6 +16,36 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.utils.toArray<HTMLElement>("h1, h5, h3, h2, p, img").forEach((el) => {
+      gsap.from(el, {
+        opacity: 0,
+        y: 50,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 90%",
+          toggleActions: "play none none reverse",
+        },
+      });
+    });
+    gsap.utils.toArray<HTMLElement>(".mf1, .mf2").forEach((el) => {
+      gsap.from(el, {
+        opacity: 0,
+        y: 50,
+        duration: 0.4,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 90%",
+          toggleActions: "play none none",
+        },
+      });
+    });
+  }, []);
   return (
     <section className="about-page">
       <div className="header">
@@ -31,8 +66,8 @@ export default function AboutPage() {
               <Image
                 priority
                 src="/assets/mf1.png"
-                width={1000}
-                height={1000}
+                width={2000}
+                height={2000}
                 alt=""
               />
             </div>
@@ -57,8 +92,8 @@ export default function AboutPage() {
               <Image
                 priority
                 src="/assets/mf2.png"
-                width={1000}
-                height={1000}
+                width={2000}
+                height={2000}
                 alt=""
               />
             </div>
@@ -97,8 +132,8 @@ export default function AboutPage() {
               <Image
                 priority
                 src="/assets/b1.jpg"
-                width={1000}
-                height={1000}
+                width={2000}
+                height={2000}
                 alt=""
               />
             </div>
@@ -117,8 +152,8 @@ export default function AboutPage() {
               <Image
                 priority
                 src="/assets/b2.jpg"
-                width={1000}
-                height={1000}
+                width={2000}
+                height={2000}
                 alt=""
               />
             </div>
@@ -138,8 +173,8 @@ export default function AboutPage() {
               <Image
                 priority
                 src="/assets/b3.jpg"
-                width={1000}
-                height={1000}
+                width={2000}
+                height={2000}
                 alt=""
               />
             </div>
@@ -159,8 +194,8 @@ export default function AboutPage() {
               <Image
                 priority
                 src="/assets/b4.jpg"
-                width={1000}
-                height={1000}
+                width={2000}
+                height={2000}
                 alt=""
               />
             </div>

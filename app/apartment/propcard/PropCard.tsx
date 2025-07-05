@@ -101,7 +101,7 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
             {propertyData.available ? "available" : "not available"}
           </span>
         </div>
-        <h4>{propertyData.title}</h4>
+        <h5>{propertyData.title}</h5>
 
         <div>
           <span>{propertyData.location}</span>

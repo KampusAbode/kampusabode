@@ -10,11 +10,11 @@
   --background-transparent: #00000042;
   --white: #ffffff;
   --black: #0c0c0c;
-  --gray: #f1f1f1;
+  --gray: #f7f7f7;
   --light-gray: #fafafa;
   --dark-gray: #6d6d6d;
-  --font-color-h: #2e2e2e;
-  --font-color-p: #373737;
+  --font-color-h: #222;
+  --font-color-p: #6a6a6a;
   --font-light: #adb5bd;
   --font-white: #ffffff;
   --font-black: #0c0c0c;
@@ -48,8 +48,7 @@
   --font-size-sm: 0.875rem;
   --font-size-xs: 0.7125rem;
   /* Line Heights */
-  --line-height: 1.4;
-  --line-height-md: 1.2;
+  --line-height: 1.25;
   /* Breakpoints */
   --large-width: 85%;
   --large-max-width: 1400px;
@@ -62,6 +61,7 @@
   padding: 0;
   box-sizing: border-box;
   outline: none;
+  line-height: var(--line-height) !important;
   list-style-type: none;
   text-decoration: none;
   scroll-behavior: smooth;
@@ -80,7 +80,7 @@ html {
 body {
   font-family: var(--font-inter);
   font-weight: 500;
-  line-height: var(--line-height);
+  --line-height: 1.5;
   color: var(--font-color-p);
   background-color: var(--background-white);
 }
@@ -102,7 +102,7 @@ a {
   font-size: var(--font-size-nm);
   color: var(--font-color-p);
   text-decoration: none;
-  line-height: var(--line-height);
+  --line-height: 1.5;
 }
 a:hover {
   color: var(--primary-color);
@@ -115,7 +115,7 @@ h4,
 h5,
 h6 {
   color: var(--font-color-h);
-  line-height: var(--line-height-md);
+  --line-height: 1.5;
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;

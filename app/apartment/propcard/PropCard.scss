@@ -49,8 +49,6 @@
       flex-direction: column;
       gap: var(--spacing-h);
       z-index: 2;
-
-     
     }
   }
   .swiper {
@@ -104,7 +102,7 @@
       }
     }
 
-    h4 {
+    h5 {
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
