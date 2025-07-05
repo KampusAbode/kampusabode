@@ -5,10 +5,6 @@
     .fm {
       padding-block: var(--spacing-5x);
 
-      h4 {
-        margin-block: var(--spacing-2x);
-        text-align: center;
-      }
 
       form {
         margin: 0 auto;

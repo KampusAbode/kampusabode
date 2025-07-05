@@ -256,7 +256,6 @@ const CreateProfilePage = () => {
     <div className="profile-update">
       <div className="container">
         <div className="fm">
-          <h4>Upload Profile</h4>
           <form onSubmit={handleSubmit} noValidate>
             <div className="input-box top">
               <label htmlFor="file">
