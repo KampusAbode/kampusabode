@@ -1,10 +1,10 @@
 // store/propertiesStore.ts
 'use client'
 
-import { useEffect } from "react";
-import { ApartmentType } from "../fetch/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { useEffect } from "react";
+import { ApartmentType } from "../fetch/types";
 import { fetchPropertiesRealtime } from "../utils";
 
 interface PropertiesState {
