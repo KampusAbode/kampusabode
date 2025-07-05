@@ -74,11 +74,11 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
         <Link href={propertyData.url}>
           <Swiper
             modules={[Pagination, Navigation]}
+            pagination={{ clickable: true, dynamicBullets: true }}
             loop={true}
             spaceBetween={0}
             slidesPerView={1}
-            pagination={{ clickable: true }}
-            navigation={isDesktop ? true : false} // Navigation only on desktop
+            navigation={isDesktop ? true : false} 
           >
             {propertyData.images.map((img: string, index) => (
               <SwiperSlide key={index}>

@@ -58,7 +58,6 @@
       .nav-btns {
         display: flex;
         flex-direction: column;
-        gap: var(--spacing-h);
 
         border-radius: var(--border-radius);
         overflow: hidden;
@@ -69,7 +68,11 @@
           color: var(--white);
           width: 100%;
           border-radius: 0;
-          padding: var(--spacing);
+          padding: var(--spacing-h);
+
+          &:first-child{
+            border-bottom: var(--border-white);
+          }
         }
       }
     }
