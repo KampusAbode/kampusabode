@@ -8,7 +8,7 @@ import {
   updateDoc,
   arrayUnion,
   arrayRemove,
-  increment
+  increment,
 } from "firebase/firestore";
 import { db } from "../lib/firebaseConfig";
 
@@ -24,7 +24,6 @@ interface UserState {
 
   // Agent specific action
   addListedProperty: (id: string) => void;
-
 }
 
 export const useUserStore = create<UserState>()(
@@ -93,42 +92,43 @@ export const useUserStore = create<UserState>()(
       },
 
       addView: async (id) => {
-  const user = get().user;
-  if (!user) return;
+        const user = get().user;
+        if (!user) return;
 
-  const currentViewed = (user.userInfo as any).viewedProperties as string[];
+        const currentViewed = (user.userInfo as any)
+          ?.viewedProperties as string[];
 
-  // If the property hasn't been viewed
-  if (!currentViewed.includes(id)) {
-    const updatedUser: UserType = {
-      ...user,
-      userInfo: {
-        ...user.userInfo,
-        viewedProperties: [...currentViewed, id],
+        // If the property hasn't been viewed
+        if (currentViewed && !currentViewed?.includes(id)) {
+          const updatedUser: UserType = {
+            ...user,
+            userInfo: {
+              ...user.userInfo,
+              viewedProperties: [...currentViewed, id],
+            },
+          };
+
+          set({ user: updatedUser });
+
+          // Firestore references
+          const userRef = doc(db, "users", user.id);
+          const apartmentRef = doc(db, "properties", id);
+
+          try {
+            // Update user's viewedProperties
+            await updateDoc(userRef, {
+              "userInfo.viewedProperties": arrayUnion(id),
+            });
+
+            // Increment view count for apartment
+            await updateDoc(apartmentRef, {
+              views: increment(1), // Ensure 'views' exists or defaults to 0
+            });
+          } catch (err) {
+            console.error("Error updating views:", err);
+          }
+        }
       },
-    };
-
-    set({ user: updatedUser });
-
-    // Firestore references
-    const userRef = doc(db, "users", user.id);
-    const apartmentRef = doc(db, "properties", id);
-
-    try {
-      // Update user's viewedProperties
-      await updateDoc(userRef, {
-        "userInfo.viewedProperties": arrayUnion(id),
-      });
-
-      // Increment view count for apartment
-      await updateDoc(apartmentRef, {
-        "views": increment(1), // Ensure 'views' exists or defaults to 0
-      });
-    } catch (err) {
-      console.error("Error updating views:", err);
-    }
-  }
-},
 
       addListedProperty: (id) => {
         const user = get().user;

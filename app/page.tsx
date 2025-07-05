@@ -7,7 +7,7 @@ import Quotes from "./components/quotes/Quotes";
 import Footer from "./components/footer/Footer";
 import Link from "next/link";
 import { TrendType } from "./fetch/types";
-import { allTrends } from "./utils";
+import { allTrends, fetchPropertiesRealtime } from "./utils";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { RiVerifiedBadgeLine } from "react-icons/ri";
 import { useState, useEffect } from "react";
@@ -23,9 +23,15 @@ const { hero, about, testimonials } = homeSection;
 
 export default function App() {
   const [trends, setTrends] = useState<TrendType[]>([]);
-  const { properties } = usePropertiesStore();
+  const { properties, setProperties } = usePropertiesStore();
 
+  useEffect(() => {
+    const unsubscribe = fetchPropertiesRealtime((fetchedProperties) => {
+      setProperties(fetchedProperties);
+    });
 
+    return () => unsubscribe();
+  }, [setProperties]);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -39,12 +45,12 @@ export default function App() {
         gsap.from(el, {
           opacity: 0,
           y: 50,
-          duration: 0.8,
+          duration: 0.5,
           ease: "power2.out",
           scrollTrigger: {
             trigger: el,
             start: "top 90%",
-            toggleActions: "play none none reverse",
+            toggleActions: "play none none",
           },
         });
       });

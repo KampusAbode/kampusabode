@@ -62,10 +62,10 @@
 
   /* Line Heights */
   --line-height: 1.25;
-  
+
+
   /* Breakpoints */
-  --large-width: 85%;
-  --large-max-width: 1400px;
+  --large-width: 90%;
   --mobile-width: 92%;
   --mobile-max-width: 425px;
 }
@@ -75,10 +75,11 @@
   padding: 0;
   box-sizing: border-box;
   outline: none;
-  line-height: var(--line-height) !important;
-  list-style-type: none;
+  line-height: var(--line-height);
+    list-style-type: none;
   text-decoration: none;
   scroll-behavior: smooth;
+  font-weight: 500;
 
   &:focus,
   &:active {
@@ -99,10 +100,7 @@ html {
 
 body {
   font-family: var(--font-inter);
-
-  font-weight: 500;
-  --line-height: 1.5;
-    color: var(--font-color-p);
+  color: var(--font-color-p);
   background-color: var(--background-white);
 }
 
@@ -124,7 +122,6 @@ a {
   font-size: var(--font-size-nm);
   color: var(--font-color-p);
   text-decoration: none;
-  --line-height: 1.5;
   
   &:hover {
     color: var(--primary-color);
@@ -138,7 +135,6 @@ h4,
 h5,
 h6 {
   color: var(--font-color-h);
-  --line-height: 1.5;
     user-select: none;
 }
 h1 {
@@ -181,7 +177,7 @@ main {
 }
 .container {
   width: var(--large-width);
-  max-width: var(--large-max-width);
+  max-width: var(--large-width);
   margin: 0 auto;
 }
 
@@ -197,14 +193,12 @@ textarea {
 
 label {
   font-size: var(--font-size-sm);
-  line-height: var(--line-height);
-  color: var(--font-color-p);
+    color: var(--font-color-p);
 }
 
 span {
   font-size: var(--font-size-xs);
-  line-height: var(--line-height);
-  color: var(--font-color-p);
+    color: var(--font-color-p);
   user-select: none;
 }
 
@@ -390,13 +384,11 @@ button {
 
   label {
     font-size: var(--font-size-sm);
-    line-height: var(--line-height);
-  }
+    }
 
   small {
     font-size: var(--font-size-sm);
-    line-height: var(--line-height);
-  }
+    }
 
   .heading-section {
     p {

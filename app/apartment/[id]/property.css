@@ -1,6 +1,6 @@
 .properties-details-page .prop-image-details .property-images .container {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
+  grid-template-columns: 2fr 1fr;
   gap: var(--spacing);
 }
 .properties-details-page .prop-image-details .property-images .container .display-image {
@@ -68,26 +68,21 @@
   align-items: center;
   z-index: 2;
 }
-.properties-details-page .prop-image-details .property-images .container .control-image {
-  display: flex;
-  gap: var(--spacing);
-  flex-wrap: wrap;
-  overflow-x: scroll;
-}
 .properties-details-page .prop-image-details .property-images .container .control-image::-webkit-scrollbar {
   display: none;
 }
 .properties-details-page .prop-image-details .property-images .container .control-image img {
-  width: 70px;
-  height: 70px;
-  min-width: 70px;
-  min-height: 70px;
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  min-height: 60px;
   border-radius: var(--border-radius);
   -o-object-fit: cover;
      object-fit: cover;
   cursor: pointer;
   opacity: 0.3;
   transition: var(--transition);
+  margin-right: var(--spacing-h);
 }
 .properties-details-page .prop-image-details .property-images .container .control-image img.active {
   opacity: 1;
@@ -196,9 +191,11 @@
   gap: var(--spacing);
   scroll-padding: 0 16px;
   padding-right: var(--spacing-h);
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 .properties-details-page .container .agent-reviews .reviews .review-item {
-  width: 45%;
+  width: 90%;
   border: var(--border);
   border-radius: var(--border-radius);
   scroll-snap-align: center;
@@ -212,10 +209,6 @@
 }
 .properties-details-page .container .agent-reviews .reviews .review-item div span {
   display: block;
-}
-.properties-details-page .container .agent-reviews .reviews {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 .properties-details-page .container .agent-listings > div .agentProps {
   display: flex;
@@ -307,11 +300,31 @@
 }
 
 @media screen and (max-width: 768px) {
+  .properties-details-page .container > div {
+    margin-block: var(--spacing-4x);
+  }
+  .properties-details-page .container .top {
+    margin-top: var(--spacing-2x);
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .properties-details-page .container .top .about-agent {
+    margin-block: var(--spacing-2x);
+  }
+  .properties-details-page .container .top .about-agent h5 {
+    margin-block: var(--spacing);
+  }
+  .properties-details-page .container .agent-reviews .reviews .review-item {
+    width: 90%;
+  }
+  .properties-details-page .container .contact {
+    padding: var(--spacing);
+  }
   .properties-details-page .prop-image-details .property-images .container {
     grid-template-columns: 1fr;
   }
   .properties-details-page .prop-image-details .property-images .container > div {
-    margin-block: 0;
+    margin: 0;
   }
   .properties-details-page .prop-image-details .property-images .container .display-image {
     height: 60vh;
@@ -335,6 +348,10 @@
     right: 20px;
   }
   .properties-details-page .prop-image-details .property-images .container .control-image {
+    display: flex;
+    gap: var(--spacing-h);
+    flex-wrap: wrap;
+    overflow-x: scroll;
     flex-wrap: nowrap;
   }
   .properties-details-page .prop-image-details .property-images .container .control-image img {
@@ -342,23 +359,7 @@
     height: 60px;
     min-width: 60px;
     min-height: 60px;
-  }
-  .properties-details-page .container .top {
-    margin-top: var(--spacing-2x);
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-  .properties-details-page .container .top .about-agent {
-    margin-block: var(--spacing-2x);
-  }
-  .properties-details-page .container .top .about-agent h5 {
-    margin-block: var(--spacing);
-  }
-  .properties-details-page .container .agent-reviews .reviews .review-item {
-    width: 90%;
-  }
-  .properties-details-page .container .contact {
-    padding: var(--spacing);
+    margin-right: 0;
   }
   .prop-cta {
     position: fixed;

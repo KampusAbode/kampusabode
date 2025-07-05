@@ -6,7 +6,8 @@ import SaveVisitedProperty from "../functions/SaveVIsitedProperties";
 import {
   fetchUsersById,
   fetchReviewsByPropertyId,
-  getApartmentById, getApartmentsByIds,
+  getApartmentById,
+  getApartmentsByIds,
 } from "../../../utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -39,8 +40,6 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
   const [isInspectionModelOpen, setInspectionModelOpen] = useState(false);
 
   const { user } = useUserStore((state) => state);
-  
-   
 
   // Fetch property details and agent details
   const fetchPropertyDetails = useCallback(async () => {
@@ -53,7 +52,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
 
       setAgentDetails(agent);
       // console.log("Agent Details:", agent);
-      
+
       if (agent) {
         const properties = await getApartmentsByIds(
           "propertiesListed" in agent.userInfo
@@ -80,8 +79,6 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       toast.error("Failed to fetch reviews.");
     }
   }, [id]);
-
-  
 
   // Calculate property rating
   const calculateRating = useCallback(() => {
@@ -146,8 +143,8 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
           : "",
       ...userdata,
     };
-  //  console.log("Form Data:", data);
-    
+    //  console.log("Form Data:", data);
+
     try {
       // const emailSent = await sendInspectionEmail(data);
 
@@ -155,15 +152,13 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       //   toast.success("Email sent successfully! Redirecting to WhatsApp...");
       //   console.log("Email sent successfully:", emailSent.message);
       //   console.log("Twilio Message ID:", emailSent.twilioMessageId);
-        
+
       // } else {
       //   console.error("Failed to send email:", emailSent.message);
       //   toast.error("Failed to send email. Please try again later.");
       //   console.log("Error details:", emailSent.error);
-        
-      // }
 
-      
+      // }
 
       // Now handle WhatsApp redirect on the client
       const message = `Hello ${agentDetails.name}, I'm ${
@@ -177,7 +172,9 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
       }\n\nPlease let me know if this works for you.`;
 
       window.open(
-        `https://wa.me/+234${agentDetails.phoneNumber}?text=${encodeURIComponent(message)}`
+        `https://wa.me/+234${
+          agentDetails.phoneNumber
+        }?text=${encodeURIComponent(message)}`
       );
 
       toast.success("Redirecting to WhatsApp...");
@@ -224,7 +221,11 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
               <div className="description">
                 <h4>Overview</h4>
                 {/* <p>{propertyDetails.description}</p> */}
-                <p dangerouslySetInnerHTML={{ __html: propertyDetails.description }} />
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: propertyDetails.description,
+                  }}
+                />
               </div>
 
               <div className="amenities">
@@ -364,7 +365,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
           <Link
             className="btn btn-secondary"
             title="Button"
-            href={user ? `tel:+2347050721686` : `/auth/login`}>
+            href={user ? `${agentDetails?.phoneNumber}` : `/auth/login`}>
             Call Agent
           </Link>
         </div>

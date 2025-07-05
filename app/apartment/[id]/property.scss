@@ -3,7 +3,7 @@
     .property-images {
       .container {
         display: grid;
-        grid-template-columns: 1.2fr 1fr;
+        grid-template-columns: 2fr 1fr;
         gap: var(--spacing);
 
         .display-image {
@@ -77,25 +77,22 @@
           }
         }
         .control-image {
-          display: flex;
-          gap: var(--spacing);
-          flex-wrap: wrap;
-          overflow-x: scroll;
 
           &::-webkit-scrollbar {
             display: none;
           }
 
           img {
-            width: 70px;
-            height: 70px;
-            min-width: 70px;
-            min-height: 70px;
+            width: 60px;
+            height: 60px;
+            min-width: 60px;
+            min-height: 60px;
             border-radius: var(--border-radius);
             object-fit: cover;
             cursor: pointer;
             opacity: 0.3;
             transition: var(--transition);
+            margin-right: var(--spacing-h);
 
             &.active {
               opacity: 1;
@@ -207,9 +204,11 @@
         gap: var(--spacing);
         scroll-padding: 0 16px;
         padding-right: var(--spacing-h);
+        -ms-overflow-style: none;
+        scrollbar-width: none;
 
         .review-item {
-          width: 45%;
+          width: 90%;
           border: var(--border);
           border-radius: var(--border-radius);
           scroll-snap-align: center;
@@ -225,15 +224,6 @@
             }
           }
         }
-      }
-
-      // .reviews::-webkit-scrollbar {
-      //   display: none;
-      // }
-
-      .reviews {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
       }
     }
 
@@ -346,13 +336,44 @@
 
 @media screen and (max-width: 768px) {
   .properties-details-page {
+    .container {
+      & > div {
+        margin-block: var(--spacing-4x);
+      }
+      .top {
+        margin-top: var(--spacing-2x);
+        grid-template-columns: 1fr;
+        gap: 0;
+        .about-agent {
+          margin-block: var(--spacing-2x);
+          h5 {
+            margin-block: var(--spacing);
+          }
+        }
+      }
+
+      .agent-reviews {
+        .reviews {
+          .review-item {
+            width: 90%;
+          }
+        }
+      }
+
+      .contact {
+        padding: var(--spacing);
+      }
+    }
+
     .prop-image-details {
       .property-images {
         .container {
           & > div {
-            margin-block: 0;
+            margin: 0;
           }
+
           grid-template-columns: 1fr;
+
 
           .display-image {
             height: 60vh;
@@ -382,44 +403,25 @@
           }
 
           .control-image {
+            display: flex;
+            gap: var(--spacing-h);
+            flex-wrap: wrap;
+            overflow-x: scroll;
             flex-wrap: nowrap;
-
+            
             img {
               width: 60px;
               height: 60px;
               min-width: 60px;
               min-height: 60px;
+              margin-right: 0;
             }
           }
         }
       }
     }
 
-    .container {
-      .top {
-        margin-top: var(--spacing-2x);
-        grid-template-columns: 1fr;
-        gap: 0;
-        .about-agent {
-          margin-block: var(--spacing-2x);
-          h5 {
-            margin-block: var(--spacing);
-          }
-        }
-      }
-
-      .agent-reviews {
-        .reviews {
-          .review-item {
-            width: 90%;
-          }
-        }
-      }
-
-      .contact {
-        padding: var(--spacing);
-      }
-    }
+    
   }
   .prop-cta {
     position: fixed;
