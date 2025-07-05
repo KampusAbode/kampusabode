@@ -71,33 +71,30 @@ const AgentList = () => {
   if (loading) return <Loader />;
 
   return (
-    <div className="adminList">
-      <div className="">
-        <h3>Upload for Agents</h3>
-        {agents.length === 0 ? (
-          <p>No agents found.</p>
-        ) : (
-          <ul className="agent-list">
-            {agents.map((agent) => (
-              <li key={agent.id} className="agent-item">
-                <div className="agent-info">
-                 
-                  <span className="agent-name">{agent.name}</span>
-                  <span className="agent-email">{agent.email}</span>
-                </div>
-                <button
-                  className="btn btn-primary"
-                  onClick={() =>
-                    router.push(`/uploadforagent?agentId=${agent.id}`)
-                  }
-                >
-                  Upload
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+    <div className="agent-listings">
+      <h3>Upload for Agents</h3>
+      {agents.length === 0 ? (
+        <p>No agents found.</p>
+      ) : (
+        <ul>
+          {agents.map((agent) => (
+            <li key={agent.id} className="agent-item">
+              <div className="agent-info">
+                <span className="agent-name">{agent.name}</span>
+                <span className="agent-email">{agent.email}</span>
+                {/* <span>{ agent.userInfo. }</span> */}
+              </div>
+              <button
+                className="btn btn-primary"
+                onClick={() =>
+                  router.push(`/uploadforagent?agentId=${agent.id}`)
+                }>
+                Upload
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

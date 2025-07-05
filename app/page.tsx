@@ -7,15 +7,14 @@ import Quotes from "./components/quotes/Quotes";
 import Footer from "./components/footer/Footer";
 import Link from "next/link";
 import { TrendType } from "./fetch/types";
-import { allTrends, fetchPropertiesRealtime } from "./utils";
+import { allTrends } from "./utils";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { RiVerifiedBadgeLine } from "react-icons/ri";
 import { useState, useEffect } from "react";
-// Import the Zustand store for properties
-import { useUserStore } from "./store/userStore";
 import TrendCard from "./trends/component/trendCard/TrendCard";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { usePropertiesStore } from "./store/propertiesStore";
 gsap.registerPlugin(ScrollTrigger);
 
 
@@ -24,10 +23,7 @@ const { hero, about, testimonials } = homeSection;
 
 export default function App() {
   const [trends, setTrends] = useState<TrendType[]>([]);
-  // const { fetchPropertiesRealtime } = useProperties();
-  // Using Zustand for properties state
-  const properties = useUserStore((state) => state.properties);
-  const setProperties = useUserStore((state) => state.setProperties);
+  const { properties } = usePropertiesStore();
 
 
 
@@ -55,14 +51,6 @@ export default function App() {
   }, []);
   
 
-  useEffect(() => {
-    // Listen for realtime updates from Firestore and update Zustand store
-    const unsubscribe = fetchPropertiesRealtime((fetchedProperties) => {
-      setProperties(fetchedProperties);
-    });
-
-    return () => unsubscribe();
-  }, [setProperties]);
 
   useEffect(() => {
     // Fetch trends using allTrends function and update local state

@@ -87,4 +87,24 @@
   margin-top: var(--spacing);
   display: flex;
   gap: var(--spacing);
+}
+.admin-dashboard .container .dashboard-content .agent-listings ul li {
+  padding: var(--spacing-h);
+  background-color: var(--light-gray);
+  border-radius: var(--border-radius);
+  margin-block: var(--spacing-h);
+}
+.admin-dashboard .container .dashboard-content .agent-listings ul li span {
+  display: block;
+}
+@media (min-width: 768px) {
+  .admin-dashboard .container .dashboard-content .agent-listings ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing);
+  }
+  .admin-dashboard .container .dashboard-content .agent-listings ul li {
+    padding: var(--spacing);
+    margin-block: var(--spacing-s);
+  }
 }/*# sourceMappingURL=admin.css.map */

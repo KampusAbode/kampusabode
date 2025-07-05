@@ -1,8 +1,11 @@
 // store/propertiesStore.ts
+'use client'
 
+import { useEffect } from "react";
 import { ApartmentType } from "../fetch/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { fetchPropertiesRealtime } from "../utils";
 
 interface PropertiesState {
   properties: ApartmentType[];
@@ -21,7 +24,18 @@ interface PropertiesState {
 export const usePropertiesStore = create<PropertiesState>()(
   persist(
     (set, get) => ({
-      properties: [],
+      properties: () => {
+
+         useEffect(() => {
+            // Listen for realtime updates from Firestore and update Zustand store
+            const unsubscribe = fetchPropertiesRealtime((fetchedProperties) => {
+              set({ properties: fetchedProperties });
+            });
+        
+            return () => unsubscribe();
+          }, []);
+        
+      },
       filteredProperties: [],
       isLoading: false,
       searchQuery: "",

@@ -25,9 +25,6 @@ interface UserState {
   // Agent specific action
   addListedProperty: (id: string) => void;
 
-  // For properties (could be used elsewhere in your app)
-  properties: ApartmentType[];
-  setProperties: (properties: ApartmentType[]) => void;
 }
 
 export const useUserStore = create<UserState>()(
@@ -155,10 +152,6 @@ export const useUserStore = create<UserState>()(
           });
         }
       },
-
-      properties: [],
-
-      setProperties: (properties) => set({ properties }),
     }),
     {
       name: "userstore",

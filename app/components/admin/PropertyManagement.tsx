@@ -1,35 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getAllProperties, deleteApartment, toggleApartmentApproval } from "../../utils";
+import { deleteApartment, toggleApartmentApproval } from "../../utils";
 import { ApartmentType } from "../../fetch/types";
 import Link from "next/link";
+import { usePropertiesStore } from "../../store/propertiesStore";
 
 const PropertyManagement = () => {
-  // const { getAllProperties, deleteApartment, toggleApartmentApproval } =
-  //   useProperties();
-  const [properties, setProperties] = useState<ApartmentType[]>([]);
+  const { properties, setProperties } = usePropertiesStore();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const fetchPropertiesData = async () => {
-      setLoading(true);
-      setError("");
 
-      try {
-        const propertyData = await getAllProperties();
-        setProperties(propertyData);
-      } catch (error: any) {
-        console.error("Error fetching properties:", error);
-        setError("Failed to load properties.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPropertiesData();
-  }, []);
 
   const handleDelete = async (id: string, images: string[]) => {
     if (!confirm("Are you sure you want to delete this property?")) return;
