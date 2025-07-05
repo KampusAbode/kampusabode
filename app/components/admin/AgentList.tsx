@@ -14,6 +14,7 @@ import { useUserStore } from "../../store/userStore";
 import { checkIsAdmin } from "../../utils/user";
 import { UserType } from "../../fetch/types";
 import Loader from "../../components/loader/Loader";
+import Image from "next/image";
 // import "./admin.css"; // assuming you want the same admin CSS
 
 const AgentList = () => {
@@ -80,6 +81,13 @@ const AgentList = () => {
           {agents.map((agent) => (
             <li key={agent.id} className="agent-item">
               <div className="agent-info">
+                <div className="image">
+                  <Image
+                    src={agent.avatar || "/assets/user_avatar.jpg"}
+                    alt={`${agent.name}'s avatar`}
+                    className="agent-avatar"
+                  />
+                </div>
                 <span className="agent-name">{agent.name}</span>
                 <span className="agent-email">{agent.email}</span>
                 {/* <span>{ agent.userInfo. }</span> */}

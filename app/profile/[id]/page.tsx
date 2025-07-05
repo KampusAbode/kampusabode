@@ -39,7 +39,7 @@ const CreateProfilePage = () => {
   // const { deleteAppwriteImage } = useProperties();
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(
-    user?.avatar || null
+    user?.avatar || "/assets/user_avatar.jpg"
   );
 
   // Initialize formValues with user data or empty defaults

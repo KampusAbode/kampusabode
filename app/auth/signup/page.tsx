@@ -122,12 +122,31 @@ const SignupPage = () => {
           />
         </div>
         <div className="fm">
-          <h4>Sign up to start your journey</h4>
+          <h4>Let's get started!</h4>
           <form onSubmit={handleSubmit}>
-            {/* <div className="input-box">
-              <label htmlFor="avatar">Profile Picture</label>
-              <input type="file" accept="image/*" onChange={handleFileChange} />
-            </div> */}
+            <div className="input-box upload-image">
+              <label htmlFor="avatar">
+                Avatar
+                <input
+                  type="file"
+                  id="avatar"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  aria-describedby="file-error"
+                />
+                <Image
+                  src={
+                    avatarFile
+                      ? URL.createObjectURL(avatarFile)
+                      : "/assets/upload_avatar.jpg"
+                  }
+                  alt="Avatar Preview"
+                  width={800}
+                  height={800}
+                  className="avatar-preview"
+                />
+              </label>
+            </div>
 
             <div className="input-box">
               <label htmlFor="username">User name</label>

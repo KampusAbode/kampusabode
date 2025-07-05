@@ -236,7 +236,7 @@ const TrendPage = ({ params }: Params) => {
                       <div>
                         <Image
                           priority
-                          src={comment.userProfile}
+                          src={comment.userProfile || "/assets/user_avatar.jpg"}
                           width={100}
                           height={100}
                           alt="user profile"
