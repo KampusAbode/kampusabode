@@ -3,7 +3,7 @@
     .property-images {
       .container {
         display: grid;
-        grid-template-columns: 2fr 1fr;
+        grid-template-columns: 1fr 1fr;
         gap: var(--spacing);
 
         .display-image {
@@ -77,7 +77,6 @@
           }
         }
         .control-image {
-
           &::-webkit-scrollbar {
             display: none;
           }
@@ -374,7 +373,6 @@
 
           grid-template-columns: 1fr;
 
-
           .display-image {
             height: 60vh;
 
@@ -408,7 +406,7 @@
             flex-wrap: wrap;
             overflow-x: scroll;
             flex-wrap: nowrap;
-            
+
             img {
               width: 60px;
               height: 60px;
@@ -420,8 +418,6 @@
         }
       }
     }
-
-    
   }
   .prop-cta {
     position: fixed;

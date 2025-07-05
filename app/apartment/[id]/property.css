@@ -1,6 +1,6 @@
 .properties-details-page .prop-image-details .property-images .container {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: var(--spacing);
 }
 .properties-details-page .prop-image-details .property-images .container .display-image {

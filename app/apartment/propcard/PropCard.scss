@@ -103,14 +103,15 @@
     }
 
     h5 {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      line-clamp: 2;
-      -webkit-line-clamp: 2;
-      text-transform: capitalize;
-      margin-block: var(--spacing-h);
-    }
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        text-transform: capitalize;
+        margin-block: var(--spacing-h);
+      }
 
     div:last-child {
       display: flex;
