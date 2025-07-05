@@ -356,16 +356,16 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ id }) => {
 
       <div className="prop-cta">
         <div className="container">
-          <span
+          <button
             className="btn"
-            title="Button"
+            title="Book Inspection"
             onClick={() => setBookingModalOpen(true)}>
             Book Inspection
-          </span>
+          </button>
           <Link
             className="btn btn-secondary"
-            title="Button"
-            href={user ? `${agentDetails?.phoneNumber}` : `/auth/login`}>
+            title="Call Agent"
+            href={user ? `tel:${agentDetails?.phoneNumber}` : `/auth/login`}>
             Call Agent
           </Link>
         </div>
