@@ -197,7 +197,7 @@ export const updateBookmarkInDB = async (
 export const checkIsAdmin = (userId: string): boolean => {
   const adminIdOne = process.env.NEXT_PUBLIC_ADMIN_ID_ONE;
   const adminIdTwo = process.env.NEXT_PUBLIC_ADMIN_ID_TWO;
-  const adminIdThree = process.env.NEXT_PUBLIC_ADMIN_ID_TWO;
+  const adminIdThree = process.env.NEXT_PUBLIC_ADMIN_ID_THREE;
   
 
   if (!adminIdOne || !adminIdTwo || !adminIdThree) {
