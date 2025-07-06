@@ -7,7 +7,8 @@ import { PiChats } from "react-icons/pi";
 import { FaPlus, FaHeadset } from "react-icons/fa";
 import { BsChatRightText } from "react-icons/bs";
 import { useUserStore } from "../../store/userStore";
-import { checkIsAdmin } from "../../utils/user";
+import { checkIsAdmin, checkIsWriter } from "../../utils/user";
+
 
 const QuickService = () => {
   const pathname = usePathname();
@@ -35,7 +36,7 @@ const QuickService = () => {
       icon: BsChatRightText,
       link: `/chat/${user.id}/${user.name}`,
     };
-  } else if  (pathname === "/trends" && checkIsAdmin(user.id) ){
+  } else if  (pathname === "/trends" && (checkIsAdmin(user.id) || checkIsWriter(user.id))){
     config = {
       icon: FaPlus,
       link: "/trends/upload",
@@ -47,7 +48,7 @@ const QuickService = () => {
   const { icon: Icon, link } = config;
 
   return (
-    <Link href={link} className="quick-service">
+    <Link href={link} className="quick-service" title="icon">
       <Icon />
     </Link>
   );

@@ -195,6 +195,11 @@ main {
   overflow-y: auto;
   position: relative;
   box-shadow: var(--shadow);
+
+  @media screen and (max-width: 768px) {
+    box-shadow: none;
+    min-height: 100vh;
+  }
 }
 .container {
   width: var(--large-width);
@@ -371,7 +376,6 @@ button {
       display: none;
     }
   }
-
 
   h1 {
     font-size: 2rem;

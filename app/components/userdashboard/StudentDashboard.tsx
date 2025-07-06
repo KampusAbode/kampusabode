@@ -4,6 +4,7 @@ import BookmarkedProperties from "./BookmarkedProperties";
 import RecentReviews from "./RecentReviews";
 import ViewedProperties from "./ViewedProperties"
 import { UserType } from "../../fetch/types";
+import StudentPerfromanceMatrics from "./StudentPerfromanceMatrics";
 // import AvailableProperties from "./AvailableProperties";
 // import Notifications from "./Notifications";
 
@@ -19,6 +20,8 @@ const StudentDashboard = ({ user }: StudentDashboardProps) => {
 
       {/* <Notifications user={user} /> */}
 
+      <StudentPerfromanceMatrics user={user} />
+      
       <BookmarkedProperties/>
 
       <RecentReviews user={user} />

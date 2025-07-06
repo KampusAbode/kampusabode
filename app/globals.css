@@ -177,6 +177,12 @@ main {
   position: relative;
   box-shadow: var(--shadow);
 }
+@media screen and (max-width: 768px) {
+  main {
+    box-shadow: none;
+    min-height: 100vh;
+  }
+}
 
 .container {
   width: var(--large-width);

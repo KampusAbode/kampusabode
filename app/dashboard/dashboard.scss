@@ -4,6 +4,26 @@
   .container {
     max-width: 1200px;
     padding: var(--spacing-2x);
+
+    @media screen and (max-width: 768px) {
+      padding: 0;
+      .student-dashboard,
+      .agent-dashboard {
+        .bookmarked-properties {
+          ul {
+            grid-template-columns: 1fr 1fr;
+          }
+        }
+
+        .listed-properties {
+          .property-list {
+            ul {
+              grid-template-columns: repeat(2, 1fr);
+            }
+          }
+        }
+      }
+    }
     .welcome {
       padding: var(--spacing-2x);
       margin-top: var(--spacing-2x);
@@ -30,9 +50,10 @@
         justify-content: space-between;
         align-items: center;
 
-        a{
+        a {
           text-decoration: underline;
           font-size: var(--font-size-sm);
+          color: var(--primary-color);
         }
       }
 
@@ -62,8 +83,7 @@
               width: 100%;
               color: var(--text-color-h);
 
-
-              &:hover{
+              &:hover {
                 background-color: var(--light-gray);
                 box-shadow: var(--shadow);
               }
@@ -122,10 +142,11 @@
         }
       }
 
-      .agent-matrics {
+      .agent-matrics,
+      .student-matrics {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: var(--spacing);
+        gap: var(--spacing-h);
         margin-top: var(--spacing-2x);
 
         .matric {
@@ -134,19 +155,9 @@
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          padding: var(--spacing);
+          padding: var(--spacing-2x);
           border-radius: var(--border-radius);
           text-align: center;
-
-          h6 {
-            margin-bottom: var(--spacing-h);
-            color: var(--text-color-h);
-          }
-
-          p {
-            color: var(--text-color-l);
-            font-size: 0.875rem;
-          }
         }
       }
 
@@ -241,8 +252,7 @@
 @media screen and (max-width: 768px) {
   .dashboard {
     .container {
-      
-    padding: 0;
+      padding: 0;
       .student-dashboard,
       .agent-dashboard {
         .bookmarked-properties {

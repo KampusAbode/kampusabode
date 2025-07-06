@@ -59,15 +59,32 @@
             border-radius: var(--border-radius);
             margin-block: var(--spacing-h);
 
-            span {
-              display: block;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: var(--spacing-h);
+
+            .pic {
+              img {
+                width: 100px;
+                height: 100%;
+                object-fit: center;
+                border-radius: var(--border-radius);
+              }
             }
+            .details{
+              span {
+                display: block;
+              }
+            }
+
+
+          
           }
         }
         @media (min-width: 768px) {
           ul {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: var(--spacing);
             li {
               padding: var(--spacing);
@@ -107,7 +124,7 @@
         }
       }
 
-      .agent-listings{
+      .agent-listings {
         ul {
           li {
             padding: var(--spacing-h);

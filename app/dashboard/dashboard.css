@@ -5,6 +5,19 @@
   max-width: 1200px;
   padding: var(--spacing-2x);
 }
+@media screen and (max-width: 768px) {
+  .dashboard .container {
+    padding: 0;
+  }
+  .dashboard .container .student-dashboard .bookmarked-properties ul,
+  .dashboard .container .agent-dashboard .bookmarked-properties ul {
+    grid-template-columns: 1fr 1fr;
+  }
+  .dashboard .container .student-dashboard .listed-properties .property-list ul,
+  .dashboard .container .agent-dashboard .listed-properties .property-list ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 .dashboard .container .welcome {
   padding: var(--spacing-2x);
   margin-top: var(--spacing-2x);
@@ -35,6 +48,7 @@
 .dashboard .container .agent-dashboard h5 a {
   text-decoration: underline;
   font-size: var(--font-size-sm);
+  color: var(--primary-color);
 }
 .dashboard .container .student-dashboard > div,
 .dashboard .container .agent-dashboard > div {
@@ -123,32 +137,26 @@
   text-transform: capitalize;
 }
 .dashboard .container .student-dashboard .agent-matrics,
-.dashboard .container .agent-dashboard .agent-matrics {
+.dashboard .container .student-dashboard .student-matrics,
+.dashboard .container .agent-dashboard .agent-matrics,
+.dashboard .container .agent-dashboard .student-matrics {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing);
+  gap: var(--spacing-h);
   margin-top: var(--spacing-2x);
 }
 .dashboard .container .student-dashboard .agent-matrics .matric,
-.dashboard .container .agent-dashboard .agent-matrics .matric {
+.dashboard .container .student-dashboard .student-matrics .matric,
+.dashboard .container .agent-dashboard .agent-matrics .matric,
+.dashboard .container .agent-dashboard .student-matrics .matric {
   background-color: var(--light-gray);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: var(--spacing);
+  padding: var(--spacing-2x);
   border-radius: var(--border-radius);
   text-align: center;
-}
-.dashboard .container .student-dashboard .agent-matrics .matric h6,
-.dashboard .container .agent-dashboard .agent-matrics .matric h6 {
-  margin-bottom: var(--spacing-h);
-  color: var(--text-color-h);
-}
-.dashboard .container .student-dashboard .agent-matrics .matric p,
-.dashboard .container .agent-dashboard .agent-matrics .matric p {
-  color: var(--text-color-l);
-  font-size: 0.875rem;
 }
 .dashboard .container .student-dashboard .listed-properties .property-list ul,
 .dashboard .container .agent-dashboard .listed-properties .property-list ul {

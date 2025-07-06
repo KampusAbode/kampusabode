@@ -51,14 +51,24 @@
   background-color: var(--light-gray);
   border-radius: var(--border-radius);
   margin-block: var(--spacing-h);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--spacing-h);
 }
-.admin-dashboard .container .dashboard-content .user-management ul li span {
+.admin-dashboard .container .dashboard-content .user-management ul li .pic img {
+  width: 100px;
+  height: 100%;
+  -o-object-fit: center;
+     object-fit: center;
+  border-radius: var(--border-radius);
+}
+.admin-dashboard .container .dashboard-content .user-management ul li .details span {
   display: block;
 }
 @media (min-width: 768px) {
   .admin-dashboard .container .dashboard-content .user-management ul {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing);
   }
   .admin-dashboard .container .dashboard-content .user-management ul li {

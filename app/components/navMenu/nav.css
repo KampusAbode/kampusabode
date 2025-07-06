@@ -65,12 +65,12 @@
 }
 .nav-menu .top ul {
   overflow: scroll;
-  margin-top: var(--spacing-3x);
   border-radius: var(--border-radius);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-h);
+  padding: var(--spacing-h);
 }
 .nav-menu .top ul::-webkit-scrollbar {
   display: none;

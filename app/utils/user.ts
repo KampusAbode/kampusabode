@@ -206,3 +206,15 @@ export const checkIsAdmin = (userId: string): boolean => {
   return userId === adminIdOne || userId === adminIdTwo;
 
 };
+export const checkIsWriter = (userId: string): boolean => {
+  const writerIdOne = process.env.NEXT_PUBLIC_WRITER_ID_ONE;
+  const writerIdTwo = process.env.NEXT_PUBLIC_WRITER_ID_TWO;
+
+  if (!writerIdOne || !writerIdTwo) {
+    console.warn("ADMIN_ID is not set in environment variables");
+    return false;
+  }
+
+  return userId === writerIdOne || userId === writerIdTwo;
+
+};

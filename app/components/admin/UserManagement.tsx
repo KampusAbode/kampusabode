@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { fetchAllUsers } from "../../utils";
 import { UserType, StudentUserInfo, AgentUserInfo } from "../../fetch/types";
+import Image from "next/image";
 
 const UserManagement = () => {
   const [students, setStudents] = useState<UserType[]>([]);
@@ -61,14 +62,24 @@ const UserManagement = () => {
             const studentInfo = student.userInfo as StudentUserInfo;
             return (
               <li key={student.id}>
-                <span>
-                  <strong>{student.name}</strong>{" "}
-                </span>
-                <span>Email: {student.email}</span>
-                <span>University: {student.university}</span>
-                <span>Dept: {studentInfo.department}</span>
-                <span>Year: {studentInfo.currentYear}</span>
-                <span>Views: {studentInfo.viewedProperties.length}</span>
+                <div className="pic">
+                  <Image
+                    src={student.avatar}
+                    width={1500}
+                    height={1500}
+                    alt={`${student.name}`}
+                  />
+                </div>
+                <div className="details">
+                  <span>
+                    <strong>{student.name}</strong>
+                  </span>
+                  <span>Email: {student.email}</span>
+                  <span>University: {student.university}</span>
+                  <span>Dept: {studentInfo.department}</span>
+                  <span>Year: {studentInfo.currentYear}</span>
+                  <span>Views: {studentInfo.viewedProperties.length}</span>
+                </div>
               </li>
             );
           })}
