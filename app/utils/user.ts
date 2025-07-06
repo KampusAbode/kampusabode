@@ -197,24 +197,25 @@ export const updateBookmarkInDB = async (
 export const checkIsAdmin = (userId: string): boolean => {
   const adminIdOne = process.env.NEXT_PUBLIC_ADMIN_ID_ONE;
   const adminIdTwo = process.env.NEXT_PUBLIC_ADMIN_ID_TWO;
+  const adminIdThree = process.env.NEXT_PUBLIC_ADMIN_ID_TWO;
+  
 
-  if (!adminIdOne || !adminIdTwo) {
+  if (!adminIdOne || !adminIdTwo || !adminIdThree) {
     console.warn("ADMIN_ID is not set in environment variables");
     return false;
   }
 
-  return userId === adminIdOne || userId === adminIdTwo;
+  return userId === adminIdOne || userId === adminIdTwo || userId === adminIdThree;
 
 };
 export const checkIsWriter = (userId: string): boolean => {
   const writerIdOne = process.env.NEXT_PUBLIC_WRITER_ID_ONE;
-  const writerIdTwo = process.env.NEXT_PUBLIC_WRITER_ID_TWO;
 
-  if (!writerIdOne || !writerIdTwo) {
+  if (!writerIdOne) {
     console.warn("ADMIN_ID is not set in environment variables");
     return false;
   }
 
-  return userId === writerIdOne || userId === writerIdTwo;
+  return userId === writerIdOne;
 
 };
