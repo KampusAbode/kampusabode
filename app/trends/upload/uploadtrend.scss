@@ -2,12 +2,11 @@
   max-width: 800px;
   background-color: var(--background-white);
   border-radius: var(--border-radius);
+  position: relative;
 
-  h2 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-
+  .container{
+    form{
+      
   .form-group {
     margin-bottom: 15px;
 
@@ -17,9 +16,7 @@
       font-weight: bold;
 
       &.image-upload-label{
-        display: flex;
-        align-items: center;
-        gap: 10px;
+        cursor: pointer;
 
         input{
             display: none;
@@ -48,21 +45,60 @@
       min-height: 300px;
     }
 
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: var(--primary-color);
-      color: var(--white);
-      border: none;
-      border-radius: var(--border-radius-btn);
-      cursor: pointer;
-      font-size: 16px;
-      margin-top: var(--spacing-2x);
+    .quill{
+      .ql-toolbar{
+        border: var(--border);
+        background-color: var(--light-gray);
+        border-radius: var(--border-radius);
+        margin-bottom: var(--spacing-h);
+        z-index: 1;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        position: sticky;
+        top: 0;
+        span{
+          margin: 0;
+        }
+
+
+        @media screen and (max-width: 768px) {
+          top: 65px;
+        }
+      }
+      .ql-container{
+        border: none;
+        // background-color: var(--white);
+        .ql-editor {
+          min-height: 200px;
+          max-height: 600px;
+          padding: 10px;
+          border: var(--border);
+          border-radius: var(--border-radius);
+        }
+      }
     }
 
-    button:disabled {
-      background-color: var(--gray);
-      cursor: not-allowed;
+  }
+
+  & > button {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: var(--border-radius-btn);
+    cursor: pointer;
+    font-size: var(--font-size-md);
+    margin-top: var(--spacing-2x);
+  }
+
+  button:disabled {
+    background-color: var(--gray);
+    cursor: not-allowed;
+  }
     }
   }
 }

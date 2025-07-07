@@ -1,11 +1,11 @@
 "use client";
 
+import "./uploadtrend.css";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getFirestore, collection, doc, setDoc } from "firebase/firestore";
 import { getApp } from "firebase/app";
 import { Client, Storage, ID } from "appwrite";
-import "./uploadtrend.css";
 import toast from "react-hot-toast";
 import { uploadImageToAppwrite } from "../../utils";
 import { useUserStore } from "../../store/userStore";
@@ -45,9 +45,19 @@ function UploadTrend() {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setImage(e.target.files[0]);
+      const file = e.target.files[0];
+      const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+
+      if (!allowedTypes.includes(file.type)) {
+        toast.error("Only JPG, JPEG, and PNG files are allowed.");
+        e.target.value = "";
+        return;
+      }
+
+      setImage(file);
     }
   };
+  
 
   function generateSlug(title: string): string {
     return title
@@ -101,7 +111,7 @@ function UploadTrend() {
   };
 
   return (
-    <div className="upload-trend">
+    <section className="upload-trend">
       <div className="container">
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -109,7 +119,7 @@ function UploadTrend() {
               <input
                 type="file"
                 id="image"
-                accept="image/*"
+                accept=".jpg, .jpeg, .png"
                 onChange={handleImageChange}
                 required
               />
@@ -117,7 +127,7 @@ function UploadTrend() {
                 src={
                   image
                     ? URL.createObjectURL(image)
-                    : "/assets/upload_image.png"
+                    : "/assets/upload_image.jpg"
                 }
                 alt="Upload Trend Image"
                 width={1500}
@@ -183,7 +193,7 @@ function UploadTrend() {
           </button>
         </form>
       </div>
-    </div>
+    </section>
   );
 }
 
