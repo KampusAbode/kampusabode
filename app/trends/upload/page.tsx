@@ -13,6 +13,7 @@ import dynamic from "next/dynamic";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
+import Image from "next/image";
 
 const categories = [
   "Trending",
@@ -101,75 +102,87 @@ function UploadTrend() {
 
   return (
     <div className="upload-trend">
-      <h2>Upload New Trend</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="title">Title</label>
-          <input
-            type="text"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </div>
+      <div className="container">
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="image" className="image-upload-label">
+              <input
+                type="file"
+                id="image"
+                accept="image/*"
+                onChange={handleImageChange}
+                required
+              />
+              <Image
+                src={
+                  image
+                    ? URL.createObjectURL(image)
+                    : "/assets/upload_image.png"
+                }
+                alt="Upload Trend Image"
+                width={1500}
+                height={1500}
+                className="upload-image-preview"
+              />
+            </label>
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="content">Content</label>
-          <ReactQuill
-            theme="snow"
-            value={content}
-            onChange={setContent}
-            modules={{
-              toolbar: [
-                [{ header: [2, false] }],
-                ["bold", "italic", "underline"],
-                [{ list: "ordered" }, { list: "bullet" }],
-                ["clean"],
-              ],
-            }}
-            formats={[
-              "header",
-              "bold",
-              "italic",
-              "underline",
-              "list",
-              "bullet",
-            ]}
-          />
-        </div>
+          <div className="form-group">
+            <label htmlFor="title">Title</label>
+            <input
+              type="text"
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="category">Category</label>
-          <select
-            id="category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            required
-          >
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
-        </div>
+          <div className="form-group">
+            <label htmlFor="content">Content</label>
+            <ReactQuill
+              theme="snow"
+              value={content}
+              onChange={setContent}
+              modules={{
+                toolbar: [
+                  [{ header: [2, false] }],
+                  ["bold", "italic", "underline"],
+                  [{ list: "ordered" }, { list: "bullet" }],
+                  ["clean"],
+                ],
+              }}
+              formats={[
+                "header",
+                "bold",
+                "italic",
+                "underline",
+                "list",
+                "bullet",
+              ]}
+            />
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="image">Image</label>
-          <input
-            type="file"
-            id="image"
-            accept="image/*"
-            onChange={handleImageChange}
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label htmlFor="category">Category</label>
+            <select
+              id="category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              required>
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <button type="submit" disabled={loading}>
-          {loading ? "Uploading..." : "Upload Trend"}
-        </button>
-      </form>
+          <button type="submit" disabled={loading}>
+            {loading ? "Uploading..." : "Upload Trend"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

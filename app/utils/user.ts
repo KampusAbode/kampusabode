@@ -10,10 +10,10 @@ import {
   getCountFromServer,
   query,
   where,
+  Timestamp,
 } from "firebase/firestore";
 import { UserType } from "../fetch/types";
 import { db } from "../lib/firebaseConfig";
-
 
 export const fetchAllUsers = async (): Promise<UserType[]> => {
   try {
@@ -29,7 +29,6 @@ export const fetchAllUsers = async (): Promise<UserType[]> => {
     throw new Error("Failed to fetch users");
   }
 };
-
 
 export const fetchAnalytics = async () => {
   try {
@@ -63,7 +62,6 @@ export const fetchAnalytics = async () => {
   }
 };
 
-
 export const togglePropertyApproval = async (
   propertyId: string,
   newStatus: boolean
@@ -74,8 +72,6 @@ export const togglePropertyApproval = async (
     await updateDoc(propertyRef, {
       approved: newStatus,
     });
-
-   
   } catch (error) {
     console.error("Error updating property appoved:", error);
     throw new Error("Failed to update property appoved.");
@@ -101,10 +97,6 @@ export const fetchReviews = async () => {
   }
 };
 
-
-
-
-
 export const fetchUsersById = async (userId: string) => {
   try {
     // Reference to the "users" collection
@@ -127,8 +119,6 @@ export const fetchUsersById = async (userId: string) => {
   }
 };
 
-
-
 export const saveUserProfile = async (userId: string, userData: UserType) => {
   try {
     // Reference to the "users" collection
@@ -136,13 +126,11 @@ export const saveUserProfile = async (userId: string, userData: UserType) => {
 
     await setDoc(userDocRef, userData, { merge: true });
 
-    return {success: true, message: "profile created successfully!"}
+    return { success: true, message: "profile created successfully!" };
   } catch (error) {
-    
     throw new Error("Failed to save profile");
   }
 };
-
 
 export const updateUserProfile = async (userId: string, updates) => {
   try {
@@ -168,7 +156,6 @@ export const updateUserProfile = async (userId: string, updates) => {
   }
 };
 
-
 export const updateBookmarkInDB = async (
   userId: string,
   propertyId: string,
@@ -192,30 +179,56 @@ export const updateBookmarkInDB = async (
   }
 };
 
+export async function assignUserRole(
+  username: string,
+  userId: string,
+  role: "admin" | "writer",
+  assignedBy: string
+) {
+  const userRoleRef = doc(db, "userRoles", userId);
+  const roleData = {
+    username,
+    userId,
+    role,
+    assignedBy,
+    assignedAt: Timestamp.now(),
+  };
 
+  try {
+    // Upsert the role
+    await setDoc(userRoleRef, roleData, { merge: true });
 
-export const checkIsAdmin = (userId: string): boolean => {
-  const adminIdOne = process.env.NEXT_PUBLIC_ADMIN_ID_ONE;
-  const adminIdTwo = process.env.NEXT_PUBLIC_ADMIN_ID_TWO;
-  const adminIdThree = process.env.NEXT_PUBLIC_ADMIN_ID_THREE;
-  
-
-  if (!adminIdOne || !adminIdTwo || !adminIdThree) {
-    console.warn("ADMIN_ID is not set in environment variables");
-    return false;
+    console.log(`Assigned role '${role}' to user ${userId}`);
+  } catch (error) {
+    console.error("Error assigning user role:", error);
+    throw error;
   }
+}
 
-  return userId === adminIdOne || userId === adminIdTwo || userId === adminIdThree;
+export const getUserRole = async (
+  userId: string
+): Promise<"admin" | "writer" | "user"> => {
+  try {
+    const roleDoc = await getDoc(doc(db, "userRoles", userId));
 
+    if (!roleDoc.exists()) {
+      return "user"; // default fallback
+    }
+
+    const data = roleDoc.data();
+    return data.role === "admin" || data.role === "writer" ? data.role : "user";
+  } catch (err) {
+    console.error("Error fetching user role:", err);
+    return "user";
+  }
 };
-export const checkIsWriter = (userId: string): boolean => {
-  const writerIdOne = process.env.NEXT_PUBLIC_WRITER_ID_ONE;
 
-  if (!writerIdOne) {
-    console.warn("ADMIN_ID is not set in environment variables");
-    return false;
-  }
+export const checkIsAdmin = async (userId: string): Promise<boolean> => {
+  const role = await getUserRole(userId);
+  return role === "admin";
+};
 
-  return userId === writerIdOne;
-
+export const checkIsWriter = async (userId: string): Promise<boolean> => {
+  const role = await getUserRole(userId);
+  return role === "admin" || role === "writer"; // admin inherits writer permissions
 };

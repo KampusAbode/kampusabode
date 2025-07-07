@@ -1,6 +1,6 @@
 .admin-dashboard .container {
-  margin-block: var(--spacing-s);
   padding-block: var(--spacing-2x);
+  position: relative;
 }
 .admin-dashboard .container .dashboard-navigation {
   display: flex;
@@ -10,9 +10,17 @@
   scroll-behavior: smooth;
   gap: var(--spacing);
   padding-block: var(--spacing);
+  background-color: var(--white);
+  position: sticky;
+  top: 0;
   /* Hide scrollbar */
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+@media (max-width: 768px) {
+  .admin-dashboard .container .dashboard-navigation {
+    top: 65px;
+  }
 }
 .admin-dashboard .container .dashboard-navigation::-webkit-scrollbar {
   display: none;
@@ -23,6 +31,7 @@
   padding: var(--spacing-b);
   background-color: var(--light-gray);
   border-radius: var(--border-radius);
+  color: var(--font-color-p);
   text-wrap: nowrap;
   font-size: var(--font-size-sm);
   text-transform: capitalize;
@@ -30,9 +39,11 @@
 }
 .admin-dashboard .container .dashboard-navigation button.active {
   border: var(--border-hover);
+  color: var(--font-color-h);
 }
 .admin-dashboard .container .dashboard-content {
   padding-block: var(--spacing);
+  box-shadow: none;
 }
 .admin-dashboard .container .dashboard-content .user-management .input-box {
   margin-block: var(--spacing);
@@ -46,34 +57,61 @@
 .admin-dashboard .container .dashboard-content .user-management h6 {
   margin-block: var(--spacing);
 }
-.admin-dashboard .container .dashboard-content .user-management ul li {
+.admin-dashboard .container .dashboard-content .user-management ul {
+  display: grid;
+  gap: var(--spacing);
+}
+.admin-dashboard .container .dashboard-content .user-management ul li > div:first-child {
   padding: var(--spacing-h);
-  background-color: var(--light-gray);
   border-radius: var(--border-radius);
+  background-color: var(--light-gray);
   margin-block: var(--spacing-h);
   display: grid;
   grid-template-columns: auto 1fr;
+  align-items: center;
   gap: var(--spacing-h);
 }
-.admin-dashboard .container .dashboard-content .user-management ul li .pic img {
+.admin-dashboard .container .dashboard-content .user-management ul li > div:first-child .pic img {
   width: 100px;
-  height: 100%;
+  height: 100px;
   -o-object-fit: center;
      object-fit: center;
   border-radius: var(--border-radius);
 }
-.admin-dashboard .container .dashboard-content .user-management ul li .details span {
+.admin-dashboard .container .dashboard-content .user-management ul li > div:first-child .details span {
   display: block;
+}
+.admin-dashboard .container .dashboard-content .user-management ul li .actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--spacing);
+  background-color: var(--light-gray);
+  margin-top: var(--spacing-h);
+  background-color: var(--light-gray);
+}
+.admin-dashboard .container .dashboard-content .user-management ul li .actions .action-btn {
+  padding: var(--spacing-b);
+  font-size: var(--font-size-xs);
+  text-align: center;
+  color: var(--font-color-p);
+  cursor: pointer;
+}
+.admin-dashboard .container .dashboard-content .user-management ul li .actions .action-btn:hover {
+  background-color: var(--gray);
+  color: var(--font-color-h);
+}
+.admin-dashboard .container .dashboard-content .user-management ul li .actions .action-btn.active {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  background-color: green;
 }
 @media (min-width: 768px) {
   .admin-dashboard .container .dashboard-content .user-management ul {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing);
+    grid-template-columns: repeat(2, 1fr);
   }
   .admin-dashboard .container .dashboard-content .user-management ul li {
     padding: var(--spacing);
-    margin-block: var(--spacing-s);
   }
 }
 .admin-dashboard .container .dashboard-content .property-management ul li {
@@ -104,17 +142,24 @@
   border-radius: var(--border-radius);
   margin-block: var(--spacing-h);
 }
-.admin-dashboard .container .dashboard-content .agent-listings ul li span {
+.admin-dashboard .container .dashboard-content .agent-listings ul li .agent-info .image img {
+  height: 220px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: var(--border-radius);
+}
+.admin-dashboard .container .dashboard-content .agent-listings ul li .agent-info span {
   display: block;
+  margin-block: var(--spacing-h);
 }
 @media (min-width: 768px) {
   .admin-dashboard .container .dashboard-content .agent-listings ul {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing);
   }
   .admin-dashboard .container .dashboard-content .agent-listings ul li {
     padding: var(--spacing);
-    margin-block: var(--spacing-s);
+    margin-block: var(--spacing);
   }
 }/*# sourceMappingURL=admin.css.map */

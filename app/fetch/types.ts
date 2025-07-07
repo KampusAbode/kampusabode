@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 interface ServicesType {
   heading: string;
   text: string;
@@ -146,4 +148,15 @@ export interface UserType {
   university: string;
   userType: "student" | "agent" | "";
   userInfo: StudentUserInfo | AgentUserInfo;
+}
+
+
+export type UserRoleType = "admin" | "writer";
+
+export interface UserRole {
+  username: string;
+  userId: string;
+  role: UserRoleType;
+  assignedBy: string;
+  assignedAt: Timestamp;
 }

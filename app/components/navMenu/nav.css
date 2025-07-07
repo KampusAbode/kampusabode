@@ -2,6 +2,7 @@
   background-color: var(--white);
   box-shadow: var(--shadow);
   overflow-y: scroll;
+  padding: var(--spacing-h);
 }
 .nav-menu .container {
   display: flex;
@@ -23,7 +24,7 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: var(--border);
-  padding-block: var(--spacing);
+  padding-block: var(--spacing-h);
 }
 .nav-menu .top .nav-header .close-div .logo a {
   cursor: pointer;
@@ -51,6 +52,7 @@
   flex-direction: column;
   border-radius: var(--border-radius);
   overflow: hidden;
+  margin-bottom: var(--spacing-2x);
 }
 .nav-menu .top .nav-header .nav-btns .btn {
   display: block;
@@ -66,11 +68,11 @@
 .nav-menu .top ul {
   overflow: scroll;
   border-radius: var(--border-radius);
+  border-radius: var(--border-radius);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-h);
-  padding: var(--spacing-h);
 }
 .nav-menu .top ul::-webkit-scrollbar {
   display: none;
@@ -80,10 +82,11 @@
   cursor: pointer;
 }
 .nav-menu .top ul li:not(.btn):hover, .nav-menu .top ul li:not(.btn).active {
-  background: var(--gray);
+  background-color: var(--gray);
+  color: var(--black);
 }
 .nav-menu .top ul li a {
-  padding: var(--spacing);
+  padding: var(--spacing-b);
   text-transform: capitalize;
   color: var(--font-color-h);
   width: 100%;
@@ -100,7 +103,6 @@
 }
 .nav-menu .logout {
   text-align: center;
-  margin-bottom: var(--spacing);
 }
 .nav-menu .logout span {
   font-size: var(--font-size-xs);

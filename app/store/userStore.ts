@@ -1,8 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { AgentUserInfo, ApartmentType, UserType } from "../fetch/types";
+import { AgentUserInfo, UserType } from "../fetch/types";
 import {
-  getFirestore,
   doc,
   setDoc,
   updateDoc,

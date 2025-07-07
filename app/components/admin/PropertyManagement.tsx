@@ -59,7 +59,7 @@ const PropertyManagement = () => {
                 <span>views: {property.views} </span>
               </div>
               <span style={{ color: property.approved ? "green" : "red" }}>
-                ({property.approved ? "approved" : "Unapproved"})
+                {property.approved ? "Approved" : "Unapproved"}
               </span>
             </div>
             <div className="action">

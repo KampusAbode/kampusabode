@@ -19,6 +19,7 @@ import {
 import { db } from "../lib/firebaseConfig";
 import { ApartmentType } from "../fetch/types";
 import { ID, storage } from "../lib/appwriteClient";
+import { deleteAppwriteImage } from "./";
 
 export const listApartment = async (data: any) => {
   try {
@@ -174,36 +175,6 @@ export const deleteApartment = async (apartmentId: string) => {
       message: (error as Error).message || "Failed to delete apartment.",
       statusCode: 500,
     };
-  }
-};
-
-export const deleteAppwriteImage = async (imageUrl: string) => {
-  try {
-    const fileId = extractAppwriteFileId(imageUrl);
-    if (!fileId) throw new Error("File ID extraction failed.");
-
-    await storage.deleteFile(
-      process.env.NEXT_PUBLIC_APPWRITE_apartment_BUCKET_ID!,
-      fileId
-    );
-
-    return { success: true, message: "Image deleted successfully." };
-  } catch (error) {
-    console.error("Failed to delete image from Appwrite:", error);
-    return { success: false, message: "Failed to delete image." };
-  }
-};
-
-// Function to extract Appwrite File ID from URL
-export const extractAppwriteFileId = (imageUrl: string) => {
-  try {
-    const match = imageUrl.match(/\/files\/(.*?)\/view/);
-    if (match && match[1]) {
-      return match[1]; // Extract the file ID
-    }
-    throw new Error("Invalid Appwrite file URL format");
-  } catch (error) {
-    throw new Error("Failed to extract Appwrite file ID");
   }
 };
 

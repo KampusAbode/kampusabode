@@ -15,6 +15,7 @@ import { checkIsAdmin } from "../../utils/user";
 import { UserType } from "../../fetch/types";
 import Loader from "../../components/loader/Loader";
 import Image from "next/image";
+import { useUsersStore } from "../../store/usersStore";
 // import "./admin.css"; // assuming you want the same admin CSS
 
 const AgentList = () => {
@@ -22,47 +23,27 @@ const AgentList = () => {
   const { user } = useUserStore((state) => state);
   const [agents, setAgents] = useState<UserType[]>([]);
   const [loading, setLoading] = useState(true);
+  const { users } = useUsersStore();
 
   useEffect(() => {
-    // 1. Redirect to login if no user
+    // Redirect to login if no user
     if (!user) {
       router.push("/auth/login");
       return;
     }
 
-    // 2. Redirect away if not admin
+    // Redirect away if not admin
     if (!checkIsAdmin(user.id)) {
       router.push("/apartment");
       return;
     }
 
-    // 3. Fetch all agents from Firestore
+    // Fetch all agents from Firestore
     const fetchAgents = async () => {
-      try {
-        const usersRef = collection(db, "users");
-        const agentsQuery = query(usersRef, where("userType", "==", "agent"));
-        const snapshot = await getDocs(agentsQuery);
-
-        const agentList: UserType[] = snapshot.docs.map((doc) => {
-          const data = doc.data() as DocumentData;
-          return {
-            id: doc.id,
-            name: (data.name as string) || "",
-            email: (data.email as string) || "",
-            bio: (data.bio as string) || "",
-            avatar: (data.avatar as string) || "",
-            phoneNumber: (data.phoneNumber as string) || "",
-            university: (data.university as string) || "",
-            userType: data.userType as "agent",
-            userInfo: data.userInfo as any, // should match AgentUserInfo
-          };
-        });
-
-        setAgents(agentList);
-      } catch (error) {
-        console.error("Error fetching agents:", error);
-      } finally {
-        setLoading(false);
+      if (users) {
+        const agentUsers = users.filter((user) => user.userType === "agent");
+        setAgents(agentUsers);
+        setLoading(false)
       }
     };
 
@@ -84,6 +65,8 @@ const AgentList = () => {
                 <div className="image">
                   <Image
                     src={agent.avatar || "/assets/user_avatar.jpg"}
+                    width={1000}
+                    height={1000}
                     alt={`${agent.name}'s avatar`}
                     className="agent-avatar"
                   />

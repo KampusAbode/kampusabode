@@ -26,23 +26,23 @@ function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   const { initializing } = useAuthListener();
   const pathname = usePathname();
 
-  useEffect(() => {
-    const handleSaveScroll = () => {
-      saveScroll(pathname);
-    };
+  // useEffect(() => {
+  //   const handleSaveScroll = () => {
+  //     saveScroll(pathname);
+  //   };
 
-    window.addEventListener("beforeunload", handleSaveScroll);
-    document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "hidden") {
-        handleSaveScroll();
-      }
-    });
+  //   window.addEventListener("beforeunload", handleSaveScroll);
+  //   document.addEventListener("visibilitychange", () => {
+  //     if (document.visibilityState === "hidden") {
+  //       handleSaveScroll();
+  //     }
+  //   });
 
-    return () => {
-      handleSaveScroll();
-      window.removeEventListener("beforeunload", handleSaveScroll);
-    };
-  }, [pathname]);
+  //   return () => {
+  //     handleSaveScroll();
+  //     window.removeEventListener("beforeunload", handleSaveScroll);
+  //   };
+  // }, [pathname]);
 
   useEffect(() => {
     requestAnimationFrame(() => {

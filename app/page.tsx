@@ -34,30 +34,30 @@ export default function App() {
   }, [setProperties]);
 
   
-  useEffect(() => {
-  gsap.registerPlugin(ScrollTrigger);
+//   useEffect(() => {
+//   gsap.registerPlugin(ScrollTrigger);
 
-  gsap.utils
-    .toArray<HTMLElement>(
-      ".heading, .service, .pd, .testimonial-card, .trend, .cta-section, .hero-content"
-    )
-    .forEach((el) => {
-      gsap.from(el, {
-        opacity: 0,
-        y: 50,
-        duration: 0.5,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: el,
-          start: "top 90%",
-          toggleActions: "play none none none",
-        },
-      });
-    });
+//   gsap.utils
+//     .toArray<HTMLElement>(
+//       ".heading, .service, .pd, .testimonial-card, .trend, .cta-section, .hero-content"
+//     )
+//     .forEach((el) => {
+//       gsap.from(el, {
+//         opacity: 0,
+//         y: 50,
+//         duration: 0.5,
+//         ease: "power2.out",
+//         scrollTrigger: {
+//           trigger: el,
+//           start: "top 90%",
+//           toggleActions: "play none none none",
+//         },
+//       });
+//     });
 
   
-  ScrollTrigger.refresh();
-}, []);
+//   ScrollTrigger.refresh();
+// }, []);
 
   
 

@@ -33,7 +33,7 @@ function Nav() {
     try {
       await logoutUser();
       router.push("/");
-      toast.success("Logged out successfully 👌");
+      toast.success("Logged out successfully");
     } catch (error) {
       toast.error(error?.message || "An unexpected error occurred.");
     }
@@ -82,7 +82,7 @@ function Nav() {
                     className="btn"
                     title="Button"
                     onClick={toggleNav}>
-                    upload property
+                    new listing
                   </Link>
                 )}
 
@@ -92,7 +92,7 @@ function Nav() {
                     className="btn"
                     title="Button"
                     onClick={toggleNav}>
-                    Admin Dashboard
+                    Admin
                   </Link>
                 )}
               </div>

@@ -15,8 +15,8 @@
   --white: #ffffff;
   --black: #0c0c0c;
 
-  --gray: #f7f7f7;
-  --light-gray: #fafafa;
+  --gray: #eaeaea;
+  --light-gray: #f7f7f7;
   --dark-gray: #6d6d6d;
 
   --font-color-h: #222;
@@ -195,10 +195,10 @@ main {
   overflow-y: auto;
   position: relative;
   box-shadow: var(--shadow);
+  min-height: 100vh;
 
   @media screen and (max-width: 768px) {
     box-shadow: none;
-    min-height: 100vh;
   }
 }
 .container {

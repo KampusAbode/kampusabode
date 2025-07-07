@@ -12,6 +12,7 @@ import AgentList from "../components/admin/AgentList";
 import { checkIsAdmin } from "../utils/user";
 import "./admin.css";
 import { useUserStore } from "../store/userStore";
+import { useUsersStore } from "../store/usersStore";
 
 const pages = [
   "users",
@@ -29,6 +30,7 @@ export default function AdminPage() {
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
+  const { users, setUsers } = useUsersStore();
 
   const { user } = useUserStore((state) => state);
 
@@ -45,7 +47,14 @@ export default function AdminPage() {
     }
 
     setLoading(false);
-  }, [router]);
+  }, []);
+
+  useEffect(() => {
+    if (!users || users.length === 0) {
+      setUsers();
+      console.log(users)
+    }
+  }, []);
 
   // Whenever currentPage changes, update the URL query parameter
   useEffect(() => {
@@ -56,7 +65,7 @@ export default function AdminPage() {
   if (!isAdmin) return null;
 
   return (
-    <div className="admin-dashboard">
+    <section className="admin-dashboard">
       <div className="container">
         <h4>Admin Dashboard</h4>
         <nav className="dashboard-navigation">
@@ -70,15 +79,15 @@ export default function AdminPage() {
             </button>
           ))}
         </nav>
-        <main className="dashboard-content">
-          {currentPage === "users" && <UserManagement />}
+        <section className="dashboard-content">
+          {currentPage === "users" && <UserManagement users={users} />}
           {currentPage === "properties" && <PropertyManagement />}
           {currentPage === "reviews" && <ReviewManagement />}
           {currentPage === "analytics" && <Analytics />}
           {currentPage === "notifications" && <Notifications />}
           {currentPage === "agents" && <AgentList />}
-        </main>
+        </section>
       </div>
-    </div>
+    </section>
   );
 }

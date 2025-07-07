@@ -26,27 +26,15 @@
 .banner .dot1,
 .banner .dot2 {
   width: auto;
-  height: 251.8px;
+  height: 100px;
   position: absolute;
   bottom: 0;
 }
 .banner .dot1 {
-  right: 0;
+  right: 10%;
 }
 .banner .dot2 {
   right: calc(10% + 357px);
-}
-.banner .building {
-  width: 387px;
-  height: 253px;
-  position: absolute;
-  bottom: 0;
-  right: 10%;
-}
-@media screen and (max-width: 768px) {
-  .banner .building {
-    display: none;
-  }
 }
 
 .user-search {
@@ -86,6 +74,9 @@
 
 .property-listings {
   margin: var(--spacing) 0 var(--spacing-3x);
+}
+.property-listings .container {
+  min-height: 100vh;
 }
 .property-listings .properties {
   display: grid;

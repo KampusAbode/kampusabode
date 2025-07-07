@@ -31,29 +31,29 @@
   .dot1,
   .dot2 {
     width: auto;
-    height: 251.8px;
+    height:100px;
     position: absolute;
     bottom: 0;
   }
 
   .dot1 {
-    right: 0;
+    right: 10%;
   }
   .dot2 {
     right: calc(10% + 357px);
   }
 
-  .building {
-    width: 387px;
-    height: 253px;
-    position: absolute;
-    bottom: 0;
-    right: 10%;
+  // .building {
+  //   width: 387px;
+  //   height: 253px;
+  //   position: absolute;
+  //   bottom: 0;
+  //   right: 10%;
 
-    @media screen and (max-width: 768px) {
-      display: none;
-    }
-  }
+  //   @media screen and (max-width: 768px) {
+  //     display: none;
+  //   }
+  // }
 }
 
 .user-search {
@@ -95,6 +95,9 @@
 
 .property-listings {
   margin: var(--spacing) 0 var(--spacing-3x);
+  .container {
+    min-height: 100vh;
+  }
   .properties {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
