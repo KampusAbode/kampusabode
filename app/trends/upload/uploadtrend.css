@@ -1,11 +1,12 @@
 .upload-trend {
   max-width: 800px;
+  margin: 0 auto;
   background-color: var(--background-white);
   border-radius: var(--border-radius);
   position: relative;
 }
 .upload-trend .container form .form-group {
-  margin-bottom: 15px;
+  margin-bottom: var(--spacing);
 }
 .upload-trend .container form .form-group label {
   display: block;
@@ -29,7 +30,7 @@
 .upload-trend .container form .form-group textarea,
 .upload-trend .container form .form-group select {
   width: 100%;
-  padding: 10px;
+  padding: var(--spacing);
   border: var(--border);
   border-radius: var(--border-radius);
 }
@@ -47,14 +48,14 @@
   align-items: center;
   justify-content: space-between;
   position: sticky;
-  top: 0;
+  top: 5px;
 }
 .upload-trend .container form .form-group .quill .ql-toolbar span {
   margin: 0;
 }
 @media screen and (max-width: 768px) {
   .upload-trend .container form .form-group .quill .ql-toolbar {
-    top: 65px;
+    top: 75px;
   }
 }
 .upload-trend .container form .form-group .quill .ql-container {
@@ -63,7 +64,7 @@
 .upload-trend .container form .form-group .quill .ql-container .ql-editor {
   min-height: 200px;
   max-height: 600px;
-  padding: 10px;
+  padding: var(--spacing);
   border: var(--border);
   border-radius: var(--border-radius);
 }
