@@ -15,7 +15,7 @@ import {
 } from "firebase/firestore";
 
 export const allTrends = (callback: any) => {
-  const trendRef = query(collection(db, "trends"), orderBy("published_date", "asc"));
+  const trendRef = query(collection(db, "trends"), orderBy("published_date", "desc"));
   // Real-time listener
   const unsubscribe = onSnapshot(trendRef, (snapshot) => {
     const items = snapshot.docs.map((doc) => ({
