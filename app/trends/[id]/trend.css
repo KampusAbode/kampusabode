@@ -62,7 +62,7 @@
   cursor: pointer;
 }
 .trend-details-page .container .interaction-buttons button.active svg{
-          fill: var(--font-color-p;
+          fill: var(--font-color-p);
           font-size: var(--font-size-lg);
 }
 .trend-details-page .container .interaction-buttons button.active svg path{
