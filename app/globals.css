@@ -162,6 +162,11 @@ p {
   color: var(--font-color-p);
 }
 
+strong {
+  font-weight: 600;
+  color: var(--font-color-h);
+}
+
 section {
   padding-block: var(--spacing);
 }

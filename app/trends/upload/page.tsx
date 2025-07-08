@@ -35,6 +35,12 @@ function UploadTrend() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { user } = useUserStore((state) => state);
+  const [errors, setErrors] = useState({
+    title: false,
+    content: false,
+    image: false,
+    category: false,
+  });
 
   const client = new Client();
   client
@@ -57,7 +63,6 @@ function UploadTrend() {
       setImage(file);
     }
   };
-  
 
   function generateSlug(title: string): string {
     return title
@@ -70,21 +75,46 @@ function UploadTrend() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const fieldErrors = {
+      title: !title.trim(),
+      content: !content.trim(),
+      image: !image,
+      category: !category.trim(),
+    };
+
+    setErrors(fieldErrors);
+
+    const errorFields = Object.entries(fieldErrors)
+      .filter(([_, isError]) => isError)
+      .map(([field]) => field);
+
+    if (errorFields.length > 0) {
+      // Capitalize field name
+      const fieldName =
+        errorFields[0].charAt(0).toUpperCase() + errorFields[0].slice(1);
+      if (fieldName === "Image") {
+        toast.error("Please upload an image.");
+      } else {
+        toast.error(`Please enter a valid ${fieldName}.`);
+      }
+      return;
+    }
+
     setLoading(true);
 
     try {
       const db = getFirestore(getApp());
       const trendRef = collection(db, "trends");
 
-      // Upload image to Appwrite storage
       const imageUrl = await uploadImageToAppwrite(
         image,
         process.env.NEXT_PUBLIC_APPWRITE_TREND_BUCKET_ID
       );
 
       const slug = generateSlug(title);
-      const newTrendId = ID.unique(); // generate custom ID
-      const docRef = doc(trendRef, newTrendId); // manually create the document
+      const newTrendId = ID.unique();
+      const docRef = doc(trendRef, newTrendId);
 
       const trendData = {
         id: newTrendId,
@@ -99,7 +129,6 @@ function UploadTrend() {
       };
 
       await setDoc(docRef, trendData);
-
       setLoading(false);
       toast.success(`${trendData.title} uploaded`);
       router.push(`/trends/${trendData.slug}`);
@@ -121,7 +150,6 @@ function UploadTrend() {
                 id="image"
                 accept=".jpg, .jpeg, .png"
                 onChange={handleImageChange}
-                required
               />
               <Image
                 src={
@@ -144,7 +172,7 @@ function UploadTrend() {
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              required
+              className={errors.title ? "error" : ""}
             />
           </div>
 
@@ -154,6 +182,7 @@ function UploadTrend() {
               theme="snow"
               value={content}
               onChange={setContent}
+              className={`quill-wrapper ${errors.content ? "quill-error" : ""}`}
               modules={{
                 toolbar: [
                   [{ header: [2, false] }],
@@ -178,8 +207,8 @@ function UploadTrend() {
             <select
               id="category"
               value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              required>
+              className={errors.category ? "error" : ""}
+              onChange={(e) => setCategory(e.target.value)}>
               {categories.map((cat) => (
                 <option key={cat} value={cat}>
                   {cat}

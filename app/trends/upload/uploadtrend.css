@@ -34,6 +34,11 @@
   border: var(--border);
   border-radius: var(--border-radius);
 }
+.upload-trend .container form .form-group input.error,
+.upload-trend .container form .form-group textarea.error,
+.upload-trend .container form .form-group select.error {
+  border-color: red;
+}
 .upload-trend .container form .form-group textarea {
   resize: vertical;
   min-height: 300px;
@@ -68,6 +73,9 @@
   border: var(--border);
   border-radius: var(--border-radius);
 }
+.upload-trend .container form .form-group .quill-error .ql-container .ql-editor {
+  border: 1px solid red;
+}
 .upload-trend .container form > button {
   width: 100%;
   padding: 10px;
@@ -82,4 +90,7 @@
 .upload-trend .container form button:disabled {
   background-color: var(--gray);
   cursor: not-allowed;
+}
+.upload-trend .error {
+  border: 1px solid red !important;
 }/*# sourceMappingURL=uploadtrend.css.map */

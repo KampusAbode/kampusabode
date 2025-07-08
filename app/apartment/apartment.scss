@@ -96,7 +96,8 @@
 .property-listings {
   margin: var(--spacing) 0 var(--spacing-3x);
   .container {
-    min-height: 100vh;
+    max-height: 100vh;
+    overflow-y: scroll;
   }
   .properties {
     display: grid;

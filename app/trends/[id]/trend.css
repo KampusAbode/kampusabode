@@ -1,6 +1,11 @@
 .trend-details-page .container {
   padding-block: var(--spacing-s);
 }
+.trend-details-page .container li {
+  list-style-type: circle;
+  margin-block: var(--spacing-h);
+  margin-left: var(--spacing);
+}
 @media screen and (min-width: 768px) {
   .trend-details-page .container {
     padding-block: calc(var(--spacing-4x) * 2);
@@ -17,7 +22,6 @@
   align-items: center;
   gap: var(--spacing);
   text-align: center;
-  margin-top: var(--spacing-2x);
 }
 .trend-details-page .container .trend-details .category {
   padding: var(--spacing-h);
@@ -64,7 +68,7 @@
   margin-block: var(--spacing-2x);
 }
 .trend-details-page .container .trend-description p {
-  margin-block: var(--spacing-h);
+  margin-bottom: var(--spacing-h);
 }
 .trend-details-page .container .trend-description h2 {
   font-size: var(--font-size-lg);

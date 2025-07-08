@@ -18,7 +18,7 @@ interface trendState {
   getTrendById: (id: string) => TrendType;
 }
 
-export const usetrendStore = create<trendState>()(
+export const useTrendStore = create<trendState>()(
   persist(
     (set, get) => ({
       trend: [],
