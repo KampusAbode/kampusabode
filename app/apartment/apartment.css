@@ -76,8 +76,8 @@
   margin: var(--spacing) 0 var(--spacing-3x);
 }
 .property-listings .container {
-  max-height: 100vh;
-  overflow-y: scroll;
+  // max-height: 100vh;
+  // overflow-y: scroll;
 }
 .property-listings .properties {
   display: grid;
