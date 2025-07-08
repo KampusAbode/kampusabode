@@ -104,6 +104,7 @@ const TrendPage = ({ params }: Params) => {
         await deleteDoc(likeRef);
         await updateDoc(trendRef, { likes: increment(-1) });
         setTrendData({ ...trendData, likes: trendData.likes - 1 });
+        setIsLike(false);
         toast.success("Like removed.");
       } else {
         await setDoc(likeRef, {
@@ -112,6 +113,7 @@ const TrendPage = ({ params }: Params) => {
         });
         await updateDoc(trendRef, { likes: increment(1) });
         setTrendData({ ...trendData, likes: trendData.likes + 1 });
+        setIsLike(true)
         toast.success("Liked!");
       }
     } catch (error) {
