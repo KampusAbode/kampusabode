@@ -122,23 +122,24 @@ const TrendPage = ({ params }: Params) => {
   };
 
   const handleShare = async () => {
-    const trendUrl = `${window.location.origin}/trends/${trendData?.slug}`;
-    try {
-      if (navigator.share) {
-        await navigator.share({
-          title: trendData?.title || "Check out this trend",
-          text: `${trendData?.title} /n/n`,
-          url: trendUrl,
-        });
-        toast.success("Link shared!");
-      } else {
-        await navigator.clipboard.writeText(trendUrl);
-        toast.success("Link copied!");
-      }
-    } catch {
-      toast.error("Could not share this trend.");
+  const trendUrl = `${window.location.origin}/trends/${trendData?.slug}`;
+  try {
+    if (navigator.share) {
+      await navigator.share({
+        title: trendData?.title || "Check out this trend",
+        text: `${trendData?.title}\n\nRead more here:\n`,
+        url: trendUrl,
+      });
+      toast.success("Link shared!");
+    } else {
+      await navigator.clipboard.writeText(trendUrl);
+      toast.success("Link copied!");
     }
-  };
+  } catch {
+    toast.error("Could not share this trend.");
+  }
+};
+
 
   const handleCommentSubmit = async () => {
     if (!user) {
@@ -216,9 +217,10 @@ const TrendPage = ({ params }: Params) => {
             <button onClick={handleShare}>
               <FaShare /> Share
             </button>
+            {/*
             <button>
               <FaBookmark /> Save
-            </button>
+            </button>*/}
           </div>
 
           <div
