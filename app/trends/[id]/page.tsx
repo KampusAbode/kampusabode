@@ -29,6 +29,7 @@ type Params = {
   params: { id: string };
 };
 
+
 const TrendPage = ({ params }: Params) => {
   const slug = params.id;
   const [trendData, setTrendData] = useState<TrendType>();
