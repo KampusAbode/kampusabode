@@ -61,9 +61,9 @@
   color: var(--font-color-p);
   cursor: pointer;
 }
-.trend-details-page .container .interaction-buttons button.active i {
-  color: green;
-  font-size: var(--font-size-lg);
+.trend-details-page .container .interaction-buttons button.active i{
+          fill: var(--font-color-h);
+          font-size: var(--font-size-lg);
 }
 .trend-details-page .container .trend-description {
   margin-block: var(--spacing-2x);
