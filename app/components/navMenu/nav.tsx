@@ -23,6 +23,7 @@ function Nav() {
   const { isNavOpen, toggleNav } = useNavStore();
   const [loading, setLoading] = useState(true);
   const [showPrompt, setShowPrompt] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const handleLogoutClick = () => {
     setShowPrompt(true);
@@ -44,6 +45,18 @@ function Nav() {
   };
 
   useEffect(() => {
+    async function checkUserPermissions(userId: string) {
+      try {
+        const isAdmin = await checkIsAdmin(userId);
+
+        if (isAdmin) {
+          setIsAdmin(true);
+        } 
+      } catch (error) {
+        console.error("Failed to check user permissions:", error);
+      }
+    }
+    checkUserPermissions(user?.id );
     setLoading(false);
   }, [user]);
 
@@ -76,7 +89,7 @@ function Nav() {
               </div>
 
               <div className="nav-btns">
-                {user?.userType === "agent" && checkIsAdmin(user.id) && (
+                {user?.userType === "agent" && isAdmin && (
                   <Link
                     href={`/apartment/c/${user.id}`}
                     className="btn"
@@ -86,7 +99,7 @@ function Nav() {
                   </Link>
                 )}
 
-                {checkIsAdmin(user?.id || "") && (
+                {isAdmin && (
                   <Link
                     href="/admin"
                     className="btn"
@@ -120,7 +133,7 @@ function Nav() {
                 </Link>
               </li>
 
-              {checkIsAdmin(user?.id || "") && (
+              {isAdmin && (
                 <li
                   title="Admin Chat"
                   className={pathname === "/adminchatroom" ? "active" : ""}>

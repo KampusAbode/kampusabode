@@ -6,7 +6,10 @@ import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useRouter, useSearchParams } from "next/navigation";
-import { listApartment, uploadApartmentImagesToAppwrite } from "../utils/properties";
+import {
+  listApartment,
+  uploadApartmentImagesToAppwrite,
+} from "../utils/properties";
 import { useUserStore } from "../store/userStore";
 import { ApartmentType } from "../fetch/types";
 import Prompt from "../components/modals/prompt/Prompt";
@@ -36,6 +39,7 @@ const UploadForAgent = () => {
   const agentId = searchParams.get("agentId") || "";
   // const  = useProperties();
   const { user } = useUserStore((state) => state);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   // Access guard: only admins with a valid agentId can use this page
   useEffect(() => {
@@ -45,11 +49,21 @@ const UploadForAgent = () => {
       return;
     }
 
-    if (!checkIsAdmin(user.id)) {
-      toast.error("Access denied. Only admins can upload for agents.");
-      router.back();
-      return;
+    async function checkUserPermissions(userId: string) {
+      try {
+        const admin = await checkIsAdmin(userId);
+
+        if (admin) {
+          setIsAdmin(true);
+        } else {
+          toast.error("Access denied: Admins only");
+          router.replace("/apartment");
+        }
+      } catch (error) {
+        console.error("Failed to check user permissions:", error);
+      }
     }
+    checkUserPermissions(user?.id);
 
     if (!agentId) {
       toast.error("No agent specified.");
@@ -66,7 +80,7 @@ const UploadForAgent = () => {
     "parakin estate",
     "may fair",
     "lagere",
-    "OAU campus"
+    "OAU campus",
   ];
 
   const typeOptions = [
@@ -308,8 +322,7 @@ const UploadForAgent = () => {
             available: false,
           }}
           validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
+          onSubmit={handleSubmit}>
           {({ setFieldValue, isSubmitting, status }) => (
             <>
               <Form>
@@ -339,8 +352,7 @@ const UploadForAgent = () => {
                         padding: "8px",
                         background: "#f8f8f9",
                         borderRadius: "8px",
-                      }}
-                    >
+                      }}>
                       {thumbs.map((thumb, idx) => {
                         const objectUrl = URL.createObjectURL(thumb);
                         return (
@@ -377,7 +389,11 @@ const UploadForAgent = () => {
                 <div className="form-group">
                   <label htmlFor="title">Title</label>
                   <Field type="text" id="title" name="title" />
-                  <ErrorMessage name="title" component="div" className="error" />
+                  <ErrorMessage
+                    name="title"
+                    component="div"
+                    className="error"
+                  />
                 </div>
                 <div className="form-group">
                   <label htmlFor="description">Description</label>
@@ -391,7 +407,11 @@ const UploadForAgent = () => {
                 <div className="form-group">
                   <label htmlFor="price">Price</label>
                   <Field type="number" id="price" name="price" />
-                  <ErrorMessage name="price" component="div" className="error" />
+                  <ErrorMessage
+                    name="price"
+                    component="div"
+                    className="error"
+                  />
                 </div>
                 <div className="form-group">
                   <label htmlFor="location">Location</label>
@@ -457,11 +477,7 @@ const UploadForAgent = () => {
                 <div className="form-group">
                   <label htmlFor="area">Area (sqm)</label>
                   <Field type="number" id="area" name="area" />
-                  <ErrorMessage
-                    name="area"
-                    component="div"
-                    className="error"
-                  />
+                  <ErrorMessage name="area" component="div" className="error" />
                 </div>
                 <div className="form-group">
                   <label>Amenities</label>
@@ -470,8 +486,7 @@ const UploadForAgent = () => {
                     name="amenities"
                     multiple
                     size={5}
-                    style={{ height: "120px" }}
-                  >
+                    style={{ height: "120px" }}>
                     {amenitiesOptions.map((amenity) => (
                       <option key={amenity} value={amenity}>
                         {amenity}

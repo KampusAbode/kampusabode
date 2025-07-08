@@ -24,6 +24,7 @@ const AgentList = () => {
   const [agents, setAgents] = useState<UserType[]>([]);
   const [loading, setLoading] = useState(true);
   const { users } = useUsersStore();
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     // Redirect to login if no user
@@ -32,8 +33,21 @@ const AgentList = () => {
       return;
     }
 
+    async function checkUserPermissions(userId: string) {
+      try {
+        const admin = await checkIsAdmin(userId);
+
+        if (admin) {
+          setIsAdmin(true);
+        }
+      } catch (error) {
+        console.error("Failed to check user permissions:", error);
+      }
+    }
+    checkUserPermissions(user?.id);
+
     // Redirect away if not admin
-    if (!checkIsAdmin(user.id)) {
+    if (isAdmin) {
       router.push("/apartment");
       return;
     }
@@ -43,7 +57,7 @@ const AgentList = () => {
       if (users) {
         const agentUsers = users.filter((user) => user.userType === "agent");
         setAgents(agentUsers);
-        setLoading(false)
+        setLoading(false);
       }
     };
 

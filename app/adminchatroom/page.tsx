@@ -34,20 +34,33 @@ const AdminChat = () => {
   const [users, setUsers] = useState<any[] | null>(null);
   const [authorized, setAuthorized] = useState<boolean | null>(null);
   const { user } = useUserStore((state) => state);
+  const [isAdmin, setIsAdmin] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     if (!user?.id) return;
 
-    const isAdmin = checkIsAdmin(user.id);
+    async function checkUserPermissions(userId: string) {
+      try {
+        const admin = await checkIsAdmin(userId);
+
+        if (admin) {
+          setIsAdmin(true);
+        }
+      } catch (error) {
+        console.error("Failed to check user permissions:", error);
+      }
+    }
+    checkUserPermissions(user?.id);
 
     if (!isAdmin) {
       toast.error("Access denied: Admins only");
       router.replace("/apartment");
       return;
+    } else {
+      setAuthorized(true);
     }
 
-    setAuthorized(true);
     toast.success("Access granted!");
 
     const unsubscribe = getAllMessages((fetchedMessages) => {

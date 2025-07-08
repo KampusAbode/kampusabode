@@ -85,10 +85,12 @@ const TrendPage = ({ params }: Params) => {
 
     return () => unsubscribe(); // ✅ Clean up listener
   }, [slug, user]);
-  
 
   const handleLike = async () => {
-    if (!user) return toast.error("Please sign in to like this trend.");
+    if (!user) {
+      toast.error("Please sign in to like this trend.");
+      return;
+    }
     if (isLiking) return;
 
     setIsLiking(true);
@@ -169,13 +171,12 @@ const TrendPage = ({ params }: Params) => {
       setIsSending(false);
     }
   };
-  
 
   const getRelativeTime = (date: Date) => {
     const relative = formatDistanceToNow(date, { addSuffix: true });
     return relative.includes("less than a minute") ? "just now" : relative;
   };
-  
+
   return (
     <div className="trend-details-page">
       {!loading ? (
