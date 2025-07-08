@@ -17,10 +17,14 @@ const QuickService = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isWriter, setIsWriter] = useState(false);
 
-  if (!user) return null;
+  
 
   useEffect(() => {
-    if (!user?.id) return;
+    if (!user?.id) {
+      setIsAdmin(false);
+      setIsWriter(false);
+      return;
+    }
 
     async function checkUserPermissions(userId: string) {
       try {
@@ -38,6 +42,7 @@ const QuickService = () => {
     checkUserPermissions(user.id);
   }, [user?.id]);
   
+  if (!user) return null;
 
   let config;
 

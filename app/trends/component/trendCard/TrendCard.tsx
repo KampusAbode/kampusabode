@@ -43,8 +43,8 @@ const TrendCard = ({ trendData }) => {
           <Image
             priority
             src={trendData?.image}
-            width={1000}
-            height={1000}
+            width={3000}
+            height={3000}
             alt="trend image"
           />
         <span className="category">{trendData?.category || "Unknown"}</span>

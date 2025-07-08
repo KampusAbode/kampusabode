@@ -205,17 +205,26 @@ export async function assignUserRole(
   }
 }
 
+
 export const getUserRole = async (
   userId: string
 ): Promise<"admin" | "writer" | "user"> => {
   try {
-    const roleDoc = await getDoc(doc(db, "userRoles", userId));
+    if (!userId) {
+      return "user";
+    }
+    const rolesRef = collection(db, "userRoles");
+    const q = query(rolesRef, where("userId", "==", userId));
+    const querySnapshot = await getDocs(q);
 
-    if (!roleDoc.exists()) {
+    if (querySnapshot.empty) {
       return "user"; // default fallback
     }
 
-    const data = roleDoc.data();
+    // Assuming one document per userId:
+    const doc = querySnapshot.docs[0];
+    const data = doc.data();
+
     return data.role === "admin" || data.role === "writer" ? data.role : "user";
   } catch (err) {
     console.error("Error fetching user role:", err);
