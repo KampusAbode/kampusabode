@@ -95,10 +95,10 @@
 
 .property-listings {
   margin: var(--spacing) 0 var(--spacing-3x);
-  .container {
+  /*.container {
     // max-height: 100vh;
    // overflow-y: scroll;
-  }
+  }*/
   .properties {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
