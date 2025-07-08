@@ -228,6 +228,12 @@ span {
   border: var(--border);
 }
 
+svg {
+  width: 28px;
+  height: 28px;
+  stroke-width: 1px;
+}
+
 img {
   width: 100%;
   -webkit-user-select: none;
