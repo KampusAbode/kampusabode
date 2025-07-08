@@ -18,7 +18,7 @@ import { fetchTrendBySlug } from "../../utils";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import Loader from "../../components/loader/Loader";
-import { BiLike } from "react-icons/bi";
+import { BiLike, BiSolidLike } from "react-icons/bi";
 import { FaBookmark, FaRegComment, FaShare } from "react-icons/fa";
 import { getCommentsByTrendId, sendUserComment } from "../../utils/comments";
 import { format, formatDistanceToNow } from "date-fns";
@@ -209,7 +209,7 @@ const TrendPage = ({ params }: Params) => {
               onClick={handleLike}
               disabled={isLiking}
               className={isLike ? "active" : ""}>
-              <BiLike /> {trendData?.likes}
+              {isLike ? <BiSolidLike /> : <BiLike />} {trendData?.likes}
             </button>
             <button>
               <FaRegComment /> {comments?.length}
