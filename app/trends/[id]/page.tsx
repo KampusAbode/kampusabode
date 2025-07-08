@@ -127,7 +127,7 @@ const TrendPage = ({ params }: Params) => {
       if (navigator.share) {
         await navigator.share({
           title: trendData?.title || "Check out this trend",
-          text: "Check this out 👀",
+          text: `${trendData?.title} /n/n`,
           url: trendUrl,
         });
         toast.success("Link shared!");
