@@ -61,9 +61,12 @@
   color: var(--font-color-p);
   cursor: pointer;
 }
-.trend-details-page .container .interaction-buttons button.active i{
-          fill: var(--font-color-h);
+.trend-details-page .container .interaction-buttons button.active svg{
+          fill: var(--font-color-p;
           font-size: var(--font-size-lg);
+}
+.trend-details-page .container .interaction-buttons button.active svg path{
+          fill: var(--font-color-h);
 }
 .trend-details-page .container .trend-description {
   margin-block: var(--spacing-2x);
