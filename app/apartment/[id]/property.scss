@@ -7,7 +7,7 @@
         gap: var(--spacing);
 
         .display-image {
-          height: 65vh;
+          height: 70vh;
           display: flex;
           place-items: center;
           padding-bottom: var(--spacing);
@@ -375,7 +375,7 @@
           grid-template-columns: 1fr;
 
           .display-image {
-            height: 60vh;
+            height: 65vh;
 
             .image-pagination {
               .left,
@@ -445,7 +445,7 @@
       .property-images {
         .container {
           .display-image {
-            height: 50vh;
+            height: 57vh;
           }
         }
       }
