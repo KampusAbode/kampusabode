@@ -4,7 +4,7 @@
   gap: var(--spacing);
 }
 .properties-details-page .prop-image-details .property-images .container .display-image {
-  height: 65vh;
+  height: 70vh;
   display: flex;
   place-items: center;
   padding-bottom: var(--spacing);
@@ -330,7 +330,7 @@
     margin: 0;
   }
   .properties-details-page .prop-image-details .property-images .container .display-image {
-    height: 60vh;
+    height: 65vh;
   }
   .properties-details-page .prop-image-details .property-images .container .display-image .image-pagination .left,
   .properties-details-page .prop-image-details .property-images .container .display-image .image-pagination .right {
@@ -383,6 +383,6 @@
 }
 @media screen and (max-width: 480px) {
   .properties-details-page .prop-image-details .property-images .container .display-image {
-    height: 50vh;
+    height: 57vh;
   }
 }/*# sourceMappingURL=property.css.map */
