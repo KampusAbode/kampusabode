@@ -30,7 +30,7 @@
   color: var(--white);
 }
 .trend-details-page .container .trend-image {
-  height: 200px;
+  height: 450px;
   border-radius: var(--border-radius);
   overflow: hidden;
   margin: var(--spacing-2x) 0;
