@@ -42,7 +42,7 @@
 }
 @media screen and (min-width: 768px) {
   .trend-details-page .container .trend-image {
-    height: 400px;
+    height: 480px;
   }
 }
 .trend-details-page .container .interaction-buttons {
