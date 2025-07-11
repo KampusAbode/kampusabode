@@ -2,13 +2,9 @@
 
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
-import { FaThumbsUp } from "react-icons/fa6";
 import { TrendType } from "../../../fetch/types";
 import "./trendCard.css";
-import { formatNumber } from "../../../utils";
 import Link from "next/link";
-import { updateLikes } from "../../../utils";
-import CryptoJS from "crypto-js";
 
 interface TrendCardProp {
   trendData: TrendType;
@@ -16,9 +12,6 @@ interface TrendCardProp {
 
 // const TrendCard: React.FC<TrendCardProp> = ({ trendData }) => {
 const TrendCard = ({ trendData }) => {
-  const [likes, setLikes] = useState<number>(trendData.likes || 0);
-  const [userAction, setUserAction] = useState<"like" | "unlike">("unlike");
-  const [loading, setLoading] = useState<boolean>(false);
   const [snippet, setSnippet] = useState<string>("");
 
   useEffect(() => {

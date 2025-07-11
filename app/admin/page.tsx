@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useSwipeable } from "react-swipeable";
+
 import Loader from "../components/loader/Loader";
 import UserManagement from "../components/admin/UserManagement";
 import PropertyManagement from "../components/admin/PropertyManagement";
@@ -9,11 +11,11 @@ import ReviewManagement from "../components/admin/ReviewManagement";
 import Analytics from "../components/admin/Analytics";
 import Notifications from "../components/admin/Notifications";
 import AgentList from "../components/admin/AgentList";
-import { checkIsAdmin } from "../utils";
-import "./admin.css";
-import { useUserStore } from "../store/userStore";
-import { useUsersStore } from "../store/usersStore";
 import Trends from "../components/admin/TrendManagement";
+
+import { checkIsAdmin } from "../utils";
+import { useUserStore } from "../store/userStore";
+import "./admin.css";
 
 const pages = [
   "users",
@@ -44,17 +46,14 @@ export default function AdminPage() {
     async function checkUserPermissions(userId: string) {
       try {
         const admin = await checkIsAdmin(userId);
-
-        if (admin) {
-          setIsAdmin(true);
-        }
+        if (admin) setIsAdmin(true);
       } catch (error) {
         console.error("Failed to check user permissions:", error);
       }
     }
+
     checkUserPermissions(user?.id);
 
-    // Redirect away if not admin
     if (isAdmin) {
       router.push("/apartment");
       return;
@@ -63,10 +62,25 @@ export default function AdminPage() {
     setLoading(false);
   }, []);
 
-  // Whenever currentPage changes, update the URL query parameter
   useEffect(() => {
     router.push(`/admin?page=${currentPage}`);
   }, [currentPage, router]);
+
+  // Swipe logic
+  const currentIndex = pages.indexOf(currentPage);
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => {
+      if (currentIndex < pages.length - 1) {
+        setCurrentPage(pages[currentIndex + 1]);
+      }
+    },
+    onSwipedRight: () => {
+      if (currentIndex > 0) {
+        setCurrentPage(pages[currentIndex - 1]);
+      }
+    },
+    trackMouse: true,
+  });
 
   if (loading) return <Loader />;
   if (!isAdmin) return null;
@@ -86,7 +100,8 @@ export default function AdminPage() {
             </button>
           ))}
         </nav>
-        <section className="dashboard-content">
+
+        <section className="dashboard-content" {...swipeHandlers}>
           {currentPage === "users" && <UserManagement />}
           {currentPage === "properties" && <PropertyManagement />}
           {currentPage === "reviews" && <ReviewManagement />}

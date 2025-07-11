@@ -17,7 +17,6 @@ import { usePropertiesStore } from "./store/propertiesStore";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
-
 const { homeSection } = data;
 const { hero, about, testimonials } = homeSection;
 
@@ -33,34 +32,29 @@ export default function App() {
     return () => unsubscribe();
   }, [setProperties]);
 
-  
-//   useEffect(() => {
-//   gsap.registerPlugin(ScrollTrigger);
+  //   useEffect(() => {
+  //   gsap.registerPlugin(ScrollTrigger);
 
-//   gsap.utils
-//     .toArray<HTMLElement>(
-//       ".heading, .service, .pd, .testimonial-card, .trend, .cta-section, .hero-content"
-//     )
-//     .forEach((el) => {
-//       gsap.from(el, {
-//         opacity: 0,
-//         y: 50,
-//         duration: 0.5,
-//         ease: "power2.out",
-//         scrollTrigger: {
-//           trigger: el,
-//           start: "top 90%",
-//           toggleActions: "play none none none",
-//         },
-//       });
-//     });
+  //   gsap.utils
+  //     .toArray<HTMLElement>(
+  //       ".heading, .service, .pd, .testimonial-card, .trend, .cta-section, .hero-content"
+  //     )
+  //     .forEach((el) => {
+  //       gsap.from(el, {
+  //         opacity: 0,
+  //         y: 50,
+  //         duration: 0.5,
+  //         ease: "power2.out",
+  //         scrollTrigger: {
+  //           trigger: el,
+  //           start: "top 90%",
+  //           toggleActions: "play none none none",
+  //         },
+  //       });
+  //     });
 
-  
-//   ScrollTrigger.refresh();
-// }, []);
-
-  
-
+  //   ScrollTrigger.refresh();
+  // }, []);
 
   useEffect(() => {
     // Fetch trends using allTrends function and update local state
@@ -70,8 +64,15 @@ export default function App() {
 
     return () => unsubscribe();
   }, []);
-  
- 
+
+  const extractFirstParagraph = (html: string): string => {
+    if (typeof window === "undefined") return "";
+    const div = document.createElement("div");
+    div.innerHTML = html || "";
+    const firstP = div.querySelector("p");
+    return firstP ? firstP.outerHTML : `<p>${html}</p>`;
+  };
+
   return (
     <>
       <section className="hero-section">
@@ -148,30 +149,34 @@ export default function App() {
             </p>
           </div>
           <div className="properties">
-            {properties.slice(0, 3).map((prop) => (
-              <div key={prop.id} className="pd">
-                <Image
-                  priority
-                  src={prop.images[0]}
-                  width={1000}
-                  height={1000}
-                  alt="property image"
-                />
-                <div className="ct">
-                  <p
-                    dangerouslySetInnerHTML={{
-                      __html: prop.description,
-                    }}
+            {properties.slice(0, 3).map((prop) => {
+              const snippet = extractFirstParagraph(prop?.description);
+
+              return (
+                <div key={prop.id} className="pd">
+                  <Image
+                    priority
+                    src={prop.images[0]}
+                    width={1000}
+                    height={1000}
+                    alt="property image"
                   />
-                  <div>
-                    <h5>{prop.title}</h5>
-                    <Link href={prop.url} className="btn">
-                      check out <FaArrowRightLong />
-                    </Link>
+                  <div className="ct">
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: snippet,
+                      }}
+                    />
+                    <div>
+                      <h5>{prop.title}</h5>
+                      <Link href={prop.url} className="btn">
+                        check out <FaArrowRightLong />
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
           <div className="more-listing">
             <Link href="/apartment">
