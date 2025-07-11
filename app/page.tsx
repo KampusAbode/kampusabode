@@ -158,7 +158,11 @@ export default function App() {
                   alt="property image"
                 />
                 <div className="ct">
-                  <p>{prop.description}</p>
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html: prop.description,
+                    }}
+                  />
                   <div>
                     <h5>{prop.title}</h5>
                     <Link href={prop.url} className="btn">
@@ -236,7 +240,7 @@ export default function App() {
           </div>
           <div className="trends">
             {trends.slice(0, 3).map((trendData) => (
-              <TrendCard key={trendData.id} trendData={trendData}/>
+              <TrendCard key={trendData.id} trendData={trendData} />
             ))}
           </div>
         </div>

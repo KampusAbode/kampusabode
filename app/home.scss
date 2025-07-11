@@ -112,7 +112,7 @@
 
 /* ========== service section open ========== */
 .service-section {
-  padding-block: var(--spacing-3x);
+  padding-block: var(--spacing-s);
   position: relative;
   z-index: 1;
 
@@ -252,7 +252,7 @@
 /* ========== recent section open ========== */
 .recent-property-section {
   position: relative;
-  padding-block: var(--spacing-3x);
+  padding-block: var(--spacing-s);
   .container {
     margin-top: 2rem;
     .properties {
@@ -361,7 +361,7 @@
 .quote-section {
   position: relative;
   background-color: #f4f4f4;
-  padding-block: var(--spacing-3x);
+  padding-block: var(--spacing-s);
 
   svg {
     margin-bottom: var(--spacing);
@@ -373,7 +373,7 @@
 .testimonials-section {
   position: relative;
   overflow: hidden;
-  padding-block: var(--spacing-3x);
+  padding-block: var(--spacing-s);
 
   &::before {
     content: "";
@@ -467,7 +467,7 @@
 
 /* ========== trends section open ========== */
 .trends-section {
-  padding-block: var(--spacing-3x);
+  padding-block: var(--spacing-s);
   .trends {
     display: grid;
 
