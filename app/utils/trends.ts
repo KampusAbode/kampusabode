@@ -109,6 +109,65 @@ export const fetchTrendBySlug = async (trendSlug: string) => {
   }
 };
 
+
+
+export async function uploadTrend({
+  title,
+  content,
+  category,
+  image,
+  author,
+}: {
+  title: string;
+  content: string;
+  category: string;
+  image: File | string;
+  author: string;
+}): Promise<TrendType> {
+  const trendRef = collection(db, "trends");
+
+  // Generate slug
+  const slug = title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+
+  // Upload image to Appwrite
+  let imageUrl: string;
+
+  if (typeof image === "string") {
+    imageUrl = image; // already uploaded URL
+  } else {
+    imageUrl = await uploadImageToAppwrite(
+      image,
+      process.env.NEXT_PUBLIC_APPWRITE_TREND_BUCKET_ID
+    );
+  }
+
+
+  const newTrendId = ID.unique();
+  const docRef = doc(trendRef, newTrendId);
+
+  const trendData: TrendType = {
+    id: newTrendId,
+    slug,
+    title,
+    content,
+    author,
+    image: imageUrl,
+    likes: 0,
+    published_date: new Date().toISOString(),
+    category,
+  };
+
+  await setDoc(docRef, trendData);
+  return trendData;
+}
+
+
+
 export async function updateTrend({
   id,
   title,
@@ -165,6 +224,7 @@ export async function updateTrend({
   await setDoc(docRef, trendData, { merge: true });
   return trendData;
 }
+
 
 // async function removeDuplicateDocuments(collectionName: string, filterBy: string) {
 //   try {

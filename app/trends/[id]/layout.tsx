@@ -2,7 +2,8 @@
 import { ReactNode } from "react";
 import { Metadata } from "next";
 import { useTrendStore } from "../../store/trendStore";
-
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../../lib/firebaseConfig";
 
 type LayoutProps = {
   children: ReactNode;
@@ -14,12 +15,10 @@ export async function generateMetadata({
 }: {
   params: { id: string };
 }): Promise<Metadata> {
-  const slug = params.id;
+  const q = query(collection(db, "trends"), where("slug", "==", params.id));
+  const snapshot = await getDocs(q);
 
-    const trendDetails = useTrendStore.getState().getTrendBySlug(slug);
-    
-    
-  if (!trendDetails) {
+  if (snapshot.empty) {
     return {
       title: "trend Not Found - Kampusabode",
       description: "Sorry, the trend you're looking for does not exist.",
@@ -44,13 +43,12 @@ export async function generateMetadata({
     };
   }
 
+  const trendDetails = snapshot.docs[0].data();
   const title = `${trendDetails.title} - at Kampusabode`;
   const description =
-    trendDetails.content ||
-    "Find quality student apartments on Kampusabode.";
+    trendDetails.content || "Find quality student apartments on Kampusabode.";
   const image =
-    trendDetails.image ||
-    "https://kampusabode.com/LOGO/logored_white.jpg";
+    trendDetails.image || "https://kampusabode.com/LOGO/logored_white.jpg";
 
   return {
     title,
