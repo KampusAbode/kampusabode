@@ -87,8 +87,7 @@
     }
 
     .comments-section {
-      margin-top: var(--spacing-s);
-      margin-bottom: var(--spacing-s);
+      margin-block: var(--spacing-s);
       padding: var(--spacing);
       background: var(--light-gray);
       border-radius: var(--border-radius);
