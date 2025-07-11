@@ -126,7 +126,7 @@ export async function migrateUsers(): Promise<{
 
       migratedCount++;
 
-      console.log(`✅ Migrated user: ${userId}`);
+      // console.log(`✅ Migrated user: ${userId}`);
     } catch (error: any) {
       console.error(`❌ Failed to migrate user ${userId}:`, error.message);
       failedUserIds.push({ id: userId, reason: error.message });
@@ -135,9 +135,9 @@ export async function migrateUsers(): Promise<{
 
   if (migratedCount > 0) {
     await batch.commit();
-    console.log(`🔥 Batch committed: ${migratedCount} users updated.`);
+    // console.log(`🔥 Batch committed: ${migratedCount} users updated.`);
   } else {
-    console.log(`⚠️ No users needed migration.`);
+    // console.log(`⚠️ No users needed migration.`);
   }
 
   return { migratedCount, migratedUserIds, failedUserIds };
@@ -146,7 +146,7 @@ export async function migrateUsers(): Promise<{
 if (require.main === module) {
   migrateUsers()
     .then((result) => {
-      console.log("✅ Migration completed:", result);
+      // console.log("✅ Migration completed:", result);
     })
     .catch((err) => {
       console.error("❌ Migration failed:", err);

@@ -47,7 +47,7 @@ const UserManagement = () => {
     try {
       await assignUserRole(username, userId, role, assignedBy);
       toast.success(`Successfully assigned ${role} role to ${username}`);
-      console.log(`Successfully assigned ${role} role to user ${userId}`);
+      // console.log(`Successfully assigned ${role} role to user ${userId}`);
     } catch (error) {
       toast.error(`Failed to assign ${role} role to ${username}`);
       console.error(`Error assigning ${role} role to user ${userId}:`, error);

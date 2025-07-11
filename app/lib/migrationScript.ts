@@ -18,7 +18,7 @@ async function migrateUsers() {
   const snapshot = await usersRef.get();
 
   if (snapshot.empty) {
-    console.log("No users found.");
+    // console.log("No users found.");
     return;
   }
 
@@ -30,7 +30,7 @@ async function migrateUsers() {
 
     // Skip if already migrated
     if (user.userInfo && user.userType) {
-      console.log(`User ${userId} already migrated.`);
+      // console.log(`User ${userId} already migrated.`);
       return;
     }
 
@@ -64,11 +64,11 @@ async function migrateUsers() {
     };
 
     batch.update(usersRef.doc(userId), newUser);
-    console.log(`Prepared migration for user ${userId}`);
+    // console.log(`Prepared migration for user ${userId}`);
   });
 
   await batch.commit();
-  console.log("Migration completed.");
+  // console.log("Migration completed.");
 }
 
 migrateUsers().catch((err) => {

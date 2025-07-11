@@ -26,8 +26,8 @@ const Trends = () => {
 
     if (trends.length === 0) {
         setTrends(null);
-        console.log("Fetching trends...");
-        console.log(trends);
+        // console.log("Fetching trends...");
+        // console.log(trends);
     }
   }, [router, user]);
 

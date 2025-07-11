@@ -29,7 +29,6 @@ const PropertyDetails = ({
   params: { id: string };
   }) => {
   const { id } = params;
-  console.log("Property ID:", id);
   const [agentDetails, setAgentDetails] = useState<UserType>();
   const [agentPropertyListings, setAgentPropertyListings] = useState<
     ApartmentType[]

@@ -223,9 +223,9 @@ const UploadProperty = () => {
     });
     setFormHelpers(helpers);
     setPromptOpen(true);
-    console.log("Submitting values:", {
-      ...values,
-    });
+    // console.log("Submitting values:", {
+    //   ...values,
+    // });
     
   };
 

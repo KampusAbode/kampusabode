@@ -178,7 +178,7 @@ export async function assignUserRole(
     // Upsert the role
     await setDoc(userRoleRef, roleData, { merge: true });
 
-    console.log(`Assigned role '${role}' to user ${userId}`);
+    // console.log(`Assigned role '${role}' to user ${userId}`);
   } catch (error) {
     console.error("Error assigning user role:", error);
     throw error;
