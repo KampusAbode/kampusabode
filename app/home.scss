@@ -296,7 +296,7 @@
 
           z-index: 2;
 
-          h5,
+          h6,
           p {
             overflow: hidden;
             text-overflow: ellipsis;
@@ -316,7 +316,7 @@
             justify-content: space-between;
             gap: var(--spacing);
             margin-top: var(--spacing);
-            h5 {
+            h6 {
               color: var(--font-white);
             }
             .btn {
@@ -669,7 +669,7 @@
   /* ========== footer section open ========== */
   .footer {
     display: block;
-    margin-block: var(--spacing-3x);
+    margin-bottom: var(--spacing-s);
   }
   /* ========== footer section close ========== */
 }

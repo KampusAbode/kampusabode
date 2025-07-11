@@ -168,7 +168,7 @@ export default function App() {
                       }}
                     />
                     <div>
-                      <h5>{prop.title}</h5>
+                      <h6>{prop.title}</h6>
                       <Link href={prop.url} className="btn">
                         check out <FaArrowRightLong />
                       </Link>

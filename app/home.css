@@ -256,7 +256,7 @@
   right: 0;
   z-index: 2;
 }
-.recent-property-section .container .properties .pd .ct h5,
+.recent-property-section .container .properties .pd .ct h6,
 .recent-property-section .container .properties .pd .ct p {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -275,7 +275,7 @@
   gap: var(--spacing);
   margin-top: var(--spacing);
 }
-.recent-property-section .container .properties .pd .ct div h5 {
+.recent-property-section .container .properties .pd .ct div h6 {
   color: var(--font-white);
 }
 .recent-property-section .container .properties .pd .ct div .btn {
@@ -542,7 +542,7 @@
   /* ========== footer section open ========== */
   .footer {
     display: block;
-    margin-block: var(--spacing-3x);
+    margin-bottom: var(--spacing-s);
   }
   /* ========== footer section close ========== */
 }/*# sourceMappingURL=home.css.map */
