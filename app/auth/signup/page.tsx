@@ -99,7 +99,7 @@ const SignupPage = () => {
       if (response?.user) {
         await sendEmailVerification(response.user);
       }
-      toast.success(`${response.message} 🎉`);
+      toast.success(`${response.message} 🎉`, {id: "email-sent"});
       router.push("/auth/verify-email");
       // router.push("/auth/login");
     } catch (error: any) {

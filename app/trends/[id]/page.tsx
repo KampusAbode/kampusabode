@@ -75,7 +75,9 @@ const TrendPage = ({ params }: Params) => {
         const likeDoc = await getDoc(likeRef);
         setIsLike(likeDoc.exists());
       } catch (error) {
-        toast.error(error.message || "Failed to fetch trend data.");
+        toast.error(error.message || "Failed to fetch trend data.", {
+          id: "trend-error",
+        });
       } finally {
         setLoading(false);
       }
@@ -95,7 +97,9 @@ const TrendPage = ({ params }: Params) => {
 
   const handleLike = async () => {
     if (!user) {
-      toast.error("Please sign in to like this trend.");
+      toast.error("Please sign in to like this trend.", {
+        id: "trend-error",
+      });
       return;
     }
     if (isLiking) return;
@@ -123,7 +127,9 @@ const TrendPage = ({ params }: Params) => {
         toast.success("Liked!");
       }
     } catch (error) {
-      toast.error("Failed to update like.");
+      toast.error("Failed to update like.", {
+        id: "trend-error",
+      });
     } finally {
       setTimeout(() => setIsLiking(false), 500);
     }
@@ -138,24 +144,29 @@ const TrendPage = ({ params }: Params) => {
           text: `${trendData?.title}\n\nRead more here:\n`,
           url: trendUrl,
         });
-        toast.success("Link shared!");
       } else {
         await navigator.clipboard.writeText(trendUrl);
         toast.success("Link copied!");
       }
     } catch {
-      toast.error("Could not share this trend.");
+      toast.error("Could not share this trend.", {
+        id: "trend-error",
+      });
     }
   };
 
   const handleCommentSubmit = async () => {
     if (!user) {
-      toast.error("Please sign in to add a comment.");
+      toast.error("Please sign in to add a comment.", {
+        id: "trend-error",
+      });
       return;
     }
 
     if (!content.trim()) {
-      toast.error("Comment cannot be empty.");
+      toast.error("Comment cannot be empty.", {
+        id: "trend-error",
+      });
       return;
     }
 
@@ -175,7 +186,9 @@ const TrendPage = ({ params }: Params) => {
       setContent("");
       toast.success("Comment added!");
     } catch {
-      toast.error("Failed to send comment.");
+      toast.error("Failed to send comment.", {
+        id: "trend-error",
+      });
     } finally {
       setIsSending(false);
     }

@@ -45,10 +45,10 @@ const BookmarkButton = ({ propertyId }: { propertyId: string }) => {
       // Update state
       if (newBookmarkState) {
         addBookmark(propertyId);
-        toast.success("Apartment added to bookmarks.");
+        toast.success("Apartment added to bookmarks.", {id: "bookmarked"});
       } else {
         removeBookmark(propertyId);
-        toast.success("Apartment removed from bookmarks.");
+        toast.success("Apartment removed from bookmarks.", {id: "bookmarked"});
       }
 
       setIsBookmarked(newBookmarkState);

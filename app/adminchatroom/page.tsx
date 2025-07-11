@@ -54,14 +54,14 @@ const AdminChat = () => {
     checkUserPermissions(user?.id);
 
     if (!isAdmin) {
-      toast.error("Access denied: Admins only");
+      toast.error("Access denied: Admins only", {id: "admin-access"});
       router.replace("/apartment");
       return;
     } else {
       setAuthorized(true);
     }
 
-    toast.success("Access granted!");
+    toast.success("Access granted!", {id: "admin-access"});
 
     const unsubscribe = getAllMessages((fetchedMessages) => {
       const sortedMessages = fetchedMessages.sort((a, b) => {

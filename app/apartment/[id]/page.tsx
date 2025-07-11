@@ -153,7 +153,7 @@ const PropertyDetails = ({
       // const emailSent = await sendInspectionEmail(data);
 
       // if (emailSent.success) {
-      //   toast.success("Email sent successfully! Redirecting to WhatsApp...");
+      //   toast.success("Email sent successfully! Redirecting to WhatsApp...", {id: "email-success"  });
       //   console.log("Email sent successfully:", emailSent.message);
       //   console.log("Twilio Message ID:", emailSent.twilioMessageId);
 
@@ -181,7 +181,7 @@ const PropertyDetails = ({
         }?text=${encodeURIComponent(message)}`
       );
 
-      toast.success("Redirecting to WhatsApp...");
+      toast.success("Redirecting to WhatsApp...", { id: "whatsapp-redirect" });
       setInspectionModelOpen(false);
     } catch (err) {
       toast.error(err.message || "Failed to book inspection");

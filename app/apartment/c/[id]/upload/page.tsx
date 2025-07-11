@@ -264,7 +264,7 @@ const UploadProperty = () => {
 
       const response = await listApartment(payload);
 
-      toast.success(response.success || "Property uploaded successfully");
+      toast.success(response.success || "Property uploaded successfully", {id: "property-upload-success"});
       if (user?.userType === "agent") addListedProperty(response.id);
 
       formHelpers.resetForm();

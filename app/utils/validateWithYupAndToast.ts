@@ -24,7 +24,9 @@ export function validateWithYupAndToast<T extends object>(
         const message = firstError.message;
 
         errors[path] = message;
-        toast.error(message);
+        toast.error(message, {
+          id: "validation-error",
+        });
       }
     }
 

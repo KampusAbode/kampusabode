@@ -68,7 +68,7 @@ function UploadTrend() {
       toast.error(
         fieldName === "Image"
           ? "Please upload an image."
-          : `Please enter a valid ${fieldName}.`
+          : `Please enter a valid ${fieldName}.`, {id: "upload-error"}
       );
       return;
     }

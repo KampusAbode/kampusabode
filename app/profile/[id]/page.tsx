@@ -190,7 +190,7 @@ const CreateProfilePage = () => {
     e.preventDefault();
 
     if (!validateBeforeSubmit()) {
-      toast.error("Please fix errors before submitting.");
+      toast.error("Please fill in the required input before submitting.");
       return;
     }
 

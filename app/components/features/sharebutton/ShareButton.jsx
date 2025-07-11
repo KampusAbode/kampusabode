@@ -19,14 +19,18 @@ function ShareButton() {
     if (navigator.share) {
       try {
         await navigator.share(shareData);
-        toast.success("Property shared successfully!"); // Success toast
+        toast.success("Property shared successfully!", {
+          id: "prop-upload-success",
+        }); // Success toast
       } catch (error) {
         toast.error("Failed to share. Please try again."); // Error toast
       }
     } else {
       try {
         await navigator.clipboard.writeText(shareData.url);
-        toast.success("Link copied to clipboard!"); // Success toast
+        toast.success("Link copied to clipboard!", {
+          id: "prop-upload-success",
+        }); // Success toast
       } catch (error) {
         toast.error("Failed to copy the link. Please try again."); // Error toast
       }
