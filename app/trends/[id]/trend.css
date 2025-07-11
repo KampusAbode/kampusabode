@@ -1,18 +1,23 @@
+.trend-details-page {
+  position: relative;
+}
 .trend-details-page .container {
-  padding-block: var(--spacing-2x);
+  margin-bottom: var(--spacing-3x);
 }
 .trend-details-page .container li {
   list-style-type: circle;
   margin-block: var(--spacing-h);
   margin-left: var(--spacing);
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1000px) {
   .trend-details-page .container {
-    width: 70%;
-  }
-  .trend-details-page .container .trend-details .title {
-    width: 80%;
-    margin: auto 0;
+    padding-block: var(--spacing);
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    align-items: flex-start;
+    gap: var(--spacing);
+    width: 95%;
+    max-width: 1200px !important;
   }
 }
 .trend-details-page .container .trend-details {
@@ -21,7 +26,10 @@
   align-items: center;
   gap: var(--spacing);
   text-align: center;
-  margin-top: var(--spacing-3x);
+  margin-top: var(--spacing-5x);
+}
+.trend-details-page .container .trend-details h3 {
+  max-width: 500px;
 }
 .trend-details-page .container .trend-details .category {
   padding: var(--spacing-h);
@@ -29,8 +37,13 @@
   background-color: var(--primary-color);
   color: var(--white);
 }
+@media screen and (min-width: 1000px) {
+  .trend-details-page .container .trend-details {
+    margin-top: 0;
+  }
+}
 .trend-details-page .container .trend-image {
-  height: 420px;
+  height: 250px;
   border-radius: var(--border-radius);
   overflow: hidden;
   margin: var(--spacing-2x) 0;
@@ -42,7 +55,7 @@
 }
 @media screen and (min-width: 768px) {
   .trend-details-page .container .trend-image {
-    height: 480px;
+    height: 350px;
   }
 }
 .trend-details-page .container .interaction-buttons {
@@ -75,36 +88,45 @@
 }
 .trend-details-page .container .comments-section {
   margin-top: var(--spacing-s);
-  margin-bottom: var(--spacing-2x);
+  margin-bottom: var(--spacing-s);
   padding: var(--spacing);
   background: var(--light-gray);
   border-radius: var(--border-radius);
-  max-width: 500px;
+  position: sticky;
+  top: 0;
+}
+@media screen and (max-width: 1000px) {
+  .trend-details-page .container .comments-section {
+    position: initial;
+  }
 }
 .trend-details-page .container .comments-section .comments-list {
-  margin-block: var(--spacing);
+  margin-bottom: var(--spacing-h);
+  max-height: 260px;
+  overflow: scroll;
 }
 .trend-details-page .container .comments-section .comments-list .comment {
-  padding: var(--spacing);
-  background-color: var(--light-gray);
   border-radius: var(--border-radius);
   margin-block: var(--spacing);
+  background-color: white;
 }
 .trend-details-page .container .comments-section .comments-list .comment .top {
   display: flex;
-  gap: var(--spacing);
+  gap: var(--spacing-h);
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--spacing);
+  padding: var(--spacing-h);
+  border-bottom: var(--border);
+  border-color: var(--gray);
 }
 .trend-details-page .container .comments-section .comments-list .comment .top div {
   display: flex;
-  gap: var(--spacing);
+  gap: var(--spacing-h);
   align-items: center;
 }
 .trend-details-page .container .comments-section .comments-list .comment .top div img {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 100%;
@@ -113,16 +135,22 @@
   font-size: var(--font-size-xs);
 }
 .trend-details-page .container .comments-section .comments-list .comment .comment-content {
-  font-size: var(--font-size-sm);
+  padding: var(--spacing-h);
+  font-size: var(--font-size-xs);
 }
 .trend-details-page .container .comments-section .send-comment textarea {
   width: 100%;
-  max-width: 100%;
   padding: var(--spacing);
-  border: var(--border);
+  background-color: white;
   border-radius: var(--border-radius);
-  margin-block: var(--spacing);
+  box-shadow: var(--shadow);
+  border: none;
 }
 .trend-details-page .container .comments-section .send-comment .btn {
   width: 100%;
+}
+@media screen and (min-width: 1000px) {
+  .trend-details-page .container .comments-section {
+    margin: 0;
+  }
 }/*# sourceMappingURL=trend.css.map */

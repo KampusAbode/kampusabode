@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   doc,
   updateDoc,
@@ -14,7 +14,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../lib/firebaseConfig";
 import { TrendType, CommentType } from "../../fetch/types";
-import { fetchTrendBySlug } from "../../utils";
+import { fetchTrendBySlug, getRelativeTime } from "../../utils";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import Loader from "../../components/loader/Loader";
@@ -28,7 +28,6 @@ import { useUserStore } from "../../store/userStore";
 type Params = {
   params: { id: string };
 };
-
 
 const TrendPage = ({ params }: Params) => {
   const slug = params.id;
@@ -87,6 +86,13 @@ const TrendPage = ({ params }: Params) => {
     return () => unsubscribe(); // ✅ Clean up listener
   }, [slug, user]);
 
+
+  const commentsRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToComments = () => {
+    commentsRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   const handleLike = async () => {
     if (!user) {
       toast.error("Please sign in to like this trend.");
@@ -113,7 +119,7 @@ const TrendPage = ({ params }: Params) => {
         });
         await updateDoc(trendRef, { likes: increment(1) });
         setTrendData({ ...trendData, likes: trendData.likes + 1 });
-        setIsLike(true)
+        setIsLike(true);
         toast.success("Liked!");
       }
     } catch (error) {
@@ -124,24 +130,23 @@ const TrendPage = ({ params }: Params) => {
   };
 
   const handleShare = async () => {
-  const trendUrl = `${window.location.origin}/trends/${trendData?.slug}`;
-  try {
-    if (navigator.share) {
-      await navigator.share({
-        title: trendData?.title || "Check out this trend",
-        text: `${trendData?.title}\n\nRead more here:\n`,
-        url: trendUrl,
-      });
-      toast.success("Link shared!");
-    } else {
-      await navigator.clipboard.writeText(trendUrl);
-      toast.success("Link copied!");
+    const trendUrl = `${window.location.origin}/trends/${trendData?.slug}`;
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: trendData?.title || "Check out this trend",
+          text: `${trendData?.title}\n\nRead more here:\n`,
+          url: trendUrl,
+        });
+        toast.success("Link shared!");
+      } else {
+        await navigator.clipboard.writeText(trendUrl);
+        toast.success("Link copied!");
+      }
+    } catch {
+      toast.error("Could not share this trend.");
     }
-  } catch {
-    toast.error("Could not share this trend.");
-  }
-};
-
+  };
 
   const handleCommentSubmit = async () => {
     if (!user) {
@@ -176,61 +181,58 @@ const TrendPage = ({ params }: Params) => {
     }
   };
 
-  const getRelativeTime = (date: Date) => {
-    const relative = formatDistanceToNow(date, { addSuffix: true });
-    return relative.includes("less than a minute") ? "just now" : relative;
-  };
-
   return (
     <div className="trend-details-page">
       {!loading ? (
         <div className="container">
-          <div className="trend-details">
-            <span className="category">{trendData?.category}</span>
-            <h3 className="title">{trendData?.title}</h3>
-            <span>By {trendData?.author}</span>
-            <span>
-              {trendData?.published_date
-                ? format(new Date(trendData.published_date), "d MMM, yyyy")
-                : "Invalid date"}
-            </span>
-          </div>
+          <div>
+            <div className="trend-details">
+              <span className="category">{trendData?.category}</span>
+              <h3 className="title">{trendData?.title}</h3>
+              <span>By {trendData?.author}</span>
+              <span>
+                {trendData?.published_date
+                  ? format(new Date(trendData.published_date), "d MMM, yyyy")
+                  : "Invalid date"}
+              </span>
+            </div>
 
-          <div className="trend-image">
-            <Image
-              priority
-              src={trendData?.image}
-              width={3000}
-              height={3000}
-              alt="trend image"
-            />
-          </div>
+            <div className="trend-image">
+              <Image
+                priority
+                src={trendData?.image}
+                width={3000}
+                height={3000}
+                alt="trend image"
+              />
+            </div>
 
-          <div className="interaction-buttons">
-            <button
-              onClick={handleLike}
-              disabled={isLiking}
-              className={isLike ? "active" : ""}>
-              {isLike ? <BiSolidLike /> : <BiLike />} {trendData?.likes}
-            </button>
-            <button>
-              <FaRegComment /> {comments?.length}
-            </button>
-            <button onClick={handleShare}>
-              <FaShare /> Share
-            </button>
-            {/*
+            <div className="interaction-buttons">
+              <button
+                onClick={handleLike}
+                disabled={isLiking}
+                className={isLike ? "active" : ""}>
+                {isLike ? <BiSolidLike /> : <BiLike />} {trendData?.likes}
+              </button>
+              <button onClick={scrollToComments}>
+                <FaRegComment /> {comments?.length}
+              </button>
+              <button onClick={handleShare}>
+                <FaShare /> Share
+              </button>
+              {/*
             <button>
               <FaBookmark /> Save
             </button>*/}
+            </div>
+
+            <div
+              className="trend-description"
+              dangerouslySetInnerHTML={{ __html: trendData.content }}
+            />
           </div>
 
-          <div
-            className="trend-description"
-            dangerouslySetInnerHTML={{ __html: trendData.content }}
-          />
-
-          <div className="comments-section">
+          <div ref={commentsRef} className="comments-section">
             <h5>Comments</h5>
             <div className="comments-list">
               {comments.length === 0 ? (

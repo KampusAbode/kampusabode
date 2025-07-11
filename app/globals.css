@@ -65,7 +65,6 @@
   list-style-type: none;
   text-decoration: none;
   scroll-behavior: smooth;
-  font-weight: 500;
 }
 *:focus, *:active {
   outline: none;
@@ -203,6 +202,7 @@ textarea {
   border: var(--border);
   border-radius: var(--border-radius);
   padding: var(--spacing);
+  resize: none;
 }
 
 label {

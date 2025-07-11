@@ -2,7 +2,7 @@
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
   .trend-image {
-    height: 200px;
+    height: 230px;
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
     position: relative;
@@ -42,7 +42,6 @@
         padding: var(--spacing-h);
         border-radius: var(--border-radius);
 
-      
         svg {
           cursor: pointer;
           transition: var(--transition);
@@ -68,7 +67,7 @@
       line-clamp: 2;
       -webkit-box-orient: vertical;
     }
-    p{
+    p {
       font-size: var(--font-size-sm);
     }
   }

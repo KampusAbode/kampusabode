@@ -101,7 +101,6 @@ function EditTrend() {
         content,
         category,
         image,
-        author: user?.name || "Anonymous",
       });
 
       toast.success(`${trend.title} uploaded`);

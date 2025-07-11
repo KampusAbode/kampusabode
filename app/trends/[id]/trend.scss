@@ -1,23 +1,22 @@
 .trend-details-page {
+  position: relative;
   .container {
-    padding-block: var(--spacing-2x);
-
-
-    li{
+    margin-bottom: var(--spacing-3x);
+    
+    li {
       list-style-type: circle;
       margin-block: var(--spacing-h);
       margin-left: var(--spacing);
     }
 
-    @media screen and (min-width: 768px) {
-      width: 70%;
-
-      .trend-details {
-        .title {
-          width: 80%;
-          margin: auto 0;
-        }
-      }
+    @media screen and (min-width: 1000px) {
+      padding-block: var(--spacing);
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      align-items: flex-start;
+      gap: var(--spacing);
+      width: 95%;
+      max-width: 1200px !important  ;
     }
     .trend-details {
       display: flex;
@@ -25,7 +24,11 @@
       align-items: center;
       gap: var(--spacing);
       text-align: center;
-      margin-top: var(--spacing-3x);
+      margin-top: var(--spacing-5x);
+
+      h3{
+        max-width: 500px;
+      }
 
       .category {
         padding: var(--spacing-h);
@@ -33,9 +36,13 @@
         background-color: var(--primary-color);
         color: var(--white);
       }
+
+      @media screen and (min-width: 1000px) {
+        margin-top: 0;
+      }
     }
     .trend-image {
-      height: 280px;
+      height: 250px;
       border-radius: var(--border-radius);
       overflow: hidden;
       margin: var(--spacing-2x) 0;
@@ -45,7 +52,7 @@
       }
 
       @media screen and (min-width: 768px) {
-        height: 400px;
+        height: 350px;
       }
     }
     .interaction-buttons {
@@ -63,7 +70,7 @@
         color: var(--font-color-p);
         cursor: pointer;
 
-        &.active i{
+        &.active i {
           fill: var(--font-color-h);
           font-size: var(--font-size-lg);
         }
@@ -74,39 +81,51 @@
       p {
         margin-bottom: var(--spacing-h);
       }
-      h2{
+      h2 {
         font-size: var(--font-size-lg);
       }
     }
 
     .comments-section {
       margin-top: var(--spacing-s);
-      margin-bottom: var(--spacing-2x);
+      margin-bottom: var(--spacing-s);
       padding: var(--spacing);
       background: var(--light-gray);
       border-radius: var(--border-radius);
-      max-width: 500px;
-      
+
+      position: sticky;
+      top: 0;
+
+      @media screen and (max-width: 1000px) {
+        position: initial;
+      }
       .comments-list {
-        margin-block: var(--spacing);
+        margin-bottom: var(--spacing-h);
+        max-height: 260px;
+        overflow: scroll;
+
+
         .comment {
-          padding: var(--spacing);
-          background-color: var(--light-gray);
           border-radius: var(--border-radius);
           margin-block: var(--spacing);
+          background-color: white;
+          
+          
           .top {
             display: flex;
-            gap: var(--spacing);
+            gap: var(--spacing-h);
             align-items: center;
             justify-content: space-between;
-            margin-bottom: var(--spacing);
+            padding: var(--spacing-h);
+            border-bottom: var(--border);
+            border-color: var(--gray);
             div {
               display: flex;
-              gap: var(--spacing);
+              gap: var(--spacing-h);
               align-items: center;
               img {
-                width: 40px;
-                height: 40px;
+                width: 30px;
+                height: 30px;
                 object-fit: cover;
                 border-radius: 100%;
               }
@@ -115,24 +134,28 @@
               font-size: var(--font-size-xs);
             }
           }
-          .comment-content{
-            font-size: var(--font-size-sm);
+          .comment-content {
+            padding: var(--spacing-h);
+            font-size: var(--font-size-xs);
           }
         }
       }
-      .send-comment{
-        textarea{
+      .send-comment {
+        textarea {
           width: 100%;
-          max-width: 100%;
           padding: var(--spacing);
-          border: var(--border);
+          background-color: white;
           border-radius: var(--border-radius);
-          margin-block: var(--spacing);
-
+          box-shadow: var(--shadow);
+          border: none;
         }
-        .btn{
+        .btn {
           width: 100%;
         }
+      }
+
+      @media screen and (min-width: 1000px) {
+        margin: 0;
       }
     }
   }

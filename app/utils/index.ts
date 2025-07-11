@@ -1,6 +1,7 @@
 import { doc, updateDoc, increment } from "firebase/firestore";
 import { db } from "../lib/firebaseConfig";
 import { ID, storage } from "../lib/appwriteClient";
+import { differenceInDays, differenceInHours, differenceInMinutes, differenceInMonths } from "date-fns";
 
 export * from "./auth";
 export * from "./messages";
@@ -21,6 +22,29 @@ export const formatNumber = (num: number): string => {
     return num.toString();
   }
 };
+
+export const getRelativeTime = (date: Date): string => {
+  const now = new Date();
+  const mins = differenceInMinutes(now, date);
+
+  if (mins < 1) return "just now";
+  if (mins === 1) return "1 min ago";
+  if (mins < 60) return `${mins} mins ago`;
+
+  const hrs = differenceInHours(now, date);
+  if (hrs === 1) return "1 hr ago";
+  if (hrs < 24) return `${hrs} hrs ago`;
+
+  const days = differenceInDays(now, date);
+  if (days === 1) return "1 day ago";
+  if (days < 30) return `${days} days ago`;
+
+  const months = differenceInMonths(now, date);
+  if (months === 1) return "1 month ago";
+  return `${months} months ago`;
+};
+
+
 
 interface UpdateLikesInput {
   id: string;

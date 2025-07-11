@@ -109,8 +109,6 @@ export const fetchTrendBySlug = async (trendSlug: string) => {
   }
 };
 
-
-
 export async function uploadTrend({
   title,
   content,
@@ -146,7 +144,6 @@ export async function uploadTrend({
     );
   }
 
-
   const newTrendId = ID.unique();
   const docRef = doc(trendRef, newTrendId);
 
@@ -166,23 +163,19 @@ export async function uploadTrend({
   return trendData;
 }
 
-
-
 export async function updateTrend({
   id,
   title,
   content,
   category,
   image,
-  author,
 }: {
   id: string;
   title: string;
   content: string;
   category: string;
   image: File | string;
-  author: string;
-}): Promise<TrendType> {
+}): Promise<{ title: string; slug: string }> {
   const trendRef = collection(db, "trends");
 
   // Generate slug
@@ -209,22 +202,18 @@ export async function updateTrend({
   }
   const docRef = doc(trendRef, id);
 
-  const trendData: TrendType = {
+  const trendData = {
     id,
     slug,
     title,
     content,
-    author,
     image: imageUrl,
-    likes: 0,
-    published_date: new Date().toISOString(),
     category,
   };
 
   await setDoc(docRef, trendData, { merge: true });
-  return trendData;
+  return { title, slug };
 }
-
 
 // async function removeDuplicateDocuments(collectionName: string, filterBy: string) {
 //   try {
