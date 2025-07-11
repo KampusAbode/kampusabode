@@ -301,7 +301,7 @@ button {
   cursor: pointer;
   transition: var(--transition);
 }
-.filter-btn:hover, .filter-btn.active {
+.filter-btn.active {
   background-color: var(--black);
   color: var(--font-white);
 }

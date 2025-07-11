@@ -317,7 +317,6 @@ button {
   cursor: pointer;
   transition: var(--transition);
 
-  &:hover,
   &.active {
     background-color: var(--black);
     color: var(--font-white);

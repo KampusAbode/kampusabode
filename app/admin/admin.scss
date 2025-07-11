@@ -39,7 +39,6 @@
         cursor: pointer;
         transition: var(--transition);
 
-        &:hover,
         &.active {
           background-color: var(--black);
           color: var(--font-white);
@@ -49,6 +48,7 @@
     .dashboard-content {
       padding-block: var(--spacing);
       box-shadow: none;
+      min-height: 80vh;
 
       .user-management {
         .input-box {

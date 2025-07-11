@@ -1,13 +1,13 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { UserType } from "../fetch/types";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
 import { db } from "../lib/firebaseConfig";
 
 interface UserState {
-    users: UserType[] | null;
-    
-  setUsers: () => void;
+  users: UserType[] | null;
+
+  setUsers: () => (() => void) | undefined;
 }
 
 export const useUsersStore = create<UserState>()(
@@ -15,30 +15,32 @@ export const useUsersStore = create<UserState>()(
     (set, get) => ({
       users: null,
 
-      setUsers: async () => {
+      setUsers: () => {
         try {
           const usersRef = collection(db, "users");
-          //   const agentsQuery = query(usersRef, where("userType", "==", "agent"));
-          const snapshot = await getDocs(usersRef);
 
-          const users: UserType[] = snapshot.docs.map((doc) => {
-            const data = doc.data() as UserType;
-            return {
-              id: doc.id,
-              name: (data.name as string) || "",
-              email: (data.email as string) || "",
-              bio: (data.bio as string) || "",
-              avatar: (data.avatar as string) || "",
-              phoneNumber: (data.phoneNumber as string) || "",
-              university: (data.university as string) || "",
-              userType: data.userType,
-              userInfo: data.userInfo, 
-            };
+          const unsubscribe = onSnapshot(usersRef, (snapshot) => {
+            const users: UserType[] = snapshot.docs.map((doc) => {
+              const data = doc.data() as UserType;
+              return {
+                id: doc.id,
+                name: data.name || "",
+                email: data.email || "",
+                bio: data.bio || "",
+                avatar: data.avatar || "",
+                phoneNumber: data.phoneNumber || "",
+                university: data.university || "",
+                userType: data.userType,
+                userInfo: data.userInfo,
+              };
+            });
+
+            set({ users });
           });
 
-          set({ users });
+          return unsubscribe;
         } catch (error) {
-          console.error("Error fetching agents:", error);
+          console.error("Error fetching users in real time:", error);
         }
       },
     }),

@@ -16,6 +16,7 @@ import Trends from "../components/admin/TrendManagement";
 import { checkIsAdmin } from "../utils";
 import { useUserStore } from "../store/userStore";
 import "./admin.css";
+import { useUsersStore } from "../store/usersStore";
 
 const pages = [
   "users",
@@ -36,6 +37,7 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
 
   const { user } = useUserStore((state) => state);
+  const { setUsers } = useUsersStore((state) => state);
 
   useEffect(() => {
     if (!user) {
@@ -54,13 +56,24 @@ export default function AdminPage() {
 
     checkUserPermissions(user?.id);
 
-    if (isAdmin) {
+    if (!isAdmin) {
       router.push("/apartment");
       return;
     }
 
     setLoading(false);
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = setUsers();
+
+    return () => {
+      if (unsubscribe) unsubscribe(); 
+    };
+  }, []);
+  
+  
+  
 
   useEffect(() => {
     router.push(`/admin?page=${currentPage}`);

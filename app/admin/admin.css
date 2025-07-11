@@ -37,13 +37,14 @@
   cursor: pointer;
   transition: var(--transition);
 }
-.admin-dashboard .container .dashboard-navigation button:hover, .admin-dashboard .container .dashboard-navigation button.active {
+.admin-dashboard .container .dashboard-navigation button.active {
   background-color: var(--black);
   color: var(--font-white);
 }
 .admin-dashboard .container .dashboard-content {
   padding-block: var(--spacing);
   box-shadow: none;
+  min-height: 80vh;
 }
 .admin-dashboard .container .dashboard-content .user-management .input-box {
   margin-block: var(--spacing);
