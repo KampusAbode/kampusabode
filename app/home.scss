@@ -112,6 +112,7 @@
 
 /* ========== service section open ========== */
 .service-section {
+  padding-block: var(--spacing-3x);
   position: relative;
   z-index: 1;
 
@@ -251,6 +252,7 @@
 /* ========== recent section open ========== */
 .recent-property-section {
   position: relative;
+  padding-block: var(--spacing-3x);
   .container {
     margin-top: 2rem;
     .properties {
@@ -359,6 +361,7 @@
 .quote-section {
   position: relative;
   background-color: #f4f4f4;
+  padding-block: var(--spacing-3x);
 
   svg {
     margin-bottom: var(--spacing);
@@ -370,6 +373,7 @@
 .testimonials-section {
   position: relative;
   overflow: hidden;
+  padding-block: var(--spacing-3x);
 
   &::before {
     content: "";
@@ -463,6 +467,7 @@
 
 /* ========== trends section open ========== */
 .trends-section {
+  padding-block: var(--spacing-3x);
   .trends {
     display: grid;
 
@@ -477,6 +482,8 @@
   background: linear-gradient(to top, #490d58, #ad1bd1);
   color: var(--font-white);
   text-align: center;
+  margin-block: var(--spacing-3x);
+  padding-block: var(--spacing-2x);
 
   position: relative;
   overflow: hidden;
@@ -662,6 +669,7 @@
   /* ========== footer section open ========== */
   .footer {
     display: block;
+    margin-block: var(--spacing-3x);
   }
   /* ========== footer section close ========== */
 }

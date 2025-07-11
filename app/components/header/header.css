@@ -42,6 +42,9 @@ header .container nav .nav-links li a {
   color: var(--font-color);
   transition: var(--transition);
 }
+header .container nav .nav-links li a:hover {
+  color: var(--primary-color);
+}
 header .container nav .cta {
   margin-left: var(--spacing-3x);
 }

@@ -99,6 +99,7 @@
 /* ========== hero section close ========== */
 /* ========== service section open ========== */
 .service-section {
+  padding-block: var(--spacing-3x);
   position: relative;
   z-index: 1;
 }
@@ -215,6 +216,7 @@
 /* ========== recent section open ========== */
 .recent-property-section {
   position: relative;
+  padding-block: var(--spacing-3x);
 }
 .recent-property-section .container {
   margin-top: 2rem;
@@ -307,6 +309,7 @@
 .quote-section {
   position: relative;
   background-color: #f4f4f4;
+  padding-block: var(--spacing-3x);
 }
 .quote-section svg {
   margin-bottom: var(--spacing);
@@ -317,6 +320,7 @@
 .testimonials-section {
   position: relative;
   overflow: hidden;
+  padding-block: var(--spacing-3x);
 }
 .testimonials-section::before {
   content: "";
@@ -391,6 +395,9 @@
 
 /* ========== testimonials section open ========== */
 /* ========== trends section open ========== */
+.trends-section {
+  padding-block: var(--spacing-3x);
+}
 .trends-section .trends {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -403,6 +410,8 @@
   background: linear-gradient(to top, #490d58, #ad1bd1);
   color: var(--font-white);
   text-align: center;
+  margin-block: var(--spacing-3x);
+  padding-block: var(--spacing-2x);
   position: relative;
   overflow: hidden;
   z-index: 1;
@@ -533,6 +542,7 @@
   /* ========== footer section open ========== */
   .footer {
     display: block;
+    margin-block: var(--spacing-3x);
   }
   /* ========== footer section close ========== */
 }/*# sourceMappingURL=home.css.map */
