@@ -13,6 +13,7 @@ import {
   where,
   getDocs,
   getDoc,
+  Timestamp,
 } from "firebase/firestore";
 import { UserSignupInput } from "../auth/signup/page";
 import { UserType } from "../fetch/types";
@@ -154,4 +155,68 @@ export const logoutUser = async () => {
       statusCode: 500,
     };
   }
+};
+
+
+
+export async function assignUserRole(
+  username: string,
+  userId: string,
+  role: "admin" | "writer",
+  assignedBy: string
+) {
+  const userRoleRef = doc(db, "userRoles", userId);
+  const roleData = {
+    username,
+    userId,
+    role,
+    assignedBy,
+    assignedAt: Timestamp.now(),
+  };
+
+  try {
+    // Upsert the role
+    await setDoc(userRoleRef, roleData, { merge: true });
+
+    console.log(`Assigned role '${role}' to user ${userId}`);
+  } catch (error) {
+    console.error("Error assigning user role:", error);
+    throw error;
+  }
+}
+
+export const getUserRole = async (
+  userId: string
+): Promise<"admin" | "writer" | "user"> => {
+  try {
+    if (!userId) {
+      return "user";
+    }
+    const rolesRef = collection(db, "userRoles");
+    const q = query(rolesRef, where("userId", "==", userId));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      return "user"; // default fallback
+    }
+
+    // Assuming one document per userId:
+    const doc = querySnapshot.docs[0];
+    const data = doc.data();
+
+    return data.role === "admin" || data.role === "writer" ? data.role : "user";
+  } catch (err) {
+    console.error("Error fetching user role:", err);
+    return "user";
+  }
+};
+
+export const checkIsAdmin = async (userId: string): Promise<boolean> => {
+  const role = await getUserRole(userId);
+  return role === "admin";
+};
+
+export const checkIsWriter = async (userId: string): Promise<boolean> => {
+  const role = await getUserRole(userId);
+  return role === "admin" || role === "writer"; // admin inherits writer permissions
 };

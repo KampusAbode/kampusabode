@@ -93,8 +93,6 @@ export const uploadImagesToAppwrite = async (
   }
 };
 
-
-
 export const deleteAppwriteImage = async (imageUrl: string) => {
   try {
     const fileId = extractAppwriteFileId(imageUrl);

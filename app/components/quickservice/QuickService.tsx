@@ -7,7 +7,7 @@ import { PiChats } from "react-icons/pi";
 import { FaPlus, FaHeadset } from "react-icons/fa";
 import { BsChatRightText } from "react-icons/bs";
 import { useUserStore } from "../../store/userStore";
-import { checkIsAdmin, checkIsWriter } from "../../utils/user";
+import { checkIsAdmin, checkIsWriter } from "../../utils";
 import { useEffect, useState } from "react";
 
 

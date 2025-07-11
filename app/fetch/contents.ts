@@ -121,6 +121,21 @@ const locations = [
   "road 7",
   "OAU campus"
 ];
+
+const trendcategories = [
+  "Trending",
+  "School updates",
+  "Events",
+  "Sports",
+  "Music & Entertainment",
+  "Football",
+  "Housing",
+  "Tech & Innovations",
+  "Departments",
+  "Housing",
+];
+
+
 const priceRanges = [
   { label: "0 - 200,000", value: [100, 100000] },
   { label: "200,001 - 400,000", value: [100001, 300000] },
@@ -147,6 +162,7 @@ const data = {
   bedroomOptions,
   links,
   universities,
+  trendcategories,
 };
 
 export default data;

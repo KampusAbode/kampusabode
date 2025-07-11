@@ -38,8 +38,8 @@ const CreateProfilePage = () => {
   const { user, setUser } = useUserStore((state) => state);
   // const { deleteAppwriteImage } = useProperties();
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(
-    user?.avatar || "/assets/user_avatar.jpg"
+  const [imagePreview, setImagePreview] = useState<string>(
+    user?.avatar
   );
 
   // Initialize formValues with user data or empty defaults
@@ -63,7 +63,7 @@ const CreateProfilePage = () => {
           (user.userInfo as AgentUserInfo) ||
           (user.userInfo as StudentUserInfo),
       });
-      setImagePreview(user.avatar || null);
+      setImagePreview(user.avatar);
     }
   }, [user]);
 
@@ -118,11 +118,11 @@ const CreateProfilePage = () => {
 
       case "phoneNumber": {
         let digitsOnly = value.replace(/\D/g, "").replace(/^234/, "");
-        digitsOnly = digitsOnly.slice(0, 11);
+        digitsOnly = digitsOnly.slice(0, 10);
         newFormValues.phoneNumber = digitsOnly;
 
-        if (digitsOnly.length > 0 && digitsOnly.length !== 11) {
-          newErrors.phoneNumber = "Phone number must be exactly 11 digits";
+        if (digitsOnly.length > 0 && digitsOnly.length !== 10) {
+          newErrors.phoneNumber = "Phone number must be exactly 10 digits";
         } else {
           delete newErrors.phoneNumber;
         }

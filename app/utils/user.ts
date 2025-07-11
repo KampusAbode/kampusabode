@@ -30,37 +30,44 @@ export const fetchAllUsers = async (): Promise<UserType[]> => {
   }
 };
 
-export const fetchAnalytics = async () => {
-  try {
-    const usersRef = collection(db, "users");
-    const propertiesRef = collection(db, "properties");
 
-    // Fetch total users & properties count
-    const [usersSnapshot, propertiesSnapshot] = await Promise.all([
-      getCountFromServer(usersRef),
-      getCountFromServer(propertiesRef),
-    ]);
 
-    // Query users collection to count agents & students separately
-    const agentsQuery = query(usersRef, where("userType", "==", "agent"));
-    const studentsQuery = query(usersRef, where("userType", "==", "student"));
+// export const fetchAnalytics = async () => {
+//   try {
+//     const usersRef = collection(db, "users");
+//     const propertiesRef = collection(db, "properties");
 
-    const [agentsSnapshot, studentsSnapshot] = await Promise.all([
-      getDocs(agentsQuery),
-      getDocs(studentsQuery),
-    ]);
+//     // Fetch total users & properties count
+//     const [usersSnapshot, propertiesSnapshot] = await Promise.all([
+//       getCountFromServer(usersRef),
+//       getCountFromServer(propertiesRef),
+//     ]);
 
-    return {
-      totalUsers: usersSnapshot.data().count,
-      totalProperties: propertiesSnapshot.data().count,
-      totalAgents: agentsSnapshot.size, // Count number of agent users
-      totalStudents: studentsSnapshot.size, // Count number of student users
-    };
-  } catch (error) {
-    console.error("Error fetching analytics:", error);
-    throw new Error("Failed to fetch analytics data");
-  }
-};
+//     // Query users collection to count agents & students separately
+//     const agentsQuery = query(usersRef, where("userType", "==", "agent"));
+//     const studentsQuery = query(usersRef, where("userType", "==", "student"));
+
+//     const [agentsSnapshot, studentsSnapshot] = await Promise.all([
+//       getDocs(agentsQuery),
+//       getDocs(studentsQuery),
+//     ]);
+
+//     return {
+//       totalUsers: usersSnapshot.data().count,
+//       totalProperties: propertiesSnapshot.data().count,
+//       totalAgents: agentsSnapshot.size, // Count number of agent users
+//       totalStudents: studentsSnapshot.size, // Count number of student users
+//       // You can add more analytics data here as needed
+//       // availableProperties: propertiesSnapshot.data().count,
+//       // totalReviews: reviewsSnapshot.data().count,
+//       // totalBookings: bookingsSnapshot.data().count,
+//       // totalNotifications: notificationsSnapshot.data().count,
+//     };
+//   } catch (error) {
+//     console.error("Error fetching analytics:", error);
+//     throw new Error("Failed to fetch analytics data");
+//   }
+// };
 
 export const togglePropertyApproval = async (
   propertyId: string,
@@ -177,67 +184,4 @@ export const updateBookmarkInDB = async (
     console.error("Failed to update bookmarks in Firebase:", error);
     throw new Error("Database update failed.");
   }
-};
-
-export async function assignUserRole(
-  username: string,
-  userId: string,
-  role: "admin" | "writer",
-  assignedBy: string
-) {
-  const userRoleRef = doc(db, "userRoles", userId);
-  const roleData = {
-    username,
-    userId,
-    role,
-    assignedBy,
-    assignedAt: Timestamp.now(),
-  };
-
-  try {
-    // Upsert the role
-    await setDoc(userRoleRef, roleData, { merge: true });
-
-    console.log(`Assigned role '${role}' to user ${userId}`);
-  } catch (error) {
-    console.error("Error assigning user role:", error);
-    throw error;
-  }
-}
-
-
-export const getUserRole = async (
-  userId: string
-): Promise<"admin" | "writer" | "user"> => {
-  try {
-    if (!userId) {
-      return "user";
-    }
-    const rolesRef = collection(db, "userRoles");
-    const q = query(rolesRef, where("userId", "==", userId));
-    const querySnapshot = await getDocs(q);
-
-    if (querySnapshot.empty) {
-      return "user"; // default fallback
-    }
-
-    // Assuming one document per userId:
-    const doc = querySnapshot.docs[0];
-    const data = doc.data();
-
-    return data.role === "admin" || data.role === "writer" ? data.role : "user";
-  } catch (err) {
-    console.error("Error fetching user role:", err);
-    return "user";
-  }
-};
-
-export const checkIsAdmin = async (userId: string): Promise<boolean> => {
-  const role = await getUserRole(userId);
-  return role === "admin";
-};
-
-export const checkIsWriter = async (userId: string): Promise<boolean> => {
-  const role = await getUserRole(userId);
-  return role === "admin" || role === "writer"; // admin inherits writer permissions
 };

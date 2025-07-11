@@ -2,16 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  collection,
-  getDocs,
-  query,
-  where,
-  DocumentData,
-} from "firebase/firestore";
-import { db } from "../../lib/firebaseConfig";
 import { useUserStore } from "../../store/userStore";
-import { checkIsAdmin } from "../../utils/user";
+import { checkIsAdmin } from "../../utils";
 import { UserType } from "../../fetch/types";
 import Loader from "../../components/loader/Loader";
 import Image from "next/image";
@@ -68,9 +60,10 @@ const AgentList = () => {
 
   return (
     <div className="agent-listings">
-      <h3>Upload for Agents</h3>
       {agents.length === 0 ? (
-        <p>No agents found.</p>
+        <p style={{ textAlign: "center", marginTop: "2rem" }}>
+          No agents found.
+        </p>
       ) : (
         <ul>
           {agents.map((agent) => (
@@ -87,6 +80,7 @@ const AgentList = () => {
                 </div>
                 <span className="agent-name">{agent.name}</span>
                 <span className="agent-email">{agent.email}</span>
+                <span className="agent-email">ID: {agent.id}</span>
                 {/* <span>{ agent.userInfo. }</span> */}
               </div>
               <button

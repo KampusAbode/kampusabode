@@ -9,10 +9,11 @@ import ReviewManagement from "../components/admin/ReviewManagement";
 import Analytics from "../components/admin/Analytics";
 import Notifications from "../components/admin/Notifications";
 import AgentList from "../components/admin/AgentList";
-import { checkIsAdmin } from "../utils/user";
+import { checkIsAdmin } from "../utils";
 import "./admin.css";
 import { useUserStore } from "../store/userStore";
 import { useUsersStore } from "../store/usersStore";
+import Trends from "../components/admin/TrendManagement";
 
 const pages = [
   "users",
@@ -21,6 +22,7 @@ const pages = [
   "analytics",
   "notifications",
   "agents",
+  "trends",
 ];
 
 export default function AdminPage() {
@@ -30,7 +32,6 @@ export default function AdminPage() {
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
-  const { users, setUsers } = useUsersStore();
 
   const { user } = useUserStore((state) => state);
 
@@ -40,20 +41,26 @@ export default function AdminPage() {
       return;
     }
 
-    if (checkIsAdmin(user.id)) {
-      setIsAdmin(true);
-    } else {
+    async function checkUserPermissions(userId: string) {
+      try {
+        const admin = await checkIsAdmin(userId);
+
+        if (admin) {
+          setIsAdmin(true);
+        }
+      } catch (error) {
+        console.error("Failed to check user permissions:", error);
+      }
+    }
+    checkUserPermissions(user?.id);
+
+    // Redirect away if not admin
+    if (isAdmin) {
       router.push("/apartment");
+      return;
     }
 
     setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    if (!users || users.length === 0) {
-      setUsers();
-      console.log(users)
-    }
   }, []);
 
   // Whenever currentPage changes, update the URL query parameter
@@ -80,12 +87,13 @@ export default function AdminPage() {
           ))}
         </nav>
         <section className="dashboard-content">
-          {currentPage === "users" && <UserManagement users={users} />}
+          {currentPage === "users" && <UserManagement />}
           {currentPage === "properties" && <PropertyManagement />}
           {currentPage === "reviews" && <ReviewManagement />}
           {currentPage === "analytics" && <Analytics />}
           {currentPage === "notifications" && <Notifications />}
           {currentPage === "agents" && <AgentList />}
+          {currentPage === "trends" && <Trends />}
         </section>
       </div>
     </section>

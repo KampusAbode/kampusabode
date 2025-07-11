@@ -13,7 +13,7 @@ import {
 import { useUserStore } from "../store/userStore";
 import { ApartmentType } from "../fetch/types";
 import Prompt from "../components/modals/prompt/Prompt";
-import { checkIsAdmin } from "../utils/user";
+import { checkIsAdmin } from "../utils";
 import "./uploadforagent.css";
 
 const MAX_FILE_SIZE = 8 * 1024 * 1024; // 8MB

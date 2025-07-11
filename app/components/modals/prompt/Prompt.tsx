@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import './prompt.css'
+import "./prompt.css";
 
 interface PromptProps {
   message: string;

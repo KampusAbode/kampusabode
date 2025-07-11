@@ -13,7 +13,7 @@ import useNavStore from "../../store/menuStore";
 import { useUserStore } from "../../store/userStore";
 import Prompt from "../modals/prompt/Prompt";
 import { logoutUser } from "../../utils/auth";
-import { checkIsAdmin } from "../../utils/user";
+import { checkIsAdmin } from "../../utils";
 import Image from "next/image";
 
 function Nav() {
@@ -33,6 +33,7 @@ function Nav() {
     setShowPrompt(false);
     try {
       await logoutUser();
+      toggleNav();
       router.push("/");
       toast.success("Logged out successfully");
     } catch (error) {
@@ -51,12 +52,12 @@ function Nav() {
 
         if (isAdmin) {
           setIsAdmin(true);
-        } 
+        }
       } catch (error) {
         console.error("Failed to check user permissions:", error);
       }
     }
-    checkUserPermissions(user?.id );
+    checkUserPermissions(user?.id);
     setLoading(false);
   }, [user]);
 
@@ -123,7 +124,6 @@ function Nav() {
                 </Link>
               </li>
 
-              
               <li
                 title="Apartment"
                 className={pathname === "/apartment" ? "active" : ""}>

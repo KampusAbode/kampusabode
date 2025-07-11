@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchAnalytics } from "../../utils";
+import { useUsersStore } from "../../store/usersStore";
+import { usePropertiesStore } from "../../store/propertiesStore";
+// import { fetchAnalytics } from "../../utils";
 
 interface AnalyticsData {
   totalUsers: number;
@@ -11,36 +13,37 @@ interface AnalyticsData {
 }
 
 const Analytics = () => {
-  const [data, setData] = useState<AnalyticsData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  // const [data, setData] = useState<AnalyticsData | null>(null);
+  const { users } = useUsersStore();
+  const { properties } = usePropertiesStore();
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchAnalyticsData = async () => {
-      try {
-        const analyticsData = await fetchAnalytics();
-        setData(analyticsData);
-      } catch (error) {
-        console.error("Error fetching analytics:", error);
-        setError("Failed to load analytics data");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAnalyticsData();
-  }, []);
-
-  if (loading) return <p>Loading analytics...</p>;
-  if (error) return <p className="error">{error}</p>;
+  if (loading)
+    return (
+      <p style={{ textAlign: "center", marginTop: "2rem" }}>
+        Loading analytics...
+      </p>
+    );
 
   return (
     <div className="analytics">
       <ul>
-      <li>Total Users: {data?.totalUsers}</li>
-      <li>Total Properties Listed: {data?.totalProperties}</li>
-      <li>Total Agents: {data?.totalAgents}</li>
-      <li>Total Students: {data?.totalStudents}</li>
+        <li>
+          <p>{users?.length}</p>
+          <span>Total Users</span>
+        </li>
+        <li>
+          <p>{properties?.length}</p>
+          <span>Total Linstings </span>
+        </li>
+        <li>
+          <p>{users.filter((user) => user.userType === "agent").length}</p>
+          <span>Total Agents</span>
+        </li>
+        <li>
+          <p>{users.filter((user) => user.userType === "student").length}</p>
+          <span>Total Students </span>
+        </li>
       </ul>
     </div>
   );

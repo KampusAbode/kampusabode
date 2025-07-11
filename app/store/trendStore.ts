@@ -1,61 +1,67 @@
 // store/trendStore.ts
 
+import {
+  collection,
+  doc,
+  getDocs,
+  orderBy,
+  query,
+  setDoc,
+} from "firebase/firestore";
 import { TrendType } from "../fetch/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { db } from "../lib/firebaseConfig";
 
 interface trendState {
-  trend: TrendType[];
-  filteredTrend: TrendType[];
-  isLoading: boolean;
-  searchQuery: string;
-  trendCategory: string;
-  settrend: (trend: TrendType[]) => void;
-  setLoading: (loading: boolean) => void;
-  setSearchQuery: (query: string) => void;
-  setTrendCategory: (category: string) => void;
-  filtertrend: () => void;
+  trends: TrendType[];
+  setTrends: (data: TrendType[]) => void;
+  updateTrend: (date: TrendType) => void;
   getTrendById: (id: string) => TrendType;
+  getTrendBySlug: (slug: string) => TrendType;
 }
 
 export const useTrendStore = create<trendState>()(
   persist(
     (set, get) => ({
-      trend: [],
-      filteredTrend: [],
-      isLoading: false,
-      searchQuery: "",
-      trendCategory: "all",
+      trends: [],
+      setTrends: async (trendData) => {
+        if (!trendData || trendData.length === 0) {
+          set({ trends: [] });
+          return;
+        } else {
+          try {
+            const trendsRef = query(
+              collection(db, "trends"),
+              orderBy("published_date", "desc")
+            );
+            const snapshot = await getDocs(trendsRef);
 
-      settrend: (trend) => set({ trend }),
+            const trends: TrendType[] = snapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+            })) as TrendType[];
 
-      setLoading: (loading) => set({ isLoading: loading }),
-
-      setSearchQuery: (query) => set({ searchQuery: query }),
-      setTrendCategory: (category) => set({ trendCategory: category }),
-
-      filtertrend: () => {
-        const { trend, searchQuery, trendCategory } = get();
-        const query = searchQuery.trim().toLowerCase();
-        const queryWords = query.split(/\s+/);
-        const filtered = trend.filter((trend) => {
-          const titleWords = trend.title.toLowerCase().split(/\s+/);
-          const matches =
-            queryWords.filter((word) => titleWords.includes(word)).length >=
-              2 ||
-            trend.category.toLowerCase().includes(query) ||
-            trend.title.toLowerCase().includes(query) ||
-            trend.content.toLowerCase().includes(query);
-          const categoryMatch =
-            trendCategory === "all" || trend.category === trendCategory;
-          return matches && categoryMatch;
-        });
-        set({ filteredTrend: filtered });
+            set({ trends });
+          } catch (error) {
+            console.error("Error fetching agents:", error);
+          }
+        }
       },
-
+      updateTrend: (data) => {
+        // Update the Firestore user document with the new/updated user data
+        const userRef = doc(db, "trends", data.id);
+        if (userRef) {
+          setDoc(userRef, data, { merge: true });
+        }
+      },
       getTrendById: (id: string) => {
-        const { trend } = get();
-        return trend.find((trend) => trend.id === id);
+        const { trends } = get();
+        return trends.find((trend) => trend.id === id);
+      },
+      getTrendBySlug: (slug: string) => {
+        const { trends } = get();
+        return trends.find((trend) => trend.slug === slug);
       },
     }),
     {

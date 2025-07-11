@@ -48,23 +48,29 @@ const ReviewManagement = () => {
   return (
     <div className="review-management">
       <ul>
-        {reviews.length > 0 ? reviews.map((review) => (
-          <li key={review.id}>
-            {review.content} - {review.rating} stars{" "}
-            {review.approved ? (
-              <span className="approved">✅ Approved</span>
-            ) : (
-              <>
-                <button onClick={() => moderateReview(review.id, "approve")}>
-                  Approve
-                </button>
-                <button onClick={() => moderateReview(review.id, "delete")}>
-                  Delete
-                </button>
-              </>
-            )}
-          </li>
-        )) : <p>No review yet</p>}
+        {reviews.length > 0 ? (
+          reviews.map((review) => (
+            <li key={review.id}>
+              {review.content} - {review.rating} stars{" "}
+              {review.approved ? (
+                <span className="approved">✅ Approved</span>
+              ) : (
+                <>
+                  <button onClick={() => moderateReview(review.id, "approve")}>
+                    Approve
+                  </button>
+                  <button onClick={() => moderateReview(review.id, "delete")}>
+                    Delete
+                  </button>
+                </>
+              )}
+            </li>
+          ))
+        ) : (
+          <p style={{ textAlign: "center", marginTop: "2rem" }}>
+            No review yet
+          </p>
+        )}
       </ul>
     </div>
   );

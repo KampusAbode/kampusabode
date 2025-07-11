@@ -6,9 +6,11 @@ import TrendCard from "./component/trendCard/TrendCard";
 import Loader from "../components/loader/Loader";
 import { TrendType } from "../fetch/types";
 import "./trends.css";
+import { useTrendStore } from "../store/trendStore";
 
 export default function trendsPage() {
-  const [trends, setTrends] = useState<TrendType[]>([]);
+  // const [trends, setTrends] = useState<TrendType[]>([]);
+ const {trends, setTrends} = useTrendStore((state) => state);
   const [filteredTrends, setFilteredTrends] = useState<TrendType[]>([]);
   // const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);

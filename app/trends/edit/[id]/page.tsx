@@ -1,52 +1,71 @@
 "use client";
 
-import "./uploadtrend.css";
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
-import {  uploadTrend } from "../../utils";
-import { useUserStore } from "../../store/userStore";
+import "./edittrend.css";
+import React, { useEffect, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
+import { doc, updateDoc } from "firebase/firestore";
+import { uploadImageToAppwrite, uploadTrend } from "../../../utils";
+import { useUserStore } from "../../../store/userStore";
+import { useTrendStore } from "../../../store/trendStore";
+import { db } from "../../../lib/firebaseConfig";
 import dynamic from "next/dynamic";
+import toast from "react-hot-toast";
+import Image from "next/image";
+import Loader from "../../../components/loader/Loader";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
-import Image from "next/image";
-import data from "../../fetch/contents";
+import data from "../../../fetch/contents";
 
-
-function UploadTrend() {
-  const trendcategories = data.trendcategories;
+function EditTrend() {
+  const categories = data.trendcategories;
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [category, setCategory] = useState(trendcategories[0]);
-  const [image, setImage] = useState<File | null>(null);
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
-  const { user } = useUserStore((state) => state);
-  const [errors, setErrors] = useState({
-    title: false,
-    content: false,
-    image: false,
-    category: false,
-  });
+  const [category, setCategory] = useState(categories[0]);
+  const [image, setImage] = useState<File | string | null>(null);
+  const [existingImage, setExistingImage] = useState<string>("");
+  const [loading, setLoading] = useState(true);
 
+  const router = useRouter();
+  const params = useParams();
+  const trendId: string = Array.isArray(params.id) ? params.id[0] : params.id;
+
+  const { user } = useUserStore((state) => state);
+  const getTrendById = useTrendStore((state) => state.getTrendById);
+
+  useEffect(() => {
+    if (!user) {
+      toast.error("You must be logged in to edit a trend");
+      router.push("/auth/login");
+      return;
+    }
+
+    const trend = getTrendById(trendId);
+    if (!trend) {
+      toast.error("Trend not found");
+      router.back();
+      return;
+    }
+
+    setTitle(trend.title);
+    setContent(trend.content);
+    setCategory(trend.category);
+    setExistingImage(trend.image);
+    setImage(trend?.image);
+    setLoading(false);
+  }, [trendId, user, getTrendById]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
-
       if (!allowedTypes.includes(file.type)) {
         toast.error("Only JPG, JPEG, and PNG files are allowed.");
-        e.target.value = "";
         return;
       }
-
       setImage(file);
     }
   };
-
-
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,14 +111,16 @@ function UploadTrend() {
     } finally {
       setLoading(false);
     }
-  }
+  };
+
+  if (loading) return <Loader />;
 
   return (
-    <section className="upload-trend">
+    <section className="edit-trend">
       <div className="container">
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="image" className="image-upload-label">
+            <label htmlFor="image" className="image-edit-label">
               <input
                 type="file"
                 id="image"
@@ -109,13 +130,15 @@ function UploadTrend() {
               <Image
                 src={
                   image
-                    ? URL.createObjectURL(image)
-                    : "/assets/upload_image.jpg"
+                    ? typeof image === "string"
+                      ? image
+                      : URL.createObjectURL(image)
+                    : existingImage || "/assets/upload_image.jpg"
                 }
-                alt="Upload Trend Image"
-                width={1500}
-                height={1500}
-                className="upload-image-preview"
+                alt="Trend Image"
+                width={3000}
+                height={3000}
+                className="edit-image-preview"
               />
             </label>
           </div>
@@ -127,7 +150,6 @@ function UploadTrend() {
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className={errors.title ? "error" : ""}
             />
           </div>
 
@@ -137,7 +159,7 @@ function UploadTrend() {
               theme="snow"
               value={content}
               onChange={setContent}
-              className={`quill-wrapper ${errors.content ? "quill-error" : ""}`}
+              className="quill-wrapper"
               modules={{
                 toolbar: [
                   [{ header: [2, false] }],
@@ -162,9 +184,8 @@ function UploadTrend() {
             <select
               id="category"
               value={category}
-              className={errors.category ? "error" : ""}
               onChange={(e) => setCategory(e.target.value)}>
-              {trendcategories.map((cat) => (
+              {categories.map((cat) => (
                 <option key={cat} value={cat}>
                   {cat}
                 </option>
@@ -173,7 +194,7 @@ function UploadTrend() {
           </div>
 
           <button type="submit" disabled={loading}>
-            {loading ? "Uploading..." : "Upload Trend"}
+            {loading ? "Updating..." : "Update Trend"}
           </button>
         </form>
       </div>
@@ -181,4 +202,4 @@ function UploadTrend() {
   );
 }
 
-export default UploadTrend;
+export default EditTrend;

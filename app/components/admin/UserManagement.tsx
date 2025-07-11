@@ -15,30 +15,15 @@ import Prompt from "../modals/prompt/Prompt";
 import { useUsersStore } from "../../store/usersStore";
 import toast from "react-hot-toast";
 
-const UserManagement = ({ users }) => {
-  const [students, setStudents] = useState<UserType[]>([]);
-  const [agents, setAgents] = useState<UserType[]>([]);
+const UserManagement = () => {
+  const { users } = useUsersStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [promptOpen, setPromptOpen] = useState(false);
   const [promptMessage, setPromptMessage] = useState("");
   const [onConfirmAction, setOnConfirmAction] = useState<() => void>(() => {});
   const user = useUserStore((state) => state.user);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const studentUsers = users.filter(
-          (user) => user.userType === "student"
-        );
-        const agentUsers = users.filter((user) => user.userType === "agent");
-        setStudents(studentUsers);
-        setAgents(agentUsers);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
-    fetchUsers();
-  }, []);
+
 
   const filterUsers = (users: UserType[]) =>
     users.filter(
@@ -73,7 +58,7 @@ const UserManagement = ({ users }) => {
     const isWriter = await checkIsWriter(student?.id);
     // console.log(`${student?.name} is Writer:`, isWriter);
     return isWriter;
-  }
+  };
   const fetchAdmin = async (student) => {
     const isAdmin = await checkIsAdmin(student?.id);
     // console.log(`${student?.name} is Admin:`, isAdmin);
@@ -101,37 +86,43 @@ const UserManagement = ({ users }) => {
         />
       </div>
 
-      <h6>Students {`(${students.length})`}</h6>
-      {students.length === 0 ? (
-        <p>No students found.</p>
+      <h6>
+        Students{" "}
+        {`(${users.filter((user) => user.userType === "student").length})`}
+      </h6>
+      {users.filter((user) => user.userType === "student").length === 0 ? (
+        <p style={{ textAlign: "center", marginTop: "2rem" }}>
+          No students found.
+        </p>
       ) : (
         <ul>
-          {filterUsers(students).map((student) => {
-            const studentInfo = student.userInfo as StudentUserInfo;
-            // Fetch roles for the student
-            return (
-              <li key={student.id}>
-                <div>
-                  <div className="pic">
-                    <Image
-                      src={student.avatar || "/assets/user_avatar.jpg"}
-                      width={1500}
-                      height={1500}
-                      alt={`${student.name}`}
-                    />
+          {filterUsers(users.filter((user) => user.userType === "student")).map(
+            (student) => {
+              const studentInfo = student.userInfo as StudentUserInfo;
+              // Fetch roles for the student
+              return (
+                <li key={student.id}>
+                  <div>
+                    <div className="pic">
+                      <Image
+                        src={student.avatar || "/assets/user_avatar.jpg"}
+                        width={1500}
+                        height={1500}
+                        alt={`${student.name}`}
+                      />
+                    </div>
+                    <div className="details">
+                      <span>
+                        <strong>{student.name}</strong>
+                      </span>
+                      <span>Email: {student.email}</span>
+                      <span>University: {student.university}</span>
+                      <span>Dept: {studentInfo.department}</span>
+                      <span>Year: {studentInfo.currentYear}</span>
+                      <span>Views: {studentInfo.viewedProperties.length}</span>
+                    </div>
                   </div>
-                  <div className="details">
-                    <span>
-                      <strong>{student.name}</strong>
-                    </span>
-                    <span>Email: {student.email}</span>
-                    <span>University: {student.university}</span>
-                    <span>Dept: {studentInfo.department}</span>
-                    <span>Year: {studentInfo.currentYear}</span>
-                    <span>Views: {studentInfo.viewedProperties.length}</span>
-                  </div>
-                </div>
-                {/* <div className="actions">
+                  {/* <div className="actions">
                   <Link
                     href={`/adminchatroom/${student.name}/${student.id}`}
                     className="action-btn"
@@ -163,39 +154,43 @@ const UserManagement = ({ users }) => {
                     {fetchWriter(student.id) ? "Remove" : "Add"} as writer
                   </button>
                 </div> */}
-              </li>
-            );
-          })}
+                </li>
+              );
+            }
+          )}
         </ul>
       )}
 
-      <h6>Agents {`(${agents.length})`}</h6>
-      {agents.length === 0 ? (
+      <h6>
+        Agents {`(${users.filter((user) => user.userType === "agent").length})`}
+      </h6>
+      {users.filter((user) => user.userType === "agent").length === 0 ? (
         <p>No agents found.</p>
       ) : (
         <ul>
-          {filterUsers(agents).map((agent) => {
-            const agentInfo = agent.userInfo as AgentUserInfo;
-            return (
-              <li key={agent.id}>
-                <div>
-                  <div className="pic">
-                    <Image
-                      src={agent.avatar || "/assets/user_avatar.jpg"}
-                      width={1500}
-                      height={1500}
-                      alt={`${agent.name}`}
-                    />
+          {filterUsers(users.filter((user) => user.userType === "agent")).map(
+            (agent) => {
+              const agentInfo = agent.userInfo as AgentUserInfo;
+              return (
+                <li key={agent.id}>
+                  <div>
+                    <div className="pic">
+                      <Image
+                        src={agent.avatar || "/assets/user_avatar.jpg"}
+                        width={1500}
+                        height={1500}
+                        alt={`${agent.name}`}
+                      />
+                    </div>
+                    <div className="details">
+                      <span>
+                        <strong>{agent.name}</strong>
+                      </span>
+                      <span>Email: {agent.email}</span>
+                      <span>University: {agent.university}</span>
+                    </div>
                   </div>
-                  <div className="details">
-                    <span>
-                      <strong>{agent.name}</strong>
-                    </span>
-                    <span>Email: {agent.email}</span>
-                    <span>University: {agent.university}</span>
-                  </div>
-                </div>
-                {/* <div className="actions">
+                  {/* <div className="actions">
                   <Link
                     href={`/adminchatroom/${agent.name}/${agent.id}`}
                     className="action-btn"
@@ -227,9 +222,10 @@ const UserManagement = ({ users }) => {
                     {fetchWriter(agent.id) ? "Remove" : "Add"} as writer
                   </button>
                 </div> */}
-              </li>
-            );
-          })}
+                </li>
+              );
+            }
+          )}
         </ul>
       )}
     </div>

@@ -1,6 +1,6 @@
 .trend-details-page {
   .container {
-    padding-block: var(--spacing-s);
+    padding-block: var(--spacing-2x);
 
 
     li{
@@ -10,7 +10,6 @@
     }
 
     @media screen and (min-width: 768px) {
-      padding-block: calc(var(--spacing-4x) * 2);
       width: 70%;
 
       .trend-details {

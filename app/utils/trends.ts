@@ -1,5 +1,7 @@
 // import axios from "axios";
+import { uploadImageToAppwrite } from ".";
 import { TrendType } from "../fetch/types";
+import { ID } from "../lib/appwriteClient";
 import { db } from "../lib/firebaseConfig";
 
 import {
@@ -12,10 +14,14 @@ import {
   doc,
   getDoc,
   getDocs,
+  setDoc,
 } from "firebase/firestore";
 
 export const allTrends = (callback: any) => {
-  const trendRef = query(collection(db, "trends"), orderBy("published_date", "desc"));
+  const trendRef = query(
+    collection(db, "trends"),
+    orderBy("published_date", "desc")
+  );
   // Real-time listener
   const unsubscribe = onSnapshot(trendRef, (snapshot) => {
     const items = snapshot.docs.map((doc) => ({
@@ -42,7 +48,6 @@ export const fetchTrendByID = async (trendId: string) => {
       throw new Error("No trend found with the provided ID");
     }
 
-    
     return {
       slug: trendDoc.data().slug,
       id: trendDoc.data().id,
@@ -66,19 +71,11 @@ export const fetchTrendByID = async (trendId: string) => {
   }
 };
 
-
-
-
 export const fetchTrendBySlug = async (trendSlug: string) => {
   try {
-    
     const trendsRef = collection(db, "trends");
-const trendQuery = query(
-  trendsRef, 
-  where("slug", "==", trendSlug),
-  
-);
-    
+    const trendQuery = query(trendsRef, where("slug", "==", trendSlug));
+
     // Fetch the document
     const snapshot = await getDocs(trendQuery);
 
@@ -88,7 +85,7 @@ const trendQuery = query(
     }
 
     const trendDoc = snapshot.docs[0];
-    
+
     return {
       slug: trendDoc.data().slug,
       id: trendDoc.data().id,
@@ -112,6 +109,62 @@ const trendQuery = query(
   }
 };
 
+
+
+export async function uploadTrend({
+  title,
+  content,
+  category,
+  image,
+  author,
+}: {
+  title: string;
+  content: string;
+  category: string;
+  image: File | string;
+  author: string;
+}): Promise<TrendType> {
+  const trendRef = collection(db, "trends");
+
+  // Generate slug
+  const slug = title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+
+  // Upload image to Appwrite
+  let imageUrl: string;
+
+  if (typeof image === "string") {
+    imageUrl = image; // already uploaded URL
+  } else {
+    imageUrl = await uploadImageToAppwrite(
+      image,
+      process.env.NEXT_PUBLIC_APPWRITE_TREND_BUCKET_ID
+    );
+  }
+
+
+  const newTrendId = ID.unique();
+  const docRef = doc(trendRef, newTrendId);
+
+  const trendData: TrendType = {
+    id: newTrendId,
+    slug,
+    title,
+    content,
+    author,
+    image: imageUrl,
+    likes: 0,
+    published_date: new Date().toISOString(),
+    category,
+  };
+
+  await setDoc(docRef, trendData);
+  return trendData;
+}
 
 
 // async function removeDuplicateDocuments(collectionName: string, filterBy: string) {

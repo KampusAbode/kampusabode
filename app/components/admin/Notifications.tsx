@@ -19,7 +19,9 @@ const Notifications = () => {
             </li>
           ))
         ) : (
-          <p>No recent updates.</p>
+          <p style={{ textAlign: "center", marginTop: "2rem" }}>
+            No recent updates.
+          </p>
         )}
       </ul>
     </div>

@@ -1,24 +1,32 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { deleteApartment, toggleApartmentApproval } from "../../utils";
-import { ApartmentType } from "../../fetch/types";
-import Link from "next/link";
 import { usePropertiesStore } from "../../store/propertiesStore";
+import Link from "next/link";
+import { MdErrorOutline, MdVerified } from "react-icons/md";
+import Prompt from "../modals/prompt/Prompt";
 
 const PropertyManagement = () => {
   const { properties, setProperties } = usePropertiesStore();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
+  const [promptOpen, setPromptOpen] = useState(false);
+  const [selectedPropertyId, setSelectedPropertyId] = useState<string | null>(
+    null
+  );
 
+  const handleDeleteRequest = (id: string) => {
+    setSelectedPropertyId(id);
+    setPromptOpen(true);
+  };
 
-  const handleDelete = async (id: string, images: string[]) => {
-    if (!confirm("Are you sure you want to delete this property?")) return;
+  const handleDeleteConfirm = async () => {
+    if (!selectedPropertyId) return;
 
     try {
-      await deleteApartment(id);
-      setProperties(properties.filter((property) => property.id !== id));
+      await deleteApartment(selectedPropertyId);
+      setProperties(properties.filter((p) => p.id !== selectedPropertyId));
+      setPromptOpen(false);
     } catch (error) {
       console.error("Error deleting property:", error);
       alert("Failed to delete property.");
@@ -43,46 +51,66 @@ const PropertyManagement = () => {
 
   return (
     <div className="property-management">
-      {loading && <p>Loading properties...</p>}
-      {error && <p className="error">{error}</p>}
-
-      <ul>
-        {properties.map((property) => (
-          <li key={property.id}>
-            <div className="flex">
-              <div className="info">
-                <p>
-                  <Link href={property.url}>{property.title}</Link>
-                </p>
-                <span>price: {property.price}</span>
-                <span>location: {property.location}</span>
-                <span>views: {property.views} </span>
+      {properties.length === 0 ? (
+        <p style={{ textAlign: "center", marginTop: "2rem" }}>
+          No properties found.
+        </p>
+      ) : (
+        <ul>
+          {properties.map((property) => (
+            <li key={property.id}>
+              <div className="flex">
+                <div className="flex">
+                  <div className="image">
+                    <img src={property.images[0]} alt={property.title} />
+                  </div>
+                  <div className="info">
+                    <p>
+                      <Link href={property.url}>{property.title}</Link>
+                    </p>
+                    <span>price: {property.price}</span>
+                    <span>location: {property.location}</span>
+                    <span>views: {property.views} </span>
+                  </div>
+                </div>
+                <span style={{ color: property.approved ? "green" : "red" }}>
+                  {property.approved ? (
+                    <MdVerified size={20} color="#2ecc71" title="Verified" />
+                  ) : (
+                    <MdErrorOutline
+                      size={20}
+                      color="#e74c3c"
+                      title="Not Verified"
+                    />
+                  )}
+                </span>
               </div>
-              <span style={{ color: property.approved ? "green" : "red" }}>
-                {property.approved ? "Approved" : "Unapproved"}
-              </span>
-            </div>
-            <div className="action">
-              <button
-                className="btn btn-secondary"
-                title="Button"
-                onClick={() =>
-                  handleToggleApprove(property.id, property.approved)
-                }
-                style={{ marginRight: "1rem" }}>
-                {property.approved ? "Unapprove" : "approve"}
-              </button>
-              <button
-                className="btn"
-                onClick={() => handleDelete(property.id, property.images)}>
-                Delete
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
+              <div className="actions">
+                <button
+                  className="btn btn-secondary"
+                  onClick={() =>
+                    handleToggleApprove(property.id, property.approved)
+                  }
+                  style={{ marginRight: "1rem" }}>
+                  {property.approved ? "Unapprove" : "Approve"}
+                </button>
+                <button
+                  className="btn"
+                  onClick={() => handleDeleteRequest(property.id)}>
+                  Delete
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
 
-      {/* Future feature: Add/Edit properties */}
+      <Prompt
+        isOpen={promptOpen}
+        message="Are you sure you want to delete this property?"
+        onCancel={() => setPromptOpen(false)}
+        onConfirm={handleDeleteConfirm}
+      />
     </div>
   );
 };
