@@ -3,7 +3,7 @@
   box-shadow: var(--shadow);
 }
 .trend .trend-image {
-  height: 230px;
+  height: 250px;
   border-top-left-radius: var(--border-radius);
   border-top-right-radius: var(--border-radius);
   position: relative;
