@@ -56,7 +56,7 @@ export default function AdminPage() {
 
     checkUserPermissions(user?.id);
 
-    if (!isAdmin) {
+    if (isAdmin) {
       router.push("/apartment");
       return;
     }
