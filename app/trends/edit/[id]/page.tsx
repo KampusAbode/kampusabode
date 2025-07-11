@@ -4,7 +4,7 @@ import "./edittrend.css";
 import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { doc, updateDoc } from "firebase/firestore";
-import { uploadImageToAppwrite, uploadTrend } from "../../../utils";
+import { uploadImageToAppwrite, updateTrend } from "../../../utils";
 import { useUserStore } from "../../../store/userStore";
 import { useTrendStore } from "../../../store/trendStore";
 import { db } from "../../../lib/firebaseConfig";
@@ -95,7 +95,8 @@ function EditTrend() {
     setLoading(true);
 
     try {
-      const trend = await uploadTrend({
+      const trend = await updateTrend({
+        id: trendId,
         title,
         content,
         category,

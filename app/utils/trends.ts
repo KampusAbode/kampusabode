@@ -109,15 +109,15 @@ export const fetchTrendBySlug = async (trendSlug: string) => {
   }
 };
 
-
-
-export async function uploadTrend({
+export async function updateTrend({
+  id,
   title,
   content,
   category,
   image,
   author,
 }: {
+  id: string;
   title: string;
   content: string;
   category: string;
@@ -145,13 +145,13 @@ export async function uploadTrend({
       process.env.NEXT_PUBLIC_APPWRITE_TREND_BUCKET_ID
     );
   }
-
-
-  const newTrendId = ID.unique();
-  const docRef = doc(trendRef, newTrendId);
+  if (!imageUrl) {
+    throw new Error("Image upload failed");
+  }
+  const docRef = doc(trendRef, id);
 
   const trendData: TrendType = {
-    id: newTrendId,
+    id,
     slug,
     title,
     content,
@@ -162,10 +162,9 @@ export async function uploadTrend({
     category,
   };
 
-  await setDoc(docRef, trendData);
+  await setDoc(docRef, trendData, { merge: true });
   return trendData;
 }
-
 
 // async function removeDuplicateDocuments(collectionName: string, filterBy: string) {
 //   try {
