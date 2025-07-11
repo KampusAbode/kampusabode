@@ -10,42 +10,39 @@ interface UserState {
   setUsers: () => (() => void) | undefined;
 }
 
-export const useUsersStore = create<UserState>()(
-  persist(
-    (set, get) => ({
-      users: null,
+if (typeof window !== "undefined") {
+  localStorage.removeItem("userstore");
+}
 
-      setUsers: () => {
-        try {
-          const usersRef = collection(db, "users");
+export const useUsersStore = create<UserState>()((set, get) => ({
+  users: null,
 
-          const unsubscribe = onSnapshot(usersRef, (snapshot) => {
-            const users: UserType[] = snapshot.docs.map((doc) => {
-              const data = doc.data() as UserType;
-              return {
-                id: doc.id,
-                name: data.name || "",
-                email: data.email || "",
-                bio: data.bio || "",
-                avatar: data.avatar || "",
-                phoneNumber: data.phoneNumber || "",
-                university: data.university || "",
-                userType: data.userType,
-                userInfo: data.userInfo,
-              };
-            });
+  setUsers: () => {
+    try {
+      const usersRef = collection(db, "users");
 
-            set({ users });
-          });
+      const unsubscribe = onSnapshot(usersRef, (snapshot) => {
+        const users: UserType[] = snapshot.docs.map((doc) => {
+          const data = doc.data() as UserType;
+          return {
+            id: doc.id,
+            name: data.name || "",
+            email: data.email || "",
+            bio: data.bio || "",
+            avatar: data.avatar || "",
+            phoneNumber: data.phoneNumber || "",
+            university: data.university || "",
+            userType: data.userType,
+            userInfo: data.userInfo,
+          };
+        });
 
-          return unsubscribe;
-        } catch (error) {
-          console.error("Error fetching users in real time:", error);
-        }
-      },
-    }),
-    {
-      name: "userstore",
+        set({ users });
+      });
+
+      return unsubscribe;
+    } catch (error) {
+      console.error("Error fetching users in real time:", error);
     }
-  )
-);
+  },
+}));

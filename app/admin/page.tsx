@@ -61,17 +61,14 @@ export default function AdminPage() {
       return;
     }
 
-    setLoading(false);
-  }, []);
-
-  useEffect(() => {
     const unsubscribe = setUsers();
-
+    setLoading(false);
+  
     return () => {
       if (unsubscribe) unsubscribe(); 
     };
   }, []);
-  
+
   
   
 
