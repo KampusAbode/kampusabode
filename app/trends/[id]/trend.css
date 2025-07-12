@@ -43,19 +43,20 @@
   }
 }
 .trend-details-page .container .trend-image {
-  height: 250px;
+  height: 280px;
   border-radius: var(--border-radius);
   overflow: hidden;
   margin: var(--spacing-2x) 0;
+  box-shadow: var(--shadow);
 }
 .trend-details-page .container .trend-image img {
-  height: inherit;
+  height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
 }
 @media screen and (min-width: 768px) {
   .trend-details-page .container .trend-image {
-    height: 350px;
+    height: 380px;
   }
 }
 .trend-details-page .container .interaction-buttons {

@@ -249,9 +249,11 @@ const TrendPage = ({ params }: Params) => {
 
               <div
                 className="trend-description"
-                dangerouslySetInnerHTML={{ __html: trendData.content }}
+                dangerouslySetInnerHTML={{ __html: trendData?.content }}
               />
             </div>
+
+            {/* <CommentSection ref={commentsRef} comments={comments}/> */}
 
             <div ref={commentsRef} className="comments-section">
               <h5>Comments</h5>

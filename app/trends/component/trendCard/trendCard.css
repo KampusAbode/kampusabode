@@ -49,10 +49,10 @@
   color: var(--primary-color);
   transform: scale(1.2);
 }
-.trend .trend-content h5 {
+.trend .trend-content h6 {
   margin-block: var(--spacing-h);
 }
-.trend .trend-content h5,
+.trend .trend-content h6,
 .trend .trend-content P {
   overflow: hidden;
   text-overflow: ellipsis;

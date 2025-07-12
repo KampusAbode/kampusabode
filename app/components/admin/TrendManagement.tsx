@@ -47,20 +47,22 @@ const Trends = () => {
             <li key={trend?.id} className="trend-item">
               <div className="trend-info">
                 <Link href={`/trends/${trend?.slug}`}>
-                <div className="image">
-                  <Image
-                    src={trend?.image}
-                    width={1000}
-                    height={1000}
-                    alt={`${trend?.title}'s image`}
-                    className="trend-image"
-                  />
+                  <div className="image">
+                    <Image
+                      src={trend?.image}
+                      width={1000}
+                      height={1000}
+                      alt={`${trend?.title}'s image`}
+                      className="trend-image"
+                    />
                   </div>
                 </Link>
-                <span className="trend-name">Title: {trend?.title}</span>
-                <span className="trend-views">Views: {trend?.views}</span>
-                <span className="trend-views">Likes: {trend?.likes}</span>
-                <span className="trend-views">
+                <span className="trend-name">
+                  <strong>Title: {trend?.title}</strong>
+                </span>
+                <span className="trend-views">Views: {trend.views}</span>
+                <span className="trend-likes">Likes: {trend?.likes}</span>
+                <span className="trend-date">
                   Published:{" "}
                   {trend?.published_date
                     ? format(new Date(trend.published_date), "d MMM, yyyy")

@@ -51,7 +51,7 @@ const TrendCard = ({ trendData }) => {
             <i>2 mins read</i>
           </span>
         </div>
-        <h5 className="trend-title">{trendData?.title || "Untitled"}</h5>
+        <h6 className="trend-title">{trendData?.title || "Untitled"}</h6>
         <p dangerouslySetInnerHTML={{ __html: snippet }} />
       </div>
     </div>

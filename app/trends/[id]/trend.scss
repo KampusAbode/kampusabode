@@ -42,17 +42,18 @@
       }
     }
     .trend-image {
-      height: 250px;
+      height: 280px;
       border-radius: var(--border-radius);
       overflow: hidden;
       margin: var(--spacing-2x) 0;
+      box-shadow: var(--shadow);
       img {
-        height: inherit;
+        height: 100%;
         object-fit: cover;
       }
 
       @media screen and (min-width: 768px) {
-        height: 350px;
+        height: 380px;
       }
     }
     .interaction-buttons {
