@@ -96,7 +96,7 @@
 }
 @media screen and (max-width: 1000px) {
   .trend-details-page .container .comments-section {
-    position: initial;
+    position: relative;
   }
 }
 .trend-details-page .container .comments-section .comments-list {

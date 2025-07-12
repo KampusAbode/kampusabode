@@ -19,7 +19,8 @@ interface UserState {
   // Student specific actions
   addBookmark: (id: string) => void;
   removeBookmark: (id: string) => void;
-  addView: (id: string) => void;
+  addViewedProperties: (id: string) => void;
+  addViewedTrends: (id: string) => void;
 
   // Agent specific action
   addListedProperty: (id: string) => void;
@@ -88,8 +89,7 @@ export const useUserStore = create<UserState>()(
           });
         }
       },
-
-      addView: async (id) => {
+      addViewedProperties: async (id) => {
         const user = get().user;
         if (!user) return;
 
@@ -120,7 +120,50 @@ export const useUserStore = create<UserState>()(
 
             // Increment view count for apartment
             await updateDoc(apartmentRef, {
-              views: increment(1), // Ensure 'views' exists or defaults to 0
+              views: increment(1),
+            });
+          } catch (err) {
+            console.error("Error updating views:", err);
+          }
+        }
+      },
+
+      addViewedTrends: async (id) => {
+        const user = get().user;
+        if (!user) return;
+
+        const currentViewed: string[] = Array.isArray(
+          user.userInfo?.viewedTrends
+        )
+          ? user.userInfo.viewedTrends
+          : [];
+
+        // If the property hasn't been viewed
+        if (currentViewed && !currentViewed?.includes(id)) {
+          const updatedUser: UserType = {
+            ...user,
+            userInfo: {
+              ...user.userInfo,
+              viewedTrends: [...currentViewed, id],
+            },
+          };
+
+          set({ user: updatedUser });
+
+          // set({ trend: updatedUser });
+          // Firestore references
+          const userRef = doc(db, "users", user.id);
+          const trendRef = doc(db, "trends", id);
+
+          try {
+            // Update user's viewedTrends
+            await updateDoc(userRef, {
+              "userInfo.viewedTrends": arrayUnion(id),
+            });
+
+            // Increment view count for apartment
+            await updateDoc(trendRef, {
+              views: increment(1),
             });
           } catch (err) {
             console.error("Error updating views:", err);

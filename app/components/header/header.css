@@ -1,6 +1,6 @@
 /* ========== header section open ========== */
 header {
-  padding-block: var(--spacing);
+  padding-block: var(--spacing-h);
   width: 100%;
   background-color: var(--white);
   box-shadow: var(--shadow);

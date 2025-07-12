@@ -78,6 +78,7 @@ export interface TrendType {
   likes: number;
   published_date: string;
   category: string;
+  views: number;
 }
 export interface CommentType{
   id: string;
@@ -130,11 +131,13 @@ export interface StudentUserInfo {
   currentYear: number;
   savedProperties: string[];
   viewedProperties: string[];
+  viewedTrends: string[];
   wishlist: string[];
 }
 
 export interface AgentUserInfo {
   agencyName: string;
+  viewedTrends: string[];
   propertiesListed: string[];
 }
 

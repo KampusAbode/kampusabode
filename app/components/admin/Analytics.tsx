@@ -20,7 +20,7 @@ const Analytics = () => {
 
   if (loading)
     return (
-      <p style={{ textAlign: "center", marginTop: "2rem" }}>
+      <p style={{ textAlign: "center", marginTop: "5rem" }}>
         Loading analytics...
       </p>
     );

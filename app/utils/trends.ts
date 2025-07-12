@@ -58,6 +58,7 @@ export const fetchTrendByID = async (trendId: string) => {
       likes: trendDoc.data().likes,
       published_date: trendDoc.data().published_date,
       category: trendDoc.data().category,
+      views: trendDoc.data()?.views || 0,
     };
   } catch (error) {
     // Handle and throw errors with a unified structure
@@ -87,15 +88,16 @@ export const fetchTrendBySlug = async (trendSlug: string) => {
     const trendDoc = snapshot.docs[0];
 
     return {
-      slug: trendDoc.data().slug,
-      id: trendDoc.data().id,
-      title: trendDoc.data().title,
-      content: trendDoc.data().content,
-      author: trendDoc.data().author,
-      image: trendDoc.data().image,
-      likes: trendDoc.data().likes,
-      published_date: trendDoc.data().published_date,
-      category: trendDoc.data().category,
+      slug: trendDoc.data()?.slug,
+      id: trendDoc.data()?.id,
+      title: trendDoc.data()?.title,
+      content: trendDoc.data()?.content,
+      author: trendDoc.data()?.author,
+      image: trendDoc.data()?.image,
+      likes: trendDoc.data()?.likes,
+      published_date: trendDoc.data()?.published_date,
+      category: trendDoc.data()?.category,
+      views: trendDoc.data()?.views || 0,
     };
   } catch (error) {
     // Handle and throw errors with a unified structure
@@ -157,6 +159,7 @@ export async function uploadTrend({
     likes: 0,
     published_date: new Date().toISOString(),
     category,
+    views: 0,
   };
 
   await setDoc(docRef, trendData);

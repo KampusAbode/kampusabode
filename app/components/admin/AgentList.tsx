@@ -61,7 +61,7 @@ const AgentList = () => {
   return (
     <div className="agent-listings">
       {agents.length === 0 ? (
-        <p style={{ textAlign: "center", marginTop: "2rem" }}>
+        <p style={{ textAlign: "center", marginTop: "5rem" }}>
           No agents found.
         </p>
       ) : (
@@ -78,7 +78,9 @@ const AgentList = () => {
                     className="agent-avatar"
                   />
                 </div>
-                <span className="agent-name">{agent.name}</span>
+                <span className="agent-name">
+                  <strong>{agent.name}</strong>
+                </span>
                 <span className="agent-email">{agent.email}</span>
                 <span className="agent-email">ID: {agent.id}</span>
                 {/* <span>{ agent.userInfo. }</span> */}

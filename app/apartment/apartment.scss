@@ -31,7 +31,7 @@
   .dot1,
   .dot2 {
     width: auto;
-    height:100px;
+    height: 100px;
     position: absolute;
     bottom: 0;
   }
@@ -134,12 +134,7 @@
       }
     }
   }
-  .filter {
-    top: 60px;
-    .container {
-      justify-content: left;
-    }
-  }
+
   .property-listings {
     .properties {
       grid-template-columns: 1fr 1fr;

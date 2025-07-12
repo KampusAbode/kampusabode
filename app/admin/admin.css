@@ -21,7 +21,7 @@
 }
 @media (max-width: 768px) {
   .admin-dashboard .container .dashboard-navigation {
-    top: 65px;
+    top: 50px;
   }
 }
 .admin-dashboard .container .dashboard-navigation::-webkit-scrollbar {
@@ -203,6 +203,9 @@
 .admin-dashboard .container .dashboard-content .analytics ul li:nth-child(4) {
   background: linear-gradient(135deg, #e0f7fa, #34e7ff);
 }
+.admin-dashboard .container .dashboard-content .analytics ul li:nth-child(5) {
+  background: linear-gradient(135deg, #ecf0d2, #e8ff54);
+}
 .admin-dashboard .container .dashboard-content .analytics ul li:hover {
   box-shadow: var(--shadow);
 }
@@ -259,6 +262,9 @@
 .admin-dashboard .container .dashboard-content .trends ul li .trend-info span {
   display: block;
   margin-block: var(--spacing-h);
+}
+.admin-dashboard .container .dashboard-content .trends ul li .btn {
+  margin-top: var(--spacing);
 }
 @media (min-width: 520px) {
   .admin-dashboard .container .dashboard-content .trends ul {

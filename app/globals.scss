@@ -350,6 +350,9 @@ button {
   border-top-right-radius: var(--border-radius);
   z-index: 9999;
 
+
+
+
   .container {
     display: flex;
     align-items: center;
@@ -364,10 +367,10 @@ button {
     }
   }
 
-  // @media screen and (max-width: 768px) {
-  //   top: 0;
+  @media screen and (max-width: 768px) {
+    top: 50px;
 
-  // }
+  }
 }
 
 @media screen and (max-width: 768px) {

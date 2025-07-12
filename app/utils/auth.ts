@@ -48,11 +48,13 @@ export const signupUser = async (userData: UserSignupInput) => {
               currentYear: parseInt(userData.studentInfo?.currentYear || "1"),
               savedProperties: [],
               viewedProperties: [],
+              viewedTrends: [],
               wishlist: [],
             }
           : {
               agencyName: userData.agentInfo?.agencyName || "",
               propertiesListed: [],
+              viewedTrends: [],
             },
     };
 
@@ -156,8 +158,6 @@ export const logoutUser = async () => {
     };
   }
 };
-
-
 
 export async function assignUserRole(
   username: string,

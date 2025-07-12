@@ -105,12 +105,6 @@
     width: 20px;
     height: 20px;
   }
-  .filter {
-    top: 60px;
-  }
-  .filter .container {
-    justify-content: left;
-  }
   .property-listings .properties {
     grid-template-columns: 1fr 1fr;
   }

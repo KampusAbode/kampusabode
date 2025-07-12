@@ -19,7 +19,7 @@
       top: 0;
 
       @media (max-width: 768px) {
-        top: 65px;
+        top: 50px;
       }
 
       /* Hide scrollbar */
@@ -237,6 +237,9 @@
             &:nth-child(4) {
               background: linear-gradient(135deg, #e0f7fa, #34e7ff);
             }
+            &:nth-child(5) {
+              background: linear-gradient(135deg, #ecf0d2, #e8ff54);
+            }
 
             &:hover {
               box-shadow: var(--shadow);
@@ -311,6 +314,10 @@
                 display: block;
                 margin-block: var(--spacing-h);
               }
+            }
+
+            .btn{
+              margin-top: var(--spacing);
             }
           }
           @media (min-width: 520px) {

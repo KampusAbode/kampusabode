@@ -24,6 +24,7 @@ import { getCommentsByTrendId, sendUserComment } from "../../utils/comments";
 import { format, formatDistanceToNow } from "date-fns";
 import "./trend.css";
 import { useUserStore } from "../../store/userStore";
+import SaveVisitedTrend from "../component/SaveVIsitedTrend";
 
 type Params = {
   params: { id: string };
@@ -40,6 +41,8 @@ const TrendPage = ({ params }: Params) => {
   const [isLike, setIsLike] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
 
+  
+
   useEffect(() => {
     let unsubscribe = () => {};
 
@@ -47,6 +50,7 @@ const TrendPage = ({ params }: Params) => {
       try {
         const trend: TrendType = await fetchTrendBySlug(slug);
         setTrendData(trend);
+
 
         const commentsRef = collection(db, "trends", trend.id, "comments");
         const q = query(commentsRef, orderBy("createdAt", "desc"));
@@ -89,6 +93,7 @@ const TrendPage = ({ params }: Params) => {
   }, [slug, user]);
 
 
+  
   const commentsRef = useRef<HTMLDivElement | null>(null);
 
   const scrollToComments = () => {
@@ -194,108 +199,114 @@ const TrendPage = ({ params }: Params) => {
     }
   };
 
+  
+
   return (
-    <div className="trend-details-page">
-      {!loading ? (
-        <div className="container">
-          <div>
-            <div className="trend-details">
-              <span className="category">{trendData?.category}</span>
-              <h3 className="title">{trendData?.title}</h3>
-              <span>By {trendData?.author}</span>
-              <span>
-                {trendData?.published_date
-                  ? format(new Date(trendData.published_date), "d MMM, yyyy")
-                  : "Invalid date"}
-              </span>
-            </div>
+    <SaveVisitedTrend id={trendData?.id}>
+      <div className="trend-details-page">
+        {!loading ? (
+          <div className="container">
+            <div>
+              <div className="trend-details">
+                <span className="category">{trendData?.category}</span>
+                <h3 className="title">{trendData?.title}</h3>
+                <span>By {trendData?.author}</span>
+                <span>
+                  {trendData?.published_date
+                    ? format(new Date(trendData.published_date), "d MMM, yyyy")
+                    : "Invalid date"}
+                </span>
+              </div>
 
-            <div className="trend-image">
-              <Image
-                priority
-                src={trendData?.image}
-                width={3000}
-                height={3000}
-                alt="trend image"
-              />
-            </div>
+              <div className="trend-image">
+                <Image
+                  priority
+                  src={trendData?.image}
+                  width={3000}
+                  height={3000}
+                  alt="trend image"
+                />
+              </div>
 
-            <div className="interaction-buttons">
-              <button
-                onClick={handleLike}
-                disabled={isLiking}
-                className={isLike ? "active" : ""}>
-                {isLike ? <BiSolidLike /> : <BiLike />} {trendData?.likes}
-              </button>
-              <button onClick={scrollToComments}>
-                <FaRegComment /> {comments?.length}
-              </button>
-              <button onClick={handleShare}>
-                <FaShare /> Share
-              </button>
-              {/*
+              <div className="interaction-buttons">
+                <button
+                  onClick={handleLike}
+                  disabled={isLiking}
+                  className={isLike ? "active" : ""}>
+                  {isLike ? <BiSolidLike /> : <BiLike />} {trendData?.likes}
+                </button>
+                <button onClick={scrollToComments}>
+                  <FaRegComment /> {comments?.length}
+                </button>
+                <button onClick={handleShare}>
+                  <FaShare /> Share
+                </button>
+                {/*
             <button>
               <FaBookmark /> Save
             </button>*/}
-            </div>
+              </div>
 
-            <div
-              className="trend-description"
-              dangerouslySetInnerHTML={{ __html: trendData.content }}
-            />
-          </div>
-
-          <div ref={commentsRef} className="comments-section">
-            <h5>Comments</h5>
-            <div className="comments-list">
-              {comments.length === 0 ? (
-                <p>No comments yet.</p>
-              ) : (
-                comments.map((comment) => (
-                  <div key={comment.id} className="comment">
-                    <div className="top">
-                      <div>
-                        <Image
-                          priority
-                          src={comment.userProfile || "/assets/user_avatar.jpg"}
-                          width={100}
-                          height={100}
-                          alt="user profile"
-                        />
-                        <span>{comment.userName}</span>
-                      </div>
-                      <span className="created-at">
-                        {comment.createdAt
-                          ? getRelativeTime(new Date(comment.createdAt))
-                          : "just now"}
-                      </span>
-                    </div>
-                    <p className="comment-content">{comment.comment}</p>
-                  </div>
-                ))
-              )}
-            </div>
-
-            <div className="send-comment">
-              <textarea
-                placeholder="Add a comment..."
-                rows={6}
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
+              <div
+                className="trend-description"
+                dangerouslySetInnerHTML={{ __html: trendData.content }}
               />
-              <button
-                className="btn"
-                onClick={handleCommentSubmit}
-                disabled={isSending || !content.trim()}>
-                {isSending ? "Sending..." : "Send Comment"}
-              </button>
+            </div>
+
+            <div ref={commentsRef} className="comments-section">
+              <h5>Comments</h5>
+              <div className="comments-list">
+                {comments.length === 0 ? (
+                  <p>No comments yet.</p>
+                ) : (
+                  comments.map((comment) => (
+                    <div key={comment.id} className="comment">
+                      <div className="top">
+                        <div>
+                          <Image
+                            priority
+                            src={
+                              comment.userProfile || "/assets/user_avatar.jpg"
+                            }
+                            width={100}
+                            height={100}
+                            alt="user profile"
+                          />
+                          <span>{comment.userName}</span>
+                        </div>
+                        <span className="created-at">
+                          {comment.createdAt
+                            ? getRelativeTime(new Date(comment.createdAt))
+                            : "just now"}
+                        </span>
+                      </div>
+                      <p className="comment-content">{comment.comment}</p>
+                    </div>
+                  ))
+                )}
+              </div>
+
+              <div className="send-comment">
+                <textarea
+                  placeholder="Add a comment..."
+                  rows={6}
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                />
+                <button
+                  className="btn"
+                  onClick={handleCommentSubmit}
+                  disabled={isSending || !content.trim()}>
+                  {isSending ? "Sending..." : "Send Comment"}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <Loader />
-      )}
-    </div>
+        ) : (
+          <Loader />
+        )}
+      </div>
+    </SaveVisitedTrend>
   );
 };
 

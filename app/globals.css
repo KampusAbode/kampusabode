@@ -345,6 +345,11 @@ button {
 .filter .container::-webkit-scrollbar {
   display: none;
 }
+@media screen and (max-width: 768px) {
+  .filter {
+    top: 50px;
+  }
+}
 
 @media screen and (max-width: 768px) {
   :root {

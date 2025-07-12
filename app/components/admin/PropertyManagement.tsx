@@ -52,7 +52,7 @@ const PropertyManagement = () => {
   return (
     <div className="property-management">
       {properties.length === 0 ? (
-        <p style={{ textAlign: "center", marginTop: "2rem" }}>
+        <p style={{ textAlign: "center", marginTop: "5rem" }}>
           No properties found.
         </p>
       ) : (

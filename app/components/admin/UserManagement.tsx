@@ -91,7 +91,7 @@ const UserManagement = () => {
         {`(${users.filter((user) => user.userType === "student").length})`}
       </h6>
       {users.filter((user) => user.userType === "student").length === 0 ? (
-        <p style={{ textAlign: "center", marginTop: "2rem" }}>
+        <p style={{ textAlign: "center", marginTop: "5rem" }}>
           No students found.
         </p>
       ) : (
@@ -165,7 +165,9 @@ const UserManagement = () => {
         Agents {`(${users.filter((user) => user.userType === "agent").length})`}
       </h6>
       {users.filter((user) => user.userType === "agent").length === 0 ? (
-        <p>No agents found.</p>
+        <p style={{ textAlign: "center", marginTop: "5rem" }}>
+          No agents found.
+        </p>
       ) : (
         <ul>
           {filterUsers(users.filter((user) => user.userType === "agent")).map(

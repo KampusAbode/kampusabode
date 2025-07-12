@@ -25,28 +25,8 @@ export const useTrendStore = create<trendState>()(
   persist(
     (set, get) => ({
       trends: [],
-      setTrends: async (trendData) => {
-        if (!trendData || trendData.length === 0) {
-          set({ trends: [] });
-          return;
-        } else {
-          try {
-            const trendsRef = query(
-              collection(db, "trends"),
-              orderBy("published_date", "desc")
-            );
-            const snapshot = await getDocs(trendsRef);
-
-            const trends: TrendType[] = snapshot.docs.map((doc) => ({
-              id: doc.id,
-              ...doc.data(),
-            })) as TrendType[];
-
-            set({ trends });
-          } catch (error) {
-            console.error("Error fetching agents:", error);
-          }
-        }
+      setTrends: async (trends) => {
+        set({ trends });
       },
       updateTrend: (data) => {
         // Update the Firestore user document with the new/updated user data

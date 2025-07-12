@@ -11,13 +11,13 @@ function SaveVisitedProperty({
   id: string;
   children: React.ReactNode;
 }) {
-  const { user, addView } = useUserStore(); // Access Zustand store
+  const { user, addViewedProperties } = useUserStore(); // Access Zustand store
 
   useEffect(() => {
     if (!id || !user) return;
 
     // Call addView function to track the viewed property
-    addView(id);
+    addViewedProperties(id);
   }, [id]); // Dependency on user and id
 
   return children;

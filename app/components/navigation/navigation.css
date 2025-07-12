@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   background-color: var(--white);
-  padding: var(--spacing);
+  padding: var(--spacing-h) var(--spacing);
   box-shadow: var(--shadow);
   z-index: 999;
   transition: var(--transition);

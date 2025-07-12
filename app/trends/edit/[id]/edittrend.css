@@ -60,7 +60,7 @@
 }
 @media screen and (max-width: 768px) {
   .edit-trend .container form .form-group .quill .ql-toolbar {
-    top: 75px;
+    top: 50px;
   }
 }
 .edit-trend .container form .form-group .quill .ql-container {
