@@ -115,7 +115,7 @@ body {
     max-height: 100vh;
     background-color: var(--gray);
 
-    & > div,
+    & > .nav-menu,
     & > main {
       border-radius: var(--border-radius);
       background-color: var(--white);

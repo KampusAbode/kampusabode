@@ -95,7 +95,7 @@ body {
   max-height: 100vh;
   background-color: var(--gray);
 }
-.wrapper.grid > div, .wrapper.grid > main {
+.wrapper.grid > .nav-menu, .wrapper.grid > main {
   border-radius: var(--border-radius);
   background-color: var(--white);
 }
