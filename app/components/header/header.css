@@ -97,5 +97,6 @@ header .container .menu {
     -o-object-fit: cover;
        object-fit: cover;
     border-radius: 100%;
+    box-shadow: var(--shadow);
   }
 }/*# sourceMappingURL=header.css.map */
