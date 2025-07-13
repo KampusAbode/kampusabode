@@ -98,8 +98,10 @@
 .nav-menu .top ul li a svg {
   width: 24px;
   height: 24px;
-  stroke: var(--font-color-h);
-  stroke-width: 1px;
+  fill: none;
+}
+.nav-menu .top ul li a svg path {
+  fill: none;
 }
 .nav-menu .logout {
   text-align: center;

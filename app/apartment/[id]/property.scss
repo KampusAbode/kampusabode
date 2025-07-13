@@ -186,6 +186,12 @@
             background-color: var(--light-gray);
             text-align: center;
             user-select: none;
+
+            &.ratings{
+              svg{
+                fill: none !important;
+              }
+            }
           }
         }
 

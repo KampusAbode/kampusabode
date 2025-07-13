@@ -80,16 +80,16 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <address>
+          <p>
             &copy; 2025 created by{" "}
             <Link
-              href="https://aj-tolulope.github.io/portfolio"
+              href="https://ajalatolulope.vercel.app"
               aria-label="Portfolio"
               title="Portfolio">
               <span>thewebedits</span>
             </Link>
             , designed by aj.tolulope
-          </address>
+          </p>
         </div>
       </div>
     </footer>

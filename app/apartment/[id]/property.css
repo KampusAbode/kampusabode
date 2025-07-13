@@ -181,6 +181,9 @@
      -moz-user-select: none;
           user-select: none;
 }
+.properties-details-page .container .top .about-agent .agent-stats div.ratings svg {
+  fill: none !important;
+}
 .properties-details-page .container .top .about-agent .bio {
   margin-top: var(--spacing);
   -webkit-user-select: none;

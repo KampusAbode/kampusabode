@@ -117,8 +117,11 @@
           svg {
             width: 24px;
             height: 24px;
-            stroke: var(--font-color-h);
-            stroke-width: 1px;
+            fill: none;
+
+            path{
+              fill: none;
+            }
           }
         }
       }
