@@ -38,9 +38,7 @@ const CreateProfilePage = () => {
   const { user, setUser } = useUserStore((state) => state);
   // const { deleteAppwriteImage } = useProperties();
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>(
-    user?.avatar
-  );
+  const [imagePreview, setImagePreview] = useState<string>(user?.avatar);
 
   // Initialize formValues with user data or empty defaults
   const [formValues, setFormValues] = useState<ProfileFormValues>();
@@ -64,6 +62,8 @@ const CreateProfilePage = () => {
           (user.userInfo as StudentUserInfo),
       });
       setImagePreview(user.avatar);
+    } else {
+      router.back();
     }
   }, [user]);
 
@@ -177,8 +177,8 @@ const CreateProfilePage = () => {
     if (!formValues?.phoneNumber) {
       newErrors.phoneNumber = "Phone number is required";
       valid = false;
-    } else if (formValues?.phoneNumber.length !== 11) {
-      newErrors.phoneNumber = "Phone number must be exactly 11 digits";
+    } else if (formValues?.phoneNumber.length !== 10) {
+      newErrors.phoneNumber = "Phone number must be exactly 10 digits";
       valid = false;
     }
 
@@ -190,7 +190,9 @@ const CreateProfilePage = () => {
     e.preventDefault();
 
     if (!validateBeforeSubmit()) {
-      toast.error("Please fill in the required input before submitting.");
+      toast.error("Please fill in the required input before submitting.", {
+        id: "input-submit",
+      });
       return;
     }
 

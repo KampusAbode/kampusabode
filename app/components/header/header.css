@@ -86,9 +86,16 @@ header .container .menu {
     display: grid;
     place-items: center;
     border-radius: 100%;
-    width: 38px;
-    height: 38px;
+    width: 30px;
+    height: 30px;
     background-color: var(--light-gray);
     cursor: pointer;
+  }
+  header .container .menu img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+       object-fit: cover;
+    border-radius: 100%;
   }
 }/*# sourceMappingURL=header.css.map */

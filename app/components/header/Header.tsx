@@ -12,7 +12,7 @@ import BackButton from "../features/backbutton/BackButton";
 import { useUserStore } from "../../store/userStore";
 import useNavStore from "../../store/menuStore";
 import Prompt from "../modals/prompt/Prompt";
-import {logoutUser} from "../../utils/auth";
+import { logoutUser } from "../../utils/auth";
 
 const { links } = data;
 
@@ -67,7 +67,7 @@ export default function Header() {
     "about",
     "trends",
     "auth/login",
-    "auth/signup"
+    "auth/signup",
   ];
   const showBackButton = pagesWithBackButton.some((path) =>
     pathname.includes(`/${path}`)
@@ -90,8 +90,8 @@ export default function Header() {
                   src="/LOGO/RED_LOGO_T.png"
                   width={500}
                   height={500}
-                    alt="logo"
-                    priority
+                  alt="logo"
+                  priority
                 />
               </Link>
             </div>
@@ -138,7 +138,13 @@ export default function Header() {
           </nav>
 
           <div className="menu" onClick={toggleNav}>
-            <FaBars />
+            <Image
+              src={`${user ? user?.avatar : "/assets/user_avatar.jpg"}`}
+              width={500}
+              height={500}
+              alt="logo"
+              priority
+            />
           </div>
         </div>
       </header>
