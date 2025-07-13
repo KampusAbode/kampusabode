@@ -27,7 +27,6 @@ function PropertyImages({
   const handlers = useSwipeable({
     onSwipedLeft: incrementImageCount,
     onSwipedRight: decrementImageCount,
-    preventDefaultTouchmoveEvent: true,
     trackMouse: true,
   });
 
