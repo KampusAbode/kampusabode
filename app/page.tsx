@@ -215,7 +215,7 @@ export default function App() {
                       alt="testi-img"
                     />
                     <div>
-                      <h6 className="name">{testi.author}</h6>
+                      <p className="name">{testi.author}</p>
                       <span className="company">{testi.company}</span>
                     </div>
                   </div>
@@ -263,7 +263,7 @@ export default function App() {
             <Link href="/contact" className="btn">
               contact
             </Link>
-            <Link href="/auth/signup" className="btn-secondary">
+            <Link href="/auth/signup" className="btn btn-secondary">
               get started
             </Link>
           </div>

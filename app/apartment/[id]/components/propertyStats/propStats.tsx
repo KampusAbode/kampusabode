@@ -88,7 +88,7 @@ const PropStats = ({rating, reviews}: {rating: number, reviews: number}) => {
         </div>
         <div className="reviews">
           <p>{reviews}</p>
-          <span>reviews on this property</span>
+          <span>reviews</span>
         </div>
       </>
   );

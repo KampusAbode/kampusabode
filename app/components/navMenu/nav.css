@@ -57,13 +57,14 @@
 .nav-menu .top .nav-header .nav-btns .btn {
   display: block;
   text-align: center;
-  color: var(--white);
+  color: white;
   width: 100%;
   border-radius: 0;
   padding: var(--spacing-h);
 }
 .nav-menu .top .nav-header .nav-btns .btn:first-child {
-  border-bottom: var(--border-white);
+  border-bottom: var(--border);
+  border-color: var(--light-gray);
 }
 .nav-menu .top ul {
   overflow: scroll;
@@ -72,7 +73,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-h);
+  gap: 5px;
 }
 .nav-menu .top ul::-webkit-scrollbar {
   display: none;

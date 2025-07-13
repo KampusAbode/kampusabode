@@ -22,7 +22,7 @@
   position: absolute;
   width: 40px;
   height: 40px;
-  background-color: #fff;
+  background-color: var(--white);
   transform: translateY(-50%);
   top: 50%;
   display: grid;

@@ -275,7 +275,7 @@ img {
   height: auto;
 }
 .btn svg path {
-  fill: var(--white);
+  fill: var(--font-white);
 }
 .btn:hover {
   color: var(--font-white);
@@ -312,7 +312,7 @@ button {
 }
 .filter-btn.active {
   background-color: var(--black);
-  color: var(--font-white);
+  color: var(--white);
 }
 
 .heading-section {

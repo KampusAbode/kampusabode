@@ -13,7 +13,7 @@
   color: var(--light-gray);
 }
 .banner .container h2 {
-  color: var(--white);
+  color: white;
 }
 .banner .container h2 {
   position: relative;
@@ -21,7 +21,7 @@
 }
 .banner .container h2 svg {
   position: absolute;
-  top: -5px;
+  top: 0;
 }
 .banner .container h2 svg path {
   fill: var(--white);
