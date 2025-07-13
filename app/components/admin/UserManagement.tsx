@@ -106,8 +106,8 @@ const UserManagement = () => {
                     <div className="pic">
                       <Image
                         src={student.avatar || "/assets/user_avatar.jpg"}
-                        width={1500}
-                        height={1500}
+                        width={1000}
+                        height={1000}
                         alt={`${student.name}`}
                       />
                     </div>
@@ -179,8 +179,8 @@ const UserManagement = () => {
                     <div className="pic">
                       <Image
                         src={agent.avatar || "/assets/user_avatar.jpg"}
-                        width={1500}
-                        height={1500}
+                        width={1000}
+                        height={1000}
                         alt={`${agent.name}`}
                       />
                     </div>

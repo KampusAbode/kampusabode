@@ -75,13 +75,9 @@ const PropertyManagement = () => {
                 </div>
                 <span style={{ color: property.approved ? "green" : "red" }}>
                   {property.approved ? (
-                    <MdVerified size={20} color="#2ecc71" title="Verified" />
+                    <MdVerified size={20} title="Verified" />
                   ) : (
-                    <MdErrorOutline
-                      size={20}
-                      color="#e74c3c"
-                      title="Not Verified"
-                    />
+                    <MdErrorOutline size={20} title="Not Verified" />
                   )}
                 </span>
               </div>

@@ -6,6 +6,8 @@ import { useRouter, usePathname } from "next/navigation";
 import { FaTimes, FaRegUserCircle, FaSearchLocation } from "react-icons/fa";
 import { CiViewBoard, CiHome } from "react-icons/ci";
 import { GrUserAdmin } from "react-icons/gr";
+import { LuLogOut } from "react-icons/lu";
+
 import { IoChatbubblesOutline } from "react-icons/io5";
 import toast from "react-hot-toast";
 import "./nav.css";
@@ -180,6 +182,7 @@ function Nav() {
                   title="Logout"
                   onClick={handleLogoutClick}>
                   Logout
+                  <LuLogOut />
                 </button>
               ) : (
                 <Link href="/auth/login" onClick={toggleNav}>

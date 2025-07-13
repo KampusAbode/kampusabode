@@ -111,14 +111,34 @@ export const loginUser = async (userData: UserLoginInput) => {
       return { message: "Email not found", statusCode: 404 };
     }
 
-    const userDataFromDB = userRef.docs[0].data() as UserType;
+    const userDataFromCollection = userRef.docs[0].data() as UserType;
 
     // Sign in user with Firebase Auth
-    await signInWithEmailAndPassword(auth, email, password);
-    const userId = userDataFromDB.id;
-    useUserStore.getState().setUser(userDataFromDB);
+     const userCredential = await signInWithEmailAndPassword(
+       auth,
+       email,
+       password
+     );
+     const user = userCredential.user;
+     const idToken = await user.getIdToken();
 
-    return { message: `Welcome abode! ${userDataFromDB.name}`, userId };
+     // Send ID token to your backend to set session cookie
+     const res = await fetch("/api/sessionLogin", {
+       method: "POST",
+       headers: {
+         "Content-Type": "application/json",
+       },
+       body: JSON.stringify({ idToken }),
+     });
+
+     if (!res.ok) {
+       throw new Error("Failed to start session.");
+    }
+    
+    const userId = userDataFromCollection.id;
+    useUserStore.getState().setUser(userDataFromCollection);
+
+    return { message: `Welcome abode! ${userDataFromCollection.name}`, userId };
   } catch (error: any) {
     console.error("Login error:", error);
     if (error.code === "auth/invalid-credential") {
@@ -146,8 +166,11 @@ export const logoutUser = async () => {
       sessionStorage.setItem("hasSeenWelcome", JSON.stringify(false));
     }
 
+    await fetch("/api/logout", { method: "POST" });
+
     // Also clear the Zustand user state
     useUserStore.getState().logoutUser();
+
 
     return { message: "Successfully logged out" };
   } catch (error: any) {

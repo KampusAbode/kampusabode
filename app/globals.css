@@ -2,7 +2,7 @@
 :root {
   /* Colors */
   --primary-color: #c1121f;
-  --primary-color-hover: #d72638;
+  --primary-color-hover: #c94451;
   --error: #e63946;
   --background-white: #ffffff;
   --background-light: #f8f9fa;
@@ -271,6 +271,11 @@ img {
 }
 .btn svg {
   transition: var(--transition);
+  width: 18px;
+  height: auto;
+}
+.btn svg path {
+  fill: var(--white);
 }
 .btn:hover {
   color: var(--font-white);
@@ -384,7 +389,7 @@ button {
     font-size: 1rem;
   }
   button {
-    font-size: var(--font-size-nm);
+    font-size: var(--font-size-xs);
   }
   input,
   textarea {

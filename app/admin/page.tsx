@@ -63,14 +63,11 @@ export default function AdminPage() {
 
     const unsubscribe = setUsers();
     setLoading(false);
-  
+
     return () => {
-      if (unsubscribe) unsubscribe(); 
+      if (unsubscribe) unsubscribe();
     };
   }, []);
-
-  
-  
 
   useEffect(() => {
     router.push(`/admin?page=${currentPage}`);
@@ -99,18 +96,23 @@ export default function AdminPage() {
     <section className="admin-dashboard">
       <div className="container">
         <h4>Admin Dashboard</h4>
-        <nav className="dashboard-navigation">
+      </div>
+
+      <nav className="dashboard-navigation filter">
+        <div className="container">
           {pages.map((page) => (
             <button
               key={page}
               type="button"
               onClick={() => setCurrentPage(page)}
-              className={currentPage === page ? "active" : ""}>
+              className={`filter-btn ${currentPage === page ? "active" : ""}`}>
               {page}
             </button>
           ))}
-        </nav>
+        </div>
+      </nav>
 
+      <div className="container">
         <section className="dashboard-content" {...swipeHandlers}>
           {currentPage === "users" && <UserManagement />}
           {currentPage === "properties" && <PropertyManagement />}

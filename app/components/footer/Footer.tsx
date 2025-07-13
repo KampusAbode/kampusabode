@@ -25,7 +25,7 @@ export default function Footer() {
         <div className="footer-sections">
           {/* Company Info */}
           <div className="footer-column">
-            <h5>Company</h5>
+            <h6>Company</h6>
             <ul>
               {footer.company.map((link) => (
                 <li key={link.name}>
@@ -37,7 +37,7 @@ export default function Footer() {
 
           {/* Help & Support */}
           <div className="footer-column">
-            <h5>Support</h5>
+            <h6>Support</h6>
             <ul>
               {footer.support.map((link) => (
                 <li key={link.name}>
@@ -49,7 +49,7 @@ export default function Footer() {
 
           {/* Social Links */}
           <div className="footer-column">
-            <h5>Follow Us</h5>
+            <h6>Follow Us</h6>
             <div className="social-links">
               <Link
                 href="https://facebook.com"

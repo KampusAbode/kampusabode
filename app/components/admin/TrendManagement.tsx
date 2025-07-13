@@ -11,6 +11,7 @@ import { useUsersStore } from "../../store/usersStore";
 import { useTrendStore } from "../../store/trendStore";
 import Link from "next/link";
 import { format } from "date-fns";
+import { FaEye, FaThumbsUp } from "react-icons/fa";
 // import "./admin.css"; // assuming you want the same admin CSS
 
 const Trends = () => {
@@ -57,11 +58,17 @@ const Trends = () => {
                     />
                   </div>
                 </Link>
-                <span className="trend-name">
+                <span className="trend-title">
                   <strong>Title: {trend?.title}</strong>
                 </span>
-                <span className="trend-views">Views: {trend.views}</span>
-                <span className="trend-likes">Likes: {trend?.likes}</span>
+                <div className="stats">
+                  <span className="trend-views">
+                    <FaEye /> {trend.views}
+                  </span>
+                  <span className="trend-likes">
+                    <FaThumbsUp /> {trend?.likes}
+                  </span>
+                </div>
                 <span className="trend-date">
                   Published:{" "}
                   {trend?.published_date

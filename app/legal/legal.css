@@ -1,6 +1,4 @@
-/* section:not(.footer){
-    padding-block: var(--spacing-2x);
-} */
+
 .h3{
     margin-block:var(--spacing-2x);
 }

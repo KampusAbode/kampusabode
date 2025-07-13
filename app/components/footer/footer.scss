@@ -12,8 +12,8 @@
 
       /* Footer Columns */
       .footer-column {
-        h5 {
-          margin-bottom: var(--spacing);
+        h6 {
+          margin-bottom: var(--spacing-h);
         }
         ul {
           li {
@@ -32,9 +32,13 @@
         }
 
         .social-links {
+          display: flex;
+          gap: var(--spacing-h);
+          border: var(--border);
+          border-radius: var(--border-radius-r);
+          padding: var(--spacing-b);
           a {
             font-size: var(--font-size-lg);
-            margin-right: var(--spacing);
             color: var(--primary-color);
             transition: color 0.3s ease;
 
@@ -48,7 +52,7 @@
 
     /* Footer Bottom */
     .footer-bottom {
-      border-top: var(--border);
+      border-top: var(--border-white);
       margin: var(--spacing-2x) 0 0;
       padding: var(--spacing-2x) 0 0;
 
@@ -73,13 +77,13 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .footer {
-  padding-top: var(--spacing-3x);
+    padding-top: var(--spacing-3x);
+    margin-bottom: var(--spacing-4x);
     .container {
       .footer-sections {
         grid-template-columns: 1fr;
 
         .footer-column {
-
           .social-links {
             justify-content: center;
           }

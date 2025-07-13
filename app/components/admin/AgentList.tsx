@@ -72,8 +72,8 @@ const AgentList = () => {
                 <div className="image">
                   <Image
                     src={agent.avatar || "/assets/user_avatar.jpg"}
-                    width={1000}
-                    height={1000}
+                    width={800}
+                    height={800}
                     alt={`${agent.name}'s avatar`}
                     className="agent-avatar"
                   />
@@ -82,7 +82,12 @@ const AgentList = () => {
                   <strong>{agent.name}</strong>
                 </span>
                 <span className="agent-email">{agent.email}</span>
-                <span className="agent-email">ID: {agent.id}</span>
+                <span className="agent-listings">
+                  {Array.isArray((agent.userInfo as any).propertiesListed)
+                    ? (agent.userInfo as any).propertiesListed.length
+                    : 0} listings
+                </span>
+                <span className="agent-id">ID: {agent.id}</span>
                 {/* <span>{ agent.userInfo. }</span> */}
               </div>
               <button

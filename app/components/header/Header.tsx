@@ -27,13 +27,13 @@ export default function Header() {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [showPrompt, setShowPrompt] = useState(false);
 
-  const handleScroll = () => {
-    window.requestAnimationFrame(() => {
-      setIsHeader(window.scrollY <= lastScrollY);
+  // const handleScroll = () => {
+  //   window.requestAnimationFrame(() => {
+  //     setIsHeader(window.scrollY <= lastScrollY);
 
-      setLastScrollY(window.scrollY);
-    });
-  };
+  //     setLastScrollY(window.scrollY);
+  //   });
+  // };
 
   const confirmLogout = async () => {
     setShowPrompt(false);
@@ -52,10 +52,10 @@ export default function Header() {
     setShowPrompt(true);
   };
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY, isNavOpen]);
+  // useEffect(() => {
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, [lastScrollY, isNavOpen]);
 
   const pagesWithBackButton = [
     "profile",

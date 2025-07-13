@@ -3,7 +3,7 @@
 :root {
   /* Colors */
   --primary-color: #c1121f;
-  --primary-color-hover: #d72638;
+  --primary-color-hover: #c94451;
 
   --error: #e63946;
 
@@ -249,7 +249,6 @@ span {
 svg {
   width: 18px;
   height: auto;
-
   path {
     fill: var(--font-color-p);
   }
@@ -269,7 +268,6 @@ img {
 .btn {
   display: flex;
   align-items: center;
-
   justify-content: center;
   gap: 0.3rem;
 
@@ -287,6 +285,12 @@ img {
   transition: var(--transition);
   svg {
     transition: var(--transition);
+    width: 18px;
+    height: auto;
+
+    path {
+      fill: var(--white);
+    }
   }
 
   &:hover {
@@ -307,6 +311,8 @@ img {
   text-transform: capitalize;
   border-radius: var(--border-radius-btn);
   transition: var(--transition);
+
+  
 }
 
 button {
@@ -416,7 +422,7 @@ button {
   }
 
   button {
-    font-size: var(--font-size-nm);
+    font-size: var(--font-size-xs);
   }
 
   input,
