@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   background-color: var(--white);
-  padding: var(--spacing-h) var(--spacing);
+  padding: var(--spacing);
   box-shadow: var(--shadow);
   z-index: 999;
   transition: var(--transition);
@@ -36,39 +36,40 @@
     }
 
     li {
-      &.active {
-        span {
-          font-weight: 600;
-          color: var(--primary-color);
-        }
-        svg {
-          transform: translateY(-8px);
-          path {
-            fill: var(--primary-color);
-          }
-        }
-      }
       div {
         width: 100%;
         cursor: pointer;
         text-align: center;
         text-decoration: none;
-        color: var(--font-color-p);
+        color: var(--font-color-h);
         display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        gap: var(--spacing-h);
+        gap: 5px;
 
         span {
-          font-size: 10px;
+          font-size: 8px;
           color: var(--font-color-p);
           text-transform: capitalize;
 
           transition: var(--transition);
+          svg {
+            transition: var(--transition);
+          }
         }
-        svg {
-          transition: var(--transition);
+      }
+
+      &.active {
+        div {
+          span {
+            svg {
+              transform: translateY(-8px);
+              path {
+                fill: var(--primary-color);
+              }
+            }
+          }
         }
       }
     }

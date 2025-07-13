@@ -12,6 +12,8 @@
     z-index: 9999;
 
     svg{
-      fill: var(--white);
+      path{
+        fill: var(--white) !important;
+      }
     }
   }

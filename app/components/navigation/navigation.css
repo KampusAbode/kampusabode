@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   background-color: var(--white);
-  padding: var(--spacing-h) var(--spacing);
+  padding: var(--spacing);
   box-shadow: var(--shadow);
   z-index: 999;
   transition: var(--transition);
@@ -31,36 +31,32 @@
   justify-content: center;
   gap: var(--spacing-2x);
 }
-.navigation ul li.active span {
-  font-weight: 600;
-  color: var(--primary-color);
-}
-.navigation ul li.active svg {
-  transform: translateY(-8px);
-}
-.navigation ul li.active svg path {
-  fill: var(--primary-color);
-}
 .navigation ul li div {
   width: 100%;
   cursor: pointer;
   text-align: center;
   text-decoration: none;
-  color: var(--font-color-p);
+  color: var(--font-color-h);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: var(--spacing-h);
+  gap: 5px;
 }
 .navigation ul li div span {
-  font-size: 10px;
+  font-size: 8px;
   color: var(--font-color-p);
   text-transform: capitalize;
   transition: var(--transition);
 }
-.navigation ul li div svg {
+.navigation ul li div span svg {
   transition: var(--transition);
+}
+.navigation ul li.active div span svg {
+  transform: translateY(-8px);
+}
+.navigation ul li.active div span svg path {
+  fill: var(--primary-color);
 }
 
 @media screen and (min-width: 768px) {

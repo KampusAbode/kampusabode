@@ -19,7 +19,7 @@
   --light-gray: #f7f7f7;
   --dark-gray: #6d6d6d;
 
-  --font-color-h: #222;
+  --font-color-h: #171717;
   --font-color-p: #6a6a6a;
   --font-light: #adb5bd;
   --font-white: #ffffff;
@@ -247,7 +247,11 @@ span {
 }
 svg {
   width: 18px;
-  height: 18px;
+  height: auto;
+
+  path{
+    fill: var(--font-color-p);
+  }
 }
 img {
   width: 100%;
@@ -368,7 +372,6 @@ button {
 
   @media screen and (max-width: 768px) {
     top: 45px;
-
   }
 }
 

@@ -3,7 +3,7 @@
   box-shadow: var(--shadow);
 }
 .trend .trend-image {
-  height: 250px;
+  height: 280px;
   border-top-left-radius: var(--border-radius);
   border-top-right-radius: var(--border-radius);
   position: relative;
@@ -25,7 +25,7 @@
   color: var(--text-color-h);
 }
 .trend .trend-content {
-  padding: var(--spacing);
+  padding: var(--spacing-h);
 }
 .trend .trend-content .author-thumbs {
   display: flex;
