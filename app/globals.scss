@@ -195,6 +195,7 @@ section {
     padding-block: var(--spacing-s);
   }
 }
+
 main {
   overflow-x: hidden;
   overflow-y: auto;
@@ -206,6 +207,7 @@ main {
     box-shadow: none;
   }
 }
+
 .container {
   width: var(--large-width);
   max-width: var(--large-width);
@@ -350,9 +352,6 @@ button {
   border-top-right-radius: var(--border-radius);
   z-index: 9999;
 
-
-
-
   .container {
     display: flex;
     align-items: center;
@@ -368,7 +367,7 @@ button {
   }
 
   @media screen and (max-width: 768px) {
-    top: 50px;
+    top: 45px;
 
   }
 }

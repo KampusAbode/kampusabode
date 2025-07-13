@@ -347,7 +347,7 @@ button {
 }
 @media screen and (max-width: 768px) {
   .filter {
-    top: 50px;
+    top: 45px;
   }
 }
 

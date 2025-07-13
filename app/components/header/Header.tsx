@@ -39,12 +39,15 @@ export default function Header() {
     setShowPrompt(false);
     try {
       await logoutUser();
-      router.push("/");
-      toast.success("Logged out successfully 👌");
+      toggleNav();
+      await router.push("/"); // Wait for navigation
+      toast.success("Logged out successfully");
+      window.location.reload(); // Force reload after navigation
     } catch (error) {
       toast.error(error?.message || "An unexpected error occurred.");
     }
   };
+
 
   const handleLogoutClick = () => {
     setShowPrompt(true);
