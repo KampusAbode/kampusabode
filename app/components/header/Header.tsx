@@ -40,14 +40,13 @@ export default function Header() {
     try {
       await logoutUser();
       toggleNav();
-      await router.push("/"); // Wait for navigation
+      router.push("/apartment");
       toast.success("Logged out successfully");
-      window.location.reload(); // Force reload after navigation
+      window.location.reload();
     } catch (error) {
       toast.error(error?.message || "An unexpected error occurred.");
     }
   };
-
 
   const handleLogoutClick = () => {
     setShowPrompt(true);
