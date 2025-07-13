@@ -34,8 +34,9 @@ function Nav() {
     try {
       await logoutUser();
       toggleNav();
-      router.push("/");
+      router.push("/apartment");
       toast.success("Logged out successfully");
+      window.location.reload();
     } catch (error) {
       toast.error(error?.message || "An unexpected error occurred.");
     }

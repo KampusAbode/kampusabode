@@ -144,6 +144,7 @@
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
+  text-align: center;
 }
 .properties-details-page .container .top .about-agent .agent-details img {
   -webkit-user-select: none;
@@ -383,6 +384,12 @@
 }
 @media screen and (max-width: 480px) {
   .properties-details-page .prop-image-details .property-images .container .display-image {
-    height: 57vh;
+    height: 60vh;
+  }
+  .properties-details-page .prop-image-details .property-images .container .control-image img {
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+    min-height: 45px;
   }
 }/*# sourceMappingURL=property.css.map */

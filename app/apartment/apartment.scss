@@ -82,13 +82,6 @@
       place-content: center;
       cursor: pointer;
       background-color: var(--light-gray);
-      svg {
-        width: 25px;
-        height: 25px;
-        path {
-          fill: var(--font-color-p);
-        }
-      }
     }
   }
 }
@@ -103,11 +96,6 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: calc(1.5 * var(--spacing));
-
-    span,
-    svg path {
-      color: var(--font-color-p);
-    }
   }
 }
 @media screen and (max-width: 1200px) {

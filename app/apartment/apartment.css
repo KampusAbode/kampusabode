@@ -64,13 +64,6 @@
   cursor: pointer;
   background-color: var(--light-gray);
 }
-.user-search .container .search-icon svg {
-  width: 25px;
-  height: 25px;
-}
-.user-search .container .search-icon svg path {
-  fill: var(--font-color-p);
-}
 
 .property-listings {
   margin: var(--spacing) 0 var(--spacing-3x);
@@ -83,10 +76,6 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: calc(1.5 * var(--spacing));
-}
-.property-listings .properties span,
-.property-listings .properties svg path {
-  color: var(--font-color-p);
 }
 
 @media screen and (max-width: 1200px) {
