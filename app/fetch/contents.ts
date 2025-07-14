@@ -106,11 +106,11 @@ const homeSection: HomeType = {
       // { name: "contact", to: "/contact" },
     ],
     socials: [
-      {
+     /* {
         name: "facebook",
         to: "https://facebook.com/kampusabode",
         icon: FaFacebook,
-      },
+      },*/
       {
         name: "instagram",
         to: "https://instagram.com/kampusabode",
@@ -118,14 +118,14 @@ const homeSection: HomeType = {
       },
       {
         name: "twitter",
-        to: "https://twitter.com/kampusabode",
+        to: "https://twitter.com/kampus_abode",
         icon: FaTwitter,
       },
-      {
+     /* {
         name: "linkedin",
         to: "https://linkedin.com/company/kampusabode",
         icon: FaLinkedin,
-      },
+      },*/
     ],
   },
 };
