@@ -208,7 +208,7 @@ const ChatComponent: React.FC<ChatProps> = ({
                   <span>{formatTimestamp(msg.timestamp)}</span>
                 </div>
                 <div className="message-content">
-                  <p>{msg.content}</p>
+                  <span>{msg.content}</span>
                 </div>
               </div>
             ))

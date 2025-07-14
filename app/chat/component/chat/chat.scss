@@ -7,6 +7,7 @@
   flex-direction: column;
   justify-content: space-between;
   gap: var(--spacing);
+  padding-bottom: 0;
 
   & > .container {
     display: flex;
@@ -17,7 +18,7 @@
     margin-top: var(--spacing-3x);
     height: 100%;
 
-    a{
+    a {
       text-decoration: underline;
     }
   }
@@ -63,14 +64,11 @@
 
         span {
           color: var(--font-color-p);
-          font-size: var(--font-size-xs);
         }
       }
 
       .message-content {
-        padding-block: var(--spacing);
         color: var(--font-color-p);
-        size: var(--font-size-sm);
         user-select: none;
       }
 
@@ -87,10 +85,8 @@
           }
         }
         .message-content {
-          padding-block: var(--spacing);
-          p {
+          span {
             color: var(--font-white);
-            size: var(--font-size-sm);
           }
         }
       }
@@ -99,7 +95,6 @@
 
   .chat-input {
     width: 100%;
-    max-width: 900px;
     margin: 0 auto;
     padding-block: var(--spacing);
     background-color: var(--light-gray);

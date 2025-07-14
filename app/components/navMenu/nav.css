@@ -96,8 +96,11 @@
   gap: var(--spacing);
   font-size: var(--font-size-sm);
 }
+.nav-menu .top ul li a svg {
+  width: 24px;
+}
 .nav-menu .top ul li a svg path {
-  fill: var(--font-color-h);
+  fill: none;
 }
 .nav-menu .logout {
   text-align: center;

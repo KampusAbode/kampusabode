@@ -3,10 +3,11 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { FaTimes, FaRegUserCircle, FaSearchLocation } from "react-icons/fa";
+import { FaTimes, FaRegUserCircle, FaSearchLocation, FaRegUser, FaUser } from "react-icons/fa";
+import { TbHomeSearch, TbMessageCircleUser, TbMessageUser } from "react-icons/tb";
 import { CiViewBoard, CiHome } from "react-icons/ci";
 import { GrUserAdmin } from "react-icons/gr";
-import { LuLogOut } from "react-icons/lu";
+import { LuCircleUserRound, LuLayoutDashboard, LuLogOut, LuMessagesSquare } from "react-icons/lu";
 
 import { IoChatbubblesOutline } from "react-icons/io5";
 import toast from "react-hot-toast";
@@ -17,6 +18,7 @@ import Prompt from "../modals/prompt/Prompt";
 import { logoutUser } from "../../utils/auth";
 import { checkIsAdmin } from "../../utils";
 import Image from "next/image";
+import { RiHomeLine } from "react-icons/ri";
 
 function Nav() {
   const pathname = usePathname();
@@ -122,7 +124,7 @@ function Nav() {
                   pathname === "/dashboard" || pathname === "/" ? "active" : ""
                 }>
                 <Link href={user ? "/dashboard" : "/"} onClick={toggleNav}>
-                  {user ? <CiViewBoard /> : <CiHome />}
+                  {user ? <RiHomeLine /> : <CiHome />}
                   {user ? "dashboard" : "home"}
                 </Link>
               </li>
@@ -131,7 +133,7 @@ function Nav() {
                 title="Apartment"
                 className={pathname === "/apartment" ? "active" : ""}>
                 <Link href="/apartment" onClick={toggleNav}>
-                  <FaSearchLocation />
+                  <TbHomeSearch />
                   Apartment
                 </Link>
               </li>
@@ -141,7 +143,7 @@ function Nav() {
                   title="Admin Chat"
                   className={pathname === "/adminchatroom" ? "active" : ""}>
                   <Link href="/adminchatroom" onClick={toggleNav}>
-                    <GrUserAdmin />
+                    <LuMessagesSquare />
                     User Messages
                   </Link>
                 </li>
@@ -151,7 +153,7 @@ function Nav() {
                 title="Profile"
                 className={pathname === "/profile" ? "active" : ""}>
                 <Link href="/profile" onClick={toggleNav}>
-                  <FaRegUserCircle />
+                  <LuCircleUserRound />
                   profile
                 </Link>
               </li>

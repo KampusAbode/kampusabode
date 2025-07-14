@@ -53,7 +53,7 @@ const AdminChat = () => {
     }
     checkUserPermissions(user?.id);
 
-    if (!isAdmin) {
+    if (isAdmin) {
       toast.error("Access denied: Admins only", {id: "admin-access"});
       router.replace("/apartment");
       return;

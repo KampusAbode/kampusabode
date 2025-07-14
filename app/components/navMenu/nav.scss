@@ -116,8 +116,10 @@
           font-size: var(--font-size-sm);
 
           svg {
-            path {
-              fill: var(--font-color-h);
+            width: 24px;
+
+            path{
+              fill: none;
             }
           }
         }
