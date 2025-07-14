@@ -7,6 +7,7 @@ import Loader from "../components/loader/Loader";
 import { TrendType } from "../fetch/types";
 import "./trends.css";
 import { useTrendStore } from "../store/trendStore";
+import data  from "../fetch/contents";
 
 export default function trendsPage() {
   // const [trends, setTrends] = useState<TrendType[]>([]);
@@ -15,17 +16,8 @@ export default function trendsPage() {
   // const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<string>("all");
+  const { trendcategories } = data; 
 
-  const trendCategories = [
-    "Trending",
-    "School updates",
-    "Events",
-    "Sports",
-    "Music & Entertainment",
-    "Football",
-    "Tech & Innovations",
-    "Departments",
-  ];
 
   useEffect(() => {
     // Fetch trends using allTrends function
@@ -73,7 +65,7 @@ export default function trendsPage() {
         <h2 className="page-heading">Trends</h2>
       </div>
 
-          {/* <div className="search-trends">
+      {/* <div className="search-trends">
             <input
               type="text"
               value={searchQuery}
@@ -87,19 +79,21 @@ export default function trendsPage() {
               <FaSearch />
             </div>
           </div> */}
-          
+
+      
       <div className="filter">
         <div className="container">
-
           <span
             className={`filter-btn ${activeCategory === "all" ? "active" : ""}`}
             onClick={() => filterByCategory("all")}>
             All
           </span>
-          {trendCategories.map((category, index) => (
+          {trendcategories.map((category, index) => (
             <span
               key={index}
-              className={`filter-btn ${activeCategory === category ? "active" : ""}`}
+              className={`filter-btn ${
+                activeCategory === category ? "active" : ""
+              }`}
               onClick={() => filterByCategory(category)}>
               {category}
             </span>

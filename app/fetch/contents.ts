@@ -84,11 +84,15 @@ const homeSection: HomeType = {
   footer: {
     company: [
       // { name: "about", to: "/about" },
-   //   { name: "properties", to: "/apartment" },
-     // { name: "trends", to: "/trends" },
-    //  { name: "marketplace", to: "/marketplace" },
+      //   { name: "properties", to: "/apartment" },
+      // { name: "trends", to: "/trends" },
+      //  { name: "marketplace", to: "/marketplace" },
       { name: "FAQs", to: "/legal/faqs" },
-     { name: "testimonials", to: "/legal/testimonials" },
+      { name: "testimonials", to: "/legal/testimonials" },
+      {
+        name: "Community",
+        to: "https://chat.whatsapp.com/IKDwZQy5BVEIGIIWkjj9zx?mode=ac_t",
+      },
       // { name: "contact", to: "/contact" },
     ],
     support: [
@@ -97,6 +101,7 @@ const homeSection: HomeType = {
       // { name: "policies", to: "/legal/policies" },
       { name: "disclaimer", to: "/legal/disclaimer" },
       { name: "user agreement", to: "/legal/useragreement" },
+      { name: "whatsapp", to: "https://wa.me/+2347012105995" },
       // { name: "contact", to: "/contact" },
     ],
   },
@@ -119,7 +124,7 @@ const locations = [
   "may fair",
   "lagere",
   "road 7",
-  "OAU campus"
+  "OAU campus",
 ];
 
 const trendcategories = [
@@ -134,7 +139,6 @@ const trendcategories = [
   "Departments",
   "Housing",
 ];
-
 
 const priceRanges = [
   { label: "0 - 200,000", value: [100, 100000] },
