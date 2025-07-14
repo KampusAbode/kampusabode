@@ -83,13 +83,13 @@ const homeSection: HomeType = {
   tags: [],
   footer: {
     company: [
-      { name: "about", to: "/about" },
+      // { name: "about", to: "/about" },
    //   { name: "properties", to: "/apartment" },
      // { name: "trends", to: "/trends" },
     //  { name: "marketplace", to: "/marketplace" },
       { name: "FAQs", to: "/legal/faqs" },
      { name: "testimonials", to: "/legal/testimonials" },
-      { name: "contact", to: "/contact" },
+      // { name: "contact", to: "/contact" },
     ],
     support: [
       // { name: "FAQs", to: "/legal/faq" },
@@ -145,14 +145,14 @@ const priceRanges = [
 const bedroomOptions = [1, 2, 3, 4, 5];
 
 const links: LinkType[] = [
-  { to: "about", direct: "/about" },
+  // { to: "about", direct: "/about" },
   { to: "properties", direct: "/apartment" },
   { to: "trends", direct: "/trends" },
   { to: "marketplace", direct: "/marketplace" },
   // { to: "contact", direct: "/contact" },
 ];
 
-const universities = ["OAU", "UNILAG", "UI", "UNN", "FUTA"];
+const universities = ["OAU", "UNILAG", "OUI", "UI", "UNN", "FUTA", "UNILORIN"];
 
 const data = {
   homeSection,

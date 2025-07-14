@@ -6,7 +6,7 @@ function FAQs() {
   return (
     <section className="faqs">
       <div className="container">
-        <h3>Frequently Asked Questions (FAQ)</h3>
+        <h3 className="page-heading">Frequently Asked Questions (FAQ)</h3>
 
         <h4>1. General Questions</h4>
         <div className="qa">
@@ -82,21 +82,21 @@ function FAQs() {
             listing will go live for students to view.
           </p>
         </div>
-        <div className="qa">
+        {/* <div className="qa">
           <p>Q: Are there any fees for listing properties?</p>
           <p>
             A: Listing properties is free, but we offer premium options, such as
             boosting your property’s visibility or featuring it on the homepage,
             for an additional fee.
           </p>
-        </div>
+        </div> */}
         <div className="qa">
           <p>Q: How do I manage my property listings?</p>
           <p>
-            A: You can manage your properties by navigating to the "My
-            Properties" section in your agent dashboard. From there, you can
-            edit details, mark a property as rented, or remove listings that are
-            no longer available.
+            A: You can manage your properties by navigating to the "Dashboard"
+            section in your agent dashboard. From there, you can edit details,
+            mark a property as rented, or remove listings that are no longer
+            available.
           </p>
         </div>
         <div className="qa">
@@ -104,7 +104,7 @@ function FAQs() {
           <p>
             A: Yes! Students can leave reviews for agents based on their
             experience with your service and properties. You can view these
-            reviews in your dashboard and respond if necessary.
+            reviews in your dashboard.
           </p>
         </div>
 
@@ -125,7 +125,7 @@ function FAQs() {
             number). Remember to save the changes once you’re done.
           </p>
         </div>
-        <div className="qa">
+        {/* <div className="qa">
           <p>Q: Can I delete my account?</p>
           <p>
             A: Yes. If you wish to delete your account, go to the account
@@ -133,9 +133,9 @@ function FAQs() {
             is permanent, and you will lose all your saved properties and
             listings.
           </p>
-        </div>
+        </div> */}
 
-        <h4></h4>
+        {/* <h4>Payment</h4>
         <div className="qa">
           <p>Q: How do I make payments for premium features?</p>
           <p>
@@ -161,7 +161,7 @@ function FAQs() {
             <Link href="/legal/refundpolicy">Refund Policy</Link> for more
             details.
           </p>
-        </div>
+        </div> */}
 
         <h4>6. Safety and Trust</h4>
         <div className="qa">
@@ -198,6 +198,7 @@ function FAQs() {
             A: If you face any technical issues while using the app, try
             refreshing the page or clearing your browser cache. If the problem
             persists, please contact our support team for assistance.
+            contacKampusabode@gmail.com or +234 7012 105 995
           </p>
         </div>
 

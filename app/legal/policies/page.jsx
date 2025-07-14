@@ -1,282 +1,232 @@
 import React from "react";
 import "../legal.css";
 
-const CookiePolicy = () => {
+const Policies = () => {
   return (
     <section className="policies">
       <div className="container">
+        {/* Privacy Policy */}
         <div className="privacy-policy" id="privacypolicy">
           <h3>Privacy Policy</h3>
           <p>Last Updated: 01-22-2024</p>
 
           <h4>1. Information We Collect</h4>
           <p>
-            We collect information that you provide directly to us when you
-            create an account, list a property, interact with other users, or
-            use the Kampusabode platform. This includes:
+            We collect information you provide directly to us when creating an
+            account, listing a property, interacting with users, or using the
+            Kampus Abode platform. This includes:
           </p>
           <ul>
             <li>
-              <p>
-                Account Information: Username, email address, password, and user
-                type (student or agent).
-              </p>
+              <strong>Account Information:</strong> Username, email, password,
+              and user type (student or agent).
             </li>
             <li>
-              <p>
-                Profile Information: Personal details like school, program (for
-                students), or agency name (for agents), and any other profile
-                information you choose to share.
-              </p>
+              <strong>Profile Information:</strong> School, program (for
+              students), or agency name (for agents), plus any optional details
+              you choose to share.
             </li>
             <li>
-              <p>
-                Property Information: Details of properties listed by agents,
-                including location, rent, property features, and images.
-              </p>
+              <strong>Property Information:</strong> Listing details including
+              location, rent, features, and images.
             </li>
             <li>
-              <p>
-                Communication Data: Messages between you and other users,
-                feedback, or inquiries sent through the platform.
-              </p>
+              <strong>Communication Data:</strong> Messages, feedback, and
+              inquiries exchanged via the platform.
             </li>
             <li>
-              <p>
-                Payment Information: If applicable, we may collect payment
-                details and billing information when transactions are made
-                through the platform.
-              </p>
+              <strong>Payment Information:</strong> If applicable, we may
+              collect billing details for transactions made through the
+              platform.
             </li>
             <li>
-              <p>
-                Usage Data: Information about how you interact with the
-                platform, such as browsing behavior, pages viewed, and features
-                accessed.
-              </p>
+              <strong>Usage Data:</strong> Browsing behavior, pages viewed, and
+              platform features used.
             </li>
           </ul>
 
           <h4>2. How We Use Your Information</h4>
-          <p>
-            We use your information to provide, maintain, and improve the Kampus
-            Abode platform. This includes:
-          </p>
           <ul>
             <li>
-              <p>
-                Account Creation and Authentication: To register your account
-                and manage logins.
-              </p>
+              <strong>Account Management:</strong> To create, authenticate, and
+              manage user accounts.
             </li>
             <li>
-              <p>
-                Property Listings: To enable agents to list properties and
-                students to browse properties, interact with agents, and
-                bookmark listings.
-              </p>
+              <strong>Listings:</strong> To allow agents to post accommodations
+              and students to explore, save, and connect with agents.
             </li>
             <li>
-              <p>
-                Personalization: To customize your experience based on your user
-                type and preferences, including showing recommended properties.
-              </p>
+              <strong>Personalization:</strong> To tailor your experience and
+              recommend listings based on preferences.
             </li>
             <li>
-              <p>
-                Communication: To send important notifications, respond to
-                inquiries, and facilitate communication between students and
-                agents.
-              </p>
+              <strong>Communication:</strong> To send notifications, respond to
+              inquiries, and facilitate user interactions.
             </li>
             <li>
-              <p>
-                Security: To protect your account and the platform from fraud
-                and misuse, including monitoring suspicious activity.
-              </p>
+              <strong>Security:</strong> To protect users from fraud and monitor
+              suspicious activity.
             </li>
             <li>
-              <p>
-                Analytics: To analyze usage patterns and improve the overall
-                performance and user experience of the platform.
-              </p>
+              <strong>Analytics:</strong> To improve the platform’s performance,
+              usability, and features.
             </li>
           </ul>
 
           <h4>3. How We Share Your Information</h4>
-          <p>
-            We may share your information with third parties in the following
-            ways:
-          </p>
           <ul>
             <li>
-              <p>
-                With Service Providers: We may share your information with
-                trusted third-party vendors who help us operate the platform,
-                such as hosting providers or payment processors.
-              </p>
+              <strong>Service Providers:</strong> With trusted third parties
+              such as hosting or payment vendors.
             </li>
             <li>
-              <p>
-                With Other Users: Agents and students will be able to see
-                certain information you choose to share, such as property
-                listings, reviews, and public profile details.
-              </p>
+              <strong>Other Users:</strong> Public profile data and listings are
+              visible to other users.
             </li>
             <li>
-              <p>
-                For Legal Reasons: We may share your information to comply with
-                legal obligations, resolve disputes, or enforce our agreements.
-              </p>
+              <strong>Legal Requirements:</strong> To comply with laws, enforce
+              agreements, or resolve disputes.
             </li>
             <li>
-              <p>
-                Business Transfers: In the event of a merger, acquisition, or
-                asset sale, your information may be transferred to the new
-                entity.
-              </p>
+              <strong>Business Transfers:</strong> In case of acquisition,
+              merger, or asset transfer, data may be shared with new
+              stakeholders.
             </li>
           </ul>
 
           <h4>4. Data Security</h4>
           <p>
-            We take reasonable measures to protect your personal information
-            from unauthorized access, use, or disclosure. However, no data
-            transmission over the Internet or storage system can be guaranteed
-            to be 100% secure. Please ensure that you choose a strong password
-            and keep it confidential.
+            We implement reasonable safeguards to protect your personal data.
+            However, no system is completely secure. Please use strong passwords
+            and keep your credentials confidential.
           </p>
 
-          <h4>5. Your Choices and Rights</h4>
-          <p>
-            You have control over your personal information and can take the
-            following actions:
-          </p>
+          <h4>5. Your Rights & Choices</h4>
           <ul>
             <li>
-              <p>
-                Access and Update: You can access and update your personal
-                information through your account settings at any time.
-              </p>
+              <strong>Update Information:</strong> You can update your profile
+              through your account settings.
             </li>
             <li>
-              <p>
-                Delete Account: You may request to delete your account and all
-                associated data by contacting our support team. Once deleted,
-                your information cannot be recovered.
-              </p>
+              <strong>Delete Account:</strong> You may request account deletion
+              by contacting our support team.
             </li>
             <li>
-              <p>
-                Opt-Out of Communications: You can opt out of receiving
-                promotional emails and other communications by following the
-                unsubscribe instructions in our emails.
-              </p>
+              <strong>Email Preferences:</strong> You can unsubscribe from
+              promotional emails using the link in any email.
             </li>
           </ul>
 
-          <h4>6. Cookies and Tracking Technologies</h4>
+          <h4>6. Cookies and Tracking</h4>
           <p>
-            We use cookies and similar tracking technologies to enhance your
-            experience on the platform. Cookies help us remember your
-            preferences, understand how you use the platform, and provide
-            targeted content or advertisements. You can control or disable
-            cookies in your browser settings, but this may affect your ability
-            to use certain features.
+            We use cookies and similar tools to enhance your experience,
+            remember preferences, analyze traffic, and serve relevant content.
+            You can disable cookies via your browser, but this may affect
+            certain features.
           </p>
 
           <h4>7. Children's Privacy</h4>
           <p>
-            Kampusabode is not intended for use by individuals under the age of
-            16. We do not knowingly collect personal information from children
-            under 16. If we become aware that we have collected personal
-            information from a child, we will take steps to delete the
-            information as soon as possible.
+            Kampus Abode is not intended for use by individuals under the age of
+            16. If we learn we’ve collected data from a child, we’ll take
+            immediate steps to delete it.
           </p>
         </div>
 
+        {/* Cookie Policy */}
         <div className="cookie-policy" id="cookiepolicy">
           <h3>Cookie Policy</h3>
-          <p>Last Updated: [Date]</p>
+          <p>Last Updated: 01-22-2024</p>
 
           <h4>1. What Are Cookies?</h4>
           <p>
-            Cookies are small text files stored on your device when you visit a
-            website. They help us provide a better user experience by
-            remembering your preferences and collecting anonymous data about how
-            you interact with the platform.
+            Cookies are small files stored on your device to help websites
+            remember user preferences, improve performance, and track usage.
           </p>
 
           <h4>2. Types of Cookies We Use</h4>
-          <p>
-            Essential Cookies: Necessary for the operation of the platform, such
-            as user authentication.
-          </p>
-          <p>
-            Performance Cookies: Help us understand how users interact with
-            Kampusabode, enabling us to improve performance.
-          </p>
-          <p>
-            Advertising Cookies: Used to deliver relevant ads based on your
-            browsing behavior.
-          </p>
+          <ul>
+            <li>
+              <strong>Essential Cookies:</strong> Required for core
+              functionality like login and session management.
+            </li>
+            <li>
+              <strong>Performance Cookies:</strong> Used to understand how users
+              interact with the platform so we can improve it.
+            </li>
+            <li>
+              <strong>Advertising Cookies:</strong> May be used to serve
+              tailored content or ads based on usage behavior.
+            </li>
+          </ul>
 
           <h4>3. Managing Cookies</h4>
           <p>
-            You can manage your cookie preferences in your browser settings.
-            However, disabling cookies may affect the functionality of the
-            platform.
+            You can manage or disable cookies through your browser settings.
+            Please note that disabling some cookies may impact platform
+            functionality.
           </p>
         </div>
 
+        {/* Refund Policy */}
         <div className="refund-policy" id="refundpolicy">
           <h3>Refund Policy</h3>
-          <p>Last Updated: [Date]</p>
+          <p>Last Updated: 01-22-2024</p>
 
           <p>
-            At Kampusabode, we strive to provide a seamless experience for
-            agents and students alike. This Refund Policy explains the
-            conditions under which refunds are issued for premium services
-            purchased by agents.
+            Kampus Abode aims to provide a seamless experience for students and
+            agents. This policy outlines our current approach to refunds related
+            to premium features.
           </p>
 
           <h4>1. Eligibility for Refunds</h4>
-          <p>Refunds are available under the following conditions:</p>
-          <p>
-            Technical Issues: If a technical issue prevents your property
-            listing from being displayed correctly, we will issue a refund or
-            offer a service credi
-          </p>
-          <p>
-            Service Cancellations: If you cancel a premium service within [X]
-            days of purchase and the service has not been used, you may be
-            eligible for a refund.
-          </p>
+          <ul>
+            <li>
+              <strong>Technical Issues:</strong> If a technical problem prevents
+              a premium service (like featured listings) from displaying
+              properly, we will offer a refund or credit.
+            </li>
+            <li>
+              <strong>Early Cancellation:</strong> If an unused premium feature
+              is canceled within [X] days, you may be eligible for a full or
+              partial refund.
+            </li>
+          </ul>
 
-          <h4>2. Non-Refundable Services</h4>
-          <p>We do not offer refunds for:</p>
-          <p>
-            Used premium features (e.g., property boosts or featured listings).
-          </p>
-          <p>Voluntary account deletions.</p>
+          <h4>2. Non-Refundable Items</h4>
+          <ul>
+            <li>Used premium services (e.g., active boosts or promotions).</li>
+            <li>Voluntary account deletion or inactivity.</li>
+          </ul>
 
           <h4>3. How to Request a Refund</h4>
           <p>
-            To request a refund, please contact us at: contactKampusabode.com.
-            Include your account details and reason for the request. Refunds are
-            processed within [X] days of approval.
+            To request a refund, email us at{" "}
+            <a href="mailto:contactKampusabode@gmail.com">
+              contactKampusabode@gmail.com
+            </a>{" "}
+            with your account details and a brief explanation. Refunds are
+            typically processed within [X] business days upon approval.
           </p>
         </div>
 
-        <h3>Contact Us</h3>
-        <p>
-          If you have any questions about this Privacy Policy or our data
-          practices, please contact us at:
-        </p>
-        <p>Email: contactKampusabode@gmail.com</p>
+        {/* Contact Section */}
+        <div className="contact-policy">
+          <h3>Contact Us</h3>
+          <p>
+            If you have any questions about these policies or how we handle your
+            information, please contact us at:
+          </p>
+          <p>
+            Email:{" "}
+            <a href="mailto:contactKampusabode@gmail.com">
+              contactKampusabode@gmail.com
+            </a>
+          </p>
+        </div>
       </div>
     </section>
   );
 };
 
-export default CookiePolicy;
+export default Policies;

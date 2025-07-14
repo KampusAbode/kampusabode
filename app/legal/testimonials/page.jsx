@@ -10,22 +10,25 @@ const Testimonials = () => {
         <div className="testimonial">
           <blockquote>
             <p>
-              “Kampusabode helped me find the perfect apartment near campus
-              within a week! The process was so easy, and I loved being able to
-              chat directly with the agent.”
+              “ "Kampus Abode is the best there is and the best there’ll ever
+              be. I highly recommend Kampus Abode to anyone looking to rent.
+              Their integrity, attention to detail, and customer-first approach
+              truly set them apart."”
             </p>
-            <footer>– Sarah L., Student at XYZ University</footer>
+            <footer>
+              – Matthew Balogun, Student at Obafemi Awolowo University
+            </footer>
           </blockquote>
         </div>
 
         <div className="testimonial">
           <blockquote>
             <p>
-              “As a property agent, I’ve been able to list and rent out my
-              properties faster than ever thanks to Kampusabode’s easy-to-use
-              platform and targeted student audience.”
+              “Wow, I'm impressed by how fast and reliable Kampus Abode is! It's
+              incredibly easy to use, and being able to rent through my phone
+              adds an extra layer of convenience. Thanks!"”
             </p>
-            <footer>– John D., Real Estate Agent</footer>
+            <footer>– Wale, Student at Obafemi Awolowo University</footer>
           </blockquote>
         </div>
       </div>

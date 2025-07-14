@@ -90,6 +90,8 @@
       flex-direction: column;
       gap: 5px;
 
+      margin-top: var(--spacing-4x);
+
       &::-webkit-scrollbar {
         display: none;
       }

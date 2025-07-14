@@ -434,14 +434,14 @@
 }
 .cta-section span {
   letter-spacing: 2px;
-  color: var(--font-color-p);
+  color: var(--font-white);
 }
 .cta-section h3 {
   color: var(--font-white);
   margin-block: var(--spacing);
 }
 .cta-section p {
-  color: var(--font-color-p);
+  color: var(--font-white);
 }
 .cta-section .cta {
   margin-top: var(--spacing);
