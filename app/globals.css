@@ -65,7 +65,6 @@
   line-height: var(--line-height);
   list-style-type: none;
   text-decoration: none;
-  scroll-behavior: smooth;
 }
 *:focus, *:active {
   outline: none;
@@ -75,10 +74,6 @@
 }
 * *:not(body)::-webkit-scrollbar {
   display: none;
-}
-
-html {
-  scroll-behavior: smooth;
 }
 
 body {

@@ -49,11 +49,17 @@
   text-transform: capitalize;
   transition: var(--transition);
 }
-.navigation ul li.active div span svg {
-  transform: translateY(-8px) !important;
+.navigation ul li svg {
+  transition: var(--transition);
 }
-.navigation ul li.active div span svg path {
+.navigation ul li.active svg {
+  transform: translateY(-8px);
+}
+.navigation ul li.active svg path {
   fill: var(--primary-color) !important;
+}
+.navigation ul li.active span {
+  color: var(--primary-color);
 }
 
 @media screen and (min-width: 768px) {

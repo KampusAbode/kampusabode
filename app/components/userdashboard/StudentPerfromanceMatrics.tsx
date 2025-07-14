@@ -6,7 +6,7 @@ function StudentPerfromanceMatrics({ user }) {
       <div className="matric">
         <h6>
           {user?.userType === "student"
-            ? user?.userInfo.savedProperties.length.toString()
+            ? user?.userInfo.savedProperties.length
             : 0}
         </h6>
         <p>saved properties</p>
@@ -14,7 +14,7 @@ function StudentPerfromanceMatrics({ user }) {
       <div className="matric">
         <h6>
           {user?.userType === "student"
-            ? user?.userInfo.viewedProperties.length.toString()
+            ? user?.userInfo.viewedProperties.length
             : 0}
         </h6>
         <p>viewed properties</p>
@@ -22,7 +22,7 @@ function StudentPerfromanceMatrics({ user }) {
       <div className="matric">
         <h6>
           {user?.userType === "student"
-            ? user?.userInfo.wishlist.length.toString()
+            ? user?.userInfo.wishlist.length
             : 0}
         </h6>
         <p>wishlist</p>

@@ -189,7 +189,11 @@
 
             &.ratings{
               svg{
-                fill: none !important;
+                fill: none;
+
+                path{
+                  fill: var(--font-color-p);
+                }
               }
             }
           }

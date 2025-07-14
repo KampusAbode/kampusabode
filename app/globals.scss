@@ -115,8 +115,6 @@
   line-height: var(--line-height);
   list-style-type: none;
   text-decoration: none;
-  scroll-behavior: smooth;
-  // font-weight: 500;
 
   &:focus,
   &:active {
@@ -130,10 +128,6 @@
   }
 }
 
-html {
-  scroll-behavior: smooth;
-  // overflow-x: hidden !important;
-}
 
 body {
   font-family: var(--font-inter);

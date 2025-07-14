@@ -182,7 +182,10 @@
           user-select: none;
 }
 .properties-details-page .container .top .about-agent .agent-stats div.ratings svg {
-  fill: none !important;
+  fill: none;
+}
+.properties-details-page .container .top .about-agent .agent-stats div.ratings svg path {
+  fill: var(--font-color-p);
 }
 .properties-details-page .container .top .about-agent .bio {
   margin-top: var(--spacing);

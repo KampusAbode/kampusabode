@@ -56,17 +56,18 @@
           transition: var(--transition);
         }
       }
-
+      svg {
+        transition: var(--transition);
+      }
       &.active {
-        div {
-          span {
-            svg {
-              transform: translateY(-8px) !important;
-              path {
-                fill: var(--primary-color) !important;
-              }
-            }
+        svg {
+          transform: translateY(-8px);
+          path {
+            fill: var(--primary-color) !important;
           }
+        }
+        span {
+          color: var(--primary-color);
         }
       }
     }
