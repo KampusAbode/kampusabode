@@ -28,10 +28,12 @@
     overflow-y: auto;
     padding-block: var(--spacing);
 
+
     .loading-text {
       text-align: center;
       margin-top: 50px;
     }
+    
 
     &::-webkit-scrollbar {
       visibility: hidden;
