@@ -44,7 +44,12 @@ const QuickService = () => {
   
   if (!user) return null;
 
-  let config;
+  interface QuickServiceConfig {
+    icon: React.ElementType;
+    link: string;
+  }
+
+  let config: QuickServiceConfig | undefined;
 
   if (pathname === "/apartment") {
     config = {

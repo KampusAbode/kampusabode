@@ -1,3 +1,4 @@
+import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { HomeType, LinkType } from "./types";
 
 const homeSection: HomeType = {
@@ -103,6 +104,28 @@ const homeSection: HomeType = {
       { name: "user agreement", to: "/legal/useragreement" },
       { name: "whatsapp", to: "https://wa.me/+2347012105995" },
       // { name: "contact", to: "/contact" },
+    ],
+    socials: [
+      {
+        name: "facebook",
+        to: "https://facebook.com/kampusabode",
+        icon: FaFacebook,
+      },
+      {
+        name: "instagram",
+        to: "https://instagram.com/kampusabode",
+        icon: FaInstagram,
+      },
+      {
+        name: "twitter",
+        to: "https://twitter.com/kampusabode",
+        icon: FaTwitter,
+      },
+      {
+        name: "linkedin",
+        to: "https://linkedin.com/company/kampusabode",
+        icon: FaLinkedin,
+      },
     ],
   },
 };

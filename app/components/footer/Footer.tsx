@@ -13,11 +13,17 @@ export default function Footer() {
   const { footer } = homeSection;
 
   // Render the footer only if the pathname contains any of the excluded paths
-  const excludedPaths = ["login", "signup", "properties", "dashboard", "chat", "adminchatroom"];
+  const excludedPaths = [
+    "login",
+    "signup",
+    "properties",
+    "dashboard",
+    "chat",
+    "adminchatroom",
+  ];
   if (excludedPaths.some((path) => pathname.includes(`/${path}`))) {
     return null;
   }
-
 
   return (
     <footer className="footer">
@@ -51,30 +57,15 @@ export default function Footer() {
           <div className="footer-column">
             <h6>Follow Us</h6>
             <div className="social-links">
-              <Link
-                href="https://facebook.com"
-                aria-label="Facebook"
-                title="Facebook">
-                <FaFacebook />
-              </Link>
-              <Link
-                href="https://instagram.com"
-                aria-label="Instagram"
-                title="Instagram">
-                <FaInstagram />
-              </Link>
-              <Link
-                href="https://twitter.com"
-                aria-label="Twitter"
-                title="Twitter">
-                <FaTwitter />
-              </Link>
-              <Link
-                href="https://linkedin.com"
-                aria-label="Linkedin"
-                title="Linkedin">
-                <FaLinkedin />
-              </Link>
+              {footer.socials.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.to}
+                  aria-label={link.name}
+                  title={link.name}>
+                  <link.icon />
+                </Link>
+              ))}
             </div>
           </div>
         </div>

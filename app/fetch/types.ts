@@ -43,6 +43,11 @@ export interface HomeType {
       name: string;
       to: string;
     }[];
+    socials: {
+      name: string;
+      to: string;
+      icon: React.ElementType;
+    }[];
   };
 }
 
