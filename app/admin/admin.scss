@@ -123,10 +123,23 @@
             margin-block: var(--spacing);
             border-radius: var(--border-radius);
 
-            & > .flex > span svg {
-              stroke: var(--primary-color);
-              path {
-                fill: var(--font-color-p);
+            & > .flex {
+              span {
+                &.verified {
+                  svg {
+                    path {
+                      fill: var(--success);
+                    }
+                  }
+                }
+
+                &.not-verified {
+                  svg {
+                    path {
+                      fill: var(--error);
+                    }
+                  }
+                }
               }
             }
 

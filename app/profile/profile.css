@@ -35,11 +35,16 @@
   align-items: center;
   margin-bottom: var(--spacing-h);
 }
-.profile-page .container .profile-overview .dt .tdt > span span, .profile-page .container .profile-overview .dt .tdt > span .not-verified {
-  color: var(--error);
+.profile-page .container .profile-overview .dt .tdt > span span {
   margin-left: var(--spacing-h);
   font-size: var(--font-size-xs);
   line-height: var(--line-height-md);
+}
+.profile-page .container .profile-overview .dt .tdt > span span.verified svg path {
+  fill: var(--success);
+}
+.profile-page .container .profile-overview .dt .tdt > span span.not-verified svg path {
+  fill: var(--error);
 }
 .profile-page .container .cp {
   margin-top: var(--spacing-2x);

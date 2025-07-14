@@ -221,7 +221,7 @@ export default function App() {
                   </div>
 
                   <div className="rating">
-                    <RiVerifiedBadgeLine />
+                    <RiVerifiedBadgeLine title="Verified"/>
                   </div>
                 </div>
                 <div className="testi-content">

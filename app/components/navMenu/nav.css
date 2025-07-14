@@ -98,6 +98,7 @@
 }
 .nav-menu .top ul li a svg {
   width: 24px;
+  stroke-width: 1.3;
 }
 .nav-menu .top ul li a svg path {
   fill: none;

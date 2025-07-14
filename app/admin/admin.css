@@ -98,11 +98,11 @@
   margin-block: var(--spacing);
   border-radius: var(--border-radius);
 }
-.admin-dashboard .container .dashboard-content .property-management ul li > .flex > span svg {
-  stroke: var(--primary-color);
+.admin-dashboard .container .dashboard-content .property-management ul li > .flex span.verified svg path {
+  fill: var(--success);
 }
-.admin-dashboard .container .dashboard-content .property-management ul li > .flex > span svg path {
-  fill: var(--font-color-p);
+.admin-dashboard .container .dashboard-content .property-management ul li > .flex span.not-verified svg path {
+  fill: var(--error);
 }
 .admin-dashboard .container .dashboard-content .property-management ul li .flex {
   display: flex;

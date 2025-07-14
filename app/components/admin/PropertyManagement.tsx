@@ -6,6 +6,11 @@ import { usePropertiesStore } from "../../store/propertiesStore";
 import Link from "next/link";
 import { MdErrorOutline, MdVerified } from "react-icons/md";
 import Prompt from "../modals/prompt/Prompt";
+import {
+  RiCloseCircleLine,
+  RiShieldCrossLine,
+  RiVerifiedBadgeLine,
+} from "react-icons/ri";
 
 const PropertyManagement = () => {
   const { properties, setProperties } = usePropertiesStore();
@@ -73,13 +78,17 @@ const PropertyManagement = () => {
                     <span>views: {property.views} </span>
                   </div>
                 </div>
-                <span style={{ color: property.approved ? "green" : "red" }}>
-                  {property.approved ? (
-                    <MdVerified size={20} title="Verified" />
-                  ) : (
-                    <MdErrorOutline size={20} title="Not Verified" />
-                  )}
-                </span>
+                {property.approved ? (
+                  <span
+                    className="verified"
+                    style={{ color: property.approved ? "green" : "red" }}>
+                    <RiVerifiedBadgeLine title="Verified" />
+                  </span>
+                ) : (
+                  <span className="not-verified">
+                    <RiCloseCircleLine title="Not Verified" />
+                  </span>
+                )}
               </div>
               <div className="actions">
                 <button

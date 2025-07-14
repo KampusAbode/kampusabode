@@ -25,18 +25,32 @@
         }
         .tdt {
           padding: var(--spacing);
-          &>span {
+          & > span {
             display: block;
             align-items: center;
             margin-bottom: var(--spacing-h);
 
-            span,.not-verified {
-              color: var(--error);
+            span {
               margin-left: var(--spacing-h);
               font-size: var(--font-size-xs);
               line-height: var(--line-height-md);
-            }
 
+              &.verified {
+                svg {
+                  path {
+                    fill: var(--success);
+                  }
+                }
+              }
+
+              &.not-verified {
+                svg {
+                  path {
+                    fill: var(--error);
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -48,7 +62,6 @@
   }
 }
 
-
 @media screen and (max-width: 786px) {
   .profile-page {
     .container {
@@ -56,13 +69,13 @@
         .dt {
           flex-direction: column;
 
-          .tdt{
+          .tdt {
             text-align: center;
-            &>span{
+            & > span {
               display: flex;
-            align-items: center;
-            justify-content: center;   
-            gap: var(--spacing-h);
+              align-items: center;
+              justify-content: center;
+              gap: var(--spacing-h);
             }
           }
         }

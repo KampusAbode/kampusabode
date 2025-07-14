@@ -114,33 +114,21 @@ export const loginUser = async (userData: UserLoginInput) => {
     const userDataFromCollection = userRef.docs[0].data() as UserType;
 
     // Sign in user with Firebase Auth
-     const userCredential = await signInWithEmailAndPassword(
-       auth,
-       email,
-       password
-     );
-     const user = userCredential.user;
-     const idToken = await user.getIdToken();
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
 
-     // Send ID token to your backend to set session cookie
-     const res = await fetch("/api/sessionLogin", {
-       method: "POST",
-       headers: {
-         "Content-Type": "application/json",
-       },
-       body: JSON.stringify({ idToken }),
-     });
+    console.log("User logged in successfully:", userCredential.user);
 
-     if (!res.ok) {
-       throw new Error("Failed to start session.");
-    }
-    
     const userId = userDataFromCollection.id;
     useUserStore.getState().setUser(userDataFromCollection);
 
     return { message: `Welcome abode! ${userDataFromCollection.name}`, userId };
   } catch (error: any) {
     console.error("Login error:", error);
+    console.log("Login error:", error);
     if (error.code === "auth/invalid-credential") {
       throw {
         message: "Incorrect credentials. Please try again.",
@@ -170,7 +158,6 @@ export const logoutUser = async () => {
 
     // Also clear the Zustand user state
     useUserStore.getState().logoutUser();
-
 
     return { message: "Successfully logged out" };
   } catch (error: any) {

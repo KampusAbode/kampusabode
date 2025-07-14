@@ -188,7 +188,7 @@ const ChatComponent: React.FC<ChatProps> = ({
           <h4 className="page-heading">{receiverName}</h4>
         </div>
       </div>
-      
+
       <div className="chat-display">
         <div className="container">
           {isLoadingMessages ? (
@@ -199,7 +199,7 @@ const ChatComponent: React.FC<ChatProps> = ({
                 key={msg.id}
                 className={`message-box ${
                   msg.senderId === currentUserId ? "right" : "left"
-                  }`}
+                }`}
                 
                 onContextMenu={(e) => {
                   e.preventDefault();
