@@ -67,7 +67,9 @@ const PropertyManagement = () => {
               <div className="flex">
                 <div className="flex">
                   <div className="image">
-                    <img src={property.images[0]} alt={property.title} />
+                    <Link href={property.url}>
+                      <img src={property.images[0]} alt={property.title} />
+                    </Link>
                   </div>
                   <div className="info">
                     <p>

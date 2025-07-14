@@ -124,7 +124,7 @@ function Nav() {
                   pathname === "/dashboard" || pathname === "/" ? "active" : ""
                 }>
                 <Link href={user ? "/dashboard" : "/"} onClick={toggleNav}>
-                  {user ? <RiHomeLine /> : <CiHome />}
+                  {user ? <LuLayoutDashboard /> : <CiHome />}
                   {user ? "dashboard" : "home"}
                 </Link>
               </li>

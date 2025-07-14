@@ -359,6 +359,8 @@ button {
 }
 
 .filter-btn {
+  font-size: var(--font-size-xs);
+  color: var(--font-color-p);
   padding: var(--spacing-b);
   border-radius: var(--border-radius-r);
   text-transform: capitalize;
