@@ -10,6 +10,7 @@ import Loader from "../loader/Loader";
 import Prompt from "../modals/prompt/Prompt";
 import toast from "react-hot-toast";
 import { useUserStore } from "../../store/userStore";
+import { useRouter } from "next/navigation";
 
 const ListedProperties = () => {
   const user = useUserStore((state) => state.user);
@@ -23,6 +24,7 @@ const ListedProperties = () => {
   const [selectedPropertyId, setSelectedPropertyId] = useState<string | null>(
     null
   );
+  const route = useRouter();
 
   useEffect(() => {
     const fetchPropertiesFromDB = async () => {
@@ -80,6 +82,7 @@ const ListedProperties = () => {
         setFilteredProperties((prev) =>
           prev.filter((p) => p.id !== selectedPropertyId)
         );
+        route.refresh();
       } else {
         toast.error(response.message || "Failed to delete property.");
       }
@@ -139,7 +142,9 @@ const ListedProperties = () => {
                 {activeProperty === property.id && (
                   <div className="options">
                     {/* <Link className="option-btn" href={`/apartment/edit/${property.id}`}>Edit</  Link> */}
-                    <button className="option-btn" onClick={() => handleDeleteClick(property.id)}>
+                    <button
+                      className="option-btn"
+                      onClick={() => handleDeleteClick(property.id)}>
                       Delete
                     </button>
                   </div>
