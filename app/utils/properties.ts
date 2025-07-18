@@ -126,7 +126,7 @@ export const getPropertiesByAgent = async (
   try {
     const q = query(
       collection(db, "properties"),
-      where("listedBy", "==", agentId)
+      where("agentId", "==", agentId)
     );
     const snap = await getDocs(q);
     return snap.docs.map((doc) => ({
@@ -153,7 +153,7 @@ export const deleteApartment = async (apartmentId: string) => {
     const imageIds: string[] = apartmentData.images;
 
     // 1. Delete all images from Appwrite
-    if (Array.isArray(imageIds) && imageIds.length > 0) {
+    if (imageIds.length > 0) {
       await Promise.all(
         imageIds.map((imageId) => deleteAppwriteImage(imageId))
       );
@@ -180,7 +180,7 @@ export const deleteApartment = async (apartmentId: string) => {
 
 export const updateapartment = async (
   apartmentId: string,
-  updates: Partial<ApartmentType>
+  updates
 ) => {
   try {
     const docRef = doc(db, "properties", apartmentId);
@@ -197,8 +197,24 @@ export const fetchPropertiesRealtime = (
   try {
     const q = query(
       collection(db, "properties"),
-      where("approved", "==", true),
+      where("approved", "==", true)
     );
+    return onSnapshot(q, (snapshot) => {
+      const properties = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as ApartmentType[];
+      callback(properties);
+    });
+  } catch (error) {
+    console.error("Error in realtime fetch:", error);
+  }
+};
+export const fetchAllPropertiesRealtime = (
+  callback: (properties: ApartmentType[]) => void
+) => {
+  try {
+    const q = query(collection(db, "properties"), orderBy("createdAt", "desc"));
     return onSnapshot(q, (snapshot) => {
       const properties = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -228,17 +244,3 @@ export const toggleApartmentApproval = async (
     );
   }
 };
-
-// export default {
-//     listApartment,
-//     getAllProperties,
-//     getApartmentById,
-//     getApartmentsByIds,
-//     getPropertiesByAgent,
-//     deleteApartment,
-//     updateapartment,
-//     fetchPropertiesRealtime,
-//     toggleApartmentApproval,
-//     deleteAppwriteImage,
-//     uploadApartmentImagesToAppwrite,
-//   };

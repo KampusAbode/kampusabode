@@ -105,7 +105,7 @@ export default function App() {
             </h1>
             <p>{hero.p}</p>
             <div className="cta-hero cta">
-              <Link href="/apartment" className="btn">
+              <Link prefetch href="/apartment" className="btn">
                 view apartments <FaArrowRightLong />
               </Link>
             </div>
@@ -169,7 +169,7 @@ export default function App() {
                     />
                     <div>
                       <h6>{prop.title}</h6>
-                      <Link href={prop.url} className="btn">
+                      <Link prefetch href={prop.url} className="btn">
                         check out <FaArrowRightLong />
                       </Link>
                     </div>
@@ -179,7 +179,7 @@ export default function App() {
             })}
           </div>
           <div className="more-listing">
-            <Link href="/apartment">
+            <Link prefetch href="/apartment">
               more listing <FaArrowRightLong />
             </Link>
           </div>
@@ -221,7 +221,7 @@ export default function App() {
                   </div>
 
                   <div className="rating">
-                    <RiVerifiedBadgeLine title="Verified"/>
+                    <RiVerifiedBadgeLine title="Verified" />
                   </div>
                 </div>
                 <div className="testi-content">
@@ -260,10 +260,10 @@ export default function App() {
             Abode is here to help. With our years of experience and dedication
           </p>
           <div className="cta">
-            <Link href="/contact" className="btn">
+            <Link prefetch href="/contact" className="btn">
               contact
             </Link>
-            <Link href="/auth/signup" className="btn btn-secondary">
+            <Link prefetch href="/auth/signup" className="btn btn-secondary">
               get started
             </Link>
           </div>

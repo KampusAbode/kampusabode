@@ -18,7 +18,6 @@ const SavedPage = () => {
   // Zustand store for user data
   const userData = useUserStore((state) => state.user);
 
-
   if (!userData) {
     return (
       <section className="saved-page">
@@ -27,7 +26,12 @@ const SavedPage = () => {
 
           <div style={{ textAlign: "center", marginTop: "28px" }}>
             <p>Please log in to access your saved apartments.</p>
-            <Link href="/auth/login" style={{textDecoration:"underline"}}>Log in</Link>
+            <Link
+              prefetch
+              href="/auth/login"
+              style={{ textDecoration: "underline" }}>
+              Log in
+            </Link>
           </div>
         </div>
       </section>
@@ -58,7 +62,6 @@ const SavedPage = () => {
 
     fetchSavedProperties();
   }, [userData]);
-  
 
   const savedTab = (tab: string) => {
     // if (tab === "trends") {
@@ -71,8 +74,17 @@ const SavedPage = () => {
         <div className="saved-props">
           {savedProperties.map((property) => {
             return (
-              <Link key={property.id} href={`/apartment/${property.id}`}>
-                <Image src={property.images[0]} width={4000} height={4000} alt={property.title} />
+              <Link
+                prefetch
+                key={property.id}
+                href={`/apartment/${property.id}`}>
+                <Image
+                  priority
+                  src={property.images[0]}
+                  width={4000}
+                  height={4000}
+                  alt={property.title}
+                />
               </Link>
             );
           })}
@@ -80,9 +92,23 @@ const SavedPage = () => {
       );
     } else {
       return (
-        <div className="no-saved" style={{textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", height: "100vh"}}>
-          
-          <Image src="/icons/save_apartment.png" alt="no saved" width={3000} height={3000} style={{width: "210px", height: 'auto'}} />
+        <div
+          className="no-saved"
+          style={{
+            textAlign: "center",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            height: "100vh",
+          }}>
+          <Image
+            priority
+            src="/icons/save_apartment.png"
+            alt="no saved"
+            width={1200}
+            height={1200}
+            style={{ width: "210px", height: "auto" }}
+          />
 
           <p style={{ textAlign: "center", marginTop: "2rem" }}>
             No saved apartments yet! 🏠

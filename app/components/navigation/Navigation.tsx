@@ -82,7 +82,7 @@ export default function Navigation() {
 
           return (
             <li key={href} className={pathname === href ? "active" : ""}>
-              <Link href={href}>
+              <Link prefetch href={href}>
                 <div title={label}>
                   {icon}
                   <span>{label}</span>
@@ -101,7 +101,7 @@ export default function Navigation() {
               ? "active"
               : ""
           }>
-          <Link href={id ? "/marketplace" : "/auth/login"}>
+          <Link prefetch href={id ? "/marketplace" : "/auth/login"}>
             <div title={id ? "Marketplace" : "Login"}>
               {id ? <FaShoppingCart /> : <FaUser />}
               <span>{id ? "market" : "login"}</span>

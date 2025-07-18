@@ -87,7 +87,8 @@ function EditTrend() {
       toast.error(
         fieldName === "Image"
           ? "Please upload an image."
-          : `Please enter a valid ${fieldName}.` ,{id: "upload-error"}
+          : `Please enter a valid ${fieldName}.`,
+        { id: "upload-error" }
       );
       return;
     }
@@ -128,6 +129,7 @@ function EditTrend() {
                 onChange={handleImageChange}
               />
               <Image
+                
                 src={
                   image
                     ? typeof image === "string"
@@ -135,9 +137,9 @@ function EditTrend() {
                       : URL.createObjectURL(image)
                     : existingImage || "/assets/upload_image.jpg"
                 }
+                width={1000}
+                height={1000}
                 alt="Trend Image"
-                width={3000}
-                height={3000}
                 className="edit-image-preview"
               />
             </label>

@@ -41,8 +41,6 @@ const TrendPage = ({ params }: Params) => {
   const [isLike, setIsLike] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
 
-  
-
   useEffect(() => {
     let unsubscribe = () => {};
 
@@ -50,7 +48,6 @@ const TrendPage = ({ params }: Params) => {
       try {
         const trend: TrendType = await fetchTrendBySlug(slug);
         setTrendData(trend);
-
 
         const commentsRef = collection(db, "trends", trend.id, "comments");
         const q = query(commentsRef, orderBy("createdAt", "desc"));
@@ -92,8 +89,6 @@ const TrendPage = ({ params }: Params) => {
     return () => unsubscribe(); // ✅ Clean up listener
   }, [slug, user]);
 
-
-  
   const commentsRef = useRef<HTMLDivElement | null>(null);
 
   const scrollToComments = () => {
@@ -199,8 +194,6 @@ const TrendPage = ({ params }: Params) => {
     }
   };
 
-  
-
   return (
     <SaveVisitedTrend id={trendData?.id}>
       <div className="trend-details-page">
@@ -222,8 +215,8 @@ const TrendPage = ({ params }: Params) => {
                 <Image
                   priority
                   src={trendData?.image}
-                  width={3000}
-                  height={3000}
+                  width={1200}
+                  height={1200}
                   alt="trend image"
                 />
               </div>
@@ -266,12 +259,12 @@ const TrendPage = ({ params }: Params) => {
                       <div className="top">
                         <div>
                           <Image
+                            width={1000}
+                            height={1000}
                             priority
                             src={
                               comment.userProfile || "/assets/user_avatar.jpg"
                             }
-                            width={100}
-                            height={100}
                             alt="user profile"
                           />
                           <span>{comment.userName}</span>

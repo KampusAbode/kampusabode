@@ -93,7 +93,7 @@
   }
 }
 .admin-dashboard .container .dashboard-content .property-management ul li {
-  padding: var(--spacing);
+  padding: var(--spacing-h);
   background-color: var(--light-gray);
   margin-block: var(--spacing);
   border-radius: var(--border-radius);
@@ -113,10 +113,11 @@
 .admin-dashboard .container .dashboard-content .property-management ul li .flex .image img {
   width: 100px;
   height: 100px;
+  border-radius: var(--border-radius);
   -o-object-fit: cover;
      object-fit: cover;
 }
-.admin-dashboard .container .dashboard-content .property-management ul li .flex .info p {
+.admin-dashboard .container .dashboard-content .property-management ul li .flex .info a {
   margin-bottom: var(--spacing-h);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -124,12 +125,13 @@
   line-clamp: 1;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
+  font-size: var(--font-size-sm);
 }
 .admin-dashboard .container .dashboard-content .property-management ul li .flex span {
   display: block;
 }
 .admin-dashboard .container .dashboard-content .property-management ul li .actions {
-  margin-top: var(--spacing);
+  margin-top: var(--spacing-h);
   display: flex;
 }
 .admin-dashboard .container .dashboard-content .property-management ul li .actions .btn {

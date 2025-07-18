@@ -13,7 +13,6 @@ import { useUserStore } from "../../store/userStore";
 
 const ListedProperties = () => {
   const user = useUserStore((state) => state.user);
-  // const { deleteApartment, getApartmentsByIds } = useProperties();
   const [filteredProperties, setFilteredProperties] = useState<ApartmentType[]>(
     []
   );
@@ -99,7 +98,7 @@ const ListedProperties = () => {
     <div className="listed-properties">
       <h5>
         Your Listings{" "}
-        <Link href={`/apartment/c/${user?.id}`}>
+        <Link prefetch href={`/apartment/c/${user?.id}`}>
           Upload
         </Link>
       </h5>
@@ -112,7 +111,7 @@ const ListedProperties = () => {
           <ul>
             {filteredProperties.map((property) => (
               <li key={property.id}>
-                <Link href={property.url}>
+                <Link prefetch href={property.url || "#"}>
                   <Image
                     priority
                     src={property.images[0]}
@@ -139,8 +138,8 @@ const ListedProperties = () => {
 
                 {activeProperty === property.id && (
                   <div className="options">
-                    {/* <button>Edit</button> */}
-                    <button onClick={() => handleDeleteClick(property.id)}>
+                    {/* <Link className="option-btn" href={`/apartment/edit/${property.id}`}>Edit</  Link> */}
+                    <button className="option-btn" onClick={() => handleDeleteClick(property.id)}>
                       Delete
                     </button>
                   </div>

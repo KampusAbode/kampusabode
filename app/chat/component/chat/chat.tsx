@@ -24,7 +24,6 @@ import Prompt from "../../../components/modals/prompt/Prompt";
 import { useUserStore } from "../../../store/userStore";
 import Link from "next/link";
 
-
 type ChatProps = {
   currentUserId: string;
   receiverId: string;
@@ -50,8 +49,6 @@ const ChatComponent: React.FC<ChatProps> = ({
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { user } = useUserStore((state) => state);
 
-
-
   if (!user) {
     return (
       <section className="chat-page">
@@ -60,7 +57,12 @@ const ChatComponent: React.FC<ChatProps> = ({
 
           <div style={{ textAlign: "center", marginTop: "28px" }}>
             <p>Please log in to access your chat.</p>
-            <Link href="/auth/login" style={{textDecoration: "underline"}}>Log in</Link>
+            <Link
+              prefetch
+              href="/auth/login"
+              style={{ textDecoration: "underline" }}>
+              Log in
+            </Link>
           </div>
         </div>
       </section>
@@ -200,7 +202,6 @@ const ChatComponent: React.FC<ChatProps> = ({
                 className={`message-box ${
                   msg.senderId === currentUserId ? "right" : "left"
                 }`}
-                
                 onContextMenu={(e) => {
                   e.preventDefault();
                   handleLongPress(msg);
@@ -214,7 +215,7 @@ const ChatComponent: React.FC<ChatProps> = ({
               </div>
             ))
           ) : (
-            <p style={{textAlign: 'center'}}>No messages yet.</p>
+            <p style={{ textAlign: "center" }}>No messages yet.</p>
           )}
           <div ref={messagesEndRef}></div>
         </div>

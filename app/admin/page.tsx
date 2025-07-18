@@ -33,96 +33,16 @@ export default function AdminPage() {
   const searchParams = useSearchParams();
   const initialPage = searchParams.get("page") || "users";
   const [currentPage, setCurrentPage] = useState(initialPage);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  const { user } = useUserStore((state) => state);
-  const { setUsers } = useUsersStore((state) => state);
-
-  useEffect(() => {
-    if (!user) {
-      router.push("/auth/login");
-      return;
-    }
-
-    async function checkUserPermissions(userId: string) {
-      try {
-        const admin = await checkIsAdmin(userId);
-        if (admin) setIsAdmin(true);
-      } catch (error) {
-        console.error("Failed to check user permissions:", error);
-      }
-    }
-
-    checkUserPermissions(user?.id);
-
-    if (isAdmin) {
-      router.push("/apartment");
-      return;
-    }
-
-    const unsubscribe = setUsers();
-    setLoading(false);
-
-    return () => {
-      if (unsubscribe) unsubscribe();
-    };
-  }, []);
-
+  
   useEffect(() => {
     router.push(`/admin?page=${currentPage}`);
   }, [currentPage, router]);
 
-  // Swipe logic
-  const currentIndex = pages.indexOf(currentPage);
-  const swipeHandlers = useSwipeable({
-    onSwipedLeft: () => {
-      if (currentIndex < pages.length - 1) {
-        setCurrentPage(pages[currentIndex + 1]);
-      }
-    },
-    onSwipedRight: () => {
-      if (currentIndex > 0) {
-        setCurrentPage(pages[currentIndex - 1]);
-      }
-    },
-    trackMouse: true,
-  });
-
-  if (loading) return <Loader />;
-  if (!isAdmin) return null;
-
   return (
     <section className="admin-dashboard">
-      <div className="container">
-        <h4>Admin Dashboard</h4>
-      </div>
-
-      <nav className="dashboard-navigation filter">
-        <div className="container">
-          {pages.map((page) => (
-            <button
-              key={page}
-              type="button"
-              onClick={() => setCurrentPage(page)}
-              className={`filter-btn ${currentPage === page ? "active" : ""}`}>
-              {page}
-            </button>
-          ))}
-        </div>
-      </nav>
-
-      <div className="container">
-        <section className="dashboard-content" {...swipeHandlers}>
+        <section className="dashboard-content">
           {currentPage === "users" && <UserManagement />}
-          {currentPage === "properties" && <PropertyManagement />}
-          {currentPage === "reviews" && <ReviewManagement />}
-          {currentPage === "analytics" && <Analytics />}
-          {currentPage === "notifications" && <Notifications />}
-          {currentPage === "agents" && <AgentList />}
-          {currentPage === "trends" && <Trends />}
         </section>
-      </div>
     </section>
   );
 }

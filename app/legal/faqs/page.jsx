@@ -158,7 +158,7 @@ function FAQs() {
             A: Refunds for premium services are available if certain conditions
             are met, such as technical issues that prevent the listing from
             being displayed. Please review our{" "}
-            <Link href="/legal/refundpolicy">Refund Policy</Link> for more
+            <Link prefetch href="/legal/refundpolicy">Refund Policy</Link> for more
             details.
           </p>
         </div> */}
@@ -207,7 +207,9 @@ function FAQs() {
           <p>Q: Where can I find your Terms and Conditions?</p>
           <p>
             A: You can view our{" "}
-            <Link href="/legal/termsandconditions">Terms and Conditions </Link>{" "}
+            <Link prefetch href="/legal/termsandconditions">
+              Terms and Conditions{" "}
+            </Link>{" "}
             here. We encourage all users to read them carefully before using the
             platform.
           </p>

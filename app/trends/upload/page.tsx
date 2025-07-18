@@ -4,7 +4,7 @@ import "./uploadtrend.css";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import {  uploadTrend } from "../../utils";
+import { uploadTrend } from "../../utils";
 import { useUserStore } from "../../store/userStore";
 import dynamic from "next/dynamic";
 
@@ -12,7 +12,6 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 import Image from "next/image";
 import data from "../../fetch/contents";
-
 
 function UploadTrend() {
   const trendcategories = data.trendcategories;
@@ -30,7 +29,6 @@ function UploadTrend() {
     category: false,
   });
 
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -45,8 +43,6 @@ function UploadTrend() {
       setImage(file);
     }
   };
-
-
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,7 +64,8 @@ function UploadTrend() {
       toast.error(
         fieldName === "Image"
           ? "Please upload an image."
-          : `Please enter a valid ${fieldName}.`, {id: "upload-error"}
+          : `Please enter a valid ${fieldName}.`,
+        { id: "upload-error" }
       );
       return;
     }
@@ -92,7 +89,7 @@ function UploadTrend() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
     <section className="upload-trend">
@@ -107,14 +104,11 @@ function UploadTrend() {
                 onChange={handleImageChange}
               />
               <Image
-                src={
-                  image
-                    ? URL.createObjectURL(image)
-                    : "/assets/upload_image.jpg"
-                }
+                priority
+                src={image ? URL.createObjectURL(image) : "/assets/upload_image.jpg"}
+                width={1000}
+                height={1000}
                 alt="Upload Trend Image"
-                width={1500}
-                height={1500}
                 className="upload-image-preview"
               />
             </label>

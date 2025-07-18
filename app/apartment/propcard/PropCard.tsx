@@ -36,9 +36,8 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
 
     const fetchAgentDetails = async () => {
       const fetchedAgentDetails = await fetchUsersById(propertyData.agentId);
-     
+
       setAgentDetails(fetchedAgentDetails);
-      
     };
 
     fetchAgentDetails();
@@ -71,15 +70,14 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
             </span>
           </div>
         )} */}
-        <Link href={propertyData.url}>
+        <Link prefetch href={propertyData.url}>
           <Swiper
             modules={[Pagination, Navigation]}
             pagination={{ clickable: true, dynamicBullets: true }}
             loop={true}
             spaceBetween={0}
             slidesPerView={1}
-            navigation={isDesktop ? true : false} 
-          >
+            navigation={isDesktop ? true : false}>
             {propertyData.images.map((img: string, index) => (
               <SwiperSlide key={index}>
                 <Image

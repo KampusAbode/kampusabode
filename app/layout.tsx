@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Script from 'next/script';
 import ClientRootLayout from "./ClientRootLayout";
 import { NotificationProvider } from "./context/NotificationContext";
 import { Toaster } from "react-hot-toast";
 import WelcomeMessage from "./components/welcome/WelcomeMessage";
-import { Analytics } from '@vercel/analytics/next';
-
+import { Analytics } from "@vercel/analytics/next";
 
 export async function generateMetadata(): Promise<Metadata> {
-
   return {
     title: "Kampusabode",
     description:
@@ -53,8 +50,7 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
-  }) {
-  
+}) {
   return (
     <html lang="en">
       <body>

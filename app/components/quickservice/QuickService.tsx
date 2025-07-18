@@ -10,14 +10,11 @@ import { useUserStore } from "../../store/userStore";
 import { checkIsAdmin, checkIsWriter } from "../../utils";
 import { useEffect, useState } from "react";
 
-
 const QuickService = () => {
   const pathname = usePathname();
   const { user } = useUserStore((state) => state);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isWriter, setIsWriter] = useState(false);
-
-  
 
   useEffect(() => {
     if (!user?.id) {
@@ -41,7 +38,7 @@ const QuickService = () => {
 
     checkUserPermissions(user.id);
   }, [user?.id]);
-  
+
   if (!user) return null;
 
   interface QuickServiceConfig {
@@ -69,11 +66,11 @@ const QuickService = () => {
       icon: BsChatRightText,
       link: `/chat/${user.id}/${user.name}`,
     };
-  } else if  (pathname === "/trends" && (isAdmin || isWriter)){
+  } else if (pathname === "/trends" && (isAdmin || isWriter)) {
     config = {
       icon: FaPlus,
       link: "/trends/upload",
-    }
+    };
   }
 
   if (!config) return null;
@@ -81,7 +78,7 @@ const QuickService = () => {
   const { icon: Icon, link } = config;
 
   return (
-    <Link href={link} className="quick-service" title="icon">
+    <Link prefetch href={link} className="quick-service" title="icon">
       <Icon />
     </Link>
   );

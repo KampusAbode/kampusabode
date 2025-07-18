@@ -14,7 +14,6 @@ const ViewedProperties: React.FC = () => {
   const { properties, setProperties } = usePropertiesStore();
   // const { fetchPropertiesRealtime } = useProperties();
 
-  
   // Retrieve the logged-in user data from the store.
   const user = useUserStore((state) => state.user);
 
@@ -54,7 +53,7 @@ const ViewedProperties: React.FC = () => {
           <Loader />
         ) : checkProperties.length > 0 ? (
           checkProperties.map((property) => (
-            <Link key={property.id} href={property.url}>
+            <Link prefetch key={property.id} href={property.url}>
               <Image
                 priority
                 src={property.images[0]}

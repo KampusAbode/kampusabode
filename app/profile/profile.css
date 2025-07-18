@@ -36,9 +36,7 @@
   margin-bottom: var(--spacing-h);
 }
 .profile-page .container .profile-overview .dt .tdt > span span {
-  margin-left: var(--spacing-h);
   font-size: var(--font-size-xs);
-  line-height: var(--line-height-md);
 }
 .profile-page .container .profile-overview .dt .tdt > span span.verified svg path {
   fill: var(--success);

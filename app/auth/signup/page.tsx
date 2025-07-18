@@ -99,7 +99,7 @@ const SignupPage = () => {
       if (response?.user) {
         await sendEmailVerification(response.user);
       }
-      toast.success(`${response.message} 🎉`, {id: "email-sent"});
+      toast.success(`${response.message} 🎉`, { id: "email-sent" });
       router.push("/auth/verify-email");
       // router.push("/auth/login");
     } catch (error: any) {
@@ -135,6 +135,7 @@ const SignupPage = () => {
                   aria-describedby="file-error"
                 />
                 <Image
+                  priority
                   src={
                     avatarFile
                       ? URL.createObjectURL(avatarFile)
@@ -242,7 +243,10 @@ const SignupPage = () => {
             </button>
           </form>
           <span>
-            Already have an account? <Link href={"/auth/login"}>Login</Link>
+            Already have an account?{" "}
+            <Link prefetch href={"/auth/login"}>
+              Login
+            </Link>
           </span>
         </div>
       </div>

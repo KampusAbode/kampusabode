@@ -5,15 +5,16 @@ const Testimonials = () => {
   return (
     <section className="testimonials">
       <div className="container">
-        <h2 className="page-heading">What Students and Agents Are Saying</h2>
+        <h4 className="page-heading">What Students and Agents Are Saying</h4>
 
+        
         <div className="testimonial">
           <blockquote>
             <p>
-              “ "Kampus Abode is the best there is and the best there’ll ever
+              “Kampus Abode is the best there is and the best there’ll ever
               be. I highly recommend Kampus Abode to anyone looking to rent.
               Their integrity, attention to detail, and customer-first approach
-              truly set them apart."”
+              truly set them apart.”
             </p>
             <footer>
               – Matthew Balogun, Student at Obafemi Awolowo University

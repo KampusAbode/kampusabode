@@ -27,7 +27,6 @@ const Messages = () => {
   );
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
-
   if (!user) {
     return (
       <section className="messages-page">
@@ -36,7 +35,12 @@ const Messages = () => {
 
           <div style={{ textAlign: "center", marginTop: "28px" }}>
             <p>Please log in to access your messages.</p>
-            <Link href="/auth/login" style={{textDecoration: "underline"}}>Log in</Link>
+            <Link
+              prefetch
+              href="/auth/login"
+              style={{ textDecoration: "underline" }}>
+              Log in
+            </Link>
           </div>
         </div>
       </section>

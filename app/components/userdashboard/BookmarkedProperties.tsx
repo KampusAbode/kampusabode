@@ -83,7 +83,7 @@ const BookmarkedProperties = () => {
           <ul>
             {bookmarkedProperties.map((property) => (
               <li key={property.id}>
-                <Link href={property.url}>
+                <Link prefetch href={property.url}>
                   <Image
                     priority
                     src={property.images[0]}

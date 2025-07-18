@@ -8,7 +8,6 @@ import { UserType } from "../../fetch/types";
 import Loader from "../../components/loader/Loader";
 import Image from "next/image";
 import { useUsersStore } from "../../store/usersStore";
-// import "./admin.css"; // assuming you want the same admin CSS
 
 const AgentList = () => {
   const router = useRouter();
@@ -71,6 +70,7 @@ const AgentList = () => {
               <div className="agent-info">
                 <div className="image">
                   <Image
+                    priority
                     src={agent.avatar || "/assets/user_avatar.jpg"}
                     width={800}
                     height={800}
@@ -85,7 +85,8 @@ const AgentList = () => {
                 <span className="agent-listings">
                   {Array.isArray((agent.userInfo as any).propertiesListed)
                     ? (agent.userInfo as any).propertiesListed.length
-                    : 0} listings
+                    : 0}{" "}
+                  listings
                 </span>
                 <span className="agent-id">ID: {agent.id}</span>
                 {/* <span>{ agent.userInfo. }</span> */}

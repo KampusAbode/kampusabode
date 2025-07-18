@@ -8,12 +8,12 @@ const NotFoundPage = () => {
   return (
     <div className="not-found-container">
       <div className="not-found-image">
-        <Image src={"/icons/404.png"} alt="404" width={800} height={800} />  
+        <Image src={"/icons/404.png"} alt="404" width={800} height={800} />
       </div>
       <div className="not-found-content">
         <h1>Oops!</h1>
         <p>The page you're looking for doesn't exist.</p>
-        <Link href="/apartment">
+        <Link prefetch href="/apartment">
           <span className="btn">check out apartments</span>
         </Link>
       </div>

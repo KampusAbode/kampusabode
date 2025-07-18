@@ -1,24 +1,33 @@
 "use client";
 
-import { useState } from "react";
-import { deleteApartment, toggleApartmentApproval } from "../../utils";
+import { useEffect, useState } from "react";
+import {
+  deleteApartment,
+  fetchAllPropertiesRealtime,
+  toggleApartmentApproval,
+} from "../../utils";
 import { usePropertiesStore } from "../../store/propertiesStore";
 import Link from "next/link";
-import { MdErrorOutline, MdVerified } from "react-icons/md";
+// import { MdErrorOutline, MdVerified } from "react-icons/md";
 import Prompt from "../modals/prompt/Prompt";
-import {
-  RiCloseCircleLine,
-  RiShieldCrossLine,
-  RiVerifiedBadgeLine,
-} from "react-icons/ri";
+import { RiCloseCircleLine, RiVerifiedBadgeLine } from "react-icons/ri";
 
 const PropertyManagement = () => {
-  const { properties, setProperties } = usePropertiesStore();
+  const { allProperties, setAllProperties } = usePropertiesStore();
 
   const [promptOpen, setPromptOpen] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState<string | null>(
     null
   );
+
+  useEffect(() => {
+    const unsubscribe = fetchAllPropertiesRealtime((fetchedProperties) => {
+      console.log("Fetched properties:", fetchedProperties);
+      setAllProperties(fetchedProperties);
+    });
+
+    return () => unsubscribe();
+  }, [setAllProperties]);
 
   const handleDeleteRequest = (id: string) => {
     setSelectedPropertyId(id);
@@ -30,7 +39,9 @@ const PropertyManagement = () => {
 
     try {
       await deleteApartment(selectedPropertyId);
-      setProperties(properties.filter((p) => p.id !== selectedPropertyId));
+      setAllProperties(
+        allProperties.filter((p) => p.id !== selectedPropertyId)
+      );
       setPromptOpen(false);
     } catch (error) {
       console.error("Error deleting property:", error);
@@ -41,8 +52,8 @@ const PropertyManagement = () => {
   const handleToggleApprove = async (id: string, currentStatus: boolean) => {
     try {
       await toggleApartmentApproval(id, currentStatus);
-      setProperties(
-        properties.map((property) =>
+      setAllProperties(
+        allProperties.map((property) =>
           property.id === id
             ? { ...property, approved: !currentStatus }
             : property
@@ -56,24 +67,26 @@ const PropertyManagement = () => {
 
   return (
     <div className="property-management">
-      {properties.length === 0 ? (
+      {allProperties.length === 0 ? (
         <p style={{ textAlign: "center", marginTop: "5rem" }}>
           No properties found.
         </p>
       ) : (
         <ul>
-          {properties.map((property) => (
+          {allProperties.map((property) => (
             <li key={property.id}>
               <div className="flex">
                 <div className="flex">
                   <div className="image">
-                    <Link href={property.url}>
+                    <Link prefetch href={property.url}>
                       <img src={property.images[0]} alt={property.title} />
                     </Link>
                   </div>
                   <div className="info">
                     <p>
-                      <Link href={property.url}>{property.title}</Link>
+                      <Link prefetch href={property.url}>
+                        {property.title}
+                      </Link>
                     </p>
                     <span>price: {property.price}</span>
                     <span>location: {property.location}</span>

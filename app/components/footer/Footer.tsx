@@ -35,7 +35,9 @@ export default function Footer() {
             <ul>
               {footer.company.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.to}>{link.name}</Link>
+                  <Link prefetch href={link.to}>
+                    {link.name}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -47,7 +49,9 @@ export default function Footer() {
             <ul>
               {footer.support.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.to}>{link.name}</Link>
+                  <Link prefetch href={link.to}>
+                    {link.name}
+                  </Link>
                 </li>
               ))}
             </ul>

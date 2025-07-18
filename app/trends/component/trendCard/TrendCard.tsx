@@ -25,37 +25,33 @@ const TrendCard = ({ trendData }) => {
     }
   }, [trendData.content]);
 
-
-  
-  
-
   return (
-        <Link href={`/trends/${trendData?.slug}`}>
-    <div className="trend">
-      <div className="trend-image">
+    <Link prefetch href={`/trends/${trendData?.slug}`}>
+      <div className="trend">
+        <div className="trend-image">
           <Image
             priority
             src={trendData?.image}
-            width={3000}
-            height={3000}
+            width={1000}
+            height={1000}
             alt="trend image"
           />
-        <span className="category">{trendData?.category || "Unknown"}</span>
-      </div>
-      <div className="trend-content">
-        <div className="author-thumbs">
-          <span className="author">
-            <i>by {trendData?.author || "Anonymous"}</i>
-          </span>
-          <span className="thumbs">
-            <i>2 mins read</i>
-          </span>
+          <span className="category">{trendData?.category || "Unknown"}</span>
         </div>
-        <h6 className="trend-title">{trendData?.title || "Untitled"}</h6>
-        <p dangerouslySetInnerHTML={{ __html: snippet }} />
+        <div className="trend-content">
+          <div className="author-thumbs">
+            <span className="author">
+              <i>by {trendData?.author || "Anonymous"}</i>
+            </span>
+            <span className="thumbs">
+              <i>2 mins read</i>
+            </span>
+          </div>
+          <h6 className="trend-title">{trendData?.title || "Untitled"}</h6>
+          <p dangerouslySetInnerHTML={{ __html: snippet }} />
+        </div>
       </div>
-    </div>
-        </Link>
+    </Link>
   );
 };
 

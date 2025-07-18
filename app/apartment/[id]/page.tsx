@@ -4,10 +4,7 @@ import "./property.css";
 import React, { useState, useEffect, useCallback } from "react";
 import PropStats from "./components/propertyStats/propStats";
 import SaveVisitedProperty from "./functions/SaveVIsitedProperties";
-import {
-  fetchUsersById,
-  fetchReviewsByPropertyId,
-} from "../../utils";
+import { fetchUsersById, fetchReviewsByPropertyId } from "../../utils";
 import Image from "next/image";
 import Link from "next/link";
 import PropertyImages from "./components/propertyImages/PropertyImages";
@@ -19,15 +16,10 @@ import { useUserStore } from "../../store/userStore";
 import ScheduleInspectionModal from "../../components/modals/ScheduleInspectionModel/ScheduleInspectionModel";
 import Loader from "../../components/loader/Loader";
 import { usePropertiesStore } from "../../store/propertiesStore";
+import { getApartmentById, getApartmentsByIds } from "../../utils";
 // import { sendInspectionEmail } from "../../../utils/sendInspectionEmail";
 
-
-
-const PropertyDetails = ({
-  params,
-}: {
-  params: { id: string };
-  }) => {
+const PropertyDetails = ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const [agentDetails, setAgentDetails] = useState<UserType>();
   const [agentPropertyListings, setAgentPropertyListings] = useState<
@@ -39,16 +31,16 @@ const PropertyDetails = ({
   );
   const [isBookingModalOpen, setBookingModalOpen] = useState(false);
   const [isInspectionModelOpen, setInspectionModelOpen] = useState(false);
-  const { getPropertyById, getPropertiesByIds } = usePropertiesStore();
-
+  // const { getPropertyById, getPropertiesByIds } = usePropertiesStore();
 
   const { user } = useUserStore((state) => state);
 
   // Fetch property details and agent details
   const fetchPropertyDetails = useCallback(async () => {
     try {
-      const details = getPropertyById(id);
+      const details = await getApartmentById(id);
       setPropertyDetails(details);
+      console.log(details);
       const agentId = details.agentId;
 
       const agent = await fetchUsersById(agentId);
@@ -57,7 +49,7 @@ const PropertyDetails = ({
       // console.log("Agent Details:", agent);
 
       if (agent) {
-        const properties = await getPropertiesByIds(
+        const properties = await getApartmentsByIds(
           "propertiesListed" in agent.userInfo
             ? agent.userInfo.propertiesListed.filter(
                 (propertyId: string) => propertyId !== id
@@ -113,6 +105,14 @@ const PropertyDetails = ({
     setBookingModalOpen(false);
     setInspectionModelOpen(true);
   };
+
+  // useEffect(() => {
+  //     // Prevent SSR usage of `document`
+  //     if (typeof window !== "undefined" && trendData?.content) {
+  //       // Ensure `document` access happens here only
+
+  //     }
+  //   }, [trendData.content]);
 
   const handleInspectionFormSubmit = async (userdata: {
     name: string;
@@ -334,7 +334,20 @@ const PropertyDetails = ({
                       </div>
                       <div className="list-details">
                         <h6>{listing.title}</h6>
-                        <span>{listing.description}</span>
+                        {listing.description &&
+                          (() => {
+                            const div = document.createElement("div");
+                            div.innerHTML = listing.description;
+                            const firstP = div.querySelector("p");
+
+                            return (
+                              <div
+                                dangerouslySetInnerHTML={{
+                                  __html: firstP ? firstP.outerHTML : "",
+                                }}
+                              />
+                            );
+                          })()}
                       </div>
                     </Link>
                   ))}

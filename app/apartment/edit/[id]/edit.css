@@ -1,0 +1,98 @@
+.edit-property {
+  padding-block: var(--spacing-4x);
+}
+.edit-property .container {
+  max-width: 900px;
+}
+.edit-property .container form {
+  margin-block: var(--spacing);
+}
+.edit-property .container form .success,
+.edit-property .container form .error {
+  margin-top: var(--spacing-h);
+  color: var(--primary-color);
+  font-size: var(--font-size-xs);
+}
+.edit-property .container form .btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+.edit-property .container form .form-group {
+  margin-block: var(--spacing-2x);
+}
+.edit-property .container form .form-group label {
+  display: block;
+  margin-bottom: var(--spacing-h);
+}
+.edit-property .container form .form-group label.image-upload-label {
+  cursor: pointer;
+}
+.edit-property .container form .form-group label.image-upload-label input {
+  display: none;
+}
+.edit-property .container form .form-group label.image-upload-label .upload-image-preview {
+  width: 100%;
+  height: 300px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: var(--border-radius);
+}
+.edit-property .container form .form-group input,
+.edit-property .container form .form-group select,
+.edit-property .container form .form-group textarea,
+.edit-property .container form .form-group .quill-editor {
+  padding: var(--spacing);
+  width: 100%;
+  border: var(--border);
+  border-radius: var(--border-radius);
+  background-color: var(--white);
+}
+.edit-property .container form .form-group input div,
+.edit-property .container form .form-group select div,
+.edit-property .container form .form-group textarea div,
+.edit-property .container form .form-group .quill-editor div {
+  padding: 0;
+  border: none;
+}
+.edit-property .container form .form-group textarea {
+  resize: none;
+  height: 150px;
+}
+.edit-property .container form .form-group option {
+  padding: var(--spacing-h);
+  background-color: var(--white);
+}
+.edit-property .container form .form-group .error {
+  font-size: var(--font-size-sm);
+  color: var(--primary-color);
+}
+.edit-property .container form .thumbnail-preview div {
+  display: flex;
+  gap: var(--spacing-h);
+  padding: var(--spacing-h);
+  background: var(--light-gray);
+  border-radius: var(--border-radius);
+  overflow-x: scroll;
+}
+.edit-property .container form .thumbnail-preview div img {
+  width: 70px;
+  height: 70px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border: var(--border);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+}
+.edit-property .container form .thumbnail-preview div img.active {
+  border: 2px solid green;
+}
+.edit-property .container form .confirm-datails {
+  margin-block: var(--spacing-2x);
+  max-width: 600px;
+  margin: 0 auto;
+}
+.edit-property .container form .confirm-datails p {
+  text-align: center;
+  font-size: var(--font-size-xs);
+}/*# sourceMappingURL=edit.css.map */

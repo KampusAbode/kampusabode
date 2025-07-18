@@ -135,6 +135,7 @@
         a {
           color: var(--primary-color);
           text-decoration: underline;
+          font-size: inherit;
         }
       }
     }

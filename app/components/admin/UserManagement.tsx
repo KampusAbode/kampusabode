@@ -105,6 +105,7 @@ const UserManagement = () => {
                   <div>
                     <div className="pic">
                       <Image
+                        priority
                         src={student.avatar || "/assets/user_avatar.jpg"}
                         width={1000}
                         height={1000}
@@ -178,6 +179,7 @@ const UserManagement = () => {
                   <div>
                     <div className="pic">
                       <Image
+                        priority
                         src={agent.avatar || "/assets/user_avatar.jpg"}
                         width={1000}
                         height={1000}

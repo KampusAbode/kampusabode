@@ -54,8 +54,6 @@ const PropertiesPage: React.FC = () => {
   useEffect(() => {
     setSearchQuery(initialSearchQuery);
     setActiveLocation(initialActiveLocation);
-
-
     filterProperties();
   }, [
     setSearchQuery,

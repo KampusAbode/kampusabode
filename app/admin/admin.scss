@@ -118,7 +118,7 @@
             grid-template-columns: repeat(3, 1fr);
           }
           li {
-            padding: var(--spacing);
+            padding: var(--spacing-h);
             background-color: var(--light-gray);
             margin-block: var(--spacing);
             border-radius: var(--border-radius);
@@ -154,11 +154,12 @@
                 img {
                   width: 100px;
                   height: 100px;
+                  border-radius: var(--border-radius);
                   object-fit: cover;
                 }
               }
               .info {
-                p {
+                a {
                   margin-bottom: var(--spacing-h);
                   overflow: hidden;
                   text-overflow: ellipsis;
@@ -166,6 +167,7 @@
                   line-clamp: 1;
                   -webkit-line-clamp: 1;
                   -webkit-box-orient: vertical;
+                  font-size: var(--font-size-sm);
                 }
               }
               span {
@@ -174,7 +176,7 @@
             }
 
             .actions {
-              margin-top: var(--spacing);
+              margin-top: var(--spacing-h);
               display: flex;
 
               .btn {

@@ -87,7 +87,7 @@ export default function Header() {
             <BackButton />
           ) : (
             <div className={`logo ${!user ? "loggedIn" : ""}`}>
-              <Link href="/">
+              <Link prefetch href="/">
                 <Image
                   src="/LOGO/RED_LOGO_T.png"
                   width={500}
@@ -103,7 +103,7 @@ export default function Header() {
             <ul className="nav-links">
               {links.map((link) => (
                 <li key={link.to}>
-                  <Link href={link.direct} className="active">
+                  <Link prefetch href={link.direct} className="active">
                     {link.to}
                   </Link>
                 </li>
@@ -132,7 +132,7 @@ export default function Header() {
                   </Link>
                 ) : null
               ) : (
-                <Link href="/auth/login" className="sign-up-btn btn">
+                <Link prefetch href="/auth/login" className="sign-up-btn btn">
                   login
                 </Link>
               )}

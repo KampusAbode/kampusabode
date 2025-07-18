@@ -218,7 +218,7 @@
                 bottom: 105%;
                 right: 0;
 
-                button {
+                .option-btn {
                   width: 100%;
                   border: none;
                   background-color: var(--white);
@@ -226,10 +226,13 @@
                   padding: var(--spacing-b);
                   text-align: center;
                   text-transform: capitalize;
+                  color: var(--text-color-p);
+                  font-size: var(--font-size-sm);
                   cursor: pointer;
 
                   &:hover {
                     background-color: var(--light-gray);
+                    color: var(--text-color-h);
                   }
                 }
               }

@@ -57,7 +57,7 @@ const LoginPage = () => {
       } else {
         router.push("/profile");
         // router.refresh();
-        toast.success(`${response.message} 👋`, {id: "login-successful"});
+        toast.success(`${response.message} 👋`, { id: "login-successful" });
       }
     } catch (error: any) {
       toast.error(error.message || "An unexpected error occurred.");
@@ -125,7 +125,10 @@ const LoginPage = () => {
             </div>
 
             <div>
-              <Link href="/auth/forget-password" className="forget-password">
+              <Link
+                prefetch
+                href="/auth/forget-password"
+                className="forget-password">
                 Forget password
               </Link>
             </div>
@@ -139,7 +142,10 @@ const LoginPage = () => {
             </button>
           </form>
           <span>
-            Don't have an account? <Link href={"/auth/signup"}>Sign Up</Link>
+            Don't have an account?{" "}
+            <Link prefetch href={"/auth/signup"}>
+              Sign Up
+            </Link>
           </span>
         </div>
       </div>

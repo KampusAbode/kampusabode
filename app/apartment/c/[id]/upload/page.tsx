@@ -7,16 +7,20 @@ import "react-quill/dist/quill.snow.css";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { listApartment, uploadApartmentImagesToAppwrite } from "../../../../utils";
+import {
+  listApartment,
+  uploadApartmentImagesToAppwrite,
+} from "../../../../utils";
 import { useUserStore } from "../../../../store/userStore";
 import { ApartmentType } from "../../../../fetch/types";
 import data from "../../../../fetch/contents";
 import Prompt from "../../../../components/modals/prompt/Prompt";
-import"./upload.css";
+import "./upload.css";
 import { validateWithYupAndToast } from "../../../../utils/validateWithYupAndToast";
+import Image from "next/image";
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
-const MAX_VIDEO_SIZE = 10 * 1024 * 1024; // 10MB
+const MAX_VIDEO_SIZE = 20 * 1024 * 1024; // 20MB
 const FRAME_COUNT = 15;
 
 const UploadProperty = () => {
@@ -37,8 +41,6 @@ const UploadProperty = () => {
       router.back();
     }
   }, [user, router]);
-
-
 
   const typeOptions = [
     "self contained",
@@ -125,7 +127,7 @@ const UploadProperty = () => {
     for (const file of files) {
       if (file.type.startsWith("video/")) {
         if (file.size > MAX_VIDEO_SIZE) {
-          toast.error(`${file.name} exceeds max video size of 10MB`);
+          toast.error(`${file.name} exceeds max video size of 20MB`);
           continue;
         }
         try {
@@ -163,15 +165,16 @@ const UploadProperty = () => {
     title: Yup.string().required("Title is required"),
     description: Yup.string()
       .min(50, "Description must be at least 50 characters")
-      .max(500, "Description cannot exceed 500 characters")
+      .max(500, "Description cannot exceed 1500 characters")
       .required("Description is required"),
     price: Yup.number()
       .typeError("Price must be a number")
-      .required("Price is required"),
+      .required("Price is required")
+      .min(50000, "Price must be at least ₦80,000"),
     location: Yup.string().required("Location is required"),
     neighborhood_overview: Yup.string()
       .min(50, "overview must be at least 50 characters")
-      .max(500, "Description cannot exceed 500 characters")
+      .max(1500, "Description cannot exceed 1500 characters")
       .required("Neighborhood overview is required"),
     type: Yup.string().required("Property type is required"),
     bedrooms: Yup.number()
@@ -223,10 +226,6 @@ const UploadProperty = () => {
     });
     setFormHelpers(helpers);
     setPromptOpen(true);
-    // console.log("Submitting values:", {
-    //   ...values,
-    // });
-    
   };
 
   const handleConfirm = async () => {
@@ -254,17 +253,24 @@ const UploadProperty = () => {
         process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID || ""
       );
 
+      if (imageUrls.length === 0) {
+        throw new Error("No images were uploaded successfully");
+      }
+
       const payload: ApartmentType = {
         ...formValuesToSubmit,
         images: imageUrls,
         agentId: user?.id ?? "",
         approved: false,
+        views: 0,
         createdAt: new Date().toISOString(),
       };
 
       const response = await listApartment(payload);
 
-      toast.success(response.success || "Property uploaded successfully", {id: "property-upload-success"});
+      toast.success(response.success || "Property uploaded successfully", {
+        id: "property-upload-success",
+      });
       if (user?.userType === "agent") addListedProperty(response.id);
 
       formHelpers.resetForm();
@@ -285,7 +291,6 @@ const UploadProperty = () => {
   return (
     <div className="upload-property">
       <div className="container">
-        <h4>Upload New Property</h4>
         <Formik
           initialValues={{
             title: "",
@@ -302,40 +307,49 @@ const UploadProperty = () => {
             available: false,
           }}
           validationSchema={validationSchema}
-          validate={(values) =>
-            validateWithYupAndToast(validationSchema, values)
-          }
           onSubmit={handleSubmit}>
           {({ values, setFieldValue, isSubmitting, status }) => (
             <>
               <Form>
                 <div className="form-group">
-                  <label>Upload Media</label>
-                  <input
-                    type="file"
-                    accept="image/*,video/*"
-                    multiple
-                    onChange={(e) => handleMediaChange(e, setFieldValue)}
-                  />
-                  <ErrorMessage
-                    name="images"
-                    component="div"
-                    className="error"
-                  />
+                  <label htmlFor="image" className="image-upload-label">
+                    <input
+                      id="image"
+                      type="file"
+                      accept="image/*,video/*"
+                      multiple
+                      onChange={(e) => handleMediaChange(e, setFieldValue)}
+                    />
+                    <Image
+                      priority
+                      src={
+                        mediaPreviews[0]
+                          ? URL.createObjectURL(mediaPreviews[0])
+                          : "/assets/upload_image.jpg"
+                      }
+                      width={800}
+                      height={800}
+                      alt="apartment image"
+                      className="upload-image-preview"
+                    />
+                  </label>
                 </div>
 
                 {/* Thumbnail preview and selection */}
                 {Object.entries(thumbnailMap).map(([videoName, thumbs]) => (
                   <div key={videoName} className="thumbnail-preview">
-                    <p>Select a thumbnail for: {videoName}</p>
+                    <span>Select a thumbnail for: {videoName}</span>
                     <div>
                       {thumbs.map((thumb, idx) => {
                         const objectUrl = URL.createObjectURL(thumb);
                         return (
-                          <img
+                          <Image
+                            width={1000}
+                            height={1000}
                             key={thumb.name + idx}
                             src={objectUrl}
                             alt={`thumb-${idx}`}
+                            priority
                             className={
                               selectedThumbnails[videoName]?.name === thumb.name
                                 ? "active"

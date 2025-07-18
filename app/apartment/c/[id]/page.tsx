@@ -100,9 +100,11 @@ function PropertyUploadGuide() {
         <div className="support-info">
           <p>
             Need help? Our team is here to assist you.{" "}
-            <Link href="mailto:contactkampusabode@gmail.com">Email us</Link> or
-            chat directly on{" "}
-            <Link href="https://wa.me/23470121059595" target="_blank">
+            <Link prefetch href="mailto:contactkampusabode@gmail.com">
+              Email us
+            </Link>{" "}
+            or chat directly on{" "}
+            <Link prefetch href="https://wa.me/23470121059595" target="_blank">
               WhatsApp
             </Link>
             .
@@ -110,7 +112,10 @@ function PropertyUploadGuide() {
         </div>
 
         <div className="upload-btn">
-          <Link href={`/apartment/c/${user?.id}/upload`} className="btn">
+          <Link
+            prefetch
+            href={`/apartment/c/${user?.id}/upload`}
+            className="btn">
             Proceed <FaArrowRightLong />
           </Link>
         </div>

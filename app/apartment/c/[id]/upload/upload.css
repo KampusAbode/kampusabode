@@ -1,12 +1,11 @@
 .upload-property {
-  padding-block: var(--spacing-s);
+  padding-block: var(--spacing-4x);
 }
 .upload-property .container {
   max-width: 900px;
-  padding-block: var(--spacing-2x);
 }
 .upload-property .container form {
-  margin-block: var(--spacing-3x);
+  margin-block: var(--spacing);
 }
 .upload-property .container form .success,
 .upload-property .container form .error {
@@ -25,6 +24,19 @@
 .upload-property .container form .form-group label {
   display: block;
   margin-bottom: var(--spacing-h);
+}
+.upload-property .container form .form-group label.image-upload-label {
+  cursor: pointer;
+}
+.upload-property .container form .form-group label.image-upload-label input {
+  display: none;
+}
+.upload-property .container form .form-group label.image-upload-label .upload-image-preview {
+  width: 100%;
+  height: 300px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: var(--border-radius);
 }
 .upload-property .container form .form-group input,
 .upload-property .container form .form-group select,
@@ -57,10 +69,11 @@
 }
 .upload-property .container form .thumbnail-preview div {
   display: flex;
-  gap: var(--spacing);
-  padding: var(--spacing);
+  gap: var(--spacing-h);
+  padding: var(--spacing-h);
   background: var(--light-gray);
   border-radius: var(--border-radius);
+  overflow-x: scroll;
 }
 .upload-property .container form .thumbnail-preview div img {
   width: 70px;

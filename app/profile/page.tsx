@@ -54,7 +54,10 @@ const ProfilePage = () => {
 
           <div style={{ textAlign: "center", marginTop: "28px" }}>
             <p>Please log in to access your profile.</p>
-            <Link href="/auth/login" style={{ textDecoration: "underline" }}>
+            <Link
+              prefetch
+              href="/auth/login"
+              style={{ textDecoration: "underline" }}>
               Log in
             </Link>
           </div>
@@ -69,8 +72,6 @@ const ProfilePage = () => {
         <ProfileOverview userdata={firebaseUser} />
 
         <div className="email-status">
-         
-
           {!firebaseUser.emailVerified && (
             <div style={{ marginTop: "8px" }}>
               <button
@@ -94,7 +95,7 @@ const ProfilePage = () => {
         </div>
 
         <div className="cp">
-          <Link href={`/profile/@${user.name}`} className="btn">
+          <Link prefetch href={`/profile/@${user.name}`} className="btn">
             edit profile
           </Link>
         </div>

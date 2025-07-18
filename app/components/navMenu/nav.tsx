@@ -3,11 +3,26 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { FaTimes, FaRegUserCircle, FaSearchLocation, FaRegUser, FaUser } from "react-icons/fa";
-import { TbHomeSearch, TbMessageCircleUser, TbMessageUser } from "react-icons/tb";
+import {
+  FaTimes,
+  FaRegUserCircle,
+  FaSearchLocation,
+  FaRegUser,
+  FaUser,
+} from "react-icons/fa";
+import {
+  TbHomeSearch,
+  TbMessageCircleUser,
+  TbMessageUser,
+} from "react-icons/tb";
 import { CiViewBoard, CiHome } from "react-icons/ci";
 import { GrUserAdmin } from "react-icons/gr";
-import { LuCircleUserRound, LuLayoutDashboard, LuLogOut, LuMessagesSquare } from "react-icons/lu";
+import {
+  LuCircleUserRound,
+  LuLayoutDashboard,
+  LuLogOut,
+  LuMessagesSquare,
+} from "react-icons/lu";
 
 import { IoChatbubblesOutline } from "react-icons/io5";
 import toast from "react-hot-toast";
@@ -79,7 +94,7 @@ function Nav() {
             <div className="nav-header">
               <div className="close-div">
                 <div className="logo">
-                  <Link href="/" onClick={toggleNav}>
+                  <Link prefetch href="/" onClick={toggleNav}>
                     <Image
                       src="/LOGO/RED_LOGO_T.png"
                       width={500}
@@ -107,7 +122,7 @@ function Nav() {
 
                 {isAdmin && (
                   <Link
-                    href="/admin"
+                    href="/admin/users"
                     className="btn"
                     title="Button"
                     onClick={toggleNav}>
@@ -121,9 +136,14 @@ function Nav() {
               <li
                 title={user ? "Dashboard" : "Home"}
                 className={
-                  pathname === "/dashboard" || pathname === "/" ? "active" : ""
+                  pathname === `/dashboard/${user?.name}` || pathname === "/"
+                    ? "active"
+                    : ""
                 }>
-                <Link href={user ? "/dashboard" : "/"} onClick={toggleNav}>
+                <Link
+                  prefetch
+                  href={user ? `/dashboard/${user?.name}` : "/"}
+                  onClick={toggleNav}>
                   {user ? <LuLayoutDashboard /> : <CiHome />}
                   {user ? "dashboard" : "home"}
                 </Link>
@@ -132,7 +152,7 @@ function Nav() {
               <li
                 title="Apartment"
                 className={pathname === "/apartment" ? "active" : ""}>
-                <Link href="/apartment" onClick={toggleNav}>
+                <Link prefetch href="/apartment" onClick={toggleNav}>
                   <TbHomeSearch />
                   Apartment
                 </Link>
@@ -142,7 +162,7 @@ function Nav() {
                 <li
                   title="Admin Chat"
                   className={pathname === "/adminchatroom" ? "active" : ""}>
-                  <Link href="/adminchatroom" onClick={toggleNav}>
+                  <Link prefetch href="/adminchatroom" onClick={toggleNav}>
                     <LuMessagesSquare />
                     User Messages
                   </Link>
@@ -152,7 +172,7 @@ function Nav() {
               <li
                 title="Profile"
                 className={pathname === "/profile" ? "active" : ""}>
-                <Link href="/profile" onClick={toggleNav}>
+                <Link prefetch href="/profile" onClick={toggleNav}>
                   <LuCircleUserRound />
                   profile
                 </Link>
@@ -187,7 +207,7 @@ function Nav() {
                   <LuLogOut />
                 </button>
               ) : (
-                <Link href="/auth/login" onClick={toggleNav}>
+                <Link prefetch href="/auth/login" onClick={toggleNav}>
                   <button className="btn btn-secondary" title="Login">
                     Login
                   </button>

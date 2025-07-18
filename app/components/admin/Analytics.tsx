@@ -5,15 +5,8 @@ import { useUsersStore } from "../../store/usersStore";
 import { usePropertiesStore } from "../../store/propertiesStore";
 // import { fetchAnalytics } from "../../utils";
 
-interface AnalyticsData {
-  totalUsers: number;
-  totalProperties: number;
-  totalAgents: number;
-  totalStudents: number;
-}
 
 const Analytics = () => {
-  // const [data, setData] = useState<AnalyticsData | null>(null);
   const { users } = useUsersStore();
   const { properties } = usePropertiesStore();
   const [loading, setLoading] = useState(false);
