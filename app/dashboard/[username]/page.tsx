@@ -37,7 +37,7 @@ const Dashboard = ({ params }: DashboardPageProps) => {
 
   // Handle mismatch
   useEffect(() => {
-    if (user && user.name !== username) {
+    if (user.name !== username) {
       router.back(); 
       return;
     }
