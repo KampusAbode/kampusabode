@@ -396,9 +396,9 @@
     height: 60vh;
   }
   .properties-details-page .prop-image-details .property-images .container .control-image img {
-    width: 45px;
-    height: 45px;
-    min-width: 45px;
-    min-height: 45px;
+    width: 55px;
+    height: 55px;
+    min-width: 55px;
+    min-height: 55px;
   }
 }/*# sourceMappingURL=property.css.map */
