@@ -88,9 +88,13 @@ const ListedProperties = () => {
       }
     } catch (error) {
       // console.log("Error deleting property:", error);
-      toast.error(
-        error || "An unexpected error occurred while deleting the property."
-      );
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error(
+          "An unexpected error occurred while deleting the property."
+        );
+      }
     } finally {
       setShowPrompt(false);
       setSelectedPropertyId(null);
@@ -101,9 +105,11 @@ const ListedProperties = () => {
     <div className="listed-properties">
       <h5>
         Your Listings{" "}
-        <Link prefetch href={`/apartment/c/${user?.id}`}>
-          Upload
-        </Link>
+        {user?.id && (
+          <Link prefetch href={`/apartment/c/${user.id}`}>
+            Upload
+          </Link>
+        )}
       </h5>
       <div className="property-list">
         {loading ? (
@@ -114,19 +120,23 @@ const ListedProperties = () => {
           <ul>
             {filteredProperties.map((property) => (
               <li key={property.id}>
-                <Link prefetch href={property.url || "#"}>
-                  <Image
-                    priority
-                    src={property.images[0]}
-                    alt={property.title}
-                    width={500}
-                    height={500}
-                  />
-                  <div className="detail">
-                    <span>{property.title}</span>
-                    <span>₦{property.price}</span>
-                  </div>
-                </Link>
+                {property.url ? (
+                  <Link prefetch href={property.url}>
+                    <Image
+                      priority
+                      src={property.images[0]}
+                      alt={property.title || "Apartment image"}
+                      width={500}
+                      height={500}
+                    />
+                    <div className="detail">
+                      <span>{property.title}</span>
+                      <span>₦{property.price}</span>
+                    </div>
+                  </Link>
+                ) : (
+                  <div className="disabled-link">No link</div>
+                )}
 
                 <div
                   className="option-btn"
@@ -141,7 +151,11 @@ const ListedProperties = () => {
 
                 {activeProperty === property.id && (
                   <div className="options">
-                    {/* <Link className="option-btn" href={`/apartment/edit/${property.id}`}>Edit</  Link> */}
+                    <Link
+                      className="option-btn"
+                      href={`/apartment/edit/${property.id}`}>
+                      Edit
+                    </Link>
                     <button
                       className="option-btn"
                       onClick={() => handleDeleteClick(property.id)}>
@@ -153,12 +167,12 @@ const ListedProperties = () => {
             ))}
           </ul>
         ) : (
-          <p>You have no listed properties.</p>
+          <p>You have no listings.</p>
         )}
       </div>
 
       <Prompt
-        message="This property can't be restored if deleted"
+        message="Are you sure you want to delete this property? This action cannot be undone."
         isOpen={showPrompt}
         onConfirm={confirmDelete}
         onCancel={() => setShowPrompt(false)}

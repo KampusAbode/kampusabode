@@ -4,6 +4,19 @@
   overflow: hidden;
   transition: var(--transition);
 
+  animation: pop .5s ease-in forwards;
+
+  @keyframes pop {
+    from {
+      transform: translateY(10px) scale(0.97);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+  }
+
   &:hover{
     box-shadow: var(--shadow);
     transform: translateY(-5px);
