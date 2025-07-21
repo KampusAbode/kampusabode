@@ -10,12 +10,14 @@ interface PropertiesState {
   isLoading: boolean;
   searchQuery: string;
   activeLocation: string;
+  
   setProperties: (properties: ApartmentType[]) => void;
   setAllProperties: (properties: ApartmentType[]) => void;
   setFilteredProperties: (filtered: ApartmentType[]) => void;
   setLoading: (loading: boolean) => void;
   setSearchQuery: (query: string) => void;
   setActiveLocation: (location: string) => void;
+
   filterProperties: () => void;
   getPropertyById: (id: string) => ApartmentType;
   getPropertiesByIds: (ids: string[]) => ApartmentType[];

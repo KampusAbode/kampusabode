@@ -69,7 +69,7 @@ const PropertiesPage: React.FC = () => {
       )}`
     );
     filterProperties();
-  }, [searchQuery, activeLocation, router, filterProperties]);
+  }, [searchQuery, activeLocation, router, filterProperties, properties]);
 
   // Handle search input change
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -177,9 +177,9 @@ const PropertiesPage: React.FC = () => {
         <div className="container">
           {isLoading ? (
             <Loader />
-          ) : properties.length > 0 ? (
+          ) : filteredProperties.length > 0 ? (
             <div className="properties">
-              {properties.map((property) => (
+              {filteredProperties.map((property) => (
                 <PropCard key={property.id} propertyData={property} />
               ))}
             </div>
