@@ -50,6 +50,7 @@ export const usePropertiesStore = create<PropertiesState>()((set, get) => ({
         activeLocation === "all" || property.location === activeLocation;
       return matches && locationMatch;
     });
+    set({ properties: filtered });
     set({ filteredProperties: filtered });
   },
 

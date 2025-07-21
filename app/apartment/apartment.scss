@@ -102,10 +102,11 @@
     gap: calc(1.5 * var(--spacing));
   }
 }
+
 @media screen and (max-width: 1200px) {
   .property-listings {
     .properties {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 }

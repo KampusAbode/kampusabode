@@ -1,4 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 :root {
   /* Colors */
   --primary-color: #c1121f;
@@ -14,8 +17,8 @@
   --gray: #eaeaea;
   --light-gray: #f7f7f7;
   --dark-gray: #6d6d6d;
-  --font-color-h: #171717;
-  --font-color-p: #6a6a6a;
+  --font-color-h: #020817;
+  --font-color-p: #64748b;
   --font-light: #adb5bd;
   --font-white: #ffffff;
   --font-black: #0c0c0c;
@@ -34,7 +37,7 @@
   --spacing-4x: 4rem;
   --spacing-5x: 5rem;
   --spacing-s: 6rem;
-  --spacing-b: 0.6rem 1rem;
+  --spacing-b: 0.5rem 1rem;
   /* Shadow & Transition */
   --shadow: 0px 3px 10px rgba(27, 27, 27, 0.089),
     -0px -3px 8px rgba(22, 22, 22, 0.01);
@@ -50,7 +53,9 @@
   --font-size-sm: 0.875rem;
   --font-size-xs: 0.7125rem;
   /* Line Heights */
-  --line-height: 1.25;
+  --line-height: 1.625rem;
+  --line-height-md: 1.25rem;
+  --line-height-lg: 2.25rem;
   /* Breakpoints */
   --large-width: 90%;
   --mobile-width: 92%;
@@ -65,6 +70,7 @@
   line-height: var(--line-height);
   list-style-type: none;
   text-decoration: none;
+  font-weight: 500;
 }
 *:focus, *:active {
   outline: none;
@@ -126,15 +132,18 @@ h6 {
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
-  font-weight: 500;
+  font-weight: 600;
+  line-height: var(--line-height-md);
 }
 
 h1 {
   font-size: 2.77rem;
+  line-height: var(--line-height-lg);
 }
 
 h2 {
   font-size: 1.85rem;
+  line-height: var(--line-height-lg);
 }
 
 h3 {
@@ -168,7 +177,7 @@ section {
 }
 @media screen and (max-width: 768px) {
   section {
-    padding-block: var(--spacing-s);
+    padding-block: var(--spacing-4x);
   }
 }
 
@@ -213,6 +222,7 @@ span {
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
+  line-height: var(--line-height-md);
 }
 
 .icon {
@@ -375,10 +385,10 @@ button {
     font-size: 1.5rem;
   }
   h4 {
-    font-size: 1.25rem;
+    font-size: 1.35rem;
   }
   h5 {
-    font-size: 1.125rem;
+    font-size: 1.135rem;
   }
   h6 {
     font-size: 1rem;

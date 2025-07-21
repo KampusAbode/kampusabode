@@ -19,6 +19,7 @@ import { usePropertiesStore } from "../../store/propertiesStore";
 import { getApartmentById, getApartmentsByIds } from "../../utils";
 // import { sendInspectionEmail } from "../../../utils/sendInspectionEmail";
 
+
 const PropertyDetails = ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const [agentDetails, setAgentDetails] = useState<UserType>();

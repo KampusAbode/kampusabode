@@ -44,7 +44,7 @@
   gap: 5px;
 }
 .navigation ul li div span {
-  font-size: 8px;
+  font-size: 12px;
   color: var(--font-color-p);
   text-transform: capitalize;
   transition: var(--transition);

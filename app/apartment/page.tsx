@@ -25,6 +25,7 @@ const PropertiesPage: React.FC = () => {
     setSearchQuery,
     setActiveLocation,
     setLoading,
+    properties,
     setProperties,
     filterProperties,
   } = usePropertiesStore();
@@ -32,7 +33,6 @@ const PropertiesPage: React.FC = () => {
   // Get initial search values from URL parameters
   const initialSearchQuery = searchParams.get("q") || "";
   const initialActiveLocation = searchParams.get("loc") || "all";
-
 
   // Listen for real-time updates from Firestore
   useEffect(() => {
@@ -47,8 +47,6 @@ const PropertiesPage: React.FC = () => {
 
     return () => unsubscribe();
   }, []);
-  
-  
 
   // Apply filters on component mount based on URL params
   useEffect(() => {
@@ -179,9 +177,9 @@ const PropertiesPage: React.FC = () => {
         <div className="container">
           {isLoading ? (
             <Loader />
-          ) : filteredProperties.length > 0 ? (
+          ) : properties.length > 0 ? (
             <div className="properties">
-              {filteredProperties.map((property) => (
+              {properties.map((property) => (
                 <PropCard key={property.id} propertyData={property} />
               ))}
             </div>

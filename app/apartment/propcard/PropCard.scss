@@ -1,6 +1,13 @@
 .prop-card {
   border-radius: var(--border-radius);
+  border: var(--border);
   overflow: hidden;
+  transition: var(--transition);
+
+  &:hover{
+    box-shadow: var(--shadow);
+    transform: translateY(-5px);
+  }
 
   a {
     outline: none;
@@ -52,8 +59,7 @@
     }
   }
   .swiper {
-    aspect-ratio: 20 / 19;
-    border-radius: var(--border-radius);
+    aspect-ratio: 20 / 14.55;
     overflow: hidden;
     position: relative;
     box-shadow: var(--shadow);
@@ -90,7 +96,7 @@
     }
   }
   .card-details {
-    padding-block: var(--spacing);
+    padding: var(--spacing);
     .type-price {
       display: flex;
       justify-content: space-between;
@@ -102,11 +108,11 @@
       }
     }
 
-    h5 {
+    h6 {
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
-        line-clamp: 2;z
+        line-clamp: 2;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
         text-transform: capitalize;

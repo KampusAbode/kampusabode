@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { updateBookmarkInDB } from "../../../utils";
-import { FaBookmark } from "react-icons/fa";
+import {  FaHeart } from "react-icons/fa";
 import "./bookmarkbutton.css";
 import { useUserStore } from "../../../store/userStore";
 
@@ -45,10 +45,12 @@ const BookmarkButton = ({ propertyId }: { propertyId: string }) => {
       // Update state
       if (newBookmarkState) {
         addBookmark(propertyId);
-        toast.success("Apartment added to bookmarks.", {id: "bookmarked"});
+        toast.success("Apartment added to bookmarks.", { id: "bookmarked" });
       } else {
         removeBookmark(propertyId);
-        toast.success("Apartment removed from bookmarks.", {id: "bookmarked"});
+        toast.success("Apartment removed from bookmarks.", {
+          id: "bookmarked",
+        });
       }
 
       setIsBookmarked(newBookmarkState);
@@ -73,7 +75,7 @@ const BookmarkButton = ({ propertyId }: { propertyId: string }) => {
       onClick={!loading ? toggleBookmark : undefined}
       aria-label={isBookmarked ? "Remove from bookmarks" : "Add to bookmarks"}
       role="button">
-      <FaBookmark />
+      <FaHeart />
     </div>
   );
 };

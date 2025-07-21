@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {
-  FaBookmark,
+  FaHeart,
   FaBookReader,
   FaShoppingCart,
   FaSearchLocation,
@@ -68,7 +68,7 @@ export default function Navigation() {
     },
     {
       href: "/saved",
-      icon: <FaBookmark />,
+      icon: <FaHeart />,
       label: "saved",
       authOnly: true,
     },

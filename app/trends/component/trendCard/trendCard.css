@@ -1,9 +1,14 @@
 .trend {
   border-radius: var(--border-radius);
+  border: var(--border);
+  overflow: hidden;
+  transition: var(--transition);
+}
+.trend:hover {
   box-shadow: var(--shadow);
 }
 .trend .trend-image {
-  height: 300px;
+  aspect-ratio: 20/17;
   border-top-left-radius: var(--border-radius);
   border-top-right-radius: var(--border-radius);
   position: relative;
