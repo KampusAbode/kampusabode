@@ -38,7 +38,11 @@ const AdminChat = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!user?.id) return;
+    // Redirect to login if no user
+    if (!user) {
+      router.push("/auth/login");
+      return;
+    }
 
     async function checkUserPermissions(userId: string) {
       try {
@@ -54,14 +58,14 @@ const AdminChat = () => {
     checkUserPermissions(user?.id);
 
     if (isAdmin) {
-      toast.error("Access denied: Admins only", {id: "admin-access"});
+      toast.error("Access denied: Admins only", { id: "admin-access" });
       router.replace("/apartment");
       return;
     } else {
       setAuthorized(true);
     }
 
-    toast.success("Access granted!", {id: "admin-access"});
+    toast.success("Access granted!", { id: "admin-access" });
 
     const unsubscribe = getAllMessages((fetchedMessages) => {
       const sortedMessages = fetchedMessages.sort((a, b) => {
