@@ -366,6 +366,34 @@
   svg {
     margin-bottom: var(--spacing);
   }
+
+  .quote {
+    padding: var(--spacing);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    background-color: var(--background-white);
+
+    .quote-hd{
+      display: flex;
+      gap: var(--spacing);
+      align-items: center;
+
+      img {
+        width: 70px;
+        height: 70px;
+        border-radius: var(--border-radius);
+        object-fit: cover;
+      }
+    }
+
+    .tractions{
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-2x);
+      margin-top: var(--spacing);
+    }
+
+  }
 }
 /* ========== quote section close ========== */
 

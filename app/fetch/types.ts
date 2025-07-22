@@ -22,8 +22,10 @@ export interface HomeType {
     }[];
   };
   quotes: {
+    img: string;
     text: string;
     name: string;
+    tractions: {like: number, comment: number, repost: number}
   }[];
   testimonials: {
     author: string;

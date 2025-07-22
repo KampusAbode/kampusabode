@@ -36,20 +36,28 @@ const homeSection: HomeType = {
   },
   quotes: [
     {
+      img: "/assets/robert kiyosaki.jpeg",
       text: "Real estate investing, even on a small scale , remains a tried and true means of building an individual's cash flow and wealth.",
       name: "Robert Kiyosaki",
+      tractions: { like: 534, comment: 12, repost: 93 },
     },
     {
+      img: "/assets/barbara corcoran.jpeg",
       text: "A funny thing happens in real estate. When it comes back, it comes up like gangbusters.",
       name: "Barbara Corcoran",
+      tractions: { like: 234, comment: 34, repost: 12 },
     },
     {
+      img: "/assets/Grant Cardone.jpeg",
       text: "Real estate is the safest investment in the world.",
       name: "Grant Cardone",
+      tractions: { like: 234, comment: 34, repost: 12 },
     },
     {
+      img: "/assets/warren buffett.jpeg",
       text: "The best investment you can make is an investment in yourself. The more you learn, the more you earn.",
       name: "Warren Buffett",
+      tractions: { like: 234, comment: 34, repost: 12 },
     },
   ],
   testimonials: [
@@ -106,7 +114,7 @@ const homeSection: HomeType = {
       // { name: "contact", to: "/contact" },
     ],
     socials: [
-     /* {
+      /* {
         name: "facebook",
         to: "https://facebook.com/kampusabode",
         icon: FaFacebook,
@@ -121,7 +129,7 @@ const homeSection: HomeType = {
         to: "https://twitter.com/kampus_abode",
         icon: FaTwitter,
       },
-     /* {
+      /* {
         name: "linkedin",
         to: "https://linkedin.com/company/kampusabode",
         icon: FaLinkedin,
