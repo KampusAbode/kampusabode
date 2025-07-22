@@ -3,6 +3,7 @@
 import React from "react";
 
 import data from "../../fetch/contents";
+import Image from "next/image";
 // import Swiper core and required modules
 import { Autoplay } from "swiper/modules";
 
