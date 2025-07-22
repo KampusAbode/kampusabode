@@ -12,6 +12,7 @@ import Loader from "./components/loader/Loader";
 import { useAuthListener } from "./hooks/useAuthListener";
 import { pageview, GA_MEASUREMENT_ID } from './lib/ga';
 import Script from 'next/script'; // ✅ Import this
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function ClientRootLayout({
   children,
@@ -79,7 +80,16 @@ function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
 
         <Nav />
         <main>
-          {children}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={pathname}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              transition={{ duration: 0.3 }}>
+              {children}
+            </motion.div>
+          </AnimatePresence>
           <QuickService />
         </main>
         <Navigation />
