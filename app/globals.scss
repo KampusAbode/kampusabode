@@ -23,8 +23,8 @@
   --light-gray: #f7f7f7;
   --dark-gray: #6d6d6d;
 
-  --font-color-h: #020817;
-  --font-color-p: #64748b;
+  --font-color-h: #212121;
+  --font-color-p: #444b54;
   --font-light: #adb5bd;
   --font-white: #ffffff;
   --font-black: #0c0c0c;
@@ -76,38 +76,39 @@
   --mobile-max-width: 425px;
 }
 
-// :root {
-//   /* Colors */
+body.dark {
+  :root {
+    /* Colors */
 
-//   --error: #ff4d4d;
+    --error: #ff4d4d;
 
-//   --background-white: #101214; /* base background */
-//   --background-light: #1b1e21;  /* lighter than base */
-//   --background-dark: #0b0d0f;   /* darker section */
-//   --background-transparent: #ffffff1a; /* light overlay on dark */
+    --background-white: #101214; /* base background */
+    --background-light: #1b1e21; /* lighter than base */
+    --background-dark: #0b0d0f; /* darker section */
+    --background-transparent: #ffffff1a; /* light overlay on dark */
 
-//   --white: #191919;
-//   --black: #f2efef;
+    --white: #191919;
+    --black: #f2efef;
 
-//   --gray: #2f2f2f;
-//   --light-gray: #3b3b3b;
-//   --dark-gray: #777777;
+    --gray: #2f2f2f;
+    --light-gray: #3b3b3b;
+    --dark-gray: #777777;
 
-//   --font-color-h: #f8f9fa;  /* light heading */
-//   --font-color-p: #cfcfcf;  /* light paragraph */
-//   --font-light: #bcbcbc;
-//   --font-white: #ffffff;
-//   --font-black: #0c0c0c;
+    --font-color-h: #f8f9fa; /* light heading */
+    --font-color-p: #cfcfcf; /* light paragraph */
+    --font-light: #bcbcbc;
+    --font-white: #ffffff;
+    --font-black: #0c0c0c;
 
-//   --border: 1px solid #3a3a3a;
-//   --border-white: 1px solid #ffffff;
-//   --border-hover: 1px solid #c1121f;
+    --border: 1px solid #3a3a3a;
+    --border-white: 1px solid #ffffff;
+    --border-hover: 1px solid #c1121f;
 
-//   /* Shadow & Transition */
-//   --shadow: 0px 4px 12px rgba(0, 0, 0, 0.25),
-//              0px -2px 6px rgba(0, 0, 0, 0.08);
-//   --shadow-below: 0 6px 16px rgba(255, 255, 255, 0.06);
-// }
+    /* Shadow & Transition */
+    --shadow: 0px 4px 12px rgba(0, 0, 0, 0.25), 0px -2px 6px rgba(0, 0, 0, 0.08);
+    --shadow-below: 0 6px 16px rgba(255, 255, 255, 0.06);
+  }
+}
 
 * {
   margin: 0;
