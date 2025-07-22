@@ -311,9 +311,6 @@
   background-color: #f4f4f4;
   padding-block: var(--spacing-s);
 }
-.quote-section svg {
-  margin-bottom: var(--spacing);
-}
 .quote-section .quote {
   padding: var(--spacing);
   border: var(--border);
@@ -332,11 +329,22 @@
   -o-object-fit: cover;
      object-fit: cover;
 }
+.quote-section .quote .content {
+  margin-block: var(--spacing);
+}
+.quote-section .quote .content svg {
+  margin-bottom: var(--spacing-h);
+}
 .quote-section .quote .tractions {
   display: flex;
   align-items: center;
   gap: var(--spacing-2x);
   margin-top: var(--spacing);
+}
+.quote-section .quote .tractions span {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-h);
 }
 
 /* ========== quote section close ========== */

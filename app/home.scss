@@ -363,17 +363,13 @@
   background-color: #f4f4f4;
   padding-block: var(--spacing-s);
 
-  svg {
-    margin-bottom: var(--spacing);
-  }
-
   .quote {
     padding: var(--spacing);
     border: var(--border);
     border-radius: var(--border-radius);
     background-color: var(--background-white);
 
-    .quote-hd{
+    .quote-hd {
       display: flex;
       gap: var(--spacing);
       align-items: center;
@@ -386,13 +382,26 @@
       }
     }
 
-    .tractions{
+    .content {
+      margin-block: var(--spacing);
+
+      svg {
+        margin-bottom: var(--spacing-h);
+      }
+    }
+
+    .tractions {
       display: flex;
       align-items: center;
       gap: var(--spacing-2x);
       margin-top: var(--spacing);
-    }
 
+      span {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-h);
+      }
+    }
   }
 }
 /* ========== quote section close ========== */
