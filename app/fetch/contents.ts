@@ -48,7 +48,7 @@ const homeSection: HomeType = {
       tractions: { like: 234, comment: 34, repost: 12 },
     },
     {
-      img: "/assets/grant cardone.png",
+      img: "/assets/grant cardone.jpeg",
       text: "Real estate is the safest investment in the world.",
       name: "Grant Cardone",
       tractions: { like: 234, comment: 34, repost: 12 },
