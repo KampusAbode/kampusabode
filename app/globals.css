@@ -53,9 +53,8 @@
   --font-size-sm: 0.875rem;
   --font-size-xs: 0.7125rem;
   /* Line Heights */
-  --line-height: 1.315rem;
-  --line-height-lg: 1.34rem;
-  --line-height-lg: 2rem;
+  --line-height: 1.4;
+  --line-height-lg: 1.2;
   /* Breakpoints */
   --large-width: 90%;
   --mobile-width: 92%;
