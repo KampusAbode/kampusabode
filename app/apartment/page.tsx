@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
 import { fetchPropertiesRealtime } from "../utils"; // Ensure this function returns real-time properties
 import PropCard from "./propcard/PropCard";
@@ -30,46 +30,42 @@ const PropertiesPage: React.FC = () => {
     filterProperties,
   } = usePropertiesStore();
 
-  // Get initial search values from URL parameters
-  const initialSearchQuery = searchParams.get("q") || "";
-  const initialActiveLocation = searchParams.get("loc") || "all";
 
   // Listen for real-time updates from Firestore
   useEffect(() => {
-    if (filteredProperties.length === 0) {
-      setLoading(true);
-    }
+    setLoading(true);
+  const unsubscribe = fetchPropertiesRealtime((fetchedProperties) => {
+    setProperties(fetchedProperties);
+    setLoading(false);
+  });
 
-    const unsubscribe = fetchPropertiesRealtime((fetchedProperties) => {
-      setProperties(fetchedProperties);
-      setLoading(false);
-    });
+  return () => unsubscribe?.();
+}, [setProperties, setLoading]);
 
-    return () => unsubscribe();
-  }, []);
-
-  // Apply filters on component mount based on URL params
   useEffect(() => {
-    setSearchQuery(initialSearchQuery);
-    setActiveLocation(initialActiveLocation);
-    filterProperties();
-  }, [
-    setSearchQuery,
-    setActiveLocation,
-    initialSearchQuery,
-    initialActiveLocation,
-    filterProperties,
-  ]);
+  const q = searchParams.get("q") || "";
+  const loc = searchParams.get("loc") || "all";
 
-  // Update URL when search query or active location changes, then apply filtering
-  useEffect(() => {
-    router.replace(
-      `/apartment?q=${encodeURIComponent(searchQuery)}&loc=${encodeURIComponent(
-        activeLocation
-      )}`
-    );
+  setSearchQuery(q);
+  setActiveLocation(loc);
+  filterProperties();
+}, [searchParams, setSearchQuery, setActiveLocation, filterProperties]);
+
+
+ // Update URL
+useEffect(() => {
+  router.replace(
+    `/apartment?q=${encodeURIComponent(searchQuery)}&loc=${encodeURIComponent(activeLocation)}`
+  );
+}, [searchQuery, activeLocation, router]);
+
+useEffect(() => {
+  if (properties.length > 0) {
     filterProperties();
-  }, [searchQuery, activeLocation, router, filterProperties, properties]);
+  }
+}, [searchQuery, activeLocation, properties]);
+
+
 
   // Handle search input change
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
