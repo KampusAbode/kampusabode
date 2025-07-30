@@ -180,8 +180,9 @@
 }
 .dashboard .container .student-dashboard .listed-properties .property-list ul li a img,
 .dashboard .container .agent-dashboard .listed-properties .property-list ul li a img {
-  height: 80px;
   width: 100%;
+  aspect-ratio: 1/1;
+  height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: var(--border-radius);

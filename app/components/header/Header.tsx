@@ -89,7 +89,7 @@ export default function Header() {
             <div className={`logo ${!user ? "loggedIn" : ""}`}>
               <Link prefetch href="/">
                 <Image
-                  src="/LOGO/logowhite_red.png"
+                  src="/LOGO/WHITE_LOGO-T.png"
                   width={500}
                   height={500}
                   alt="logo"

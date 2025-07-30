@@ -96,7 +96,7 @@ function Nav() {
                 <div className="logo">
                   <Link prefetch href="/" onClick={toggleNav}>
                     <Image
-                      src="/LOGO/RED_LOGO_T.png"
+                      src="/LOGO/WHITE_LOGO-T.png"
                       width={500}
                       height={500}
                       alt="logo"

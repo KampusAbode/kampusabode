@@ -28,7 +28,6 @@ const PropertiesPage: React.FC = () => {
     filterProperties,
   } = usePropertiesStore();
 
-  // 🔁 Real-time Firestore properties listener
   useEffect(() => {
     setLoading(true);
     const unsubscribe = fetchPropertiesRealtime((fetchedProperties) => {
@@ -39,7 +38,6 @@ const PropertiesPage: React.FC = () => {
     return () => unsubscribe?.();
   }, [setProperties, setLoading]);
 
-
   useEffect(() => {
     const q = searchParams.get("q") || "";
     const loc = searchParams.get("loc") || "all";
@@ -48,13 +46,14 @@ const PropertiesPage: React.FC = () => {
     if (activeLocation !== loc) setActiveLocation(loc);
 
     filterProperties();
-  }, [searchParams, searchQuery, activeLocation, filterProperties]);
+  }, [searchParams]);
 
   useEffect(() => {
     if (properties.length > 0) {
       filterProperties();
     }
-  }, []);
+  }, [properties, searchQuery, activeLocation]);
+
 
   const updateSearchParams = (query: string, location: string) => {
     const params = new URLSearchParams();
@@ -66,24 +65,22 @@ const PropertiesPage: React.FC = () => {
     router.push(`?${params.toString()}`);
   };
 
-  
-const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  setSearchQuery(e.target.value);
-};
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
 
-const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  if (e.key === "Enter") {
-    updateSearchParams(searchQuery, activeLocation);
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      updateSearchParams(searchQuery, activeLocation);
+      filterProperties();
+    }
+  };
+
+  const filterByLocation = (location: string) => {
+    setActiveLocation(location);
+    updateSearchParams(searchQuery, location);
     filterProperties();
-  }
-};
-
-const filterByLocation = (location: string) => {
-  setActiveLocation(location);
-  updateSearchParams(searchQuery, location);
-  filterProperties();
-};
-
+  };
 
   return (
     <section className="listings-page">

@@ -179,8 +179,9 @@
                 grid-template-columns: 1fr 2fr;
 
                 img {
-                  height: 80px;
                   width: 100%;
+                  aspect-ratio: 1/1;
+                  height: 100%;
                   object-fit: cover;
                   border-radius: var(--border-radius);
                   border-top-right-radius: 0;
