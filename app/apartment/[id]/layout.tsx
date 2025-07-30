@@ -2,6 +2,7 @@
 import { ReactNode } from "react";
 import { Metadata } from "next";
 import { usePropertiesStore } from "../../store/propertiesStore";
+import { getApartmentById } from "../../utils";
 
 type LayoutProps = {
   children: ReactNode;
@@ -15,7 +16,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id } = params;
 
-  const propertyDetails = usePropertiesStore.getState().getPropertyById(id);
+  // const propertyDetails = fetchPropertyById(id);
+  const propertyDetails = getApartmentById(id);
 
   if (!propertyDetails) {
     return {
@@ -42,12 +44,12 @@ export async function generateMetadata({
     };
   }
 
-  const title = `${propertyDetails.title} - at Kampusabode`;
+  const title = `${(await propertyDetails).title} - at Kampusabode`;
   const description =
-    propertyDetails.description ||
+    (await propertyDetails).description ||
     "Find quality student apartments on Kampusabode.";
   const image =
-    propertyDetails.images?.[0] ||
+    (await propertyDetails).images?.[0] ||
     "https://kampusabode.com/LOGO/logored_white.jpg";
 
   return {
@@ -65,7 +67,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      url: `https://kampusabode.com/apartment/${propertyDetails.id}`,
+      url: `https://kampusabode.com/apartment/${(await propertyDetails).id}`,
       siteName: "Kampusabode",
       images: [
         {
