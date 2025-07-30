@@ -10,7 +10,7 @@ interface PropertiesState {
   isLoading: boolean;
   searchQuery: string;
   activeLocation: string;
-  
+
   setProperties: (properties: ApartmentType[]) => void;
   setAllProperties: (properties: ApartmentType[]) => void;
   setFilteredProperties: (filtered: ApartmentType[]) => void;
@@ -32,11 +32,30 @@ export const usePropertiesStore = create<PropertiesState>()((set, get) => ({
   activeLocation: "all",
 
   setProperties: (properties) => set({ properties }),
-  setAllProperties: (properties) => set({ allProperties: properties }),
-  setFilteredProperties: (filtered) => set({ filteredProperties: filtered }),
-  setLoading: (loading) => set({ isLoading: loading }),
-  setSearchQuery: (query) => set({ searchQuery: query }),
-  setActiveLocation: (location) => set({ activeLocation: location }),
+  setAllProperties: (properties) =>
+    set((state) =>
+      JSON.stringify(state.allProperties) !== JSON.stringify(properties)
+        ? { allProperties: properties }
+        : {}
+    ),
+
+  setFilteredProperties: (filtered) =>
+    set((state) =>
+      JSON.stringify(state.filteredProperties) !== JSON.stringify(filtered)
+        ? { filteredProperties: filtered }
+        : {}
+    ),
+
+  setLoading: (loading) =>
+    set((state) => (state.isLoading !== loading ? { isLoading: loading } : {})),
+
+  setSearchQuery: (query) =>
+    set((state) => (state.searchQuery !== query ? { searchQuery: query } : {})),
+
+  setActiveLocation: (location) =>
+    set((state) =>
+      state.activeLocation !== location ? { activeLocation: location } : {}
+    ),
 
   filterProperties: () => {
     const { properties, searchQuery, activeLocation } = get();

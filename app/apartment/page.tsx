@@ -2,21 +2,19 @@
 
 import { useEffect } from "react";
 import Image from "next/image";
-import { fetchPropertiesRealtime } from "../utils"; // Ensure this function returns real-time properties
+import { fetchPropertiesRealtime } from "../utils";
 import PropCard from "./propcard/PropCard";
 import Loader from "../components/loader/Loader";
 import "./apartment.css";
 import { FaSearch } from "react-icons/fa";
 import { useSearchParams, useRouter } from "next/navigation";
-import { usePropertiesStore } from "../store/propertiesStore"; // Zustand store
+import { usePropertiesStore } from "../store/propertiesStore";
 import data from "../fetch/contents";
 
 const PropertiesPage: React.FC = () => {
-  // const { fetchPropertiesRealtime } = useProperties();
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Zustand state
   const {
     searchQuery,
     activeLocation,
@@ -30,62 +28,66 @@ const PropertiesPage: React.FC = () => {
     filterProperties,
   } = usePropertiesStore();
 
-
-  // Listen for real-time updates from Firestore
+  // 🔁 Real-time Firestore properties listener
   useEffect(() => {
     setLoading(true);
-  const unsubscribe = fetchPropertiesRealtime((fetchedProperties) => {
-    setProperties(fetchedProperties);
-    setLoading(false);
-  });
+    const unsubscribe = fetchPropertiesRealtime((fetchedProperties) => {
+      setProperties(fetchedProperties);
+      setLoading(false);
+    });
 
-  return () => unsubscribe?.();
-}, [setProperties, setLoading]);
+    return () => unsubscribe?.();
+  }, [setProperties, setLoading]);
 
+  // 🧠 Read initial query from URL (only if different from state)
   useEffect(() => {
-  const q = searchParams.get("q") || "";
-  const loc = searchParams.get("loc") || "all";
+    const q = searchParams.get("q") || "";
+    const loc = searchParams.get("loc") || "all";
 
-  setSearchQuery(q);
-  setActiveLocation(loc);
-  filterProperties();
-}, [searchParams, setSearchQuery, setActiveLocation, filterProperties]);
+    if (searchQuery !== q) setSearchQuery(q);
+    if (activeLocation !== loc) setActiveLocation(loc);
 
-
- // Update URL
-useEffect(() => {
-  router.replace(
-    `/apartment?q=${encodeURIComponent(searchQuery)}&loc=${encodeURIComponent(activeLocation)}`
-  );
-}, [searchQuery, activeLocation, router]);
-
-useEffect(() => {
-  if (properties.length > 0) {
     filterProperties();
-  }
-}, [searchQuery, activeLocation, properties]);
+  }, [searchParams]);
 
+  // 🔁 Update URL if Zustand state changes (and is different from URL)
+  useEffect(() => {
+    const currentQ = searchParams.get("q") || "";
+    const currentLoc = searchParams.get("loc") || "all";
 
+    if (searchQuery !== currentQ || activeLocation !== currentLoc) {
+      router.replace(
+        `/apartment?q=${encodeURIComponent(
+          searchQuery
+        )}&loc=${encodeURIComponent(activeLocation)}`
+      );
+    }
+  }, [searchQuery, activeLocation]);
 
-  // Handle search input change
+  // 🔍 Refine filtered results on search/location/property change
+  useEffect(() => {
+    if (properties.length > 0) {
+      filterProperties();
+    }
+  }, [searchQuery, activeLocation, properties]);
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 
-  // Handle search on Enter key press
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       filterProperties();
     }
   };
 
-  // Handle location filter change
   const filterByLocation = (location: string) => {
     setActiveLocation(location);
   };
 
   return (
     <section className="listings-page">
+      {/* ✅ Banner */}
       <div className="banner">
         <div className="container">
           <span>Rent Smart</span>
@@ -124,6 +126,7 @@ useEffect(() => {
           src="/assets/Dots.png"
           alt="dots"
         />
+        {/* Optional Building Illustration */}
         {/* <Image
           priority
           className="building"
@@ -134,6 +137,7 @@ useEffect(() => {
         /> */}
       </div>
 
+      {/* 🔎 Search */}
       <div className="user-search">
         <div className="container">
           <input
@@ -149,6 +153,7 @@ useEffect(() => {
         </div>
       </div>
 
+      {/* 🗺️ Location Filter */}
       <div className="filter">
         <div className="container">
           <span
@@ -169,6 +174,7 @@ useEffect(() => {
         </div>
       </div>
 
+      {/* 🏠 Properties */}
       <div className="property-listings">
         <div className="container">
           {isLoading ? (
