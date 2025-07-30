@@ -50,7 +50,6 @@ const PropertiesPage: React.FC = () => {
     filterProperties();
   }, [searchParams]);
 
-  // 🔁 Update URL if Zustand state changes (and is different from URL)
   useEffect(() => {
     const currentQ = searchParams.get("q") || "";
     const currentLoc = searchParams.get("loc") || "all";
@@ -64,12 +63,12 @@ const PropertiesPage: React.FC = () => {
     }
   }, [searchQuery, activeLocation]);
 
-  // 🔍 Refine filtered results on search/location/property change
+
   useEffect(() => {
     if (properties.length > 0) {
       filterProperties();
     }
-  }, [searchQuery, activeLocation, properties]);
+  }, []);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);

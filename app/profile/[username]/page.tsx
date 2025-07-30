@@ -35,12 +35,12 @@ interface ProfileFormValues {
 
 interface PageProp {
   params: {
-    id: string;
+    username: string;
   };
 }
 
 const CreateProfilePage = ({ params }: PageProp) => {
-  const { id } = params;
+  const { username } = params;
   const router = useRouter();
   const { user, setUser } = useUserStore((state) => state);
   // const { deleteAppwriteImage } = useProperties();
@@ -56,7 +56,7 @@ const CreateProfilePage = ({ params }: PageProp) => {
 
   // Sync formValues to user when user changes (on mount and updates)
   useEffect(() => {
-    if (user && user.id === id) {
+    if (user && user.name === username) {
       setFormValues({
         name: user.name || "",
         email: user.email || "",

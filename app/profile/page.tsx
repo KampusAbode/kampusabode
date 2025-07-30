@@ -95,7 +95,7 @@ const ProfilePage = () => {
         </div>
 
         <div className="cp">
-          <Link prefetch href={`/profile/@${user.name}`} className="btn">
+          <Link prefetch href={`/profile/${user.name}`} className="btn">
             edit profile
           </Link>
         </div>

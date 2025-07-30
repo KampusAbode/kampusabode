@@ -60,6 +60,8 @@
         transition: var(--transition);
       }
       &.active {
+        background-color: var(--light-gray);
+        border-radius: var(--border-radius);
         svg {
           transform: translateY(-8px);
           path {

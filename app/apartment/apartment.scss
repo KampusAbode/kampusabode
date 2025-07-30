@@ -15,17 +15,15 @@
     }
     h2 {
       color: white;
-    }
-
-    h2 {
       position: relative;
       text-transform: capitalize;
 
       svg {
         position: absolute;
+        left: 55%;
         top: 0;
 
-        path{
+        path {
           fill: var(--white);
         }
       }
