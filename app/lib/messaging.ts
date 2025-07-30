@@ -16,7 +16,7 @@ export const generateToken = async (): Promise<string | null> => {
   try {
     const permission = await Notification.requestPermission();
     if (permission !== "granted") {
-      // console.log("Notification permission not granted");
+     
       return null;
     }
 

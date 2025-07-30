@@ -223,7 +223,7 @@ export async function updateTrend({
 //     const snapshot = await getDocs(collection(db, collectionName));
 
 //     if (snapshot.empty) {
-//       console.log("No documents found.");
+//      
 //       return;
 //     }
 
@@ -240,15 +240,15 @@ export async function updateTrend({
 //       }
 //     });
 
-//     console.log(`Found ${duplicates.length} duplicate documents.`);
+// 
 
 //     // Delete duplicates
 //     for (const docId of duplicates) {
 //       await deleteDoc(doc(db, collectionName, docId));
-//       console.log(`Deleted document with ID: ${docId}`);
+//      
 //     }
 
-//     console.log("Duplicate removal complete.");
+//   
 //   } catch (error) {
 //     console.error("Error removing duplicates:", error);
 //   }

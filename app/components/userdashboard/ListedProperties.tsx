@@ -87,7 +87,7 @@ const ListedProperties = () => {
         toast.error(response.message || "Failed to delete property.");
       }
     } catch (error) {
-      // console.log("Error deleting property:", error);
+     
       if (error instanceof Error) {
         toast.error(error.message);
       } else {

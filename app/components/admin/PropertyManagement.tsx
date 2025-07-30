@@ -22,7 +22,7 @@ const PropertyManagement = () => {
 
   useEffect(() => {
     const unsubscribe = fetchAllPropertiesRealtime((fetchedProperties) => {
-      console.log("Fetched properties:", fetchedProperties);
+    
       setAllProperties(fetchedProperties);
     });
 

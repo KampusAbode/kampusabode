@@ -41,13 +41,13 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
     try {
       const details = await getApartmentById(id);
       setPropertyDetails(details);
-      console.log(details);
+    
       const agentId = details.agentId;
 
       const agent = await fetchUsersById(agentId);
 
       setAgentDetails(agent);
-      // console.log("Agent Details:", agent);
+      
 
       if (agent) {
         const properties = await getApartmentsByIds(
@@ -147,20 +147,19 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
           : "",
       ...userdata,
     };
-    //  console.log("Form Data:", data);
+   
 
     try {
       // const emailSent = await sendInspectionEmail(data);
 
       // if (emailSent.success) {
       //   toast.success("Email sent successfully! Redirecting to WhatsApp...", {id: "email-success"  });
-      //   console.log("Email sent successfully:", emailSent.message);
-      //   console.log("Twilio Message ID:", emailSent.twilioMessageId);
+     
 
       // } else {
-      //   console.error("Failed to send email:", emailSent.message);
+     
       //   toast.error("Failed to send email. Please try again later.");
-      //   console.log("Error details:", emailSent.error);
+     
 
       // }
 

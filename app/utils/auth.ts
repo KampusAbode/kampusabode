@@ -120,7 +120,7 @@ export const loginUser = async (userData: UserLoginInput) => {
       password
     );
 
-    console.log("User logged in successfully:", userCredential.user);
+    
 
     const userId = userDataFromCollection.id;
     useUserStore.getState().setUser(userDataFromCollection);
@@ -128,7 +128,7 @@ export const loginUser = async (userData: UserLoginInput) => {
     return { message: `Welcome abode! ${userDataFromCollection.name}`, userId };
   } catch (error: any) {
     console.error("Login error:", error);
-    console.log("Login error:", error);
+   
     if (error.code === "auth/invalid-credential") {
       throw {
         message: "Incorrect credentials. Please try again.",
@@ -188,7 +188,7 @@ export async function assignUserRole(
     // Upsert the role
     await setDoc(userRoleRef, roleData, { merge: true });
 
-    // console.log(`Assigned role '${role}' to user ${userId}`);
+   
   } catch (error) {
     console.error("Error assigning user role:", error);
     throw error;

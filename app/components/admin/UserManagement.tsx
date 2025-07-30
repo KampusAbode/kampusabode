@@ -47,7 +47,7 @@ const UserManagement = () => {
     try {
       await assignUserRole(username, userId, role, assignedBy);
       toast.success(`Successfully assigned ${role} role to ${username}`);
-      // console.log(`Successfully assigned ${role} role to user ${userId}`);
+     
     } catch (error) {
       toast.error(`Failed to assign ${role} role to ${username}`);
       console.error(`Error assigning ${role} role to user ${userId}:`, error);
@@ -56,12 +56,12 @@ const UserManagement = () => {
 
   const fetchWriter = async (student) => {
     const isWriter = await checkIsWriter(student?.id);
-    // console.log(`${student?.name} is Writer:`, isWriter);
+   
     return isWriter;
   };
   const fetchAdmin = async (student) => {
     const isAdmin = await checkIsAdmin(student?.id);
-    // console.log(`${student?.name} is Admin:`, isAdmin);
+    
     return isAdmin;
   };
 

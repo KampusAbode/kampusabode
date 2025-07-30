@@ -86,7 +86,7 @@ export default function EditApartment({ params }: { params: { id: string } }) {
     const getApartment = async () => {
       try {
         const apartmentDetails = await getApartmentById(id);
-        console.log("Fetched apartment details:", apartmentDetails);
+      
         if (!apartmentDetails) {
           setError("Apartment not found");
         } else {
