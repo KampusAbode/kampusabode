@@ -110,6 +110,9 @@
   align-items: flex-start;
   gap: var(--spacing-h);
 }
+.admin-dashboard .container .dashboard-content .property-management ul li .flex .image {
+  min-width: 100px;
+}
 .admin-dashboard .container .dashboard-content .property-management ul li .flex .image img {
   width: 100px;
   height: 100px;

@@ -60,7 +60,6 @@
   color: white;
   width: 100%;
   border-radius: 0;
-  padding: var(--spacing-h);
 }
 .nav-menu .top .nav-header .nav-btns .btn:first-child {
   border-bottom: var(--border);
@@ -73,7 +72,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 3px;
   margin-top: var(--spacing-4x);
 }
 .nav-menu .top ul::-webkit-scrollbar {
