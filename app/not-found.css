@@ -3,22 +3,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-2x);
+  gap: var(--spacing);
   flex-direction: column;
   height: 100vh;
   background: #f9f9f9;
 }
 .not-found-container .not-found-image img {
-  width: 100%;
-  max-width: 400px;
+  width: 250px;
   height: auto;
+  border-radius: var(--border-radius);
 }
 .not-found-container .not-found-content {
   text-align: center;
   padding: var(--spacing-2x);
 }
 .not-found-container .not-found-content h1 {
-  font-size: var(--spacing-3x);
   margin-bottom: var(--spacing);
   color: var(--primary-color);
 }

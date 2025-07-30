@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import "./contact.css";
 
 export const metadata: Metadata = {
@@ -27,12 +28,12 @@ const ContactPage = () => {
             </p>
           </div>
           <div className="im">
-            <img src="/assets/await_message.jpeg" alt="await message image" />
+            <Image src="/assets/await_message.jpeg" width={800} height={800} alt="await message image" />
           </div>
         </div>
         <div className="sd">
           <div className="im">
-            <img src="/assets/await_message.jpeg" alt="await message image" />
+            <Image src="/assets/await_message.jpeg" width={800} height={800} alt="await message image" />
           </div>
           <div className="ft"></div>
         </div>

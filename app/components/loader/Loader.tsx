@@ -3,24 +3,20 @@ import "./Loader.css";
 
 const Loader: FC = () => {
   return (
-    <div className="loader">
-      <div className="circle">
-        <div className="dot"></div>
-        <div className="outline"></div>
-      </div>
-      <div className="circle">
-        <div className="dot"></div>
-        <div className="outline"></div>
-      </div>
-      <div className="circle">
-        <div className="dot"></div>
-        <div className="outline"></div>
-      </div>
-      <div className="circle">
-        <div className="dot"></div>
-        <div className="outline"></div>
-      </div>
-    </div>
+<div className="spinner center">
+    <div className="spinner-blade"></div>
+    <div className="spinner-blade"></div>
+    <div className="spinner-blade"></div>
+    <div className="spinner-blade"></div>
+    <div className="spinner-blade"></div>
+    <div className="spinner-blade"></div>
+    <div className="spinner-blade"></div>
+    <div className="spinner-blade"></div>
+    <div className="spinner-blade"></div>
+    <div className="spinner-blade"></div>
+    <div className="spinner-blade"></div>
+    <div className="spinner-blade"></div>
+</div>
   );
 };
 

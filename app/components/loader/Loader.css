@@ -1,141 +1,137 @@
-.loader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-block: var(--spacing-2x);
-  margin-top: var(--spacing-s);
-  --color: hsl(0, 0%, 87%);
-  --animation: 2s ease-in-out infinite;
-}
-
-.loader .circle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* From Uiverse.io by mrhyddenn */ 
+.spinner {
+  font-size: 28px;
   position: relative;
-  width: 20px;
-  height: 20px;
-  border: solid 2px var(--color);
-  border-radius: 50%;
-  margin: 0 10px;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+}
+
+.spinner.center {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.spinner .spinner-blade {
+  position: absolute;
+  left: 0.4629em;
+  bottom: 0;
+  width: 0.074em;
+  height: 0.2777em;
+  border-radius: 0.0555em;
   background-color: transparent;
-  animation: circle-keys var(--animation);
+  -webkit-transform-origin: center -0.2222em;
+  -ms-transform-origin: center -0.2222em;
+  transform-origin: center -0.2222em;
+  animation: spinner-fade9234 1s infinite linear;
 }
 
-.loader .circle .dot {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background-color: var(--color);
-  animation: dot-keys var(--animation);
+.spinner .spinner-blade:nth-child(1) {
+  -webkit-animation-delay: 0s;
+  animation-delay: 0s;
+  -webkit-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
 }
 
-.loader .circle .outline {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  animation: outline-keys var(--animation);
+.spinner .spinner-blade:nth-child(2) {
+  -webkit-animation-delay: 0.083s;
+  animation-delay: 0.083s;
+  -webkit-transform: rotate(30deg);
+  -ms-transform: rotate(30deg);
+  transform: rotate(30deg);
 }
 
-.circle:nth-child(2) {
-  animation-delay: 0.3s;
+.spinner .spinner-blade:nth-child(3) {
+  -webkit-animation-delay: 0.166s;
+  animation-delay: 0.166s;
+  -webkit-transform: rotate(60deg);
+  -ms-transform: rotate(60deg);
+  transform: rotate(60deg);
 }
 
-.circle:nth-child(3) {
-  animation-delay: 0.6s;
+.spinner .spinner-blade:nth-child(4) {
+  -webkit-animation-delay: 0.249s;
+  animation-delay: 0.249s;
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 
-.circle:nth-child(4) {
-  animation-delay: 0.9s;
+.spinner .spinner-blade:nth-child(5) {
+  -webkit-animation-delay: 0.332s;
+  animation-delay: 0.332s;
+  -webkit-transform: rotate(120deg);
+  -ms-transform: rotate(120deg);
+  transform: rotate(120deg);
 }
 
-.circle:nth-child(5) {
-  animation-delay: 1.2s;
+.spinner .spinner-blade:nth-child(6) {
+  -webkit-animation-delay: 0.415s;
+  animation-delay: 0.415s;
+  -webkit-transform: rotate(150deg);
+  -ms-transform: rotate(150deg);
+  transform: rotate(150deg);
 }
 
-.circle:nth-child(2) .dot {
-  animation-delay: 0.3s;
+.spinner .spinner-blade:nth-child(7) {
+  -webkit-animation-delay: 0.498s;
+  animation-delay: 0.498s;
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 
-.circle:nth-child(3) .dot {
-  animation-delay: 0.6s;
+.spinner .spinner-blade:nth-child(8) {
+  -webkit-animation-delay: 0.581s;
+  animation-delay: 0.581s;
+  -webkit-transform: rotate(210deg);
+  -ms-transform: rotate(210deg);
+  transform: rotate(210deg);
 }
 
-.circle:nth-child(4) .dot {
-  animation-delay: 0.9s;
+.spinner .spinner-blade:nth-child(9) {
+  -webkit-animation-delay: 0.664s;
+  animation-delay: 0.664s;
+  -webkit-transform: rotate(240deg);
+  -ms-transform: rotate(240deg);
+  transform: rotate(240deg);
 }
 
-.circle:nth-child(5) .dot {
-  animation-delay: 1.2s;
+.spinner .spinner-blade:nth-child(10) {
+  -webkit-animation-delay: 0.747s;
+  animation-delay: 0.747s;
+  -webkit-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  transform: rotate(270deg);
 }
 
-.circle:nth-child(1) .outline {
-  animation-delay: 0.9s;
+.spinner .spinner-blade:nth-child(11) {
+  -webkit-animation-delay: 0.83s;
+  animation-delay: 0.83s;
+  -webkit-transform: rotate(300deg);
+  -ms-transform: rotate(300deg);
+  transform: rotate(300deg);
 }
 
-.circle:nth-child(2) .outline {
-  animation-delay: 1.2s;
+.spinner .spinner-blade:nth-child(12) {
+  -webkit-animation-delay: 0.913s;
+  animation-delay: 0.913s;
+  -webkit-transform: rotate(330deg);
+  -ms-transform: rotate(330deg);
+  transform: rotate(330deg);
 }
 
-.circle:nth-child(3) .outline {
-  animation-delay: 1.5s;
-}
-
-.circle:nth-child(4) .outline {
-  animation-delay: 1.8s;
-}
-
-.circle:nth-child(5) .outline {
-  animation-delay: 2.1s;
-}
-
-@keyframes circle-keys {
+@keyframes spinner-fade9234 {
   0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-
-  50% {
-    transform: scale(1.5);
-    opacity: 0.5;
+    background-color: #69717d;
   }
 
   100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes dot-keys {
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(0);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes outline-keys {
-  0% {
-    transform: scale(0);
-    outline: solid 20px var(--color);
-    outline-offset: 0;
-    opacity: 1;
-  }
-
-  100% {
-    transform: scale(1);
-    outline: solid 0 transparent;
-    outline-offset: 20px;
-    opacity: 0;
+    background-color: transparent;
   }
 }

@@ -7,13 +7,14 @@ import {
   uploadImageToAppwrite,
   deleteAppwriteImage,
 } from "../../utils";
+import Image from "next/image";
 import { UserType, AgentUserInfo, StudentUserInfo } from "../../fetch/types";
-import "./updateprofile.css";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "../../store/userStore";
 import Prompt from "../../components/modals/prompt/Prompt";
 import { FaP } from "react-icons/fa6";
 import { FaPlusCircle } from "react-icons/fa";
+import "./updateprofile.css";
 
 interface FormErrors {
   name?: string;
@@ -270,8 +271,10 @@ const CreateProfilePage = ({ params }: PageProp) => {
               <label htmlFor="file">
                 Select Profile Picture
                 {imagePreview && (
-                  <img
+                  <Image
                     src={imagePreview}
+                    width={500}
+                    height={500}
                     alt="Profile Preview"
                     className="profile-preview"
                   />

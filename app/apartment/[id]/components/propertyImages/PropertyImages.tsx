@@ -63,7 +63,7 @@ function PropertyImages({
 
         <div className="control-image">
           {propertyDetails?.images?.map((img: string, index: number) => (
-            <img
+            <Image
               key={index + img}
               src={img}
               width={400}

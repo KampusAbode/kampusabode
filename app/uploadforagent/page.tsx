@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
+import Image from "next/image";
 import toast from "react-hot-toast";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -356,10 +357,12 @@ const UploadForAgent = () => {
                       {thumbs.map((thumb, idx) => {
                         const objectUrl = URL.createObjectURL(thumb);
                         return (
-                          <img
+                          <Image
                             key={thumb.name + idx}
                             src={objectUrl}
                             alt={`thumb-${idx}`}
+                            width={500}
+                            height={500}
                             style={{
                               width: 100,
                               height: 100,

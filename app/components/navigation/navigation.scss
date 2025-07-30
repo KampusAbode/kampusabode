@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   background-color: var(--white);
-  padding: var(--spacing);
+  padding: var(--spacing-h);
   box-shadow: var(--shadow);
   z-index: 999;
   transition: var(--transition);
@@ -36,6 +36,7 @@
     }
 
     li {
+      padding: var(--spacing-h);
       div {
         width: 100%;
         cursor: pointer;
@@ -49,7 +50,7 @@
         gap: 5px;
 
         span {
-          font-size: 12px;
+          font-size: 10px;
           color: var(--font-color-p);
           text-transform: capitalize;
 

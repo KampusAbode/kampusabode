@@ -64,9 +64,9 @@
 body.dark :root {
   /* Colors */
   --error: #ff4d4d;
-  --background-white: #101214; /* base background */
-  --background-light: #1b1e21; /* lighter than base */
-  --background-dark: #0b0d0f; /* darker section */
+  --background-white: #1c1c1c; /* base background */
+  --background-light: #292929; /* lighter than base */
+  --background-dark: #121212; /* darker section */
   --background-transparent: #ffffff1a; /* light overlay on dark */
   --white: #191919;
   --black: #f2efef;
@@ -109,6 +109,7 @@ body.dark :root {
 body {
   font-family: var(--font-inter);
   color: var(--font-color-p);
+  background-color: var(--background-white);
 }
 
 .wrapper.grid {
@@ -386,7 +387,7 @@ button {
 }
 @media screen and (max-width: 768px) {
   .filter {
-    top: 45px;
+    top: 70px;
   }
 }
 

@@ -8,7 +8,7 @@ import {
 } from "../../utils";
 import { usePropertiesStore } from "../../store/propertiesStore";
 import Link from "next/link";
-// import { MdErrorOutline, MdVerified } from "react-icons/md";
+import Image from "next/image";
 import Prompt from "../modals/prompt/Prompt";
 import { RiCloseCircleLine, RiVerifiedBadgeLine } from "react-icons/ri";
 
@@ -79,7 +79,7 @@ const PropertyManagement = () => {
                 <div className="flex">
                   <div className="image">
                     <Link prefetch href={property.url}>
-                      <img src={property.images[0]} alt={property.title} />
+                      <Image src={property.images[0]} width={500} height={500} alt={property.title} />
                     </Link>
                   </div>
                   <div className="info">
