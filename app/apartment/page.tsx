@@ -39,7 +39,7 @@ const PropertiesPage: React.FC = () => {
     return () => unsubscribe?.();
   }, [setProperties, setLoading]);
 
-  // 🧠 Read initial query from URL (only if different from state)
+
   useEffect(() => {
     const q = searchParams.get("q") || "";
     const loc = searchParams.get("loc") || "all";
@@ -56,19 +56,34 @@ const PropertiesPage: React.FC = () => {
     }
   }, []);
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
+  const updateSearchParams = (query: string, location: string) => {
+    const params = new URLSearchParams();
+
+    if (query.trim()) params.set("q", query.trim());
+    if (location && location !== "all") params.set("loc", location);
+    else params.delete("loc"); // cleaner URL for 'all'
+
+    router.push(`?${params.toString()}`);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      filterProperties();
-    }
-  };
+  
+const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  setSearchQuery(e.target.value);
+};
 
-  const filterByLocation = (location: string) => {
-    setActiveLocation(location);
-  };
+const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  if (e.key === "Enter") {
+    updateSearchParams(searchQuery, activeLocation);
+    filterProperties();
+  }
+};
+
+const filterByLocation = (location: string) => {
+  setActiveLocation(location);
+  updateSearchParams(searchQuery, location);
+  filterProperties();
+};
+
 
   return (
     <section className="listings-page">
@@ -132,7 +147,12 @@ const PropertiesPage: React.FC = () => {
             onKeyDown={handleKeyDown}
             placeholder="Search by title, type, location ..."
           />
-          <div className="search-icon" onClick={() => filterProperties()}>
+          <div
+            className="search-icon"
+            onClick={() => {
+              updateSearchParams(searchQuery, activeLocation);
+              filterProperties();
+            }}>
             <FaSearch />
           </div>
         </div>
