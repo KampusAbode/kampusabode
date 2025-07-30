@@ -58,10 +58,11 @@ export const usePropertiesStore = create<PropertiesState>()((set, get) => ({
     ),
 
   filterProperties: () => {
-    const { properties, searchQuery, activeLocation } = get();
+    const { allProperties, searchQuery, activeLocation } = get();
     const query = searchQuery.trim().toLowerCase();
     const queryWords = query.split(/\s+/);
-    const filtered = properties.filter((property) => {
+
+    const filtered = allProperties.filter((property) => {
       const titleWords = property.title.toLowerCase().split(/\s+/);
       const matches =
         queryWords.filter((word) => titleWords.includes(word)).length >= 2 ||
@@ -71,7 +72,7 @@ export const usePropertiesStore = create<PropertiesState>()((set, get) => ({
         activeLocation === "all" || property.location === activeLocation;
       return matches && locationMatch;
     });
-    set({ properties: filtered });
+
     set({ filteredProperties: filtered });
   },
 
