@@ -64,13 +64,6 @@ header .container .menu {
   header .container .logo {
     visibility: visible;
   }
-  header .container .logo a {
-    cursor: pointer;
-  }
-  header .container .logo a img {
-    width: 28px;
-    height: 28px;
-  }
   header .container .page-title {
     display: block;
     text-transform: capitalize;
