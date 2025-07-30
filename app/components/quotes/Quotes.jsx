@@ -44,7 +44,7 @@ function Quotes() {
         {quotes.map((quote) => (
           <SwiperSlide key={quote.name} className="quote">
             <div className="quote-hd">
-              <Image src={quote.img} alt={quote.name} />
+              <Image src={quote.img} width={400} height={400} alt={quote.name} />
               <i>{quote.name}</i>
             </div>
             <div className="content">

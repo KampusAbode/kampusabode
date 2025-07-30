@@ -39,6 +39,7 @@ export const usePropertiesStore = create<PropertiesState>()((set, get) => ({
         : {}
     ),
 
+  
   setFilteredProperties: (filtered) =>
     set((state) =>
       JSON.stringify(state.filteredProperties) !== JSON.stringify(filtered)
@@ -58,11 +59,11 @@ export const usePropertiesStore = create<PropertiesState>()((set, get) => ({
     ),
 
   filterProperties: () => {
-    const { allProperties, searchQuery, activeLocation } = get();
+    const { properties, searchQuery, activeLocation } = get();
     const query = searchQuery.trim().toLowerCase();
     const queryWords = query.split(/\s+/);
 
-    const filtered = allProperties.filter((property) => {
+    const filtered = properties.filter((property) => {
       const titleWords = property.title.toLowerCase().split(/\s+/);
       const matches =
         queryWords.filter((word) => titleWords.includes(word)).length >= 2 ||

@@ -48,21 +48,7 @@ const PropertiesPage: React.FC = () => {
     if (activeLocation !== loc) setActiveLocation(loc);
 
     filterProperties();
-  }, [searchParams]);
-
-  useEffect(() => {
-    const currentQ = searchParams.get("q") || "";
-    const currentLoc = searchParams.get("loc") || "all";
-
-    if (searchQuery !== currentQ || activeLocation !== currentLoc) {
-      router.replace(
-        `/apartment?q=${encodeURIComponent(
-          searchQuery
-        )}&loc=${encodeURIComponent(activeLocation)}`
-      );
-    }
-  }, [searchQuery, activeLocation]);
-
+  }, [searchParams, searchQuery, activeLocation, filterProperties]);
 
   useEffect(() => {
     if (properties.length > 0) {

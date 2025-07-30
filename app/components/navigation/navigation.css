@@ -52,6 +52,10 @@
 .navigation ul li svg {
   transition: var(--transition);
 }
+.navigation ul li.active {
+  background-color: var(--light-gray);
+  border-radius: var(--border-radius);
+}
 .navigation ul li.active svg {
   transform: translateY(-8px);
 }
