@@ -287,7 +287,7 @@ img {
   gap: 0.3rem;
   font-size: var(--font-size-sm);
   color: var(--font-white);
-  background: var(--primary-color);
+  background: linear-gradient(to bottom right, #c1121f, #d6444b);
   padding: var(--spacing-b);
   border-radius: var(--border-radius-btn);
   border: var(--border);

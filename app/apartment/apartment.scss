@@ -65,10 +65,10 @@
     margin: 0 auto;
     display: grid;
     grid-template-columns: 8fr 1.3fr;
-    background-color: var(--background-white);
     border: var(--border);
     border-radius: var(--border-radius-r);
     overflow: hidden;
+    background-color: var(--light-gray);
 
     input {
       border-top-left-radius: var(--border-radius);
@@ -83,7 +83,6 @@
       display: grid;
       place-content: center;
       cursor: pointer;
-      background-color: var(--light-gray);
     }
   }
 }
