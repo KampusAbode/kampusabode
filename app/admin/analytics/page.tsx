@@ -27,7 +27,7 @@ const Analytics = () => {
         </li>
         <li>
           <p>{allProperties?.length}</p>
-          <span>Total Linstings </span>
+          <span>Total Listings </span>
         </li>
         <li>
           <p>{users.filter((user) => user.userType === "agent").length}</p>
