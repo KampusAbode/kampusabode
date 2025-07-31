@@ -17,7 +17,7 @@ const AgentDashboard = ({ user }: AgentDashboardProps) => {
       {/* <Notifications user={user} /> */}
       {/* <AgentMatrics user={user} /> */}
 
-      <AgentPerformanceMetrics user={user} />
+      <AgentPerformanceMetrics />
       <ListedProperties />
       <StudentReviews />
     </div>

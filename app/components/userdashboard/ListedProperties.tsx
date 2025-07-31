@@ -34,15 +34,12 @@ const ListedProperties = () => {
 
         if (user && "propertiesListed" in user.userInfo) {
           const propertiesListed = user.userInfo.propertiesListed || [];
-          if (propertiesListed.length === 0) {
-            setFilteredProperties([]);
-            return;
-          }
+          console.log("Properties Listed:", propertiesListed);
 
-          const fetchedProperties: ApartmentType[] = await getApartmentsByIds(
-            propertiesListed
-          );
+          const fetchedProperties: ApartmentType[] =
+            await getApartmentsByIds(propertiesListed);
           setFilteredProperties(fetchedProperties);
+          console.log("Fetched Properties:", fetchedProperties);
         }
       } catch (err: unknown) {
         const errorMessage =
@@ -76,7 +73,7 @@ const ListedProperties = () => {
         return;
       }
 
-      const response = await deleteApartment(selectedPropertyId);
+      const response = await deleteApartment(propertyToDelete?.id);
       if (response.success) {
         toast.success(response.message);
         setFilteredProperties((prev) =>
@@ -87,7 +84,6 @@ const ListedProperties = () => {
         toast.error(response.message || "Failed to delete property.");
       }
     } catch (error) {
-     
       if (error instanceof Error) {
         toast.error(error.message);
       } else {

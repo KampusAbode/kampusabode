@@ -97,13 +97,20 @@ export const getApartmentById = async (
   }
 };
 
+
 export const getApartmentsByIds = async (
   ids: string[]
 ): Promise<ApartmentType[]> => {
   try {
-    const apartmentPromises = ids.map(async (id) => {
+    console.log("Fetching properties for IDs:", ids);
+    const apartmentPromises = ids.map(async (rawId) => {
+      const id = rawId.trim();
       const docRef = doc(db, "properties", id);
       const docSnap = await getDoc(docRef);
+      console.log(
+        `Fetched property for ID ${id}:`,
+        docSnap.exists() ? docSnap.data() : "not found"
+      );
       if (docSnap.exists()) {
         return { id: docSnap.id, ...docSnap.data() } as ApartmentType;
       }
@@ -119,6 +126,7 @@ export const getApartmentsByIds = async (
     throw error;
   }
 };
+
 
 export const getPropertiesByAgent = async (
   agentId: string
@@ -162,10 +170,10 @@ export const deleteApartment = async (apartmentId: string) => {
     // 2. Delete the apartment document from Firestore
     await deleteDoc(apartmentRef);
 
-    // 3. Remove apartmentId from the agent's properties array
+    // 3. Safely remove apartmentId from the user's propertiesListed array
     const userRef = doc(db, "users", apartmentData.agentId);
     await updateDoc(userRef, {
-      userInfo: { propertiesListed: arrayRemove(apartmentId) },
+      "userInfo.propertiesListed": arrayRemove(apartmentId),
     });
 
     return { success: true, message: "apartment has been deleted." };
@@ -177,6 +185,7 @@ export const deleteApartment = async (apartmentId: string) => {
     };
   }
 };
+
 
 export const updateapartment = async (
   apartmentId: string,

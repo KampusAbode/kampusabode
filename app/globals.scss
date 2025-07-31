@@ -224,10 +224,10 @@ strong {
 }
 
 section {
-  padding-block: var(--spacing);
+  padding-block: var(--spacing-2x);
 
   @media screen and (max-width: 768px) {
-    padding-block: var(--spacing-4x);
+    padding-block: var(--spacing-5x);
   }
 }
 

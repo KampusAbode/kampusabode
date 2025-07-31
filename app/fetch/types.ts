@@ -133,6 +133,7 @@ export interface BookmarkState {
   items: ApartmentType[];
 }
 
+
 export interface StudentUserInfo {
   department: string;
   currentYear: number;

@@ -94,6 +94,7 @@ export default function AdminLayout({
         <div className="container">
           {pages.map((page) => (
             <Link
+              key={page}
             prefetch
               href={`/admin/${page}`}
               className={`filter-btn ${currentPage === page ? "active" : ""}`}>
