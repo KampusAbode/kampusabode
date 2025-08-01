@@ -20,6 +20,7 @@
   max-width: 420px;
   padding: var(--spacing);
   animation: fadeIn 0.25s ease-in-out;
+  z-index: 1;
 }
 .modal-overlay .review-modal .modal-top {
   display: flex;

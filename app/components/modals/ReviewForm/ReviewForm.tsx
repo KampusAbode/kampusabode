@@ -63,6 +63,7 @@ const ReviewForm = ({
   };
 
   const handleClose = () => {
+    console.log('clicked')
     onClose()
   }
 
@@ -72,7 +73,7 @@ const ReviewForm = ({
         <div className="modal-top">
           <h5 className="review-header">Leave a Review</h5>
 
-          <FaTimes />
+          <FaTimes onClick={() => handleClose()} />
         </div>
         <div className="modal-body">
           <div className="rating">
@@ -86,7 +87,7 @@ const ReviewForm = ({
                 onClick={() => setRating(star)}
               />
             ))}
-            <div className="rate" onClick={() => handleClose}>
+            <div className="rate">
               {rating}
             </div>
           </div>

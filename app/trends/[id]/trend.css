@@ -127,9 +127,19 @@
 .trend-details-page .container .comments-section .comments-list .comment .top div img {
   width: 30px;
   height: 30px;
+  min-width: 30px;
+  min-height: 30px;
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 100%;
+}
+.trend-details-page .container .comments-section .comments-list .comment .top div span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 .trend-details-page .container .comments-section .comments-list .comment .top .created-at {
   font-size: var(--font-size-xs);

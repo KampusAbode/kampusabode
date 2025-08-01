@@ -2,7 +2,7 @@
   position: relative;
   .container {
     margin-bottom: var(--spacing-3x);
-    
+
     li {
       list-style-type: circle;
       margin-block: var(--spacing-h);
@@ -26,7 +26,7 @@
       text-align: center;
       margin-top: var(--spacing-5x);
 
-      h3{
+      h3 {
         max-width: 500px;
       }
 
@@ -98,20 +98,17 @@
 
       @media screen and (max-width: 1000px) {
         position: relative;
-        
       }
       .comments-list {
         margin-bottom: var(--spacing-h);
         max-height: 260px;
         overflow: scroll;
 
-
         .comment {
           border-radius: var(--border-radius);
           margin-block: var(--spacing);
           background-color: white;
-          
-          
+
           .top {
             display: flex;
             gap: var(--spacing-h);
@@ -127,8 +124,20 @@
               img {
                 width: 30px;
                 height: 30px;
+                min-width: 30px;
+                min-height: 30px;
                 object-fit: cover;
                 border-radius: 100%;
+              }
+
+              span {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                line-clamp: 1;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+                
               }
             }
             .created-at {
