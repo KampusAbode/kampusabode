@@ -62,6 +62,10 @@ const ReviewForm = ({
     }
   };
 
+  const handleClose = () => {
+    onClose()
+  }
+
   return (
     <div className="modal-overlay">
       <div className="review-modal">
@@ -82,7 +86,7 @@ const ReviewForm = ({
                 onClick={() => setRating(star)}
               />
             ))}
-            <div className="rate" onClick={() => onClose()}>
+            <div className="rate" onClick={() => handleClose}>
               {rating}
             </div>
           </div>
