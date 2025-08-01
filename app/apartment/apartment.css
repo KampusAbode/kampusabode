@@ -14,12 +14,12 @@
 }
 .banner .container h2 {
   color: white;
-  position: relative;
   text-transform: capitalize;
+  position: relative;
 }
 .banner .container h2 svg {
   position: absolute;
-  left: 40%;
+  left: 150px;
   top: 0;
 }
 .banner .container h2 svg path {

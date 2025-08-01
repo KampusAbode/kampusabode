@@ -111,8 +111,23 @@
     & > div {
       margin-block: var(--spacing-2x);
     }
-    h4 {
+    h5 {
       margin-bottom: var(--spacing);
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      button {
+        text-decoration: underline;
+
+        display: flex;
+        gap: var(--spacing-h);
+        align-items: center;
+        padding: var(--spacing-h);
+        border-radius: var(--border-radius);
+        background-color: var(--light-gray);
+      }
     }
     .top {
       display: grid;
@@ -223,7 +238,7 @@
         scrollbar-width: none;
 
         .review-item {
-          width: 90%;
+          width: 60%;
           border: var(--border);
           border-radius: var(--border-radius);
           scroll-snap-align: center;
@@ -232,10 +247,22 @@
           box-shadow: var(--shadow);
           text-align: center;
 
-          div {
+          .bottom {
+            display: flex;
+            gap: var(--spacing);
+            justify-content: center;
+            align-items: center;
             margin-top: var(--spacing-2x);
-            span {
-              display: block;
+
+            img {
+              border-radius: 100%;
+              width: 45px;
+              height: 45px;
+            }
+            .details {
+              span {
+                display: block;
+              }
             }
           }
         }

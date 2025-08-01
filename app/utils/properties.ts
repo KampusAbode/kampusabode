@@ -102,15 +102,10 @@ export const getApartmentsByIds = async (
   ids: string[]
 ): Promise<ApartmentType[]> => {
   try {
-    console.log("Fetching properties for IDs:", ids);
     const apartmentPromises = ids.map(async (rawId) => {
       const id = rawId.trim();
       const docRef = doc(db, "properties", id);
       const docSnap = await getDoc(docRef);
-      console.log(
-        `Fetched property for ID ${id}:`,
-        docSnap.exists() ? docSnap.data() : "not found"
-      );
       if (docSnap.exists()) {
         return { id: docSnap.id, ...docSnap.data() } as ApartmentType;
       }

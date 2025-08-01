@@ -319,12 +319,19 @@ img {
   padding: var(--spacing-b);
   color: var(--primary-color);
   background: var(--background-white);
-  text-transform: capitalize;
+  transition: var(--transition);
+}
+
+.btn-neutral {
+  color: var(--font-white);
+  background: var(--background-dark);
+  border: none;
   border-radius: var(--border-radius-btn);
   transition: var(--transition);
 }
 
 button {
+  font-size: var(--font-size-sm);
   border: none;
   background-color: transparent;
   cursor: pointer;

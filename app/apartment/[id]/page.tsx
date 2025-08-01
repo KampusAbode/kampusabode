@@ -4,7 +4,7 @@ import "./property.css";
 import React, { useState, useEffect, useCallback } from "react";
 import PropStats from "./components/propertyStats/propStats";
 import SaveVisitedProperty from "./functions/SaveVIsitedProperties";
-import { fetchUsersById, fetchReviewsByPropertyId } from "../../utils";
+import { fetchUsersById, fetchReviewsByPropertyId, getRelativeTime } from "../../utils";
 import Image from "next/image";
 import Link from "next/link";
 import PropertyImages from "./components/propertyImages/PropertyImages";
@@ -17,8 +17,10 @@ import ScheduleInspectionModal from "../../components/modals/ScheduleInspectionM
 import Loader from "../../components/loader/Loader";
 import { usePropertiesStore } from "../../store/propertiesStore";
 import { getApartmentById, getApartmentsByIds } from "../../utils";
+import { submitInspectionRequest } from "./functions/submitInspectionRequest";
+import ReviewForm from "../../components/modals/ReviewForm/ReviewForm";
+import { FaAngleRight } from "react-icons/fa";
 // import { sendInspectionEmail } from "../../../utils/sendInspectionEmail";
-
 
 const PropertyDetails = ({ params }: { params: { id: string } }) => {
   const { id } = params;
@@ -30,6 +32,7 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
   const [propertyDetails, setPropertyDetails] = useState<ApartmentType | null>(
     null
   );
+  const [isReviewOpen, setIsReviewOpen] = useState(false);
   const [isBookingModalOpen, setBookingModalOpen] = useState(false);
   const [isInspectionModelOpen, setInspectionModelOpen] = useState(false);
   // const { getPropertyById, getPropertiesByIds } = usePropertiesStore();
@@ -41,13 +44,12 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
     try {
       const details = await getApartmentById(id);
       setPropertyDetails(details);
-    
+
       const agentId = details.agentId;
 
       const agent = await fetchUsersById(agentId);
 
       setAgentDetails(agent);
-      
 
       if (agent) {
         const properties = await getApartmentsByIds(
@@ -87,10 +89,17 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
 
   const getFormattedDateDistance = (rawDate: string) => {
     try {
-      const formattedDate = rawDate.replace(" at ", " ");
-      const date = new Date(formattedDate);
+      // Normalize string
+      const cleanedDate = rawDate
+        .replace(" at ", " ") // remove "at"
+        .replace(" ", " ") // replace narrow space with regular space
+        .replace(/UTC[\+\-]\d+/, "UTC"); // optionally strip "UTC-8" or similar
+
+      const date = new Date(cleanedDate);
+
       if (isNaN(date.getTime())) throw new Error("Invalid date");
-      return formatDistanceToNowStrict(date);
+
+      return formatDistanceToNowStrict(date, { addSuffix: true });
     } catch (error) {
       console.error("Error formatting date:", rawDate, error);
       return "Invalid date";
@@ -107,15 +116,7 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
     setInspectionModelOpen(true);
   };
 
-  // useEffect(() => {
-  //     // Prevent SSR usage of `document`
-  //     if (typeof window !== "undefined" && trendData?.content) {
-  //       // Ensure `document` access happens here only
-
-  //     }
-  //   }, [trendData.content]);
-
-  const handleInspectionFormSubmit = async (userdata: {
+  const handleInspectionFormSubmit = (userdata: {
     name: string;
     email: string;
     phone: string;
@@ -123,68 +124,9 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
     preferredTime: string;
     notes?: string;
   }) => {
-    const data: {
-      apartmentId: string;
-      apartmentTitle: string;
-      agentEmail: string;
-      agentNumber: string;
-      agencyName: string;
-
-      name: string;
-      email: string;
-      phone: string;
-      preferredDate: string;
-      preferredTime: string;
-      notes?: string;
-    } = {
-      apartmentId: propertyDetails?.id || "",
-      apartmentTitle: propertyDetails?.title || "",
-      agentEmail: agentDetails?.email || "",
-      agentNumber: agentDetails?.phoneNumber || "",
-      agencyName:
-        "agencyName" in agentDetails?.userInfo
-          ? agentDetails.userInfo.agencyName
-          : "",
-      ...userdata,
-    };
-   
-
-    try {
-      // const emailSent = await sendInspectionEmail(data);
-
-      // if (emailSent.success) {
-      //   toast.success("Email sent successfully! Redirecting to WhatsApp...", {id: "email-success"  });
-     
-
-      // } else {
-     
-      //   toast.error("Failed to send email. Please try again later.");
-     
-
-      // }
-
-      // Now handle WhatsApp redirect on the client
-      const message = `Hello ${agentDetails.name}, I'm ${
-        data.name
-      } and I would like to schedule an apartment inspection.\n\n📞 Phone: ${
-        data.phone
-      }\n📅 Date: ${data.preferredDate}\n⏰ Time: ${
-        data.preferredTime
-      }\n📝 Note: ${
-        data.notes || "No additional notes"
-      }\n\nPlease let me know if this works for you.`;
-
-      window.open(
-        `https://wa.me/+234${
-          agentDetails.phoneNumber
-        }?text=${encodeURIComponent(message)}`
-      );
-
-      toast.success("Redirecting to WhatsApp...", { id: "whatsapp-redirect" });
+    submitInspectionRequest(userdata, propertyDetails, agentDetails, () => {
       setInspectionModelOpen(false);
-    } catch (err) {
-      toast.error(err.message || "Failed to book inspection");
-    }
+    });
   };
 
   useEffect(() => {
@@ -222,7 +164,7 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
               </div>
 
               <div className="description">
-                <h4>Overview</h4>
+                <h5>Overview</h5>
                 {/* <p>{propertyDetails.description}</p> */}
                 <p
                   dangerouslySetInnerHTML={{
@@ -245,7 +187,7 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
 
             {/* About Agent */}
             <div className="about-agent">
-              <h4>Agent details</h4>
+              <h5>Agent details</h5>
               <div className="agent-details">
                 {agentDetails ? (
                   <>
@@ -292,17 +234,30 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
 
           {/* Reviews Section */}
           <div className="agent-reviews">
-            <h4>{`Reviews (${propReviews.length})`}</h4>
+            <h5>
+              {`Reviews (${propReviews.length})`}{" "}
+              <button onClick={() => setIsReviewOpen(true)}>
+                Create <FaAngleRight />
+              </button>
+            </h5>
             <div className="reviews">
               {propReviews.length ? (
                 propReviews.map((review) => (
                   <div key={review.content} className="review-item">
                     <p>"{review.content}"</p>
-                    <div>
-                      <span>by {review.author.name}</span>
-                      <span>
-                        {getFormattedDateDistance(review.date.toString())} ago
-                      </span>
+                    <div className="bottom">
+                      <div className="profile">
+                        <Image
+                          src={review?.author.avatar}
+                          width={300}
+                          height={300}
+                          alt="author-profile"
+                        />
+                      </div>
+                      <div className="details">
+                        <span>by {review.author.name}</span>
+                        <span>{getRelativeTime(review.date.toDate())}</span>
+                      </div>
                     </div>
                   </div>
                 ))
@@ -314,7 +269,7 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
 
           {/* Agent Listings */}
           <div className="agent-listings">
-            <h4>{agentDetails?.name}'s Listed Properties</h4>
+            <h5>{agentDetails?.name}'s Listed Properties</h5>
             <div>
               {agentPropertyListings.length !== 0 ? (
                 <div className="agentProps">
@@ -353,7 +308,7 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
                   ))}
                 </div>
               ) : (
-                <p>"no other listings found"</p>
+                <p>No other listings</p>
               )}
             </div>
           </div>
@@ -386,6 +341,15 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
           </Link>
         </div>
       </div>
+
+      <ReviewForm
+        isOpen={isReviewOpen}
+        onClose={() => setIsReviewOpen(false)}
+        author={{ id: user?.id, name: user?.name, avatar: user?.avatar }}
+        apartmentId={propertyDetails?.id}
+        agentId={agentDetails?.id}
+        onSuccess={() => setIsReviewOpen(false)}
+      />
 
       <BookingConfirmationModal
         isOpen={isBookingModalOpen}

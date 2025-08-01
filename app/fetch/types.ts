@@ -115,7 +115,7 @@ export interface ReviewType {
   agentId: string;
   content: string;
   rating: number;
-  date: string;
+  date: Timestamp ;
 }
 
 

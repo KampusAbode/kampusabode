@@ -4,6 +4,8 @@ import {
   query,
   where,
   getDocs,
+  addDoc,
+  serverTimestamp,
 } from "firebase/firestore";
 import { ReviewType } from "../fetch/types";
 
@@ -12,7 +14,7 @@ const db = getFirestore();
 export const fetchReviewsByPropertyId = async (propertyId) => {
   try {
     // Reference to the "reviews" collection
-    const reviewsCollection = collection(db, "Reviews");
+    const reviewsCollection = collection(db, "reviews");
 
     // Query to fetch reviews where "propertyId" matches
     const reviewsQuery = query(
@@ -39,7 +41,7 @@ export const fetchReviewsByPropertyId = async (propertyId) => {
 export const fetchReviewsByAuthor = async (userId) => {
   try {
     // Reference to the "reviews" collection
-    const reviewsCollection = collection(db, "Reviews");
+    const reviewsCollection = collection(db, "reviews");
 
     // Query to fetch reviews where "authorId" matches
     const reviewsQuery = query(
@@ -66,7 +68,7 @@ export const fetchReviewsByAuthor = async (userId) => {
 export const fetchReviewsByAgentId = async (agentId: string) => {
   try {
     // Reference to the "reviews" collection
-    const reviewsCollection = collection(db, "Reviews");
+    const reviewsCollection = collection(db, "reviews");
 
     // Query to fetch reviews where "authorId" matches
     const reviewsQuery = query(
@@ -90,6 +92,27 @@ export const fetchReviewsByAgentId = async (agentId: string) => {
 };
 
 
-export const sendReview = async (review: ReviewType) => {
 
-}
+export const sendReview = async (review: Omit<ReviewType, "id" | "date">) => {
+  try {
+    const docRef = await addDoc(collection(db, "reviews"), {
+      ...review,
+      date: serverTimestamp(), // stores the server time
+    }); 
+
+    return {
+      success: true,
+      id: docRef.id,
+      message: "Review submitted successfully.",
+    };
+  } catch (error) {
+    console.error("Error sending review:", error);
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "An unknown error occurred while sending the review.",
+    };
+  }
+};

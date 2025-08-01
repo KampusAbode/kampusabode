@@ -44,9 +44,7 @@ export default function BookingConfirmationModal({
 
           <div className="modal-section total">
             <label>Total Payment:</label>
-            <p>
-              ₦{totalPriceWithServiceFee.toLocaleString()}
-            </p>
+            <p>₦{totalPriceWithServiceFee.toLocaleString()}</p>
           </div>
 
           <span className="modal-disclaimer">

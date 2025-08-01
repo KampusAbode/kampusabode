@@ -23,7 +23,7 @@ export const formatNumber = (num: number): string => {
   }
 };
 
-export const getRelativeTime = (date: Date): string => {
+export const getRelativeTime = (date): string => {
   const now = new Date();
   const mins = differenceInMinutes(now, date);
 

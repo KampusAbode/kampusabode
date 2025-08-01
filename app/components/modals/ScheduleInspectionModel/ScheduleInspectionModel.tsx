@@ -20,7 +20,7 @@ interface ScheduleInspectionModalProps {
     preferredDate: string;
     preferredTime: string;
     notes: string;
-  }) => Promise<any>;
+  }) => void;
 }
 
 export default function ScheduleInspectionModal({

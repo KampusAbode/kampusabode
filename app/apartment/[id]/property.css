@@ -100,8 +100,20 @@
 .properties-details-page .container > div {
   margin-block: var(--spacing-2x);
 }
-.properties-details-page .container h4 {
+.properties-details-page .container h5 {
   margin-bottom: var(--spacing);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.properties-details-page .container h5 button {
+  text-decoration: underline;
+  display: flex;
+  gap: var(--spacing-h);
+  align-items: center;
+  padding: var(--spacing-h);
+  border-radius: var(--border-radius);
+  background-color: var(--light-gray);
 }
 .properties-details-page .container .top {
   display: grid;
@@ -211,7 +223,7 @@
   scrollbar-width: none;
 }
 .properties-details-page .container .agent-reviews .reviews .review-item {
-  width: 90%;
+  width: 60%;
   border: var(--border);
   border-radius: var(--border-radius);
   scroll-snap-align: center;
@@ -220,10 +232,19 @@
   box-shadow: var(--shadow);
   text-align: center;
 }
-.properties-details-page .container .agent-reviews .reviews .review-item div {
+.properties-details-page .container .agent-reviews .reviews .review-item .bottom {
+  display: flex;
+  gap: var(--spacing);
+  justify-content: center;
+  align-items: center;
   margin-top: var(--spacing-2x);
 }
-.properties-details-page .container .agent-reviews .reviews .review-item div span {
+.properties-details-page .container .agent-reviews .reviews .review-item .bottom img {
+  border-radius: 100%;
+  width: 45px;
+  height: 45px;
+}
+.properties-details-page .container .agent-reviews .reviews .review-item .bottom .details span {
   display: block;
 }
 .properties-details-page .container .agent-listings > div .agentProps {

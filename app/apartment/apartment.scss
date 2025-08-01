@@ -15,12 +15,14 @@
     }
     h2 {
       color: white;
-      position: relative;
       text-transform: capitalize;
+      
+
+      position: relative;
 
       svg {
         position: absolute;
-        left: 40%;
+        left: 150px;
         top: 0;
 
         path {

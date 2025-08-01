@@ -14,7 +14,7 @@
 }
 
 .booking-modal {
-  background: white;
+  background: var(--background-white);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
   width: 90%;
