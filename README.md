@@ -26,13 +26,13 @@ Welcome to our Real Estate Web Application! This application is designed to help
 
 ## Technologies Used
 
-- **Frontend:** React.js, Redux, HTML5, CSS3
-- **Backend:** Node.js, Express.js, MongoDB
-- **Authentication:** JWT (JSON Web Tokens)
-- **Form Handling:** Formik
+- **Frontend:** React.js, Nextjs, Redux, HTML5, CSS3.
+- **Backend:** Firebase, appwrite.
+- **Authentication:** firebase authentication.
+- **Form Handling:** Formik.
 - **Validation:** Yup
 - **API Integration:** Axios
-- **Deployment:** Node.js (Backend), Vercel (Frontend)
+- **Deployment:** Firebase, Vercel (Frontend)
 
 ## Installation
 
