@@ -171,3 +171,49 @@ export interface UserRole {
   assignedBy: string;
   assignedAt: Timestamp;
 }
+
+// Referral System Types
+export interface ReferralCode {
+  id: string;
+  code: string;
+  ownerId: string; // User ID who owns this referral code
+  ownerName: string;
+  ownerEmail: string;
+  createdAt: Timestamp;
+  isActive: boolean;
+  usageCount: number;
+  description?: string;
+  createdBy: string; // Admin who created this code
+}
+
+export interface ReferralRecord {
+  id: string;
+  referralCodeId: string;
+  referralCode: string;
+  referrerId: string; // User who owns the referral code
+  referrerName: string;
+  referredUserId: string; // User who signed up with the code
+  referredUserName: string;
+  referredUserEmail: string;
+  signupDate: Timestamp;
+  status: 'pending' | 'completed' | 'verified';
+  reward?: {
+    type: 'discount' | 'credit' | 'bonus';
+    amount: number;
+    currency?: string;
+    description: string;
+  };
+  notes?: string;
+}
+
+export interface ReferralStats {
+  totalCodesGenerated: number;
+  totalSignups: number;
+  activeCodes: number;
+  conversionRate: number;
+  topReferrers: {
+    userId: string;
+    userName: string;
+    referralCount: number;
+  }[];
+}

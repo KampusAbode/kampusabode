@@ -19,6 +19,7 @@ const pages = [
   "notifications",
   "agents",
   "trends",
+  "referrals",
 ];
 
 export default function AdminLayout({

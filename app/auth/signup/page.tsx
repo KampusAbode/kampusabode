@@ -21,6 +21,7 @@ export type UserSignupInput = {
   university: string;
   avatar: string;
   phoneNumber: string;
+  referralCode?: string;
   studentInfo?: {
     department: string;
     currentYear: string;
@@ -40,6 +41,7 @@ const SignupPage = () => {
     avatar: "",
     phoneNumber: "",
     university: "",
+    referralCode: "",
     studentInfo: { department: "", currentYear: "" },
     agentInfo: { agencyName: "" },
   });
@@ -219,6 +221,17 @@ const SignupPage = () => {
                 <option value="student">Student</option>
                 <option value="agent">Agent</option>
               </select>
+            </div>
+
+            <div className="input-box">
+              <label htmlFor="referralCode">Referral Code (optional)</label>
+              <input
+                type="text"
+                name="referralCode"
+                value={formValues.referralCode}
+                onChange={handleInputChange}
+                placeholder="Enter referral code if you have one"
+              />
             </div>
 
             {formValues.userType === "agent" && (

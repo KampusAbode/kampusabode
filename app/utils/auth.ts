@@ -20,7 +20,7 @@ import { UserType } from "../fetch/types";
 import { useUserStore } from "../store/userStore";
 
 export const signupUser = async (userData: UserSignupInput) => {
-  const { email, password, userType, university, avatar, phoneNumber } =
+  const { email, password, userType, university, avatar, phoneNumber, referralCode } =
     userData;
 
   try {
@@ -63,6 +63,53 @@ export const signupUser = async (userData: UserSignupInput) => {
       ...newUser,
       createdAt: new Date().toISOString(),
     });
+
+    // Handle referral code if provided
+    if (referralCode && referralCode.trim()) {
+      try {
+        // Validate the referral code
+        const validationResponse = await fetch('/api/referrals/validate-code', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ code: referralCode.trim() }),
+        });
+
+        const validationData = await validationResponse.json();
+
+        if (validationData.success && validationData.isValid && validationData.referralCode) {
+          // Create referral record
+          const recordResponse = await fetch('/api/referrals/create-record', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${await user.getIdToken()}`,
+            },
+            body: JSON.stringify({
+              referralCodeId: validationData.referralCode.id,
+              referralCode: validationData.referralCode.code,
+              referrerId: validationData.referralCode.ownerId,
+              referrerName: validationData.referralCode.ownerName,
+              referredUserId: user.uid,
+              referredUserName: userData.username,
+              referredUserEmail: email,
+            }),
+          });
+
+          if (recordResponse.ok) {
+            console.log('Referral record created successfully');
+          } else {
+            console.error('Failed to create referral record');
+          }
+        } else {
+          console.warn('Invalid referral code provided:', validationData.error);
+        }
+      } catch (referralError) {
+        console.error('Error processing referral code:', referralError);
+        // Don't fail the signup if referral processing fails
+      }
+    }
 
     return { message: "Signup successful", user };
   } catch (error: any) {
