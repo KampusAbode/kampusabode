@@ -16,6 +16,7 @@ export async function generateMetadata({
 }: {
   params: { id: string };
 }): Promise<Metadata> {
+  const {id} = params;
   const trend: TrendType = await fetchTrendBySlug(id);
 
   if (!trend) {
