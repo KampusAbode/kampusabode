@@ -149,15 +149,12 @@
   font-size: var(--font-size-xs);
 }
 .trend-details-page .container .comments-section .send-comment textarea {
-  width: 100%;
+  width: auto;
   padding: var(--spacing);
-  background-color: white;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
   border: none;
 }
 .trend-details-page .container .comments-section .send-comment .btn {
-  width: 100%;
+  width: fit-content;
 }
 @media screen and (min-width: 1000px) {
   .trend-details-page .container .comments-section {
