@@ -60,7 +60,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      url: `https://kampusabode.com/apartment/${doc.id}`,
+      url: `https://kampusabode.com/apartment/${trend.id}`,
       siteName: "Kampusabode",
       images: [
         {
@@ -79,7 +79,7 @@ export async function generateMetadata({
       images: [image],
     },
     alternates: {
-      canonical: `https://kampusabode.com/apartment/${doc.id}`,
+      canonical: `https://kampusabode.com/apartment/${trend.id}`,
     },
   };
 }
