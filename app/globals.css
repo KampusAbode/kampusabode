@@ -97,7 +97,7 @@ body.dark :root {
   line-height: var(--line-height);
   list-style-type: none;
   text-decoration: none;
-  font-weight: 300;
+  font-weight: 400;
 }
 *:focus, *:active {
   outline: none;
@@ -160,7 +160,7 @@ h6 {
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
-  font-weight: 400;
+  font-weight: 500;
   line-height: var(--line-height-lg);
 }
 
@@ -194,7 +194,7 @@ p {
 }
 
 strong {
-  font-weight: 400;
+  font-weight: 500;
   color: var(--font-color-h);
 }
 
