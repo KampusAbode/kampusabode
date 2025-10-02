@@ -154,8 +154,11 @@
 }
 .trend-details-page .container .comments-section .send-comment textarea {
   width: auto;
+  height: auto;
+  max-height: 45px;
   padding: var(--spacing);
   border: none;
+  resize: none;
 }
 .trend-details-page .container .comments-section .send-comment .btn {
   width: fit-content;
