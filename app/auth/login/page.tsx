@@ -88,7 +88,7 @@ const LoginPage = () => {
                 name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
+                placeholder="kampusabode@gmail.com"
               />
               {errors.email && <span className="error">{errors.email}</span>}
             </div>
@@ -101,7 +101,7 @@ const LoginPage = () => {
                   name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
+                  placeholder="*********"
                 />
                 {isPasswordVisible ? (
                   <FaEye
@@ -129,7 +129,7 @@ const LoginPage = () => {
                 prefetch
                 href="/auth/forget-password"
                 className="forget-password">
-                Forget password
+                Forget password?
               </Link>
             </div>
 

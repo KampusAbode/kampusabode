@@ -77,8 +77,8 @@
           input,
           select {
             width: 100%;
-            border: var(--border);
-            border-radius: var(--border-radius);
+            background-color: var(--light-gray);
+            border-radius: var(--border-radius-r);
             padding: var(--spacing);
             font-size: var(--font-size-nm);
             color: var(--font-color-p);
@@ -121,6 +121,7 @@
           width: 100%;
           display: block;
           text-align: center;
+            border-radius: var(--border-radius-r);
 
           &.disable {
             user-select: none;
@@ -129,7 +130,7 @@
       }
       & > span {
         display: block;
-        margin-top: var(--spacing-2x);
+        margin-top: var(--spacing-3x);
         padding-inline: var(--spacing);
         text-align: center;
         a {
