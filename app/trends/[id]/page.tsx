@@ -292,7 +292,7 @@ const TrendPage = ({ params }: Params) => {
                   className="btn"
                   onClick={handleCommentSubmit}
                   disabled={isSending || !content.trim()}>
-                  {isSending ? "Sending..." : "Send Comment"}
+                  {isSending ? "Sending..." : "Send"}
                 </button>
               </div>
             </div>

@@ -151,16 +151,16 @@
         }
       }
       .send-comment {
+        display: flex;
+        gap: var(--spacing);
+
         textarea {
-          width: 100%;
           padding: var(--spacing);
-          background-color: white;
           border-radius: var(--border-radius);
-          box-shadow: var(--shadow);
           border: none;
         }
         .btn {
-          width: 100%;
+          width: fit-content;
         }
       }
 

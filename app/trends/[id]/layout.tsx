@@ -1,6 +1,8 @@
 // app/apartment/[id]/layout.tsx
 import { ReactNode } from "react";
 import { Metadata } from "next";
+import { fetchTrendBySlug } from "../../utils";
+import { TrendType } from "../../fetch/types";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../lib/firebaseConfig";
 
