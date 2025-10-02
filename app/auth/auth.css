@@ -73,7 +73,10 @@
               display: none;
             }
           }
-
+git checkout main
+git add . 
+git commit -m "login input border"
+git push origin main
           input,
           select {
             width: 100%;
@@ -82,6 +85,7 @@
             padding: var(--spacing);
             font-size: var(--font-size-nm);
             color: var(--font-color-p);
+            border-color: transparent;
 
             &:focus {
               border: var(--border-hover);
