@@ -73,10 +73,7 @@
               display: none;
             }
           }
-git checkout main
-git add . 
-git commit -m "login input border"
-git push origin main
+
           input,
           select {
             width: 100%;
