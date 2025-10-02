@@ -47,7 +47,6 @@
   border-radius: var(--border-radius);
   overflow: hidden;
   margin: var(--spacing-2x) 0;
-  box-shadow: var(--shadow);
 }
 .trend-details-page .container .trend-image img {
   height: 100%;
@@ -88,7 +87,7 @@
   font-size: var(--font-size-lg);
 }
 .trend-details-page .container .comments-section {
-  margin-block: var(--spacing-s);
+  margin-block: calc(2 * var(--spacing-s));
   padding: var(--spacing);
   background: var(--light-gray);
   border-radius: var(--border-radius);
@@ -151,16 +150,18 @@
 .trend-details-page .container .comments-section .send-comment {
   display: flex;
   gap: var(--spacing);
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--spacing);
 }
 .trend-details-page .container .comments-section .send-comment textarea {
   width: auto;
-  height: auto;
-  max-height: 45px;
   padding: var(--spacing);
+  border-radius: var(--border-radius);
   border: none;
-  resize: none;
 }
 .trend-details-page .container .comments-section .send-comment .btn {
+  width: -moz-fit-content;
   width: fit-content;
 }
 @media screen and (min-width: 1000px) {

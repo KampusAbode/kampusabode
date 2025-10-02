@@ -46,7 +46,6 @@
       border-radius: var(--border-radius);
       overflow: hidden;
       margin: var(--spacing-2x) 0;
-      box-shadow: var(--shadow);
       img {
         height: 100%;
         object-fit: cover;
@@ -88,7 +87,7 @@
     }
 
     .comments-section {
-      margin-block: var(--spacing-s);
+      margin-block: calc(2 * var(--spacing-s));
       padding: var(--spacing);
       background: var(--light-gray);
       border-radius: var(--border-radius);
@@ -137,7 +136,6 @@
                 line-clamp: 1;
                 -webkit-line-clamp: 1;
                 -webkit-box-orient: vertical;
-                
               }
             }
             .created-at {
@@ -153,6 +151,9 @@
       .send-comment {
         display: flex;
         gap: var(--spacing);
+        align-items: center;
+        justify-content: space-between;
+        margin-top: var(--spacing);
 
         textarea {
           width: auto;

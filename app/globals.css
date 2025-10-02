@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..500;1,14..32,100..500&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -15,10 +15,12 @@
   --white: #ffffff;
   --black: #0c0c0c;
   --gray: #eaeaea;
-  --light-gray: #f7f7f7;
+  --light-gray: #f2f2f2;
+  --light-gray-hover: #ebebeb;
   --dark-gray: #6d6d6d;
-  --font-color-h: #212121;
-  --font-color-p: #444b54;
+  --font-color-h: #141414;
+  --font-color-p: #2e2e2e;
+  --font-color-s: #444444;
   --font-light: #adb5bd;
   --font-white: #ffffff;
   --font-black: #0c0c0c;
@@ -39,8 +41,8 @@
   --spacing-s: 6rem;
   --spacing-b: 0.65rem 1rem;
   /* Shadow & Transition */
-  --shadow: 0px 3px 10px rgba(27, 27, 27, 0.089),
-    -0px -3px 8px rgba(22, 22, 22, 0.01);
+  --shadow:
+    0px 3px 10px rgba(27, 27, 27, 0.089), -0px -3px 8px rgba(22, 22, 22, 0.01);
   --shadow-below: 0 6px 20px 0 rgba(0, 0, 0, 0.1);
   --transition: all 0.3s ease-in-out;
   /* Fonts */
@@ -82,7 +84,8 @@ body.dark :root {
   --border-white: 1px solid #ffffff;
   --border-hover: 1px solid #c1121f;
   /* Shadow & Transition */
-  --shadow: 0px 4px 12px rgba(0, 0, 0, 0.25), 0px -2px 6px rgba(0, 0, 0, 0.08);
+  --shadow:
+    0px 4px 12px rgba(0, 0, 0, 0.25), 0px -2px 6px rgba(0, 0, 0, 0.08);
   --shadow-below: 0 6px 16px rgba(255, 255, 255, 0.06);
 }
 
@@ -94,7 +97,7 @@ body.dark :root {
   line-height: var(--line-height);
   list-style-type: none;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 300;
 }
 *:focus, *:active {
   outline: none;
@@ -157,7 +160,7 @@ h6 {
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
-  font-weight: 600;
+  font-weight: 400;
   line-height: var(--line-height-lg);
 }
 
@@ -191,7 +194,7 @@ p {
 }
 
 strong {
-  font-weight: 600;
+  font-weight: 400;
   color: var(--font-color-h);
 }
 
