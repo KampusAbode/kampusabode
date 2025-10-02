@@ -148,6 +148,10 @@
   padding: var(--spacing-h);
   font-size: var(--font-size-xs);
 }
+.trend-details-page .container .comments-section .send-comment {
+  display: flex;
+  gap: var(--spacing);
+}
 .trend-details-page .container .comments-section .send-comment textarea {
   width: auto;
   padding: var(--spacing);
