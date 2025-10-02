@@ -155,6 +155,7 @@
         gap: var(--spacing);
 
         textarea {
+          width: auto;
           padding: var(--spacing);
           border-radius: var(--border-radius);
           border: none;
