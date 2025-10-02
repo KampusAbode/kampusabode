@@ -107,7 +107,7 @@
     }
   }
   .container {
-    width: 95%;
+    width: 75%;
     & > div {
       margin-block: var(--spacing-2x);
     }
@@ -381,6 +381,7 @@
 @media screen and (max-width: 768px) {
   .properties-details-page {
     .container {
+      width:95%;
       & > div {
         margin-block: var(--spacing-4x);
       }

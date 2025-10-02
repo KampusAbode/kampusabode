@@ -20,11 +20,13 @@
   --black: #0c0c0c;
 
   --gray: #eaeaea;
-  --light-gray: #f7f7f7;
+  --light-gray: #f2f2f2;
+  --light-gray-hover: #ebebeb;
   --dark-gray: #6d6d6d;
 
-  --font-color-h: #212121;
-  --font-color-p: #444b54;
+  --font-color-h: #141414;
+  --font-color-p: #2e2e2e;
+  --font-color-s: #444444;
   --font-light: #adb5bd;
   --font-white: #ffffff;
   --font-black: #0c0c0c;
@@ -117,7 +119,7 @@ body.dark {
   line-height: var(--line-height);
   list-style-type: none;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 400;
 
   &:focus,
   &:active {
@@ -186,7 +188,7 @@ h5,
 h6 {
   color: var(--font-color-h);
   user-select: none;
-  font-weight: 600;
+  font-weight: 500;
   line-height: var(--line-height-lg);
 }
 h1 {
@@ -219,7 +221,7 @@ p {
 }
 
 strong {
-  font-weight: 600;
+  font-weight: 500;
   color: var(--font-color-h);
 }
 

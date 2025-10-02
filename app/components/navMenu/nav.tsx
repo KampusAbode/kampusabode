@@ -197,7 +197,7 @@ function Nav() {
 
           <div className="logout">
             <span>
-              ©️ 2024. All rights reserved.
+              ©️ 2025. All rights reserved.
               {user ? (
                 <button
                   className="btn btn-secondary"
