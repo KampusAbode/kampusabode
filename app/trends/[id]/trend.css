@@ -150,12 +150,13 @@
 .trend-details-page .container .comments-section .send-comment {
   display: flex;
   gap: var(--spacing);
-  align-items: center;
   justify-content: space-between;
   margin-top: var(--spacing);
 }
 .trend-details-page .container .comments-section .send-comment textarea {
   width: auto;
+  flex: 1;
+  height: 60px;
   padding: var(--spacing);
   border-radius: var(--border-radius);
   border: none;
