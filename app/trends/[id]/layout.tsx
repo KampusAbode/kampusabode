@@ -14,10 +14,9 @@ export async function generateMetadata({
 }: {
   params: { id: string };
 }): Promise<Metadata> {
-  const q = query(collection(db, "trends"), where("slug", "==", params.id));
-  const snapshot = await getDocs(q);
+  const trend: TrendType = await fetchTrendBySlug(slug);
 
-  if (snapshot.empty) {
+  if (!trend) {
     return {
       title: "Trend Not Found - Kampusabode",
       description: "Sorry, the trend you're looking for does not exist.",
@@ -45,15 +44,14 @@ export async function generateMetadata({
     };
   }
 
-  const doc = snapshot.docs[0];
-  const trendDetails = doc.data();
+ 
 
-  const title = `${trendDetails.title} - at Kampusabode`;
+  const title = `${trend.title} - at Kampusabode`;
   const description =
-    (trendDetails.content?.slice(0, 157) || "Discover the latest campus updates on Kampusabode.") +
+    (trend.content?.slice(0, 157) || "Discover the latest campus updates on Kampusabode.") +
     "...";
   const image =
-    trendDetails.image ||
+    trend?.image ||
     "https://kampusabode.com/LOGO/logored_white.jpg";
 
   return {
@@ -62,7 +60,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      url: `https://kampusabode.com/apartment/${doc.id}`, // use doc.id not trendDetails.id
+      url: `https://kampusabode.com/apartment/${doc.id}`,
       siteName: "Kampusabode",
       images: [
         {
