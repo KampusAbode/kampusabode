@@ -42,6 +42,7 @@
 }
 .admin-dashboard .container .dashboard-content .user-management ul li > div:first-child .details span {
   display: block;
+  user-select: contain;
 }
 .admin-dashboard .container .dashboard-content .user-management ul li .actions {
   display: grid;

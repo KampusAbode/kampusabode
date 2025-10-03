@@ -40,9 +40,17 @@ function EditTrend() {
       return;
     }
 
+  
+
     const trend = getTrendById(trendId);
     if (!trend) {
       toast.error("Trend not found");
+      router.back();
+      return;
+    }
+
+    if(trend.author_id !== user.id){
+      toast.error("You are not authorized to edit this trend");
       router.back();
       return;
     }

@@ -114,6 +114,7 @@ const UserManagement = () => {
                       <span>
                         <strong>{student.name}</strong>
                       </span>
+                      <span>ID: {student.id}</span>
                       <span>Email: {student.email}</span>
                       <span>University: {student.university}</span>
                       <span>Dept: {studentInfo.department}</span>
@@ -188,6 +189,7 @@ const UserManagement = () => {
                       <span>
                         <strong>{agent.name}</strong>
                       </span>
+                      <span>ID: {agent.id}</span>
                       <span>Email: {agent.email}</span>
                       <span>University: {agent.university}</span>
                     </div>
