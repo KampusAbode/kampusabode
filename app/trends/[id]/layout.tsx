@@ -49,20 +49,22 @@ export async function generateMetadata({
 
  
 
-  const title = `${trend.title} - at Kampusabode`;
-  const description =
-    (trend.content?.slice(0, 157) || "Discover the latest campus updates on Kampusabode.") +
-    "...";
+  const title = `${trend?.title} - at Kampusabode`;
+  // Truncate description for SEO safety (≤160 chars)
+  const truncatedDescription =
+    (trend.content?.length ?? 0) > 160
+      ? trend?.content.slice(0, 157) + "..."
+      : trend?.content || "Discover the latest campus updates on Kampusabode.";
   const image =
     trend?.image ||
     "https://kampusabode.com/LOGO/logored_white.jpg";
 
   return {
     title,
-    description,
+    description: truncatedDescription,
     openGraph: {
       title,
-      description,
+      description: truncatedDescription,
       url: `https://kampusabode.com/apartment/${trend.id}`,
       siteName: "Kampusabode",
       images: [
@@ -70,7 +72,7 @@ export async function generateMetadata({
           url: image,
           width: 1200,
           height: 1200,
-          alt: title,
+          alt: trend.title,
         },
       ],
       type: "website",
@@ -78,7 +80,7 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title,
-      description,
+      description: truncatedDescription,
       images: [image],
     },
     alternates: {
