@@ -71,10 +71,11 @@ const QuickService = () => {
       icon: FaPlus,
       link: "/trends/upload",
     };
-  }else if (/^\/trends\/[^/]+$/.test(pathname) && isWriter) {
+  } else if (pathname.match(/^\/trends\/([^/]+)$/) && isWriter) {
+    const trendId = pathname.match(/^\/trends\/([^/]+)$/)[1];
     config = {
       icon: FaEdit,
-      link: `/trends/edit/${user.id}`,
+      link: `/trends/edit/${trendId}`,
     };
   }
 
