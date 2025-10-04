@@ -191,7 +191,7 @@
 }
 .dashboard .container .student-dashboard .listed-properties .property-list ul li a .detail,
 .dashboard .container .agent-dashboard .listed-properties .property-list ul li a .detail {
-  padding: var(--spacing-h) var(--spacing);
+  padding-block: var(--spacing-h);
 }
 .dashboard .container .student-dashboard .listed-properties .property-list ul li a .detail span,
 .dashboard .container .agent-dashboard .listed-properties .property-list ul li a .detail span {
