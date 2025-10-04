@@ -20,6 +20,7 @@ const pages = [
   "agents",
   "trends",
   "referrals",
+  "writers",
 ];
 
 export default function AdminLayout({
