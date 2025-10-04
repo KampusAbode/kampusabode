@@ -129,6 +129,8 @@
 .dashboard .container .agent-dashboard .viewed-properties .display-viewed-properties img {
   width: 90px;
   height: 90px;
+  max-width: 90px;
+  max-height: 90px;
   border-radius: 100%;
   -o-object-fit: cover;
      object-fit: cover;
