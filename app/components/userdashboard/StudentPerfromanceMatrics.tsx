@@ -9,7 +9,7 @@ function StudentPerfromanceMatrics({ user }) {
             ? user?.userInfo.savedProperties.length
             : 0}
         </h6>
-        <p>saved properties</p>
+        <p>saved</p>
       </div>
       <div className="matric">
         <h6>
@@ -17,7 +17,7 @@ function StudentPerfromanceMatrics({ user }) {
             ? user?.userInfo.viewedProperties.length
             : 0}
         </h6>
-        <p>viewed properties</p>
+        <p>viewed</p>
       </div>
       <div className="matric">
         <h6>
