@@ -156,7 +156,8 @@
 .trend-details-page .container .comments-section .send-comment textarea {
   width: auto;
   flex: 1;
-  height: auto;
+  height: 40px;
+  max-height: 40px;
   padding: var(--spacing);
   border-radius: var(--border-radius);
   border: none;
