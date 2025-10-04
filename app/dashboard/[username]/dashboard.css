@@ -124,6 +124,7 @@
   align-items: center;
   text-align: center;
 }
+
 .dashboard .container .student-dashboard .viewed-properties .display-viewed-properties img,
 .dashboard .container .agent-dashboard .viewed-properties .display-viewed-properties img {
   width: 90px;
