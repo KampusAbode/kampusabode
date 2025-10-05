@@ -25,12 +25,14 @@ import { format, formatDistanceToNow } from "date-fns";
 import "./trend.css";
 import { useUserStore } from "../../store/userStore";
 import SaveVisitedTrend from "../component/SaveVIsitedTrend";
+import { useScrollRestoration } from "@/hooks/useScrollRestoration";
 
 type Params = {
   params: { id: string };
 };
 
 const TrendPage = ({ params }: Params) => {
+  useScrollRestoration();
   const slug = params.id;
   const [trendData, setTrendData] = useState<TrendType>();
   const [loading, setLoading] = useState(true);
