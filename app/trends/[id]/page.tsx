@@ -25,7 +25,7 @@ import { format, formatDistanceToNow } from "date-fns";
 import "./trend.css";
 import { useUserStore } from "../../store/userStore";
 import SaveVisitedTrend from "../component/SaveVIsitedTrend";
-import { useScrollRestoration } from "@/hooks/useScrollRestoration";
+import { useScrollRestoration } from "../../hooks/useScrollRestoration";
 
 type Params = {
   params: { id: string };
