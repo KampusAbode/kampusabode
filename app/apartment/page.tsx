@@ -8,7 +8,7 @@ import Loader from "../components/loader/Loader";
 import "./apartment.css";
 import { FaSearch } from "react-icons/fa";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useScrollRestoration } from "@/hooks/useScrollRestoration";
+import { useScrollRestoration } from "../hooks/useScrollRestoration";
 import { usePropertiesStore } from "../store/propertiesStore";
 import data from "../fetch/contents";
 
