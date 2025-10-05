@@ -3,7 +3,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { useScrollStore } from "@/stores/useScrollStore";
+import { useScrollStore } from "@/store/useScrollStore";
 
 export function useScrollRestoration() {
   const pathname = usePathname();
