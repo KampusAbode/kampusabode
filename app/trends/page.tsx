@@ -7,10 +7,12 @@ import Loader from "../components/loader/Loader";
 import { TrendType } from "../fetch/types";
 import "./trends.css";
 import { useTrendStore } from "../store/trendStore";
+import { useScrollRestoration } from "@/hooks/useScrollRestoration";
 import data  from "../fetch/contents";
 
 export default function trendsPage() {
   // const [trends, setTrends] = useState<TrendType[]>([]);
+  useScrollRestoration();
  const {trends, setTrends} = useTrendStore((state) => state);
   const [filteredTrends, setFilteredTrends] = useState<TrendType[]>([]);
   // const [searchQuery, setSearchQuery] = useState("");
