@@ -12,6 +12,7 @@ import { useScrollRestoration } from "../hooks/useScrollRestoration";
 import { usePropertiesStore } from "../store/propertiesStore";
 import data from "../fetch/contents";
 
+
 const PropertiesPage: React.FC = () => {
   useScrollRestoration();
   const router = useRouter();
