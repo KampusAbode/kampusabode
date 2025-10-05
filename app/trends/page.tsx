@@ -7,7 +7,7 @@ import Loader from "../components/loader/Loader";
 import { TrendType } from "../fetch/types";
 import "./trends.css";
 import { useTrendStore } from "../store/trendStore";
-import { useScrollRestoration } from "@/hooks/useScrollRestoration";
+import { useScrollRestoration } from "../hooks/useScrollRestoration";
 import data  from "../fetch/contents";
 
 export default function trendsPage() {
