@@ -11,7 +11,7 @@ import Loader from "./components/loader/Loader";
 import { useAuthListener } from "./hooks/useAuthListener";
 import { pageview } from './lib/ga';
 import Script from 'next/script';
-import { useScrollRestoration } from "@/hooks/useScrollRestoration";
+import { useScrollRestoration } from "./hooks/useScrollRestoration";
 
 export default function ClientRootLayout({
   children,
