@@ -23,6 +23,7 @@ import { useScrollRestoration } from "../../hooks/useScrollRestoration";
 import { FaAngleRight } from "react-icons/fa";
 // import { sendInspectionEmail } from "../../../utils/sendInspectionEmail";
 
+
 const PropertyDetails = ({ params }: { params: { id: string } }) => {
   useScrollRestoration();
   const { id } = params;
