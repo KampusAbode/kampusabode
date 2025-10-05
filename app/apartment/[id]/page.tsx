@@ -19,7 +19,7 @@ import { usePropertiesStore } from "../../store/propertiesStore";
 import { getApartmentById, getApartmentsByIds } from "../../utils";
 import { submitInspectionRequest } from "./functions/submitInspectionRequest";
 import ReviewForm from "../../components/modals/ReviewForm/ReviewForm";
-import { useScrollRestoration } from "@/hooks/useScrollRestoration";
+import { useScrollRestoration } from "../../hooks/useScrollRestoration";
 import { FaAngleRight } from "react-icons/fa";
 // import { sendInspectionEmail } from "../../../utils/sendInspectionEmail";
 
