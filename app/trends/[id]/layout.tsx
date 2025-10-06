@@ -2,7 +2,7 @@
 import { ReactNode } from "react";
 import { Metadata } from "next";
 import { fetchTrendBySlug } from "../../utils";
-import { TrendType } from "../../fetch/types";
+//import { TrendType } from "../../fetch/types";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../lib/firebaseConfig";
 
@@ -17,7 +17,7 @@ export async function generateMetadata({
   params: { id: string };
 }): Promise<Metadata> {
   const {id} = params;
-  const trend: TrendType = await fetchTrendBySlug(id);
+  const trend = await fetchTrendBySlug(id);
 
   if (!trend) {
     return {
@@ -65,7 +65,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description: truncatedDescription,
-      url: `https://kampusabode.com/apartment/${trend.id}`,
+      url: `https://kampusabode.com/trends/${trend.id}`,
       siteName: "Kampusabode",
       images: [
         {
@@ -89,8 +89,8 @@ export async function generateMetadata({
   };
 }
 
-const ApartmentLayout = ({ children }: LayoutProps) => {
+const TrendLayout = ({ children }: LayoutProps) => {
   return <>{children}</>;
 };
 
-export default ApartmentLayout;
+export default TrendLayout;
