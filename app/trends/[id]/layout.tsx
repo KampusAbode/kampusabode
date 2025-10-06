@@ -52,8 +52,8 @@ export async function generateMetadata({
   const title = `${trend?.title} - at Kampusabode`;
   // Truncate description for SEO safety (≤160 chars)
   const truncatedDescription =
-    (trend.content?.length ?? 0) > 160
-      ? trend?.content.slice(0, 157) + "..."
+    (trend.content?.length ?? 0) > 100
+      ? trend?.content.slice(0, 100) + "..."
       : trend?.content || "Discover the latest campus updates on Kampusabode.";
   const image =
     trend?.image ||
