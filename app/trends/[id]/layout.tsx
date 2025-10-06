@@ -1,7 +1,8 @@
 // app/apartment/[id]/layout.tsx
 import { ReactNode } from "react";
 import { Metadata } from "next";
-import { useTrendStore } from "../../store/trendStore";
+import { fetchTrendBySlug } from "../../utils";
+//import { TrendType } from "../../fetch/types";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../lib/firebaseConfig";
 
@@ -15,64 +16,63 @@ export async function generateMetadata({
 }: {
   params: { id: string };
 }): Promise<Metadata> {
-  const q = query(collection(db, "trends"), where("slug", "==", params.id));
-  const snapshot = await getDocs(q);
+  const {id} = params;
+  const trend = await fetchTrendBySlug(id);
 
-  if (snapshot.empty) {
+  if (!trend) {
     return {
-      title: "trend Not Found - Kampusabode",
+      title: "Trend Not Found - Kampusabode",
       description: "Sorry, the trend you're looking for does not exist.",
       openGraph: {
-        title: "trend Not Found",
+        title: "Trend Not Found",
         description: "Sorry, the trend you're looking for does not exist.",
         images: [
           {
             url: "https://kampusabode.com/LOGO/logored_white.jpg",
             width: 1200,
             height: 1200,
-            alt: "Kampusabode - Apartment Listing Site",
+            alt: "Kampusabode - Trend Listing",
           },
         ],
       },
       twitter: {
         card: "summary_large_image",
-        title: "trend Not Found - Kampusabode",
+        title: "Trend Not Found - Kampusabode",
         description: "Sorry, the trend you're looking for does not exist.",
         images: ["https://kampusabode.com/LOGO/logored_white.jpg"],
+      },
+      alternates: {
+        canonical: `https://kampusabode.com/trends/${params.id}`,
       },
     };
   }
 
-  const trendDetails = snapshot.docs[0].data();
-  const title = `${trendDetails.title} - at Kampusabode`;
-  const description =
-    trendDetails.content || "Find quality student apartments on Kampusabode.";
+ 
+
+  const title = `${trend?.title} - at Kampusabode`;
+  // Truncate description for SEO safety (≤160 chars)
+  const truncatedDescription =
+    (trend.content?.length ?? 0) > 100
+      ? trend?.content.slice(0, 100) + "..."
+      : trend?.content || "Discover the latest campus updates on Kampusabode.";
   const image =
-    trendDetails.image || "https://kampusabode.com/LOGO/logored_white.jpg";
+    trend?.image ||
+    "https://kampusabode.com/LOGO/logored_white.jpg";
 
   return {
     title,
-    description,
-    keywords: [
-      "apartment listings",
-      "real estate",
-      "apartments",
-      "houses",
-      "rentals",
-      "students",
-      "university",
-    ],
+    description: truncatedDescription,
     openGraph: {
       title,
-      description,
-      url: `https://kampusabode.com/apartment/${trendDetails.id}`,
+      description: truncatedDescription,
+      url: `https://kampusabode.com/trends/${trend.slug}`,
       siteName: "Kampusabode",
       images: [
         {
           url: image,
           width: 1200,
           height: 1200,
-          alt: title,
+          alt: trend.title,
         },
       ],
       type: "website",
@@ -80,14 +80,17 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title,
-      description,
+      description: truncatedDescription,
       images: [image],
+    },
+    alternates: {
+      canonical: `https://kampusabode.com/apartment/${trend.slug}`,
     },
   };
 }
 
-const ApartmentLayout = ({ children }: LayoutProps) => {
+const TrendLayout = ({ children }: LayoutProps) => {
   return <>{children}</>;
 };
 
-export default ApartmentLayout;
+export default TrendLayout;

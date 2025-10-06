@@ -4,7 +4,7 @@ import "./quickservice.css";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { PiChats } from "react-icons/pi";
-import { FaPlus, FaHeadset } from "react-icons/fa";
+import { FaPlus, FaHeadset, FaEdit } from "react-icons/fa";
 import { BsChatRightText } from "react-icons/bs";
 import { useUserStore } from "../../store/userStore";
 import { checkIsAdmin, checkIsWriter } from "../../utils";
@@ -70,6 +70,12 @@ const QuickService = () => {
     config = {
       icon: FaPlus,
       link: "/trends/upload",
+    };
+  } else if (pathname.match(/^\/trends\/([^/]+)$/) && isWriter) {
+    const trendId = pathname.match(/^\/trends\/([^/]+)$/)[1];
+    config = {
+      icon: FaEdit,
+      link: `/trends/edit/${trendId}`,
     };
   }
 

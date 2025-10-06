@@ -52,7 +52,7 @@ const TrendPage = ({ params }: Params) => {
         const commentsRef = collection(db, "trends", trend.id, "comments");
         const q = query(commentsRef, orderBy("createdAt", "desc"));
 
-        // 🔄 Real-time listener
+      
         unsubscribe = onSnapshot(q, (snapshot) => {
           const updatedComments = snapshot.docs.map((doc) => {
             const data = doc.data();
@@ -71,7 +71,7 @@ const TrendPage = ({ params }: Params) => {
           setComments(updatedComments);
         });
 
-        // 🔁 Fetch like status
+       
         const likeRef = doc(db, "trends", trend.id, "likes", user.id);
         const likeDoc = await getDoc(likeRef);
         setIsLike(likeDoc.exists());
@@ -86,7 +86,7 @@ const TrendPage = ({ params }: Params) => {
 
     fetchTrendDataAndListenToComments();
 
-    return () => unsubscribe(); // ✅ Clean up listener
+    return () => unsubscribe();
   }, [slug, user]);
 
   const commentsRef = useRef<HTMLDivElement | null>(null);
@@ -249,7 +249,7 @@ const TrendPage = ({ params }: Params) => {
             {/* <CommentSection ref={commentsRef} comments={comments}/> */}
 
             <div ref={commentsRef} className="comments-section">
-              <h5>Comments</h5>
+              <h6>Comments {comments.length}</h6>
               <div className="comments-list">
                 {comments.length === 0 ? (
                   <p>No comments yet.</p>
@@ -292,7 +292,7 @@ const TrendPage = ({ params }: Params) => {
                   className="btn"
                   onClick={handleCommentSubmit}
                   disabled={isSending || !content.trim()}>
-                  {isSending ? "Sending..." : "Send Comment"}
+                  {isSending ? "Sending..." : "Send"}
                 </button>
               </div>
             </div>

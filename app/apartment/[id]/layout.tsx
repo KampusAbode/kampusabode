@@ -1,7 +1,6 @@
 // app/apartment/[id]/layout.tsx
 import { ReactNode } from "react";
 import { Metadata } from "next";
-import { usePropertiesStore } from "../../store/propertiesStore";
 import { getApartmentById } from "../../utils";
 
 type LayoutProps = {
@@ -15,11 +14,9 @@ export async function generateMetadata({
   params: { id: string };
 }): Promise<Metadata> {
   const { id } = params;
+  const property = await getApartmentById(id);
 
-  // const propertyDetails = fetchPropertyById(id);
-  const propertyDetails = getApartmentById(id);
-
-  if (!propertyDetails) {
+  if (!property) {
     return {
       title: "Property Not Found - Kampusabode",
       description: "Sorry, the property you're looking for does not exist.",
@@ -41,40 +38,37 @@ export async function generateMetadata({
         description: "Sorry, the property you're looking for does not exist.",
         images: ["https://kampusabode.com/LOGO/logored_white.jpg"],
       },
+      alternates: {
+        canonical: `https://kampusabode.com/apartment/${id}`,
+      },
     };
   }
 
-  const title = `${(await propertyDetails).title} - at Kampusabode`;
-  const description =
-    (await propertyDetails).description ||
-    "Find quality student apartments on Kampusabode.";
+  // Truncate description for SEO safety (≤160 chars)
+  const truncatedDescription =
+    (property.description?.length ?? 0) > 160
+      ? property.description.slice(0, 100) + "..."
+      : property.description || "Find quality student apartments on Kampusabode.";
+
+  const title = `${property.title} - at Kampusabode`;
   const image =
-    (await propertyDetails).images?.[0] ||
+    property.images?.[0] ||
     "https://kampusabode.com/LOGO/logored_white.jpg";
 
   return {
     title,
-    description,
-    keywords: [
-      "apartment listings",
-      "real estate",
-      "apartments",
-      "houses",
-      "rentals",
-      "students",
-      "university",
-    ],
+    description: truncatedDescription,
     openGraph: {
       title,
-      description,
-      url: `https://kampusabode.com/apartment/${(await propertyDetails).id}`,
+      description: truncatedDescription,
+      url: `https://kampusabode.com/apartment/${property.id}`,
       siteName: "Kampusabode",
       images: [
         {
           url: image,
           width: 1200,
           height: 1200,
-          alt: title,
+          alt: property.title,
         },
       ],
       type: "website",
@@ -82,8 +76,11 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title,
-      description,
+      description: truncatedDescription,
       images: [image],
+    },
+    alternates: {
+      canonical: `https://kampusabode.com/apartment/${property.id}`,
     },
   };
 }

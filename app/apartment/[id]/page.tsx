@@ -22,6 +22,7 @@ import ReviewForm from "../../components/modals/ReviewForm/ReviewForm";
 import { FaAngleRight } from "react-icons/fa";
 // import { sendInspectionEmail } from "../../../utils/sendInspectionEmail";
 
+
 const PropertyDetails = ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const [agentDetails, setAgentDetails] = useState<UserType>();

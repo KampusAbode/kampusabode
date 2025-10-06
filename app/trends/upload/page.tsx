@@ -79,6 +79,7 @@ function UploadTrend() {
         category,
         image,
         author: user?.name || "Anonymous",
+        author_id: user?.id,
       });
 
       toast.success(`${trend.title} uploaded`);

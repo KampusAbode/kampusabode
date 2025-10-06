@@ -16,9 +16,11 @@ import Loader from "../../../components/loader/Loader";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 import data from "../../../fetch/contents";
+import { TrendType } from "@/app/fetch/types";
 
 function EditTrend() {
   const categories = data.trendcategories;
+  const [trendData, setTrendData] = useState<TrendType>();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [category, setCategory] = useState(categories[0]);
@@ -28,10 +30,10 @@ function EditTrend() {
 
   const router = useRouter();
   const params = useParams();
-  const trendId: string = Array.isArray(params.id) ? params.id[0] : params.id;
+  const trendSlug: string = Array.isArray(params.id) ? params.id[0] : params.id;
 
   const { user } = useUserStore((state) => state);
-  const getTrendById = useTrendStore((state) => state.getTrendById);
+  const getTrendBySlug = useTrendStore((state) => state.getTrendBySlug);
 
   useEffect(() => {
     if (!user) {
@@ -40,9 +42,17 @@ function EditTrend() {
       return;
     }
 
-    const trend = getTrendById(trendId);
+  
+
+    const trend = getTrendBySlug(trendSlug);
     if (!trend) {
       toast.error("Trend not found");
+      router.back();
+      return;
+    }
+
+    if(trend.author_id !== user.id){
+      toast.error("You are not authorized to edit this trend");
       router.back();
       return;
     }
@@ -53,7 +63,7 @@ function EditTrend() {
     setExistingImage(trend.image);
     setImage(trend?.image);
     setLoading(false);
-  }, [trendId, user, getTrendById]);
+  }, [trendSlug, user, getTrendBySlug]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -97,7 +107,7 @@ function EditTrend() {
 
     try {
       const trend = await updateTrend({
-        id: trendId,
+        id: trendData.id,
         title,
         content,
         category,

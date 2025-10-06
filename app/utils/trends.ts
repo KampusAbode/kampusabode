@@ -1,5 +1,5 @@
 // import axios from "axios";
-import { uploadImageToAppwrite } from ".";
+import { deleteAppwriteImage, uploadImageToAppwrite } from ".";
 import { TrendType } from "../fetch/types";
 import { ID } from "../lib/appwriteClient";
 import { db } from "../lib/firebaseConfig";
@@ -54,6 +54,7 @@ export const fetchTrendByID = async (trendId: string) => {
       title: trendDoc.data().title,
       content: trendDoc.data().content,
       author: trendDoc.data().author,
+      author_id: trendDoc.data().author_id,
       image: trendDoc.data().image,
       likes: trendDoc.data().likes,
       published_date: trendDoc.data().published_date,
@@ -93,6 +94,7 @@ export const fetchTrendBySlug = async (trendSlug: string) => {
       title: trendDoc.data()?.title,
       content: trendDoc.data()?.content,
       author: trendDoc.data()?.author,
+      author_id: trendDoc.data()?.author_id,
       image: trendDoc.data()?.image,
       likes: trendDoc.data()?.likes,
       published_date: trendDoc.data()?.published_date,
@@ -117,12 +119,14 @@ export async function uploadTrend({
   category,
   image,
   author,
+  author_id,
 }: {
   title: string;
   content: string;
   category: string;
   image: File | string;
   author: string;
+    author_id: string;
 }): Promise<TrendType> {
   const trendRef = collection(db, "trends");
 
@@ -155,6 +159,7 @@ export async function uploadTrend({
     title,
     content,
     author,
+    author_id,
     image: imageUrl,
     likes: 0,
     published_date: new Date().toISOString(),
@@ -205,7 +210,9 @@ export async function updateTrend({
   }
   const docRef = doc(trendRef, id);
 
-  const trendData = {
+  // await deleteAppwriteImage(oldImage)
+
+  const newTrendData = {
     id,
     slug,
     title,
@@ -214,7 +221,7 @@ export async function updateTrend({
     category,
   };
 
-  await setDoc(docRef, trendData, { merge: true });
+  await setDoc(docRef, newTrendData, { merge: true });
   return { title, slug };
 }
 

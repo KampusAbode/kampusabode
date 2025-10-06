@@ -47,7 +47,6 @@
   border-radius: var(--border-radius);
   overflow: hidden;
   margin: var(--spacing-2x) 0;
-  box-shadow: var(--shadow);
 }
 .trend-details-page .container .trend-image img {
   height: 100%;
@@ -88,7 +87,7 @@
   font-size: var(--font-size-lg);
 }
 .trend-details-page .container .comments-section {
-  margin-block: var(--spacing-s);
+  margin-block: calc(2 * var(--spacing-s));
   padding: var(--spacing);
   background: var(--light-gray);
   border-radius: var(--border-radius);
@@ -148,16 +147,24 @@
   padding: var(--spacing-h);
   font-size: var(--font-size-xs);
 }
+.trend-details-page .container .comments-section .send-comment {
+  display: flex;
+  gap: var(--spacing);
+  justify-content: space-between;
+  margin-top: var(--spacing);
+}
 .trend-details-page .container .comments-section .send-comment textarea {
-  width: 100%;
+  width: auto;
+  flex: 1;
+  height: 40px;
+  max-height: 40px;
   padding: var(--spacing);
-  background-color: white;
   border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
   border: none;
 }
 .trend-details-page .container .comments-section .send-comment .btn {
-  width: 100%;
+  width: -moz-fit-content;
+  width: fit-content;
 }
 @media screen and (min-width: 1000px) {
   .trend-details-page .container .comments-section {
