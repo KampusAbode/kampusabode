@@ -121,8 +121,8 @@ const UploadProperty = () => {
     setFieldValue: (field: string, value: any) => void
   ) => {
     const files = e.target.files ? Array.from(e.target.files) : [];
-    let finalFiles: File[] = [];
-    const thumbsMap: Record<string, File[]> = {};
+    let finalFiles: File[] = [...mediaPreviews]; // Keep existing files
+    const newThumbsMap = { ...thumbnailMap };
 
     for (const file of files) {
       if (file.type.startsWith("video/")) {
@@ -136,9 +136,9 @@ const UploadProperty = () => {
             toast.error(`Could not extract thumbnails from ${file.name}`);
             continue;
           }
-          thumbsMap[file.name] = thumbs;
-          // Add thumbnails, not original video file
-          finalFiles.push(...thumbs);
+          newThumbsMap[file.name] = thumbs;
+          // Store original video file for preview
+          finalFiles.push(file);
         } catch (err) {
           toast.error(`Error processing video ${file.name}`);
           console.error(err);
@@ -150,15 +150,46 @@ const UploadProperty = () => {
       }
     }
 
+    // Sort media so videos come first
+    finalFiles.sort((a, b) => {
+      const aIsVideo = a.type.startsWith("video/");
+      const bIsVideo = b.type.startsWith("video/");
+      
+      if (aIsVideo && !bIsVideo) return -1;
+      if (!aIsVideo && bIsVideo) return 1;
+      return 0;
+    });
+
     const totalSize = finalFiles.reduce((acc, f) => acc + f.size, 0);
     if (totalSize > MAX_FILE_SIZE) {
       toast.error("Total file size exceeds 10MB");
       return;
     }
 
-    setThumbnailMap(thumbsMap);
+    setThumbnailMap(newThumbsMap);
     setMediaPreviews(finalFiles);
     setFieldValue("images", finalFiles);
+  };
+  
+  const removeMediaFile = (index: number, setFieldValue: (field: string, value: any) => void) => {
+    const updatedPreviews = [...mediaPreviews];
+    const fileToRemove = updatedPreviews[index];
+    
+    // If it's a video, remove its thumbnails from the map
+    if (fileToRemove.type.startsWith("video/")) {
+      const newThumbsMap = { ...thumbnailMap };
+      delete newThumbsMap[fileToRemove.name];
+      setThumbnailMap(newThumbsMap);
+      
+      // Also remove from selected thumbnails if present
+      const newSelectedThumbs = { ...selectedThumbnails };
+      delete newSelectedThumbs[fileToRemove.name];
+      setSelectedThumbnails(newSelectedThumbs);
+    }
+    
+    updatedPreviews.splice(index, 1);
+    setMediaPreviews(updatedPreviews);
+    setFieldValue("images", updatedPreviews);
   };
 
   const validationSchema = Yup.object().shape({
@@ -235,31 +266,80 @@ const UploadProperty = () => {
     setPromptOpen(false);
 
     try {
-      // Prepare images array starting with preferred thumbnails (if selected)
-      let sortedImages = [...mediaPreviews];
-
-      // Prepend selected thumbnails for each video file if available
-      Object.entries(selectedThumbnails).forEach(([videoName, thumb]) => {
-        // Remove any existing thumb for this video from sortedImages to avoid duplicates
-        sortedImages = sortedImages.filter(
-          (f) => f.name !== thumb.name || f !== thumb
-        );
-        sortedImages.unshift(thumb);
+      // Prepare files for upload
+      let filesToUpload: File[] = [];
+      let videoFile: File | null = null;
+      
+      // Process each media file
+      for (const file of mediaPreviews) {
+        if (file.type.startsWith('video/')) {
+          // Store the video file separately
+          videoFile = file;
+          
+          // For videos, use the selected thumbnail or the first one
+          const videoThumbs = thumbnailMap[file.name] || [];
+          const selectedThumb = selectedThumbnails[file.name];
+          
+          if (selectedThumb) {
+            // Add the selected thumbnail with special metadata
+            const thumbWithMetadata = new File(
+              [selectedThumb], 
+              `video-${file.name}-thumbnail.jpg`, 
+              { type: 'image/jpeg' }
+            );
+            filesToUpload.push(thumbWithMetadata);
+          } else if (videoThumbs.length > 0) {
+            // Use first thumbnail if none selected
+            const thumbWithMetadata = new File(
+              [videoThumbs[0]], 
+              `video-${file.name}-thumbnail.jpg`, 
+              { type: 'image/jpeg' }
+            );
+            filesToUpload.push(thumbWithMetadata);
+          }
+        } else {
+          // For images, just add them directly
+          filesToUpload.push(file);
+        }
+      }
+      
+      // Sort so images come first (videos will be handled separately)
+      filesToUpload.sort((a, b) => {
+        const aIsVideoThumb = a.name.includes('video-') && a.name.includes('-thumbnail');
+        const bIsVideoThumb = b.name.includes('video-') && b.name.includes('-thumbnail');
+        
+        if (aIsVideoThumb && !bIsVideoThumb) return -1; // Video thumbnails first
+        if (!aIsVideoThumb && bIsVideoThumb) return 1;
+        return 0;
       });
 
-      // Upload images to Appwrite
+      // Upload image files to Appwrite
       const imageUrls = await uploadApartmentImagesToAppwrite(
-        sortedImages,
+        filesToUpload,
         process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID || ""
       );
 
       if (imageUrls.length === 0) {
-        throw new Error("No images were uploaded successfully");
+        throw new Error("No media files were uploaded successfully");
+      }
+      
+      // Upload video file if exists
+      let videoUrl = "";
+      if (videoFile) {
+        const videoUrls = await uploadApartmentImagesToAppwrite(
+          [videoFile],
+          process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID || ""
+        );
+        
+        if (videoUrls.length > 0) {
+          videoUrl = videoUrls[0];
+        }
       }
 
       const payload: ApartmentType = {
         ...formValuesToSubmit,
         images: imageUrls,
+        ...(videoUrl && { video: videoUrl }), // Add video property only if video exists
         agentId: user?.id ?? "",
         approved: false,
         views: 0,
@@ -334,6 +414,48 @@ const UploadProperty = () => {
                     />
                   </label>
                 </div>
+
+                {/* Media Previews */}
+                {mediaPreviews.length > 0 && (
+                  <div className="media-previews-container">
+                    <h3>Selected Media Files</h3>
+                    <div className="media-previews-grid">
+                      {mediaPreviews.map((file, index) => (
+                        <div key={`${file.name}-${index}`} className="media-preview-item">
+                          {file.type.startsWith('video/') ? (
+                            <div className="video-preview">
+                              <video 
+                                src={URL.createObjectURL(file)} 
+                                className="preview-thumbnail"
+                                width={150}
+                                height={150}
+                              />
+                              <div className="video-icon">🎬</div>
+                            </div>
+                          ) : (
+                            <Image
+                              src={URL.createObjectURL(file)}
+                              alt={`Preview ${index}`}
+                              width={150}
+                              height={150}
+                              className="preview-thumbnail"
+                            />
+                          )}
+                          <div className="media-preview-info">
+                            <span className="media-name">{file.name.substring(0, 15)}...</span>
+                            <button 
+                              type="button" 
+                              className="remove-media-btn"
+                              onClick={() => removeMediaFile(index, setFieldValue)}
+                            >
+                              ✕
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Thumbnail preview and selection */}
                 {Object.entries(thumbnailMap).map(([videoName, thumbs]) => (

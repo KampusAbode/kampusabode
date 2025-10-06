@@ -69,6 +69,7 @@ export interface ApartmentType {
   area: number;
   amenities: string[];
   images: string[];
+  video?: string; // Optional video URL
   available: boolean;
   approved: boolean;
   createdAt: Date | string;
