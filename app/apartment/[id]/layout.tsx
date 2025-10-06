@@ -49,7 +49,7 @@ export async function generateMetadata({
   // Truncate description for SEO safety (≤160 chars)
   const truncatedDescription =
     (property.description?.length ?? 0) > 160
-      ? property.description.slice(0, 157) + "..."
+      ? property.description.slice(0, 100) + "..."
       : property.description || "Find quality student apartments on Kampusabode.";
 
   const title = `${property.title} - at Kampusabode`;
