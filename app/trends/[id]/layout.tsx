@@ -42,7 +42,7 @@ export async function generateMetadata({
         images: ["https://kampusabode.com/LOGO/logored_white.jpg"],
       },
       alternates: {
-        canonical: `https://kampusabode.com/apartment/${params.id}`,
+        canonical: `https://kampusabode.com/trends/${params.id}`,
       },
     };
   }
