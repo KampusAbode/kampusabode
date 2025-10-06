@@ -49,7 +49,7 @@ export const submitInspectionRequest = async (
     // Now handle WhatsApp redirect on the client
     const message = `Hello ${agentDetails.name}, I'm ${
       data.name
-    } and I would like to schedule an apartment inspection.\n\n📞 Phone: ${
+    } and I would like to schedule an apartment inspection at the apartment you listed on Kampus Abode.\n\n📞 Phone: ${
       data.phone
     }\n📅 Date: ${data.preferredDate}\n⏰ Time: ${
       data.preferredTime
