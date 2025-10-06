@@ -14,8 +14,6 @@ export async function generateMetadata({
   params: { id: string };
 }): Promise<Metadata> {
   const { id } = params;
-
-  // Fetch apartment details (server-side safe utility)
   const property = await getApartmentById(id);
 
   if (!property) {
