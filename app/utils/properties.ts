@@ -23,18 +23,6 @@ import { deleteAppwriteImage } from "./";
 
 export const listApartment = async (data: any) => {
   try {
-    // Sort images so videos appear first
-    if (data.images && data.images.length > 0) {
-      data.images.sort((a, b) => {
-        const aIsVideo = a.includes('.mp4') || a.includes('.webm') || a.includes('.ogg') || a.includes('video') || a.endsWith('.mov');
-        const bIsVideo = b.includes('.mp4') || b.includes('.webm') || b.includes('.ogg') || b.includes('video') || b.endsWith('.mov');
-        
-        if (aIsVideo && !bIsVideo) return -1;
-        if (!aIsVideo && bIsVideo) return 1;
-        return 0;
-      });
-    }
-    
     // Step 1: Get a new document reference with generated UID
     const docRef = doc(collection(db, "properties")); // creates a ref without writing
 

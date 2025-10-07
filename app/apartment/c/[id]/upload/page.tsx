@@ -25,6 +25,7 @@ const FRAME_COUNT = 15;
 
 const UploadProperty = () => {
   const [mediaPreviews, setMediaPreviews] = useState<File[]>([]);
+  const [videoFiles, setVideoFiles] = useState<File[]>([]);
   const [promptOpen, setPromptOpen] = useState(false);
   const [thumbnailMap, setThumbnailMap] = useState<Record<string, File[]>>({});
   const [selectedThumbnails, setSelectedThumbnails] = useState<
@@ -121,7 +122,8 @@ const UploadProperty = () => {
     setFieldValue: (field: string, value: any) => void
   ) => {
     const files = e.target.files ? Array.from(e.target.files) : [];
-    let finalFiles: File[] = [...mediaPreviews]; // Keep existing files
+    let finalFiles: File[] = [...mediaPreviews]; // Keep existing image files
+    let finalVideoFiles: File[] = [...videoFiles]; // Keep existing video files
     const newThumbsMap = { ...thumbnailMap };
 
     for (const file of files) {
@@ -137,8 +139,8 @@ const UploadProperty = () => {
             continue;
           }
           newThumbsMap[file.name] = thumbs;
-          // Store original video file for preview
-          finalFiles.push(file);
+          // Store original video file separately
+          finalVideoFiles.push(file);
         } catch (err) {
           toast.error(`Error processing video ${file.name}`);
           console.error(err);
@@ -150,17 +152,7 @@ const UploadProperty = () => {
       }
     }
 
-    // Sort media so videos come first
-    finalFiles.sort((a, b) => {
-      const aIsVideo = a.type.startsWith("video/");
-      const bIsVideo = b.type.startsWith("video/");
-      
-      if (aIsVideo && !bIsVideo) return -1;
-      if (!aIsVideo && bIsVideo) return 1;
-      return 0;
-    });
-
-    const totalSize = finalFiles.reduce((acc, f) => acc + f.size, 0);
+    const totalSize = [...finalFiles, ...finalVideoFiles].reduce((acc, f) => acc + f.size, 0);
     if (totalSize > MAX_FILE_SIZE) {
       toast.error("Total file size exceeds 10MB");
       return;
@@ -168,6 +160,7 @@ const UploadProperty = () => {
 
     setThumbnailMap(newThumbsMap);
     setMediaPreviews(finalFiles);
+    setVideoFiles(finalVideoFiles);
     setFieldValue("images", finalFiles);
   };
   
@@ -175,21 +168,27 @@ const UploadProperty = () => {
     const updatedPreviews = [...mediaPreviews];
     const fileToRemove = updatedPreviews[index];
     
-    // If it's a video, remove its thumbnails from the map
-    if (fileToRemove.type.startsWith("video/")) {
-      const newThumbsMap = { ...thumbnailMap };
-      delete newThumbsMap[fileToRemove.name];
-      setThumbnailMap(newThumbsMap);
-      
-      // Also remove from selected thumbnails if present
-      const newSelectedThumbs = { ...selectedThumbnails };
-      delete newSelectedThumbs[fileToRemove.name];
-      setSelectedThumbnails(newSelectedThumbs);
-    }
-    
     updatedPreviews.splice(index, 1);
     setMediaPreviews(updatedPreviews);
     setFieldValue("images", updatedPreviews);
+  };
+
+  const removeVideoFile = (index: number) => {
+    const updatedVideos = [...videoFiles];
+    const videoToRemove = updatedVideos[index];
+    
+    // Remove its thumbnails from the map
+    const newThumbsMap = { ...thumbnailMap };
+    delete newThumbsMap[videoToRemove.name];
+    setThumbnailMap(newThumbsMap);
+    
+    // Also remove from selected thumbnails if present
+    const newSelectedThumbs = { ...selectedThumbnails };
+    delete newSelectedThumbs[videoToRemove.name];
+    setSelectedThumbnails(newSelectedThumbs);
+    
+    updatedVideos.splice(index, 1);
+    setVideoFiles(updatedVideos);
   };
 
   const validationSchema = Yup.object().shape({
@@ -267,53 +266,23 @@ const UploadProperty = () => {
 
     try {
       // Prepare files for upload
-      let filesToUpload: File[] = [];
-      let videoFile: File | null = null;
+      let filesToUpload: File[] = [...mediaPreviews]; // Start with image files
       
-      // Process each media file
-      for (const file of mediaPreviews) {
-        if (file.type.startsWith('video/')) {
-          // Store the video file separately
-          videoFile = file;
-          
-          // For videos, use the selected thumbnail or the first one
-          const videoThumbs = thumbnailMap[file.name] || [];
-          const selectedThumb = selectedThumbnails[file.name];
-          
-          if (selectedThumb) {
-            // Add the selected thumbnail with special metadata
-            const thumbWithMetadata = new File(
-              [selectedThumb], 
-              `video-${file.name}-thumbnail.jpg`, 
-              { type: 'image/jpeg' }
-            );
-            filesToUpload.push(thumbWithMetadata);
-          } else if (videoThumbs.length > 0) {
-            // Use first thumbnail if none selected
-            const thumbWithMetadata = new File(
-              [videoThumbs[0]], 
-              `video-${file.name}-thumbnail.jpg`, 
-              { type: 'image/jpeg' }
-            );
-            filesToUpload.push(thumbWithMetadata);
-          }
-        } else {
-          // For images, just add them directly
-          filesToUpload.push(file);
+      // Add video thumbnails to the images array
+      for (const videoFile of videoFiles) {
+        const videoThumbs = thumbnailMap[videoFile.name] || [];
+        const selectedThumb = selectedThumbnails[videoFile.name];
+        
+        if (selectedThumb) {
+          // Add the selected thumbnail
+          filesToUpload.push(selectedThumb);
+        } else if (videoThumbs.length > 0) {
+          // Use first thumbnail if none selected
+          filesToUpload.push(videoThumbs[0]);
         }
       }
-      
-      // Sort so images come first (videos will be handled separately)
-      filesToUpload.sort((a, b) => {
-        const aIsVideoThumb = a.name.includes('video-') && a.name.includes('-thumbnail');
-        const bIsVideoThumb = b.name.includes('video-') && b.name.includes('-thumbnail');
-        
-        if (aIsVideoThumb && !bIsVideoThumb) return -1; // Video thumbnails first
-        if (!aIsVideoThumb && bIsVideoThumb) return 1;
-        return 0;
-      });
 
-      // Upload image files to Appwrite
+      // Upload image files (including video thumbnails) to Appwrite
       const imageUrls = await uploadApartmentImagesToAppwrite(
         filesToUpload,
         process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID || ""
@@ -323,23 +292,19 @@ const UploadProperty = () => {
         throw new Error("No media files were uploaded successfully");
       }
       
-      // Upload video file if exists
-      let videoUrl = "";
-      if (videoFile) {
-        const videoUrls = await uploadApartmentImagesToAppwrite(
-          [videoFile],
+      // Upload video files separately if they exist
+      let videoUrls: string[] = [];
+      if (videoFiles.length > 0) {
+        videoUrls = await uploadApartmentImagesToAppwrite(
+          videoFiles,
           process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID || ""
         );
-        
-        if (videoUrls.length > 0) {
-          videoUrl = videoUrls[0];
-        }
       }
 
       const payload: ApartmentType = {
         ...formValuesToSubmit,
         images: imageUrls,
-        ...(videoUrl && { video: videoUrl }), // Add video property only if video exists
+        ...(videoUrls.length > 0 && { video: videoUrls[0] }), // Add video property only if video exists
         agentId: user?.id ?? "",
         approved: false,
         views: 0,
@@ -355,6 +320,7 @@ const UploadProperty = () => {
 
       formHelpers.resetForm();
       setMediaPreviews([]);
+      setVideoFiles([]);
       setThumbnailMap({});
       setSelectedThumbnails({});
       router.push(response.url);
@@ -411,42 +377,64 @@ const UploadProperty = () => {
                       height={800}
                       alt="apartment image"
                       className="upload-image-preview"
+                      style={{ width: "auto", height: "auto", objectFit: "contain" }}
                     />
                   </label>
                 </div>
 
-                {/* Media Previews */}
+                {/* Image Previews */}
                 {mediaPreviews.length > 0 && (
                   <div className="media-previews-container">
-                    <h3>Selected Media Files</h3>
+                    <h3>Selected Images</h3>
                     <div className="media-previews-grid">
                       {mediaPreviews.map((file, index) => (
                         <div key={`${file.name}-${index}`} className="media-preview-item">
-                          {file.type.startsWith('video/') ? (
-                            <div className="video-preview">
-                              <video 
-                                src={URL.createObjectURL(file)} 
-                                className="preview-thumbnail"
-                                width={150}
-                                height={150}
-                              />
-                              <div className="video-icon">🎬</div>
-                            </div>
-                          ) : (
-                            <Image
-                              src={URL.createObjectURL(file)}
-                              alt={`Preview ${index}`}
-                              width={150}
-                              height={150}
-                              className="preview-thumbnail"
-                            />
-                          )}
+                          <Image
+                            src={URL.createObjectURL(file)}
+                            alt={`Preview ${index}`}
+                            width={150}
+                            height={150}
+                            className="preview-thumbnail"
+                            style={{ width: "auto", height: "auto", objectFit: "cover" }}
+                          />
                           <div className="media-preview-info">
                             <span className="media-name">{file.name.substring(0, 15)}...</span>
                             <button 
                               type="button" 
                               className="remove-media-btn"
                               onClick={() => removeMediaFile(index, setFieldValue)}
+                            >
+                              ✕
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Video Previews */}
+                {videoFiles.length > 0 && (
+                  <div className="media-previews-container">
+                    <h3>Selected Videos</h3>
+                    <div className="media-previews-grid">
+                      {videoFiles.map((file, index) => (
+                        <div key={`${file.name}-${index}`} className="media-preview-item">
+                          <div className="video-preview">
+                            <video 
+                              src={URL.createObjectURL(file)} 
+                              className="preview-thumbnail"
+                              width={150}
+                              height={150}
+                            />
+                            <div className="video-icon">🎬</div>
+                          </div>
+                          <div className="media-preview-info">
+                            <span className="media-name">{file.name.substring(0, 15)}...</span>
+                            <button 
+                              type="button" 
+                              className="remove-media-btn"
+                              onClick={() => removeVideoFile(index)}
                             >
                               ✕
                             </button>
@@ -477,6 +465,7 @@ const UploadProperty = () => {
                                 ? "active"
                                 : ""
                             }
+                            style={{ width: "auto", height: "auto", objectFit: "cover" }}
                             onClick={() =>
                               setSelectedThumbnails((prev) => ({
                                 ...prev,

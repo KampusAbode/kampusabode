@@ -121,15 +121,13 @@ function PropertyImages({
             >
               {isVideo(media) ? (
                 <div className="video-thumbnail">
-                  <Image
-                    src={media.replace('.mp4', '-thumb.jpg').replace('.webm', '-thumb.jpg').replace('.ogg', '-thumb.jpg').replace('.mov', '-thumb.jpg')}
+                  <video
+                    src={media}
                     width={400}
                     height={400}
-                    alt="video thumbnail"
-                    onError={(e) => {
-                      // If thumbnail doesn't exist, show a default video thumbnail
-                      (e.target as HTMLImageElement).src = "/icons/video-thumbnail.png";
-                    }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    muted
+                    playsInline
                   />
                   <div className="video-icon"><FaPlay /></div>
                 </div>
