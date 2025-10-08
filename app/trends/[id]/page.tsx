@@ -249,7 +249,7 @@ const TrendPage = ({ params }: Params) => {
             {/* <CommentSection ref={commentsRef} comments={comments}/> */}
 
             <div ref={commentsRef} className="comments-section">
-              <h5>Comments</h5>
+              <h6>Comments {comments.length}</h6>
               <div className="comments-list">
                 {comments.length === 0 ? (
                   <p>No comments yet.</p>

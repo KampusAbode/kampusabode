@@ -2,7 +2,7 @@
 import { ReactNode } from "react";
 import { Metadata } from "next";
 import { fetchTrendBySlug } from "../../utils";
-import { TrendType } from "../../fetch/types";
+//import { TrendType } from "../../fetch/types";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../lib/firebaseConfig";
 
@@ -17,7 +17,7 @@ export async function generateMetadata({
   params: { id: string };
 }): Promise<Metadata> {
   const {id} = params;
-  const trend: TrendType = await fetchTrendBySlug(id);
+  const trend = await fetchTrendBySlug(id);
 
   if (!trend) {
     return {
@@ -42,7 +42,7 @@ export async function generateMetadata({
         images: ["https://kampusabode.com/LOGO/logored_white.jpg"],
       },
       alternates: {
-        canonical: `https://kampusabode.com/apartment/${params.id}`,
+        canonical: `https://kampusabode.com/trends/${params.id}`,
       },
     };
   }
@@ -52,8 +52,8 @@ export async function generateMetadata({
   const title = `${trend?.title} - at Kampusabode`;
   // Truncate description for SEO safety (≤160 chars)
   const truncatedDescription =
-    (trend.content?.length ?? 0) > 160
-      ? trend?.content.slice(0, 157) + "..."
+    (trend.content?.length ?? 0) > 100
+      ? trend?.content.slice(0, 100) + "..."
       : trend?.content || "Discover the latest campus updates on Kampusabode.";
   const image =
     trend?.image ||
@@ -65,7 +65,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description: truncatedDescription,
-      url: `https://kampusabode.com/apartment/${trend.id}`,
+      url: `https://kampusabode.com/trends/${trend.slug}`,
       siteName: "Kampusabode",
       images: [
         {
@@ -84,13 +84,13 @@ export async function generateMetadata({
       images: [image],
     },
     alternates: {
-      canonical: `https://kampusabode.com/apartment/${trend.id}`,
+      canonical: `https://kampusabode.com/apartment/${trend.slug}`,
     },
   };
 }
 
-const ApartmentLayout = ({ children }: LayoutProps) => {
+const TrendLayout = ({ children }: LayoutProps) => {
   return <>{children}</>;
 };
 
-export default ApartmentLayout;
+export default TrendLayout;

@@ -189,7 +189,7 @@
                 }
 
                 .detail {
-                  padding: var(--spacing-h) var(--spacing);
+                  padding-block: var(--spacing-h);
                   span {
                     &::first-child {
                       overflow: hidden;

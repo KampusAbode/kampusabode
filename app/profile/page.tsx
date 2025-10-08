@@ -36,8 +36,15 @@ const ProfilePage = () => {
     setSendingVerification(true);
     setError(null);
 
+    const actionCodeSettings = {
+  url: "https://kampusabode.com/profile",
+  handleCodeInApp: true,
+  dynamicLinkDomain: "www.kampusabode.com",
+};
+    
+
     try {
-      await sendEmailVerification(firebaseUser);
+      await sendEmailVerification(firebaseUser, actionCodeSettings);
       setVerificationSent(true);
     } catch (err) {
       setError("Failed to send verification email. Please try again later.");

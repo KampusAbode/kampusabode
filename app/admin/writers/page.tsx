@@ -95,13 +95,14 @@ const WritersManagement = () => {
           placeholder="Search by name or email..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          style={{width: "100%"}}
         />
       </div>
 
       {/* Writers List */}
       <h6>Writers ({writers.length})</h6>
       {writers.length === 0 ? (
-        <p style={{ textAlign: "center", marginTop: "5rem" }}>
+        <p style={{ textAlign: "center", marginTop: "8rem" }}>
           No writers found.
         </p>
       ) : (

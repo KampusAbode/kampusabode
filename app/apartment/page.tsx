@@ -11,6 +11,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { usePropertiesStore } from "../store/propertiesStore";
 import data from "../fetch/contents";
 
+
 const PropertiesPage: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
