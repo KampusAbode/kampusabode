@@ -87,12 +87,12 @@
 .upload-property .container form .thumbnail-preview div img.active {
   border: 2px solid green;
 }
-.upload-property .container form .confirm-datails {
+.upload-property .container form .confirm-details {
   margin-block: var(--spacing-2x);
   max-width: 600px;
   margin: 0 auto;
 }
-.upload-property .container form .confirm-datails p {
+.upload-property .container form .confirm-details p {
   text-align: center;
   font-size: var(--font-size-xs);
 }/*# sourceMappingURL=upload.css.map */
