@@ -27,7 +27,7 @@ const TrendCard = ({ trendData }) => {
 
   return (
     <Link prefetch href={`/trends/${trendData?.slug}`}>
-      <div className="trend">
+      <div className="trend-card">
         <div className="trend-image">
           <Image
             priority

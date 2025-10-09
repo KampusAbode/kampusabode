@@ -1,26 +1,37 @@
-.trend {
+.trend-card {
   border-radius: var(--border-radius);
   border: var(--border);
   overflow: hidden;
   transition: var(--transition);
+  animation: pop 0.1s ease-in forwards;
 }
-.trend:hover {
+@keyframes pop {
+  from {
+    transform: translateY(10px) scale(0.97);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+.trend-card:hover {
   box-shadow: var(--shadow);
 }
-.trend .trend-image {
+.trend-card .trend-image {
   aspect-ratio: 20/17;
   border-top-left-radius: var(--border-radius);
   border-top-right-radius: var(--border-radius);
   position: relative;
   overflow: hidden;
 }
-.trend .trend-image img {
+.trend-card .trend-image img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
 }
-.trend .trend-image .category {
+.trend-card .trend-image .category {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -29,16 +40,16 @@
   border-radius: var(--border-radius-r);
   color: var(--text-color-h);
 }
-.trend .trend-content {
+.trend-card .trend-content {
   padding: var(--spacing);
 }
-.trend .trend-content .author-thumbs {
+.trend-card .trend-content .author-thumbs {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--spacing);
 }
-.trend .trend-content .author-thumbs .thumbs {
+.trend-card .trend-content .author-thumbs .thumbs {
   display: flex;
   align-items: center;
   gap: var(--spacing);
@@ -46,19 +57,19 @@
   padding: var(--spacing-h);
   border-radius: var(--border-radius);
 }
-.trend .trend-content .author-thumbs .thumbs svg {
+.trend-card .trend-content .author-thumbs .thumbs svg {
   cursor: pointer;
   transition: var(--transition);
 }
-.trend .trend-content .author-thumbs .thumbs svg:hover, .trend .trend-content .author-thumbs .thumbs svg.active {
+.trend-card .trend-content .author-thumbs .thumbs svg:hover, .trend-card .trend-content .author-thumbs .thumbs svg.active {
   color: var(--primary-color);
   transform: scale(1.2);
 }
-.trend .trend-content h6 {
+.trend-card .trend-content h6 {
   margin-block: var(--spacing-h);
 }
-.trend .trend-content h6,
-.trend .trend-content P {
+.trend-card .trend-content h6,
+.trend-card .trend-content P {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -66,6 +77,6 @@
   line-clamp: 2;
   -webkit-box-orient: vertical;
 }
-.trend .trend-content p {
+.trend-card .trend-content p {
   font-size: var(--font-size-sm);
 }/*# sourceMappingURL=trendCard.css.map */
