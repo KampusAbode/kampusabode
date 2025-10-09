@@ -3,7 +3,7 @@
   border: var(--border);
   overflow: hidden;
   transition: var(--transition);
-  animation: pop 0.3s ease-in forwards;
+  animation: pop 0.1s ease-in forwards;
 }
 @keyframes pop {
   from {
