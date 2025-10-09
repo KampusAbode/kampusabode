@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -16,32 +16,63 @@ import { ApartmentType } from "../../../../fetch/types";
 import data from "../../../../fetch/contents";
 import Prompt from "../../../../components/modals/prompt/Prompt";
 import "./upload.css";
+// validateWithYupAndToast kept in imports if you use elsewhere
 import { validateWithYupAndToast } from "../../../../utils/validateWithYupAndToast";
-import Image from "next/image";
 
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
-const MAX_VIDEO_SIZE = 20 * 1024 * 1024; // 20MB
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB total images+thumbs
+const MAX_VIDEO_SIZE = 20 * 1024 * 1024; // 20MB per video
 const FRAME_COUNT = 15;
+const THUMB_EXTRACT_TIMEOUT = 10_000; // 10s per video (safety)
 
-const UploadProperty = () => {
+const UploadProperty: React.FC = () => {
   const [mediaPreviews, setMediaPreviews] = useState<File[]>([]);
+  const [mediaPreviewUrls, setMediaPreviewUrls] = useState<string[]>([]);
   const [videoFiles, setVideoFiles] = useState<File[]>([]);
+  const [videoPreviewUrls, setVideoPreviewUrls] = useState<string[]>([]);
   const [promptOpen, setPromptOpen] = useState(false);
   const [thumbnailMap, setThumbnailMap] = useState<Record<string, File[]>>({});
+  const [thumbnailUrlsMap, setThumbnailUrlsMap] = useState<
+    Record<string, string[]>
+  >({});
   const [selectedThumbnails, setSelectedThumbnails] = useState<
     Record<string, File>
   >({});
+  const [selectedThumbnailUrls, setSelectedThumbnailUrls] = useState<
+    Record<string, string>
+  >({});
 
   const router = useRouter();
-  // const { listApartment, uploadApartmentImagesToAppwrite } = useProperties();
   const { user, addListedProperty } = useUserStore((state) => state);
+
+  // keep refs to revoke urls on unmount
+  const createdObjectUrls = useRef<string[]>([]);
 
   useEffect(() => {
     if (!user || user.userType !== "agent") {
       toast.error("Access denied. Only agents can upload properties.");
-      router.back();
+      // we don't throw — just navigate back
+      try {
+        router.back();
+      } catch (e) {
+        console.error("router.back failed:", e);
+      }
     }
-  }, [user, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  useEffect(() => {
+    return () => {
+      // Revoke any remaining object URLs when component unmounts
+      for (const url of createdObjectUrls.current) {
+        try {
+          URL.revokeObjectURL(url);
+        } catch (e) {
+          // ignore
+        }
+      }
+      createdObjectUrls.current = [];
+    };
+  }, []);
 
   const typeOptions = [
     "self contained",
@@ -65,146 +96,359 @@ const UploadProperty = () => {
     "sports facilities",
   ];
 
-  // Extract thumbnails from video asynchronously
-  const extractThumbnails = async (videoFile: File): Promise<File[]> => {
-    const thumbnails: File[] = [];
-    const url = URL.createObjectURL(videoFile);
-
-    const video = document.createElement("video");
-    video.src = url;
-    video.crossOrigin = "anonymous";
-
-    await new Promise<void>((resolve, reject) => {
-      video.onloadedmetadata = () => resolve();
-      video.onerror = () => reject(new Error("Failed to load video metadata"));
-    });
-
-    const duration = video.duration;
-    const interval = duration / FRAME_COUNT;
-
-    for (let i = 1; i <= FRAME_COUNT; i++) {
-      video.currentTime = i * interval;
-
-      // Wait for seek to complete
-      await new Promise<void>((resolve) => {
-        video.onseeked = () => resolve();
-      });
-
-      const canvas = document.createElement("canvas");
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-
-      const ctx = canvas.getContext("2d");
-      if (!ctx) {
-        toast.error("Failed to get canvas context");
-        continue;
-      }
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      const blob = await new Promise<Blob | null>((resolve) =>
-        canvas.toBlob(resolve, "image/jpeg")
-      );
-
-      if (blob) {
-        thumbnails.push(
-          new File([blob], `${videoFile.name}-thumb-${i}.jpg`, {
-            type: "image/jpeg",
-          })
-        );
-      }
-    }
-    URL.revokeObjectURL(url);
-    return thumbnails;
+  // SAFE helper to create and track object URLs (so we can revoke later)
+  const createObjectUrl = (file: File) => {
+    const url = URL.createObjectURL(file);
+    createdObjectUrls.current.push(url);
+    return url;
   };
 
+  // Extract thumbnails from a video file with error handling & timeout
+  const extractThumbnails = async (videoFile: File): Promise<File[]> => {
+    const thumbnails: File[] = [];
+    const url = createObjectUrl(videoFile);
+
+    return new Promise<File[]>((resolve, reject) => {
+      const video = document.createElement("video");
+      let timeoutId: number | null = null;
+      let resolved = false;
+
+      const cleanUp = () => {
+        if (timeoutId) {
+          window.clearTimeout(timeoutId);
+          timeoutId = null;
+        }
+        // remove event handlers
+        video.onloadedmetadata = null as any;
+        video.onerror = null as any;
+        video.onseeked = null as any;
+      };
+
+      video.crossOrigin = "anonymous";
+      video.preload = "metadata";
+      video.src = url;
+
+      video.onerror = (e) => {
+        cleanUp();
+        if (!resolved) {
+          resolved = true;
+          // revoke video object url right away
+          try {
+            URL.revokeObjectURL(url);
+          } catch {}
+          reject(
+            new Error(`Failed to load video metadata for ${videoFile.name}`)
+          );
+        }
+      };
+
+      video.onloadedmetadata = async () => {
+        // safety: if duration is invalid, abort
+        const duration = video.duration;
+        if (!duration || !isFinite(duration)) {
+          cleanUp();
+          try {
+            URL.revokeObjectURL(url);
+          } catch {}
+          return reject(
+            new Error(`Video ${videoFile.name} has invalid duration`)
+          );
+        }
+
+        const interval = duration / Math.max(1, FRAME_COUNT);
+        let frameIndex = 1;
+
+        // set overall timeout to avoid very long extraction
+        timeoutId = window.setTimeout(() => {
+          cleanUp();
+          if (!resolved) {
+            resolved = true;
+            try {
+              URL.revokeObjectURL(url);
+            } catch {}
+            reject(
+              new Error(`Thumbnail extraction timed out for ${videoFile.name}`)
+            );
+          }
+        }, THUMB_EXTRACT_TIMEOUT);
+
+        const seekAndCapture = async () => {
+          try {
+            for (; frameIndex <= FRAME_COUNT; frameIndex++) {
+              const time = Math.min(duration - 0.1, frameIndex * interval);
+              video.currentTime = time;
+              // Wait for seeked
+              await new Promise<void>((seekResolve, seekReject) => {
+                const onseek = () => {
+                  seekResolve();
+                };
+                const onerror = () => {
+                  seekReject(new Error("Seek error"));
+                };
+                video.onseeked = onseek;
+                video.onerror = onerror;
+              });
+
+              // create canvas
+              const canvas = document.createElement("canvas");
+              canvas.width = video.videoWidth || 320;
+              canvas.height = video.videoHeight || 240;
+              const ctx = canvas.getContext("2d");
+              if (!ctx) {
+                continue; // skip this frame if ctx not available
+              }
+              ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+              // convert to blob
+              const blob: Blob | null = await new Promise((res) =>
+                canvas.toBlob(res, "image/jpeg")
+              );
+
+              if (blob) {
+                const thumbFile = new File(
+                  [blob],
+                  `${videoFile.name}-thumb-${frameIndex}.jpg`,
+                  {
+                    type: "image/jpeg",
+                  }
+                );
+                thumbnails.push(thumbFile);
+              }
+            }
+            cleanUp();
+            try {
+              URL.revokeObjectURL(url);
+            } catch {}
+            if (!resolved) {
+              resolved = true;
+              resolve(thumbnails);
+            }
+          } catch (err) {
+            cleanUp();
+            try {
+              URL.revokeObjectURL(url);
+            } catch {}
+            if (!resolved) {
+              resolved = true;
+              reject(err);
+            }
+          }
+        };
+
+        // start capture
+        seekAndCapture();
+      };
+    });
+  };
+
+  // keep URLs in sync with file arrays (and revoke previous ones)
+  const buildPreviewUrlsForFiles = (
+    files: File[],
+    setter: (urls: string[]) => void,
+    previousUrls: string[]
+  ) => {
+    // revoke previous urls
+    for (const u of previousUrls) {
+      try {
+        URL.revokeObjectURL(u);
+      } catch {}
+    }
+    const urls = files.map((f) => createObjectUrl(f));
+    setter(urls);
+  };
+
+  // handle file input changes (images + videos)
   const handleMediaChange = async (
     e: React.ChangeEvent<HTMLInputElement>,
     setFieldValue: (field: string, value: any) => void
   ) => {
-    const files = e.target.files ? Array.from(e.target.files) : [];
-    let finalFiles: File[] = [...mediaPreviews]; // Keep existing image files
-    let finalVideoFiles: File[] = [...videoFiles]; // Keep existing video files
-    const newThumbsMap = { ...thumbnailMap };
+    try {
+      const inputFiles = e.target.files ? Array.from(e.target.files) : [];
+      if (inputFiles.length === 0) return;
 
-    for (const file of files) {
-      if (file.type.startsWith("video/")) {
-        if (file.size > MAX_VIDEO_SIZE) {
-          toast.error(`${file.name} exceeds max video size of 20MB`);
-          continue;
-        }
-        try {
-          const thumbs = await extractThumbnails(file);
-          if (thumbs.length === 0) {
-            toast.error(`Could not extract thumbnails from ${file.name}`);
+      // clone current state arrays (we'll update them immutably)
+      const newImageFiles = [...mediaPreviews];
+      const newVideoFiles = [...videoFiles];
+      const newThumbMap = { ...thumbnailMap };
+      const newThumbnailUrlsMap = { ...thumbnailUrlsMap };
+
+      for (const file of inputFiles) {
+        if (file.type.startsWith("video/")) {
+          if (file.size > MAX_VIDEO_SIZE) {
+            toast.error(`${file.name} exceeds max video size of 20MB`);
             continue;
           }
-          newThumbsMap[file.name] = thumbs;
-          // Store original video file separately
-          finalVideoFiles.push(file);
-        } catch (err) {
-          toast.error(`Error processing video ${file.name}`);
-          console.error(err);
+          // try to extract thumbnails, but guard errors
+          try {
+            const thumbs = await extractThumbnails(file);
+            if (!thumbs || thumbs.length === 0) {
+              toast.error(`Could not extract thumbnails from ${file.name}`);
+              // still allow video upload (but no thumbs)
+              newVideoFiles.push(file);
+              continue;
+            }
+            newThumbMap[file.name] = thumbs;
+            newThumbnailUrlsMap[file.name] = thumbs.map((t) =>
+              createObjectUrl(t)
+            );
+            // store video
+            newVideoFiles.push(file);
+          } catch (err: any) {
+            console.error("extractThumbnails error:", err);
+            toast.error(
+              `Error processing video ${file.name}: ${err?.message || "unknown error"}`
+            );
+            // still add video to allow upload; user might not need thumbs
+            newVideoFiles.push(file);
+          }
+        } else if (file.type.startsWith("image/")) {
+          newImageFiles.push(file);
+        } else {
+          toast.error(`${file.name} is unsupported file type`);
         }
-      } else if (file.type.startsWith("image/")) {
-        finalFiles.push(file);
-      } else {
-        toast.error(`${file.name} is unsupported file type`);
       }
-    }
 
-    const totalSize = [...finalFiles, ...finalVideoFiles].reduce((acc, f) => acc + f.size, 0);
-    if (totalSize > MAX_FILE_SIZE) {
-      toast.error("Total file size exceeds 10MB");
-      return;
-    }
+      // check total images+video thumbnails size (prevent sending too much)
+      const totalSize = [...newImageFiles, ...newVideoFiles].reduce(
+        (acc, f) => acc + f.size,
+        0
+      );
+      if (totalSize > MAX_FILE_SIZE) {
+        toast.error(
+          "Total file size exceeds 10MB. Please select smaller files or fewer files."
+        );
+        return;
+      }
 
-    setThumbnailMap(newThumbsMap);
-    setMediaPreviews(finalFiles);
-    setVideoFiles(finalVideoFiles);
-    setFieldValue("images", finalFiles);
+      setThumbnailMap(newThumbMap);
+      setThumbnailUrlsMap(newThumbnailUrlsMap);
+      setMediaPreviews(newImageFiles);
+      buildPreviewUrlsForFiles(
+        newImageFiles,
+        setMediaPreviewUrls,
+        mediaPreviewUrls
+      );
+      setVideoFiles(newVideoFiles);
+      buildPreviewUrlsForFiles(
+        newVideoFiles,
+        setVideoPreviewUrls,
+        videoPreviewUrls
+      );
+
+      // update formik field for images (images only — we push video thumbs at submit time)
+      setFieldValue("images", newImageFiles);
+    } catch (err: any) {
+      console.error("handleMediaChange error:", err);
+      toast.error(err?.message || "Error handling selected files.");
+    } finally {
+      // reset input value so selecting same file later triggers change
+      try {
+        (e.target as HTMLInputElement).value = "";
+      } catch {}
+    }
   };
-  
-  const removeMediaFile = (index: number, setFieldValue: (field: string, value: any) => void) => {
-    const updatedPreviews = [...mediaPreviews];
-    const fileToRemove = updatedPreviews[index];
-    
-    updatedPreviews.splice(index, 1);
-    setMediaPreviews(updatedPreviews);
-    setFieldValue("images", updatedPreviews);
+
+  const removeMediaFile = (
+    index: number,
+    setFieldValue: (field: string, value: any) => void
+  ) => {
+    try {
+      const updatedPreviews = [...mediaPreviews];
+      const updatedPreviewUrls = [...mediaPreviewUrls];
+
+      const fileToRemove = updatedPreviews[index];
+      const urlToRemove = updatedPreviewUrls[index];
+
+      if (!fileToRemove) return;
+
+      updatedPreviews.splice(index, 1);
+      updatedPreviewUrls.splice(index, 1);
+
+      // revoke URL
+      try {
+        if (urlToRemove) URL.revokeObjectURL(urlToRemove);
+      } catch (e) {}
+
+      setMediaPreviews(updatedPreviews);
+      setMediaPreviewUrls(updatedPreviewUrls);
+
+      setFieldValue("images", updatedPreviews);
+    } catch (err) {
+      console.error("removeMediaFile error:", err);
+      toast.error("Unable to remove image");
+    }
   };
 
   const removeVideoFile = (index: number) => {
-    const updatedVideos = [...videoFiles];
-    const videoToRemove = updatedVideos[index];
-    
-    // Remove its thumbnails from the map
-    const newThumbsMap = { ...thumbnailMap };
-    delete newThumbsMap[videoToRemove.name];
-    setThumbnailMap(newThumbsMap);
-    
-    // Also remove from selected thumbnails if present
-    const newSelectedThumbs = { ...selectedThumbnails };
-    delete newSelectedThumbs[videoToRemove.name];
-    setSelectedThumbnails(newSelectedThumbs);
-    
-    updatedVideos.splice(index, 1);
-    setVideoFiles(updatedVideos);
+    try {
+      const updatedVideos = [...videoFiles];
+      const updatedVideoUrls = [...videoPreviewUrls];
+
+      const videoToRemove = updatedVideos[index];
+      const urlToRemove = updatedVideoUrls[index];
+
+      if (!videoToRemove) return;
+
+      // Remove its thumbnails from the map
+      const newThumbsMap = { ...thumbnailMap };
+      const newThumbUrlsMap = { ...thumbnailUrlsMap };
+      delete newThumbsMap[videoToRemove.name];
+      const removedThumbUrls = newThumbUrlsMap[videoToRemove.name] || [];
+      delete newThumbUrlsMap[videoToRemove.name];
+
+      // revoke thumb urls
+      for (const u of removedThumbUrls) {
+        try {
+          URL.revokeObjectURL(u);
+        } catch {}
+      }
+
+      // Also remove from selected thumbnails if present
+      const newSelectedThumbs = { ...selectedThumbnails };
+      const newSelectedThumbUrls = { ...selectedThumbnailUrls };
+      delete newSelectedThumbs[videoToRemove.name];
+      const urlToDel = newSelectedThumbUrls[videoToRemove.name];
+      if (urlToDel) {
+        try {
+          URL.revokeObjectURL(urlToDel);
+        } catch {}
+      }
+      delete newSelectedThumbUrls[videoToRemove.name];
+
+      updatedVideos.splice(index, 1);
+      updatedVideoUrls.splice(index, 1);
+
+      // revoke video preview url
+      try {
+        if (urlToRemove) URL.revokeObjectURL(urlToRemove);
+      } catch (e) {}
+
+      setVideoFiles(updatedVideos);
+      setVideoPreviewUrls(updatedVideoUrls);
+      setThumbnailMap(newThumbsMap);
+      setThumbnailUrlsMap(newThumbUrlsMap);
+      setSelectedThumbnails(newSelectedThumbs);
+      setSelectedThumbnailUrls(newSelectedThumbUrls);
+    } catch (err) {
+      console.error("removeVideoFile error:", err);
+      toast.error("Unable to remove video");
+    }
   };
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
     description: Yup.string()
       .min(50, "Description must be at least 50 characters")
-      .max(500, "Description cannot exceed 1500 characters")
+      .max(1500, "Description cannot exceed 1500 characters")
       .required("Description is required"),
     price: Yup.number()
       .typeError("Price must be a number")
       .required("Price is required")
-      .min(50000, "Price must be at least ₦80,000"),
+      .min(50000, "Price must be at least ₦50,000"),
     location: Yup.string().required("Location is required"),
     neighborhood_overview: Yup.string()
-      .min(50, "overview must be at least 50 characters")
-      .max(1500, "Description cannot exceed 1500 characters")
+      .min(50, "Overview must be at least 50 characters")
+      .max(1500, "Overview cannot exceed 1500 characters")
       .required("Neighborhood overview is required"),
     type: Yup.string().required("Property type is required"),
     bedrooms: Yup.number()
@@ -226,7 +470,6 @@ const UploadProperty = () => {
     available: Yup.boolean().required("Availability is required"),
   });
 
-  // We keep a reference to last form values for confirm
   const [formValuesToSubmit, setFormValuesToSubmit] = useState<
     null | (ApartmentType & { images: File[]; amenities: string[] })
   >(null);
@@ -234,77 +477,103 @@ const UploadProperty = () => {
     null
   );
 
-  // Instead of submitting immediately on form submit, open prompt first
   const handleSubmit = (values: any, helpers: FormikHelpers<any>) => {
-    // We transform amenities from select multiple: string[] but field is string[] - safe
-    // Also convert available from string ("true"/"false") to boolean if needed
-    let amenitiesArray: string[] = values.amenities;
-    if (!Array.isArray(amenitiesArray)) {
-      // fallback parse comma separated string if needed
-      amenitiesArray = (values.amenities || "").split(",").map((a) => a.trim());
-    }
-    const availableBoolean =
-      typeof values.available === "string"
-        ? values.available === "true"
-        : !!values.available;
+    try {
+      // transform amenities
+      let amenitiesArray: string[] = values.amenities || [];
+      if (!Array.isArray(amenitiesArray)) {
+        amenitiesArray = (values.amenities || "")
+          .split(",")
+          .map((a) => a.trim())
+          .filter(Boolean);
+      }
+      const availableBoolean =
+        typeof values.available === "string"
+          ? values.available === "true"
+          : !!values.available;
 
-    // Save values and helpers in state for confirm modal
-    setFormValuesToSubmit({
-      ...values,
-      amenities: amenitiesArray,
-      available: availableBoolean,
-    });
-    setFormHelpers(helpers);
-    setPromptOpen(true);
+      setFormValuesToSubmit({
+        ...values,
+        amenities: amenitiesArray,
+        available: availableBoolean,
+      });
+      setFormHelpers(helpers);
+      setPromptOpen(true);
+    } catch (err: any) {
+      console.error("handleSubmit error:", err);
+      toast.error("Failed to prepare submission.");
+      helpers.setStatus({
+        error: err?.message || "Failed to prepare submission.",
+      });
+    }
   };
 
   const handleConfirm = async () => {
     if (!formValuesToSubmit || !formHelpers) return;
 
     formHelpers.setSubmitting(true);
+    formHelpers.setStatus(undefined);
     setPromptOpen(false);
 
     try {
-      // Prepare files for upload
-      let filesToUpload: File[] = [...mediaPreviews]; // Start with image files
-      
-      // Add video thumbnails to the images array
-      for (const videoFile of videoFiles) {
-        const videoThumbs = thumbnailMap[videoFile.name] || [];
-        const selectedThumb = selectedThumbnails[videoFile.name];
-        
-        if (selectedThumb) {
-          // Add the selected thumbnail
-          filesToUpload.push(selectedThumb);
-        } else if (videoThumbs.length > 0) {
-          // Use first thumbnail if none selected
-          filesToUpload.push(videoThumbs[0]);
-        }
+      // validate env / bucket id
+      const bucketId = process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID;
+      if (!bucketId) {
+        throw new Error(
+          "Missing Appwrite bucket ID. Contact the administrator."
+        );
       }
 
-      // Upload image files (including video thumbnails) to Appwrite
+      // Prepare files to upload: images + selected video thumbs (or first thumb)
+      let filesToUpload: File[] = [...mediaPreviews];
+
+      for (const videoFile of videoFiles) {
+        const thumbs = thumbnailMap[videoFile.name] || [];
+        const selected = selectedThumbnails[videoFile.name];
+
+        if (selected) filesToUpload.push(selected);
+        else if (thumbs.length > 0) filesToUpload.push(thumbs[0]);
+        // else: no thumb available — that's OK, proceed without adding one
+      }
+
+      // guard: must have at least 3 images (images + thumbs)
+      if (filesToUpload.length < 3) {
+        throw new Error(
+          "At least 3 images (or thumbnails) are required before uploading."
+        );
+      }
+
+      // Upload image files (including thumbs)
       const imageUrls = await uploadApartmentImagesToAppwrite(
         filesToUpload,
-        process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID || ""
+        bucketId
       );
 
-      if (imageUrls.length === 0) {
-        throw new Error("No media files were uploaded successfully");
+      if (!imageUrls || !Array.isArray(imageUrls) || imageUrls.length === 0) {
+        throw new Error(
+          "No media files were uploaded successfully. Please try again."
+        );
       }
-      
-      // Upload video files separately if they exist
+
+      // upload videos separately (if any)
       let videoUrls: string[] = [];
       if (videoFiles.length > 0) {
-        videoUrls = await uploadApartmentImagesToAppwrite(
+        const uploadedVideoUrls = await uploadApartmentImagesToAppwrite(
           videoFiles,
-          process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID || ""
+          bucketId
         );
+        if (uploadedVideoUrls && Array.isArray(uploadedVideoUrls)) {
+          videoUrls = uploadedVideoUrls;
+        } else {
+          // video upload failed — not fatal, but notify
+          toast.error("Video upload failed. Images were uploaded.");
+        }
       }
 
       const payload: ApartmentType = {
         ...formValuesToSubmit,
         images: imageUrls,
-        ...(videoUrls.length > 0 && { video: videoUrls[0] }), // Add video property only if video exists
+        ...(videoUrls.length > 0 && { video: videoUrls[0] }),
         agentId: user?.id ?? "",
         approved: false,
         views: 0,
@@ -313,22 +582,101 @@ const UploadProperty = () => {
 
       const response = await listApartment(payload);
 
-      toast.success(response.success || "Property uploaded successfully", {
-        id: "property-upload-success",
-      });
-      if (user?.userType === "agent") addListedProperty(response.id);
+      if (!response) {
+        throw new Error(
+          "Server did not return a response. Property may not have been created."
+        );
+      }
 
+      // validate response fields before using
+      const successMessage =
+        (response && (response.success as string | boolean)) ||
+        "Property uploaded successfully";
+      const redirectUrl = response.url;
+      const newId = response.id;
+
+      toast.success(
+        typeof successMessage === "string"
+          ? successMessage
+          : "Property uploaded successfully",
+        {
+          id: "property-upload-success",
+        }
+      );
+
+      if (user?.userType === "agent" && newId) {
+        try {
+          addListedProperty(newId);
+        } catch (e) {
+          console.error("addListedProperty failed:", e);
+        }
+      }
+
+      // reset ui & form
       formHelpers.resetForm();
       setMediaPreviews([]);
+      // revoke previews
+      for (const u of mediaPreviewUrls) {
+        try {
+          URL.revokeObjectURL(u);
+        } catch {}
+      }
+      setMediaPreviewUrls([]);
+
       setVideoFiles([]);
+      for (const u of videoPreviewUrls) {
+        try {
+          URL.revokeObjectURL(u);
+        } catch {}
+      }
+      setVideoPreviewUrls([]);
+
       setThumbnailMap({});
+      // revoke thumbnail urls
+      Object.values(thumbnailUrlsMap).forEach((arr) => {
+        arr.forEach((u) => {
+          try {
+            URL.revokeObjectURL(u);
+          } catch {}
+        });
+      });
+      setThumbnailUrlsMap({});
       setSelectedThumbnails({});
-      router.push(response.url);
+      Object.values(selectedThumbnailUrls).forEach((u) => {
+        try {
+          URL.revokeObjectURL(u);
+        } catch {}
+      });
+      setSelectedThumbnailUrls({});
+
+      // push to url if valid
+      if (redirectUrl && typeof redirectUrl === "string") {
+        try {
+          router.push(redirectUrl);
+        } catch (e) {
+          console.error("router.push failed:", e);
+          toast.success(
+            "Property uploaded — but navigation failed. You can view it in your listings."
+          );
+        }
+      } else {
+        // no url returned — still success
+        toast.success("Property uploaded. No redirect URL returned by server.");
+      }
     } catch (err: any) {
+      console.error("handleConfirm error:", err);
       toast.error(err?.message || "Upload failed");
-      formHelpers.setStatus({ error: err?.message || "Upload failed" });
+      try {
+        formHelpers.setStatus({ error: err?.message || "Upload failed" });
+      } catch (e) {
+        // ignore
+      }
     } finally {
-      formHelpers.setSubmitting(false);
+      try {
+        formHelpers.setSubmitting(false);
+      } catch (e) {
+        // ignore
+      }
       setFormValuesToSubmit(null);
       setFormHelpers(null);
     }
@@ -366,19 +714,41 @@ const UploadProperty = () => {
                       multiple
                       onChange={(e) => handleMediaChange(e, setFieldValue)}
                     />
-                    <Image
-                      priority
-                      src={
-                        mediaPreviews[0]
-                          ? URL.createObjectURL(mediaPreviews[0])
-                          : "/assets/upload_image.jpg"
-                      }
-                      width={800}
-                      height={800}
-                      alt="apartment image"
+                    {/* Main preview: show first image if present, otherwise fallback */}
+                    <div
                       className="upload-image-preview"
-                      style={{ width: "auto", height: "auto", objectFit: "contain" }}
-                    />
+                      style={{
+                        width: 240,
+                        height: 160,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        border: "1px dashed #ddd",
+                      }}>
+                      {mediaPreviewUrls[0] ? (
+                        // plain img for blob url preview
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={mediaPreviewUrls[0]}
+                          alt="apartment preview"
+                          style={{
+                            maxWidth: "100%",
+                            maxHeight: "100%",
+                            objectFit: "contain",
+                          }}
+                        />
+                      ) : (
+                        <img
+                          src="/assets/upload_image.jpg"
+                          alt="placeholder"
+                          style={{
+                            maxWidth: "100%",
+                            maxHeight: "100%",
+                            objectFit: "contain",
+                          }}
+                        />
+                      )}
+                    </div>
                   </label>
                 </div>
 
@@ -388,22 +758,32 @@ const UploadProperty = () => {
                     <h3>Selected Images</h3>
                     <div className="media-previews-grid">
                       {mediaPreviews.map((file, index) => (
-                        <div key={`${file.name}-${index}`} className="media-preview-item">
-                          <Image
-                            src={URL.createObjectURL(file)}
+                        <div
+                          key={`${file.name}-${index}`}
+                          className="media-preview-item">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={mediaPreviewUrls[index]}
                             alt={`Preview ${index}`}
                             width={150}
                             height={150}
                             className="preview-thumbnail"
-                            style={{ width: "auto", height: "auto", objectFit: "cover" }}
+                            style={{
+                              width: "150px",
+                              height: "150px",
+                              objectFit: "cover",
+                            }}
                           />
                           <div className="media-preview-info">
-                            <span className="media-name">{file.name.substring(0, 15)}...</span>
-                            <button 
-                              type="button" 
+                            <span className="media-name">
+                              {file.name.substring(0, 15)}...
+                            </span>
+                            <button
+                              type="button"
                               className="remove-media-btn"
-                              onClick={() => removeMediaFile(index, setFieldValue)}
-                            >
+                              onClick={() =>
+                                removeMediaFile(index, setFieldValue)
+                              }>
                               ✕
                             </button>
                           </div>
@@ -419,23 +799,29 @@ const UploadProperty = () => {
                     <h3>Selected Videos</h3>
                     <div className="media-previews-grid">
                       {videoFiles.map((file, index) => (
-                        <div key={`${file.name}-${index}`} className="media-preview-item">
+                        <div
+                          key={`${file.name}-${index}`}
+                          className="media-preview-item">
                           <div className="video-preview">
-                            <video 
-                              src={URL.createObjectURL(file)} 
+                            {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+                            <video
+                              src={videoPreviewUrls[index]}
                               className="preview-thumbnail"
                               width={150}
                               height={150}
+                              controls={false}
+                              muted
                             />
                             <div className="video-icon">🎬</div>
                           </div>
                           <div className="media-preview-info">
-                            <span className="media-name">{file.name.substring(0, 15)}...</span>
-                            <button 
-                              type="button" 
+                            <span className="media-name">
+                              {file.name.substring(0, 15)}...
+                            </span>
+                            <button
+                              type="button"
                               className="remove-media-btn"
-                              onClick={() => removeVideoFile(index)}
-                            >
+                              onClick={() => removeVideoFile(index)}>
                               ✕
                             </button>
                           </div>
@@ -449,31 +835,51 @@ const UploadProperty = () => {
                 {Object.entries(thumbnailMap).map(([videoName, thumbs]) => (
                   <div key={videoName} className="thumbnail-preview">
                     <span>Select a thumbnail for: {videoName}</span>
-                    <div>
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: 8,
+                        flexWrap: "wrap",
+                        marginTop: 8,
+                      }}>
                       {thumbs.map((thumb, idx) => {
-                        const objectUrl = URL.createObjectURL(thumb);
+                        const url = thumbnailUrlsMap[videoName]?.[idx];
                         return (
-                          <Image
-                            width={1000}
-                            height={1000}
+                          <div
                             key={thumb.name + idx}
-                            src={objectUrl}
-                            alt={`thumb-${idx}`}
-                            priority
-                            className={
-                              selectedThumbnails[videoName]?.name === thumb.name
-                                ? "active"
-                                : ""
-                            }
-                            style={{ width: "auto", height: "auto", objectFit: "cover" }}
-                            onClick={() =>
-                              setSelectedThumbnails((prev) => ({
-                                ...prev,
-                                [videoName]: thumb,
-                              }))
-                            }
-                            onLoad={() => URL.revokeObjectURL(objectUrl)}
-                          />
+                            style={{
+                              cursor: "pointer",
+                              border:
+                                selectedThumbnails[videoName]?.name ===
+                                thumb.name
+                                  ? "2px solid #2b6cb0"
+                                  : "1px solid #ddd",
+                              borderRadius: 4,
+                            }}>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={url}
+                              alt={`thumb-${idx}`}
+                              width={120}
+                              height={80}
+                              style={{
+                                width: 120,
+                                height: 80,
+                                objectFit: "cover",
+                                display: "block",
+                              }}
+                              onClick={() => {
+                                setSelectedThumbnails((prev) => ({
+                                  ...prev,
+                                  [videoName]: thumb,
+                                }));
+                                setSelectedThumbnailUrls((prev) => ({
+                                  ...prev,
+                                  [videoName]: url || "",
+                                }));
+                              }}
+                            />
+                          </div>
                         );
                       })}
                     </div>
@@ -489,9 +895,9 @@ const UploadProperty = () => {
                     className="error"
                   />
                 </div>
+
                 <div className="form-group">
                   <label htmlFor="description">Description</label>
-
                   <ReactQuill
                     theme="snow"
                     id="description"
@@ -499,7 +905,7 @@ const UploadProperty = () => {
                     value={values.description}
                     onChange={(value) => setFieldValue("description", value)}
                     placeholder="Enter the property description..."
-                    modules={{ toolbar: false }} // hides toolbar completely
+                    modules={{ toolbar: false }}
                   />
                   <ErrorMessage
                     name="description"
@@ -517,6 +923,7 @@ const UploadProperty = () => {
                     className="error"
                   />
                 </div>
+
                 <div className="form-group">
                   <label htmlFor="location">Location</label>
                   <Field as="select" id="location" name="location">
@@ -533,6 +940,7 @@ const UploadProperty = () => {
                     className="error"
                   />
                 </div>
+
                 <div className="form-group">
                   <label htmlFor="neighborhood_overview">
                     Neighborhood Overview
@@ -548,6 +956,7 @@ const UploadProperty = () => {
                     className="error"
                   />
                 </div>
+
                 <div className="form-group">
                   <label htmlFor="type">Property Type</label>
                   <Field as="select" id="type" name="type">
@@ -560,6 +969,7 @@ const UploadProperty = () => {
                   </Field>
                   <ErrorMessage name="type" component="div" className="error" />
                 </div>
+
                 <div className="form-group">
                   <label htmlFor="bedrooms">Bedrooms</label>
                   <Field type="number" id="bedrooms" name="bedrooms" />
@@ -569,6 +979,7 @@ const UploadProperty = () => {
                     className="error"
                   />
                 </div>
+
                 <div className="form-group">
                   <label htmlFor="bathrooms">Bathrooms</label>
                   <Field type="number" id="bathrooms" name="bathrooms" />
@@ -578,11 +989,13 @@ const UploadProperty = () => {
                     className="error"
                   />
                 </div>
+
                 <div className="form-group">
                   <label htmlFor="area">Area (sqm)</label>
                   <Field type="number" id="area" name="area" />
                   <ErrorMessage name="area" component="div" className="error" />
                 </div>
+
                 <div className="form-group">
                   <label>Amenities</label>
                   <Field
@@ -603,6 +1016,7 @@ const UploadProperty = () => {
                     className="error"
                   />
                 </div>
+
                 <div className="form-group">
                   <label htmlFor="available">Available</label>
                   <Field as="select" id="available" name="available">
