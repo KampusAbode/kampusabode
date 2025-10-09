@@ -79,8 +79,9 @@
           padding: var(--spacing-h);
           background: var(--light-gray);
           border-radius: var(--border-radius);
-          overflow: scroll;
+          overflow-x: scroll;
 
+          
 
           img{
             width: 70px;
@@ -97,7 +98,7 @@
         }
       }
 
-      .confirm-datails {
+      .confirm-details {
         margin-block: var(--spacing-2x);
         max-width: 600px;
         margin: 0 auto;
