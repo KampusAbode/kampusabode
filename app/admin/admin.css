@@ -42,7 +42,9 @@
 }
 .admin-dashboard .container .dashboard-content .user-management ul li > div:first-child .details span {
   display: block;
-  user-select: auto;
+  -webkit-user-select: auto;
+     -moz-user-select: auto;
+          user-select: auto;
 }
 .admin-dashboard .container .dashboard-content .user-management ul li .actions {
   display: grid;
