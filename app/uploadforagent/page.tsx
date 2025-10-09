@@ -23,6 +23,7 @@ const FRAME_COUNT = 6;
 
 const UploadForAgent = () => {
   const [mediaPreviews, setMediaPreviews] = useState<File[]>([]);
+  const [videoFiles, setVideoFiles] = useState<File[]>([]);
   const [promptOpen, setPromptOpen] = useState(false);
   const [thumbnailMap, setThumbnailMap] = useState<Record<string, File[]>>({});
   const [selectedThumbnails, setSelectedThumbnails] = useState<
@@ -162,8 +163,9 @@ const UploadForAgent = () => {
     setFieldValue: (field: string, value: any) => void
   ) => {
     const files = e.target.files ? Array.from(e.target.files) : [];
-    let finalFiles: File[] = [];
-    const thumbsMap: Record<string, File[]> = {};
+    let finalFiles: File[] = [...mediaPreviews]; // Keep existing image files
+    let finalVideoFiles: File[] = [...videoFiles]; // Keep existing video files
+    const thumbsMap: Record<string, File[]> = { ...thumbnailMap };
 
     for (const file of files) {
       if (file.type.startsWith("video/")) {
@@ -178,7 +180,7 @@ const UploadForAgent = () => {
             continue;
           }
           thumbsMap[file.name] = thumbs;
-          finalFiles.push(...thumbs);
+          finalVideoFiles.push(file);
         } catch (err) {
           toast.error(`Error processing video ${file.name}`);
           console.error(err);
@@ -190,7 +192,7 @@ const UploadForAgent = () => {
       }
     }
 
-    const totalSize = finalFiles.reduce((acc, f) => acc + f.size, 0);
+    const totalSize = [...finalFiles, ...finalVideoFiles].reduce((acc, f) => acc + f.size, 0);
     if (totalSize > MAX_FILE_SIZE) {
       toast.error("Total file size exceeds 8MB");
       return;
@@ -198,6 +200,7 @@ const UploadForAgent = () => {
 
     setThumbnailMap(thumbsMap);
     setMediaPreviews(finalFiles);
+    setVideoFiles(finalVideoFiles);
     setFieldValue("images", finalFiles);
   };
 
@@ -262,25 +265,47 @@ const UploadForAgent = () => {
     setPromptOpen(false);
 
     try {
-      // Prepend selected thumbnails so they appear first
-      let sortedImages = [...mediaPreviews];
-      Object.entries(selectedThumbnails).forEach(([videoName, thumb]) => {
-        sortedImages = sortedImages.filter(
-          (f) => f.name !== thumb.name || f !== thumb
-        );
-        sortedImages.unshift(thumb);
-      });
+      // Prepare files for upload
+      let filesToUpload: File[] = [...mediaPreviews]; // Start with image files
+      
+      // Add video thumbnails to the images array
+      for (const videoFile of videoFiles) {
+        const videoThumbs = thumbnailMap[videoFile.name] || [];
+        const selectedThumb = selectedThumbnails[videoFile.name];
+        
+        if (selectedThumb) {
+          // Add the selected thumbnail
+          filesToUpload.push(selectedThumb);
+        } else if (videoThumbs.length > 0) {
+          // Use first thumbnail if none selected
+          filesToUpload.push(videoThumbs[0]);
+        }
+      }
 
-      // Upload images
+      // Upload image files (including video thumbnails) to Appwrite
       const imageUrls = await uploadApartmentImagesToAppwrite(
-        sortedImages,
+        filesToUpload,
         process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID || ""
       );
+
+      if (imageUrls.length === 0) {
+        throw new Error("No media files were uploaded successfully");
+      }
+      
+      // Upload video files separately if they exist
+      let videoUrls: string[] = [];
+      if (videoFiles.length > 0) {
+        videoUrls = await uploadApartmentImagesToAppwrite(
+          videoFiles,
+          process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID || ""
+        );
+      }
 
       // Use agentId from URL instead of user.id
       const payload: ApartmentType = {
         ...formValuesToSubmit,
         images: imageUrls,
+        ...(videoUrls.length > 0 && { video: videoUrls[0] }), // Add video property only if video exists
         agentId: agentId,
         approved: false,
       };
@@ -290,6 +315,7 @@ const UploadForAgent = () => {
       toast.success(response.success || "Property uploaded successfully");
       formHelpers.resetForm();
       setMediaPreviews([]);
+      setVideoFiles([]);
       setThumbnailMap({});
       setSelectedThumbnails({});
       router.push(response.url);

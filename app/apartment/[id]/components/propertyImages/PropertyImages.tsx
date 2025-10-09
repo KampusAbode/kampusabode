@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import BookmarkButton from "../../../../components/features/bookmarkbutton/BookmarkButton";
 import ShareButton from "../../../../components/features/sharebutton/ShareButton";
 import Image from "next/image";
 import { ApartmentType } from "../../../../fetch/types";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight, FaPlay, FaPause } from "react-icons/fa";
 import { useSwipeable } from "react-swipeable";
 
 function PropertyImages({
@@ -13,22 +13,56 @@ function PropertyImages({
 }: {
   propertyDetails: ApartmentType;
 }) {
-  const [imageCount, setImageCount] = useState(0);
-  const maxImageCount: number = propertyDetails?.images?.length;
+  const [mediaCount, setMediaCount] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  
+  // Combine images and video (if exists) into a single array, with video last
+  const allMedia = React.useMemo(() => {
+    const media = [...(propertyDetails?.images || [])];
+    if (propertyDetails?.video) {
+      media.push(propertyDetails.video);
+    }
+    return media;
+  }, [propertyDetails?.images, propertyDetails?.video]);
+  
+  const maxMediaCount: number = allMedia.length;
 
-  const incrementImageCount = () => {
-    setImageCount((prev) => (prev < maxImageCount - 1 ? prev + 1 : 0));
+  const incrementMediaCount = () => {
+    setMediaCount((prev) => (prev < maxMediaCount - 1 ? prev + 1 : 0));
+    setIsPlaying(false);
   };
 
-  const decrementImageCount = () => {
-    setImageCount((prev) => (prev > 0 ? prev - 1 : maxImageCount - 1));
+  const decrementMediaCount = () => {
+    setMediaCount((prev) => (prev > 0 ? prev - 1 : maxMediaCount - 1));
+    setIsPlaying(false);
   };
 
   const handlers = useSwipeable({
-    onSwipedLeft: incrementImageCount,
-    onSwipedRight: decrementImageCount,
+    onSwipedLeft: incrementMediaCount,
+    onSwipedRight: decrementMediaCount,
     trackMouse: true,
   });
+
+  const togglePlayPause = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  // Check if current media is a video
+  const isVideo = (url: string) => {
+    return url.includes('.mp4') || url.includes('.webm') || url.includes('.ogg') || 
+           url.includes('video') || url.endsWith('.mov');
+  };
+
+  const currentMedia = allMedia[mediaCount];
+  const currentIsVideo = isVideo(currentMedia);
 
   return (
     <div className="property-images">
@@ -39,39 +73,73 @@ function PropertyImages({
             <BookmarkButton propertyId={propertyDetails?.id} />
           </div>
 
-          <Image
-            priority
-            src={propertyDetails?.images[imageCount]}
-            width={5000}
-            height={5000}
-            alt={`${propertyDetails?.title} image`}
-          />
+          {currentIsVideo ? (
+            <div className="video-container">
+              <video
+                ref={videoRef}
+                src={currentMedia}
+                controls
+                width="100%"
+                height="100%"
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
+              />
+              <div className="video-controls" onClick={togglePlayPause}>
+                {!isPlaying && <FaPlay className="play-icon" />}
+              </div>
+            </div>
+          ) : (
+            <Image
+              priority
+              src={currentMedia}
+              width={5000}
+              height={5000}
+              alt={`${propertyDetails?.title} image`}
+            />
+          )}
 
           <div className="image-pagination">
-            <div className="left" onClick={decrementImageCount}>
+            <div className="left" onClick={decrementMediaCount}>
               <FaChevronLeft />
             </div>
-            <div className="right" onClick={incrementImageCount}>
+            <div className="right" onClick={incrementMediaCount}>
               <FaChevronRight />
             </div>
           </div>
 
           <div className="image-counter">
-            <span>{imageCount + 1 + "/" + maxImageCount}</span>
+            <span>{mediaCount + 1 + "/" + maxMediaCount}</span>
           </div>
         </div>
 
         <div className="control-image">
-          {propertyDetails?.images?.map((img: string, index: number) => (
-            <Image
-              key={index + img}
-              src={img}
-              width={400}
-              height={400}
-              alt="property-details thumbnail"
-              onClick={() => setImageCount(index)}
-              className={imageCount === index ? "active" : ""}
-            />
+          {allMedia.map((media: string, index: number) => (
+            <div 
+              key={index + media} 
+              onClick={() => setMediaCount(index)}
+              className={`thumbnail-container ${mediaCount === index ? "active" : ""}`}
+            >
+              {isVideo(media) ? (
+                <div className="video-thumbnail">
+                  <video
+                    src={media}
+                    width={400}
+                    height={400}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    muted
+                    playsInline
+                  />
+                  <div className="video-icon"><FaPlay /></div>
+                </div>
+              ) : (
+                <Image
+                  src={media}
+                  width={400}
+                  height={400}
+                  alt="property-details thumbnail"
+                />
+              )}
+            </div>
           ))}
         </div>
       </div>

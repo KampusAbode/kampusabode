@@ -11,13 +11,52 @@
   padding-bottom: var(--spacing);
   position: relative;
 }
-.properties-details-page .prop-image-details .property-images .container .display-image img {
+.properties-details-page .prop-image-details .property-images .container .display-image img,
+.properties-details-page .prop-image-details .property-images .container .display-image .video-container {
   width: 100%;
   height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
   border-radius: var(--border-radius);
   transition: var(--transition);
+}
+
+.properties-details-page .prop-image-details .property-images .container .display-image img {
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.properties-details-page .prop-image-details .property-images .container .display-image .video-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.properties-details-page .prop-image-details .property-images .container .display-image .video-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: #000;
+}
+
+.properties-details-page .prop-image-details .property-images .container .display-image .video-controls {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.properties-details-page .prop-image-details .property-images .container .display-image .video-controls .play-icon {
+  font-size: 4rem;
+  color: white;
+  opacity: 0.7;
+  filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.5));
 }
 .properties-details-page .prop-image-details .property-images .container .display-image .image-pagination .left,
 .properties-details-page .prop-image-details .property-images .container .display-image .image-pagination .right {
@@ -78,19 +117,49 @@
 .properties-details-page .prop-image-details .property-images .container .control-image::-webkit-scrollbar {
   display: none;
 }
-.properties-details-page .prop-image-details .property-images .container .control-image img {
+.properties-details-page .prop-image-details .property-images .container .control-image .thumbnail-container {
   width: 60px;
   height: 60px;
   min-width: 60px;
   min-height: 60px;
   border-radius: var(--border-radius);
-  -o-object-fit: cover;
-     object-fit: cover;
   cursor: pointer;
   opacity: 0.3;
-  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
 }
-.properties-details-page .prop-image-details .property-images .container .control-image img.active {
+
+.properties-details-page .prop-image-details .property-images .container .control-image img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.properties-details-page .prop-image-details .property-images .container .control-image .video-thumbnail {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.properties-details-page .prop-image-details .property-images .container .control-image .video-thumbnail .video-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 1.2rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+  /* transition: var(--transition); */
+/* } */
+.properties-details-page .prop-image-details .property-images .container .control-image .thumbnail-container.active {
   opacity: 1;
   box-shadow: var(--shadow);
 }
