@@ -94,6 +94,8 @@
               max-height: 100px;
               object-fit: cover;
               border-radius: var(--border-radius);
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
             }
 
             .video-preview {
@@ -133,6 +135,10 @@
           &>div{
             border-radius: var(--border-radius);
             cursor: pointer;
+            overflow: hidden;
+            &.active {
+              border: 1px solid green;
+            }
           }
 
           img {
@@ -142,12 +148,8 @@
             max-height: 100px;
             object-fit: cover;
             border: var(--border);
-            border-radius: var(--border-radius);
             cursor: pointer;
 
-            &.active {
-              border: 1px solid green;
-            }
           }
         }
       }

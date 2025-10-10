@@ -841,11 +841,11 @@ const UploadProperty: React.FC = () => {
                         return (
                           <div
                             key={thumb.name + idx}
-                            className='${selectedThumbnails[videoName]?.name ===
+                            className={selectedThumbnails[videoName]?.name ===
                                 thumb.name
                                   ? "active"
                                   : ""
-                            }'>
+                            }>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                               src={url}

@@ -91,6 +91,8 @@
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: var(--border-radius);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 .upload-property .container form .media-previews-container .media-previews-grid > div .video-preview {
   position: relative;
@@ -124,6 +126,10 @@
 .upload-property .container form .thumbnail-preview > div > div {
   border-radius: var(--border-radius);
   cursor: pointer;
+  overflow: hidden;
+}
+.upload-property .container form .thumbnail-preview > div > div.active {
+  border: 1px solid green;
 }
 .upload-property .container form .thumbnail-preview > div img {
   width: 100px;
@@ -133,11 +139,7 @@
   -o-object-fit: cover;
      object-fit: cover;
   border: var(--border);
-  border-radius: var(--border-radius);
   cursor: pointer;
-}
-.upload-property .container form .thumbnail-preview > div img.active {
-  border: 1px solid green;
 }
 .upload-property .container form .confirm-details {
   margin-block: var(--spacing-2x);
