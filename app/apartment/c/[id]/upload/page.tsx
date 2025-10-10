@@ -835,27 +835,17 @@ const UploadProperty: React.FC = () => {
                 {Object.entries(thumbnailMap).map(([videoName, thumbs]) => (
                   <div key={videoName} className="thumbnail-preview">
                     <span>Select a thumbnail for: {videoName}</span>
-                    <div
-                      style={{
-                        display: "flex",
-                        gap: 8,
-                        flexWrap: "nowrap",
-                        marginTop: 8,
-                      }}>
+                    <div>
                       {thumbs.map((thumb, idx) => {
                         const url = thumbnailUrlsMap[videoName]?.[idx];
                         return (
                           <div
                             key={thumb.name + idx}
-                            style={{
-                              cursor: "pointer",
-                              border:
-                                selectedThumbnails[videoName]?.name ===
+                            className='${selectedThumbnails[videoName]?.name ===
                                 thumb.name
-                                  ? "2px solid #00ff00"
-                                  : "1px solid #ddd",
-                              borderRadius: 4,
-                            }}>
+                                  ? "active"
+                                  : ""
+                            }'>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                               src={url}
