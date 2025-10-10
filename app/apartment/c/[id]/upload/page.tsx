@@ -755,7 +755,7 @@ const UploadProperty: React.FC = () => {
                 {/* Image Previews */}
                 {mediaPreviews.length > 0 && (
                   <div className="media-previews-container">
-                    <h3>Selected Images</h3>
+                    <h6>Selected Images</h6>
                     <div className="media-previews-grid">
                       {mediaPreviews.map((file, index) => (
                         <div
@@ -796,7 +796,7 @@ const UploadProperty: React.FC = () => {
                 {/* Video Previews */}
                 {videoFiles.length > 0 && (
                   <div className="media-previews-container">
-                    <h3>Selected Videos</h3>
+                    <h6>Selected Videos</h6>
                     <div className="media-previews-grid">
                       {videoFiles.map((file, index) => (
                         <div
@@ -839,7 +839,7 @@ const UploadProperty: React.FC = () => {
                       style={{
                         display: "flex",
                         gap: 8,
-                        flexWrap: "wrap",
+                        flexWrap: "nowrap",
                         marginTop: 8,
                       }}>
                       {thumbs.map((thumb, idx) => {
@@ -852,7 +852,7 @@ const UploadProperty: React.FC = () => {
                               border:
                                 selectedThumbnails[videoName]?.name ===
                                 thumb.name
-                                  ? "2px solid #2b6cb0"
+                                  ? "2px solid #00ff00"
                                   : "1px solid #ddd",
                               borderRadius: 4,
                             }}>
