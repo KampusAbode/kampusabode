@@ -163,7 +163,7 @@
 .dashboard .container .agent-dashboard .listed-properties .property-list ul {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing-2x);
+  gap: var(--spacing);
 }
 .dashboard .container .student-dashboard .listed-properties .property-list ul li,
 .dashboard .container .agent-dashboard .listed-properties .property-list ul li {
