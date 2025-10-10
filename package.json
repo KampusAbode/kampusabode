@@ -33,6 +33,7 @@
     "firebase-admin": "^12.6.0",
     "formik": "^2.4.6",
     "framer-motion": "^12.23.6",
+    "git-filter-repo": "^0.0.30",
     "gsap": "^3.13.0",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",

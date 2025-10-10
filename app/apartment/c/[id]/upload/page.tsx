@@ -718,7 +718,7 @@ const UploadProperty: React.FC = () => {
                     <div
                       className="upload-image-preview"
                       style={{
-                        width: 240,
+                        width: 100%,
                         height: 160,
                         display: "flex",
                         alignItems: "center",
