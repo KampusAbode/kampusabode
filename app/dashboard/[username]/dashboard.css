@@ -176,7 +176,8 @@
 .dashboard .container .student-dashboard .listed-properties .property-list ul li a,
 .dashboard .container .agent-dashboard .listed-properties .property-list ul li a {
   display: grid;
-  grid-template-columns: 1.3fr 2fr;
+  grid-template-columns: 100px auto;
+  gap: var(--spacing);
 }
 .dashboard .container .student-dashboard .listed-properties .property-list ul li a img,
 .dashboard .container .agent-dashboard .listed-properties .property-list ul li a img {
