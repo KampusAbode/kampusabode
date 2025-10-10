@@ -316,8 +316,8 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: -webkit-box;
-                line-clamp: 2;
-                -webkit-line-clamp: 2;
+                line-clamp: 1;
+                -webkit-line-clamp: 1;
                 -webkit-box-orient: vertical;
               }
 
@@ -363,12 +363,17 @@
       background-color: var(--light-gray);
       padding: var(--spacing-2x);
       border-radius: var(--border-radius);
+
+      span{
+        line-height: 1.2;
+      }
     }
   }
 }
 .prop-cta {
   margin-block: var(--spacing-2x);
   .container {
+    width: 75%;
     display: flex;
     gap: var(--spacing);
 
@@ -474,6 +479,7 @@
     margin: 0;
 
     .container {
+      width: 95%;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: var(--spacing);

@@ -167,7 +167,7 @@
           ul {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: var(--spacing-2x);
+            gap: var(--spacing);
             li {
               display: grid;
               grid-template-columns: auto 2.5rem;
@@ -176,7 +176,8 @@
               position: relative;
               a {
                 display: grid;
-                grid-template-columns: 1.3fr 2fr;
+                grid-template-columns: 100px auto;
+                gap: var(--spacing);
 
                 img {
                   width: 100px;
