@@ -15,7 +15,6 @@ import { ApartmentType } from "../../../../fetch/types";
 import data from "../../../../fetch/contents";
 import Prompt from "../../../../components/modals/prompt/Prompt";
 import "./upload.css";
-import { validateWithYupAndToast } from "../../../../utils/validateWithYupAndToast";
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB total images+thumbs
 const MAX_VIDEO_SIZE = 20 * 1024 * 1024; // 20MB per video
@@ -533,47 +532,56 @@ const UploadProperty: React.FC = () => {
     }
   };
 
-  const validationSchema = Yup.object().shape({
-    title: Yup.string().required("Title is required"),
-    description: Yup.string()
-      .min(50, "Description must be at least 50 characters")
-      .max(1500, "Description cannot exceed 1500 characters")
-      .required("Description is required"),
-    price: Yup.number()
-      .typeError("Price must be a number")
-      .required("Price is required")
-      .min(50000, "Price must be at least ₦50,000"),
-    location: Yup.string().required("Location is required"),
-    neighborhood_overview: Yup.string()
-      .min(50, "Overview must be at least 50 characters")
-      .max(1500, "Overview cannot exceed 1500 characters")
-      .required("Neighborhood overview is required"),
-    type: Yup.string().required("Property type is required"),
-    bedrooms: Yup.number()
-      .typeError("Bedrooms must be a number")
-      .required("Bedrooms count is required"),
-    bathrooms: Yup.number()
-      .typeError("Bathrooms must be a number")
-      .required("Bathrooms count is required"),
-    area: Yup.number()
-      .typeError("Area must be a number")
-      .required("Area is required"),
-    amenities: Yup.array()
-      .of(Yup.string())
-      .min(1, "Select at least one amenity")
-      .required("Amenities are required"),
-    images: Yup.array()
-      .min(3, "At least 3 images (or thumbnails) required")
-      .required("Images are required"),
-    video: Yup.array().max(1, "You can upload up to 1 videos").notRequired(),
-    available: Yup.boolean().required("Availability is required"),
-  });
+  // UPDATED VALIDATION SCHEMA: Dynamic image requirement based on video presence
+  const getValidationSchema = (hasVideo: boolean) => {
+    return Yup.object().shape({
+      title: Yup.string().required("Title is required"),
+      description: Yup.string()
+        .min(50, "Description must be at least 50 characters")
+        .max(1500, "Description cannot exceed 1500 characters")
+        .required("Description is required"),
+      price: Yup.number()
+        .typeError("Price must be a number")
+        .required("Price is required")
+        .min(50000, "Price must be at least ₦50,000"),
+      location: Yup.string().required("Location is required"),
+      neighborhood_overview: Yup.string()
+        .min(50, "Overview must be at least 50 characters")
+        .max(1500, "Overview cannot exceed 1500 characters")
+        .required("Neighborhood overview is required"),
+      type: Yup.string().required("Property type is required"),
+      bedrooms: Yup.number()
+        .typeError("Bedrooms must be a number")
+        .required("Bedrooms count is required"),
+      bathrooms: Yup.number()
+        .typeError("Bathrooms must be a number")
+        .required("Bathrooms count is required"),
+      area: Yup.number()
+        .typeError("Area must be a number")
+        .required("Area is required"),
+      amenities: Yup.array()
+        .of(Yup.string())
+        .min(1, "Select at least one amenity")
+        .required("Amenities are required"),
+      // UPDATED: If video exists, minimum 1 image; otherwise minimum 3 images
+      images: hasVideo
+        ? Yup.array()
+            .min(1, "At least 1 image required when uploading video")
+            .required("Images are required")
+        : Yup.array()
+            .min(3, "At least 3 images required when no video is uploaded")
+            .required("Images are required"),
+      video: Yup.array().max(1, "You can upload up to 1 video").notRequired(),
+      available: Yup.boolean().required("Availability is required"),
+    });
+  };
 
   const [formValuesToSubmit, setFormValuesToSubmit] = useState<
-    null | (Omit<ApartmentType, "images"> & { images: File[]; amenities: string[] })
+    | null
+    | (Omit<ApartmentType, "images"> & { images: File[]; amenities: string[] })
   >(null);
 
-  // NEW handleSubmit: uses controlled state instead of Formik
+  // UPDATED handleSubmit: uses dynamic validation schema
   const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
     if (e) e.preventDefault();
     console.groupCollapsed("handleSubmit invoked (controlled)");
@@ -583,17 +591,24 @@ const UploadProperty: React.FC = () => {
       setErrors({});
       setFormStatus(undefined);
 
+      // UPDATED: Determine if video exists for validation
+      const hasVideo = videoFiles.length > 0;
+      const validationSchema = getValidationSchema(hasVideo);
+
       // Validate with Yup: collect errors if any
       try {
         // convert numeric-like fields to numbers where schema expects numbers
         const valuesForValidation = {
           ...formValues,
-          price:
-            formValues.price === "" ? undefined : Number(formValues.price),
+          price: formValues.price === "" ? undefined : Number(formValues.price),
           bedrooms:
-            formValues.bedrooms === "" ? undefined : Number(formValues.bedrooms),
+            formValues.bedrooms === ""
+              ? undefined
+              : Number(formValues.bedrooms),
           bathrooms:
-            formValues.bathrooms === "" ? undefined : Number(formValues.bathrooms),
+            formValues.bathrooms === ""
+              ? undefined
+              : Number(formValues.bathrooms),
           area: formValues.area === "" ? undefined : Number(formValues.area),
         };
 
@@ -632,10 +647,8 @@ const UploadProperty: React.FC = () => {
           createdAt: new Date().toISOString(),
           images: formValues.images, // File[] for extended type
           video: videoFiles.length > 0 ? videoPreviewUrls[0] : undefined, // use preview URL as string
-          
-          // ApartmentType expects images: string[], so we will handle conversion before upload
         });
-        
+
         setPromptOpen(true);
         console.log("Prepared form values for confirmation", {
           title: formValues.title,
@@ -653,7 +666,9 @@ const UploadProperty: React.FC = () => {
         } else if (validationErr.path) {
           newErrors[validationErr.path] = validationErr.message;
         } else {
-          setFormStatus({ error: validationErr.message || "Validation failed" });
+          setFormStatus({
+            error: validationErr.message || "Validation failed",
+          });
         }
         setErrors(newErrors);
         toast.error("Please fix the highlighted errors.");
@@ -693,6 +708,7 @@ const UploadProperty: React.FC = () => {
 
       let filesToUpload: File[] = [...mediaPreviews];
 
+      // UPDATED: Add video thumbnails to upload (if available)
       for (const videoFile of videoFiles) {
         const thumbs = thumbnailMap[videoFile.name] || [];
         const selected = selectedThumbnails[videoFile.name];
@@ -706,9 +722,15 @@ const UploadProperty: React.FC = () => {
         files: filesToUpload.map((f) => f.name),
       });
 
-      if (filesToUpload.length < 3) {
+      // UPDATED: Check minimum files based on video presence
+      const hasVideo = videoFiles.length > 0;
+      const minFiles = hasVideo ? 1 : 3;
+
+      if (filesToUpload.length < minFiles) {
         throw new Error(
-          "At least 3 images (or thumbnails) are required before uploading."
+          hasVideo
+            ? "At least 1 image (or thumbnail) is required when uploading a video."
+            : "At least 3 images are required when not uploading a video."
         );
       }
 
@@ -793,7 +815,7 @@ const UploadProperty: React.FC = () => {
         }
       }
 
-      // reset the controlled form state (instead of formHelpers.resetForm())
+      // reset the controlled form state
       setFormValues({
         title: "",
         description: "",
@@ -914,9 +936,22 @@ const UploadProperty: React.FC = () => {
             </label>
           </div>
 
+          {/* UPDATED: Show helper text about upload requirements */}
+          <div
+            style={{ marginBottom: "16px", fontSize: "14px", color: "#666" }}>
+            {videoFiles.length > 0 ? (
+              <p>
+                ✓ Video detected: At least 1 image required (or use video
+                thumbnail)
+              </p>
+            ) : (
+              <p>ℹ️ No video: At least 3 images required</p>
+            )}
+          </div>
+
           {mediaPreviews.length > 0 && (
             <div className="media-previews-container">
-              <span>Selected Images</span>
+              <span>Selected Images ({mediaPreviews.length})</span>
               <div className="media-previews-grid">
                 {mediaPreviews.map((file, index) => (
                   <div
@@ -953,7 +988,7 @@ const UploadProperty: React.FC = () => {
 
           {videoFiles.length > 0 && (
             <div className="media-previews-container">
-              <span>Selected Videos</span>
+              <span>Selected Videos ({videoFiles.length})</span>
               <div className="media-previews-grid">
                 {videoFiles.map((file, index) => (
                   <div
@@ -994,39 +1029,36 @@ const UploadProperty: React.FC = () => {
                 {thumbs.map((thumb, idx) => {
                   const url = thumbnailUrlsMap[videoName]?.[idx];
                   return (
-                    <div
+                    <img
                       key={thumb.name + idx}
                       className={
                         selectedThumbnails[videoName]?.name === thumb.name
                           ? "active"
                           : ""
-                      }>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={url}
-                        alt={`thumb-${idx}`}
-                        width={120}
-                        height={80}
-                        style={{ width: 120, height: 80 }}
-                        onClick={() => {
-                          setSelectedThumbnails((prev) => ({
-                            ...prev,
-                            [videoName]: thumb,
-                          }));
-                          setSelectedThumbnailUrls((prev) => ({
-                            ...prev,
-                            [videoName]: url || "",
-                          }));
-                        }}
-                      />
-                    </div>
+                      }
+                      src={url}
+                      alt={`thumb-${idx}`}
+                      width={120}
+                      height={80}
+                      style={{ width: 120, height: 80, cursor: "pointer" }}
+                      onClick={() => {
+                        setSelectedThumbnails((prev) => ({
+                          ...prev,
+                          [videoName]: thumb,
+                        }));
+                        setSelectedThumbnailUrls((prev) => ({
+                          ...prev,
+                          [videoName]: url || "",
+                        }));
+                      }}
+                    />
                   );
                 })}
               </div>
             </div>
           ))}
 
-          {/* ===== Controlled Inputs (replacing Formik Field/ErrorMessage) ===== */}
+          {/* ===== Controlled Inputs ===== */}
 
           <div className="form-group">
             <label htmlFor="title">Title</label>
@@ -1112,7 +1144,9 @@ const UploadProperty: React.FC = () => {
             <select
               id="type"
               value={formValues.type}
-              onChange={(e) => setFormValues((p) => ({ ...p, type: e.target.value }))}>
+              onChange={(e) =>
+                setFormValues((p) => ({ ...p, type: e.target.value }))
+              }>
               <option value="">Select Property Type</option>
               {typeOptions.map((t) => (
                 <option key={t} value={t}>
@@ -1146,7 +1180,9 @@ const UploadProperty: React.FC = () => {
                 setFormValues((p) => ({ ...p, bathrooms: e.target.value }))
               }
             />
-            {errors.bathrooms && <div className="error">{errors.bathrooms}</div>}
+            {errors.bathrooms && (
+              <div className="error">{errors.bathrooms}</div>
+            )}
           </div>
 
           <div className="form-group">
@@ -1155,7 +1191,9 @@ const UploadProperty: React.FC = () => {
               id="area"
               type="number"
               value={formValues.area}
-              onChange={(e) => setFormValues((p) => ({ ...p, area: e.target.value }))}
+              onChange={(e) =>
+                setFormValues((p) => ({ ...p, area: e.target.value }))
+              }
             />
             {errors.area && <div className="error">{errors.area}</div>}
           </div>
@@ -1168,7 +1206,9 @@ const UploadProperty: React.FC = () => {
               value={formValues.amenities}
               onChange={(e) => {
                 const options = Array.from(e.target.options);
-                const selected = options.filter((o) => o.selected).map((o) => o.value);
+                const selected = options
+                  .filter((o) => o.selected)
+                  .map((o) => o.value);
                 setFormValues((p) => ({ ...p, amenities: selected }));
               }}
               style={{ height: "120px" }}>
@@ -1178,7 +1218,9 @@ const UploadProperty: React.FC = () => {
                 </option>
               ))}
             </select>
-            {errors.amenities && <div className="error">{errors.amenities}</div>}
+            {errors.amenities && (
+              <div className="error">{errors.amenities}</div>
+            )}
           </div>
 
           <div className="form-group">
@@ -1187,13 +1229,25 @@ const UploadProperty: React.FC = () => {
               id="available"
               value={String(formValues.available)}
               onChange={(e) =>
-                setFormValues((p) => ({ ...p, available: e.target.value === "true" }))
+                setFormValues((p) => ({
+                  ...p,
+                  available: e.target.value === "true",
+                }))
               }>
               <option value="false">No</option>
               <option value="true">Yes</option>
             </select>
-            {errors.available && <div className="error">{errors.available}</div>}
+            {errors.available && (
+              <div className="error">{errors.available}</div>
+            )}
           </div>
+
+          {/* UPDATED: Show images validation error if exists */}
+          {errors.images && (
+            <div className="error" style={{ marginBottom: "8px" }}>
+              {errors.images}
+            </div>
+          )}
 
           {formStatus?.error && (
             <div className="error" style={{ marginBottom: "8px" }}>

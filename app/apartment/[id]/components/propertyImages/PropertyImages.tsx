@@ -16,7 +16,7 @@ function PropertyImages({
   const [mediaCount, setMediaCount] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
-  
+
   // Combine images and video (if exists) into a single array, with video last
   const allMedia = React.useMemo(() => {
     const media = [...(propertyDetails?.images || [])];
@@ -25,7 +25,7 @@ function PropertyImages({
     }
     return media;
   }, [propertyDetails?.images, propertyDetails?.video]);
-  
+
   const maxMediaCount: number = allMedia.length;
 
   const incrementMediaCount = () => {
@@ -57,8 +57,13 @@ function PropertyImages({
 
   // Check if current media is a video
   const isVideo = (url: string) => {
-    return url.includes('.mp4') || url.includes('.webm') || url.includes('.ogg') || 
-           url.includes('video') || url.endsWith('.mov');
+    return (
+      url.includes(".mp4") ||
+      url.includes(".webm") ||
+      url.includes(".ogg") ||
+      url.includes("video") ||
+      url.endsWith(".mov")
+    );
   };
 
   const currentMedia = allMedia[mediaCount];
@@ -68,10 +73,12 @@ function PropertyImages({
     <div className="property-images">
       <div className="container">
         <div className="display-image" {...handlers}>
-          <div className="features">
-            <ShareButton />
-            <BookmarkButton propertyId={propertyDetails?.id} />
-          </div>
+          {propertyDetails?.approved && (
+            <div className="features">
+              <ShareButton />
+              <BookmarkButton propertyId={propertyDetails?.id} />
+            </div>
+          )}
 
           {currentIsVideo ? (
             <div className="video-container">
@@ -114,22 +121,27 @@ function PropertyImages({
 
         <div className="control-image">
           {allMedia.map((media: string, index: number) => (
-            <div 
-              key={index + media} 
+            <div
+              key={index + media}
               onClick={() => setMediaCount(index)}
-              className={`thumbnail-container ${mediaCount === index ? "active" : ""}`}
-            >
+              className={`thumbnail-container ${mediaCount === index ? "active" : ""}`}>
               {isVideo(media) ? (
                 <div className="video-thumbnail">
                   <video
                     src={media}
                     width={400}
                     height={400}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
                     muted
                     playsInline
                   />
-                  <div className="video-icon"><FaPlay /></div>
+                  <div className="video-icon">
+                    <FaPlay />
+                  </div>
                 </div>
               ) : (
                 <Image
