@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import * as Yup from "yup";
@@ -78,6 +77,28 @@ const UploadProperty: React.FC = () => {
       createdObjectUrls.current = [];
     };
   }, []);
+
+  // Form state
+  const [formValues, setFormValues] = useState({
+    title: "",
+    description: "",
+    price: "",
+    location: "",
+    neighborhood_overview: "",
+    type: "",
+    bedrooms: "",
+    bathrooms: "",
+    area: "",
+    amenities: [] as string[],
+    available: false,
+    images: [] as File[],
+  });
+
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formStatus, setFormStatus] = useState<{ error?: string } | undefined>(
+    undefined
+  );
 
   const typeOptions = [
     "self contained",
@@ -286,10 +307,7 @@ const UploadProperty: React.FC = () => {
   };
 
   // handle file input changes (images + videos)
-  const handleMediaChange = async (
-    e: React.ChangeEvent<HTMLInputElement>,
-    setFieldValue: (field: string, value: any) => void
-  ) => {
+  const handleMediaChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     console.groupCollapsed("📁 handleMediaChange triggered");
     try {
       const inputFiles = e.target.files ? Array.from(e.target.files) : [];
@@ -382,7 +400,9 @@ const UploadProperty: React.FC = () => {
         videoPreviewUrls
       );
 
-      setFieldValue("images", newImageFiles);
+      // sync to controlled form state
+      setFormValues((prev) => ({ ...prev, images: newImageFiles }));
+
       toast.success("Media selected and processed");
       console.log("Media selection updated", {
         images: newImageFiles.length,
@@ -399,10 +419,7 @@ const UploadProperty: React.FC = () => {
     }
   };
 
-  const removeMediaFile = (
-    index: number,
-    setFieldValue: (field: string, value: any) => void
-  ) => {
+  const removeMediaFile = (index: number) => {
     console.groupCollapsed("removeMediaFile");
     try {
       const updatedPreviews = [...mediaPreviews];
@@ -429,7 +446,9 @@ const UploadProperty: React.FC = () => {
       setMediaPreviews(updatedPreviews);
       setMediaPreviewUrls(updatedPreviewUrls);
 
-      setFieldValue("images", updatedPreviews);
+      // sync to controlled form state
+      setFormValues((prev) => ({ ...prev, images: updatedPreviews }));
+
       toast.success("Image removed");
       console.log("Image removed", {
         removed: fileToRemove.name,
@@ -546,68 +565,121 @@ const UploadProperty: React.FC = () => {
     images: Yup.array()
       .min(3, "At least 3 images (or thumbnails) required")
       .required("Images are required"),
+    video: Yup.array().max(1, "You can upload up to 1 videos").notRequired(),
     available: Yup.boolean().required("Availability is required"),
   });
 
   const [formValuesToSubmit, setFormValuesToSubmit] = useState<
-    null | (ApartmentType & { images: File[]; amenities: string[] })
+    null | (Omit<ApartmentType, "images"> & { images: File[]; amenities: string[] })
   >(null);
-  const [formHelpers, setFormHelpers] = useState<FormikHelpers<any> | null>(
-    null
-  );
 
-  const handleSubmit = (values: any, helpers: FormikHelpers<any>) => {
-    console.groupCollapsed("handleSubmit invoked");
+  // NEW handleSubmit: uses controlled state instead of Formik
+  const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
+    if (e) e.preventDefault();
+    console.groupCollapsed("handleSubmit invoked (controlled)");
+
     try {
-      // transform amenities
-      let amenitiesArray: string[] = values.amenities || [];
-      if (!Array.isArray(amenitiesArray)) {
-        amenitiesArray = (values.amenities || "")
-          .split(",")
-          .map((a: string) => a.trim())
-          .filter(Boolean);
-      }
-      const availableBoolean =
-        typeof values.available === "string"
-          ? values.available === "true"
-          : !!values.available;
+      setIsSubmitting(true);
+      setErrors({});
+      setFormStatus(undefined);
 
-      setFormValuesToSubmit({
-        ...values,
-        amenities: amenitiesArray,
-        available: availableBoolean,
-      });
-      setFormHelpers(helpers);
-      setPromptOpen(true);
-      console.log("Prepared form values for confirmation", {
-        title: values.title,
-        images: values.images?.length || 0,
-        videos: videoFiles.length,
-      });
-      toast("Ready to upload — confirm to continue", { icon: "📤" });
+      // Validate with Yup: collect errors if any
+      try {
+        // convert numeric-like fields to numbers where schema expects numbers
+        const valuesForValidation = {
+          ...formValues,
+          price:
+            formValues.price === "" ? undefined : Number(formValues.price),
+          bedrooms:
+            formValues.bedrooms === "" ? undefined : Number(formValues.bedrooms),
+          bathrooms:
+            formValues.bathrooms === "" ? undefined : Number(formValues.bathrooms),
+          area: formValues.area === "" ? undefined : Number(formValues.area),
+        };
+
+        await validationSchema.validate(valuesForValidation, {
+          abortEarly: false,
+        });
+
+        // if no validation errors, prepare payload for confirmation
+        let amenitiesArray: string[] = formValues.amenities || [];
+        if (!Array.isArray(amenitiesArray)) {
+          amenitiesArray = (formValues.amenities || "")
+            .toString()
+            .split(",")
+            .map((a) => a.trim())
+            .filter(Boolean);
+        }
+        const availableBoolean =
+          typeof formValues.available === "string"
+            ? formValues.available === "true"
+            : !!formValues.available;
+
+        setFormValuesToSubmit({
+          ...formValues,
+          price: Number(formValues.price),
+          bedrooms: Number(formValues.bedrooms as any) || 0,
+          bathrooms: Number(formValues.bathrooms as any) || 0,
+          area: Number(formValues.area as any) || 0,
+          amenities: amenitiesArray,
+          available: availableBoolean,
+          // Add required ApartmentType fields with placeholder/default values
+          id: "",
+          url: "",
+          agentId: user?.id ?? "",
+          approved: false,
+          views: 0,
+          createdAt: new Date().toISOString(),
+          images: formValues.images, // File[] for extended type
+          video: videoFiles.length > 0 ? videoPreviewUrls[0] : undefined, // use preview URL as string
+          
+          // ApartmentType expects images: string[], so we will handle conversion before upload
+        });
+        
+        setPromptOpen(true);
+        console.log("Prepared form values for confirmation", {
+          title: formValues.title,
+          images: formValues.images?.length || 0,
+          videos: videoFiles.length,
+        });
+        toast("Ready to upload — confirm to continue", { icon: "📤" });
+      } catch (validationErr: any) {
+        // Build errors map similar to Formik behavior
+        const newErrors: Record<string, string> = {};
+        if (validationErr.inner && Array.isArray(validationErr.inner)) {
+          validationErr.inner.forEach((ve: any) => {
+            if (ve.path && !newErrors[ve.path]) newErrors[ve.path] = ve.message;
+          });
+        } else if (validationErr.path) {
+          newErrors[validationErr.path] = validationErr.message;
+        } else {
+          setFormStatus({ error: validationErr.message || "Validation failed" });
+        }
+        setErrors(newErrors);
+        toast.error("Please fix the highlighted errors.");
+      }
     } catch (err: any) {
       console.error("handleSubmit error:", err);
       toast.error("Failed to prepare submission.");
-      helpers.setStatus({
-        error: err?.message || "Failed to prepare submission.",
-      });
+      setFormStatus({ error: err?.message || "Failed to prepare submission." });
     } finally {
+      setIsSubmitting(false);
       console.groupEnd();
     }
   };
 
   const handleConfirm = async () => {
     console.groupCollapsed("handleConfirm: upload flow start");
-    if (!formValuesToSubmit || !formHelpers) {
-      console.warn("No form values or helpers found when confirming upload");
+    if (!formValuesToSubmit) {
+      console.warn("No form values found when confirming upload");
       toast.error("No data to upload.");
       console.groupEnd();
       return;
     }
 
-    formHelpers.setSubmitting(true);
-    formHelpers.setStatus(undefined);
+    setIsSubmitting(true);
     setPromptOpen(false);
+    setFormStatus(undefined);
 
     const loadingId = toast.loading("Uploading property...");
 
@@ -721,7 +793,21 @@ const UploadProperty: React.FC = () => {
         }
       }
 
-      formHelpers.resetForm();
+      // reset the controlled form state (instead of formHelpers.resetForm())
+      setFormValues({
+        title: "",
+        description: "",
+        price: "",
+        location: "",
+        neighborhood_overview: "",
+        type: "",
+        bedrooms: "",
+        bathrooms: "",
+        area: "",
+        amenities: [],
+        available: false,
+        images: [],
+      });
 
       setMediaPreviews([]);
       for (const u of mediaPreviewUrls) {
@@ -772,17 +858,10 @@ const UploadProperty: React.FC = () => {
       console.error("handleConfirm error:", err);
       toast.dismiss();
       toast.error(err?.message || "Upload failed");
-      try {
-        formHelpers.setStatus({ error: err?.message || "Upload failed" });
-      } catch (e) {
-        console.warn("Failed to set form status after upload error", e);
-      }
+      setFormStatus({ error: err?.message || "Upload failed" });
     } finally {
-      try {
-        formHelpers.setSubmitting(false);
-      } catch (e) {}
+      setIsSubmitting(false);
       setFormValuesToSubmit(null);
-      setFormHelpers(null);
       console.groupEnd();
     }
   };
@@ -790,351 +869,349 @@ const UploadProperty: React.FC = () => {
   return (
     <div className="upload-property">
       <div className="container">
-        <Formik
-          initialValues={{
-            title: "",
-            description: "",
-            price: 0,
-            location: "",
-            neighborhood_overview: "",
-            type: "",
-            bedrooms: 0,
-            bathrooms: 0,
-            area: 0,
-            amenities: [],
-            images: [],
-            available: false,
-          }}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}>
-          {({ values, setFieldValue, isSubmitting, status }) => (
-            <>
-              <Form>
-                <div className="form-group">
-                  <label htmlFor="image" className="image-upload-label">
-                    <input
-                      id="image"
-                      type="file"
-                      accept="image/*,video/*"
-                      multiple
-                      onChange={(e) => handleMediaChange(e, setFieldValue)}
-                    />
-                    <div
-                      className="upload-image-preview"
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="image" className="image-upload-label">
+              <input
+                id="image"
+                type="file"
+                accept="image/*,video/*"
+                multiple
+                onChange={handleMediaChange}
+              />
+              <div
+                className="upload-image-preview"
+                style={{
+                  width: "100%",
+                  height: 160,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  border: "1px dashed #ddd",
+                }}>
+                {mediaPreviewUrls[0] ? (
+                  <img
+                    src={mediaPreviewUrls[0]}
+                    alt="apartment preview"
+                    style={{
+                      maxWidth: "100%",
+                      maxHeight: "100%",
+                      objectFit: "contain",
+                    }}
+                  />
+                ) : (
+                  <img
+                    src="/assets/upload_image.jpg"
+                    alt="placeholder"
+                    style={{
+                      maxWidth: "100%",
+                      maxHeight: "100%",
+                      objectFit: "contain",
+                    }}
+                  />
+                )}
+              </div>
+            </label>
+          </div>
+
+          {mediaPreviews.length > 0 && (
+            <div className="media-previews-container">
+              <span>Selected Images</span>
+              <div className="media-previews-grid">
+                {mediaPreviews.map((file, index) => (
+                  <div
+                    key={`${file.name}-${index}`}
+                    className="media-preview-item">
+                    <img
+                      src={mediaPreviewUrls[index]}
+                      alt={`Preview ${index}`}
+                      width={150}
+                      height={150}
+                      className="preview-thumbnail"
                       style={{
-                        width: "100%",
-                        height: 160,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        border: "1px dashed #ddd",
-                      }}>
-                      {mediaPreviewUrls[0] ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={mediaPreviewUrls[0]}
-                          alt="apartment preview"
-                          style={{
-                            maxWidth: "100%",
-                            maxHeight: "100%",
-                            objectFit: "contain",
-                          }}
-                        />
-                      ) : (
-                        <img
-                          src="/assets/upload_image.jpg"
-                          alt="placeholder"
-                          style={{
-                            maxWidth: "100%",
-                            maxHeight: "100%",
-                            objectFit: "contain",
-                          }}
-                        />
-                      )}
-                    </div>
-                  </label>
-                </div>
-
-                {mediaPreviews.length > 0 && (
-                  <div className="media-previews-container">
-                    <span>Selected Images</span>
-                    <div className="media-previews-grid">
-                      {mediaPreviews.map((file, index) => (
-                        <div
-                          key={`${file.name}-${index}`}
-                          className="media-preview-item">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={mediaPreviewUrls[index]}
-                            alt={`Preview ${index}`}
-                            width={150}
-                            height={150}
-                            className="preview-thumbnail"
-                            style={{
-                              width: "150px",
-                              height: "150px",
-                              objectFit: "cover",
-                            }}
-                          />
-                          <div className="media-preview-info">
-                            <span className="media-name">
-                              {file.name.substring(0, 15)}...
-                            </span>
-                            <button
-                              type="button"
-                              className="remove-media-btn"
-                              onClick={() =>
-                                removeMediaFile(index, setFieldValue)
-                              }>
-                              ✕
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {videoFiles.length > 0 && (
-                  <div className="media-previews-container">
-                    <span>Selected Videos</span>
-                    <div className="media-previews-grid">
-                      {videoFiles.map((file, index) => (
-                        <div
-                          key={`${file.name}-${index}`}
-                          className="media-preview-item">
-                          <div className="video-preview">
-                            {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-                            <video
-                              src={videoPreviewUrls[index]}
-                              className="preview-thumbnail"
-                              width={150}
-                              height={150}
-                              controls={false}
-                              muted
-                            />
-                            <div className="video-icon">🎬</div>
-                          </div>
-                          <div className="media-preview-info">
-                            <span className="media-name">
-                              {file.name.substring(0, 15)}...
-                            </span>
-                            <button
-                              type="button"
-                              className="remove-media-btn"
-                              onClick={() => removeVideoFile(index)}>
-                              ✕
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {Object.entries(thumbnailMap).map(([videoName, thumbs]) => (
-                  <div key={videoName} className="thumbnail-preview">
-                    <span>Select a thumbnail for: {videoName}</span>
-                    <div>
-                      {thumbs.map((thumb, idx) => {
-                        const url = thumbnailUrlsMap[videoName]?.[idx];
-                        return (
-                          <div
-                            key={thumb.name + idx}
-                            className={
-                              selectedThumbnails[videoName]?.name === thumb.name
-                                ? "active"
-                                : ""
-                            }>
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={url}
-                              alt={`thumb-${idx}`}
-                              width={120}
-                              height={80}
-                              style={{ width: 120, height: 80 }}
-                              onClick={() => {
-                                setSelectedThumbnails((prev) => ({
-                                  ...prev,
-                                  [videoName]: thumb,
-                                }));
-                                setSelectedThumbnailUrls((prev) => ({
-                                  ...prev,
-                                  [videoName]: url || "",
-                                }));
-                              }}
-                            />
-                          </div>
-                        );
-                      })}
+                        width: "150px",
+                        height: "150px",
+                        objectFit: "cover",
+                      }}
+                    />
+                    <div className="media-preview-info">
+                      <span className="media-name">
+                        {file.name.substring(0, 15)}...
+                      </span>
+                      <button
+                        type="button"
+                        className="remove-media-btn"
+                        onClick={() => removeMediaFile(index)}>
+                        ✕
+                      </button>
                     </div>
                   </div>
                 ))}
-
-                <div className="form-group">
-                  <label htmlFor="title">Title</label>
-                  <Field type="text" id="title" name="title" />
-                  <ErrorMessage
-                    name="title"
-                    component="div"
-                    className="error"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="description">Description</label>
-                  <ReactQuill
-                    theme="snow"
-                    id="description"
-                    className="quill-editor"
-                    value={values.description}
-                    onChange={(value) => setFieldValue("description", value)}
-                    placeholder="Enter the property description..."
-                    modules={{ toolbar: false }}
-                  />
-                  <ErrorMessage
-                    name="description"
-                    component="div"
-                    className="error"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="price">Price</label>
-                  <Field type="number" id="price" name="price" />
-                  <ErrorMessage
-                    name="price"
-                    component="div"
-                    className="error"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="location">Location</label>
-                  <Field as="select" id="location" name="location">
-                    <option value="">Select Location</option>
-                    {data.locations.map((location) => (
-                      <option key={location} value={location}>
-                        {location}
-                      </option>
-                    ))}
-                  </Field>
-                  <ErrorMessage
-                    name="location"
-                    component="div"
-                    className="error"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="neighborhood_overview">
-                    Neighborhood Overview
-                  </label>
-                  <Field
-                    as="textarea"
-                    id="neighborhood_overview"
-                    name="neighborhood_overview"
-                  />
-                  <ErrorMessage
-                    name="neighborhood_overview"
-                    component="div"
-                    className="error"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="type">Property Type</label>
-                  <Field as="select" id="type" name="type">
-                    <option value="">Select Property Type</option>
-                    {typeOptions.map((type) => (
-                      <option key={type} value={type}>
-                        {type}
-                      </option>
-                    ))}
-                  </Field>
-                  <ErrorMessage name="type" component="div" className="error" />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="bedrooms">Bedrooms</label>
-                  <Field type="number" id="bedrooms" name="bedrooms" />
-                  <ErrorMessage
-                    name="bedrooms"
-                    component="div"
-                    className="error"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="bathrooms">Bathrooms</label>
-                  <Field type="number" id="bathrooms" name="bathrooms" />
-                  <ErrorMessage
-                    name="bathrooms"
-                    component="div"
-                    className="error"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="area">Area (sqm)</label>
-                  <Field type="number" id="area" name="area" />
-                  <ErrorMessage name="area" component="div" className="error" />
-                </div>
-
-                <div className="form-group">
-                  <label>Amenities</label>
-                  <Field
-                    as="select"
-                    name="amenities"
-                    multiple
-                    size={5}
-                    style={{ height: "120px" }}>
-                    {amenitiesOptions.map((amenity) => (
-                      <option key={amenity} value={amenity}>
-                        {amenity}
-                      </option>
-                    ))}
-                  </Field>
-                  <ErrorMessage
-                    name="amenities"
-                    component="div"
-                    className="error"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="available">Available</label>
-                  <Field as="select" id="available" name="available">
-                    <option value="false">No</option>
-                    <option value="true">Yes</option>
-                  </Field>
-                  <ErrorMessage
-                    name="available"
-                    component="div"
-                    className="error"
-                  />
-                </div>
-
-                {status?.error && (
-                  <div className="error" style={{ marginBottom: "8px" }}>
-                    {status.error}
-                  </div>
-                )}
-
-                <button type="submit" className="btn" disabled={isSubmitting}>
-                  {isSubmitting ? "Uploading..." : "Upload Property"}
-                </button>
-              </Form>
-
-              <Prompt
-                isOpen={promptOpen}
-                onCancel={() => setPromptOpen(false)}
-                message="Are you sure you want to upload this property?"
-                onConfirm={handleConfirm}
-              />
-            </>
+              </div>
+            </div>
           )}
-        </Formik>
+
+          {videoFiles.length > 0 && (
+            <div className="media-previews-container">
+              <span>Selected Videos</span>
+              <div className="media-previews-grid">
+                {videoFiles.map((file, index) => (
+                  <div
+                    key={`${file.name}-${index}`}
+                    className="media-preview-item">
+                    <div className="video-preview">
+                      <video
+                        src={videoPreviewUrls[index]}
+                        className="preview-thumbnail"
+                        width={150}
+                        height={150}
+                        controls={false}
+                        muted
+                      />
+                      <div className="video-icon">🎬</div>
+                    </div>
+                    <div className="media-preview-info">
+                      <span className="media-name">
+                        {file.name.substring(0, 15)}...
+                      </span>
+                      <button
+                        type="button"
+                        className="remove-media-btn"
+                        onClick={() => removeVideoFile(index)}>
+                        ✕
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {Object.entries(thumbnailMap).map(([videoName, thumbs]) => (
+            <div key={videoName} className="thumbnail-preview">
+              <span>Select a thumbnail for: {videoName}</span>
+              <div>
+                {thumbs.map((thumb, idx) => {
+                  const url = thumbnailUrlsMap[videoName]?.[idx];
+                  return (
+                    <div
+                      key={thumb.name + idx}
+                      className={
+                        selectedThumbnails[videoName]?.name === thumb.name
+                          ? "active"
+                          : ""
+                      }>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={url}
+                        alt={`thumb-${idx}`}
+                        width={120}
+                        height={80}
+                        style={{ width: 120, height: 80 }}
+                        onClick={() => {
+                          setSelectedThumbnails((prev) => ({
+                            ...prev,
+                            [videoName]: thumb,
+                          }));
+                          setSelectedThumbnailUrls((prev) => ({
+                            ...prev,
+                            [videoName]: url || "",
+                          }));
+                        }}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+
+          {/* ===== Controlled Inputs (replacing Formik Field/ErrorMessage) ===== */}
+
+          <div className="form-group">
+            <label htmlFor="title">Title</label>
+            <input
+              id="title"
+              type="text"
+              value={formValues.title}
+              onChange={(e) =>
+                setFormValues((p) => ({ ...p, title: e.target.value }))
+              }
+            />
+            {errors.title && <div className="error">{errors.title}</div>}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="description">Description</label>
+            <ReactQuill
+              theme="snow"
+              id="description"
+              className="quill-editor"
+              value={formValues.description}
+              onChange={(value) =>
+                setFormValues((p) => ({ ...p, description: value }))
+              }
+              placeholder="Enter the property description..."
+              modules={{ toolbar: false }}
+            />
+            {errors.description && (
+              <div className="error">{errors.description}</div>
+            )}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="price">Price</label>
+            <input
+              type="number"
+              id="price"
+              value={formValues.price}
+              onChange={(e) =>
+                setFormValues((p) => ({ ...p, price: e.target.value }))
+              }
+            />
+            {errors.price && <div className="error">{errors.price}</div>}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="location">Location</label>
+            <select
+              id="location"
+              value={formValues.location}
+              onChange={(e) =>
+                setFormValues((p) => ({ ...p, location: e.target.value }))
+              }>
+              <option value="">Select Location</option>
+              {data.locations.map((location) => (
+                <option key={location} value={location}>
+                  {location}
+                </option>
+              ))}
+            </select>
+            {errors.location && <div className="error">{errors.location}</div>}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="neighborhood_overview">Neighborhood Overview</label>
+            <textarea
+              id="neighborhood_overview"
+              value={formValues.neighborhood_overview}
+              onChange={(e) =>
+                setFormValues((p) => ({
+                  ...p,
+                  neighborhood_overview: e.target.value,
+                }))
+              }
+            />
+            {errors.neighborhood_overview && (
+              <div className="error">{errors.neighborhood_overview}</div>
+            )}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="type">Property Type</label>
+            <select
+              id="type"
+              value={formValues.type}
+              onChange={(e) => setFormValues((p) => ({ ...p, type: e.target.value }))}>
+              <option value="">Select Property Type</option>
+              {typeOptions.map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
+              ))}
+            </select>
+            {errors.type && <div className="error">{errors.type}</div>}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="bedrooms">Bedrooms</label>
+            <input
+              id="bedrooms"
+              type="number"
+              value={formValues.bedrooms}
+              onChange={(e) =>
+                setFormValues((p) => ({ ...p, bedrooms: e.target.value }))
+              }
+            />
+            {errors.bedrooms && <div className="error">{errors.bedrooms}</div>}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="bathrooms">Bathrooms</label>
+            <input
+              id="bathrooms"
+              type="number"
+              value={formValues.bathrooms}
+              onChange={(e) =>
+                setFormValues((p) => ({ ...p, bathrooms: e.target.value }))
+              }
+            />
+            {errors.bathrooms && <div className="error">{errors.bathrooms}</div>}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="area">Area (sqm)</label>
+            <input
+              id="area"
+              type="number"
+              value={formValues.area}
+              onChange={(e) => setFormValues((p) => ({ ...p, area: e.target.value }))}
+            />
+            {errors.area && <div className="error">{errors.area}</div>}
+          </div>
+
+          <div className="form-group">
+            <label>Amenities</label>
+            <select
+              multiple
+              size={5}
+              value={formValues.amenities}
+              onChange={(e) => {
+                const options = Array.from(e.target.options);
+                const selected = options.filter((o) => o.selected).map((o) => o.value);
+                setFormValues((p) => ({ ...p, amenities: selected }));
+              }}
+              style={{ height: "120px" }}>
+              {amenitiesOptions.map((amenity) => (
+                <option key={amenity} value={amenity}>
+                  {amenity}
+                </option>
+              ))}
+            </select>
+            {errors.amenities && <div className="error">{errors.amenities}</div>}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="available">Available</label>
+            <select
+              id="available"
+              value={String(formValues.available)}
+              onChange={(e) =>
+                setFormValues((p) => ({ ...p, available: e.target.value === "true" }))
+              }>
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select>
+            {errors.available && <div className="error">{errors.available}</div>}
+          </div>
+
+          {formStatus?.error && (
+            <div className="error" style={{ marginBottom: "8px" }}>
+              {formStatus.error}
+            </div>
+          )}
+
+          <button type="submit" className="btn" disabled={isSubmitting}>
+            {isSubmitting ? "Uploading..." : "Upload Property"}
+          </button>
+        </form>
+
+        <Prompt
+          isOpen={promptOpen}
+          onCancel={() => setPromptOpen(false)}
+          message="Are you sure you want to upload this property?"
+          onConfirm={handleConfirm}
+        />
       </div>
     </div>
   );
