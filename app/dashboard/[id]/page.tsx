@@ -13,12 +13,12 @@ import { useRouter } from "next/navigation";
 
 interface DashboardPageProps {
   params: {
-    username: string;
+    id: string;
   };
 }
 
 const Dashboard = ({ params }: DashboardPageProps) => {
-  const { username } = params;
+  const { id } = params;
   const { user } = useUserStore((state) => state);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -37,11 +37,11 @@ const Dashboard = ({ params }: DashboardPageProps) => {
 
   // Handle mismatch
   useEffect(() => {
-    if (user.name !== username) {
+    if (user.id !== id) {
       router.back(); 
       return;
     }
-  }, [user, username, router]);
+  }, [user, id, router]);
 
   // While loading
   if (loading) return <Loader />;

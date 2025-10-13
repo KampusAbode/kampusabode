@@ -12,11 +12,8 @@ import {
 } from "react-icons/fa";
 import {
   TbHomeSearch,
-  TbMessageCircleUser,
-  TbMessageUser,
 } from "react-icons/tb";
-import { CiViewBoard, CiHome } from "react-icons/ci";
-import { GrUserAdmin } from "react-icons/gr";
+import {  CiHome } from "react-icons/ci";
 import {
   LuCircleUserRound,
   LuLayoutDashboard,
@@ -34,6 +31,7 @@ import { logoutUser } from "../../utils/auth";
 import { checkIsAdmin } from "../../utils";
 import Image from "next/image";
 import { RiHomeLine } from "react-icons/ri";
+import { FaUserGroup } from "react-icons/fa6";
 
 function Nav() {
   const pathname = usePathname();
@@ -136,13 +134,13 @@ function Nav() {
               <li
                 title={user ? "Dashboard" : "Home"}
                 className={
-                  pathname === `/dashboard/${user?.name}` || pathname === "/"
+                  pathname === `/dashboard/${user?.id}` || pathname === "/"
                     ? "active"
                     : ""
                 }>
                 <Link
                   prefetch
-                  href={user ? `/dashboard/${user?.name}` : "/"}
+                  href={user ? `/dashboard/${user?.id}` : "/"}
                   onClick={toggleNav}>
                   {user ? <LuLayoutDashboard /> : <CiHome />}
                   {user ? "dashboard" : "home"}
@@ -189,6 +187,21 @@ function Nav() {
                     onClick={toggleNav}>
                     <IoChatbubblesOutline />
                     chat
+                  </Link>
+                </li>
+              )}
+
+              {user && (
+                <li
+                  title="Roomiematch"
+                  className={
+                    pathname === `/roomie-match` ? "active" : ""
+                  }>
+                  <Link
+                    href={`/roomie-match`}
+                    onClick={toggleNav}>
+                    <FaUserGroup />
+                    Roomie Match
                   </Link>
                 </li>
               )}

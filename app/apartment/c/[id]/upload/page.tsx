@@ -6,10 +6,7 @@ import "react-quill/dist/quill.snow.css";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import {
-  listApartment,
-  uploadApartmentImagesToAppwrite,
-} from "../../../../utils";
+import { listApartment, uploadFilesToAppwrite } from "../../../../utils";
 import { useUserStore } from "../../../../store/userStore";
 import { ApartmentType } from "../../../../fetch/types";
 import data from "../../../../fetch/contents";
@@ -735,10 +732,7 @@ const UploadProperty: React.FC = () => {
       }
 
       toast.loading("Uploading images...", { id: "upload-images" });
-      const imageUrls = await uploadApartmentImagesToAppwrite(
-        filesToUpload,
-        bucketId
-      );
+      const imageUrls = await uploadFilesToAppwrite(filesToUpload, bucketId);
       toast.dismiss("upload-images");
 
       if (!imageUrls || !Array.isArray(imageUrls) || imageUrls.length === 0) {
@@ -751,7 +745,7 @@ const UploadProperty: React.FC = () => {
       if (videoFiles.length > 0) {
         try {
           toast.loading("Uploading videos...", { id: "upload-videos" });
-          const uploadedVideoUrls = await uploadApartmentImagesToAppwrite(
+          const uploadedVideoUrls = await uploadFilesToAppwrite(
             videoFiles,
             bucketId
           );
@@ -905,7 +899,7 @@ const UploadProperty: React.FC = () => {
                 className="upload-image-preview"
                 style={{
                   width: "100%",
-                  height: 160,
+                  height: 200,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -918,7 +912,7 @@ const UploadProperty: React.FC = () => {
                     style={{
                       maxWidth: "100%",
                       maxHeight: "100%",
-                      objectFit: "contain",
+                      objectFit: "cover",
                     }}
                   />
                 ) : (
@@ -938,7 +932,7 @@ const UploadProperty: React.FC = () => {
 
           {/* UPDATED: Show helper text about upload requirements */}
           <div
-            style={{ marginBottom: "16px", fontSize: "14px", color: "#666" }}>
+            style={{ marginBottom: "16px", fontSize: "12px", color: "#666" }}>
             {videoFiles.length > 0 ? (
               <p>
                 ✓ Video detected: At least 1 image required (or use video

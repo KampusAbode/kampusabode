@@ -47,7 +47,7 @@ export const listApartment = async (data: any) => {
   }
 };
 
-export const uploadApartmentImagesToAppwrite = async (
+export const uploadFilesToAppwrite = async (
   files: File[] | null,
   bucketId: string
 ): Promise<string[]> => {
@@ -97,7 +97,6 @@ export const getApartmentById = async (
   }
 };
 
-
 export const getApartmentsByIds = async (
   ids: string[]
 ): Promise<ApartmentType[]> => {
@@ -121,7 +120,6 @@ export const getApartmentsByIds = async (
     throw error;
   }
 };
-
 
 export const getPropertiesByAgent = async (
   agentId: string
@@ -181,11 +179,7 @@ export const deleteApartment = async (apartmentId: string) => {
   }
 };
 
-
-export const updateapartment = async (
-  apartmentId: string,
-  updates
-) => {
+export const updateapartment = async (apartmentId: string, updates) => {
   try {
     const docRef = doc(db, "properties", apartmentId);
     await updateDoc(docRef, updates);
