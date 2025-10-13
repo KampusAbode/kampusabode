@@ -1,0 +1,11 @@
+
+.video-media {
+    object-fit: cover !important;
+    min-width: 60px !important;
+    height: 60px !important;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    opacity: 0.3;
+    transition: var(--transition);
+  }
+  
