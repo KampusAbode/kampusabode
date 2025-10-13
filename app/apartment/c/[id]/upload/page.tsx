@@ -7,10 +7,7 @@ import "react-quill/dist/quill.snow.css";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-// import {
-//   listApartment,
-//   uploadApartmentImagesToAppwrite,
-// } from "../../../../utils";
+import { listApartment, uploadApartmentImagesToAppwrite } from "../../../../utils/properties";
 import { useUserStore } from "../../../../store/userStore";
 import { ApartmentType } from "../../../../fetch/types";
 import data from "../../../../fetch/contents";

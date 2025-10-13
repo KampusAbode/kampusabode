@@ -57,8 +57,8 @@ function PropertyImages({
 
   // Check if current media is a video
   const isVideo = (url: string) => {
-    return url.includes('.mp4') || url.includes('.webm') || url.includes('.ogg') || 
-           url.includes('video') || url.endsWith('.mov');
+    // Check if this URL is the video URL from the property
+    return propertyDetails?.video === url;
   };
 
   const currentMedia = allMedia[mediaCount];
@@ -120,7 +120,7 @@ function PropertyImages({
               className={`thumbnail-container ${mediaCount === index ? "active" : ""}`}
             >
               {isVideo(media) ? (
-                <div className="video-thumbnail">
+                <div className={`video-thumbnail ${mediaCount === index ? "active" : ""}`}>
                   <video
                     src={media}
                     width={400}
