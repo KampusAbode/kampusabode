@@ -289,7 +289,7 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
                         />
                       </div>
                       <div className="list-details">
-                        <h6>{listing.title}</h6>
+                        <h6>{listing.location}</h6>
                         {listing.description &&
                           (() => {
                             const div = document.createElement("div");

@@ -5,8 +5,8 @@
 
 :root {
   /* Colors */
-  --primary-color: #c1121f;
-  --primary-color-hover: #c94451;
+  --primary-color: #d92735;
+  --primary-color-hover: #bf202e;
 
   --error: #e63946;
   --success: #3fe639;
@@ -36,7 +36,7 @@
   --border-hover: 1px solid #650202;
 
   /* Border Radius */
-  --border-radius: 10px;
+  --border-radius: 8px;
   --border-radius-r: 32px;
   --border-radius-btn: 5px;
 
@@ -103,7 +103,7 @@ body.dark {
 
     --border: 1px solid #3a3a3a;
     --border-white: 1px solid #ffffff;
-    --border-hover: 1px solid #c1121f;
+    --border-hover: 1px solid #2d2d2d;
 
     /* Shadow & Transition */
     --shadow:
@@ -121,6 +121,7 @@ body.dark {
   list-style-type: none;
   text-decoration: none;
   font-weight: 400;
+  font-size: .9rem;
 
   &:focus,
   &:active {
@@ -213,7 +214,7 @@ h5 {
 }
 
 h6 {
-  font-size: 0.99rem;
+  font-size: 1rem;
 }
 
 p {
@@ -312,7 +313,7 @@ img {
   font-size: var(--font-size-sm);
   color: var(--font-white);
   // background: var(--primary-color);
-  background: linear-gradient(to bottom right, #c1121f, #d6444b);
+  background: var(--primary-color);
   padding: var(--spacing-b);
   border-radius: var(--border-radius-btn);
   border: var(--border);
