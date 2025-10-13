@@ -7,10 +7,10 @@ import "react-quill/dist/quill.snow.css";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import {
-  listApartment,
-  uploadApartmentImagesToAppwrite,
-} from "../../../../utils";
+// import {
+//   listApartment,
+//   uploadApartmentImagesToAppwrite,
+// } from "../../../../utils";
 import { useUserStore } from "../../../../store/userStore";
 import { ApartmentType } from "../../../../fetch/types";
 import data from "../../../../fetch/contents";
@@ -236,6 +236,8 @@ const UploadProperty = () => {
 
   // Instead of submitting immediately on form submit, open prompt first
   const handleSubmit = (values: any, helpers: FormikHelpers<any>) => {
+    console.log("✅ Formik handleSubmit fired:", values);
+
     // We transform amenities from select multiple: string[] but field is string[] - safe
     // Also convert available from string ("true"/"false") to boolean if needed
     let amenitiesArray: string[] = values.amenities;
@@ -257,82 +259,148 @@ const UploadProperty = () => {
     setFormHelpers(helpers);
     setPromptOpen(true);
   };
-
   const handleConfirm = async () => {
-    if (!formValuesToSubmit || !formHelpers) return;
+  if (!formValuesToSubmit || !formHelpers) return;
 
-    formHelpers.setSubmitting(true);
-    setPromptOpen(false);
+  formHelpers.setSubmitting(true);
+  setPromptOpen(false);
+console.log("Starting file upload...");
+  try {
+    // Prepare files for upload
+    let filesToUpload: File[] = [...mediaPreviews]; // Start with image files
 
-    try {
-      // Prepare files for upload
-      let filesToUpload: File[] = [...mediaPreviews]; // Start with image files
-      
-      // Add video thumbnails to the images array
-      for (const videoFile of videoFiles) {
-        const videoThumbs = thumbnailMap[videoFile.name] || [];
-        const selectedThumb = selectedThumbnails[videoFile.name];
-        
-        if (selectedThumb) {
-          // Add the selected thumbnail
-          filesToUpload.push(selectedThumb);
-        } else if (videoThumbs.length > 0) {
-          // Use first thumbnail if none selected
-          filesToUpload.push(videoThumbs[0]);
-        }
+    // Add video thumbnails to the images array
+    for (const videoFile of videoFiles) {
+      const videoThumbs = thumbnailMap[videoFile.name] || [];
+      const selectedThumb = selectedThumbnails[videoFile.name];
+
+      if (selectedThumb) {
+        filesToUpload.push(selectedThumb);
+      } else if (videoThumbs.length > 0) {
+        filesToUpload.push(videoThumbs[0]);
       }
-
-      // Upload image files (including video thumbnails) to Appwrite
-      const imageUrls = await uploadApartmentImagesToAppwrite(
-        filesToUpload,
-        process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID || ""
-      );
-
-      if (imageUrls.length === 0) {
-        throw new Error("No media files were uploaded successfully");
-      }
-      
-      // Upload video files separately if they exist
-      let videoUrls: string[] = [];
-      if (videoFiles.length > 0) {
-        videoUrls = await uploadApartmentImagesToAppwrite(
-          videoFiles,
-          process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID || ""
-        );
-      }
-
-      const payload: ApartmentType = {
-        ...formValuesToSubmit,
-        images: imageUrls,
-        ...(videoUrls.length > 0 && { video: videoUrls[0] }), // Add video property only if video exists
-        agentId: user?.id ?? "",
-        approved: false,
-        views: 0,
-        createdAt: new Date().toISOString(),
-      };
-
-      const response = await listApartment(payload);
-
-      toast.success(response.success || "Property uploaded successfully", {
-        id: "property-upload-success",
-      });
-      if (user?.userType === "agent") addListedProperty(response.id);
-
-      formHelpers.resetForm();
-      setMediaPreviews([]);
-      setVideoFiles([]);
-      setThumbnailMap({});
-      setSelectedThumbnails({});
-      router.push(response.url);
-    } catch (err: any) {
-      toast.error(err?.message || "Upload failed");
-      formHelpers.setStatus({ error: err?.message || "Upload failed" });
-    } finally {
-      formHelpers.setSubmitting(false);
-      setFormValuesToSubmit(null);
-      setFormHelpers(null);
     }
-  };
+
+    // Construct form data for API
+    const formData = new FormData();
+    formData.append("payload", JSON.stringify({
+      ...formValuesToSubmit,
+      agentId: user?.id ?? "",
+      approved: false,
+      views: 0,
+      createdAt: new Date().toISOString(),
+    }));
+
+    // Add all files
+    filesToUpload.forEach((file) => formData.append("files", file));
+    videoFiles.forEach((file) => formData.append("files", file));
+
+    // Send to our new API route
+    const res = await fetch("/api/apartment/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    const json = await res.json();
+
+    if (!json.success) throw new Error(json.message || "Upload failed");
+
+    toast.success("Property uploaded successfully");
+    if (user?.userType === "agent") addListedProperty(json.result.id);
+
+    formHelpers.resetForm();
+    setMediaPreviews([]);
+    setVideoFiles([]);
+    setThumbnailMap({});
+    setSelectedThumbnails({});
+    router.push(json.result.url || "/");
+  } catch (err: any) {
+    console.error("Upload Error:", err);
+    toast.error(err?.message || "Upload failed");
+    formHelpers.setStatus({ error: err?.message || "Upload failed" });
+  } finally {
+    formHelpers.setSubmitting(false);
+    setFormValuesToSubmit(null);
+    setFormHelpers(null);
+  }
+};
+
+//  THROWS ERROR 500
+  // const handleConfirm = async () => {
+  //   if (!formValuesToSubmit || !formHelpers) return;
+
+  //   formHelpers.setSubmitting(true);
+  //   setPromptOpen(false);
+
+  //   try {
+  //     // Prepare files for upload
+  //     let filesToUpload: File[] = [...mediaPreviews]; // Start with image files
+      
+  //     // Add video thumbnails to the images array
+  //     for (const videoFile of videoFiles) {
+  //       const videoThumbs = thumbnailMap[videoFile.name] || [];
+  //       const selectedThumb = selectedThumbnails[videoFile.name];
+        
+  //       if (selectedThumb) {
+  //         // Add the selected thumbnail
+  //         filesToUpload.push(selectedThumb);
+  //       } else if (videoThumbs.length > 0) {
+  //         // Use first thumbnail if none selected
+  //         filesToUpload.push(videoThumbs[0]);
+  //       }
+  //     }
+
+  //     // Upload image files (including video thumbnails) to Appwrite
+  //     const imageUrls = await uploadApartmentImagesToAppwrite(
+  //       filesToUpload,
+  //       process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID || ""
+  //     );
+
+  //     if (imageUrls.length === 0) {
+  //       throw new Error("No media files were uploaded successfully");
+  //     }
+      
+  //     // Upload video files separately if they exist
+  //     let videoUrls: string[] = [];
+  //     if (videoFiles.length > 0) {
+  //       videoUrls = await uploadApartmentImagesToAppwrite(
+  //         videoFiles,
+  //         process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID || ""
+  //       );
+  //     }
+
+  //     const payload: ApartmentType = {
+  //       ...formValuesToSubmit,
+  //       images: imageUrls,
+  //       ...(videoUrls.length > 0 && { video: videoUrls[0] }), // Add video property only if video exists
+  //       agentId: user?.id ?? "",
+  //       approved: false,
+  //       views: 0,
+  //       createdAt: new Date().toISOString(),
+  //     };
+
+  //     const response = await listApartment(payload);
+
+  //     toast.success(response.success || "Property uploaded successfully", {
+  //       id: "property-upload-success",
+  //     });
+  //     if (user?.userType === "agent") addListedProperty(response.id);
+
+  //     formHelpers.resetForm();
+  //     setMediaPreviews([]);
+  //     setVideoFiles([]);
+  //     setThumbnailMap({});
+  //     setSelectedThumbnails({});
+  //     router.push(response.url);
+  //   } catch (err: any) {
+  //     toast.error(err?.message || "Upload failed");
+  //     formHelpers.setStatus({ error: err?.message || "Upload failed" });
+  //   } finally {
+  //     formHelpers.setSubmitting(false);
+  //     setFormValuesToSubmit(null);
+  //     setFormHelpers(null);
+  //   }
+  // };
 
   return (
     <div className="upload-property">
@@ -626,8 +694,7 @@ const UploadProperty = () => {
                   {isSubmitting ? "Uploading..." : "Upload Property"}
                 </button>
               </Form>
-
-              <Prompt
+ <Prompt
                 isOpen={promptOpen}
                 onCancel={() => setPromptOpen(false)}
                 message="Are you sure you want to upload this property?"
@@ -636,6 +703,7 @@ const UploadProperty = () => {
             </>
           )}
         </Formik>
+        
       </div>
     </div>
   );
