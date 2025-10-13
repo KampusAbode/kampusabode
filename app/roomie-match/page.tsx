@@ -13,14 +13,14 @@ const RoomieMatchLanding = () => {
     const { user } = useUserStore();
   const [activeRoommates, setActiveRoommates] = useState(47); // Mock count
 
-  useEffect(() => {
-    // In production, fetch actual count from Firebase
-    // const fetchCount = async () => {
-    //   const count = await getActiveRoommatesCount();
-    //   setActiveRoommates(count);
-    // };
-    // fetchCount();
-  }, []);
+  // useEffect(() => {
+  //   // In production, fetch actual count from Firebase
+  //   // const fetchCount = async () => {
+  //   //   const count = await getActiveRoommatesCount();
+  //   //   setActiveRoommates(count);
+  //   // };
+  //   // fetchCount();
+  // }, []);
 
   const handleCreateProfile = () => {
     if (!user) {
