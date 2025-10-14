@@ -28,7 +28,7 @@
   --border-white: 1px solid #ffffff;
   --border-hover: 1px solid #650202;
   /* Border Radius */
-  --border-radius: 8px;
+  --border-radius: 5px;
   --border-radius-r: 32px;
   --border-radius-btn: 5px;
   /* Spacing */
@@ -98,7 +98,7 @@ body.dark :root {
   list-style-type: none;
   text-decoration: none;
   font-weight: 400;
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 *:focus, *:active {
   outline: none;
@@ -288,6 +288,7 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: nowrap;
   gap: 0.3rem;
   font-size: var(--font-size-sm);
   color: var(--font-white);
