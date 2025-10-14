@@ -203,8 +203,8 @@ function Nav() {
                     <FaUserGroup />
                     Roomie Match
                   </Link>
-                </li> */}
-              )}
+                </li>
+              )} */}
             </ul>
           </div>
 
