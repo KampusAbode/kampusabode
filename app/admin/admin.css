@@ -96,10 +96,7 @@
   }
 }
 .admin-dashboard .container .dashboard-content .property-management ul li {
-  padding: var(--spacing-h);
-  background-color: var(--light-gray);
   margin-block: var(--spacing);
-  border-radius: var(--border-radius);
 }
 .admin-dashboard .container .dashboard-content .property-management ul li > .flex span.verified svg path {
   fill: var(--success);
@@ -137,7 +134,7 @@
   display: block;
 }
 .admin-dashboard .container .dashboard-content .property-management ul li .actions {
-  margin-top: var(--spacing-h);
+  margin-top: var(--spacing);
   display: flex;
 }
 .admin-dashboard .container .dashboard-content .property-management ul li .actions .btn {

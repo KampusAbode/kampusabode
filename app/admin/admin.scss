@@ -119,10 +119,7 @@
             grid-template-columns: repeat(3, 1fr);
           }
           li {
-            padding: var(--spacing-h);
-            background-color: var(--light-gray);
             margin-block: var(--spacing);
-            border-radius: var(--border-radius);
 
             & > .flex {
               span {
@@ -178,7 +175,7 @@
             }
 
             .actions {
-              margin-top: var(--spacing-h);
+              margin-top: var(--spacing);
               display: flex;
 
               .btn {

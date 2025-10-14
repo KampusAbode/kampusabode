@@ -191,7 +191,7 @@ function Nav() {
                 </li>
               )}
 
-              {user && (
+              {/* {user && (
                 <li
                   title="Roomiematch"
                   className={
@@ -203,7 +203,7 @@ function Nav() {
                     <FaUserGroup />
                     Roomie Match
                   </Link>
-                </li>
+                </li> */}
               )}
             </ul>
           </div>

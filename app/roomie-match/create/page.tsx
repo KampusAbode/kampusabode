@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import data from "../../fetch/contents";
+import {StudentUserInfo} from "../../fetch/types";
+import { useUserStore } from "../../store/userStore";
 
 // Mock data - replace with your actual data
 // const user? = {
@@ -115,7 +117,9 @@ const CreateRoomieProfile = () => {
     if (!user?.avatar) missing.push("Profile Photo");
     if (!user?.name) missing.push("Name");
     if (!user?.university) missing.push("University");
-    if (!user?.userInfo.currentYear) missing.push("Year of Study");
+    if (user?.userType === "student" && !(user.userInfo as StudentUserInfo).currentYear) {
+  missing.push("Year of Study");
+}
 
     if (missing.length > 0) {
       setMissingFields(missing);
@@ -241,7 +245,7 @@ const CreateRoomieProfile = () => {
         profilePhoto: user?.avatar,
         fullName: user?.name,
         university: user?.university,
-        yearOfStudy: user?.currentYear,
+        yearOfStudy: user?.userType === "student" && (user.userInfo as StudentUserInfo).currentYear,
         course: formData.course,
         gender: formData.gender,
         age: parseInt(formData.age),
@@ -372,7 +376,7 @@ const CreateRoomieProfile = () => {
                       {user?.university}
                     </p>
                     <p className="text-sm text-gray-600">
-                      {user?.currentYear}
+                      {user?.userType === "student" && !(user.userInfo as StudentUserInfo).currentYear}
                     </p>
                   </div>
                 </div>
@@ -948,7 +952,7 @@ const CreateRoomieProfile = () => {
                         {user?.name}, {formData.age || "?"}
                       </h4>
                       <p className="text-sm text-gray-600">
-                        {formData.course} • {user?.currentYear}
+                        {formData.course} • {user?.userType === "student" && !(user.userInfo as StudentUserInfo).currentYear}
                       </p>
                       <p className="text-sm text-gray-600">
                         {user?.university}
