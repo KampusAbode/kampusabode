@@ -2,15 +2,16 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import data from "../../fetch/contents";
 
 // Mock data - replace with your actual data
-const mockUser = {
-  id: "123",
-  profilePhoto: "https://via.placeholder.com/150",
-  name: "John Doe",
-  university: "University of Ibadan",
-  yearOfStudy: "Year 2",
-};
+// const user? = {
+//   id: "123",
+//   profilePhoto: "https://via.placeholder.com/150",
+//   name: "John Doe",
+//   university: "University of Ibadan",
+//   yearOfStudy: "Year 2",
+// };
 
 const courseOptions = [
   "Computer Science",
@@ -20,6 +21,8 @@ const courseOptions = [
   "Business Administration",
   "Economics",
   "Psychology",
+  "Estate Management",
+  "Accounting",
   "Biology",
   "Chemistry",
   "Physics",
@@ -31,20 +34,7 @@ const courseOptions = [
   "Other",
 ];
 
-const locationOptions = [
-  "Bodija",
-  "Agbowo",
-  "Sango",
-  "Ashi",
-  "Samonda",
-  "Ojoo",
-  "Gate",
-  "Poly Road",
-  "Eleyele",
-  "Apata",
-  "Mokola",
-  "Dugbe",
-];
+const {locations} = data;
 
 const roomTypeOptions = [
   "Self Contained",
@@ -70,9 +60,11 @@ const hobbyOptions = [
 
 const CreateRoomieProfile = () => {
   const router = useRouter();
+  const {user} = useUserStore();
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [missingFields, setMissingFields] = useState<string[]>([]);
+
 
   // Form data state
   const [formData, setFormData] = useState({
@@ -120,10 +112,10 @@ const CreateRoomieProfile = () => {
   // Check for missing user profile fields on mount
   useEffect(() => {
     const missing: string[] = [];
-    if (!mockUser.profilePhoto) missing.push("Profile Photo");
-    if (!mockUser.name) missing.push("Name");
-    if (!mockUser.university) missing.push("University");
-    if (!mockUser.yearOfStudy) missing.push("Year of Study");
+    if (!user?.avatar) missing.push("Profile Photo");
+    if (!user?.name) missing.push("Name");
+    if (!user?.university) missing.push("University");
+    if (!user?.userInfo.currentYear) missing.push("Year of Study");
 
     if (missing.length > 0) {
       setMissingFields(missing);
@@ -245,11 +237,11 @@ const CreateRoomieProfile = () => {
     try {
       // Prepare data for Firebase
       const profileData = {
-        userId: mockUser.id,
-        profilePhoto: mockUser.profilePhoto,
-        fullName: mockUser.name,
-        university: mockUser.university,
-        yearOfStudy: mockUser.yearOfStudy,
+        userId: user?.id,
+        profilePhoto: user?.avatar,
+        fullName: user?.name,
+        university: user?.university,
+        yearOfStudy: user?.currentYear,
         course: formData.course,
         gender: formData.gender,
         age: parseInt(formData.age),
@@ -297,8 +289,8 @@ const CreateRoomieProfile = () => {
   const progress = (currentStep / 4) * 100;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4 max-w-3xl">
+    <div className="min-h-screen bg-gray-50 mx-10">
+      <div className="container mx-auto max-w-3xl">
         {/* Missing Fields Warning */}
         {missingFields.length > 0 && (
           <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded">
@@ -364,23 +356,23 @@ const CreateRoomieProfile = () => {
               {/* Preview auto-filled data */}
               <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
                 <p className="text-sm font-medium text-blue-900 mb-2">
-                  Auto-filled from your profile:
+                  Your profile:
                 </p>
                 <div className="flex items-center gap-4">
                   <img
-                    src={mockUser.profilePhoto}
+                    src={user?.avatar}
                     alt="Profile"
                     className="w-16 h-16 rounded-full object-cover"
                   />
                   <div>
                     <p className="font-semibold text-gray-900">
-                      {mockUser.name}
+                      {user?.name}
                     </p>
                     <p className="text-sm text-gray-600">
-                      {mockUser.university}
+                      {user?.university}
                     </p>
                     <p className="text-sm text-gray-600">
-                      {mockUser.yearOfStudy}
+                      {user?.currentYear}
                     </p>
                   </div>
                 </div>
@@ -514,7 +506,7 @@ const CreateRoomieProfile = () => {
                   Select all that apply
                 </p>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                  {locationOptions.map((location) => (
+                  {locations.map((location) => (
                     <button
                       key={location}
                       type="button"
@@ -947,19 +939,19 @@ const CreateRoomieProfile = () => {
                 <div className="bg-white rounded-lg p-4 shadow-sm">
                   <div className="flex items-start gap-4">
                     <img
-                      src={mockUser.profilePhoto}
+                      src={user?.avatar}
                       alt="Profile"
                       className="w-20 h-20 rounded-full object-cover"
                     />
                     <div className="flex-1">
                       <h4 className="font-bold text-lg">
-                        {mockUser.name}, {formData.age || "?"}
+                        {user?.name}, {formData.age || "?"}
                       </h4>
                       <p className="text-sm text-gray-600">
-                        {formData.course} • {mockUser.yearOfStudy}
+                        {formData.course} • {user?.currentYear}
                       </p>
                       <p className="text-sm text-gray-600">
-                        {mockUser.university}
+                        {user?.university}
                       </p>
                       <div className="mt-2 flex flex-wrap gap-2">
                         <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">

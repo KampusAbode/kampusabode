@@ -679,7 +679,6 @@ const UploadProperty: React.FC = () => {
       console.groupEnd();
     }
   };
-
   const handleConfirm = async () => {
     console.groupCollapsed("handleConfirm: upload flow start");
     if (!formValuesToSubmit) {
