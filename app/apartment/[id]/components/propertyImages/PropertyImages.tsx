@@ -7,7 +7,7 @@ import Image from "next/image";
 import { ApartmentType } from "../../../../fetch/types";
 import { FaChevronLeft, FaChevronRight, FaPlay, FaPause } from "react-icons/fa";
 import { useSwipeable } from "react-swipeable";
-import "./propertyimage.css"
+import "./propertyimage.css";
 function PropertyImages({
   propertyDetails,
 }: {
@@ -80,12 +80,16 @@ function PropertyImages({
               <video
                 ref={videoRef}
                 src={currentMedia}
-                controls
+                muted
                 width="100%"
                 height="100%"
                 onPlay={() => setIsPlaying(true)}
                 onPause={() => setIsPlaying(false)}
               />
+
+              <div className="video-controls" onClick={togglePlayPause}>
+                {isPlaying ? <FaPause /> : <FaPlay />}
+              </div>
             </div>
           ) : (
             <Image
@@ -118,12 +122,13 @@ function PropertyImages({
               onClick={() => setMediaCount(index)}
               className={`thumbnail-container ${mediaCount === index ? "active" : ""}`}>
               {isVideo(media) ? (
-                <div className={`video-thumbnail ${mediaCount === index ? "active" : ""}`}>
+                <div
+                  className={`video-thumbnail ${mediaCount === index ? "active" : ""}`}>
                   <video
                     src={media}
                     width={60}
                     height={60}
-                     className="video-media"
+                    className="video-media"
                     muted
                     playsInline
                   />

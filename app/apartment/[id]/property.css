@@ -5,7 +5,7 @@
   gap: var(--spacing);
 }
 .properties-details-page .prop-image-details .property-images .container .display-image {
-  height: 80vh;
+  height: 70vh;
   display: flex;
   place-items: center;
   padding-bottom: var(--spacing);
@@ -362,7 +362,7 @@
      object-fit: cover;
 }
 .properties-details-page .container .agent-listings > div .agentProps .list-prop .list-details {
-  padding-block: var(--spacing-h);
+  padding-top: var(--spacing-h);
 }
 .properties-details-page .container .agent-listings > div .agentProps .list-prop .list-details h6 {
   overflow: hidden;
@@ -379,7 +379,6 @@
   line-clamp: 1;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
-  margin-top: var(--spacing-h);
   font-size: var(--font-size-xs);
 }
 @media (min-width: 768px) {
