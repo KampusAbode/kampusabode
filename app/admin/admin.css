@@ -140,6 +140,9 @@
 .admin-dashboard .container .dashboard-content .property-management ul li .actions .btn {
   padding: var(--spacing-h) var(--spacing);
 }
+.admin-dashboard .container .dashboard-content .property-management ul li .actions .btn.btn-secondary {
+  border: 1px solid var(primary-color);
+}
 .admin-dashboard .container .dashboard-content .analytics ul {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

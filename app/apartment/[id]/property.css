@@ -118,7 +118,7 @@
 .properties-details-page .prop-image-details .property-images .container .control-image::-webkit-scrollbar {
   display: none;
 }
-.properties-details-page .prop-image-details .property-images .container .control-image img {
+.properties-details-page .prop-image-details .property-images .container .control-image img, .properties-details-page .prop-image-details .property-images .container .control-image video {
   width: 60px;
   height: 60px;
   min-width: 60px;
@@ -130,24 +130,7 @@
   opacity: 0.3;
   transition: var(--transition);
 }
-.properties-details-page .prop-image-details .property-images .container .control-image img.active {
-  opacity: 1;
-  box-shadow: var(--shadow);
-}
-.properties-details-page .prop-image-details .property-images .container .control-image video {
-  width: 60px;
-  height: 60px;
-  min-width: 60px;
-  min-height: 60px;
-  border-radius: var(--border-radius);
-  -o-object-fit: cover;
-     object-fit: cover;
-  overflow: hidden;
-  cursor: pointer;
-  opacity: 0.3;
-  transition: var(--transition);
-}
-.properties-details-page .prop-image-details .property-images .container .control-image video.active {
+.properties-details-page .prop-image-details .property-images .container .control-image img.active, .properties-details-page .prop-image-details .property-images .container .control-image video.active {
   opacity: 1;
   box-shadow: var(--shadow);
 }
@@ -451,14 +434,7 @@
     overflow-x: scroll;
     flex-wrap: nowrap;
   }
-  .properties-details-page .prop-image-details .property-images .container .control-image img {
-    width: 60px;
-    height: 60px;
-    min-width: 60px;
-    min-height: 60px;
-    margin-right: 0;
-  }
-  .properties-details-page .prop-image-details .property-images .container .control-image video {
+  .properties-details-page .prop-image-details .property-images .container .control-image img, .properties-details-page .prop-image-details .property-images .container .control-image video {
     width: 60px;
     height: 60px;
     min-width: 60px;
@@ -487,13 +463,7 @@
   .properties-details-page .prop-image-details .property-images .container .display-image {
     height: 60vh;
   }
-  .properties-details-page .prop-image-details .property-images .container .control-image img {
-    width: 55px;
-    height: 55px;
-    min-width: 55px;
-    min-height: 55px;
-  }
-  .properties-details-page .prop-image-details .property-images .container .control-image video {
+  .properties-details-page .prop-image-details .property-images .container .control-image img, .properties-details-page .prop-image-details .property-images .container .control-image video {
     width: 55px;
     height: 55px;
     min-width: 55px;

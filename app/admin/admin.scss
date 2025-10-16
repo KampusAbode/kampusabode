@@ -180,6 +180,10 @@
 
               .btn {
                 padding: var(--spacing-h) var(--spacing);
+
+                &.btn-secondary {
+                  border: 1px solid var(primary-color);
+                }
               }
             }
           }
@@ -247,7 +251,7 @@
             .agent-info {
               .image {
                 img {
-                  height: 280PX;
+                  height: 280px;
                   object-fit: cover;
                   border-radius: var(--border-radius);
                 }
@@ -289,7 +293,7 @@
             .trend-info {
               .image {
                 img {
-                  height: 280PX;
+                  height: 280px;
                   object-fit: cover;
                   border-radius: var(--border-radius);
                 }
