@@ -122,20 +122,16 @@ function PropertyImages({
               onClick={() => setMediaCount(index)}
               className={`thumbnail-container ${mediaCount === index ? "active" : ""}`}>
               {isVideo(media) ? (
-                <div
-                  className={`video-thumbnail ${mediaCount === index ? "active" : ""}`}>
-                  <video
+              <video
+                   className={`video-thumbnail ${mediaCount === index ? "active" : ""}`}
                     src={media}
                     width={60}
                     height={60}
-                    className="video-media"
                     muted
-                    playsInline
                   />
-                  {/* <div className="video-icon"><FaPlay /></div> */}
-                </div>
               ) : (
                 <Image
+                className={mediaCount === index ? "active" : ""}
                   src={media}
                   width={400}
                   height={400}
