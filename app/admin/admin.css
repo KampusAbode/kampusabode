@@ -195,7 +195,7 @@
   margin-block: var(--spacing-h);
 }
 .admin-dashboard .container .dashboard-content .agent-listings ul li .agent-info .image img {
-  height: 280PX;
+  height: 280px;
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: var(--border-radius);
@@ -232,7 +232,7 @@
   box-shadow: var(--shadow);
 }
 .admin-dashboard .container .dashboard-content .trends ul li .trend-info .image img {
-  height: 280PX;
+  height: 280px;
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: var(--border-radius);
