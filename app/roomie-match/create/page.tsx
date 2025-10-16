@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import data from "../../fetch/contents";
 import { StudentUserInfo } from "../../fetch/types";
 import { useUserStore } from "../../store/userStore";
-import "./CreateRoomieProfile.scss";
+import "./CreateRoomieProfile.css";
 
 const courseOptions = [
   "Computer Science",

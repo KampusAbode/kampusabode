@@ -7,10 +7,13 @@
   background-color: var(--white);
   cursor: pointer;
 }
+.bookmark-button svg path {
+  fill: var(--white);
+}
 .bookmark-button:hover {
   background-color: var(--light-gray);
   border: var(--border);
 }
 .bookmark-button.saved svg path {
   fill: var(--primary-color);
-}/*# sourceMappingURL=bookmarkbutton.css.map */
+}
