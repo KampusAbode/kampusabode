@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import data from "../../fetch/contents";
 import { StudentUserInfo } from "../../fetch/types";
 import { useUserStore } from "../../store/userStore";
+import { createRoomieProfile } from "../../utils/roomieMatchFirebase";
 import "./CreateRoomieProfile.css";
 
 const courseOptions = [
@@ -233,45 +234,66 @@ const CreateRoomieProfile = () => {
     setIsSubmitting(true);
 
     try {
-      // Prepare data for Firebase
-      const profileData = {
-        userId: user?.id,
-        profilePhoto: user?.avatar,
-        fullName: user?.name,
-        university: user?.university,
-        yearOfStudy:
-          user?.userType === "student" &&
-          (user.userInfo as StudentUserInfo).currentYear,
-        course: formData.course,
-        gender: formData.gender,
-        age: parseInt(formData.age),
-        lookingFor: formData.lookingFor,
-        specificPropertyId: formData.specificPropertyId || undefined,
-        preferredLocations: formData.preferredLocations,
-        budgetMin: parseInt(formData.budgetMin),
-        budgetMax: parseInt(formData.budgetMax),
-        moveInDate: formData.moveInDate,
-        preferredRoomType: formData.preferredRoomType,
-        sleepSchedule: formData.sleepSchedule,
-        cleanlinessLevel: formData.cleanlinessLevel,
-        noisePreference: formData.noisePreference,
-        guestPolicy: formData.guestPolicy,
-        smokingStatus: formData.smokingStatus,
-        drinkingStatus: formData.drinkingStatus,
-        hobbies: formData.hobbies,
-        bio: formData.bio,
-        funFact: formData.funFact || undefined,
-        dealBreakers: formData.dealBreakers || undefined,
-        whatsappNumber: formData.whatsappNumber,
-        isVisible: true,
-        status: "active" as const,
-      };
+    // Prepare data for Firebase
+    const profileData = {
+      userId: user?.id,
+      profilePhoto: user?.avatar,
+      fullName: user?.name,
+      university: user?.university,
+      yearOfStudy:
+        user?.userType === "student"
+          ? String((user.userInfo as StudentUserInfo).currentYear)
+          : undefined,
+      course: formData.course,
+      gender: formData.gender as
+        | "male"
+        | "female"
+        | "non-binary"
+        | "prefer-not-to-say",
+      age: parseInt(formData.age),
+      lookingFor: formData.lookingFor as "specific-property" | "any-property",
+      specificPropertyId: formData.specificPropertyId || undefined,
+      preferredLocations: formData.preferredLocations,
+      budgetMin: parseInt(formData.budgetMin),
+      budgetMax: parseInt(formData.budgetMax),
+      moveInDate: formData.moveInDate,
+      preferredRoomType: formData.preferredRoomType,
+      sleepSchedule: formData.sleepSchedule as
+        | "early-bird"
+        | "night-owl"
+        | "flexible",
+      cleanlinessLevel: formData.cleanlinessLevel,
+      noisePreference: formData.noisePreference as
+        | "quiet"
+        | "moderate"
+        | "social",
+      guestPolicy: formData.guestPolicy as
+        | "no-guests"
+        | "occasional"
+        | "frequent"
+        | "flexible",
+      smokingStatus: formData.smokingStatus as
+        | "non-smoker"
+        | "smoker"
+        | "no-preference",
+      drinkingStatus: formData.drinkingStatus as
+        | "non-drinker"
+        | "social-drinker"
+        | "no-preference",
+      hobbies: formData.hobbies,
+      bio: formData.bio,
+      funFact: formData.funFact || undefined,
+      dealBreakers: formData.dealBreakers || undefined,
+      whatsappNumber: formData.whatsappNumber,
+      isVisible: true,
+      status: "active" as "active" | "found" | "inactive",
+    };
 
       // Call Firebase function to create profile
-      // const result = await createRoomieProfile(profileData);
+      const result = await createRoomieProfile(profileData);
 
       // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // await new Promise((resolve) => setTimeout(resolve, 1500));
 
       console.log("Profile created:", profileData);
 
@@ -289,7 +311,7 @@ const CreateRoomieProfile = () => {
   const progress = (currentStep / 4) * 100;
 
   return (
-    <div className="create-roomie-profile">
+    <section className="create-roomie-profile">
       <div className="container">
         {/* Missing Fields Warning */}
         {missingFields.length > 0 && (
@@ -347,7 +369,7 @@ const CreateRoomieProfile = () => {
                 <p className="profilePreviewLabel">Your profile:</p>
                 <div className="profilePreviewFlex">
                   <img
-                    src={user?.avatar}
+                    src={user?.avatar || "/assets/user_avatar.jpg"}
                     alt="Profile"
                     className="profileAvatar"
                   />
@@ -895,7 +917,7 @@ const CreateRoomieProfile = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -24,7 +24,7 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: var(--border);
-  padding-block: var(--spacing-h);
+  padding-block: var(--spacing);
 }
 .nav-menu .top .nav-header .close-div .logo a {
   cursor: pointer;

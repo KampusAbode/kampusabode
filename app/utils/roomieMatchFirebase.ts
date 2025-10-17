@@ -97,7 +97,7 @@ export const getRoomieProfileById = async (
  * Update an existing RoomieMatch profile
  */
 export const updateRoomieProfile = async (
-  profileId: string,
+  profileId: string, 
   updates: Partial<RoomieMatchProfile>
 ): Promise<{ success: boolean; error?: string }> => {
   try {

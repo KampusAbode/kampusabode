@@ -10,6 +10,9 @@
 
   cursor: pointer;
 }
+.share-button  svg{
+  width: 22px;
+}
 .share-button svg path {
   fill: var(--white);
 }
