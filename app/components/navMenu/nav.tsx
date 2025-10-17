@@ -67,7 +67,7 @@ function Nav() {
     onSwipedRight: () => {
       if (isNavOpen) toggleNav();
     },
-    preventDefaultTouchmoveEvent: true,
+    preventScrollOnSwipe: true,
     trackTouch: true,
   });
 
@@ -76,7 +76,7 @@ function Nav() {
     onSwipedLeft: () => {
       if (!isNavOpen) toggleNav();
     },
-    preventDefaultTouchmoveEvent: true,
+    preventScrollOnSwipe: true,
     trackTouch: true,
   });
 
