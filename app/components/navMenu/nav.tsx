@@ -21,7 +21,7 @@ import Prompt from "../modals/prompt/Prompt";
 import { logoutUser } from "../../utils/auth";
 import { checkIsAdmin } from "../../utils";
 import Image from "next/image";
-import { useSwipeable } from "react-swipeable"; // 👈 Added
+import { useSwipeable } from "react-swipeable";
 
 function Nav() {
   const pathname = usePathname();
@@ -91,9 +91,9 @@ function Nav() {
             position: "fixed",
             top: 0,
             left: 0,
-            width: "24px",
+            width: "100px",
             height: "100vh",
-            zIndex: 50,
+            zIndex: 500,
             background: "transparent",
           }}
         />
