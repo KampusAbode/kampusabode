@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import data from "../../fetch/contents";
 import RoomieCard from "../../components/roomimatch/RoomieCard";
 import { getRoomieProfiles, incrementProfileViews } from "../../utils/roomieMatchFirebase";
-import "./BrowseRoommates.css";
+import "./BrowseRoomiematches.css";
 
 const { locations } = data;
 
