@@ -6,6 +6,7 @@ import data from "../../fetch/contents";
 import { StudentUserInfo } from "../../fetch/types";
 import { useUserStore } from "../../store/userStore";
 import { createRoomieProfile } from "../../utils/roomieMatchFirebase";
+import {toast} from "react-toast";
 import "./CreateRoomieProfile.css";
 
 const courseOptions = [
@@ -297,8 +298,15 @@ const CreateRoomieProfile = () => {
 
       console.log("Profile created:", profileData);
 
+      if (result.success) {
+        router.push("/roomie-match/browse?success=true");
+        toast.success("Profile created successfully");
+      } else {
+        toast.error("failed to upload profile");
+      };
+
       // Redirect to success page or browse page
-      router.push("/roomie-match/browse?success=true");
+      
     } catch (error) {
       console.error("Error creating profile:", error);
       alert("Failed to create profile. Please try again.");
