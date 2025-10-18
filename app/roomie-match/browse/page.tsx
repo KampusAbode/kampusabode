@@ -119,14 +119,34 @@ const BrowseRoommates = () => {
   };
 
   const handleWhatsAppConnect = (profile: any) => {
-    const message = encodeURIComponent(
-      `Hi ${profile.fullName}! I saw your RoomieMatch profile on Kampus Abode and I think we could be a great match. I'd love to chat about possibly being roommates!`
-    );
-    window.open(
-      `https://wa.me/${profile.whatsappNumber}?text=${message}`,
-      "_blank"
-    );
-  };
+  let number = profile.whatsappNumber.trim();
+
+  // Normalize common mistakes or local formats
+  if (number.startsWith("0")) {
+    // Convert from 07012345678 → +2347012345678
+    number = "+234" + number.slice(1);
+  } else if (number.startsWith("234")) {
+    // Convert from 2347012345678 → +2347012345678
+    number = "+" + number;
+  } else if (!number.startsWith("+")) {
+    // If user enters something like "7012345678"
+    number = "+234" + number;
+  }
+
+  // Optional: Basic validation to ensure it looks like a Nigerian number
+  const phoneRegex = /^\+234\d{10}$/;
+  if (!phoneRegex.test(number)) {
+    console.error("Invalid WhatsApp number format:", number);
+    return toast.error("Invalid WhatsApp number format. Please check and try again.");
+  }
+
+  const message = encodeURIComponent(
+    `Hi ${profile.fullName}! I saw your RoomieMatch profile on Kampus Abode and I think we could be a great match. I'd love to chat about possibly being roommates!`
+  );
+
+  // Open WhatsApp chat
+  window.open(`https://wa.me/${number.replace("+", "")}?text=${message}`, "_blank");
+};
 
   const getLifestyleIcon = (type: string, value: any) => {
     const icons: Record<string, string> = {
