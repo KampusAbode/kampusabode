@@ -241,7 +241,7 @@ export interface RoomieMatchProfile {
   
   // Housing Preferences
   lookingFor: "specific-property" | "any-property";
-  specificPropertyId?: string; // If they selected a specific property
+  //specificPropertyId?: string; // If they selected a specific property
   preferredLocations: string[]; // Array of location strings
   budgetMin: number;
   budgetMax: number;
