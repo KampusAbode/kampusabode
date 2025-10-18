@@ -6,7 +6,7 @@ import data from "../../fetch/contents";
 import { StudentUserInfo } from "../../fetch/types";
 import { useUserStore } from "../../store/userStore";
 import { createRoomieProfile } from "../../utils/roomieMatchFirebase";
-import {toast} from "react-toast";
+import toast from "react-hot-toast";
 import "./CreateRoomieProfile.css";
 
 const courseOptions = [
