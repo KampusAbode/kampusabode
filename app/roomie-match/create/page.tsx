@@ -296,13 +296,13 @@ const CreateRoomieProfile = () => {
       // Simulate API call
       // await new Promise((resolve) => setTimeout(resolve, 1500));
 
-      console.log("Profile created:", profileData);
+      // console.log("Profile created:", profileData);
 
-      if (result.success) {
+      if (result?.success) {
         router.push("/roomie-match/browse?success=true");
         toast.success("Profile created successfully");
       } else {
-        toast.error("failed to upload profile");
+        toast.error(result?.error);
       };
 
       // Redirect to success page or browse page
