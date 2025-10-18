@@ -70,7 +70,7 @@ const CreateRoomieProfile = () => {
 
     // Step 2: Housing Preferences
     lookingFor: "" as "specific-property" | "any-property" | "",
-    specificPropertyId: "",
+    //specificPropertyId: "",
     preferredLocations: [] as string[],
     budgetMin: "",
     budgetMax: "",
@@ -253,7 +253,7 @@ const CreateRoomieProfile = () => {
         | "prefer-not-to-say",
       age: parseInt(formData.age),
       lookingFor: formData.lookingFor as "specific-property" | "any-property",
-      specificPropertyId: formData.specificPropertyId || undefined,
+      //specificPropertyId: formData.specificPropertyId || undefined,
       preferredLocations: formData.preferredLocations,
       budgetMin: parseInt(formData.budgetMin),
       budgetMax: parseInt(formData.budgetMax),
