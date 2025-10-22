@@ -90,8 +90,8 @@ function Nav() {
           style={{
             position: "fixed",
             top: 0,
-            left: 0,
-            width: "100px",
+            right: 0,
+            width: "80px",
             height: "100vh",
             zIndex: 500,
             background: "transparent",
