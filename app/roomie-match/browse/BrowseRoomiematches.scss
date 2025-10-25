@@ -1,0 +1,356 @@
+// Main Container
+.browse-roommates {
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+// Header Section
+.pageHeader {
+  background: linear-gradient(to right, #2563eb, #9333ea);
+  color: #ffffff;
+  padding: 2rem 0;
+}
+
+.headerContainer {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding-inline: var(--spacing);
+}
+
+.headerTitle {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  
+  @media (min-width: 768px) {
+    font-size: 2.25rem;
+  }
+}
+
+.headerSubtitle {
+  color: #bfdbfe;
+}
+
+// Content Container
+.contentContainer {
+  max-width: 80rem;
+  margin-left: auto;
+  margin: 0 auto;
+  padding: 2rem var(--spacing);
+}
+
+.contentFlex {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  
+  @media (min-width: 1024px) {
+    flex-direction: row;
+  }
+}
+
+// Filters Sidebar
+.filtersSidebar {
+  @media (min-width: 1024px) {
+    width: 20rem;
+  }
+}
+
+.filtersCard {
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  position: sticky;
+  top: var(--spacing);
+}
+
+.filtersHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing);
+}
+
+.filtersTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.clearButton {
+  font-size: 0.875rem;
+  color: #2563eb;
+  background: none;
+  border: none;
+  cursor: pointer;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.mobileFilterToggle {
+  width: 100%;
+  margin-bottom: var(--spacing);
+  padding: 0.5rem var(--spacing);
+  background-color: #f3f4f6;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  
+  @media (min-width: 1024px) {
+    display: none;
+  }
+}
+
+.filtersContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing);
+  
+  &.hidden {
+    display: none;
+  }
+  
+  @media (min-width: 1024px) {
+    display: flex !important;
+  }
+}
+
+// Filter Fields
+.filterField {
+  label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
+  }
+  
+  select,
+  input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    
+    &:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+  }
+}
+
+.budgetInputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+// Profiles Grid
+.profilesContainer {
+  flex: 1;
+}
+
+.emptyState {
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  padding: 3rem;
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 3.75rem;
+  margin-bottom: var(--spacing);
+}
+
+.emptyTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.emptyText {
+  color: #4b5563;
+  margin-bottom: var(--spacing);
+}
+
+.emptyButton {
+  padding: 0.5rem 1.5rem;
+  background-color: #2563eb;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background-color: #1d4ed8;
+  }
+}
+
+.profilesGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (min-width: 1280px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// Profile Modal
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing);
+  z-index: 50;
+}
+
+.modalContent {
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  max-width: 42rem;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modalInner {
+  padding: 1.5rem;
+}
+
+.modalCloseButton {
+  float: right;
+  color: #9ca3af;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+  
+  &:hover {
+    color: #4b5563;
+  }
+}
+
+// Profile Modal Header
+.modalHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.modalAvatar {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+
+.modalHeaderInfo {
+  flex: 1;
+}
+
+.modalName {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.modalCourse {
+  color: #4b5563;
+}
+
+.modalUniversity {
+  color: #4b5563;
+}
+
+.modalGender {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: 0.5rem;
+}
+
+// Modal Details
+.modalDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.detailSection {
+  h3 {
+    font-weight: 600;
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.detailBox {
+  background-color: #f9fafb;
+  padding: var(--spacing);
+  border-radius: 0.5rem;
+  
+  p {
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+    
+    strong {
+      font-weight: 600;
+    }
+  }
+}
+
+.hobbiesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.hobbyTag {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+}
+
+.bioText {
+  color: #374151;
+}
+
+.whatsappButton {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background-color: #22c55e;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background-color: #16a34a;
+  }
+}

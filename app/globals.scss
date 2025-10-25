@@ -36,7 +36,7 @@
   --border-hover: 1px solid #650202;
 
   /* Border Radius */
-  --border-radius: 8px;
+  --border-radius: 5px;
   --border-radius-r: 32px;
   --border-radius-btn: 5px;
 
@@ -121,7 +121,7 @@ body.dark {
   list-style-type: none;
   text-decoration: none;
   font-weight: 400;
-  font-size: .9rem;
+  font-size: 1rem;
 
   &:focus,
   &:active {
@@ -308,6 +308,7 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: nowrap;
   gap: 0.3rem;
 
   font-size: var(--font-size-sm);

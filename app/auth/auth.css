@@ -4,10 +4,8 @@
 
   .container {
     width: 100%;
-    max-width: 100%;
     margin: 0 auto;
     min-height: 100vh;
-    max-height: 100vh;
     overflow: hidden;
 
     display: grid;
@@ -34,7 +32,7 @@
 
       form {
         width: 50%;
-        margin: 0 auto;
+        margin: 0 auto var(--spacing-4x);
         .input-box {
           position: relative;
           margin-bottom: var(--spacing-2x);

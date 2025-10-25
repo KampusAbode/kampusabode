@@ -96,10 +96,7 @@
   }
 }
 .admin-dashboard .container .dashboard-content .property-management ul li {
-  padding: var(--spacing-h);
-  background-color: var(--light-gray);
   margin-block: var(--spacing);
-  border-radius: var(--border-radius);
 }
 .admin-dashboard .container .dashboard-content .property-management ul li > .flex span.verified svg path {
   fill: var(--success);
@@ -137,11 +134,14 @@
   display: block;
 }
 .admin-dashboard .container .dashboard-content .property-management ul li .actions {
-  margin-top: var(--spacing-h);
+  margin-top: var(--spacing);
   display: flex;
 }
 .admin-dashboard .container .dashboard-content .property-management ul li .actions .btn {
   padding: var(--spacing-h) var(--spacing);
+}
+.admin-dashboard .container .dashboard-content .property-management ul li .actions .btn.btn-secondary {
+  border: 1px solid var(primary-color);
 }
 .admin-dashboard .container .dashboard-content .analytics ul {
   display: grid;
@@ -195,7 +195,7 @@
   margin-block: var(--spacing-h);
 }
 .admin-dashboard .container .dashboard-content .agent-listings ul li .agent-info .image img {
-  height: 280PX;
+  height: 280px;
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: var(--border-radius);
@@ -232,7 +232,7 @@
   box-shadow: var(--shadow);
 }
 .admin-dashboard .container .dashboard-content .trends ul li .trend-info .image img {
-  height: 280PX;
+  height: 280px;
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: var(--border-radius);

@@ -4,8 +4,13 @@
   border-radius: 100%;
   width: 38px;
   height: 38px;
-  background-color: var(--white);
   cursor: pointer;
+}
+.bookmark-button svg {
+  width: 22px;
+}
+.bookmark-button svg path {
+  fill: var(--white);
 }
 .bookmark-button:hover {
   background-color: var(--light-gray);
@@ -13,4 +18,4 @@
 }
 .bookmark-button.saved svg path {
   fill: var(--primary-color);
-}/*# sourceMappingURL=bookmarkbutton.css.map */
+}

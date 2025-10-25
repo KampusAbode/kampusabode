@@ -67,10 +67,9 @@ export default function EditApartment({ params }: { params: { id: string } }) {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   const formikRef = useRef<FormikProps<any>>(null);
-  
-  
+
   // const [selectedThumbnails, setSelectedThumbnails] = useState<
   // Record<string, File>
   // >({});
@@ -86,7 +85,7 @@ export default function EditApartment({ params }: { params: { id: string } }) {
     const getApartment = async () => {
       try {
         const apartmentDetails = await getApartmentById(id);
-      
+
         if (!apartmentDetails) {
           setError("Apartment not found");
         } else {
@@ -125,22 +124,19 @@ export default function EditApartment({ params }: { params: { id: string } }) {
   //   setNewImages([...newImages, ...Array.from(e.target.files)]);
   // };
 
-
   const handleConfirmUpdate = () => {
     if (formikRef.current) {
       formikRef.current.handleSubmit();
     }
     setPromptOpen(false);
   };
- 
-
 
   function handleSubmit(values, { setSubmitting }) {
     setSubmitting(true);
     updateapartment(id, values)
       .then(() => {
         toast.success("Apartment updated successfully!");
-        router.push(`/dashboard/${user.name}`);
+        router.push(`/dashboard/${user?.id}`);
       })
       .catch((err) => {
         toast.error("Update failed.");
@@ -148,7 +144,6 @@ export default function EditApartment({ params }: { params: { id: string } }) {
       })
       .finally(() => setSubmitting(false));
   }
-
 
   return (
     <div className="edit-property">

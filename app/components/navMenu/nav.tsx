@@ -3,27 +3,15 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import {
-  FaTimes,
-  FaRegUserCircle,
-  FaSearchLocation,
-  FaRegUser,
-  FaUser,
-} from "react-icons/fa";
-import {
-  TbHomeSearch,
-  TbMessageCircleUser,
-  TbMessageUser,
-} from "react-icons/tb";
-import { CiViewBoard, CiHome } from "react-icons/ci";
-import { GrUserAdmin } from "react-icons/gr";
+import { FaTimes } from "react-icons/fa";
+import { TbHomeSearch } from "react-icons/tb";
+import { CiHome } from "react-icons/ci";
 import {
   LuCircleUserRound,
   LuLayoutDashboard,
   LuLogOut,
   LuMessagesSquare,
 } from "react-icons/lu";
-
 import { IoChatbubblesOutline } from "react-icons/io5";
 import toast from "react-hot-toast";
 import "./nav.css";
@@ -33,7 +21,7 @@ import Prompt from "../modals/prompt/Prompt";
 import { logoutUser } from "../../utils/auth";
 import { checkIsAdmin } from "../../utils";
 import Image from "next/image";
-import { RiHomeLine } from "react-icons/ri";
+import { useSwipeable } from "react-swipeable";
 
 function Nav() {
   const pathname = usePathname();
@@ -44,9 +32,7 @@ function Nav() {
   const [showPrompt, setShowPrompt] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
-  const handleLogoutClick = () => {
-    setShowPrompt(true);
-  };
+  const handleLogoutClick = () => setShowPrompt(true);
 
   const confirmLogout = async () => {
     setShowPrompt(false);
@@ -56,39 +42,70 @@ function Nav() {
       router.push("/apartment");
       toast.success("Logged out successfully");
       window.location.reload();
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error?.message || "An unexpected error occurred.");
     }
   };
 
-  const cancelLogout = () => {
-    setShowPrompt(false);
-  };
+  const cancelLogout = () => setShowPrompt(false);
 
   useEffect(() => {
     async function checkUserPermissions(userId: string) {
       try {
-        const isAdmin = await checkIsAdmin(userId);
-
-        if (isAdmin) {
-          setIsAdmin(true);
-        }
+        const adminCheck = await checkIsAdmin(userId);
+        if (adminCheck) setIsAdmin(true);
       } catch (error) {
         console.error("Failed to check user permissions:", error);
       }
     }
-    checkUserPermissions(user?.id);
+    if (user?.id) checkUserPermissions(user.id);
     setLoading(false);
   }, [user]);
+
+  // 👇 Swipe to CLOSE (on the nav)
+  const closeHandlers = useSwipeable({
+    onSwipedRight: () => {
+      if (isNavOpen) toggleNav();
+    },
+    preventScrollOnSwipe: true,
+    trackTouch: true,
+  });
+
+  // 👇 Swipe to OPEN (on the screen edge)
+  const openHandlers = useSwipeable({
+    onSwipedLeft: () => {
+      if (!isNavOpen) toggleNav();
+    },
+    preventScrollOnSwipe: true,
+    trackTouch: true,
+  });
 
   if (loading) return null;
 
   return (
     <>
+      {!isNavOpen && (
+        <div
+          {...openHandlers}
+          style={{
+            position: "fixed",
+            top: 0,
+            right: 0,
+            width: "80px",
+            height: "100vh",
+            zIndex: 500,
+            background: "transparent",
+          }}
+        />
+      )}
+
+      
       <div
+        {...closeHandlers}
         className={`nav-menu ${user ? "sideNav" : "notlogged"} ${
           isNavOpen ? "fadeIn" : "fadeOut"
-        }`}>
+        }`}
+      >
         <div className="container">
           <div className="top">
             <div className="nav-header">
@@ -115,7 +132,8 @@ function Nav() {
                     href={`/apartment/c/${user.id}`}
                     className="btn"
                     title="Button"
-                    onClick={toggleNav}>
+                    onClick={toggleNav}
+                  >
                     new listing
                   </Link>
                 )}
@@ -125,7 +143,8 @@ function Nav() {
                     href="/admin/users"
                     className="btn"
                     title="Button"
-                    onClick={toggleNav}>
+                    onClick={toggleNav}
+                  >
                     Admin
                   </Link>
                 )}
@@ -136,14 +155,16 @@ function Nav() {
               <li
                 title={user ? "Dashboard" : "Home"}
                 className={
-                  pathname === `/dashboard/${user?.name}` || pathname === "/"
+                  pathname === `/dashboard/${user?.id}` || pathname === "/"
                     ? "active"
                     : ""
-                }>
+                }
+              >
                 <Link
                   prefetch
-                  href={user ? `/dashboard/${user?.name}` : "/"}
-                  onClick={toggleNav}>
+                  href={user ? `/dashboard/${user?.id}` : "/"}
+                  onClick={toggleNav}
+                >
                   {user ? <LuLayoutDashboard /> : <CiHome />}
                   {user ? "dashboard" : "home"}
                 </Link>
@@ -151,7 +172,8 @@ function Nav() {
 
               <li
                 title="Apartment"
-                className={pathname === "/apartment" ? "active" : ""}>
+                className={pathname === "/apartment" ? "active" : ""}
+              >
                 <Link prefetch href="/apartment" onClick={toggleNav}>
                   <TbHomeSearch />
                   Apartment
@@ -161,7 +183,8 @@ function Nav() {
               {isAdmin && (
                 <li
                   title="Admin Chat"
-                  className={pathname === "/adminchatroom" ? "active" : ""}>
+                  className={pathname === "/adminchatroom" ? "active" : ""}
+                >
                   <Link prefetch href="/adminchatroom" onClick={toggleNav}>
                     <LuMessagesSquare />
                     User Messages
@@ -171,7 +194,8 @@ function Nav() {
 
               <li
                 title="Profile"
-                className={pathname === "/profile" ? "active" : ""}>
+                className={pathname === "/profile" ? "active" : ""}
+              >
                 <Link prefetch href="/profile" onClick={toggleNav}>
                   <LuCircleUserRound />
                   profile
@@ -182,11 +206,15 @@ function Nav() {
                 <li
                   title="Chat"
                   className={
-                    pathname === `/chat/${user.id}/${user.name}` ? "active" : ""
-                  }>
+                    pathname === `/chat/${user.id}/${user.name}`
+                      ? "active"
+                      : ""
+                  }
+                >
                   <Link
                     href={`/chat/${user.id}/${user.name}`}
-                    onClick={toggleNav}>
+                    onClick={toggleNav}
+                  >
                     <IoChatbubblesOutline />
                     chat
                   </Link>
@@ -202,7 +230,8 @@ function Nav() {
                 <button
                   className="btn btn-secondary"
                   title="Logout"
-                  onClick={handleLogoutClick}>
+                  onClick={handleLogoutClick}
+                >
                   Logout
                   <LuLogOut />
                 </button>

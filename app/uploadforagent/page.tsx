@@ -7,10 +7,7 @@ import * as Yup from "yup";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  listApartment,
-  uploadApartmentImagesToAppwrite,
-} from "../utils/properties";
+import { listApartment, uploadFilesToAppwrite } from "../utils/properties";
 import { useUserStore } from "../store/userStore";
 import { ApartmentType } from "../fetch/types";
 import Prompt from "../components/modals/prompt/Prompt";
@@ -192,7 +189,10 @@ const UploadForAgent = () => {
       }
     }
 
-    const totalSize = [...finalFiles, ...finalVideoFiles].reduce((acc, f) => acc + f.size, 0);
+    const totalSize = [...finalFiles, ...finalVideoFiles].reduce(
+      (acc, f) => acc + f.size,
+      0
+    );
     if (totalSize > MAX_FILE_SIZE) {
       toast.error("Total file size exceeds 8MB");
       return;
@@ -267,12 +267,12 @@ const UploadForAgent = () => {
     try {
       // Prepare files for upload
       let filesToUpload: File[] = [...mediaPreviews]; // Start with image files
-      
+
       // Add video thumbnails to the images array
       for (const videoFile of videoFiles) {
         const videoThumbs = thumbnailMap[videoFile.name] || [];
         const selectedThumb = selectedThumbnails[videoFile.name];
-        
+
         if (selectedThumb) {
           // Add the selected thumbnail
           filesToUpload.push(selectedThumb);
@@ -283,7 +283,7 @@ const UploadForAgent = () => {
       }
 
       // Upload image files (including video thumbnails) to Appwrite
-      const imageUrls = await uploadApartmentImagesToAppwrite(
+      const imageUrls = await uploadFilesToAppwrite(
         filesToUpload,
         process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID || ""
       );
@@ -291,11 +291,11 @@ const UploadForAgent = () => {
       if (imageUrls.length === 0) {
         throw new Error("No media files were uploaded successfully");
       }
-      
+
       // Upload video files separately if they exist
       let videoUrls: string[] = [];
       if (videoFiles.length > 0) {
-        videoUrls = await uploadApartmentImagesToAppwrite(
+        videoUrls = await uploadFilesToAppwrite(
           videoFiles,
           process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID || ""
         );

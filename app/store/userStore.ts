@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { AgentUserInfo, UserType } from "../fetch/types";
+import { AgentUserInfo, UserType, StudentUserInfo } from "../fetch/types";
 import {
   doc,
   setDoc,
@@ -17,87 +17,130 @@ interface UserState {
   logoutUser: () => void;
 
   // Student specific actions
-  addBookmark: (id: string) => void;
-  removeBookmark: (id: string) => void;
-  addViewedProperties: (id: string) => void;
-  addViewedTrends: (id: string) => void;
+  addBookmark: (id: string) => Promise<void>;
+  removeBookmark: (id: string) => Promise<void>;
+  addViewedProperties: (id: string) => Promise<void>;
+  addViewedTrends: (id: string) => Promise<void>;
 
   // Agent specific action
-  addListedProperty: (id: string) => void;
+  addListedProperty: (id: string) => Promise<void>;
+
+  // Roomie profile
+  hasRoomieProfile: boolean;
+  roomieProfileId?: string;
+  setRoomieProfileId: (id: string) => void;
 }
 
 export const useUserStore = create<UserState>()(
   persist(
     (set, get) => ({
       user: null,
+      hasRoomieProfile: false,
+      roomieProfileId: undefined,
 
       setUser: (data) => {
         set({ user: data });
         if (data?.id) {
-          // Update the Firestore user document with the new/updated user data
           const userRef = doc(db, "users", data.id);
-          setDoc(userRef, data, { merge: true });
+          setDoc(userRef, data, { merge: true }).catch((err) => {
+            console.error("Error setting user in Firestore:", err);
+          });
         }
       },
 
       logoutUser: () => {
-        set({ user: null });
+        set({ user: null, hasRoomieProfile: false, roomieProfileId: undefined });
       },
 
-      addBookmark: (id) => {
+      setRoomieProfileId: (id) => {
+        set({ roomieProfileId: id, hasRoomieProfile: true });
+      },
+
+      addBookmark: async (id) => {
         const user = get().user;
         if (!user || user.userType !== "student") return;
-        // Cast userInfo as StudentUserInfo
-        const currentSaved = (user.userInfo as any).savedProperties as string[];
-        if (!currentSaved.includes(id)) {
-          // Update local store state
+
+        const studentInfo = user.userInfo as StudentUserInfo;
+        const currentSaved = studentInfo.savedProperties || [];
+        
+        if (currentSaved.includes(id)) return;
+
+        try {
+          // Update Firestore first
+          const userRef = doc(db, "users", user.id);
+          await updateDoc(userRef, {
+            "userInfo.savedProperties": arrayUnion(id),
+          });
+
+          // Update local state after successful Firestore update
           const updatedUser: UserType = {
             ...user,
             userInfo: {
-              ...user.userInfo,
+              ...studentInfo,
               savedProperties: [...currentSaved, id],
             },
           };
           set({ user: updatedUser });
-
-          // Update Firestore: Add bookmark to savedProperties array
-          const userRef = doc(db, "users", user.id);
-          updateDoc(userRef, {
-            "userInfo.savedProperties": arrayUnion(id),
-          });
+        } catch (err) {
+          console.error("Error adding bookmark:", err);
+          throw err;
         }
       },
 
-      removeBookmark: (id) => {
+      removeBookmark: async (id) => {
         const user = get().user;
         if (!user || user.userType !== "student") return;
-        const currentSaved = (user.userInfo as any).savedProperties as string[];
-        if (currentSaved.includes(id)) {
+
+        const studentInfo = user.userInfo as StudentUserInfo;
+        const currentSaved = studentInfo.savedProperties || [];
+        
+        if (!currentSaved.includes(id)) return;
+
+        try {
+          // Update Firestore first
+          const userRef = doc(db, "users", user.id);
+          await updateDoc(userRef, {
+            "userInfo.savedProperties": arrayRemove(id),
+          });
+
+          // Update local state after successful Firestore update
           const updatedUser: UserType = {
             ...user,
             userInfo: {
-              ...user.userInfo,
-              savedProperties: currentSaved.filter((pid: string) => pid !== id),
+              ...studentInfo,
+              savedProperties: currentSaved.filter((pid) => pid !== id),
             },
           };
           set({ user: updatedUser });
-
-          // Update Firestore: Remove bookmark from savedProperties array
-          const userRef = doc(db, "users", user.id);
-          updateDoc(userRef, {
-            "userInfo.savedProperties": arrayRemove(id),
-          });
+        } catch (err) {
+          console.error("Error removing bookmark:", err);
+          throw err;
         }
       },
+
       addViewedProperties: async (id) => {
         const user = get().user;
         if (!user) return;
 
-        const currentViewed = (user.userInfo as any)
-          ?.viewedProperties as string[];
+        const currentViewed = (user.userInfo as any)?.viewedProperties as string[] || [];
 
-        // If the property hasn't been viewed
-        if (currentViewed && !currentViewed?.includes(id)) {
+        if (currentViewed.includes(id)) return;
+
+        try {
+          const userRef = doc(db, "users", user.id);
+          const apartmentRef = doc(db, "properties", id);
+
+          // Update both Firestore documents
+          await Promise.all([
+            updateDoc(userRef, {
+              "userInfo.viewedProperties": arrayUnion(id),
+            }),
+            updateDoc(apartmentRef, {
+              views: increment(1),
+            }),
+          ]);
+
+          // Update local state after successful Firestore updates
           const updatedUser: UserType = {
             ...user,
             userInfo: {
@@ -105,26 +148,10 @@ export const useUserStore = create<UserState>()(
               viewedProperties: [...currentViewed, id],
             },
           };
-
           set({ user: updatedUser });
-
-          // Firestore references
-          const userRef = doc(db, "users", user.id);
-          const apartmentRef = doc(db, "properties", id);
-
-          try {
-            // Update user's viewedProperties
-            await updateDoc(userRef, {
-              "userInfo.viewedProperties": arrayUnion(id),
-            });
-
-            // Increment view count for apartment
-            await updateDoc(apartmentRef, {
-              views: increment(1),
-            });
-          } catch (err) {
-            console.error("Error updating views:", err);
-          }
+        } catch (err) {
+          console.error("Error updating property views:", err);
+          throw err;
         }
       },
 
@@ -132,14 +159,27 @@ export const useUserStore = create<UserState>()(
         const user = get().user;
         if (!user) return;
 
-        const currentViewed: string[] = Array.isArray(
-          user.userInfo?.viewedTrends
-        )
+        const currentViewed: string[] = Array.isArray(user.userInfo?.viewedTrends)
           ? user.userInfo.viewedTrends
           : [];
 
-        // If the property hasn't been viewed
-        if (currentViewed && !currentViewed?.includes(id)) {
+        if (currentViewed.includes(id)) return;
+
+        try {
+          const userRef = doc(db, "users", user.id);
+          const trendRef = doc(db, "trends", id);
+
+          // Update both Firestore documents
+          await Promise.all([
+            updateDoc(userRef, {
+              "userInfo.viewedTrends": arrayUnion(id),
+            }),
+            updateDoc(trendRef, {
+              views: increment(1),
+            }),
+          ]);
+
+          // Update local state after successful Firestore updates
           const updatedUser: UserType = {
             ...user,
             userInfo: {
@@ -147,50 +187,41 @@ export const useUserStore = create<UserState>()(
               viewedTrends: [...currentViewed, id],
             },
           };
-
           set({ user: updatedUser });
-
-          // set({ trend: updatedUser });
-          // Firestore references
-          const userRef = doc(db, "users", user.id);
-          const trendRef = doc(db, "trends", id);
-
-          try {
-            // Update user's viewedTrends
-            await updateDoc(userRef, {
-              "userInfo.viewedTrends": arrayUnion(id),
-            });
-
-            // Increment view count for apartment
-            await updateDoc(trendRef, {
-              views: increment(1),
-            });
-          } catch (err) {
-            console.error("Error updating views:", err);
-          }
+        } catch (err) {
+          console.error("Error updating trend views:", err);
+          throw err;
         }
       },
 
-      addListedProperty: (id) => {
+      addListedProperty: async (id) => {
         const user = get().user;
         if (!user || user.userType !== "agent") return;
-        const currentListed = (user.userInfo as AgentUserInfo)
-          .propertiesListed as string[];
-        if (!currentListed.includes(id)) {
+
+        const agentInfo = user.userInfo as AgentUserInfo;
+        const currentListed = agentInfo.propertiesListed || [];
+        
+        if (currentListed.includes(id)) return;
+
+        try {
+          // Update Firestore first
+          const userRef = doc(db, "users", user.id);
+          await updateDoc(userRef, {
+            "userInfo.propertiesListed": arrayUnion(id),
+          });
+
+          // Update local state after successful Firestore update
           const updatedUser: UserType = {
             ...user,
             userInfo: {
-              ...user.userInfo,
+              ...agentInfo,
               propertiesListed: [...currentListed, id],
             },
           };
           set({ user: updatedUser });
-
-          // Update Firestore: Add property ID to agent's listedProperties
-          const userRef = doc(db, "users", user.id);
-          updateDoc(userRef, {
-            "userInfo.propertiesListed": arrayUnion(id),
-          });
+        } catch (err) {
+          console.error("Error adding listed property:", err);
+          throw err;
         }
       },
     }),

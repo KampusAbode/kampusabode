@@ -7,7 +7,6 @@ import Image from "next/image";
 import { ApartmentType } from "../../../../fetch/types";
 import { FaChevronLeft, FaChevronRight, FaPlay, FaPause } from "react-icons/fa";
 import { useSwipeable } from "react-swipeable";
-import "./propertyimage.css"
 function PropertyImages({
   propertyDetails,
 }: {
@@ -16,7 +15,7 @@ function PropertyImages({
   const [mediaCount, setMediaCount] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
-  
+
   // Combine images and video (if exists) into a single array, with video last
   const allMedia = React.useMemo(() => {
     const media = [...(propertyDetails?.images || [])];
@@ -25,7 +24,7 @@ function PropertyImages({
     }
     return media;
   }, [propertyDetails?.images, propertyDetails?.video]);
-  
+
   const maxMediaCount: number = allMedia.length;
 
   const incrementMediaCount = () => {
@@ -68,22 +67,29 @@ function PropertyImages({
     <div className="property-images">
       <div className="container">
         <div className="display-image" {...handlers}>
-          <div className="features">
-            <ShareButton />
-            <BookmarkButton propertyId={propertyDetails?.id} />
-          </div>
+          {propertyDetails?.approved && (
+            <div className="features">
+              <ShareButton />
+              <BookmarkButton propertyId={propertyDetails?.id} />
+            </div>
+          )}
 
           {currentIsVideo ? (
             <div className="video-container">
               <video
                 ref={videoRef}
                 src={currentMedia}
-                controls
+                muted
                 width="100%"
                 height="100%"
                 onPlay={() => setIsPlaying(true)}
                 onPause={() => setIsPlaying(false)}
+                onClick={togglePlayPause}
               />
+
+              <div className="video-controls" onClick={togglePlayPause}>
+                {isPlaying ? <FaPause /> : <FaPlay />}
+              </div>
             </div>
           ) : (
             <Image
@@ -111,25 +117,21 @@ function PropertyImages({
 
         <div className="control-image">
           {allMedia.map((media: string, index: number) => (
-            <div 
-              key={index + media} 
+            <div
+              key={index + media}
               onClick={() => setMediaCount(index)}
-              className={`thumbnail-container ${mediaCount === index ? "active" : ""}`}
-            >
+              className={`thumbnail-container ${mediaCount === index ? "active" : ""}`}>
               {isVideo(media) ? (
-                <div className={`video-thumbnail ${mediaCount === index ? "active" : ""}`}>
-                  <video
-                    src={media}
-                    width={60}
-                    height={60}
-                     className="video-media"
-                    muted
-                    playsInline
-                  />
-                  {/* <div className="video-icon"><FaPlay /></div> */}
-                </div>
+                <video
+                  className={`video-thumbnail ${mediaCount === index ? "active" : ""}`}
+                  src={media}
+                  width={60}
+                  height={60}
+                  muted
+                />
               ) : (
                 <Image
+                  className={mediaCount === index ? "active" : ""}
                   src={media}
                   width={400}
                   height={400}
