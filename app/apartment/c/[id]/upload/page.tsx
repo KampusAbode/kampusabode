@@ -543,9 +543,8 @@ const UploadProperty: React.FC = () => {
         .min(50000, "Price must be at least ₦50,000"),
       location: Yup.string().required("Location is required"),
       neighborhood_overview: Yup.string()
-        .min(50, "Overview must be at least 50 characters")
         .max(1500, "Overview cannot exceed 1500 characters")
-        .required("Neighborhood overview is required"),
+        .notRequired(),
       type: Yup.string().required("Property type is required"),
       bedrooms: Yup.number()
         .typeError("Bedrooms must be a number")
@@ -1116,7 +1115,7 @@ const UploadProperty: React.FC = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="neighborhood_overview">Neighborhood Overview</label>
+            <label htmlFor="neighborhood_overview">Neighborhood Overview (Optional)</label>
             <textarea
               id="neighborhood_overview"
               value={formValues.neighborhood_overview}
