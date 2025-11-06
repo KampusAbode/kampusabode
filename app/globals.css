@@ -15,22 +15,22 @@
   --white: #ffffff;
   --black: #0c0c0c;
   --gray: #eaeaea;
-  --light-gray: #f2f2f2;
+  --light-gray: #f7f7f7ff;
   --light-gray-hover: #ebebeb;
   --dark-gray: #6d6d6d;
-  --font-color-h: #141414;
-  --font-color-p: #2e2e2e;
-  --font-color-s: #444444;
+  --font-color-h: #222222ff;
+  --font-color-p: #4b4b4bff;
+  --font-color-s: #4e4e4eff;
   --font-light: #adb5bd;
   --font-white: #ffffff;
   --font-black: #0c0c0c;
-  --border: 1px solid #a0a0a0;
+  --border: 1px solid #cececeff;
   --border-white: 1px solid #ffffff;
   --border-hover: 1px solid #650202;
   /* Border Radius */
-  --border-radius: 5px;
+  --border-radius: 10px;
   --border-radius-r: 32px;
-  --border-radius-btn: 5px;
+  --border-radius-btn: 8px;
   /* Spacing */
   --spacing-h: 0.5rem;
   --spacing: 1rem;
@@ -245,7 +245,7 @@ label {
 
 span {
   font-size: var(--font-size-xs);
-  color: var(--font-color-p);
+  color: var(--font-color-s);
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
