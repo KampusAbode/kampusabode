@@ -180,6 +180,16 @@ function Nav() {
                 </Link>
               </li>
 
+              <li
+                title="Apartment"
+                className={pathname === "/roomie-match" ? "active" : ""}
+              >
+                <Link prefetch href="/roomie-match" onClick={toggleNav}>
+                  <FaUsers />
+                  Roomie Match
+                </Link>
+              </li>
+
               {isAdmin && (
                 <li
                   title="Admin Chat"

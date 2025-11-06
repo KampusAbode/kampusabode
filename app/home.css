@@ -134,7 +134,6 @@
 }
 .service-section .container .heading-section p {
   width: 100%;
-  padding-left: var(--spacing);
 }
 .service-section .container .services {
   display: grid;
