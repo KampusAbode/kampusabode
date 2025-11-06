@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import data from "../../fetch/contents";
 import { StudentUserInfo } from "../../fetch/types";
@@ -376,11 +377,14 @@ const CreateRoomieProfile = () => {
               <div className="profilePreviewBox">
                 <p className="profilePreviewLabel">Your profile:</p>
                 <div className="profilePreviewFlex">
-                  <img
-                    src={user?.avatar || "/assets/user_avatar.jpg"}
-                    alt="Profile"
-                    className="profileAvatar"
-                  />
+                  <Image
+              src={`${user ? user?.avatar : "/assets/user_avatar.jpg"}`}
+              width={500}
+              height={500}
+              alt="Profile"
+              className="profileAvatar"
+              priority
+            />
                   <div className="profileInfo">
                     <p>{user?.name}</p>
                     <p>{user?.university}</p>
