@@ -93,7 +93,7 @@ const AgentList = () => {
               <button
                 className="btn btn-primary"
                 onClick={() =>
-                  router.push(`/uploadforagent?agentId=${agent.id}`)
+                  router.push(`/apartment/c/${user?.id}/upload?agentId=${agent.id}`)
                 }>
                 Upload
               </button>

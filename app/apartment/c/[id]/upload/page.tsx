@@ -5,13 +5,16 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
-import { listApartment, uploadFilesToAppwrite } from "../../../../utils";
+import { useRouter, useSearchParams } from "next/navigation";
+import { listApartment, uploadFilesToAppwrite, checkIsAdmin } from "../../../../utils";
 import { useUserStore } from "../../../../store/userStore";
 import { ApartmentType } from "../../../../fetch/types";
 import data from "../../../../fetch/contents";
 import Prompt from "../../../../components/modals/prompt/Prompt";
 import "./upload.css";
+
+
+
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB total images+thumbs
 const MAX_VIDEO_SIZE = 20 * 1024 * 1024; // 20MB per video
@@ -36,31 +39,86 @@ const UploadProperty: React.FC = () => {
   >({});
 
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { user, addListedProperty } = useUserStore((state) => state);
+
+  // Check for agentId in URL (admin uploading for agent)
+  const urlAgentId = searchParams.get("agentId");
+  const [isAdminMode, setIsAdminMode] = useState(false);
+  const [targetAgentId, setTargetAgentId] = useState<string>("");
+  const [agentName, setAgentName] = useState<string>("");
+  const [accessGranted, setAccessGranted] = useState(false);
 
   // keep refs to revoke urls on unmount
   const createdObjectUrls = useRef<string[]>([]);
 
+  // Access control logic
   useEffect(() => {
-    console.log("UploadProperty mounted");
-    if (!user || user.userType !== "agent") {
-      console.warn("Access denied: non-agent attempted to view upload page", {
-        user,
-      });
-      toast.error("Access denied. Only agents can upload properties.");
-      try {
-        router.back();
-      } catch (e) {
-        console.error("router.back failed:", e);
+    console.log("UnifiedUploadProperty mounted");
+    
+    async function checkAccess() {
+      if (!user) {
+        console.warn("No user found");
+        toast.error("Please log in to upload properties.");
+        try {
+          router.back();
+        } catch (e) {
+          console.error("router.back failed:", e);
+        }
+        return;
+      }
+
+      // Case 1: Admin uploading for another agent (agentId in URL)
+      if (urlAgentId) {
+        console.log("Admin mode detected: agentId in URL", urlAgentId);
+        
+        try {
+          const isAdmin = await checkIsAdmin(user.id);
+          
+          if (!isAdmin) {
+            console.warn("Non-admin tried to upload for agent", { user, urlAgentId });
+            toast.error("Access denied. Only admins can upload for other agents.");
+            router.back();
+            return;
+          }
+
+          // TODO: Fetch agent name from your user/agent API
+          // For now, we'll use a placeholder
+          setAgentName(`Agent ${urlAgentId.substring(0, 8)}`);
+          setIsAdminMode(true);
+          setTargetAgentId(urlAgentId);
+          setAccessGranted(true);
+          toast.success(`Admin mode: Uploading for ${urlAgentId.substring(0, 8)}`);
+        } catch (error) {
+          console.error("Failed to verify admin status:", error);
+          toast.error("Failed to verify permissions.");
+          router.back();
+          return;
+        }
+      } 
+      // Case 2: Agent uploading their own property
+      else {
+        if (user.userType !== "agent") {
+          console.warn("Non-agent attempted to upload", { user });
+          toast.error("Access denied. Only agents can upload properties.");
+          router.back();
+          return;
+        }
+
+        setIsAdminMode(false);
+        setTargetAgentId(user.id);
+        setAccessGranted(true);
+        console.log("Agent mode: uploading own property", user.id);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+
+    checkAccess();
+  }, [user, urlAgentId, router]);
 
   useEffect(() => {
     return () => {
       console.log(
-        "UploadProperty unmounting: revoking object URLs",
+        "UnifiedUploadProperty unmounting: revoking object URLs",
         createdObjectUrls.current.length
       );
       for (const url of createdObjectUrls.current) {
@@ -356,7 +414,6 @@ const UploadProperty: React.FC = () => {
             toast.error(
               `Error processing video ${file.name}: ${err?.message || "unknown error"}`
             );
-            // still add video so user can upload video without thumbs
             newVideoFiles.push(file);
           }
         } else if (file.type.startsWith("image/")) {
@@ -396,7 +453,6 @@ const UploadProperty: React.FC = () => {
         videoPreviewUrls
       );
 
-      // sync to controlled form state
       setFormValues((prev) => ({ ...prev, images: newImageFiles }));
 
       toast.success("Media selected and processed");
@@ -441,8 +497,6 @@ const UploadProperty: React.FC = () => {
 
       setMediaPreviews(updatedPreviews);
       setMediaPreviewUrls(updatedPreviewUrls);
-
-      // sync to controlled form state
       setFormValues((prev) => ({ ...prev, images: updatedPreviews }));
 
       toast.success("Image removed");
@@ -529,7 +583,6 @@ const UploadProperty: React.FC = () => {
     }
   };
 
-  // UPDATED VALIDATION SCHEMA: Dynamic image requirement based on video presence
   const getValidationSchema = (hasVideo: boolean) => {
     return Yup.object().shape({
       title: Yup.string().required("Title is required"),
@@ -543,8 +596,9 @@ const UploadProperty: React.FC = () => {
         .min(50000, "Price must be at least ₦50,000"),
       location: Yup.string().required("Location is required"),
       neighborhood_overview: Yup.string()
+        .min(50, "Overview must be at least 50 characters")
         .max(1500, "Overview cannot exceed 1500 characters")
-        .notRequired(),
+        .required("Neighborhood overview is required"),
       type: Yup.string().required("Property type is required"),
       bedrooms: Yup.number()
         .typeError("Bedrooms must be a number")
@@ -559,7 +613,6 @@ const UploadProperty: React.FC = () => {
         .of(Yup.string())
         .min(1, "Select at least one amenity")
         .required("Amenities are required"),
-      // UPDATED: If video exists, minimum 1 image; otherwise minimum 3 images
       images: hasVideo
         ? Yup.array()
             .min(1, "At least 1 image required when uploading video")
@@ -577,7 +630,6 @@ const UploadProperty: React.FC = () => {
     | (Omit<ApartmentType, "images"> & { images: File[]; amenities: string[] })
   >(null);
 
-  // UPDATED handleSubmit: uses dynamic validation schema
   const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
     if (e) e.preventDefault();
     console.groupCollapsed("handleSubmit invoked (controlled)");
@@ -587,13 +639,10 @@ const UploadProperty: React.FC = () => {
       setErrors({});
       setFormStatus(undefined);
 
-      // UPDATED: Determine if video exists for validation
       const hasVideo = videoFiles.length > 0;
       const validationSchema = getValidationSchema(hasVideo);
 
-      // Validate with Yup: collect errors if any
       try {
-        // convert numeric-like fields to numbers where schema expects numbers
         const valuesForValidation = {
           ...formValues,
           price: formValues.price === "" ? undefined : Number(formValues.price),
@@ -612,7 +661,6 @@ const UploadProperty: React.FC = () => {
           abortEarly: false,
         });
 
-        // if no validation errors, prepare payload for confirmation
         let amenitiesArray: string[] = formValues.amenities || [];
         if (!Array.isArray(amenitiesArray)) {
           amenitiesArray = (formValues.amenities || "")
@@ -634,15 +682,14 @@ const UploadProperty: React.FC = () => {
           area: Number(formValues.area as any) || 0,
           amenities: amenitiesArray,
           available: availableBoolean,
-          // Add required ApartmentType fields with placeholder/default values
           id: "",
           url: "",
-          agentId: user?.id ?? "",
+          agentId: targetAgentId, // Use the determined agent ID
           approved: false,
           views: 0,
           createdAt: new Date().toISOString(),
-          images: formValues.images, // File[] for extended type
-          video: videoFiles.length > 0 ? videoPreviewUrls[0] : undefined, // use preview URL as string
+          images: formValues.images,
+          video: videoFiles.length > 0 ? videoPreviewUrls[0] : undefined,
         });
 
         setPromptOpen(true);
@@ -650,10 +697,10 @@ const UploadProperty: React.FC = () => {
           title: formValues.title,
           images: formValues.images?.length || 0,
           videos: videoFiles.length,
+          agentId: targetAgentId,
         });
         toast("Ready to upload — confirm to continue", { icon: "📤" });
       } catch (validationErr: any) {
-        // Build errors map similar to Formik behavior
         const newErrors: Record<string, string> = {};
         if (validationErr.inner && Array.isArray(validationErr.inner)) {
           validationErr.inner.forEach((ve: any) => {
@@ -678,6 +725,7 @@ const UploadProperty: React.FC = () => {
       console.groupEnd();
     }
   };
+
   const handleConfirm = async () => {
     console.groupCollapsed("handleConfirm: upload flow start");
     if (!formValuesToSubmit) {
@@ -703,7 +751,6 @@ const UploadProperty: React.FC = () => {
 
       let filesToUpload: File[] = [...mediaPreviews];
 
-      // UPDATED: Add video thumbnails to upload (if available)
       for (const videoFile of videoFiles) {
         const thumbs = thumbnailMap[videoFile.name] || [];
         const selected = selectedThumbnails[videoFile.name];
@@ -717,7 +764,6 @@ const UploadProperty: React.FC = () => {
         files: filesToUpload.map((f) => f.name),
       });
 
-      // UPDATED: Check minimum files based on video presence
       const hasVideo = videoFiles.length > 0;
       const minFiles = hasVideo ? 1 : 3;
 
@@ -768,7 +814,7 @@ const UploadProperty: React.FC = () => {
         ...formValuesToSubmit,
         images: imageUrls,
         ...(videoUrls.length > 0 && { video: videoUrls[0] }),
-        agentId: user?.id ?? "",
+        agentId: targetAgentId, // Use the determined agent ID
         approved: false,
         views: 0,
         createdAt: new Date().toISOString(),
@@ -798,7 +844,8 @@ const UploadProperty: React.FC = () => {
       );
       console.log("Upload response", { response });
 
-      if (user?.userType === "agent" && newId) {
+      // Only add to user's listed properties if they're uploading their own
+      if (!isAdminMode && user?.userType === "agent" && newId) {
         try {
           addListedProperty(newId);
           console.debug("Added property to user's listed properties", newId);
@@ -807,7 +854,7 @@ const UploadProperty: React.FC = () => {
         }
       }
 
-      // reset the controlled form state
+      // Reset form
       setFormValues({
         title: "",
         description: "",
@@ -880,9 +927,28 @@ const UploadProperty: React.FC = () => {
     }
   };
 
+  // Don't render until access is verified
+  if (!accessGranted) {
+    return (
+      <div className="upload-property">
+        <div className="container">
+          <p>Verifying access...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="upload-property">
       <div className="container">
+        {/* Admin Mode Banner */}
+        {isAdminMode && (
+          <div className="admin-mode-banner">
+            <span className="admin-icon">👨‍💼</span>
+            <p>Uploading for Agent: <strong>{agentName}</strong></p>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="image" className="image-upload-label">
@@ -928,7 +994,6 @@ const UploadProperty: React.FC = () => {
             </label>
           </div>
 
-          {/* UPDATED: Show helper text about upload requirements */}
           <div
             style={{ marginBottom: "16px", fontSize: "12px", color: "#666" }}>
             {videoFiles.length > 0 ? (
@@ -1050,8 +1115,6 @@ const UploadProperty: React.FC = () => {
             </div>
           ))}
 
-          {/* ===== Controlled Inputs ===== */}
-
           <div className="form-group">
             <label htmlFor="title">Title</label>
             <input
@@ -1115,7 +1178,7 @@ const UploadProperty: React.FC = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="neighborhood_overview">Neighborhood Overview (Optional)</label>
+            <label htmlFor="neighborhood_overview">Neighborhood Overview</label>
             <textarea
               id="neighborhood_overview"
               value={formValues.neighborhood_overview}
@@ -1234,7 +1297,6 @@ const UploadProperty: React.FC = () => {
             )}
           </div>
 
-          {/* UPDATED: Show images validation error if exists */}
           {errors.images && (
             <div className="error" style={{ marginBottom: "8px" }}>
               {errors.images}

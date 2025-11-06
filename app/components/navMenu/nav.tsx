@@ -91,7 +91,7 @@ function Nav() {
             position: "fixed",
             top: 0,
             right: 0,
-            width: "80px",
+            width: "40px",
             height: "100vh",
             zIndex: 500,
             background: "transparent",

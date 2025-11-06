@@ -3,6 +3,35 @@
   .container {
     max-width: 900px;
 
+ 
+.admin-mode-banner {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  .admin-icon {
+  font-size: 24px;
+}
+ p {
+  margin: 0;
+  font-size: 14px;
+
+  strong {
+  font-weight: 600;
+  text-decoration: underline;
+}
+}
+}
+
+
+
+
     form {
       margin-block: var(--spacing);
 
