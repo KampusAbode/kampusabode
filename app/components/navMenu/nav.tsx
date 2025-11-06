@@ -11,6 +11,7 @@ import {
   LuLayoutDashboard,
   LuLogOut,
   LuMessagesSquare,
+  LuUsers,
 } from "react-icons/lu";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import toast from "react-hot-toast";
@@ -185,7 +186,7 @@ function Nav() {
                 className={pathname === "/roomie-match" ? "active" : ""}
               >
                 <Link prefetch href="/roomie-match" onClick={toggleNav}>
-                  <FaUsers />
+                  <LuUsers />
                   Roomie Match
                 </Link>
               </li>
