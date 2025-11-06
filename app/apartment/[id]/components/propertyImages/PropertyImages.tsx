@@ -75,31 +75,31 @@ function PropertyImages({
           )}
 
           {currentIsVideo ? (
-            <div className="video-container">
-              <video
-                ref={videoRef}
-                src={currentMedia}
-                muted
-                width="100%"
-                height="100%"
-                onPlay={() => setIsPlaying(true)}
-                onPause={() => setIsPlaying(false)}
-                onClick={togglePlayPause}
-              />
+  <div className="video-container">
+    <video
+      ref={videoRef}
+      src={currentMedia}
+      muted
+      playsInline
+      preload="metadata"
+      onPlay={() => setIsPlaying(true)}
+      onPause={() => setIsPlaying(false)}
+      onClick={togglePlayPause}
+    />
 
-              <div className="video-controls" onClick={togglePlayPause}>
-                {isPlaying ? <FaPause /> : <FaPlay />}
-              </div>
-            </div>
-          ) : (
-            <Image
-              priority
-              src={currentMedia}
-              width={5000}
-              height={5000}
-              alt={`${propertyDetails?.title} image`}
-            />
-          )}
+    <div className="video-controls" onClick={togglePlayPause}>
+      {isPlaying ? <FaPause /> : <FaPlay />}
+    </div>
+  </div>
+) : (
+  <Image
+    priority
+    src={currentMedia}
+    width={5000}
+    height={5000}
+    alt={`${propertyDetails?.title} image`}
+  />
+)}
 
           <div className="image-pagination">
             <div className="left" onClick={decrementMediaCount}>
@@ -122,22 +122,23 @@ function PropertyImages({
               onClick={() => setMediaCount(index)}
               className={`thumbnail-container ${mediaCount === index ? "active" : ""}`}>
               {isVideo(media) ? (
-                <video
-                  className={`video-thumbnail ${mediaCount === index ? "active" : ""}`}
-                  src={media}
-                  width={60}
-                  height={60}
-                  muted
-                />
-              ) : (
-                <Image
-                  className={mediaCount === index ? "active" : ""}
-                  src={media}
-                  width={400}
-                  height={400}
-                  alt="property-details thumbnail"
-                />
-              )}
+  <video
+    className={`video-thumbnail ${mediaCount === index ? "active" : ""}`}
+    src={media}
+    width={60}
+    height={60}
+    muted
+    playsInline
+  />
+) : (
+  <Image
+    className={mediaCount === index ? "active" : ""}
+    src={media}
+    width={400}
+    height={400}
+    alt="property-details thumbnail"
+  />
+)}
             </div>
           ))}
         </div>
