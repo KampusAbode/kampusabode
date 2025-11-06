@@ -53,7 +53,7 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
         <div className="actions">
           <BookmarkButton propertyId={propertyData.id} />
         </div>
-        {/* {agentDetails && (
+        {agentDetails && (
           <div className="agent-image">
             <Image
               priority
@@ -69,7 +69,7 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
                 : ""}
             </span>
           </div>
-        )} */}
+        )}
         <Link prefetch href={propertyData.url}>
           <Swiper
             modules={[Pagination, Navigation]}
