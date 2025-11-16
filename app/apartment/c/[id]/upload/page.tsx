@@ -596,9 +596,8 @@ const UploadProperty: React.FC = () => {
         .min(50000, "Price must be at least ₦50,000"),
       location: Yup.string().required("Location is required"),
       neighborhood_overview: Yup.string()
-        .min(50, "Overview must be at least 50 characters")
         .max(1500, "Overview cannot exceed 1500 characters")
-        .required("Neighborhood overview is required"),
+        .notRequired(), // CHANGED: Made optional
       type: Yup.string().required("Property type is required"),
       bedrooms: Yup.number()
         .typeError("Bedrooms must be a number")
@@ -684,7 +683,7 @@ const UploadProperty: React.FC = () => {
           available: availableBoolean,
           id: "",
           url: "",
-          agentId: targetAgentId, // Use the determined agent ID
+          agentId: targetAgentId,
           approved: false,
           views: 0,
           createdAt: new Date().toISOString(),
@@ -814,7 +813,7 @@ const UploadProperty: React.FC = () => {
         ...formValuesToSubmit,
         images: imageUrls,
         ...(videoUrls.length > 0 && { video: videoUrls[0] }),
-        agentId: targetAgentId, // Use the determined agent ID
+        agentId: targetAgentId,
         approved: false,
         views: 0,
         createdAt: new Date().toISOString(),
@@ -924,6 +923,40 @@ const UploadProperty: React.FC = () => {
       setIsSubmitting(false);
       setFormValuesToSubmit(null);
       console.groupEnd();
+    }
+  };
+
+  // CHANGED: Handler for thumbnail selection - adds thumbnail to mediaPreviews
+  const handleThumbnailSelect = (videoName: string, thumb: File, url: string) => {
+    // Update selected thumbnail state
+    setSelectedThumbnails((prev) => ({
+      ...prev,
+      [videoName]: thumb,
+    }));
+    setSelectedThumbnailUrls((prev) => ({
+      ...prev,
+      [videoName]: url,
+    }));
+
+    // Add thumbnail to mediaPreviews if not already there
+    const isAlreadyAdded = mediaPreviews.some(
+      (file) => file.name === thumb.name
+    );
+
+    if (!isAlreadyAdded) {
+      const updatedPreviews = [...mediaPreviews, thumb];
+      const newUrl = createObjectUrl(thumb);
+      const updatedUrls = [...mediaPreviewUrls, newUrl];
+
+      setMediaPreviews(updatedPreviews);
+      setMediaPreviewUrls(updatedUrls);
+      setFormValues((prev) => ({ ...prev, images: updatedPreviews }));
+
+      toast.success(`Thumbnail added as image for ${videoName}`);
+      console.log("Thumbnail added to images", {
+        thumbName: thumb.name,
+        totalImages: updatedPreviews.length,
+      });
     }
   };
 
@@ -1098,16 +1131,7 @@ const UploadProperty: React.FC = () => {
                       width={120}
                       height={80}
                       style={{ width: 120, height: 80, cursor: "pointer" }}
-                      onClick={() => {
-                        setSelectedThumbnails((prev) => ({
-                          ...prev,
-                          [videoName]: thumb,
-                        }));
-                        setSelectedThumbnailUrls((prev) => ({
-                          ...prev,
-                          [videoName]: url || "",
-                        }));
-                      }}
+                      onClick={() => handleThumbnailSelect(videoName, thumb, url || "")}
                     />
                   );
                 })}
@@ -1178,7 +1202,7 @@ const UploadProperty: React.FC = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="neighborhood_overview">Neighborhood Overview</label>
+            <label htmlFor="neighborhood_overview">Neighborhood Overview (Optional)</label>
             <textarea
               id="neighborhood_overview"
               value={formValues.neighborhood_overview}
@@ -1188,6 +1212,7 @@ const UploadProperty: React.FC = () => {
                   neighborhood_overview: e.target.value,
                 }))
               }
+              placeholder="Optional: Describe the neighborhood..."
             />
             {errors.neighborhood_overview && (
               <div className="error">{errors.neighborhood_overview}</div>
