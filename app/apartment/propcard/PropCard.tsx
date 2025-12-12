@@ -17,6 +17,7 @@ import "swiper/css/navigation"; // Import navigation styles
 import BookmarkButton from "../../components/features/bookmarkbutton/BookmarkButton";
 import { FaLocationDot } from "react-icons/fa6";
 import { fetchUsersById } from "../../utils";
+import PropertyDetails from "../[id]/page";
 
 interface PropCardType {
   propertyData: ApartmentType;
@@ -90,32 +91,42 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
               </SwiperSlide>
             ))}
             {propertyData.video && (
-  <SwiperSlide>
-    <div className="video-container" onClick={(e) => {
-      const video = e.currentTarget.querySelector('video');
-      if (video) {
-        if (video.paused) {
-          video.play();
-          e.currentTarget.querySelector('.video-play-icon')?.classList.add('hidden');
-        } else {
-          video.pause();
-          e.currentTarget.querySelector('.video-play-icon')?.classList.remove('hidden');
-        }
-      }
-    }}>
-      <video
-        src={propertyData.video}
-        width={1800}
-        height={1800}
-        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        muted
-        playsInline
-        preload="metadata"
-      />
-      <div className="video-play-icon">▶</div>
-    </div>
-  </SwiperSlide>
-)}
+              <SwiperSlide>
+                <div
+                  className="video-container"
+                  onClick={(e) => {
+                    const video = e.currentTarget.querySelector("video");
+                    if (video) {
+                      if (video.paused) {
+                        video.play();
+                        e.currentTarget
+                          .querySelector(".video-play-icon")
+                          ?.classList.add("hidden");
+                      } else {
+                        video.pause();
+                        e.currentTarget
+                          .querySelector(".video-play-icon")
+                          ?.classList.remove("hidden");
+                      }
+                    }
+                  }}>
+                  <video
+                    src={propertyData.video}
+                    width={1800}
+                    height={1800}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                    muted
+                    playsInline
+                    preload="metadata"
+                  />
+                  <div className="video-play-icon">▶</div>
+                </div>
+              </SwiperSlide>
+            )}
           </Swiper>
         </Link>
       </div>
@@ -130,7 +141,10 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
 
         <div>
           <span>{propertyData.location}</span>
-          <span className="price">{`₦${propertyData.price}`} total</span>
+          <span className="price">
+            {`₦${propertyData.price} `}{" "}
+            {propertyData.priceType === "rent" ? "rent" : "total"}
+          </span>
         </div>
       </div>
     </div>

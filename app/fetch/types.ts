@@ -61,6 +61,7 @@ export interface ApartmentType {
   title: string;
   description: string;
   price: number;
+  priceType: "rent" | "total_package";
   location: string;
   neighborhood_overview: string;
   type: string;

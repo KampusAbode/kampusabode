@@ -4,7 +4,11 @@ import "./property.css";
 import React, { useState, useEffect, useCallback } from "react";
 import PropStats from "./components/propertyStats/propStats";
 import SaveVisitedProperty from "./functions/SaveVIsitedProperties";
-import { fetchUsersById, fetchReviewsByPropertyId, getRelativeTime } from "../../utils";
+import {
+  fetchUsersById,
+  fetchReviewsByPropertyId,
+  getRelativeTime,
+} from "../../utils";
 import Image from "next/image";
 import Link from "next/link";
 import PropertyImages from "./components/propertyImages/PropertyImages";
@@ -21,7 +25,6 @@ import { submitInspectionRequest } from "./functions/submitInspectionRequest";
 import ReviewForm from "../../components/modals/ReviewForm/ReviewForm";
 import { FaAngleRight } from "react-icons/fa";
 // import { sendInspectionEmail } from "../../../utils/sendInspectionEmail";
-
 
 const PropertyDetails = ({ params }: { params: { id: string } }) => {
   const { id } = params;
@@ -152,7 +155,11 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
             <div className="pq">
               <h2 className="title">{propertyDetails.title}</h2>
               <span className="price">
-                Total package: ₦{propertyDetails.price.toLocaleString()}{" "}
+               
+                {propertyDetails.priceType === "rent"
+                  ? "Rent"
+                  : "Total Package"}
+                : ₦{propertyDetails.price.toLocaleString()}{" "}
               </span>
               <div className="features">
                 <span>

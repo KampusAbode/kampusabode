@@ -137,6 +137,7 @@ const UploadProperty: React.FC = () => {
     title: "",
     description: "",
     price: "",
+    priceType: "rent" as "rent" | "total_package",
     location: "",
     neighborhood_overview: "",
     type: "",
@@ -594,6 +595,9 @@ const UploadProperty: React.FC = () => {
         .typeError("Price must be a number")
         .required("Price is required")
         .min(50000, "Price must be at least ₦50,000"),
+      priceType: Yup.string()
+        .oneOf(["rent", "total_package"], "Invalid price type")
+        .required("Price type is required"),
       location: Yup.string().required("Location is required"),
       neighborhood_overview: Yup.string()
         .max(1500, "Overview cannot exceed 1500 characters")
@@ -676,6 +680,7 @@ const UploadProperty: React.FC = () => {
         setFormValuesToSubmit({
           ...formValues,
           price: Number(formValues.price),
+          priceType: formValues.priceType,
           bedrooms: Number(formValues.bedrooms as any) || 0,
           bathrooms: Number(formValues.bathrooms as any) || 0,
           area: Number(formValues.area as any) || 0,
@@ -858,6 +863,7 @@ const UploadProperty: React.FC = () => {
         title: "",
         description: "",
         price: "",
+        priceType: "rent",
         location: "",
         neighborhood_overview: "",
         type: "",
@@ -978,7 +984,9 @@ const UploadProperty: React.FC = () => {
         {isAdminMode && (
           <div className="admin-mode-banner">
             <span className="admin-icon">👨‍💼</span>
-            <p>Uploading for Agent: <strong>{agentName}</strong></p>
+            <p>
+              Uploading for Agent: <strong>{agentName}</strong>
+            </p>
           </div>
         )}
 
@@ -1131,7 +1139,9 @@ const UploadProperty: React.FC = () => {
                       width={120}
                       height={80}
                       style={{ width: 120, height: 80, cursor: "pointer" }}
-                      onClick={() => handleThumbnailSelect(videoName, thumb, url || "")}
+                      onClick={() =>
+                        handleThumbnailSelect(videoName, thumb, url || "")
+                      }
                     />
                   );
                 })}
@@ -1184,6 +1194,57 @@ const UploadProperty: React.FC = () => {
           </div>
 
           <div className="form-group">
+            <label>Price Type</label>
+            <div style={{ display: "flex", gap: "20px", marginTop: "8px" }}>
+              <label
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  cursor: "pointer",
+                }}>
+                <input
+                  type="radio"
+                  name="priceType"
+                  value="rent"
+                  checked={formValues.priceType === "rent"}
+                  onChange={(e) =>
+                    setFormValues((p) => ({
+                      ...p,
+                      priceType: e.target.value as "rent" | "total_package",
+                    }))
+                  }
+                  style={{ marginRight: "8px" }}
+                />
+                Rent (per year/session)
+              </label>
+              <label
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  cursor: "pointer",
+                }}>
+                <input
+                  type="radio"
+                  name="priceType"
+                  value="total_package"
+                  checked={formValues.priceType === "total_package"}
+                  onChange={(e) =>
+                    setFormValues((p) => ({
+                      ...p,
+                      priceType: e.target.value as "rent" | "total_package",
+                    }))
+                  }
+                  style={{ marginRight: "8px" }}
+                />
+                Total Package (one-time)
+              </label>
+            </div>
+            {errors.priceType && (
+              <div className="error">{errors.priceType}</div>
+            )}
+          </div>
+
+          <div className="form-group">
             <label htmlFor="location">Location</label>
             <select
               id="location"
@@ -1202,7 +1263,9 @@ const UploadProperty: React.FC = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="neighborhood_overview">Neighborhood Overview (Optional)</label>
+            <label htmlFor="neighborhood_overview">
+              Neighborhood Overview (Optional)
+            </label>
             <textarea
               id="neighborhood_overview"
               value={formValues.neighborhood_overview}

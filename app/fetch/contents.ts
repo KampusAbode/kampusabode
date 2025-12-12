@@ -153,6 +153,8 @@ const locations = [
   "ibadan road",
   "parakin estate",
   "may fair",
+  "ede road",
+  "AP",
   "lagere",
   "road 7",
   "OAU campus",
