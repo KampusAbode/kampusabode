@@ -152,6 +152,7 @@ const locations = [
   "damico area",
   "ibadan road",
   "parakin estate",
+  "modomo",
   "may fair",
   "ede road",
   "AP",

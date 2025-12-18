@@ -155,7 +155,7 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
             <div className="pq">
               <h2 className="title">{propertyDetails.title}</h2>
               <span className="price">
-               
+                 
                 {propertyDetails.priceType === "rent"
                   ? "Rent"
                   : "Total Package"}
