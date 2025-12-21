@@ -1,136 +1,312 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import ReactQuill from "react-quill";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+  useReducer,
+} from "react";
+import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useRouter, useSearchParams } from "next/navigation";
-import { listApartment, uploadFilesToAppwrite, checkIsAdmin } from "../../../../utils";
+import {
+  listApartment,
+  uploadFilesToAppwrite,
+  checkIsAdmin,
+} from "../../../../utils";
 import { useUserStore } from "../../../../store/userStore";
 import { ApartmentType } from "../../../../fetch/types";
 import data from "../../../../fetch/contents";
 import Prompt from "../../../../components/modals/prompt/Prompt";
 import "./upload.css";
 
-
-
+// Lazy load ReactQuill for better initial load performance
+const ReactQuill = dynamic(() => import("react-quill"), {
+  ssr: false,
+  loading: () => (
+    <div style={{ padding: "20px", background: "#f5f5f5" }}>
+      Loading editor...
+    </div>
+  ),
+});
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB total images+thumbs
 const MAX_VIDEO_SIZE = 20 * 1024 * 1024; // 20MB per video
 const FRAME_COUNT = 15;
-const THUMB_EXTRACT_TIMEOUT = 10_000; // 10s per video (safety)
+const THUMB_EXTRACT_TIMEOUT = 10_000; // 10s per video
+
+// ============================================================================
+// TYPES
+// ============================================================================
+type MediaState = {
+  thumbnailMap: Record<string, File[]>;
+  thumbnailUrlsMap: Record<string, string[]>;
+  mediaPreviews: File[];
+  mediaPreviewUrls: string[];
+  videoFiles: File[];
+  videoPreviewUrls: string[];
+  selectedThumbnails: Record<string, File>;
+  selectedThumbnailUrls: Record<string, string>;
+};
+
+type MediaAction =
+  | { type: "UPDATE_ALL_MEDIA"; payload: Partial<MediaState> }
+  | {
+      type: "ADD_VIDEO_THUMBNAILS";
+      videoName: string;
+      thumbs: File[];
+      thumbUrls: string[];
+    }
+  | { type: "REMOVE_IMAGE"; index: number }
+  | { type: "REMOVE_VIDEO"; videoName: string; index: number }
+  | { type: "SELECT_THUMBNAIL"; videoName: string; thumb: File; url: string }
+  | { type: "RESET_ALL" };
+
+// ============================================================================
+// REDUCER FOR BATCHED STATE UPDATES
+// ============================================================================
+const mediaReducer = (state: MediaState, action: MediaAction): MediaState => {
+  switch (action.type) {
+    case "UPDATE_ALL_MEDIA":
+      return { ...state, ...action.payload };
+
+    case "ADD_VIDEO_THUMBNAILS":
+      return {
+        ...state,
+        thumbnailMap: {
+          ...state.thumbnailMap,
+          [action.videoName]: action.thumbs,
+        },
+        thumbnailUrlsMap: {
+          ...state.thumbnailUrlsMap,
+          [action.videoName]: action.thumbUrls,
+        },
+      };
+
+    case "REMOVE_IMAGE": {
+      const newPreviews = [...state.mediaPreviews];
+      const newUrls = [...state.mediaPreviewUrls];
+      newPreviews.splice(action.index, 1);
+      newUrls.splice(action.index, 1);
+      return {
+        ...state,
+        mediaPreviews: newPreviews,
+        mediaPreviewUrls: newUrls,
+      };
+    }
+
+    case "REMOVE_VIDEO": {
+      const newVideos = [...state.videoFiles];
+      const newVideoUrls = [...state.videoPreviewUrls];
+      newVideos.splice(action.index, 1);
+      newVideoUrls.splice(action.index, 1);
+
+      const newThumbMap = { ...state.thumbnailMap };
+      const newThumbUrlsMap = { ...state.thumbnailUrlsMap };
+      delete newThumbMap[action.videoName];
+      delete newThumbUrlsMap[action.videoName];
+
+      const newSelectedThumbs = { ...state.selectedThumbnails };
+      const newSelectedThumbUrls = { ...state.selectedThumbnailUrls };
+      delete newSelectedThumbs[action.videoName];
+      delete newSelectedThumbUrls[action.videoName];
+
+      return {
+        ...state,
+        videoFiles: newVideos,
+        videoPreviewUrls: newVideoUrls,
+        thumbnailMap: newThumbMap,
+        thumbnailUrlsMap: newThumbUrlsMap,
+        selectedThumbnails: newSelectedThumbs,
+        selectedThumbnailUrls: newSelectedThumbUrls,
+      };
+    }
+
+    case "SELECT_THUMBNAIL":
+      return {
+        ...state,
+        selectedThumbnails: {
+          ...state.selectedThumbnails,
+          [action.videoName]: action.thumb,
+        },
+        selectedThumbnailUrls: {
+          ...state.selectedThumbnailUrls,
+          [action.videoName]: action.url,
+        },
+      };
+
+    case "RESET_ALL":
+      return {
+        thumbnailMap: {},
+        thumbnailUrlsMap: {},
+        mediaPreviews: [],
+        mediaPreviewUrls: [],
+        videoFiles: [],
+        videoPreviewUrls: [],
+        selectedThumbnails: {},
+        selectedThumbnailUrls: {},
+      };
+
+    default:
+      return state;
+  }
+};
+
+// ============================================================================
+// CUSTOM HOOKS
+// ============================================================================
+
+// Object URL Manager Hook
+const useObjectURLManager = () => {
+  const urlsRef = useRef<Set<string>>(new Set());
+
+  const createURL = useCallback((file: File) => {
+    const url = URL.createObjectURL(file);
+    urlsRef.current.add(url);
+    return url;
+  }, []);
+
+  const revokeURL = useCallback((url: string) => {
+    if (urlsRef.current.has(url)) {
+      try {
+        URL.revokeObjectURL(url);
+        urlsRef.current.delete(url);
+      } catch (e) {
+        console.warn("Failed to revoke URL:", e);
+      }
+    }
+  }, []);
+
+  const revokeAll = useCallback(() => {
+    urlsRef.current.forEach((url) => {
+      try {
+        URL.revokeObjectURL(url);
+      } catch (e) {
+        console.warn("Failed to revoke URL:", e);
+      }
+    });
+    urlsRef.current.clear();
+  }, []);
+
+  useEffect(() => {
+    return () => revokeAll();
+  }, [revokeAll]);
+
+  return { createURL, revokeURL, revokeAll };
+};
+
+// Debounce Hook
+function useDebounce<T extends (...args: any[]) => any>(
+  callback: T,
+  delay: number
+): (...args: Parameters<T>) => void {
+  const timeoutRef = useRef<NodeJS.Timeout>();
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  return useCallback(
+    (...args: Parameters<T>) => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      timeoutRef.current = setTimeout(() => {
+        callback(...args);
+      }, delay);
+    },
+    [callback, delay]
+  );
+}
+
+// ============================================================================
+// UTILITY FUNCTIONS
+// ============================================================================
+
+// Image Compression
+const compressImage = async (file: File, maxSizeMB = 1): Promise<File> => {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        let width = img.width;
+        let height = img.height;
+
+        const maxDimension = 1920;
+        if (width > maxDimension || height > maxDimension) {
+          if (width > height) {
+            height = (height / width) * maxDimension;
+            width = maxDimension;
+          } else {
+            width = (width / height) * maxDimension;
+            height = maxDimension;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d")!;
+        ctx.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob(
+          (blob) => {
+            if (blob) {
+              resolve(new File([blob], file.name, { type: "image/jpeg" }));
+            } else {
+              resolve(file); // Fallback to original
+            }
+          },
+          "image/jpeg",
+          0.85
+        );
+      };
+      img.onerror = () => resolve(file); // Fallback to original
+      img.src = e.target!.result as string;
+    };
+    reader.onerror = () => resolve(file); // Fallback to original
+    reader.readAsDataURL(file);
+  });
+};
+
+// ============================================================================
+// MAIN COMPONENT
+// ============================================================================
 
 const UploadProperty: React.FC = () => {
-  const [mediaPreviews, setMediaPreviews] = useState<File[]>([]);
-  const [mediaPreviewUrls, setMediaPreviewUrls] = useState<string[]>([]);
-  const [videoFiles, setVideoFiles] = useState<File[]>([]);
-  const [videoPreviewUrls, setVideoPreviewUrls] = useState<string[]>([]);
-  const [promptOpen, setPromptOpen] = useState(false);
-  const [thumbnailMap, setThumbnailMap] = useState<Record<string, File[]>>({});
-  const [thumbnailUrlsMap, setThumbnailUrlsMap] = useState<
-    Record<string, string[]>
-  >({});
-  const [selectedThumbnails, setSelectedThumbnails] = useState<
-    Record<string, File>
-  >({});
-  const [selectedThumbnailUrls, setSelectedThumbnailUrls] = useState<
-    Record<string, string>
-  >({});
+  // Media state managed by reducer
+  const [mediaState, dispatchMedia] = useReducer(mediaReducer, {
+    thumbnailMap: {},
+    thumbnailUrlsMap: {},
+    mediaPreviews: [],
+    mediaPreviewUrls: [],
+    videoFiles: [],
+    videoPreviewUrls: [],
+    selectedThumbnails: {},
+    selectedThumbnailUrls: {},
+  });
 
+  const [promptOpen, setPromptOpen] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user, addListedProperty } = useUserStore((state) => state);
 
-  // Check for agentId in URL (admin uploading for agent)
   const urlAgentId = searchParams.get("agentId");
   const [isAdminMode, setIsAdminMode] = useState(false);
   const [targetAgentId, setTargetAgentId] = useState<string>("");
   const [agentName, setAgentName] = useState<string>("");
   const [accessGranted, setAccessGranted] = useState(false);
 
-  // keep refs to revoke urls on unmount
-  const createdObjectUrls = useRef<string[]>([]);
-
-  // Access control logic
-  useEffect(() => {
-    console.log("UnifiedUploadProperty mounted");
-    
-    async function checkAccess() {
-      if (!user) {
-        console.warn("No user found");
-        toast.error("Please log in to upload properties.");
-        try {
-          router.back();
-        } catch (e) {
-          console.error("router.back failed:", e);
-        }
-        return;
-      }
-
-      // Case 1: Admin uploading for another agent (agentId in URL)
-      if (urlAgentId) {
-        console.log("Admin mode detected: agentId in URL", urlAgentId);
-        
-        try {
-          const isAdmin = await checkIsAdmin(user.id);
-          
-          if (!isAdmin) {
-            console.warn("Non-admin tried to upload for agent", { user, urlAgentId });
-            toast.error("Access denied. Only admins can upload for other agents.");
-            router.back();
-            return;
-          }
-
-          // TODO: Fetch agent name from your user/agent API
-          // For now, we'll use a placeholder
-          setAgentName(`Agent ${urlAgentId.substring(0, 8)}`);
-          setIsAdminMode(true);
-          setTargetAgentId(urlAgentId);
-          setAccessGranted(true);
-          toast.success(`Admin mode: Uploading for ${urlAgentId.substring(0, 8)}`);
-        } catch (error) {
-          console.error("Failed to verify admin status:", error);
-          toast.error("Failed to verify permissions.");
-          router.back();
-          return;
-        }
-      } 
-      // Case 2: Agent uploading their own property
-      else {
-        if (user.userType !== "agent") {
-          console.warn("Non-agent attempted to upload", { user });
-          toast.error("Access denied. Only agents can upload properties.");
-          router.back();
-          return;
-        }
-
-        setIsAdminMode(false);
-        setTargetAgentId(user.id);
-        setAccessGranted(true);
-        console.log("Agent mode: uploading own property", user.id);
-      }
-    }
-
-    checkAccess();
-  }, [user, urlAgentId, router]);
-
-  useEffect(() => {
-    return () => {
-      console.log(
-        "UnifiedUploadProperty unmounting: revoking object URLs",
-        createdObjectUrls.current.length
-      );
-      for (const url of createdObjectUrls.current) {
-        try {
-          URL.revokeObjectURL(url);
-        } catch (e) {
-          console.warn("Failed to revoke object URL on unmount", e);
-        }
-      }
-      createdObjectUrls.current = [];
-    };
-  }, []);
+  const { createURL, revokeURL, revokeAll } = useObjectURLManager();
 
   // Form state
   const [formValues, setFormValues] = useState({
@@ -156,496 +332,489 @@ const UploadProperty: React.FC = () => {
   );
 
   const typeOptions = [
-    "self contained",
-    "single room",
-    "two bedroom",
-    "three bedroom",
+    "Self contained",
+    "Single room",
+    "Room and parlour",
+    "2 bedroom",
+    "3 bedroom",
+    "4 bedroom",
   ];
 
   const amenitiesOptions = [
+    // Critical
     "electricity",
+    "backup generator",
     "water supply",
-    "internet",
-    "security",
+    "borehole water",
+    "internet/Wi-Fi",
+
+    // Security (very important)
+    "24/7 security",
+    "gated estate",
+    "CCTV cameras",
+
+    // Basic needs
     "furnished",
+    "semi-furnished",
+    "private bathroom",
+    "shared bathroom",
+    "kitchen",
+    "bedframe",
+    "wardrope",
+
+    // Comfort
     "air conditioning",
-    "laundry",
+    "ceiling fans",
+    "hot water",
+
+    // Study
+    "study desk",
+    "quiet environment",
+    "reading area",
+
+    // Convenience
+    "laundry services",
+    "cleaning services",
+    "proximity to campus",
+    "proximity to market",
+    "on-site caretaker",
+
+    // Extras
+    "parking space",
+    "waste disposal",
+    "balcony",
     "gym",
-    "study area",
-    "library",
-    "cafeteria",
-    "sports facilities",
+    "sports area",
   ];
 
-  // SAFE helper to create and track object URLs (so we can revoke later)
-  const createObjectUrl = (file: File) => {
-    const url = URL.createObjectURL(file);
-    createdObjectUrls.current.push(url);
-    console.debug("Created object URL for file", { name: file.name, url });
-    return url;
-  };
+  // Memoized validation schema
+  const getValidationSchema = useMemo(() => {
+    return (hasVideo: boolean) => {
+      return Yup.object().shape({
+        title: Yup.string().required("Title is required"),
+        description: Yup.string()
+          .min(50, "Description must be at least 50 characters")
+          .max(1500, "Description cannot exceed 1500 characters")
+          .required("Description is required"),
+        price: Yup.number()
+          .typeError("Price must be a number")
+          .required("Price is required")
+          .min(50000, "Price must be at least ₦50,000"),
+        priceType: Yup.string()
+          .oneOf(["rent", "total_package"], "Invalid price type")
+          .required("Price type is required"),
+        location: Yup.string().required("Location is required"),
+        neighborhood_overview: Yup.string()
+          .max(1500, "Overview cannot exceed 1500 characters")
+          .notRequired(),
+        type: Yup.string().required("Property type is required"),
+        bedrooms: Yup.number()
+          .typeError("Bedrooms must be a number")
+          .required("Bedrooms count is required"),
+        bathrooms: Yup.number()
+          .typeError("Bathrooms must be a number")
+          .required("Bathrooms count is required"),
+        area: Yup.number()
+          .typeError("Area must be a number")
+          .required("Area is required"),
+        amenities: Yup.array()
+          .of(Yup.string())
+          .min(1, "Select at least one amenity")
+          .required("Amenities are required"),
+        images: hasVideo
+          ? Yup.array()
+              .min(1, "At least 1 image required when uploading video")
+              .required("Images are required")
+          : Yup.array()
+              .min(3, "At least 3 images required when no video is uploaded")
+              .required("Images are required"),
+        available: Yup.boolean().required("Availability is required"),
+      });
+    };
+  }, []);
 
-  // Extract thumbnails from a video file with error handling & timeout
-  const extractThumbnails = async (videoFile: File): Promise<File[]> => {
-    console.groupCollapsed(`⏳ extractThumbnails start: ${videoFile.name}`);
-    const thumbnails: File[] = [];
-    const url = createObjectUrl(videoFile);
+  // Access control with abort controller
+  useEffect(() => {
+    const abortController = new AbortController();
 
-    return new Promise<File[]>((resolve, reject) => {
-      const video = document.createElement("video");
-      let timeoutId: number | null = null;
-      let resolved = false;
-
-      const cleanUp = () => {
-        if (timeoutId) {
-          window.clearTimeout(timeoutId);
-          timeoutId = null;
+    async function checkAccess() {
+      if (!user) {
+        toast.error("Please log in to upload properties.");
+        try {
+          router.back();
+        } catch (e) {
+          console.error("router.back failed:", e);
         }
-        video.onloadedmetadata = null as any;
-        video.onerror = null as any;
-        video.onseeked = null as any;
-      };
+        return;
+      }
 
-      video.crossOrigin = "anonymous";
-      video.preload = "metadata";
-      video.src = url;
+      if (urlAgentId) {
+        try {
+          const isAdmin = await checkIsAdmin(user.id);
 
-      video.onerror = (e) => {
-        cleanUp();
-        if (!resolved) {
-          resolved = true;
-          try {
-            URL.revokeObjectURL(url);
-          } catch (e) {}
-          console.error(
-            `Failed to load video metadata for ${videoFile.name}`,
-            e
+          if (abortController.signal.aborted) return;
+
+          if (!isAdmin) {
+            toast.error(
+              "Access denied. Only admins can upload for other agents."
+            );
+            router.back();
+            return;
+          }
+
+          setAgentName(`Agent ${urlAgentId.substring(0, 8)}`);
+          setIsAdminMode(true);
+          setTargetAgentId(urlAgentId);
+          setAccessGranted(true);
+          toast.success(
+            `Admin mode: Uploading for ${urlAgentId.substring(0, 8)}`
           );
-          toast.error(`Failed to load video ${videoFile.name}.`);
-          console.groupEnd();
-          reject(
-            new Error(`Failed to load video metadata for ${videoFile.name}`)
-          );
+        } catch (error: any) {
+          if (error.name === "AbortError") return;
+          console.error("Failed to verify admin status:", error);
+          toast.error("Failed to verify permissions.");
+          router.back();
         }
-      };
-
-      video.onloadedmetadata = async () => {
-        const duration = video.duration;
-        if (!duration || !isFinite(duration)) {
-          cleanUp();
-          try {
-            URL.revokeObjectURL(url);
-          } catch (e) {}
-          console.error(
-            `Video ${videoFile.name} has invalid duration:`,
-            duration
-          );
-          toast.error(`Video ${videoFile.name} appears to be corrupted.`);
-          console.groupEnd();
-          return reject(
-            new Error(`Video ${videoFile.name} has invalid duration`)
-          );
+      } else {
+        if (user.userType !== "agent") {
+          toast.error("Access denied. Only agents can upload properties.");
+          router.back();
+          return;
         }
 
-        const interval = duration / Math.max(1, FRAME_COUNT);
-        let frameIndex = 1;
+        setIsAdminMode(false);
+        setTargetAgentId(user.id);
+        setAccessGranted(true);
+      }
+    }
 
-        timeoutId = window.setTimeout(() => {
+    checkAccess();
+
+    return () => {
+      abortController.abort();
+    };
+  }, [user, urlAgentId, router]);
+
+  // Optimized thumbnail extraction with parallel processing
+  const extractThumbnails = useCallback(
+    async (videoFile: File): Promise<File[]> => {
+      const thumbnails: File[] = [];
+      const url = createURL(videoFile);
+
+      return new Promise<File[]>((resolve, reject) => {
+        const video = document.createElement("video");
+        let timeoutId: NodeJS.Timeout | null = null;
+        let resolved = false;
+
+        const cleanUp = () => {
+          if (timeoutId) clearTimeout(timeoutId);
+          video.onloadedmetadata = null;
+          video.onerror = null;
+          video.onseeked = null;
+        };
+
+        video.crossOrigin = "anonymous";
+        video.preload = "metadata";
+        video.src = url;
+
+        video.onerror = () => {
           cleanUp();
           if (!resolved) {
             resolved = true;
-            try {
-              URL.revokeObjectURL(url);
-            } catch (e) {}
-            toast.error(`Thumbnail extraction timed out for ${videoFile.name}`);
-            console.error(
-              `Thumbnail extraction timed out for ${videoFile.name}`
-            );
-            console.groupEnd();
+            revokeURL(url);
             reject(
-              new Error(`Thumbnail extraction timed out for ${videoFile.name}`)
+              new Error(`Failed to load video metadata for ${videoFile.name}`)
             );
           }
-        }, THUMB_EXTRACT_TIMEOUT);
+        };
 
-        const seekAndCapture = async () => {
-          try {
-            for (; frameIndex <= FRAME_COUNT; frameIndex++) {
-              const time = Math.min(duration - 0.1, frameIndex * interval);
-              video.currentTime = time;
-              await new Promise<void>((seekResolve, seekReject) => {
-                const onseek = () => seekResolve();
-                const onerror = () => seekReject(new Error("Seek error"));
-                video.onseeked = onseek;
-                video.onerror = onerror;
-              });
-
-              const canvas = document.createElement("canvas");
-              canvas.width = video.videoWidth || 320;
-              canvas.height = video.videoHeight || 240;
-              const ctx = canvas.getContext("2d");
-              if (!ctx) {
-                console.warn(
-                  "Canvas context not available for frame",
-                  frameIndex
-                );
-                continue;
-              }
-              ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-              const blob: Blob | null = await new Promise((res) =>
-                canvas.toBlob(res, "image/jpeg")
-              );
-
-              if (blob) {
-                const thumbFile = new File(
-                  [blob],
-                  `${videoFile.name}-thumb-${frameIndex}.jpg`,
-                  { type: "image/jpeg" }
-                );
-                thumbnails.push(thumbFile);
-                console.debug("Extracted thumbnail", {
-                  video: videoFile.name,
-                  thumb: thumbFile.name,
-                  index: frameIndex,
-                });
-              }
-            }
+        video.onloadedmetadata = async () => {
+          const duration = video.duration;
+          if (!duration || !isFinite(duration)) {
             cleanUp();
-            try {
-              URL.revokeObjectURL(url);
-            } catch (e) {}
+            revokeURL(url);
+            return reject(new Error(`Invalid video duration`));
+          }
+
+          const interval = duration / FRAME_COUNT;
+
+          timeoutId = setTimeout(() => {
+            cleanUp();
             if (!resolved) {
               resolved = true;
-              console.log(
-                `✅ extractThumbnails finished for ${videoFile.name}. Thumbnails: ${thumbnails.length}`
-              );
-              toast.success(`Thumbnails ready for ${videoFile.name}`);
-              console.groupEnd();
-              resolve(thumbnails);
+              revokeURL(url);
+              reject(new Error(`Thumbnail extraction timed out`));
+            }
+          }, THUMB_EXTRACT_TIMEOUT);
+
+          try {
+            // Extract frames in parallel
+            const framePromises = Array.from(
+              { length: FRAME_COUNT },
+              (_, i) => {
+                return new Promise<File | null>((resolveFrame) => {
+                  const frameIndex = i + 1;
+                  const time = Math.min(duration - 0.1, frameIndex * interval);
+
+                  const captureFrame = () => {
+                    const canvas = document.createElement("canvas");
+                    canvas.width = video.videoWidth || 320;
+                    canvas.height = video.videoHeight || 240;
+                    const ctx = canvas.getContext("2d");
+
+                    if (!ctx) return resolveFrame(null);
+
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                    canvas.toBlob(
+                      (blob) => {
+                        if (!blob) return resolveFrame(null);
+                        resolveFrame(
+                          new File(
+                            [blob],
+                            `${videoFile.name}-thumb-${frameIndex}.jpg`,
+                            {
+                              type: "image/jpeg",
+                            }
+                          )
+                        );
+                      },
+                      "image/jpeg",
+                      0.8
+                    );
+                  };
+
+                  video.currentTime = time;
+                  video.onseeked = () => {
+                    captureFrame();
+                    video.onseeked = null;
+                  };
+                });
+              }
+            );
+
+            const extractedThumbnails = (
+              await Promise.all(framePromises)
+            ).filter(Boolean) as File[];
+
+            cleanUp();
+            revokeURL(url);
+
+            if (!resolved) {
+              resolved = true;
+              resolve(extractedThumbnails);
             }
           } catch (err) {
             cleanUp();
-            try {
-              URL.revokeObjectURL(url);
-            } catch (e) {}
+            revokeURL(url);
             if (!resolved) {
               resolved = true;
-              console.error("Error during thumbnail extraction", err);
-              toast.error(`Error processing ${videoFile.name}`);
-              console.groupEnd();
               reject(err);
             }
           }
         };
+      });
+    },
+    [createURL, revokeURL]
+  );
 
-        seekAndCapture();
-      };
-    });
-  };
-
-  // keep URLs in sync with file arrays (and revoke previous ones)
-  const buildPreviewUrlsForFiles = (
-    files: File[],
-    setter: (urls: string[]) => void,
-    previousUrls: string[]
-  ) => {
-    for (const u of previousUrls) {
+  // Handle media change with compression and optimization
+  const handleMediaChange = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
       try {
-        URL.revokeObjectURL(u);
-      } catch (e) {
-        console.warn("Failed to revoke previous preview URL", e);
-      }
-    }
-    const urls = files.map((f) => createObjectUrl(f));
-    setter(urls);
-  };
+        const inputFiles = e.target.files ? Array.from(e.target.files) : [];
+        if (inputFiles.length === 0) return;
 
-  // handle file input changes (images + videos)
-  const handleMediaChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.groupCollapsed("📁 handleMediaChange triggered");
-    try {
-      const inputFiles = e.target.files ? Array.from(e.target.files) : [];
-      console.debug(
-        "Files selected:",
-        inputFiles.map((f) => ({ name: f.name, size: f.size, type: f.type }))
-      );
-      if (inputFiles.length === 0) {
-        console.groupEnd();
-        return;
-      }
+        const newImageFiles = [...mediaState.mediaPreviews];
+        const newVideoFiles = [...mediaState.videoFiles];
+        const newThumbMap = { ...mediaState.thumbnailMap };
+        const newThumbnailUrlsMap = { ...mediaState.thumbnailUrlsMap };
 
-      const newImageFiles = [...mediaPreviews];
-      const newVideoFiles = [...videoFiles];
-      const newThumbMap = { ...thumbnailMap };
-      const newThumbnailUrlsMap = { ...thumbnailUrlsMap };
-
-      for (const file of inputFiles) {
-        if (file.type.startsWith("video/")) {
-          if (file.size > MAX_VIDEO_SIZE) {
-            console.warn("Video too large", {
-              name: file.name,
-              size: file.size,
-            });
-            toast.error(`${file.name} exceeds max video size of 20MB`);
-            continue;
-          }
-          try {
-            toast.loading(`Processing video ${file.name}...`, {
-              id: `video-process-${file.name}`,
-            });
-            const thumbs = await extractThumbnails(file);
-            toast.dismiss(`video-process-${file.name}`);
-            if (!thumbs || thumbs.length === 0) {
-              toast.error(`Could not extract thumbnails from ${file.name}`);
-              newVideoFiles.push(file);
+        for (const file of inputFiles) {
+          if (file.type.startsWith("video/")) {
+            if (file.size > MAX_VIDEO_SIZE) {
+              toast.error(`${file.name} exceeds max video size of 20MB`);
               continue;
             }
-            newThumbMap[file.name] = thumbs;
-            newThumbnailUrlsMap[file.name] = thumbs.map((t) =>
-              createObjectUrl(t)
-            );
-            newVideoFiles.push(file);
-            console.log(`Thumbnails extracted and stored for ${file.name}`, {
-              count: thumbs.length,
-            });
-          } catch (err: any) {
-            toast.dismiss(`video-process-${file.name}`);
-            console.error("extractThumbnails error:", err);
-            toast.error(
-              `Error processing video ${file.name}: ${err?.message || "unknown error"}`
-            );
-            newVideoFiles.push(file);
+
+            try {
+              const toastId = toast.loading(`Processing video ${file.name}...`);
+              const thumbs = await extractThumbnails(file);
+              toast.dismiss(toastId);
+
+              if (!thumbs || thumbs.length === 0) {
+                toast.error(`Could not extract thumbnails from ${file.name}`);
+                newVideoFiles.push(file);
+                continue;
+              }
+
+              newThumbMap[file.name] = thumbs;
+              newThumbnailUrlsMap[file.name] = thumbs.map((t) => createURL(t));
+              newVideoFiles.push(file);
+              toast.success(`Thumbnails ready for ${file.name}`);
+            } catch (err: any) {
+              toast.error(
+                `Error processing video: ${err?.message || "unknown error"}`
+              );
+              newVideoFiles.push(file);
+            }
+          } else if (file.type.startsWith("image/")) {
+            // Compress images before adding
+            const compressedFile = await compressImage(file);
+            newImageFiles.push(compressedFile);
+          } else {
+            toast.error(`${file.name} is unsupported file type`);
           }
-        } else if (file.type.startsWith("image/")) {
-          newImageFiles.push(file);
-          console.debug("Image queued for upload", file.name);
-        } else {
-          console.warn("Unsupported file type", file.name, file.type);
-          toast.error(`${file.name} is unsupported file type`);
         }
-      }
 
-      const totalSize = [...newImageFiles, ...newVideoFiles].reduce(
-        (acc, f) => acc + f.size,
-        0
-      );
-      if (totalSize > MAX_FILE_SIZE) {
-        console.warn("Total selected size exceeds limit", { totalSize });
-        toast.error(
-          "Total file size exceeds 10MB. Please select smaller files or fewer files."
+        const totalSize = [...newImageFiles, ...newVideoFiles].reduce(
+          (acc, f) => acc + f.size,
+          0
         );
-        console.groupEnd();
-        return;
-      }
+        if (totalSize > MAX_FILE_SIZE) {
+          toast.error(
+            "Total file size exceeds 10MB. Please select smaller files."
+          );
+          return;
+        }
 
-      setThumbnailMap(newThumbMap);
-      setThumbnailUrlsMap(newThumbnailUrlsMap);
-      setMediaPreviews(newImageFiles);
-      buildPreviewUrlsForFiles(
-        newImageFiles,
-        setMediaPreviewUrls,
-        mediaPreviewUrls
-      );
-      setVideoFiles(newVideoFiles);
-      buildPreviewUrlsForFiles(
-        newVideoFiles,
-        setVideoPreviewUrls,
-        videoPreviewUrls
-      );
+        // Batch state update
+        dispatchMedia({
+          type: "UPDATE_ALL_MEDIA",
+          payload: {
+            thumbnailMap: newThumbMap,
+            thumbnailUrlsMap: newThumbnailUrlsMap,
+            mediaPreviews: newImageFiles,
+            mediaPreviewUrls: newImageFiles.map((f) => createURL(f)),
+            videoFiles: newVideoFiles,
+            videoPreviewUrls: newVideoFiles.map((f) => createURL(f)),
+          },
+        });
 
-      setFormValues((prev) => ({ ...prev, images: newImageFiles }));
-
-      toast.success("Media selected and processed");
-      console.log("Media selection updated", {
-        images: newImageFiles.length,
-        videos: newVideoFiles.length,
-      });
-    } catch (err: any) {
-      console.error("handleMediaChange error:", err);
-      toast.error(err?.message || "Error handling selected files.");
-    } finally {
-      try {
+        setFormValues((prev) => ({ ...prev, images: newImageFiles }));
+        toast.success("Media selected and processed");
+      } catch (err: any) {
+        console.error("handleMediaChange error:", err);
+        toast.error(err?.message || "Error handling selected files.");
+      } finally {
         (e.target as HTMLInputElement).value = "";
-      } catch (e) {}
-      console.groupEnd();
-    }
-  };
-
-  const removeMediaFile = (index: number) => {
-    console.groupCollapsed("removeMediaFile");
-    try {
-      const updatedPreviews = [...mediaPreviews];
-      const updatedPreviewUrls = [...mediaPreviewUrls];
-
-      const fileToRemove = updatedPreviews[index];
-      const urlToRemove = updatedPreviewUrls[index];
-
-      if (!fileToRemove) {
-        console.warn("No file at index to remove", index);
-        console.groupEnd();
-        return;
       }
+    },
+    [mediaState, createURL, extractThumbnails]
+  );
 
+  // Remove media file
+  const removeMediaFile = useCallback(
+    (index: number) => {
+      const urlToRemove = mediaState.mediaPreviewUrls[index];
+      if (urlToRemove) revokeURL(urlToRemove);
+
+      dispatchMedia({ type: "REMOVE_IMAGE", index });
+
+      const updatedPreviews = [...mediaState.mediaPreviews];
       updatedPreviews.splice(index, 1);
-      updatedPreviewUrls.splice(index, 1);
-
-      try {
-        if (urlToRemove) URL.revokeObjectURL(urlToRemove);
-      } catch (e) {
-        console.warn("Failed to revoke preview URL", e);
-      }
-
-      setMediaPreviews(updatedPreviews);
-      setMediaPreviewUrls(updatedPreviewUrls);
       setFormValues((prev) => ({ ...prev, images: updatedPreviews }));
 
       toast.success("Image removed");
-      console.log("Image removed", {
-        removed: fileToRemove.name,
-        remaining: updatedPreviews.length,
+    },
+    [mediaState.mediaPreviews, mediaState.mediaPreviewUrls, revokeURL]
+  );
+
+  // Remove video file
+  const removeVideoFile = useCallback(
+    (index: number) => {
+      const videoToRemove = mediaState.videoFiles[index];
+      const urlToRemove = mediaState.videoPreviewUrls[index];
+
+      if (!videoToRemove) return;
+
+      if (urlToRemove) revokeURL(urlToRemove);
+
+      const thumbUrls = mediaState.thumbnailUrlsMap[videoToRemove.name] || [];
+      thumbUrls.forEach((u) => revokeURL(u));
+
+      const selectedThumbUrl =
+        mediaState.selectedThumbnailUrls[videoToRemove.name];
+      if (selectedThumbUrl) revokeURL(selectedThumbUrl);
+
+      dispatchMedia({
+        type: "REMOVE_VIDEO",
+        videoName: videoToRemove.name,
+        index,
       });
-    } catch (err) {
-      console.error("removeMediaFile error:", err);
-      toast.error("Unable to remove image");
-    } finally {
-      console.groupEnd();
-    }
-  };
-
-  const removeVideoFile = (index: number) => {
-    console.groupCollapsed("removeVideoFile");
-    try {
-      const updatedVideos = [...videoFiles];
-      const updatedVideoUrls = [...videoPreviewUrls];
-
-      const videoToRemove = updatedVideos[index];
-      const urlToRemove = updatedVideoUrls[index];
-
-      if (!videoToRemove) {
-        console.warn("No video at index to remove", index);
-        console.groupEnd();
-        return;
-      }
-
-      const newThumbsMap = { ...thumbnailMap };
-      const newThumbUrlsMap = { ...thumbnailUrlsMap };
-      delete newThumbsMap[videoToRemove.name];
-      const removedThumbUrls = newThumbUrlsMap[videoToRemove.name] || [];
-      delete newThumbUrlsMap[videoToRemove.name];
-
-      for (const u of removedThumbUrls) {
-        try {
-          URL.revokeObjectURL(u);
-        } catch (e) {
-          console.warn("Failed to revoke thumb url", e);
-        }
-      }
-
-      const newSelectedThumbs = { ...selectedThumbnails };
-      const newSelectedThumbUrls = { ...selectedThumbnailUrls };
-      delete newSelectedThumbs[videoToRemove.name];
-      const urlToDel = newSelectedThumbUrls[videoToRemove.name];
-      if (urlToDel) {
-        try {
-          URL.revokeObjectURL(urlToDel);
-        } catch (e) {
-          console.warn("Failed to revoke selected thumb url", e);
-        }
-      }
-      delete newSelectedThumbUrls[videoToRemove.name];
-
-      updatedVideos.splice(index, 1);
-      updatedVideoUrls.splice(index, 1);
-
-      try {
-        if (urlToRemove) URL.revokeObjectURL(urlToRemove);
-      } catch (e) {
-        console.warn("Failed to revoke video preview url", e);
-      }
-
-      setVideoFiles(updatedVideos);
-      setVideoPreviewUrls(updatedVideoUrls);
-      setThumbnailMap(newThumbsMap);
-      setThumbnailUrlsMap(newThumbUrlsMap);
-      setSelectedThumbnails(newSelectedThumbs);
-      setSelectedThumbnailUrls(newSelectedThumbUrls);
 
       toast.success("Video removed");
-      console.log("Video removed", {
-        name: videoToRemove.name,
-        remaining: updatedVideos.length,
-      });
-    } catch (err) {
-      console.error("removeVideoFile error:", err);
-      toast.error("Unable to remove video");
-    } finally {
-      console.groupEnd();
-    }
-  };
+    },
+    [mediaState, revokeURL]
+  );
 
-  const getValidationSchema = (hasVideo: boolean) => {
-    return Yup.object().shape({
-      title: Yup.string().required("Title is required"),
-      description: Yup.string()
-        .min(50, "Description must be at least 50 characters")
-        .max(1500, "Description cannot exceed 1500 characters")
-        .required("Description is required"),
-      price: Yup.number()
-        .typeError("Price must be a number")
-        .required("Price is required")
-        .min(50000, "Price must be at least ₦50,000"),
-      priceType: Yup.string()
-        .oneOf(["rent", "total_package"], "Invalid price type")
-        .required("Price type is required"),
-      location: Yup.string().required("Location is required"),
-      neighborhood_overview: Yup.string()
-        .max(1500, "Overview cannot exceed 1500 characters")
-        .notRequired(), // CHANGED: Made optional
-      type: Yup.string().required("Property type is required"),
-      bedrooms: Yup.number()
-        .typeError("Bedrooms must be a number")
-        .required("Bedrooms count is required"),
-      bathrooms: Yup.number()
-        .typeError("Bathrooms must be a number")
-        .required("Bathrooms count is required"),
-      area: Yup.number()
-        .typeError("Area must be a number")
-        .required("Area is required"),
-      amenities: Yup.array()
-        .of(Yup.string())
-        .min(1, "Select at least one amenity")
-        .required("Amenities are required"),
-      images: hasVideo
-        ? Yup.array()
-            .min(1, "At least 1 image required when uploading video")
-            .required("Images are required")
-        : Yup.array()
-            .min(3, "At least 3 images required when no video is uploaded")
-            .required("Images are required"),
-      video: Yup.array().max(1, "You can upload up to 1 video").notRequired(),
-      available: Yup.boolean().required("Availability is required"),
-    });
-  };
+  // Handle thumbnail selection
+  const handleThumbnailSelect = useCallback(
+    (videoName: string, thumb: File, url: string) => {
+      dispatchMedia({
+        type: "SELECT_THUMBNAIL",
+        videoName,
+        thumb,
+        url,
+      });
+
+      toast.success(`Thumbnail selected for ${videoName}`);
+    },
+    []
+  );
+
+  // Debounced validation
+  const validateForm = useCallback(
+    async (values: typeof formValues) => {
+      try {
+        const hasVideo = mediaState.videoFiles.length > 0;
+        const schema = getValidationSchema(hasVideo);
+
+        const valuesForValidation = {
+          ...values,
+          price: values.price === "" ? undefined : Number(values.price),
+          bedrooms:
+            values.bedrooms === "" ? undefined : Number(values.bedrooms),
+          bathrooms:
+            values.bathrooms === "" ? undefined : Number(values.bathrooms),
+          area: values.area === "" ? undefined : Number(values.area),
+        };
+
+        await schema.validate(valuesForValidation, { abortEarly: false });
+        setErrors({});
+      } catch (err: any) {
+        const newErrors: Record<string, string> = {};
+        if (err.inner && Array.isArray(err.inner)) {
+          err.inner.forEach((ve: any) => {
+            if (ve.path && !newErrors[ve.path]) newErrors[ve.path] = ve.message;
+          });
+        }
+        setErrors(newErrors);
+      }
+    },
+    [mediaState.videoFiles.length, getValidationSchema]
+  );
+
+  const debouncedValidate = useDebounce(validateForm, 500);
 
   const [formValuesToSubmit, setFormValuesToSubmit] = useState<
     | null
     | (Omit<ApartmentType, "images"> & { images: File[]; amenities: string[] })
   >(null);
 
-  const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
-    if (e) e.preventDefault();
-    console.groupCollapsed("handleSubmit invoked (controlled)");
-
-    try {
-      setIsSubmitting(true);
-      setErrors({});
-      setFormStatus(undefined);
-
-      const hasVideo = videoFiles.length > 0;
-      const validationSchema = getValidationSchema(hasVideo);
+  // Handle submit
+  const handleSubmit = useCallback(
+    async (e?: React.FormEvent<HTMLFormElement>) => {
+      if (e) e.preventDefault();
 
       try {
+        setIsSubmitting(true);
+        setErrors({});
+        setFormStatus(undefined);
+
+        const hasVideo = mediaState.videoFiles.length > 0;
+        const validationSchema = getValidationSchema(hasVideo);
+
         const valuesForValidation = {
           ...formValues,
           price: formValues.price === "" ? undefined : Number(formValues.price),
@@ -672,6 +841,7 @@ const UploadProperty: React.FC = () => {
             .map((a) => a.trim())
             .filter(Boolean);
         }
+
         const availableBoolean =
           typeof formValues.available === "string"
             ? formValues.available === "true"
@@ -681,9 +851,9 @@ const UploadProperty: React.FC = () => {
           ...formValues,
           price: Number(formValues.price),
           priceType: formValues.priceType,
-          bedrooms: Number(formValues.bedrooms as any) || 0,
-          bathrooms: Number(formValues.bathrooms as any) || 0,
-          area: Number(formValues.area as any) || 0,
+          bedrooms: Number(formValues.bedrooms) || 0,
+          bathrooms: Number(formValues.bathrooms) || 0,
+          area: Number(formValues.area) || 0,
           amenities: amenitiesArray,
           available: availableBoolean,
           id: "",
@@ -693,16 +863,13 @@ const UploadProperty: React.FC = () => {
           views: 0,
           createdAt: new Date().toISOString(),
           images: formValues.images,
-          video: videoFiles.length > 0 ? videoPreviewUrls[0] : undefined,
+          video:
+            mediaState.videoFiles.length > 0
+              ? mediaState.videoPreviewUrls[0]
+              : undefined,
         });
 
         setPromptOpen(true);
-        console.log("Prepared form values for confirmation", {
-          title: formValues.title,
-          images: formValues.images?.length || 0,
-          videos: videoFiles.length,
-          agentId: targetAgentId,
-        });
         toast("Ready to upload — confirm to continue", { icon: "📤" });
       } catch (validationErr: any) {
         const newErrors: Record<string, string> = {};
@@ -719,23 +886,17 @@ const UploadProperty: React.FC = () => {
         }
         setErrors(newErrors);
         toast.error("Please fix the highlighted errors.");
+      } finally {
+        setIsSubmitting(false);
       }
-    } catch (err: any) {
-      console.error("handleSubmit error:", err);
-      toast.error("Failed to prepare submission.");
-      setFormStatus({ error: err?.message || "Failed to prepare submission." });
-    } finally {
-      setIsSubmitting(false);
-      console.groupEnd();
-    }
-  };
+    },
+    [formValues, mediaState, getValidationSchema, targetAgentId]
+  );
 
-  const handleConfirm = async () => {
-    console.groupCollapsed("handleConfirm: upload flow start");
+  // Handle confirm upload
+  const handleConfirm = useCallback(async () => {
     if (!formValuesToSubmit) {
-      console.warn("No form values found when confirming upload");
       toast.error("No data to upload.");
-      console.groupEnd();
       return;
     }
 
@@ -753,22 +914,21 @@ const UploadProperty: React.FC = () => {
         );
       }
 
-      let filesToUpload: File[] = [...mediaPreviews];
+      let filesToUpload: File[] = [...mediaState.mediaPreviews];
 
-      for (const videoFile of videoFiles) {
-        const thumbs = thumbnailMap[videoFile.name] || [];
-        const selected = selectedThumbnails[videoFile.name];
+      // Add selected thumbnails (kept separate from images)
+      for (const videoFile of mediaState.videoFiles) {
+        const thumbs = mediaState.thumbnailMap[videoFile.name] || [];
+        const selected = mediaState.selectedThumbnails[videoFile.name];
 
-        if (selected) filesToUpload.push(selected);
-        else if (thumbs.length > 0) filesToUpload.push(thumbs[0]);
+        if (selected) {
+          filesToUpload.push(selected);
+        } else if (thumbs.length > 0) {
+          filesToUpload.push(thumbs[0]);
+        }
       }
 
-      console.debug("Files prepared to upload", {
-        count: filesToUpload.length,
-        files: filesToUpload.map((f) => f.name),
-      });
-
-      const hasVideo = videoFiles.length > 0;
+      const hasVideo = mediaState.videoFiles.length > 0;
       const minFiles = hasVideo ? 1 : 3;
 
       if (filesToUpload.length < minFiles) {
@@ -790,21 +950,18 @@ const UploadProperty: React.FC = () => {
       }
 
       let videoUrls: string[] = [];
-      if (videoFiles.length > 0) {
+      if (mediaState.videoFiles.length > 0) {
         try {
           toast.loading("Uploading videos...", { id: "upload-videos" });
           const uploadedVideoUrls = await uploadFilesToAppwrite(
-            videoFiles,
+            mediaState.videoFiles,
             bucketId
           );
           toast.dismiss("upload-videos");
+
           if (uploadedVideoUrls && Array.isArray(uploadedVideoUrls)) {
             videoUrls = uploadedVideoUrls;
           } else {
-            console.warn(
-              "Video upload returned unexpected response",
-              uploadedVideoUrls
-            );
             toast.error("Video upload failed. Images were uploaded.");
           }
         } catch (err) {
@@ -824,7 +981,6 @@ const UploadProperty: React.FC = () => {
         createdAt: new Date().toISOString(),
       };
 
-      console.log("Sending payload to listApartment", payload);
       const response = await listApartment(payload);
 
       if (!response) {
@@ -846,13 +1002,11 @@ const UploadProperty: React.FC = () => {
           : "Property uploaded successfully",
         { id: "property-upload-success" }
       );
-      console.log("Upload response", { response });
 
       // Only add to user's listed properties if they're uploading their own
       if (!isAdminMode && user?.userType === "agent" && newId) {
         try {
           addListedProperty(newId);
-          console.debug("Added property to user's listed properties", newId);
         } catch (e) {
           console.error("addListedProperty failed:", e);
         }
@@ -875,38 +1029,9 @@ const UploadProperty: React.FC = () => {
         images: [],
       });
 
-      setMediaPreviews([]);
-      for (const u of mediaPreviewUrls) {
-        try {
-          URL.revokeObjectURL(u);
-        } catch (e) {}
-      }
-      setMediaPreviewUrls([]);
-
-      setVideoFiles([]);
-      for (const u of videoPreviewUrls) {
-        try {
-          URL.revokeObjectURL(u);
-        } catch (e) {}
-      }
-      setVideoPreviewUrls([]);
-
-      setThumbnailMap({});
-      Object.values(thumbnailUrlsMap).forEach((arr) =>
-        arr.forEach((u) => {
-          try {
-            URL.revokeObjectURL(u);
-          } catch (e) {}
-        })
-      );
-      setThumbnailUrlsMap({});
-      setSelectedThumbnails({});
-      Object.values(selectedThumbnailUrls).forEach((u) => {
-        try {
-          URL.revokeObjectURL(u);
-        } catch (e) {}
-      });
-      setSelectedThumbnailUrls({});
+      // Revoke all URLs and reset media state
+      revokeAll();
+      dispatchMedia({ type: "RESET_ALL" });
 
       if (redirectUrl && typeof redirectUrl === "string") {
         try {
@@ -928,43 +1053,17 @@ const UploadProperty: React.FC = () => {
     } finally {
       setIsSubmitting(false);
       setFormValuesToSubmit(null);
-      console.groupEnd();
     }
-  };
-
-  // CHANGED: Handler for thumbnail selection - adds thumbnail to mediaPreviews
-  const handleThumbnailSelect = (videoName: string, thumb: File, url: string) => {
-    // Update selected thumbnail state
-    setSelectedThumbnails((prev) => ({
-      ...prev,
-      [videoName]: thumb,
-    }));
-    setSelectedThumbnailUrls((prev) => ({
-      ...prev,
-      [videoName]: url,
-    }));
-
-    // Add thumbnail to mediaPreviews if not already there
-    const isAlreadyAdded = mediaPreviews.some(
-      (file) => file.name === thumb.name
-    );
-
-    if (!isAlreadyAdded) {
-      const updatedPreviews = [...mediaPreviews, thumb];
-      const newUrl = createObjectUrl(thumb);
-      const updatedUrls = [...mediaPreviewUrls, newUrl];
-
-      setMediaPreviews(updatedPreviews);
-      setMediaPreviewUrls(updatedUrls);
-      setFormValues((prev) => ({ ...prev, images: updatedPreviews }));
-
-      toast.success(`Thumbnail added as image for ${videoName}`);
-      console.log("Thumbnail added to images", {
-        thumbName: thumb.name,
-        totalImages: updatedPreviews.length,
-      });
-    }
-  };
+  }, [
+    formValuesToSubmit,
+    mediaState,
+    targetAgentId,
+    isAdminMode,
+    user,
+    addListedProperty,
+    revokeAll,
+    router,
+  ]);
 
   // Don't render until access is verified
   if (!accessGranted) {
@@ -1010,9 +1109,9 @@ const UploadProperty: React.FC = () => {
                   justifyContent: "center",
                   border: "1px dashed #ddd",
                 }}>
-                {mediaPreviewUrls[0] ? (
+                {mediaState.mediaPreviewUrls[0] ? (
                   <img
-                    src={mediaPreviewUrls[0]}
+                    src={mediaState.mediaPreviewUrls[0]}
                     alt="apartment preview"
                     style={{
                       maxWidth: "100%",
@@ -1037,26 +1136,26 @@ const UploadProperty: React.FC = () => {
 
           <div
             style={{ marginBottom: "16px", fontSize: "12px", color: "#666" }}>
-            {videoFiles.length > 0 ? (
+            {mediaState.videoFiles.length > 0 ? (
               <p>
-                ✓ Video detected: At least 1 image required (or use video
-                thumbnail)
+                ✓ Video detected: At least 1 image required (thumbnails selected
+                from videos will be included automatically)
               </p>
             ) : (
               <p>ℹ️ No video: At least 3 images required</p>
             )}
           </div>
 
-          {mediaPreviews.length > 0 && (
+          {mediaState.mediaPreviews.length > 0 && (
             <div className="media-previews-container">
-              <span>Selected Images ({mediaPreviews.length})</span>
+              <span>Selected Images ({mediaState.mediaPreviews.length})</span>
               <div className="media-previews-grid">
-                {mediaPreviews.map((file, index) => (
+                {mediaState.mediaPreviews.map((file, index) => (
                   <div
                     key={`${file.name}-${index}`}
                     className="media-preview-item">
                     <img
-                      src={mediaPreviewUrls[index]}
+                      src={mediaState.mediaPreviewUrls[index]}
                       alt={`Preview ${index}`}
                       width={150}
                       height={150}
@@ -1084,17 +1183,17 @@ const UploadProperty: React.FC = () => {
             </div>
           )}
 
-          {videoFiles.length > 0 && (
+          {mediaState.videoFiles.length > 0 && (
             <div className="media-previews-container">
-              <span>Selected Videos ({videoFiles.length})</span>
+              <span>Selected Videos ({mediaState.videoFiles.length})</span>
               <div className="media-previews-grid">
-                {videoFiles.map((file, index) => (
+                {mediaState.videoFiles.map((file, index) => (
                   <div
                     key={`${file.name}-${index}`}
                     className="media-preview-item">
                     <div className="video-preview">
                       <video
-                        src={videoPreviewUrls[index]}
+                        src={mediaState.videoPreviewUrls[index]}
                         className="preview-thumbnail"
                         width={150}
                         height={150}
@@ -1120,34 +1219,37 @@ const UploadProperty: React.FC = () => {
             </div>
           )}
 
-          {Object.entries(thumbnailMap).map(([videoName, thumbs]) => (
-            <div key={videoName} className="thumbnail-preview">
-              <span>Select a thumbnail for: {videoName}</span>
-              <div>
-                {thumbs.map((thumb, idx) => {
-                  const url = thumbnailUrlsMap[videoName]?.[idx];
-                  return (
-                    <img
-                      key={thumb.name + idx}
-                      className={
-                        selectedThumbnails[videoName]?.name === thumb.name
-                          ? "active"
-                          : ""
-                      }
-                      src={url}
-                      alt={`thumb-${idx}`}
-                      width={120}
-                      height={80}
-                      style={{ width: 120, height: 80, cursor: "pointer" }}
-                      onClick={() =>
-                        handleThumbnailSelect(videoName, thumb, url || "")
-                      }
-                    />
-                  );
-                })}
+          {Object.entries(mediaState.thumbnailMap).map(
+            ([videoName, thumbs]) => (
+              <div key={videoName} className="thumbnail-preview">
+                <span>Select a thumbnail for: {videoName}</span>
+                <div>
+                  {thumbs.map((thumb, idx) => {
+                    const url = mediaState.thumbnailUrlsMap[videoName]?.[idx];
+                    return (
+                      <img
+                        key={thumb.name + idx}
+                        className={
+                          mediaState.selectedThumbnails[videoName]?.name ===
+                          thumb.name
+                            ? "active"
+                            : ""
+                        }
+                        src={url}
+                        alt={`thumb-${idx}`}
+                        width={120}
+                        height={80}
+                        style={{ width: 120, height: 80, cursor: "pointer" }}
+                        onClick={() =>
+                          handleThumbnailSelect(videoName, thumb, url || "")
+                        }
+                      />
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          )}
 
           <div className="form-group">
             <label htmlFor="title">Title</label>
@@ -1155,9 +1257,11 @@ const UploadProperty: React.FC = () => {
               id="title"
               type="text"
               value={formValues.title}
-              onChange={(e) =>
-                setFormValues((p) => ({ ...p, title: e.target.value }))
-              }
+              onChange={(e) => {
+                const newValue = e.target.value;
+                setFormValues((p) => ({ ...p, title: newValue }));
+                debouncedValidate({ ...formValues, title: newValue });
+              }}
             />
             {errors.title && <div className="error">{errors.title}</div>}
           </div>
@@ -1169,9 +1273,10 @@ const UploadProperty: React.FC = () => {
               id="description"
               className="quill-editor"
               value={formValues.description}
-              onChange={(value) =>
-                setFormValues((p) => ({ ...p, description: value }))
-              }
+              onChange={(value) => {
+                setFormValues((p) => ({ ...p, description: value }));
+                debouncedValidate({ ...formValues, description: value });
+              }}
               placeholder="Enter the property description..."
               modules={{ toolbar: false }}
             />
@@ -1186,9 +1291,11 @@ const UploadProperty: React.FC = () => {
               type="number"
               id="price"
               value={formValues.price}
-              onChange={(e) =>
-                setFormValues((p) => ({ ...p, price: e.target.value }))
-              }
+              onChange={(e) => {
+                const newValue = e.target.value;
+                setFormValues((p) => ({ ...p, price: newValue }));
+                debouncedValidate({ ...formValues, price: newValue });
+              }}
             />
             {errors.price && <div className="error">{errors.price}</div>}
           </div>
