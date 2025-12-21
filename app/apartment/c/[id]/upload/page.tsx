@@ -496,6 +496,7 @@ const UploadProperty: React.FC = () => {
   }, [user, urlAgentId, router]);
 
   // Optimized thumbnail extraction with parallel processing
+  // Optimized thumbnail extraction with SEQUENTIAL processing (more reliable)
   const extractThumbnails = useCallback(
     async (videoFile: File): Promise<File[]> => {
       const thumbnails: File[] = [];
@@ -511,108 +512,155 @@ const UploadProperty: React.FC = () => {
           video.onloadedmetadata = null;
           video.onerror = null;
           video.onseeked = null;
+          video.ontimeupdate = null;
         };
 
-        video.crossOrigin = "anonymous";
-        video.preload = "metadata";
-        video.src = url;
-
-        video.onerror = () => {
+        // Better error handling
+        video.onerror = (e) => {
           cleanUp();
           if (!resolved) {
             resolved = true;
             revokeURL(url);
-            reject(
-              new Error(`Failed to load video metadata for ${videoFile.name}`)
-            );
+            const errorMsg = video.error
+              ? `Video error code: ${video.error.code} - ${video.error.message}`
+              : "Failed to load video";
+            console.error(`Video error for ${videoFile.name}:`, errorMsg);
+            reject(new Error(errorMsg));
           }
         };
 
+        video.crossOrigin = "anonymous";
+        video.preload = "metadata";
+        video.muted = true; // Important for autoplay policies
+
         video.onloadedmetadata = async () => {
           const duration = video.duration;
-          if (!duration || !isFinite(duration)) {
+
+          if (!duration || !isFinite(duration) || duration <= 0) {
             cleanUp();
             revokeURL(url);
-            return reject(new Error(`Invalid video duration`));
+            console.error(`Invalid duration for ${videoFile.name}:`, duration);
+            return reject(new Error(`Invalid video duration: ${duration}`));
           }
 
-          const interval = duration / FRAME_COUNT;
+          console.log(
+            `Video loaded: ${videoFile.name}, duration: ${duration}s`
+          );
+
+          const interval = duration / (FRAME_COUNT + 1); // +1 to avoid last frame issues
 
           timeoutId = setTimeout(() => {
             cleanUp();
             if (!resolved) {
               resolved = true;
               revokeURL(url);
+              console.error(
+                `Timeout extracting thumbnails from ${videoFile.name}`
+              );
               reject(new Error(`Thumbnail extraction timed out`));
             }
           }, THUMB_EXTRACT_TIMEOUT);
 
           try {
-            // Extract frames in parallel
-            const framePromises = Array.from(
-              { length: FRAME_COUNT },
-              (_, i) => {
-                return new Promise<File | null>((resolveFrame) => {
-                  const frameIndex = i + 1;
-                  const time = Math.min(duration - 0.1, frameIndex * interval);
+            // SEQUENTIAL extraction (more reliable than parallel)
+            for (let i = 1; i <= FRAME_COUNT; i++) {
+              const time = Math.min(duration - 0.5, i * interval); // 0.5s buffer from end
 
-                  const captureFrame = () => {
-                    const canvas = document.createElement("canvas");
-                    canvas.width = video.videoWidth || 320;
-                    canvas.height = video.videoHeight || 240;
-                    const ctx = canvas.getContext("2d");
+              await new Promise<void>((resolveSeeked, rejectSeeked) => {
+                let seekTimeout: NodeJS.Timeout;
 
-                    if (!ctx) return resolveFrame(null);
+                const onSeeked = () => {
+                  clearTimeout(seekTimeout);
+                  video.onseeked = null;
+                  resolveSeeked();
+                };
 
-                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const onSeekError = () => {
+                  clearTimeout(seekTimeout);
+                  video.onseeked = null;
+                  rejectSeeked(new Error(`Failed to seek to ${time}s`));
+                };
 
-                    canvas.toBlob(
-                      (blob) => {
-                        if (!blob) return resolveFrame(null);
-                        resolveFrame(
-                          new File(
-                            [blob],
-                            `${videoFile.name}-thumb-${frameIndex}.jpg`,
-                            {
-                              type: "image/jpeg",
-                            }
-                          )
-                        );
-                      },
-                      "image/jpeg",
-                      0.8
-                    );
-                  };
+                video.onseeked = onSeeked;
 
-                  video.currentTime = time;
-                  video.onseeked = () => {
-                    captureFrame();
-                    video.onseeked = null;
-                  };
-                });
+                // Fallback timeout for seek operation
+                seekTimeout = setTimeout(() => {
+                  video.onseeked = null;
+                  rejectSeeked(new Error(`Seek timeout at ${time}s`));
+                }, 3000); // 3s per seek
+
+                video.currentTime = time;
+              });
+
+              // Small delay to ensure frame is rendered
+              await new Promise((resolve) => setTimeout(resolve, 100));
+
+              // Capture frame
+              const canvas = document.createElement("canvas");
+              canvas.width = video.videoWidth || 640;
+              canvas.height = video.videoHeight || 480;
+              const ctx = canvas.getContext("2d");
+
+              if (!ctx) {
+                console.warn(`No canvas context for frame ${i}`);
+                continue;
               }
-            );
 
-            const extractedThumbnails = (
-              await Promise.all(framePromises)
-            ).filter(Boolean) as File[];
+              try {
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-            cleanUp();
-            revokeURL(url);
+                const blob = await new Promise<Blob | null>((resolveBlob) => {
+                  canvas.toBlob((b) => resolveBlob(b), "image/jpeg", 0.8);
+                });
 
-            if (!resolved) {
-              resolved = true;
-              resolve(extractedThumbnails);
+                if (blob) {
+                  const thumbFile = new File(
+                    [blob],
+                    `${videoFile.name}-thumb-${i}.jpg`,
+                    { type: "image/jpeg" }
+                  );
+                  thumbnails.push(thumbFile);
+                }
+              } catch (err) {
+                console.warn(`Failed to capture frame ${i}:`, err);
+              }
             }
-          } catch (err) {
+
+            cleanUp();
+            revokeURL(url);
+
+            if (!resolved) {
+              resolved = true;
+
+              if (thumbnails.length === 0) {
+                reject(new Error("No thumbnails could be extracted"));
+              } else {
+                console.log(
+                  `Successfully extracted ${thumbnails.length} thumbnails from ${videoFile.name}`
+                );
+                resolve(thumbnails);
+              }
+            }
+          } catch (err: any) {
             cleanUp();
             revokeURL(url);
             if (!resolved) {
               resolved = true;
+              console.error("Thumbnail extraction error:", err);
               reject(err);
             }
           }
         };
+
+        // Set source AFTER attaching all handlers
+        try {
+          video.src = url;
+          video.load(); // Explicitly load the video
+        } catch (err) {
+          cleanUp();
+          revokeURL(url);
+          reject(new Error(`Failed to load video file: ${err}`));
+        }
       });
     },
     [createURL, revokeURL]
@@ -631,11 +679,16 @@ const UploadProperty: React.FC = () => {
         const newThumbnailUrlsMap = { ...mediaState.thumbnailUrlsMap };
 
         for (const file of inputFiles) {
+          // In handleMediaChange, replace the video processing block:
           if (file.type.startsWith("video/")) {
             if (file.size > MAX_VIDEO_SIZE) {
               toast.error(`${file.name} exceeds max video size of 20MB`);
               continue;
             }
+
+            console.log(
+              `Processing video: ${file.name}, size: ${file.size}, type: ${file.type}`
+            );
 
             try {
               const toastId = toast.loading(`Processing video ${file.name}...`);
@@ -643,16 +696,26 @@ const UploadProperty: React.FC = () => {
               toast.dismiss(toastId);
 
               if (!thumbs || thumbs.length === 0) {
+                console.error(`No thumbnails extracted from ${file.name}`);
                 toast.error(`Could not extract thumbnails from ${file.name}`);
                 newVideoFiles.push(file);
                 continue;
               }
 
+              console.log(
+                `✅ Extracted ${thumbs.length} thumbnails from ${file.name}`
+              );
               newThumbMap[file.name] = thumbs;
               newThumbnailUrlsMap[file.name] = thumbs.map((t) => createURL(t));
               newVideoFiles.push(file);
-              toast.success(`Thumbnails ready for ${file.name}`);
+              toast.success(
+                `${thumbs.length} thumbnails ready for ${file.name}`
+              );
             } catch (err: any) {
+              console.error(
+                `❌ Video processing failed for ${file.name}:`,
+                err
+              );
               toast.error(
                 `Error processing video: ${err?.message || "unknown error"}`
               );
