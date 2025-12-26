@@ -36,7 +36,7 @@ const ReactQuill = dynamic(() => import("react-quill"), {
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB total images+thumbs
 const MAX_VIDEO_SIZE = 20 * 1024 * 1024; // 20MB per video
-const FRAME_COUNT = 15;
+const FRAME_COUNT = 10;
 const THUMB_EXTRACT_TIMEOUT = 10_000; // 10s per video
 
 // ============================================================================
@@ -399,7 +399,7 @@ const UploadProperty: React.FC = () => {
         price: Yup.number()
           .typeError("Price must be a number")
           .required("Price is required")
-          .min(50000, "Price must be at least ₦50,000"),
+          .min(30000, "Price must be at least ₦30,000"),
         priceType: Yup.string()
           .oneOf(["rent", "total_package"], "Invalid price type")
           .required("Price type is required"),

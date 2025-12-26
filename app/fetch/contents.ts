@@ -159,6 +159,7 @@ const locations = [
   "lagere",
   "road 7",
   "OAU campus",
+  "Ajigbona"
 ];
 
 const trendcategories = [
