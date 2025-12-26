@@ -831,7 +831,7 @@ const UploadProperty: React.FC = () => {
     async (values: typeof formValues) => {
       try {
         const hasVideo = mediaState.videoFiles.length > 0;
-        const schema = getValidationSchema(hasVideo);
+        const schema = getValidationSchema(-);
 
         const valuesForValidation = {
           ...values,
@@ -875,8 +875,8 @@ const UploadProperty: React.FC = () => {
         setErrors({});
         setFormStatus(undefined);
 
-        const hasVideo = mediaState.videoFiles.length > 0;
-        const validationSchema = getValidationSchema(hasVideo);
+        const - = mediaState.videoFiles.length > 0;
+        const validationSchema = getValidationSchema(-);
 
         const valuesForValidation = {
           ...formValues,
@@ -991,7 +991,7 @@ const UploadProperty: React.FC = () => {
         }
       }
 
-      const hasVideo = mediaState.videoFiles.length > 0;
+      const - = mediaState.videoFiles.length > 0;
       const minFiles = hasVideo ? 1 : 3;
 
       if (filesToUpload.length < minFiles) {
