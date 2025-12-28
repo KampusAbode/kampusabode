@@ -49,8 +49,8 @@ type MediaState = {
   mediaPreviewUrls: string[];
   videoFiles: File[];
   videoPreviewUrls: string[];
-  selectedThumbnails: Record<string, File>;
-  selectedThumbnailUrls: Record<string, string>;
+  selectedThumbnails: Record<string, File[]>; // Changed to array for multi-select
+  selectedThumbnailUrls: Record<string, string[]>; // Changed to array for multi-select
 };
 
 type MediaAction =
@@ -63,7 +63,7 @@ type MediaAction =
     }
   | { type: "REMOVE_IMAGE"; index: number }
   | { type: "REMOVE_VIDEO"; videoName: string; index: number }
-  | { type: "SELECT_THUMBNAIL"; videoName: string; thumb: File; url: string }
+  | { type: "TOGGLE_THUMBNAIL"; videoName: string; thumb: File; url: string }
   | { type: "RESET_ALL" };
 
 // ============================================================================
@@ -112,6 +112,20 @@ const mediaReducer = (state: MediaState, action: MediaAction): MediaState => {
 
       const newSelectedThumbs = { ...state.selectedThumbnails };
       const newSelectedThumbUrls = { ...state.selectedThumbnailUrls };
+      
+      // Remove selected thumbnails from media previews
+      const selectedThumbsForVideo = newSelectedThumbs[action.videoName] || [];
+      let newMediaPreviews = [...state.mediaPreviews];
+      let newMediaPreviewUrls = [...state.mediaPreviewUrls];
+      
+      selectedThumbsForVideo.forEach(thumb => {
+        const idx = newMediaPreviews.findIndex(f => f.name === thumb.name);
+        if (idx >= 0) {
+          newMediaPreviews.splice(idx, 1);
+          newMediaPreviewUrls.splice(idx, 1);
+        }
+      });
+      
       delete newSelectedThumbs[action.videoName];
       delete newSelectedThumbUrls[action.videoName];
 
@@ -123,21 +137,62 @@ const mediaReducer = (state: MediaState, action: MediaAction): MediaState => {
         thumbnailUrlsMap: newThumbUrlsMap,
         selectedThumbnails: newSelectedThumbs,
         selectedThumbnailUrls: newSelectedThumbUrls,
+        mediaPreviews: newMediaPreviews,
+        mediaPreviewUrls: newMediaPreviewUrls,
       };
     }
 
-    case "SELECT_THUMBNAIL":
+    case "TOGGLE_THUMBNAIL": {
+      const currentSelected = state.selectedThumbnails[action.videoName] || [];
+      const currentUrls = state.selectedThumbnailUrls[action.videoName] || [];
+      
+      // Check if this thumbnail is already selected
+      const existingIndex = currentSelected.findIndex(
+        (t) => t.name === action.thumb.name
+      );
+
+      let newSelected: File[];
+      let newUrls: string[];
+      let newMediaPreviews = [...state.mediaPreviews];
+      let newMediaPreviewUrls = [...state.mediaPreviewUrls];
+
+      if (existingIndex >= 0) {
+        // Deselect: Remove from selected thumbnails
+        newSelected = currentSelected.filter((_, i) => i !== existingIndex);
+        newUrls = currentUrls.filter((_, i) => i !== existingIndex);
+        
+        // Remove from media previews
+        const previewIndex = newMediaPreviews.findIndex(
+          (f) => f.name === action.thumb.name
+        );
+        if (previewIndex >= 0) {
+          newMediaPreviews.splice(previewIndex, 1);
+          newMediaPreviewUrls.splice(previewIndex, 1);
+        }
+      } else {
+        // Select: Add to selected thumbnails
+        newSelected = [...currentSelected, action.thumb];
+        newUrls = [...currentUrls, action.url];
+        
+        // Add to media previews (so it shows up in the preview section)
+        newMediaPreviews.push(action.thumb);
+        newMediaPreviewUrls.push(action.url);
+      }
+
       return {
         ...state,
         selectedThumbnails: {
           ...state.selectedThumbnails,
-          [action.videoName]: action.thumb,
+          [action.videoName]: newSelected,
         },
         selectedThumbnailUrls: {
           ...state.selectedThumbnailUrls,
-          [action.videoName]: action.url,
+          [action.videoName]: newUrls,
         },
+        mediaPreviews: newMediaPreviews,
+        mediaPreviewUrls: newMediaPreviewUrls,
       };
+    }
 
     case "RESET_ALL":
       return {
@@ -495,8 +550,7 @@ const UploadProperty: React.FC = () => {
     };
   }, [user, urlAgentId, router]);
 
-  // Optimized thumbnail extraction with parallel processing
-  // Optimized thumbnail extraction with SEQUENTIAL processing (more reliable)
+  // Optimized thumbnail extraction with SEQUENTIAL processing
   const extractThumbnails = useCallback(
     async (videoFile: File): Promise<File[]> => {
       const thumbnails: File[] = [];
@@ -679,7 +733,6 @@ const UploadProperty: React.FC = () => {
         const newThumbnailUrlsMap = { ...mediaState.thumbnailUrlsMap };
 
         for (const file of inputFiles) {
-          // In handleMediaChange, replace the video processing block:
           if (file.type.startsWith("video/")) {
             if (file.size > MAX_VIDEO_SIZE) {
               toast.error(`${file.name} exceeds max video size of 20MB`);
@@ -770,7 +823,35 @@ const UploadProperty: React.FC = () => {
   const removeMediaFile = useCallback(
     (index: number) => {
       const urlToRemove = mediaState.mediaPreviewUrls[index];
+      const fileToRemove = mediaState.mediaPreviews[index];
+      
       if (urlToRemove) revokeURL(urlToRemove);
+
+      // Check if this file is a selected thumbnail and remove it from selected thumbnails
+      for (const [videoName, selectedThumbs] of Object.entries(mediaState.selectedThumbnails)) {
+        const thumbIndex = selectedThumbs.findIndex(t => t.name === fileToRemove.name);
+        if (thumbIndex >= 0) {
+          const newSelected = [...selectedThumbs];
+          const newUrls = [...(mediaState.selectedThumbnailUrls[videoName] || [])];
+          newSelected.splice(thumbIndex, 1);
+          newUrls.splice(thumbIndex, 1);
+          
+          dispatchMedia({
+            type: "UPDATE_ALL_MEDIA",
+            payload: {
+              selectedThumbnails: {
+                ...mediaState.selectedThumbnails,
+                [videoName]: newSelected,
+              },
+              selectedThumbnailUrls: {
+                ...mediaState.selectedThumbnailUrls,
+                [videoName]: newUrls,
+              },
+            },
+          });
+          break;
+        }
+      }
 
       dispatchMedia({ type: "REMOVE_IMAGE", index });
 
@@ -780,7 +861,7 @@ const UploadProperty: React.FC = () => {
 
       toast.success("Image removed");
     },
-    [mediaState.mediaPreviews, mediaState.mediaPreviewUrls, revokeURL]
+    [mediaState, revokeURL]
   );
 
   // Remove video file
@@ -796,9 +877,8 @@ const UploadProperty: React.FC = () => {
       const thumbUrls = mediaState.thumbnailUrlsMap[videoToRemove.name] || [];
       thumbUrls.forEach((u) => revokeURL(u));
 
-      const selectedThumbUrl =
-        mediaState.selectedThumbnailUrls[videoToRemove.name];
-      if (selectedThumbUrl) revokeURL(selectedThumbUrl);
+      const selectedThumbUrls = mediaState.selectedThumbnailUrls[videoToRemove.name] || [];
+      selectedThumbUrls.forEach((u) => revokeURL(u));
 
       dispatchMedia({
         type: "REMOVE_VIDEO",
@@ -811,19 +891,26 @@ const UploadProperty: React.FC = () => {
     [mediaState, revokeURL]
   );
 
-  // Handle thumbnail selection
-  const handleThumbnailSelect = useCallback(
+  // Handle thumbnail selection/deselection
+  const handleThumbnailToggle = useCallback(
     (videoName: string, thumb: File, url: string) => {
       dispatchMedia({
-        type: "SELECT_THUMBNAIL",
+        type: "TOGGLE_THUMBNAIL",
         videoName,
         thumb,
         url,
       });
 
-      toast.success(`Thumbnail selected for ${videoName}`);
+      const currentSelected = mediaState.selectedThumbnails[videoName] || [];
+      const isSelected = currentSelected.some((t) => t.name === thumb.name);
+      
+      if (isSelected) {
+        toast.success(`Thumbnail deselected for ${videoName}`);
+      } else {
+        toast.success(`Thumbnail selected for ${videoName}`);
+      }
     },
-    []
+    [mediaState.selectedThumbnails]
   );
 
   // Debounced validation
@@ -831,7 +918,7 @@ const UploadProperty: React.FC = () => {
     async (values: typeof formValues) => {
       try {
         const hasVideo = mediaState.videoFiles.length > 0;
-        const schema = getValidationSchema(-);
+        const schema = getValidationSchema(hasVideo);
 
         const valuesForValidation = {
           ...values,
@@ -875,8 +962,8 @@ const UploadProperty: React.FC = () => {
         setErrors({});
         setFormStatus(undefined);
 
-        const - = mediaState.videoFiles.length > 0;
-        const validationSchema = getValidationSchema(-);
+        const hasVideo = mediaState.videoFiles.length > 0;
+        const validationSchema = getValidationSchema(hasVideo);
 
         const valuesForValidation = {
           ...formValues,
@@ -977,21 +1064,23 @@ const UploadProperty: React.FC = () => {
         );
       }
 
+      // mediaPreviews already contains selected thumbnails from the toggle action
       let filesToUpload: File[] = [...mediaState.mediaPreviews];
 
-      // Add selected thumbnails (kept separate from images)
+      // Add first thumbnail as fallback if no thumbnails were selected for a video
       for (const videoFile of mediaState.videoFiles) {
-        const thumbs = mediaState.thumbnailMap[videoFile.name] || [];
-        const selected = mediaState.selectedThumbnails[videoFile.name];
-
-        if (selected) {
-          filesToUpload.push(selected);
-        } else if (thumbs.length > 0) {
-          filesToUpload.push(thumbs[0]);
+        const selectedThumbs = mediaState.selectedThumbnails[videoFile.name] || [];
+        
+        // If no thumbnails were selected, add the first one as default
+        if (selectedThumbs.length === 0) {
+          const thumbs = mediaState.thumbnailMap[videoFile.name] || [];
+          if (thumbs.length > 0) {
+            filesToUpload.push(thumbs[0]);
+          }
         }
       }
 
-      const - = mediaState.videoFiles.length > 0;
+      const hasVideo = mediaState.videoFiles.length > 0;
       const minFiles = hasVideo ? 1 : 3;
 
       if (filesToUpload.length < minFiles) {
@@ -1283,35 +1372,72 @@ const UploadProperty: React.FC = () => {
           )}
 
           {Object.entries(mediaState.thumbnailMap).map(
-            ([videoName, thumbs]) => (
-              <div key={videoName} className="thumbnail-preview">
-                <span>Select a thumbnail for: {videoName}</span>
-                <div>
-                  {thumbs.map((thumb, idx) => {
-                    const url = mediaState.thumbnailUrlsMap[videoName]?.[idx];
-                    return (
-                      <img
-                        key={thumb.name + idx}
-                        className={
-                          mediaState.selectedThumbnails[videoName]?.name ===
-                          thumb.name
-                            ? "active"
-                            : ""
-                        }
-                        src={url}
-                        alt={`thumb-${idx}`}
-                        width={120}
-                        height={80}
-                        style={{ width: 120, height: 80, cursor: "pointer" }}
-                        onClick={() =>
-                          handleThumbnailSelect(videoName, thumb, url || "")
-                        }
-                      />
-                    );
-                  })}
+            ([videoName, thumbs]) => {
+              const selectedThumbs = mediaState.selectedThumbnails[videoName] || [];
+              
+              return (
+                <div key={videoName} className="thumbnail-preview">
+                  <span>
+                    Select thumbnail(s) for: {videoName} 
+                    {selectedThumbs.length > 0 && ` (${selectedThumbs.length} selected)`}
+                  </span>
+                  <p style={{ fontSize: '12px', color: '#666', marginTop: '4px' }}>
+                    Click to select/deselect. First selected will be the main thumbnail.
+                  </p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '8px' }}>
+                    {thumbs.map((thumb, idx) => {
+                      const url = mediaState.thumbnailUrlsMap[videoName]?.[idx];
+                      const isSelected = selectedThumbs.some(t => t.name === thumb.name);
+                      const selectionIndex = selectedThumbs.findIndex(t => t.name === thumb.name);
+                      
+                      return (
+                        <div key={thumb.name + idx} style={{ position: 'relative', display: 'inline-block' }}>
+                          <img
+                            className={isSelected ? "active" : ""}
+                            src={url}
+                            alt={`thumb-${idx}`}
+                            width={120}
+                            height={80}
+                            style={{ 
+                              width: 120, 
+                              height: 80, 
+                              cursor: "pointer",
+                              border: isSelected ? '3px solid #4CAF50' : '2px solid #ddd',
+                              opacity: isSelected ? 1 : 0.7,
+                              borderRadius: '4px',
+                              transition: 'all 0.2s ease'
+                            }}
+                            onClick={() =>
+                              handleThumbnailToggle(videoName, thumb, url || "")
+                            }
+                          />
+                          {isSelected && (
+                            <div style={{
+                              position: 'absolute',
+                              top: '4px',
+                              right: '4px',
+                              background: '#4CAF50',
+                              color: 'white',
+                              borderRadius: '50%',
+                              width: '24px',
+                              height: '24px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontSize: '12px',
+                              fontWeight: 'bold',
+                              boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                            }}>
+                              {selectionIndex + 1}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            )
+              );
+            }
           )}
 
           <div className="form-group">
