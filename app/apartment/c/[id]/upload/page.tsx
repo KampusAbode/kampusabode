@@ -386,15 +386,6 @@ const UploadProperty: React.FC = () => {
     undefined
   );
 
-  const typeOptions = [
-    "Mini self contained",
-    "Self contained",
-    "Single room",
-    "Room and parlour",
-    "2 bedroom",
-    "3 bedroom",
-    "4 bedroom",
-  ];
 
   const amenitiesOptions = [
     // Critical
@@ -1262,7 +1253,7 @@ const UploadProperty: React.FC = () => {
                 className="upload-image-preview"
                 style={{
                   width: "100%",
-                  height: 200,
+                  height: 300,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -1594,7 +1585,7 @@ const UploadProperty: React.FC = () => {
                 setFormValues((p) => ({ ...p, type: e.target.value }))
               }>
               <option value="">Select Property Type</option>
-              {typeOptions.map((t) => (
+              {data.propTypeOptions.map((t) => (
                 <option key={t} value={t}>
                   {t}
                 </option>

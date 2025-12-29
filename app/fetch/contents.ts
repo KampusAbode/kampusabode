@@ -147,20 +147,31 @@ const ApartmentTypes = [
   "Shared Houses",
 ];
 const locations = [
-  "asherifa",
-  "oduduwa estate",
-  "damico area",
-  "ibadan road",
-  "parakin estate",
-  "modomo",
-  "may fair",
-  "ede road",
+  "Asherifa",
+  "Dduduwa estate",
+  "Damico area",
+  "Oni Layout",
+  "Ibadan road",
+  "Parakin estate",
+  "Modomo",
+  "Mayfair",
+  "Ede road",
   "AP",
   "lagere",
-  "road 7",
+  "Road 7",
   "OAU campus",
   "Ajigbona"
 ];
+
+ const propTypeOptions = [
+    "Mini self contained",
+    "Self contained",
+    "Single room",
+    "Room and parlour",
+    "2 bedroom",
+    "3 bedroom",
+    "4 bedroom",
+  ];
 
 const trendcategories = [
   "Trending",
@@ -197,6 +208,7 @@ const data = {
   homeSection,
   ApartmentTypes,
   locations,
+  propTypeOptions,
   priceRanges,
   bedroomOptions,
   links,
