@@ -387,6 +387,7 @@ const UploadProperty: React.FC = () => {
   );
 
   const typeOptions = [
+    "Mini self contained",
     "Self contained",
     "Single room",
     "Room and parlour",
@@ -415,7 +416,7 @@ const UploadProperty: React.FC = () => {
     "shared bathroom",
     "kitchen",
     "bedframe",
-    "wardrope",
+    "wardrobe",
 
     // Comfort
     "air conditioning",
@@ -913,6 +914,10 @@ const UploadProperty: React.FC = () => {
     [mediaState.selectedThumbnails]
   );
 
+  useEffect(() => {
+    setFormValues((prev) => ({ ...prev, images: mediaState.mediaPreviews }));
+  }, [mediaState.mediaPreviews]);
+
   // Debounced validation
   const validateForm = useCallback(
     async (values: typeof formValues) => {
@@ -1014,9 +1019,9 @@ const UploadProperty: React.FC = () => {
           createdAt: new Date().toISOString(),
           images: formValues.images,
           video:
-            mediaState.videoFiles.length > 0
+            mediaState.videoFiles.length > 0 && mediaState.videoPreviewUrls[0]
               ? mediaState.videoPreviewUrls[0]
-              : undefined,
+              : null,
         });
 
         setPromptOpen(true);
@@ -1126,7 +1131,9 @@ const UploadProperty: React.FC = () => {
       const payload: ApartmentType = {
         ...formValuesToSubmit,
         images: imageUrls,
-        ...(videoUrls.length > 0 && { video: videoUrls[0] }),
+        ...(videoUrls.length > 0 && videoUrls[0]
+          ? { video: videoUrls[0] }
+          : {}),
         agentId: targetAgentId,
         approved: false,
         views: 0,
