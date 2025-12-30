@@ -128,6 +128,7 @@
             video {
               width: 100%;
               height: 100px;
+              min-height: 100px;
               max-height: 100px;
               object-fit: cover;
               border-radius: var(--border-radius);
@@ -149,6 +150,14 @@
               align-items: center;
               justify-content: space-between;
               padding: var(--spacing-h);
+
+              span{
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+
+                line-clamp: 1;
+              }
 
               .remove-media-btn {
                 color: red;

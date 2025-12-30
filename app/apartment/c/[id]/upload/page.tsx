@@ -1307,8 +1307,8 @@ const UploadProperty: React.FC = () => {
                     <img
                       src={mediaState.mediaPreviewUrls[index]}
                       alt={`Preview ${index}`}
-                      width={150}
-                      height={150}
+                      width={200}
+                      height={200}
                       className="preview-thumbnail"
                       style={{
                         width: "150px",
@@ -1345,8 +1345,8 @@ const UploadProperty: React.FC = () => {
                       <video
                         src={mediaState.videoPreviewUrls[index]}
                         className="preview-thumbnail"
-                        width={150}
-                        height={150}
+                        width={200}
+                        height={200}
                         controls={false}
                         muted
                       />
