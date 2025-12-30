@@ -152,6 +152,7 @@ const locations = [
   "Damico area",
   "Oni Layout",
   "Ibadan road",
+  "Moremi",
   "Parakin estate",
   "Modomo",
   "Mayfair",
