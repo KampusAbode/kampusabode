@@ -70,7 +70,7 @@ export const usePropertiesStore = create<PropertiesState>()((set, get) => ({
         property.location.toLowerCase().includes(query) ||
         property.type.toLowerCase().includes(query);
       const locationMatch =
-        activeLocation === "all" || property.location === activeLocation;
+        activeLocation === "all" || property.location.toLowerCase() === activeLocation.toLowerCase();
       return matches && locationMatch;
     });
 

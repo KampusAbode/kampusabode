@@ -168,9 +168,9 @@ const PropertiesPage: React.FC = () => {
             <span
               key={location}
               className={`filter-btn ${
-                activeLocation === location ? "active" : ""
+                activeLocation.toLowerCase() === location.toLowerCase() ? "active" : ""
               }`}
-              onClick={() => filterByLocation(location)}>
+              onClick={() => filterByLocation(location.toLowerCase())}>
               {location}
             </span>
           ))}
