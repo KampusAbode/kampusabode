@@ -148,7 +148,7 @@ const ApartmentTypes = [
 ];
 const locations = [
   "Asherifa",
-  "Dduduwa estate",
+  "Oduduwa estate",
   "Damico area",
   "Oni Layout",
   "Ibadan road",
