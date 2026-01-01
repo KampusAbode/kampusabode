@@ -44,8 +44,8 @@
   /* Shadow & Transition */
   --shadow:
     0px 3px 10px rgba(27, 27, 27, 0.089), -0px -3px 8px rgba(22, 22, 22, 0.01);
-  --shadow-below: 0 6px 20px rgba(0, 0, 0, 0.1);
-  --faded-shadow: 0 0px 10px rgba(0, 0, 0, 0.1);
+  --shadow-below: 0 6px 20px rgba(0, 0, 0, 0.05);
+  --faded-shadow: 0 0px 10px rgba(0, 0, 0, 0.05);
   --transition: all 0.3s ease-in-out;
   /* Fonts */
   --font-poppins: "Poppins", sans-serif;
