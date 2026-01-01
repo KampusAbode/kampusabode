@@ -182,8 +182,8 @@
 .dashboard .container .student-dashboard .listed-properties .property-list ul li a img,
 .dashboard .container .agent-dashboard .listed-properties .property-list ul li a img {
   width: 100px;
-  aspect-ratio: 1/1;
   height: 100px;
+  aspect-ratio: 1/1;
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: var(--border-radius);
@@ -192,7 +192,7 @@
 }
 .dashboard .container .student-dashboard .listed-properties .property-list ul li a .detail,
 .dashboard .container .agent-dashboard .listed-properties .property-list ul li a .detail {
-  padding-block: var(--spacing-h);
+  padding-block: var(--spacing);
 }
 .dashboard .container .student-dashboard .listed-properties .property-list ul li a .detail span,
 .dashboard .container .agent-dashboard .listed-properties .property-list ul li a .detail span {
@@ -210,7 +210,7 @@
 }
 .dashboard .container .student-dashboard .listed-properties .property-list ul li .option-btn,
 .dashboard .container .agent-dashboard .listed-properties .property-list ul li .option-btn {
-  padding: var(--spacing-h);
+  padding: var(--spacing);
   cursor: pointer;
 }
 .dashboard .container .student-dashboard .listed-properties .property-list ul li .options,

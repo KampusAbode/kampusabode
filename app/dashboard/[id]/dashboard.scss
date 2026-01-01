@@ -181,8 +181,8 @@
 
                 img {
                   width: 100px;
-                  aspect-ratio: 1/1;
                   height: 100px;
+                  aspect-ratio: 1/1;
                   object-fit: cover;
                   border-radius: var(--border-radius);
                   border-top-right-radius: 0;
@@ -190,7 +190,8 @@
                 }
 
                 .detail {
-                  padding-block: var(--spacing-h);
+                  padding-block: var(--spacing);
+                  
                   span {
                     &::first-child {
                       overflow: hidden;
@@ -207,7 +208,7 @@
               }
 
               .option-btn {
-                padding: var(--spacing-h);
+                padding: var(--spacing);
                 cursor: pointer;
               }
 

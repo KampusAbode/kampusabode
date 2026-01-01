@@ -26,10 +26,9 @@ const Dashboard = ({ params }: DashboardPageProps) => {
   
   useEffect(() => {
     if (user === null || user === undefined) {
-      // Maybe still loading
       setTimeout(() => {
         setLoading(false);
-      }, 1000); // optional buffer
+      }, 1000);
     } else {
       setLoading(false);
     }

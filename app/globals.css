@@ -44,7 +44,8 @@
   /* Shadow & Transition */
   --shadow:
     0px 3px 10px rgba(27, 27, 27, 0.089), -0px -3px 8px rgba(22, 22, 22, 0.01);
-  --shadow-below: 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+  --shadow-below: 0 6px 20px rgba(0, 0, 0, 0.1);
+  --faded-shadow: 0 0px 10px rgba(0, 0, 0, 0.1);
   --transition: all 0.3s ease-in-out;
   /* Fonts */
   --font-poppins: "Poppins", sans-serif;
@@ -162,7 +163,6 @@ h6 {
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
-  font-weight: 500;
   line-height: var(--line-height-lg);
 }
 
@@ -171,19 +171,19 @@ h1 {
 }
 
 h2 {
-  font-size: 1.85rem;
-}
-
-h3 {
   font-size: 1.45rem;
 }
 
+h3 {
+  font-size: 1.25rem;
+}
+
 h4 {
-  font-size: 1.25;
+  font-size: 1.05rem;
 }
 
 h5 {
-  font-size: 1.17rem;
+  font-size: 1rem;
 }
 
 h6 {
@@ -294,6 +294,7 @@ img {
   font-size: var(--font-size-sm);
   color: var(--font-white);
   background: var(--primary-color);
+  box-shadow: var(--faded-shadow);
   padding: var(--spacing-b);
   border-radius: var(--border-radius-btn);
   border: var(--border);
@@ -340,6 +341,7 @@ button {
   font-size: var(--font-size-sm);
   border: none;
   background-color: transparent;
+  box-shadow: var(--faded-shadow);
   cursor: pointer;
 }
 
@@ -350,6 +352,7 @@ button {
   border-radius: var(--border-radius-r);
   text-transform: capitalize;
   background: var(--light-gray);
+  box-shadow: var(--faded-shadow);
   white-space: nowrap;
   cursor: pointer;
   transition: var(--transition);
