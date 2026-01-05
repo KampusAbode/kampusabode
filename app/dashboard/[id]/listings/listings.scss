@@ -1,17 +1,21 @@
 .listed-properties {
- .property-list {
-  ul {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-    
-    li{
-    position: relative;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: var(--box-shadow);
+  .property-list {
+    ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+      
+      li {
+        position: relative;
+        overflow: hidden;
+        
+        img {
+          border-radius: var(--border-radius);
+          box-shadow: var(--box-shadow);
+          aspect-ratio: 1 / 1;
+        }
+      }
     }
-    }
-}
+  }
 }

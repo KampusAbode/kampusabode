@@ -6,7 +6,10 @@
 }
 .listed-properties .property-list ul li {
   position: relative;
-  border-radius: var(--border-radius);
   overflow: hidden;
+}
+.listed-properties .property-list ul li img {
+  border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
+  aspect-ratio: 1/1;
 }/*# sourceMappingURL=listings.css.map */
