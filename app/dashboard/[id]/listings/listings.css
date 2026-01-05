@@ -1,0 +1,12 @@
+.listed-properties .property-list ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.listed-properties .property-list ul li {
+  position: relative;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+}/*# sourceMappingURL=listings.css.map */

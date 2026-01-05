@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { deleteApartment, getApartmentsByIds } from "../../utils";
-import { ApartmentType } from "../../fetch/types";
+import { useState } from "react";
+import { deleteApartment } from "../../utils";
 import { SlOptionsVertical } from "react-icons/sl";
 import Link from "next/link";
 import Image from "next/image";
@@ -14,47 +13,18 @@ import { useRouter } from "next/navigation";
 
 const ListedProperties = () => {
   const user = useUserStore((state) => state.user);
-  const [filteredProperties, setFilteredProperties] = useState<ApartmentType[]>(
-    []
-  );
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  // Get properties from Zustand store instead of fetching
+  const properties = useUserStore((state) => state.properties);
+  const loading = useUserStore((state) => state.propertiesLoading);
+  const error = useUserStore((state) => state.propertiesError);
+  const removeProperty = useUserStore((state) => state.removeProperty);
+
   const [activeProperty, setActiveProperty] = useState<string | null>(null);
   const [showPrompt, setShowPrompt] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState<string | null>(
     null
   );
-  const route = useRouter();
-
-  useEffect(() => {
-    const fetchPropertiesFromDB = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        if (user && "propertiesListed" in user.userInfo) {
-          const propertiesListed = user.userInfo.propertiesListed || [];
-          console.log("Properties Listed:", propertiesListed);
-
-          const fetchedProperties: ApartmentType[] =
-            await getApartmentsByIds(propertiesListed);
-          setFilteredProperties(fetchedProperties);
-          console.log("Fetched Properties:", fetchedProperties);
-        }
-      } catch (err: unknown) {
-        const errorMessage =
-          err instanceof Error ? err.message : "An unknown error occurred.";
-        console.error("Error fetching properties:", errorMessage);
-        setError(errorMessage);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (user) {
-      fetchPropertiesFromDB();
-    }
-  }, [user]);
+  const router = useRouter();
 
   const handleDeleteClick = (propertyId: string) => {
     setSelectedPropertyId(propertyId);
@@ -65,7 +35,7 @@ const ListedProperties = () => {
     try {
       if (!selectedPropertyId) return;
 
-      const propertyToDelete = filteredProperties.find(
+      const propertyToDelete = properties.find(
         (p) => p.id === selectedPropertyId
       );
       if (!propertyToDelete) {
@@ -73,13 +43,12 @@ const ListedProperties = () => {
         return;
       }
 
-      const response = await deleteApartment(propertyToDelete?.id);
+      const response = await deleteApartment(propertyToDelete.id);
       if (response.success) {
         toast.success(response.message);
-        setFilteredProperties((prev) =>
-          prev.filter((p) => p.id !== selectedPropertyId)
-        );
-        route.refresh();
+        // Update Zustand store - this will automatically update both dashboard and listings page
+        removeProperty(selectedPropertyId);
+        router.refresh();
       } else {
         toast.error(response.message || "Failed to delete property.");
       }
@@ -112,9 +81,9 @@ const ListedProperties = () => {
           <Loader />
         ) : error ? (
           <p className="error">{error}</p>
-        ) : filteredProperties.length > 0 ? (
+        ) : properties.length > 0 ? (
           <ul>
-            {filteredProperties.slice(0, 5).map((property) => (
+            {properties.slice(0, 5).map((property) => (
               <li key={property.id}>
                 {property.url ? (
                   <Link prefetch href={property.url}>
@@ -166,6 +135,18 @@ const ListedProperties = () => {
           <p>You have no listings.</p>
         )}
       </div>
+
+      {/* Add "View All" link when there are more than 5 properties */}
+      {properties.length > 5 && user?.id && (
+        <div className="view-all-container" style={{ textAlign: "center" }}>
+          <Link
+            prefetch
+            href={`/dashboard/${user.id}/listings`}
+            className="view-all-link">
+            View All Listings ({properties.length})
+          </Link>
+        </div>
+      )}
 
       <Prompt
         message="Are you sure you want to delete this property? This action cannot be undone."

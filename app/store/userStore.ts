@@ -1,6 +1,11 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { AgentUserInfo, UserType, StudentUserInfo } from "../fetch/types";
+import {
+  AgentUserInfo,
+  UserType,
+  StudentUserInfo,
+  ApartmentType,
+} from "../fetch/types";
 import {
   doc,
   setDoc,
@@ -15,6 +20,15 @@ interface UserState {
   user: UserType | null;
   setUser: (data: UserType) => void;
   logoutUser: () => void;
+
+  // Properties state (for agent listings)
+  properties: ApartmentType[];
+  propertiesLoading: boolean;
+  propertiesError: string | null;
+  setProperties: (properties: ApartmentType[]) => void;
+  removeProperty: (id: string) => void;
+  setPropertiesLoading: (loading: boolean) => void;
+  setPropertiesError: (error: string | null) => void;
 
   // Student specific actions
   addBookmark: (id: string) => Promise<void>;
@@ -38,6 +52,11 @@ export const useUserStore = create<UserState>()(
       hasRoomieProfile: false,
       roomieProfileId: undefined,
 
+      // Properties state initialization
+      properties: [],
+      propertiesLoading: false,
+      propertiesError: null,
+
       setUser: (data) => {
         set({ user: data });
         if (data?.id) {
@@ -49,12 +68,48 @@ export const useUserStore = create<UserState>()(
       },
 
       logoutUser: () => {
-        set({ user: null, hasRoomieProfile: false, roomieProfileId: undefined });
+        set({
+          user: null,
+          hasRoomieProfile: false,
+          roomieProfileId: undefined,
+          properties: [],
+          propertiesLoading: false,
+          propertiesError: null,
+        });
       },
 
       setRoomieProfileId: (id) => {
         set({ roomieProfileId: id, hasRoomieProfile: true });
       },
+
+      // Properties management methods
+      setProperties: (properties) => set({ properties }),
+
+      removeProperty: (id) => {
+        set((state) => ({
+          properties: state.properties.filter((p) => p.id !== id),
+        }));
+
+        // Also remove from user's propertiesListed array
+        const user = get().user;
+        if (user && user.userType === "agent") {
+          const agentInfo = user.userInfo as AgentUserInfo;
+          const updatedUser: UserType = {
+            ...user,
+            userInfo: {
+              ...agentInfo,
+              propertiesListed: (agentInfo.propertiesListed || []).filter(
+                (pid) => pid !== id
+              ),
+            },
+          };
+          set({ user: updatedUser });
+        }
+      },
+
+      setPropertiesLoading: (loading) => set({ propertiesLoading: loading }),
+
+      setPropertiesError: (error) => set({ propertiesError: error }),
 
       addBookmark: async (id) => {
         const user = get().user;
@@ -62,17 +117,15 @@ export const useUserStore = create<UserState>()(
 
         const studentInfo = user.userInfo as StudentUserInfo;
         const currentSaved = studentInfo.savedProperties || [];
-        
+
         if (currentSaved.includes(id)) return;
 
         try {
-          // Update Firestore first
           const userRef = doc(db, "users", user.id);
           await updateDoc(userRef, {
             "userInfo.savedProperties": arrayUnion(id),
           });
 
-          // Update local state after successful Firestore update
           const updatedUser: UserType = {
             ...user,
             userInfo: {
@@ -93,17 +146,15 @@ export const useUserStore = create<UserState>()(
 
         const studentInfo = user.userInfo as StudentUserInfo;
         const currentSaved = studentInfo.savedProperties || [];
-        
+
         if (!currentSaved.includes(id)) return;
 
         try {
-          // Update Firestore first
           const userRef = doc(db, "users", user.id);
           await updateDoc(userRef, {
             "userInfo.savedProperties": arrayRemove(id),
           });
 
-          // Update local state after successful Firestore update
           const updatedUser: UserType = {
             ...user,
             userInfo: {
@@ -122,7 +173,8 @@ export const useUserStore = create<UserState>()(
         const user = get().user;
         if (!user) return;
 
-        const currentViewed = (user.userInfo as any)?.viewedProperties as string[] || [];
+        const currentViewed =
+          ((user.userInfo as any)?.viewedProperties as string[]) || [];
 
         if (currentViewed.includes(id)) return;
 
@@ -130,7 +182,6 @@ export const useUserStore = create<UserState>()(
           const userRef = doc(db, "users", user.id);
           const apartmentRef = doc(db, "properties", id);
 
-          // Update both Firestore documents
           await Promise.all([
             updateDoc(userRef, {
               "userInfo.viewedProperties": arrayUnion(id),
@@ -140,7 +191,6 @@ export const useUserStore = create<UserState>()(
             }),
           ]);
 
-          // Update local state after successful Firestore updates
           const updatedUser: UserType = {
             ...user,
             userInfo: {
@@ -159,7 +209,9 @@ export const useUserStore = create<UserState>()(
         const user = get().user;
         if (!user) return;
 
-        const currentViewed: string[] = Array.isArray(user.userInfo?.viewedTrends)
+        const currentViewed: string[] = Array.isArray(
+          user.userInfo?.viewedTrends
+        )
           ? user.userInfo.viewedTrends
           : [];
 
@@ -169,7 +221,6 @@ export const useUserStore = create<UserState>()(
           const userRef = doc(db, "users", user.id);
           const trendRef = doc(db, "trends", id);
 
-          // Update both Firestore documents
           await Promise.all([
             updateDoc(userRef, {
               "userInfo.viewedTrends": arrayUnion(id),
@@ -179,7 +230,6 @@ export const useUserStore = create<UserState>()(
             }),
           ]);
 
-          // Update local state after successful Firestore updates
           const updatedUser: UserType = {
             ...user,
             userInfo: {
@@ -200,17 +250,15 @@ export const useUserStore = create<UserState>()(
 
         const agentInfo = user.userInfo as AgentUserInfo;
         const currentListed = agentInfo.propertiesListed || [];
-        
+
         if (currentListed.includes(id)) return;
 
         try {
-          // Update Firestore first
           const userRef = doc(db, "users", user.id);
           await updateDoc(userRef, {
             "userInfo.propertiesListed": arrayUnion(id),
           });
 
-          // Update local state after successful Firestore update
           const updatedUser: UserType = {
             ...user,
             userInfo: {

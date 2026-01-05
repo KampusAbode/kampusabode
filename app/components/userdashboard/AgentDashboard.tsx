@@ -3,8 +3,6 @@ import React from "react";
 import ListedProperties from "./ListedProperties";
 import StudentReviews from "./StudentReviews";
 import AgentPerformanceMetrics from "./AgentPerformanceMetrics";
-// import Notifications from "./Notifications";
-// import PerformanceMetrics from "./PerformanceMetrics";
 import { UserType } from "../../fetch/types";
 
 type AgentDashboardProps = {
