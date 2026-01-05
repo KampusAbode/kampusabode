@@ -138,7 +138,7 @@ const ListedProperties = () => {
 
       {/* Add "View All" link when there are more than 5 properties */}
       {properties.length > 5 && user?.id && (
-        <div className="view-all-container" style={{ textAlign: "center" }}>
+        <div className="view-all-container" style={{ textAlign: "center", margin: "2rem 0"  }}>
           <Link
             prefetch
             href={`/dashboard/${user.id}/listings`}

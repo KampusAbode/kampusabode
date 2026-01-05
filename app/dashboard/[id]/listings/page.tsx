@@ -10,6 +10,7 @@ import Prompt from "../../../components/modals/prompt/Prompt";
 import toast from "react-hot-toast";
 import { useUserStore } from "../../../store/userStore";
 import { useRouter } from "next/navigation";
+import "./listings.css"
 
 const ListedProperties = () => {
   const user = useUserStore((state) => state.user);
