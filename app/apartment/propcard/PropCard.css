@@ -3,6 +3,7 @@
   border: var(--border);
   overflow: hidden;
   transition: var(--transition);
+  position: relative;
   animation: pop 0.1s ease-in forwards;
 }
 @keyframes pop {
@@ -63,7 +64,7 @@
   z-index: 2;
 }
 .prop-card .swiper {
-  aspect-ratio: 20/14.55;
+  aspect-ratio: 9/16;
   overflow: hidden;
   position: relative;
   box-shadow: var(--shadow);
@@ -101,17 +102,26 @@
 }
 .prop-card .card-details {
   padding: var(--spacing);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
-.prop-card .card-details .type-price {
+.prop-card .card-details .location-price {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: var(--spacing);
 }
-.prop-card .card-details .type-price .price {
+.prop-card .card-details .location-price .price {
+  padding: var(--spacing-b);
   color: var(--font-color-h);
+  background-color: var(--white);
+  box-shadow: var(--shadow);
   font-weight: 600;
 }
 .prop-card .card-details h6 {
+  color: white;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -120,17 +130,4 @@
   -webkit-line-clamp: 2;
   text-transform: capitalize;
   margin-block: var(--spacing-h);
-}
-.prop-card .card-details div:last-child {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  text-transform: capitalize;
-}
-.prop-card .card-details div:last-child span {
-  font-size: var(--font-size-sm);
-}
-.prop-card .card-details div:last-child .price {
-  text-decoration: underline;
-  text-transform: lowercase;
 }/*# sourceMappingURL=PropCard.css.map */

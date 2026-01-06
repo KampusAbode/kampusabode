@@ -106,6 +106,6 @@
 @media screen and (max-width: 280px) {
   .property-listings .properties {
     grid-template-columns: 1fr;
-    gap: var(--spacing-2x);
+    gap: var(--spacing-h);
   }
 }/*# sourceMappingURL=apartment.css.map */
