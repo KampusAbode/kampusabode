@@ -81,7 +81,7 @@
 
 @media screen and (max-width: 1200px) {
   .property-listings .properties {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 @media screen and (max-width: 768px) {
@@ -91,15 +91,19 @@
   .user-search .container {
     grid-template-columns: 9fr 1.5fr;
   }
+  .user-search .container .search-icon {
+    display: grid;
+    place-content: center;
+  }
   .user-search .container .search-icon svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
   }
   .property-listings .properties {
     grid-template-columns: 1fr 1fr;
   }
 }
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 280px) {
   .property-listings .properties {
     grid-template-columns: 1fr;
     gap: var(--spacing-2x);

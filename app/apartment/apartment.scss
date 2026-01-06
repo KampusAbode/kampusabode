@@ -105,7 +105,7 @@
 @media screen and (max-width: 1200px) {
   .property-listings {
     .properties {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 }
@@ -118,10 +118,12 @@
   .user-search {
     .container {
       grid-template-columns: 9fr 1.5fr;
-      .search-icon {
+      .search-icon { 
+        display: grid;
+        place-content: center;
         svg {
-          width: 20px;
-          height: 20px;
+          width: 18px;
+          height: 18px;
         }
       }
     }
@@ -133,7 +135,7 @@
     }
   }
 }
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 280px) {
   .property-listings {
     .properties {
       grid-template-columns: 1fr;
