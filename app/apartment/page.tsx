@@ -85,7 +85,7 @@ const PropertiesPage: React.FC = () => {
 
   return (
     <section className="listings-page">
-      {/* ✅ Banner */}
+    
       <div className="banner">
         <div className="container">
           <span>Rent Smart</span>
@@ -135,7 +135,7 @@ const PropertiesPage: React.FC = () => {
         /> */}
       </div>
 
-      {/* 🔎 Search */}
+ 
       <div className="user-search">
         <div className="container">
           <input
@@ -156,7 +156,7 @@ const PropertiesPage: React.FC = () => {
         </div>
       </div>
 
-      {/* 🗺️ Location Filter */}
+     
       <div className="filter">
         <div className="container">
           <span
@@ -177,7 +177,7 @@ const PropertiesPage: React.FC = () => {
         </div>
       </div>
 
-      {/* 🏠 Properties */}
+    
       <div className="property-listings">
         <div className="container">
           {isLoading ? (

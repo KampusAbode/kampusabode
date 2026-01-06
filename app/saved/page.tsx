@@ -22,7 +22,7 @@ const SavedPage = () => {
     return (
       <section className="saved-page">
         <div className="container">
-          <h4 className="page-heading">Saved</h4>
+          <h2 className="page-heading">Saved</h2>
 
           <div style={{ textAlign: "center", marginTop: "28px" }}>
             <p>Please log in to access your saved apartments.</p>

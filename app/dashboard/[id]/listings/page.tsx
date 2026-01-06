@@ -10,7 +10,7 @@ import Prompt from "../../../components/modals/prompt/Prompt";
 import toast from "react-hot-toast";
 import { useUserStore } from "../../../store/userStore";
 import { useRouter } from "next/navigation";
-import "./listings.css"
+import "./listings.css";
 
 const ListedProperties = () => {
   const user = useUserStore((state) => state.user);
@@ -67,7 +67,7 @@ const ListedProperties = () => {
   };
 
   return (
-    <div className="listed-properties">
+    <section className="listed-properties">
       <div className="container">
         <h4>Your Listings ({properties.length})</h4>
         <div className="property-list">
@@ -90,14 +90,13 @@ const ListedProperties = () => {
                       />
                       <div className="detail">
                         <span>{property.title}</span>
-                        <span>₦{property.price}</span>
                       </div>
                     </Link>
                   ) : (
                     <div className="disabled-link">No link</div>
                   )}
 
-                  <div
+                  {/* <div
                     className="option-btn"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -106,9 +105,9 @@ const ListedProperties = () => {
                       );
                     }}>
                     <SlOptionsVertical />
-                  </div>
+                  </div> */}
 
-                  {activeProperty === property.id && (
+                  {/* {activeProperty === property.id && (
                     <div className="options">
                       <Link
                         className="option-btn"
@@ -121,7 +120,7 @@ const ListedProperties = () => {
                         Delete
                       </button>
                     </div>
-                  )}
+                  )} */}
                 </li>
               ))}
             </ul>
@@ -137,7 +136,7 @@ const ListedProperties = () => {
         onConfirm={confirmDelete}
         onCancel={() => setShowPrompt(false)}
       />
-    </div>
+    </section>
   );
 };
 

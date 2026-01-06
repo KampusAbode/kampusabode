@@ -30,13 +30,13 @@
   cursor: pointer;
 }
 .nav-menu .top .nav-header .close-div .logo a img {
-  width: 28px;
-  height: 28px;
+  width: 40px;
+  height: 40px;
 }
 .nav-menu .top .nav-header .close-div .close {
   cursor: pointer;
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   border-radius: 100%;
   display: grid;
   place-content: center;
