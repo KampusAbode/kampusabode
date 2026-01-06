@@ -1,8 +1,13 @@
 .listed-properties .property-list ul {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 2rem;
   margin-top: 2rem;
+}
+@media (max-width: 720px) {
+  .listed-properties .property-list ul {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 .listed-properties .property-list ul li {
   position: relative;
