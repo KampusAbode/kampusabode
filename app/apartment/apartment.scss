@@ -98,7 +98,7 @@
   .properties {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: calc(1.5 * var(--spacing));
+    gap: var(--spacing);
   }
 }
 
@@ -132,6 +132,7 @@
   .property-listings {
     .properties {
       grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-h);
     }
   }
 }
@@ -139,7 +140,6 @@
   .property-listings {
     .properties {
       grid-template-columns: 1fr;
-      gap: var(--spacing-h);
     }
   }
 }

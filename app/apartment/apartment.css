@@ -76,7 +76,7 @@
 .property-listings .properties {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: calc(1.5 * var(--spacing));
+  gap: var(--spacing);
 }
 
 @media screen and (max-width: 1200px) {
@@ -101,11 +101,11 @@
   }
   .property-listings .properties {
     grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-h);
   }
 }
 @media screen and (max-width: 280px) {
   .property-listings .properties {
     grid-template-columns: 1fr;
-    gap: var(--spacing-h);
   }
 }/*# sourceMappingURL=apartment.css.map */

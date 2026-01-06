@@ -5,10 +5,10 @@
   margin-block: var(--spacing-2x);
 }
 
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 1200px) {
   .trends-page .container .trends {
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-2x);
+    gap: var(--spacing-h);
   }
 }
 @media screen and (max-width: 900px) {
