@@ -41,10 +41,10 @@ const TrendCard = ({ trendData }) => {
         <div className="trend-content">
           <div className="author-thumbs">
             <span className="author">
-              <i>by {trendData?.author || "Anonymous"}</i>
+              by {trendData?.author || "Anonymous"}
             </span>
             <span className="thumbs">
-              <i>2 mins read</i>
+              2 mins read
             </span>
           </div>
           <h6 className="trend-title">{trendData?.title || "Untitled"}</h6>

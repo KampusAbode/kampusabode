@@ -97,7 +97,7 @@
   }*/
   .properties {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: calc(1.5 * var(--spacing));
   }
 }
@@ -133,7 +133,7 @@
     }
   }
 }
-@media screen and (max-width: 580px) {
+@media screen and (max-width: 450px) {
   .property-listings {
     .properties {
       grid-template-columns: 1fr;

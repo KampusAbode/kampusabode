@@ -57,7 +57,7 @@
   --font-size-sm: 0.875rem;
   --font-size-xs: 0.7125rem;
   /* Line Heights */
-  --line-height: 1.4;
+  --line-height: 1.3;
   --line-height-lg: 1.2;
   /* Breakpoints */
   --large-width: 90%;
@@ -250,7 +250,7 @@ span {
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
-  line-height: var(--line-height);
+  line-height: 1;
 }
 
 .icon {
@@ -352,7 +352,7 @@ button {
   border-radius: var(--border-radius-r);
   text-transform: capitalize;
   background: var(--light-gray);
-  box-shadow: var(--faded-shadow);
+  border: var(--border);
   white-space: nowrap;
   cursor: pointer;
   transition: var(--transition);

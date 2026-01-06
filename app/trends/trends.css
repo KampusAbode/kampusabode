@@ -13,12 +13,12 @@
 }
 @media screen and (max-width: 900px) {
   .trends-page .container .trends {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 }
 @media screen and (max-width: 768px) {
   .trends-page .container .trends {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
   .trends-page .trends-page-filter .container .search-trends {
     grid-template-columns: 8fr 1.5fr;
