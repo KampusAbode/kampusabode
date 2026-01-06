@@ -69,7 +69,7 @@ const ListedProperties = () => {
   return (
     <section className="listed-properties">
       <div className="container">
-        <h4>Your Listings ({properties.length})</h4>
+        <h4 className="page-heading">Your Listings ({properties.length})</h4>
         <div className="property-list">
           {loading ? (
             <Loader />
