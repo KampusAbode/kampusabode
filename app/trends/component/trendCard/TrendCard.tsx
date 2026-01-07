@@ -48,7 +48,7 @@ const TrendCard = ({ trendData }) => {
             </span>
           </div>
           <h6 className="trend-title">{trendData?.title || "Untitled"}</h6>
-          <p dangerouslySetInnerHTML={{ __html: snippet }} />
+          {/* <p dangerouslySetInnerHTML={{ __html: snippet }} /> */}
         </div>
       </div>
     </Link>
