@@ -103,6 +103,8 @@
 .prop-card .card-details {
   padding: var(--spacing);
   position: absolute;
+  background: linear-gradient(to top, var(--black), transparent);
+  z-index: 5;
   bottom: 0;
   left: 0;
   right: 0;
@@ -118,9 +120,10 @@
   color: var(--font-color-h);
   background-color: var(--white);
   box-shadow: var(--shadow);
+  border-radius: var(--border-radius-r);
   font-weight: 600;
 }
-.prop-card .card-details h6 {
+.prop-card .card-details span {
   color: white;
   overflow: hidden;
   text-overflow: ellipsis;

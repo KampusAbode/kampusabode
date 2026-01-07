@@ -146,7 +146,7 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
             {/* {propertyData.priceType === "rent" ? "rent" : "total"} */}
           </span>
         </div>
-        <h6>{propertyData.title}</h6>
+        <span>{propertyData.title}</span>
       </div>
     </div>
   );

@@ -63,7 +63,7 @@
   transform: scale(1.2);
 }
 .trend-card .trend-content h6 {
-  margin-block: var(--spacing-h);
+  margin-top: var(--spacing);
 }
 .trend-card .trend-content h6,
 .trend-card .trend-content P {
