@@ -22,14 +22,6 @@ const PropertyManagement = () => {
     null
   );
 
-  useEffect(() => {
-    const unsubscribe = fetchAllPropertiesRealtime((fetchedProperties) => {
-      setAllProperties(fetchedProperties);
-    });
-
-    return () => unsubscribe();
-  }, [setAllProperties]);
-
   const handleDeleteRequest = (id: string) => {
     setSelectedPropertyId(id);
     setPromptOpen(true);

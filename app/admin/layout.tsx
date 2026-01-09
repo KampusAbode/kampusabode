@@ -7,9 +7,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import Loader from "../components/loader/Loader";
 import { useUserStore } from "../store/userStore";
 import { useUsersStore } from "../store/usersStore";
-import { checkIsAdmin } from "../utils";
+import { checkIsAdmin, fetchAllPropertiesRealtime } from "../utils/";
 import "./admin.css";
 import Link from "next/link";
+import { usePropertiesStore } from "../store/propertiesStore";
 
 const pages = [
   "users",
@@ -21,6 +22,7 @@ const pages = [
   "trends",
   "referrals",
   "writers",
+  "mail",
 ];
 
 export default function AdminLayout({
@@ -35,6 +37,15 @@ export default function AdminLayout({
 
   const { user } = useUserStore((state) => state);
   const { setUsers } = useUsersStore((state) => state);
+  const { setAllProperties } = usePropertiesStore((state) => state);
+
+  useEffect(() => {
+    const unsubscribe = fetchAllPropertiesRealtime((fetchedProperties) => {
+      setAllProperties(fetchedProperties);
+    });
+
+    return () => unsubscribe();
+  }, [setAllProperties]);
 
   // Extract page from pathname: /admin/users → users
   const currentPage = pathname.split("/")[2] || "users";
