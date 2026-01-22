@@ -9,13 +9,13 @@ import {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { type, ...data } = body;
+    const { type, data } = body;
 
     let result;
 
     switch (type) {
       case "welcome":
-        result = await sendWelcomeEmail(data.userEmail, data.userName);
+        result = await sendWelcomeEmail(data.recipients, data.userName);
         break;
       case "property-inquiry":
         result = await sendPropertyInquiry(data.agentEmail, data);

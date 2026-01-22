@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { useUsersStore } from "@/app/store/usersStore";
+import { useUsersStore } from "../../store/usersStore";
 import { UserType } from "../../fetch/types";
 import "./mail.css"
+import toast from "react-hot-toast";
 
 export default function AdminMailPage() {
   const { users } = useUsersStore();
@@ -47,12 +48,12 @@ export default function AdminMailPage() {
 
   const handleSendEmail = async () => {
     if (!subject.trim() || !content.trim()) {
-      alert("Please fill in both subject and content");
+      toast.error("Please fill in both subject and content");
       return;
     }
 
     if (selectedUsers.size === 0) {
-      alert("Please select at least one recipient");
+      toast.error("Please select at least one recipient");
       return;
     }
 
@@ -86,10 +87,7 @@ export default function AdminMailPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           type: "broadcast",
-          recipients,
-          subject,
-          content,
-          recipientNames,
+          data: { recipients, subject, content, recipientNames },
         }),
       });
 
@@ -97,7 +95,7 @@ export default function AdminMailPage() {
       setResult(data);
 
       if (data.success) {
-        alert(
+        toast.success(
           `Email sent successfully!\n\nSuccessful: ${data.results.successful}\nFailed: ${data.results.failed}`
         );
         setSubject("");
@@ -105,11 +103,11 @@ export default function AdminMailPage() {
         setSelectedUsers(new Set());
         setSelectAll(false);
       } else {
-        alert("Failed to send emails. Check console for details.");
+        toast.error("Failed to send emails. Check console for details.");
       }
     } catch (error) {
       console.error("Error sending emails:", error);
-      alert("An error occurred while sending emails");
+      toast.error("An error occurred while sending emails");
     } finally {
       setSending(false);
     }
