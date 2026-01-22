@@ -2,9 +2,15 @@
   border-radius: var(--border-radius);
   border: var(--border);
   overflow: hidden;
-  transition: var(--transition);
   position: relative;
-  animation: pop 0.1s ease-in forwards;
+  transition: var(--transition);
+  animation: pop 0.3s ease-in forwards;
+}
+.prop-card:hover {
+  transform: scale(1.05);
+}
+.prop-card:active {
+  transform: scale(0.95);
 }
 @keyframes pop {
   from {
