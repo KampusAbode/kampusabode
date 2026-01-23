@@ -108,6 +108,7 @@ export default function AdminMailPage() {
     } catch (error) {
       console.error("Error sending emails:", error);
       toast.error("An error occurred while sending emails");
+      toast.error(error);
     } finally {
       setSending(false);
     }
@@ -116,7 +117,7 @@ export default function AdminMailPage() {
   return (
     <div className="admin-mail">
       <div className="mail-header">
-        <h2>Send Email to Users</h2>
+        <h4>Send Email to Users</h4>
         <p>
           Compose and send custom emails to selected users or all users at once.
         </p>

@@ -7,13 +7,8 @@
 
   animation: pop 0.3s ease-in forwards;
 
-  &:hover{
-    transform: scale(1.05);
-  }
-  &:active{
-    transform: scale(0.95);
-  }
-
+  
+  
   @keyframes pop {
     from {
       transform: translateY(10px) scale(0.97);
@@ -27,9 +22,13 @@
 
   &:hover {
     box-shadow: var(--shadow);
-    transform: translateY(-5px);
+    transform: scale(1.05) translateY(-5px);
   }
 
+  &:active{
+    transform: scale(0.95);
+  }
+  
   a {
     outline: none;
   }

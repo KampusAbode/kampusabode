@@ -376,7 +376,7 @@ button {
 }
 
 .page-heading {
-  margin-top: var(--spacing);
+  margin-top: var(--spacing-2x);
 }
 
 .filter {

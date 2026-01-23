@@ -1,6 +1,6 @@
 /* ========== hero section open ========== */
 .hero-section {
-  height: 100vh;
+  height: 900vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -494,6 +494,9 @@
 }
 @media screen and (max-width: 768px) {
   /* ========== hero section open ========== */
+  .hero-section {
+    height: 60%;
+  }
   .hero-section .container .hero-content {
     padding: 0;
     width: 100%;

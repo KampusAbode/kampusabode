@@ -6,12 +6,6 @@
   transition: var(--transition);
   animation: pop 0.3s ease-in forwards;
 }
-.prop-card:hover {
-  transform: scale(1.05);
-}
-.prop-card:active {
-  transform: scale(0.95);
-}
 @keyframes pop {
   from {
     transform: translateY(10px) scale(0.97);
@@ -24,7 +18,10 @@
 }
 .prop-card:hover {
   box-shadow: var(--shadow);
-  transform: translateY(-5px);
+  transform: scale(1.05) translateY(-5px);
+}
+.prop-card:active {
+  transform: scale(0.95);
 }
 .prop-card a {
   outline: none;

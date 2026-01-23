@@ -100,7 +100,7 @@ export default function AdminLayout({
   return (
     <section className="admin-dashboard">
       <div className="container">
-        <h4>Admin Dashboard</h4>
+        <h2 className="page-heading">Admin Dashboard</h2>
       </div>
 
       <nav className="dashboard-navigation filter">

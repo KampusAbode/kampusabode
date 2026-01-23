@@ -87,11 +87,10 @@
     }
 
     .comments-section {
-      margin-block: calc(2 * var(--spacing-s));
+      margin-block: calc(4 * var(--spacing-s));
       padding: var(--spacing);
       background: var(--light-gray);
       border-radius: var(--border-radius);
-
       position: sticky;
       top: 0;
 

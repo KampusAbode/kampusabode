@@ -203,6 +203,7 @@
      -moz-user-select: none;
           user-select: none;
   text-align: center;
+  border: var(--border);
 }
 .properties-details-page .container .top .about-agent .agent-details img {
   -webkit-user-select: none;
@@ -238,6 +239,7 @@
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
+  border: var(--border);
 }
 .properties-details-page .container .top .about-agent .agent-stats div.ratings svg {
   fill: none;
@@ -307,11 +309,13 @@
   max-width: 180px;
   border-radius: var(--border-radius);
   transition: var(--transition);
+  padding: var(--spacing);
+  box-shadow: var(--shadow);
   cursor: pointer;
 }
 .properties-details-page .container .agent-listings > div .agentProps .list-prop:hover {
   color: var(--font-color-p);
-  transform: scale(0.992);
+  transform: scale(0.85);
 }
 .properties-details-page .container .agent-listings > div .agentProps .list-prop .list-image {
   overflow: hidden;

@@ -220,6 +220,7 @@
           background-color: var(--light-gray);
           user-select: none;
           text-align: center;
+            border: var(--border);
           img {
             user-select: none;
             border-radius: 100%;
@@ -250,6 +251,7 @@
             background-color: var(--light-gray);
             text-align: center;
             user-select: none;
+            border: var(--border);
 
             &.ratings {
               svg {
@@ -337,11 +339,13 @@
             max-width: 180px;
             border-radius: var(--border-radius);
             transition: var(--transition);
+            padding: var(--spacing);
+            box-shadow: var(--shadow);
             cursor: pointer;
 
             &:hover {
               color: var(--font-color-p);
-              transform: scale(0.992);
+              transform: scale(0.85);
             }
 
             .list-image {
