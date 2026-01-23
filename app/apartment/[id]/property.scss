@@ -164,14 +164,13 @@
       align-items: center;
 
       button {
-        text-decoration: underline;
-
         display: flex;
         gap: var(--spacing-h);
         align-items: center;
         padding: var(--spacing-h);
         border-radius: var(--border-radius);
         background-color: var(--light-gray);
+        border: var(--border);
       }
     }
     .top {
@@ -325,7 +324,7 @@
           justify-content: left;
           scroll-behavior: smooth;
           gap: var(--spacing);
-          padding-bottom: var(--spacing-h);
+          padding-block: var(--spacing-h);
 
           /* Hide scrollbar */
           &::-webkit-scrollbar {
@@ -339,7 +338,7 @@
             max-width: 180px;
             border-radius: var(--border-radius);
             transition: var(--transition);
-            padding: var(--spacing);
+            padding: var(--spacing-h);
             box-shadow: var(--shadow);
             cursor: pointer;
 

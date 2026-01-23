@@ -268,7 +268,7 @@ svg {
   height: auto;
 }
 svg path {
-  fill: var(--font-color-p);
+  fill: var(--font-color-h);
 }
 
 img {

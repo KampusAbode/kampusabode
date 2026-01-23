@@ -1,16 +1,15 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
 import { fetchPropertiesRealtime } from "../utils";
 import PropCard from "./propcard/PropCard";
 import Loader from "../components/loader/Loader";
 import "./apartment.css";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaSliders, FaTimes, FaCheck } from "react-icons/fa";
 import { useSearchParams, useRouter } from "next/navigation";
 import { usePropertiesStore } from "../store/propertiesStore";
 import data from "../fetch/contents";
-
 
 const PropertiesPage: React.FC = () => {
   const router = useRouter();
@@ -29,6 +28,17 @@ const PropertiesPage: React.FC = () => {
     filterProperties,
   } = usePropertiesStore();
 
+  const [showFilter, setShowFilter] = useState(false);
+  const [sortBy, setSortBy] = useState('recommended');
+
+  const sortOptions = [
+    { value: 'recommended', label: 'Recommended', icon: '⭐' },
+    { value: 'newest', label: 'Newest First', icon: '🆕' },
+    { value: 'price-low', label: 'Price: Low to High', icon: '💰' },
+    { value: 'price-high', label: 'Price: High to Low', icon: '💎' },
+    { value: 'popular', label: 'Most Popular', icon: '🔥' }
+  ];
+
   useEffect(() => {
     setLoading(true);
     const unsubscribe = fetchPropertiesRealtime((fetchedProperties) => {
@@ -42,9 +52,11 @@ const PropertiesPage: React.FC = () => {
   useEffect(() => {
     const q = searchParams.get("q") || "";
     const loc = searchParams.get("loc") || "all";
+    const sort = searchParams.get("sort") || "recommended";
 
     if (searchQuery !== q) setSearchQuery(q);
     if (activeLocation !== loc) setActiveLocation(loc);
+    if (sortBy !== sort) setSortBy(sort);
 
     filterProperties();
   }, [searchParams]);
@@ -55,13 +67,70 @@ const PropertiesPage: React.FC = () => {
     }
   }, [properties, searchQuery, activeLocation]);
 
+  // Smart sorting algorithm
+  const calculateScore = (property) => {
+    let score = 0;
+    
+    // Recency bonus (max 30 points)
+    const daysOld = (Date.now() - (property.listedDate || property.createdAt || Date.now())) / (1000 * 60 * 60 * 24);
+    score += Math.max(0, 30 - daysOld);
+    
+    // Quality indicators
+    if (property.images && property.images.length > 0) score += 10;
+    if (property.isVerified) score += 15;
+    
+    // Engagement
+    score += (property.views || 0) * 0.5;
+    score += (property.inquiries || 0) * 2;
+    
+    // Small stable random component for variety
+    score += (property.id.charCodeAt(0) % 10) / 10;
+    
+    return score;
+  };
 
-  const updateSearchParams = (query: string, location: string) => {
+  // Apply sorting to filtered properties
+  const sortedProperties = useMemo(() => {
+    let sorted = [...filteredProperties];
+
+    switch (sortBy) {
+      case 'recommended':
+        sorted.sort((a, b) => calculateScore(b) - calculateScore(a));
+        break;
+      
+      case 'newest':
+        sorted.sort((a, b) => {
+          const dateA = b.listedDate || b.createdAt || 0;
+          const dateB = a.listedDate || a.createdAt || 0;
+          return dateB - dateA;
+        });
+        break;
+      
+      case 'price-low':
+        sorted.sort((a, b) => (a.price || 0) - (b.price || 0));
+        break;
+      
+      case 'price-high':
+        sorted.sort((a, b) => (b.price || 0) - (a.price || 0));
+        break;
+      
+      case 'popular':
+        sorted.sort((a, b) => (b.views || 0) - (a.views || 0));
+        break;
+      
+      default:
+        break;
+    }
+
+    return sorted;
+  }, [filteredProperties, sortBy]);
+
+  const updateSearchParams = (query: string, location: string, sort: string = sortBy) => {
     const params = new URLSearchParams();
 
     if (query.trim()) params.set("q", query.trim());
     if (location && location !== "all") params.set("loc", location);
-    else params.delete("loc"); // cleaner URL for 'all'
+    if (sort !== "recommended") params.set("sort", sort);
 
     router.push(`?${params.toString()}`);
   };
@@ -83,9 +152,14 @@ const PropertiesPage: React.FC = () => {
     filterProperties();
   };
 
+  const handleSortChange = (newSort: string) => {
+    setSortBy(newSort);
+    updateSearchParams(searchQuery, activeLocation, newSort);
+    setTimeout(() => setShowFilter(false), 300);
+  };
+
   return (
     <section className="listings-page">
-    
       <div className="banner">
         <div className="container">
           <span>Rent Smart</span>
@@ -124,18 +198,8 @@ const PropertiesPage: React.FC = () => {
           src="/assets/Dots.png"
           alt="dots"
         />
-        {/* Optional Building Illustration */}
-        {/* <Image
-          priority
-          className="building"
-          width={387}
-          height={253}
-          src="/assets/Building.svg"
-          alt="buildings"
-        /> */}
       </div>
 
- 
       <div className="user-search">
         <div className="container">
           <input
@@ -156,38 +220,102 @@ const PropertiesPage: React.FC = () => {
         </div>
       </div>
 
-     
       <div className="filter">
         <div className="container">
-          <span
-            className={`filter-btn ${activeLocation === "all" ? "active" : ""}`}
-            onClick={() => filterByLocation("all")}>
-            all
-          </span>
-          {data.locations.map((location) => (
+           <button 
+            className="sort-trigger-btn"
+            onClick={() => setShowFilter(!showFilter)}
+          >
+            <FaSliders />
+            <span>Sort</span>
+          </button>
+          
+          <div className="filter-locations">
             <span
-              key={location}
-              className={`filter-btn ${
-                activeLocation.toLowerCase() === location.toLowerCase() ? "active" : ""
-              }`}
-              onClick={() => filterByLocation(location.toLowerCase())}>
-              {location}
+              className={`filter-btn ${activeLocation === "all" ? "active" : ""}`}
+              onClick={() => filterByLocation("all")}>
+              all
             </span>
-          ))}
+            {data.locations.map((location) => (
+              <span
+                key={location}
+                className={`filter-btn ${
+                  activeLocation.toLowerCase() === location.toLowerCase()
+                    ? "active"
+                    : ""
+                }`}
+                onClick={() => filterByLocation(location.toLowerCase())}>
+                {location}
+              </span>
+            ))}
+          </div>
+          
+         
         </div>
       </div>
 
-    
+      {/* Sliding Filter Component */}
+      <div className={`filter-slide ${showFilter ? 'show' : ''}`}>
+        <div className="filter-overlay" onClick={() => setShowFilter(false)} />
+        
+        <div className="filter-content">
+          <div className="filter-header">
+            <h3>Sort Properties</h3>
+            <button 
+              className="close-btn"
+              onClick={() => setShowFilter(false)}
+            >
+              <FaTimes />
+            </button>
+          </div>
+
+          <div className="sort-options">
+            {sortOptions.map((option) => (
+              <div
+                key={option.value}
+                className={`sort-option ${sortBy === option.value ? 'active' : ''}`}
+                onClick={() => handleSortChange(option.value)}
+              >
+                <div className="option-info">
+                  <span className="option-icon">{option.icon}</span>
+                  <span className="option-label">{option.label}</span>
+                </div>
+                {sortBy === option.value && (
+                  <FaCheck className="check-icon" />
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className="filter-footer">
+            <button 
+              className="apply-btn"
+              onClick={() => setShowFilter(false)}
+            >
+              Apply
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div className="property-listings">
         <div className="container">
           {isLoading ? (
             <Loader />
-          ) : filteredProperties.length > 0 ? (
-            <div className="properties">
-              {filteredProperties.map((property) => (
-                <PropCard key={property.id} propertyData={property} />
-              ))}
-            </div>
+          ) : sortedProperties.length > 0 ? (
+            <>
+              <div className="results-info">
+                <p>{sortedProperties.length} {sortedProperties.length === 1 ? 'property' : 'properties'} found</p>
+                <p className="current-sort">
+                  Sorted by: <strong>{sortOptions.find(o => o.value === sortBy)?.label}</strong>
+                </p>
+              </div>
+              <div className="properties">
+                {sortedProperties.map((property) => (
+                  <PropCard key={property.id} propertyData={property} />
+                ))}
+              </div>
+            </>
           ) : (
             <p style={{ textAlign: "center", marginBlock: "2rem" }}>
               No listed property found.

@@ -1,10 +1,10 @@
 /* From Uiverse.io by mrhyddenn */ 
 .spinner {
-  font-size: 28px;
+  font-size: 40px;
   position: relative;
   display: inline-block;
-  width: 1em;
-  height: 1em;
+  width: 1.5em;
+  height: 1.5em;
 }
 
 .spinner.center {
@@ -128,7 +128,7 @@
 
 @keyframes spinner-fade9234 {
   0% {
-    background-color: #69717d;
+    background-color: var(--font-color-h);
   }
 
   100% {
