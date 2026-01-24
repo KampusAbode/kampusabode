@@ -6,7 +6,7 @@ import { fetchPropertiesRealtime } from "../utils";
 import PropCard from "./propcard/PropCard";
 import Loader from "../components/loader/Loader";
 import "./apartment.css";
-import { FaSearch, FaSliders, FaTimes, FaCheck } from "react-icons/fa";
+import { FaSearch, FaFilter, FaTimes, FaCheck } from "react-icons/fa";
 import { useSearchParams, useRouter } from "next/navigation";
 import { usePropertiesStore } from "../store/propertiesStore";
 import data from "../fetch/contents";
@@ -99,11 +99,8 @@ const PropertiesPage: React.FC = () => {
         break;
       
       case 'newest':
-        sorted.sort((a, b) => {
-          const dateA = b.listedDate || b.createdAt || 0;
-          const dateB = a.listedDate || a.createdAt || 0;
-          return dateB - dateA;
-        });
+        sorted.sort((a, b) => (new Date(b.createdAt).getTime()) - (new Date(a.createdAt).getTime())
+        );
         break;
       
       case 'price-low':
@@ -226,10 +223,10 @@ const PropertiesPage: React.FC = () => {
             className="sort-trigger-btn"
             onClick={() => setShowFilter(!showFilter)}
           >
-            <FaSliders />
+            <FaFilter />
             <span>Sort</span>
           </button>
-          
+
           <div className="filter-locations">
             <span
               className={`filter-btn ${activeLocation === "all" ? "active" : ""}`}
