@@ -82,7 +82,7 @@ const PropertiesPage: React.FC = () => {
     // Engagement
     score += (property.views || 0) * 0.5;
     score += (property.inquiries || 0) * 2;
-    
+  
     // Small stable random component for variety
     score += (property.id.charCodeAt(0) % 10) / 10;
     
