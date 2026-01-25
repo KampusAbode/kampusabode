@@ -12,7 +12,7 @@ export async function sendWelcomeEmail(userEmail: string, userName: string) {
       subject: "Welcome to Kampus Abode!",
       react: WelcomeEmail({ userName }),
     });
-
+ 
     if (error) {
       console.error("Error sending welcome email:", error);
       return { success: false, error };

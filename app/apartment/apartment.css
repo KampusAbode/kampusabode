@@ -109,30 +109,29 @@
     grid-template-columns: 1fr;
   }
 }
-/* Updated filter container */
-.filter .container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
 .filter-locations {
   display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: left;
   flex: 1;
+  gap: var(--spacing);
+  padding-block: var(--spacing);
+  overflow-x: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.filter-locations::-webkit-scrollbar {
+  display: none;
 }
 
 /* Sort trigger button */
 .sort-trigger-btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1.25rem;
   background: #4263eb;
-  color: white;
+  color: white !important;
   border: none;
   border-radius: 20px;
   cursor: pointer;
@@ -148,6 +147,9 @@
 }
 .sort-trigger-btn:active {
   transform: translateY(0);
+}
+.sort-trigger-btn span {
+  color: white;
 }
 
 /* Sliding filter component */
