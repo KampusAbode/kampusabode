@@ -151,6 +151,9 @@
 .sort-trigger-btn span {
   color: white;
 }
+.sort-trigger-btn svg {
+  fill: white;
+}
 
 /* Sliding filter component */
 .filter-slide {
