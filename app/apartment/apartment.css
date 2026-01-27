@@ -113,7 +113,6 @@
   display: flex;
   align-items: center;
   justify-content: left;
-  flex: 1;
   gap: var(--spacing);
   padding-block: var(--spacing);
   overflow-x: scroll;

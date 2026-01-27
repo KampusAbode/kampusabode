@@ -417,10 +417,10 @@ button {
   z-index: 9999;
 
   .container {
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    gap: var(--spacing);
+    // display: flex;
+    // align-items: center;
+    // justify-content: left;
+    // gap: var(--spacing);
     padding-block: var(--spacing);
     overflow-x: scroll;
     scrollbar-width: none;
