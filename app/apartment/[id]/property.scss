@@ -157,7 +157,7 @@
     & > div {
       margin-block: var(--spacing-2x);
     }
-    h5 {
+    h3 {
       margin-bottom: var(--spacing);
 
       display: flex;
@@ -335,8 +335,8 @@
           scrollbar-width: none;
 
           .list-prop {
-            flex: 0 0 90%;
-            max-width: 180px;
+            flex: 0 0 80%;
+            max-width: 150px;
             border-radius: var(--border-radius);
             transition: var(--transition);
             cursor: pointer;
@@ -359,8 +359,7 @@
             .list-details {
               padding-top: var(--spacing-h);
 
-              p {
-                color: var(--text-color-h);
+              h6 {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: -webkit-box;

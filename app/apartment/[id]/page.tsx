@@ -171,7 +171,7 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
               </div>
 
               <div className="description">
-                <h5>Overview</h5>
+                <h3>Overview</h3>
                 {/* <p>{propertyDetails.description}</p> */}
                 <p
                   dangerouslySetInnerHTML={{
@@ -194,7 +194,7 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
 
             {/* About Agent */}
             <div className="about-agent">
-              <h5>Agent details</h5>
+              <h3>Agent details</h3>
               <div className="agent-details">
                 {agentDetails ? (
                   <>
@@ -209,7 +209,7 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
                       height={200}
                       alt={`${agentDetails.name}'s profile picture`}
                     />
-                    <h5>{agentDetails.name}</h5>
+                    <h3>{agentDetails.name}</h3>
                     {"agencyName" in agentDetails.userInfo && (
                       <p>{agentDetails.userInfo.agencyName}</p>
                     )}
@@ -241,12 +241,12 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
 
           {/* Reviews Section */}
           <div className="agent-reviews">
-            <h5>
+            <h3>
               {`Reviews (${propReviews.length})`}{" "}
               <button onClick={() => setIsReviewOpen(true)}>
                 Create <FaAngleRight />
               </button>
-            </h5>
+            </h3>
             <div className="reviews">
               {propReviews.length ? (
                 propReviews.map((review) => (
@@ -276,7 +276,7 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
 
           {/* Agent Listings */}
           <div className="agent-listings">
-            <h5>{agentDetails?.name}'s Listed Properties</h5>
+            <h3>{agentDetails?.name}'s Listed Properties</h3>
             <div>
               {agentPropertyListings.length !== 0 ? (
                 <div className="agentProps">
@@ -295,7 +295,7 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
                         />
                       </div>
                       <div className="list-details">
-                        <p>{listing.title}</p>
+                        <h6>{listing.title}</h6>
                         {listing.description &&
                           (() => {
                             const div = document.createElement("div");

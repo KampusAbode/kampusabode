@@ -142,13 +142,13 @@
 .properties-details-page .container > div {
   margin-block: var(--spacing-2x);
 }
-.properties-details-page .container h5 {
+.properties-details-page .container h3 {
   margin-bottom: var(--spacing);
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.properties-details-page .container h5 button {
+.properties-details-page .container h3 button {
   display: flex;
   gap: var(--spacing-h);
   align-items: center;
@@ -307,8 +307,8 @@
   display: none;
 }
 .properties-details-page .container .agent-listings > div .agentProps .list-prop {
-  flex: 0 0 90%;
-  max-width: 180px;
+  flex: 0 0 80%;
+  max-width: 150px;
   border-radius: var(--border-radius);
   transition: var(--transition);
   cursor: pointer;
@@ -330,8 +330,7 @@
 .properties-details-page .container .agent-listings > div .agentProps .list-prop .list-details {
   padding-top: var(--spacing-h);
 }
-.properties-details-page .container .agent-listings > div .agentProps .list-prop .list-details p {
-  color: var(--text-color-h);
+.properties-details-page .container .agent-listings > div .agentProps .list-prop .list-details h6 {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
