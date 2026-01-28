@@ -12,10 +12,10 @@ function PropertyUploadGuide() {
   return (
     <div className="property-upload-guide">
       <div className="container">
-        <h2>Property Upload Guidelines</h2>
+        <h2 className="page-heading">Property Upload Guidelines</h2>
 
         <section>
-          <h3>Getting Started</h3>
+          <h4>Getting Started</h4>
           <ol>
             <li>
               Only verified agents on Kampus Abode can upload listings. Make
@@ -33,7 +33,7 @@ function PropertyUploadGuide() {
         </section>
 
         <section>
-          <h3>What You’ll Need</h3>
+          <h4>What You’ll Need</h4>
           <ol>
             <li>
               <strong>Property Title:</strong> A clear, simple name students can
@@ -66,7 +66,7 @@ function PropertyUploadGuide() {
         </section>
 
         <section>
-          <h3>Important Guidelines</h3>
+          <h4>Important Guidelines</h4>
           <ol>
             <li>
               Duplicate, misleading, or false listings will be taken down
