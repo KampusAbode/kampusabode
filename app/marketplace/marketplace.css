@@ -47,7 +47,7 @@
   height: 25px;
 }
 .marketplace .filter-marketplaceitems .container .search-items .search-icon svg path {
-  fill: var(--font-color-p);
+  fill: var(--text-color-p);
 }
 .marketplace .filter-marketplaceitems .container .filter-items {
   display: flex;
@@ -79,7 +79,7 @@
 }
 .marketplace .filter-marketplaceitems .container .filter-items .category-item:hover, .marketplace .filter-marketplaceitems .container .filter-items .category-item:active, .marketplace .filter-marketplaceitems .container .filter-items .category-item.active {
   border: var(--border-hover);
-  color: var(--font-color-h);
+  color: var(--text-color-h);
 }
 .marketplace .container .items {
   display: grid;

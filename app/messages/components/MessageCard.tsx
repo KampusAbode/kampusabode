@@ -60,7 +60,7 @@ const MessageCard: React.FC<MessageCardProps> = ({ conversation, userId }) => {
   return (
       <div className={`message-card ${read ? "read" : "unread"}`}>
         <div className="message-header">
-          <span className="sender-name">{userName}</span>
+          <h6 className="sender-name">{userName}</h6>
           <span className="timestamp">{formattedTime}</span>
         </div>
         <span className="message-content">{content}</span>

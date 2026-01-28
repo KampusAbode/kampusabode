@@ -6,7 +6,9 @@ header {
   z-index: 9999;
   border-top-left-radius: var(--border-radius);
   border-top-right-radius: var(--border-radius);
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 
   &.hide {
     transform: translateY(-100%);
@@ -66,12 +68,12 @@ header {
     .menu {
       display: none;
       img {
-          width: 40px;
-          height: 40px;
-          min-width: 40px;
-          min-height: 40px;
-          object-fit: cover;
-        }
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        min-height: 40px;
+        object-fit: cover;
+      }
     }
   }
 }
@@ -92,7 +94,7 @@ header {
         text-transform: capitalize;
         font-size: var(--font-size-lg);
         font-weight: bold;
-        color: var(--font-color-h);
+        color: var(--text-color-h);
       }
       nav {
         display: none;

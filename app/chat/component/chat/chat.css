@@ -46,7 +46,7 @@
   border-top-left-radius: 0;
   width: -moz-fit-content;
   width: fit-content;
-  color: var(--font-color-p);
+  color: var(--text-color-p);
   background-color: var(--light-gray);
   max-width: 70%;
 }
@@ -58,10 +58,10 @@
   padding: var(--spacing-h) var(--spacing);
 }
 .chat-page .chat-display .message-box .message-detail span {
-  color: var(--font-color-p);
+  color: var(--text-color-p);
 }
 .chat-page .chat-display .message-box .message-content {
-  color: var(--font-color-p);
+  color: var(--text-color-p);
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
@@ -94,7 +94,7 @@
   flex: 1;
   border: none;
   border-radius: 0;
-  color: var(--font-light-p);
+  color: var(--text-color-p);
 }
 .chat-page .chat-input .container button {
   padding: var(--spacing);

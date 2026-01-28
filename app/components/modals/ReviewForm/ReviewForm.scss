@@ -25,7 +25,7 @@
       display: flex;
       justify-content: space-between;
 
-      svg{
+      svg {
         cursor: pointer;
       }
     }
@@ -38,15 +38,15 @@
         gap: var(--spacing-h);
         margin-bottom: var(--spacing);
 
-        .rate{
-            border-radius: 100%;
-            width: 40px;
-            height: 40px;
-            background-color: var(--light-gray);
-            display: grid;
-            place-items: center;
-            color: var(--font-color-p);
-            margin-left: var(--spacing);
+        .rate {
+          border-radius: 100%;
+          width: 40px;
+          height: 40px;
+          background-color: var(--light-gray);
+          display: grid;
+          place-items: center;
+          color: var(--text-color-p);
+          margin-left: var(--spacing);
         }
       }
       textarea {

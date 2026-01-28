@@ -7,8 +7,6 @@
 
   animation: pop 0.3s ease-in forwards;
 
-  
-  
   @keyframes pop {
     from {
       transform: translateY(10px) scale(0.97);
@@ -25,10 +23,10 @@
     transform: scale(1.05) translateY(-5px);
   }
 
-  &:active{
+  &:active {
     transform: scale(0.95);
   }
-  
+
   a {
     outline: none;
   }
@@ -91,7 +89,7 @@
     }
     .swiper-button-prev,
     .swiper-button-next {
-      color: var(--font-color-h);
+      color: var(--text-color-h);
       width: 2.8rem;
       height: 2.8rem;
 
@@ -132,7 +130,7 @@
 
       .price {
         padding: var(--spacing-b);
-        color: var(--font-color-h);
+        color: var(--text-color-h);
         background-color: var(--white);
         box-shadow: var(--shadow);
         border-radius: var(--border-radius-r);

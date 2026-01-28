@@ -34,7 +34,7 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
   >([]);
   const [propReviews, setPropReviews] = useState<ReviewType[]>([]);
   const [propertyDetails, setPropertyDetails] = useState<ApartmentType | null>(
-    null
+    null,
   );
   const [isReviewOpen, setIsReviewOpen] = useState(false);
   const [isBookingModalOpen, setBookingModalOpen] = useState(false);
@@ -59,15 +59,15 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
         const properties = await getApartmentsByIds(
           "propertiesListed" in agent.userInfo
             ? agent.userInfo.propertiesListed.filter(
-                (propertyId: string) => propertyId !== id
+                (propertyId: string) => propertyId !== id,
               )
-            : []
+            : [],
         );
         setAgentPropertyListings(properties);
       }
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "An unknown error occurred"
+        error instanceof Error ? error.message : "An unknown error occurred",
       );
     }
   }, [id]);
@@ -155,7 +155,6 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
             <div className="pq">
               <h2 className="title">{propertyDetails.title}</h2>
               <span className="price">
-                 
                 {propertyDetails.priceType === "rent"
                   ? "Rent"
                   : "Total Package"}
@@ -346,6 +345,16 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
             title="Call Agent"
             href={user ? `tel:${agentDetails?.phoneNumber}` : `/auth/login`}>
             Call Agent
+          </Link>
+        </div>
+      </div>
+
+      <div className="report-listing">
+        <div className="container">
+          <Link
+            href={`/chat/${user.name}/${user.id}`}
+            className="report-link">
+            Report Listing!
           </Link>
         </div>
       </div>

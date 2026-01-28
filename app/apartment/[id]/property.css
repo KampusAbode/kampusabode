@@ -69,7 +69,7 @@
   top: 50%;
   display: grid;
   place-items: center;
-  color: var(--font-color-h);
+  color: var(--text-color-h);
   border-radius: 100%;
   cursor: pointer;
   box-shadow: var(--shadow);
@@ -118,7 +118,8 @@
 .properties-details-page .prop-image-details .property-images .container .control-image::-webkit-scrollbar {
   display: none;
 }
-.properties-details-page .prop-image-details .property-images .container .control-image img, .properties-details-page .prop-image-details .property-images .container .control-image video {
+.properties-details-page .prop-image-details .property-images .container .control-image img,
+.properties-details-page .prop-image-details .property-images .container .control-image video {
   width: 60px;
   height: 60px;
   min-width: 60px;
@@ -130,7 +131,8 @@
   opacity: 0.3;
   transition: var(--transition);
 }
-.properties-details-page .prop-image-details .property-images .container .control-image img.active, .properties-details-page .prop-image-details .property-images .container .control-image video.active {
+.properties-details-page .prop-image-details .property-images .container .control-image img.active,
+.properties-details-page .prop-image-details .property-images .container .control-image video.active {
   opacity: 1;
   box-shadow: var(--shadow);
 }
@@ -245,7 +247,7 @@
   fill: none;
 }
 .properties-details-page .container .top .about-agent .agent-stats div.ratings svg path {
-  fill: var(--font-color-p);
+  fill: var(--text-color-p);
 }
 .properties-details-page .container .top .about-agent .bio {
   margin-top: var(--spacing);
@@ -314,8 +316,8 @@
   cursor: pointer;
 }
 .properties-details-page .container .agent-listings > div .agentProps .list-prop:hover {
-  color: var(--font-color-p);
-  transform: scale(0.85);
+  color: var(--text-color-p);
+  transform: scale(0.97);
 }
 .properties-details-page .container .agent-listings > div .agentProps .list-prop .list-image {
   overflow: hidden;
@@ -369,6 +371,10 @@
 }
 .properties-details-page .container .contact span {
   line-height: 1;
+}
+.properties-details-page .container .report-listing a {
+  text-decoration: underline;
+  color: var(--text-color-h);
 }
 
 .prop-cta {
@@ -438,7 +444,8 @@
     overflow-x: scroll;
     flex-wrap: nowrap;
   }
-  .properties-details-page .prop-image-details .property-images .container .control-image img, .properties-details-page .prop-image-details .property-images .container .control-image video {
+  .properties-details-page .prop-image-details .property-images .container .control-image img,
+  .properties-details-page .prop-image-details .property-images .container .control-image video {
     width: 60px;
     height: 60px;
     min-width: 60px;
@@ -467,7 +474,8 @@
   .properties-details-page .prop-image-details .property-images .container .display-image {
     height: 60vh;
   }
-  .properties-details-page .prop-image-details .property-images .container .control-image img, .properties-details-page .prop-image-details .property-images .container .control-image video {
+  .properties-details-page .prop-image-details .property-images .container .control-image img,
+  .properties-details-page .prop-image-details .property-images .container .control-image video {
     width: 55px;
     height: 55px;
     min-width: 55px;

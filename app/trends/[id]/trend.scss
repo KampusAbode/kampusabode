@@ -67,11 +67,11 @@
         padding: var(--spacing-h) var(--spacing);
         background-color: var(--light-gray);
         border-radius: var(--border-radius-r);
-        color: var(--font-color-p);
+        color: var(--text-color-p);
         cursor: pointer;
 
         &.active i {
-          fill: var(--font-color-h);
+          fill: var(--text-color-h);
           font-size: var(--font-size-lg);
         }
       }

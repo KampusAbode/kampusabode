@@ -42,23 +42,26 @@
         cursor: pointer;
         text-align: center;
         text-decoration: none;
-        color: var(--font-color-p);
+        color: var(--text-color-p);
         display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
         gap: 5px;
 
+        svg {
+          path {
+            fill: var(--text-color-p);
+          }
+          transition: var(--transition);
+        }
         span {
           font-size: 10px;
-          color: var(--font-color-p);
+          color: var(--text-color-p);
           text-transform: capitalize;
 
           transition: var(--transition);
         }
-      }
-      svg {
-        transition: var(--transition);
       }
       &.active {
         background-color: var(--light-gray);

@@ -39,20 +39,23 @@
   cursor: pointer;
   text-align: center;
   text-decoration: none;
-  color: var(--font-color-p);
+  color: var(--text-color-p);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   gap: 5px;
 }
-.navigation ul li div span {
-  font-size: 10px;
-  color: var(--font-color-p);
-  text-transform: capitalize;
+.navigation ul li div svg {
   transition: var(--transition);
 }
-.navigation ul li svg {
+.navigation ul li div svg path {
+  fill: var(--text-color-p);
+}
+.navigation ul li div span {
+  font-size: 10px;
+  color: var(--text-color-p);
+  text-transform: capitalize;
   transition: var(--transition);
 }
 .navigation ul li.active {

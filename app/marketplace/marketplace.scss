@@ -1,16 +1,16 @@
 .marketplace {
-  .latest{
+  .latest {
     margin-top: var(--spacing);
     text-align: center;
-    .latest-img{
+    .latest-img {
       height: 250px;
-      img{
+      img {
         width: 100%;
         height: 100%;
         object-fit: cover;
       }
     }
-    h6{
+    h6 {
       margin-block: var(--spacing);
     }
   }
@@ -46,7 +46,7 @@
             width: 25px;
             height: 25px;
             path {
-              fill: var(--font-color-p);
+              fill: var(--text-color-p);
             }
           }
         }
@@ -83,7 +83,7 @@
           &:active,
           &.active {
             border: var(--border-hover);
-            color: var(--font-color-h);
+            color: var(--text-color-h);
           }
         }
       }

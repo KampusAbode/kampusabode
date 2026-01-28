@@ -4,7 +4,7 @@
   overflow: hidden;
   transition: var(--transition);
 
-  animation: pop .1s ease-in forwards;
+  animation: pop 0.1s ease-in forwards;
 
   @keyframes pop {
     from {
@@ -17,12 +17,12 @@
     }
   }
 
-  &:hover{
+  &:hover {
     box-shadow: var(--shadow);
   }
 
   .trend-image {
-     aspect-ratio: 20 / 17;
+    aspect-ratio: 20 / 14;
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
     position: relative;

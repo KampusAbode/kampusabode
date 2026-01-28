@@ -89,7 +89,7 @@
 .nav-menu .top ul li a {
   padding: var(--spacing-b);
   text-transform: capitalize;
-  color: var(--font-color-h);
+  color: var(--text-color-h);
   width: 100%;
   display: flex;
   align-items: center;

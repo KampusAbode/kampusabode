@@ -167,7 +167,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1.25rem;
-  background: #5d6fb5;
+  background: var(--black);
   color: white !important;
   border: none;
   border-radius: 20px;
@@ -190,7 +190,9 @@
     color: white;
   }
   svg{
-    fill: white;
+    path{
+      fill: white;
+    }
   }
 }
 

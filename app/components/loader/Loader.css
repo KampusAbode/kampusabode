@@ -1,4 +1,4 @@
-/* From Uiverse.io by mrhyddenn */ 
+/* From Uiverse.io by mrhyddenn */
 .spinner {
   font-size: 40px;
   position: relative;
@@ -128,7 +128,7 @@
 
 @keyframes spinner-fade9234 {
   0% {
-    background-color: var(--font-color-h);
+    background-color: var(--text-color-h);
   }
 
   100% {

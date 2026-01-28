@@ -421,7 +421,7 @@
   position: relative;
 }
 .testimonials-section .container .testimonies .testimonial-card .testi-content span {
-  color: var(--font-color-p);
+  color: var(--text-color-p);
 }
 
 /* ========== testimonials section open ========== */

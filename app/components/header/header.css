@@ -79,7 +79,7 @@ header .container .menu img {
     text-transform: capitalize;
     font-size: var(--font-size-lg);
     font-weight: bold;
-    color: var(--font-color-h);
+    color: var(--text-color-h);
   }
   header .container nav {
     display: none;

@@ -44,7 +44,7 @@
   background-color: var(--light-gray);
   display: grid;
   place-items: center;
-  color: var(--font-color-p);
+  color: var(--text-color-p);
   margin-left: var(--spacing);
 }
 .modal-overlay .review-modal .modal-body textarea {

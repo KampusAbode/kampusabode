@@ -5,21 +5,19 @@
     .fm {
       padding-block: var(--spacing-5x);
 
-
       form {
         margin: 0 auto;
         .input-box {
           position: relative;
           margin-bottom: var(--spacing-2x);
 
-          &.top{
+          &.top {
             background-color: var(--light-gray);
             padding: var(--spacing);
             border-radius: var(--border-radius);
             position: relative;
 
-
-            .icon-label{
+            .icon-label {
               position: absolute;
               top: 40%;
               left: 55%;
@@ -31,22 +29,20 @@
               cursor: pointer;
             }
 
-            img{
-              
+            img {
               box-shadow: var(--shadow);
             }
 
-            label{
+            label {
               text-align: center;
               padding: 0;
             }
 
-            input{
+            input {
               border: none;
               text-align: center;
               display: none;
             }
-
           }
 
           img {
@@ -73,7 +69,7 @@
             padding: var(--spacing);
             background-color: var(--light-gray);
             font-size: var(--font-size-nm);
-            color: var(--font-color-p);
+            color: var(--text-color-p);
 
             &:focus {
               border: var(--border-hover);

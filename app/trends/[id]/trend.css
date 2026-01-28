@@ -70,11 +70,11 @@
   padding: var(--spacing-h) var(--spacing);
   background-color: var(--light-gray);
   border-radius: var(--border-radius-r);
-  color: var(--font-color-p);
+  color: var(--text-color-p);
   cursor: pointer;
 }
 .trend-details-page .container .interaction-buttons button.active i {
-  fill: var(--font-color-h);
+  fill: var(--text-color-h);
   font-size: var(--font-size-lg);
 }
 .trend-details-page .container .trend-description {

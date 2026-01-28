@@ -28,12 +28,10 @@
     overflow-y: auto;
     padding-block: var(--spacing);
 
-
     .loading-text {
       text-align: center;
       margin-top: 50px;
     }
-    
 
     &::-webkit-scrollbar {
       visibility: hidden;
@@ -53,7 +51,7 @@
       border-radius: var(--border-radius);
       border-top-left-radius: 0;
       width: fit-content;
-      color: var(--font-color-p);
+      color: var(--text-color-p);
       background-color: var(--light-gray);
       max-width: 70%;
 
@@ -65,12 +63,12 @@
         padding: var(--spacing-h) var(--spacing);
 
         span {
-          color: var(--font-color-p);
+          color: var(--text-color-p);
         }
       }
 
       .message-content {
-        color: var(--font-color-p);
+        color: var(--text-color-p);
         user-select: none;
       }
 
@@ -112,7 +110,7 @@
         flex: 1;
         border: none;
         border-radius: 0;
-        color: var(--font-light-p);
+        color: var(--text-color-p);
       }
       button {
         padding: var(--spacing);
