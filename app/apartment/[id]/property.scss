@@ -339,13 +339,11 @@
             max-width: 180px;
             border-radius: var(--border-radius);
             transition: var(--transition);
-            padding: var(--spacing-h);
-            box-shadow: var(--shadow);
             cursor: pointer;
 
             &:hover {
               color: var(--text-color-p);
-              transform: scale(0.97);
+              transform: scale(0.98);
             }
 
             .list-image {
@@ -361,7 +359,8 @@
             .list-details {
               padding-top: var(--spacing-h);
 
-              h6 {
+              p {
+                color: var(--text-color-h);
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: -webkit-box;
@@ -370,7 +369,7 @@
                 -webkit-box-orient: vertical;
               }
 
-              p {
+              span {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: -webkit-box;
@@ -405,7 +404,8 @@
     }
 
     .contact {
-      margin-block: var(--spacing-4x);
+      margin-top: var(--spacing-4x);
+      margin-bottom: var(--spacing-2x);
       background-color: var(--light-gray);
       padding: var(--spacing-2x);
       border-radius: var(--border-radius);

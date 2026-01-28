@@ -311,13 +311,11 @@
   max-width: 180px;
   border-radius: var(--border-radius);
   transition: var(--transition);
-  padding: var(--spacing-h);
-  box-shadow: var(--shadow);
   cursor: pointer;
 }
 .properties-details-page .container .agent-listings > div .agentProps .list-prop:hover {
   color: var(--text-color-p);
-  transform: scale(0.97);
+  transform: scale(0.98);
 }
 .properties-details-page .container .agent-listings > div .agentProps .list-prop .list-image {
   overflow: hidden;
@@ -332,7 +330,8 @@
 .properties-details-page .container .agent-listings > div .agentProps .list-prop .list-details {
   padding-top: var(--spacing-h);
 }
-.properties-details-page .container .agent-listings > div .agentProps .list-prop .list-details h6 {
+.properties-details-page .container .agent-listings > div .agentProps .list-prop .list-details p {
+  color: var(--text-color-h);
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -340,7 +339,7 @@
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 }
-.properties-details-page .container .agent-listings > div .agentProps .list-prop .list-details p {
+.properties-details-page .container .agent-listings > div .agentProps .list-prop .list-details span {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -364,7 +363,8 @@
   }
 }
 .properties-details-page .container .contact {
-  margin-block: var(--spacing-4x);
+  margin-top: var(--spacing-4x);
+  margin-bottom: var(--spacing-2x);
   background-color: var(--light-gray);
   padding: var(--spacing-2x);
   border-radius: var(--border-radius);

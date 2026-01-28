@@ -295,7 +295,7 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
                         />
                       </div>
                       <div className="list-details">
-                        <h6>{listing.title}</h6>
+                        <p>{listing.title}</p>
                         {listing.description &&
                           (() => {
                             const div = document.createElement("div");
@@ -303,7 +303,7 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
                             const firstP = div.querySelector("p");
 
                             return (
-                              <p
+                              <span
                                 dangerouslySetInnerHTML={{
                                   __html: firstP ? firstP.outerHTML : "",
                                 }}
@@ -329,6 +329,14 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
               feel free to contact us.
             </span>
           </div>
+
+          <div className="report-listing">
+            <Link
+              href={`/chat/${user.name}/${user.id}`}
+              className="report-link">
+              Report Listing!
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -345,16 +353,6 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
             title="Call Agent"
             href={user ? `tel:${agentDetails?.phoneNumber}` : `/auth/login`}>
             Call Agent
-          </Link>
-        </div>
-      </div>
-
-      <div className="report-listing">
-        <div className="container">
-          <Link
-            href={`/chat/${user.name}/${user.id}`}
-            className="report-link">
-            Report Listing!
           </Link>
         </div>
       </div>
