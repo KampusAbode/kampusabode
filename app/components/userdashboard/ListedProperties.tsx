@@ -83,7 +83,7 @@ const ListedProperties = () => {
           <p className="error">{error}</p>
         ) : properties.length > 0 ? (
           <ul>
-            {properties.slice(0, 5).map((property) => (
+            {properties.slice(0, 3).map((property) => (
               <li key={property.id}>
                 {property.url ? (
                   <Link prefetch href={property.url}>

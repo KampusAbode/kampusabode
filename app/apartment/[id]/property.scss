@@ -11,8 +11,9 @@
           height: 70vh;
           display: flex;
           place-items: center;
-          padding-bottom: var(--spacing);
+          padding-block: var(--spacing);
           position: relative;
+          box-shadow: var(--shadow);
 
           img {
             width: 100%;

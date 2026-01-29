@@ -8,8 +8,9 @@
   height: 70vh;
   display: flex;
   place-items: center;
-  padding-bottom: var(--spacing);
+  padding-block: var(--spacing);
   position: relative;
+  box-shadow: var(--shadow);
 }
 .properties-details-page .prop-image-details .property-images .container .display-image img {
   width: 100%;

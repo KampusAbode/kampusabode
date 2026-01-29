@@ -226,7 +226,7 @@ const PropertiesPage: React.FC = () => {
             <FaFilter />
             <span>Sort</span>
           </button>
-
+        </div>
           <div className="filter-locations">
             <span
               className={`filter-btn ${activeLocation === "all" ? "active" : ""}`}
@@ -246,9 +246,6 @@ const PropertiesPage: React.FC = () => {
               </span>
             ))}
           </div>
-          
-         
-        </div>
       </div>
 
       {/* Sliding Filter Component */}

@@ -21,7 +21,7 @@ type Conversation = {
   senderId: string;
   receiverId: string;
   content: string;
-  timestamp: any; // This can be a Firestore timestamp or Date
+  timestamp: any; 
   read?: boolean;
 };
 

@@ -88,7 +88,7 @@ export default function App() {
           <div className="hero-content">
             <h1>
               Find your ideal hostel and connect with <span>trusted</span>{" "}
-              agents—all from your phone.
+              agents <br /> all from your phone.
             </h1>
             <p>{hero.p}</p>
             <div className="cta-hero cta">
