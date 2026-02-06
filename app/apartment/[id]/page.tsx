@@ -330,13 +330,17 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
             </span>
           </div>
 
-          <div className="report-listing">
-            <Link
-              href={`/chat/${user.name}/${user.id}`}
-              className="report-link">
-              Report Listing!
-            </Link>
-          </div>
+          {user && 
+  <div className="report-listing">
+    <Link
+      href={`/chat/${user?.name}/${user?.id}`}
+      className="report-link"
+    >
+      Report Listing!
+    </Link>
+  </div>
+}
+
         </div>
       </section>
 
