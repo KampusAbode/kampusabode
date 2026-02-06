@@ -33,7 +33,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           const fetchedProperties: ApartmentType[] =
             await getApartmentsByIds(propertiesListed);
           setProperties(fetchedProperties);
-          console.log("Properties fetched in layout:", fetchedProperties);
+    
         } else {
           setProperties([]);
         }
