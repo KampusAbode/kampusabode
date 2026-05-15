@@ -4,9 +4,6 @@
   color: var(--text-color-p);
   padding: var(--spacing-5x) 0 var(--spacing);
 }
-.footer .container {
-  /* Footer Bottom */
-}
 .footer .container .footer-sections {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -41,6 +38,9 @@
 }
 .footer .container .footer-sections .footer-column .social-links a:hover {
   color: var(--primary-color);
+}
+.footer .container {
+  /* Footer Bottom */
 }
 .footer .container .footer-bottom {
   border-top: var(--border-white);

@@ -301,11 +301,13 @@
   gap: var(--spacing);
   padding-block: var(--spacing-h);
   /* Hide scrollbar */
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 .properties-details-page .container .agent-listings > div .agentProps::-webkit-scrollbar {
   display: none;
+}
+.properties-details-page .container .agent-listings > div .agentProps {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 .properties-details-page .container .agent-listings > div .agentProps .list-prop {
   flex: 0 0 80%;
@@ -413,11 +415,11 @@
   .properties-details-page .container .contact {
     padding: var(--spacing);
   }
-  .properties-details-page .prop-image-details .property-images .container {
-    grid-template-columns: 1fr;
-  }
   .properties-details-page .prop-image-details .property-images .container > div {
     margin: 0;
+  }
+  .properties-details-page .prop-image-details .property-images .container {
+    grid-template-columns: 1fr;
   }
   .properties-details-page .prop-image-details .property-images .container .display-image {
     height: 65vh;

@@ -46,11 +46,11 @@
   flex-direction: column;
   gap: 5px;
 }
-.navigation ul li div svg {
-  transition: var(--transition);
-}
 .navigation ul li div svg path {
   fill: var(--text-color-p);
+}
+.navigation ul li div svg {
+  transition: var(--transition);
 }
 .navigation ul li div span {
   font-size: 10px;

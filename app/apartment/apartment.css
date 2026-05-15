@@ -140,7 +140,7 @@
   white-space: nowrap;
 }
 .sort-trigger-btn:hover {
-  background: #3451c7;
+  background: var(--primary-color);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(66, 99, 235, 0.3);
 }
@@ -291,7 +291,7 @@
   transition: all 0.2s ease;
 }
 .apply-btn:hover {
-  background: #3451c7;
+  background: var(--primary-color);
 }
 .apply-btn:active {
   transform: scale(0.98);

@@ -194,11 +194,6 @@
 .dashboard .container .agent-dashboard .listed-properties .property-list ul li a .detail {
   padding-block: var(--spacing);
 }
-.dashboard .container .student-dashboard .listed-properties .property-list ul li a .detail span,
-.dashboard .container .agent-dashboard .listed-properties .property-list ul li a .detail span {
-  display: block;
-  margin-bottom: var(--spacing-h);
-}
 .dashboard .container .student-dashboard .listed-properties .property-list ul li a .detail span::first-child,
 .dashboard .container .agent-dashboard .listed-properties .property-list ul li a .detail span::first-child {
   overflow: hidden;
@@ -207,6 +202,11 @@
   line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+.dashboard .container .student-dashboard .listed-properties .property-list ul li a .detail span,
+.dashboard .container .agent-dashboard .listed-properties .property-list ul li a .detail span {
+  display: block;
+  margin-bottom: var(--spacing-h);
 }
 .dashboard .container .student-dashboard .listed-properties .property-list ul li .option-btn,
 .dashboard .container .agent-dashboard .listed-properties .property-list ul li .option-btn {
