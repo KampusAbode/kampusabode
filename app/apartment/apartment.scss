@@ -8,7 +8,7 @@
     background: var(--primary-color);
     color: var(--white);
     padding: var(--spacing-2x);
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-lg);
 
     span {
       margin-bottom: var(--spacing);
@@ -72,7 +72,7 @@
     border-radius: var(--border-radius-r);
     overflow: hidden;
     background-color: var(--light-gray);
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-lg);
 
     input {
       border-top-left-radius: var(--border-radius);

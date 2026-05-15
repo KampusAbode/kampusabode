@@ -467,6 +467,7 @@ button {
 .filter-btn.active {
   background-color: var(--black);
   color: var(--white);
+  box-shadow: var(--shadow-lg);
 }
 
 .heading-section {
