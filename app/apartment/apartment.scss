@@ -8,6 +8,7 @@
     background: var(--primary-color);
     color: var(--white);
     padding: var(--spacing-2x);
+    box-shadow: var(--shadow);
 
     span {
       margin-bottom: var(--spacing);
@@ -71,6 +72,7 @@
     border-radius: var(--border-radius-r);
     overflow: hidden;
     background-color: var(--light-gray);
+    box-shadow: var(--shadow);
 
     input {
       border-top-left-radius: var(--border-radius);
@@ -150,7 +152,7 @@
     align-items: center;
     justify-content: left;
     gap: var(--spacing);
-    padding-block: var(--spacing);
+    padding: var(--spacing);
     overflow-x: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;

@@ -29,14 +29,14 @@ const PropertiesPage: React.FC = () => {
   } = usePropertiesStore();
 
   const [showFilter, setShowFilter] = useState(false);
-  const [sortBy, setSortBy] = useState('recommended');
+  const [sortBy, setSortBy] = useState("recommended");
 
   const sortOptions = [
-    { value: 'recommended', label: 'Recommended', icon: '⭐' },
-    { value: 'newest', label: 'Newest First', icon: '🆕' },
-    { value: 'price-low', label: 'Price: Low to High', icon: '💰' },
-    { value: 'price-high', label: 'Price: High to Low', icon: '💎' },
-    { value: 'popular', label: 'Most Popular', icon: '🔥' }
+    { value: "recommended", label: "Recommended", icon: "⭐" },
+    { value: "newest", label: "Newest First", icon: "🆕" },
+    { value: "price-low", label: "Price: Low to High", icon: "💰" },
+    { value: "price-high", label: "Price: High to Low", icon: "💎" },
+    { value: "popular", label: "Most Popular", icon: "🔥" },
   ];
 
   useEffect(() => {
@@ -70,22 +70,24 @@ const PropertiesPage: React.FC = () => {
   // Smart sorting algorithm
   const calculateScore = (property) => {
     let score = 0;
-    
+
     // Recency bonus (max 30 points)
-    const daysOld = (Date.now() - (property.listedDate || property.createdAt || Date.now())) / (1000 * 60 * 60 * 24);
+    const daysOld =
+      (Date.now() - (property.listedDate || property.createdAt || Date.now())) /
+      (1000 * 60 * 60 * 24);
     score += Math.max(0, 30 - daysOld);
-    
+
     // Quality indicators
     if (property.images && property.images.length > 0) score += 10;
     if (property.isVerified) score += 15;
-    
+
     // Engagement
     score += (property.views || 0) * 0.5;
     score += (property.inquiries || 0) * 2;
-  
+
     // Small stable random component for variety
     score += (property.id.charCodeAt(0) % 10) / 10;
-    
+
     return score;
   };
 
@@ -94,27 +96,29 @@ const PropertiesPage: React.FC = () => {
     let sorted = [...filteredProperties];
 
     switch (sortBy) {
-      case 'recommended':
+      case "recommended":
         sorted.sort((a, b) => calculateScore(b) - calculateScore(a));
         break;
-      
-      case 'newest':
-        sorted.sort((a, b) => (new Date(b.createdAt).getTime()) - (new Date(a.createdAt).getTime())
+
+      case "newest":
+        sorted.sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
         );
         break;
-      
-      case 'price-low':
+
+      case "price-low":
         sorted.sort((a, b) => (a.price || 0) - (b.price || 0));
         break;
-      
-      case 'price-high':
+
+      case "price-high":
         sorted.sort((a, b) => (b.price || 0) - (a.price || 0));
         break;
-      
-      case 'popular':
+
+      case "popular":
         sorted.sort((a, b) => (b.views || 0) - (a.views || 0));
         break;
-      
+
       default:
         break;
     }
@@ -122,7 +126,11 @@ const PropertiesPage: React.FC = () => {
     return sorted;
   }, [filteredProperties, sortBy]);
 
-  const updateSearchParams = (query: string, location: string, sort: string = sortBy) => {
+  const updateSearchParams = (
+    query: string,
+    location: string,
+    sort: string = sortBy,
+  ) => {
     const params = new URLSearchParams();
 
     if (query.trim()) params.set("q", query.trim());
@@ -219,46 +227,42 @@ const PropertiesPage: React.FC = () => {
 
       <div className="filter">
         <div className="container">
-           <button 
+          <button
             className="sort-trigger-btn"
-            onClick={() => setShowFilter(!showFilter)}
-          >
+            onClick={() => setShowFilter(!showFilter)}>
             <FaFilter />
             <span>Sort</span>
           </button>
-        </div>
-          <div className="filter-locations">
+        <div className="filter-locations">
+          <span
+            className={`filter-btn ${activeLocation === "all" ? "active" : ""}`}
+            onClick={() => filterByLocation("all")}>
+            all
+          </span>
+          {data.locations.map((location) => (
             <span
-              className={`filter-btn ${activeLocation === "all" ? "active" : ""}`}
-              onClick={() => filterByLocation("all")}>
-              all
+              key={location}
+              className={`filter-btn ${
+                activeLocation.toLowerCase() === location.toLowerCase()
+                  ? "active"
+                  : ""
+              }`}
+              onClick={() => filterByLocation(location.toLowerCase())}>
+              {location}
             </span>
-            {data.locations.map((location) => (
-              <span
-                key={location}
-                className={`filter-btn ${
-                  activeLocation.toLowerCase() === location.toLowerCase()
-                    ? "active"
-                    : ""
-                }`}
-                onClick={() => filterByLocation(location.toLowerCase())}>
-                {location}
-              </span>
-            ))}
-          </div>
+          ))}
+        </div>
+        </div>
       </div>
 
       {/* Sliding Filter Component */}
-      <div className={`filter-slide ${showFilter ? 'show' : ''}`}>
+      <div className={`filter-slide ${showFilter ? "show" : ""}`}>
         <div className="filter-overlay" onClick={() => setShowFilter(false)} />
-        
+
         <div className="filter-content">
           <div className="filter-header">
             <h3>Sort Properties</h3>
-            <button 
-              className="close-btn"
-              onClick={() => setShowFilter(false)}
-            >
+            <button className="close-btn" onClick={() => setShowFilter(false)}>
               <FaTimes />
             </button>
           </div>
@@ -267,25 +271,19 @@ const PropertiesPage: React.FC = () => {
             {sortOptions.map((option) => (
               <div
                 key={option.value}
-                className={`sort-option ${sortBy === option.value ? 'active' : ''}`}
-                onClick={() => handleSortChange(option.value)}
-              >
+                className={`sort-option ${sortBy === option.value ? "active" : ""}`}
+                onClick={() => handleSortChange(option.value)}>
                 <div className="option-info">
                   <span className="option-icon">{option.icon}</span>
                   <span className="option-label">{option.label}</span>
                 </div>
-                {sortBy === option.value && (
-                  <FaCheck className="check-icon" />
-                )}
+                {sortBy === option.value && <FaCheck className="check-icon" />}
               </div>
             ))}
           </div>
 
           <div className="filter-footer">
-            <button 
-              className="apply-btn"
-              onClick={() => setShowFilter(false)}
-            >
+            <button className="apply-btn" onClick={() => setShowFilter(false)}>
               Apply
             </button>
           </div>
@@ -299,9 +297,16 @@ const PropertiesPage: React.FC = () => {
           ) : sortedProperties.length > 0 ? (
             <>
               <div className="results-info">
-                <p>{sortedProperties.length} {sortedProperties.length === 1 ? 'property' : 'properties'} found</p>
+                <p>
+                  {sortedProperties.length}{" "}
+                  {sortedProperties.length === 1 ? "property" : "properties"}{" "}
+                  found
+                </p>
                 <p className="current-sort">
-                  Sorted by: <strong>{sortOptions.find(o => o.value === sortBy)?.label}</strong>
+                  Sorted by:{" "}
+                  <strong>
+                    {sortOptions.find((o) => o.value === sortBy)?.label}
+                  </strong>
                 </p>
               </div>
               <div className="properties">
