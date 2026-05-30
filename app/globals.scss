@@ -153,6 +153,7 @@
 
   --border: var(--border-width) solid var(--border-color);
   --border-white: var(--border-width) solid #ffffff;
+  --border-black: var(--border-width) solid #000000;
   --border-hover: var(--border-width) solid var(--primary-700);
 
   /* OLD BORDER RADIUS → NEW SYSTEM */
@@ -169,11 +170,11 @@
   --spacing-4x: var(--space-16);
   --spacing-5x: var(--space-20);
   --spacing-s: var(--space-24);
-  --spacing-b: 0.8rem 1.1rem; /* Keep as is - specific value */
+  --spacing-b: 0.8rem 1.1rem;
 
   /* OLD SHADOW → NEW SYSTEM */
   --shadow: var(--shadow-md);
-  --shadow-below: var(--shadow-lg);
+  --shadow-below: var(--shadow-md);
   --faded-shadow: var(--shadow-xs);
 
   /* OLD TRANSITION → NEW SYSTEM */
@@ -497,7 +498,7 @@ button {
   padding: var(--spacing-b);
   border-radius: var(--border-radius-r);
   text-transform: capitalize;
-  background: var(--light-gray);
+  // background: var(--light-gray);
   border: var(--border);
   // box-shadow: var(--faded-shadow);
   white-space: nowrap;
@@ -507,7 +508,15 @@ button {
   &.active {
     background-color: var(--black);
     color: var(--white);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
+    border: var(--border-color-black);
+  }
+
+  svg {
+    margin: 0 auto;
+    path {
+      fill: white;
+    }
   }
 }
 

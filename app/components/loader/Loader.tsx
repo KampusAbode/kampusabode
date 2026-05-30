@@ -3,19 +3,10 @@ import "./Loader.css";
 
 const Loader: FC = () => {
   return (
-<div className="spinner center">
-    <div className="spinner-blade"></div>
-    <div className="spinner-blade"></div>
-    <div className="spinner-blade"></div>
-    <div className="spinner-blade"></div>
-    <div className="spinner-blade"></div>
-    <div className="spinner-blade"></div>
-    <div className="spinner-blade"></div>
-    <div className="spinner-blade"></div>
-    <div className="spinner-blade"></div>
-    <div className="spinner-blade"></div>
-    <div className="spinner-blade"></div>
-    <div className="spinner-blade"></div>
+<div className="spinner">
+<svg viewBox="25 25 50 50">
+  <circle r="20" cy="50" cx="50"></circle>
+</svg>
 </div>
   );
 };
