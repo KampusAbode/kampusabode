@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
      "baseUrl": ".",
-<<<<<<< HEAD
-=======
-     "ignoreDeprecations": true,
->>>>>>> 326a4d254e923f66d2b23df3bb97b4c6ca101ae8
     "paths": {
       "@/*": ["./*"]
     },
