@@ -320,9 +320,9 @@ const CreateProfilePage = ({ params }: PageProp) => {
                 id="email"
                 name="email"
                 placeholder={user ? user.email : "Enter your email address"}
-                value={formValues?.email || ""}
+                value={user?.email || ""}
                 onChange={handleInputChange}
-                disabled={!!user?.email}
+                disabled={!user?.email}
                 autoComplete="email"
                 aria-describedby="email-error"
               />
