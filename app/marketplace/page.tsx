@@ -5,8 +5,10 @@ import { useEffect, useState } from "react";
 import ItemCard from "./component/itemCard/ItemCard";
 import { ItemType } from "../fetch/types";
 import { allMarketplaceItems } from "../utils";
-import Loader from "../components/loader/Loader";
-import { FaSearch } from "react-icons/fa";
+import { CardSkeletonGrid } from "../components/loader/Loader";
+import { Search } from "lucide-react";
+import { Button } from "../components/button/Button";
+import Chip from "../components/button/Chip";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -95,11 +97,7 @@ function MarketPlace() {
     <section className="marketplace">
       <div className="container">
         <span
-          style={{
-            textAlign: "center",
-            display: "block",
-            marginBottom: "3rem",
-          }}>
+          className="marketplace-intro">
           {constants.intro_text}
         </span>
       </div>
@@ -110,7 +108,7 @@ function MarketPlace() {
           grabCursor={true}
           centeredSlides={true}
           slidesPerView={1.8}
-          spaceBetween={10}
+          spaceBetween={16}
           autoplay={{ delay: 3000, disableOnInteraction: false }}
           modules={[Autoplay]}
           className="latest-items-swiper">
@@ -119,10 +117,10 @@ function MarketPlace() {
               <div className="latest">
                 <div className="latest-img">
                   <Image
-                    priority
                     src={item.imageUrl}
                     width={800}
                     height={800}
+                    sizes="(max-width: 768px) 86vw, 45vw"
                     alt={item.name}
                   />
                 </div>
@@ -141,35 +139,42 @@ function MarketPlace() {
               value={searchQuery}
               onChange={handleSearchChange}
               onKeyDown={handleKeyDown}
+              aria-label="Search marketplace items"
               placeholder="search item ..."
             />
-            <div
+            <Button
+              variant="primary"
+              size="md"
+              type="button"
               className="search-icon"
+              aria-label="Search marketplace items"
+              leftIcon={
+                <Search aria-hidden="true" size={20} strokeWidth={1.75} />
+              }
               onClick={() => searchItems(searchQuery)}>
-              <FaSearch />
-            </div>
+            </Button>
           </div>
 
           <div className="filter-items">
-            <span
-              className={`category-item ${
-                activeCategory === "all" ? "active" : ""
-              }`}
+            <Chip
+              type="button"
+              className="category-item"
+              aria-pressed={activeCategory === "all"}
               onClick={() => filterByCategory("all")}>
               All
-            </span>
+            </Chip>
             {constants.item_categories.map((category, index) => (
-              <span
+              <Chip
+                type="button"
                 key={index}
-                className={`category-item ${
-                  activeCategory === category ? "active" : ""
-                }`}
+                className="category-item"
+                aria-pressed={activeCategory === category}
                 onClick={() => {
                   setLoading(true);
                   filterByCategory(category);
                 }}>
                 {category}
-              </span>
+              </Chip>
             ))}
           </div>
         </div>
@@ -183,12 +188,12 @@ function MarketPlace() {
               ))}
             </div>
           ) : (
-            <p style={{ textAlign: "center", marginBlock: "2rem" }}>
+            <p className="empty-state">
               No available item.
             </p>
           )
         ) : (
-          <Loader />
+          <CardSkeletonGrid className="items" />
         )}
       </div>
     </section>

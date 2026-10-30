@@ -13,11 +13,6 @@
     color: var(--primary-color);
     font-size: var(--font-size-xs);
   }
-  .upload-property .container form .btn {
-    display: block;
-    width: 100%;
-    text-align: center;
-  }
   .upload-property .container form .form-group {
     margin-block: var(--spacing-2x);
   }
@@ -53,4 +48,92 @@
   .upload-property .container form .confirm-datails p {
     text-align: center;
     font-size: var(--font-size-xs);
-  }/*# sourceMappingURL=upload.css.map */
+  }
+
+.upload-property {
+  padding-block: clamp(2rem, 5vw, 4rem);
+  background: var(--bg-secondary);
+}
+
+.upload-property .container {
+  max-width: 920px;
+}
+
+.upload-property .container form {
+  margin-block: 1.5rem 3rem;
+  padding: clamp(1rem, 4vw, 2.25rem);
+  border: 1px solid var(--border-color-light);
+  border-radius: var(--radius-2xl);
+  background: var(--bg-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.upload-property .container form .form-group {
+  margin-block: 1.5rem;
+}
+
+.upload-property .container form .form-group label {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.upload-property .container form .form-group input,
+.upload-property .container form .form-group select,
+.upload-property .container form .form-group textarea {
+  min-height: 48px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.upload-property .container form .form-group textarea {
+  min-height: 140px;
+}
+
+.upload-property .container form .success {
+  color: #147a4e;
+}
+
+.upload-property .container form .error {
+  color: #b4233b;
+}
+
+.upload-property__status-error {
+  margin-bottom: var(--space-2);
+}
+
+.upload-property .container form .upload-property__submit {
+  display: flex;
+  width: 100%;
+}
+
+.video-thumbnail-picker {
+  display: flex;
+  gap: var(--space-4);
+  overflow-x: auto;
+  padding: var(--space-2);
+  border-radius: var(--radius-lg);
+  background: var(--bg-secondary);
+}
+
+.video-thumbnail-choice.ka-chip {
+  min-width: 100px;
+  min-height: 100px;
+  flex: 0 0 100px;
+  overflow: hidden;
+  padding: 0;
+  border-radius: var(--radius-md);
+  background: var(--bg-primary);
+}
+
+.video-thumbnail-choice.ka-chip[aria-pressed="true"] {
+  border-color: var(--primary-600);
+}
+
+.video-thumbnail-choice__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

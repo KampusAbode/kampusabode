@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import DeleteRoomiematchProfile from "./components/DeleteRoomiematchProfile";
+import { Button } from "../../components/button/Button";
 
 // Mock user profile data
 const mockUserProfile = {
@@ -193,11 +194,13 @@ const RoomieDashboard = () => {
           <p className="text-gray-600 mb-6">
             You haven't created a RoomieMatch profile yet.
           </p>
-          <button
+          <Button
+            variant="primary"
+            size="lg"
             onClick={() => router.push("/roomie-match/create")}
-            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:shadow-lg transition-all">
+            className="mt-6">
             Create Profile Now
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -205,7 +208,7 @@ const RoomieDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4 max-w-5xl">
+      <div className="container">
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
@@ -263,44 +266,54 @@ const RoomieDashboard = () => {
             Quick Actions
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
-            <button
+            <Button
+              variant="primary"
+              size="md"
               onClick={handleToggleVisibility}
               disabled={isTogglingVisibility || profile.status !== "active"}
-              className="px-4 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+              className="w-full">
               {isTogglingVisibility
                 ? "Updating..."
                 : profile.isVisible
                   ? "🔒 Hide Profile"
                   : "👀 Show Profile"}
-            </button>
+            </Button>
 
-            <button
+            <Button
+              variant="secondary"
+              size="md"
               onClick={handleEditProfile}
-              className="px-4 py-3 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors">
+              className="w-full">
               ✏️ Edit Profile
-            </button>
+            </Button>
 
             {profile.status === "active" ? (
-              <button
+              <Button
+                variant="primary"
+                size="md"
                 onClick={handleMarkAsFound}
                 disabled={isUpdatingStatus}
-                className="px-4 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors disabled:opacity-50">
+                className="w-full">
                 {isUpdatingStatus ? "Updating..." : "🎉 Found Roommate"}
-              </button>
+              </Button>
             ) : (
-              <button
+              <Button
+                variant="primary"
+                size="md"
                 onClick={handleReactivate}
                 disabled={isUpdatingStatus}
-                className="px-4 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors disabled:opacity-50">
+                className="w-full">
                 {isUpdatingStatus ? "Updating..." : "🔄 Reactivate"}
-              </button>
+              </Button>
             )}
 
-            <button
+            <Button
+              variant="destructive"
+              size="md"
               onClick={() => setShowDeleteConfirm(true)}
-              className="px-4 py-3 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors">
+              className="w-full">
               🗑️ Delete Profile
-            </button>
+            </Button>
           </div>
         </div>
 

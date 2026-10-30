@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { FaArrowRightLong } from "react-icons/fa6";
+import { ArrowRight } from "lucide-react";
 import { useUserStore } from "../../../store/userStore";
 import "./propertyUploadGuide.css";
 import Link from "next/link";
@@ -116,7 +116,7 @@ function PropertyUploadGuide() {
             prefetch
             href={`/apartment/c/${user?.id}/upload`}
             className="btn">
-            Proceed <FaArrowRightLong />
+            Proceed <ArrowRight aria-hidden="true" size={20} />
           </Link>
         </div>
       </div>

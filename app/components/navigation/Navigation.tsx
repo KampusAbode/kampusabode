@@ -4,13 +4,13 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {
-  FaHeart,
-  FaBookReader,
-  FaShoppingCart,
-  FaSearchLocation,
-} from "react-icons/fa";
-import { FaUser } from "react-icons/fa6";
-import { IoChatboxEllipses } from "react-icons/io5";
+  BookOpenText,
+  Heart,
+  MessageSquare,
+  Search,
+  ShoppingBag,
+  UserRound,
+} from "lucide-react";
 import "./navigation.css";
 import { getAllMessages } from "../../utils";
 import { useUserStore } from "../../store/userStore";
@@ -50,26 +50,26 @@ export default function Navigation() {
   const navLinks = [
     {
       href: "/apartment",
-      icon: <FaSearchLocation />,
+      icon: <Search aria-hidden="true" size={20} strokeWidth={1.75} />,
       label: "apartments",
       authOnly: false,
     },
     {
       href: "/messages",
-      icon: <IoChatboxEllipses />,
+      icon: <MessageSquare aria-hidden="true" size={20} strokeWidth={1.75} />,
       label: "messages",
       authOnly: true,
       hasBadge: true,
     },
     {
       href: "/trends",
-      icon: <FaBookReader />,
+      icon: <BookOpenText aria-hidden="true" size={20} strokeWidth={1.75} />,
       label: "trends",
       authOnly: false,
     },
     {
       href: "/saved",
-      icon: <FaHeart />,
+      icon: <Heart aria-hidden="true" size={20} strokeWidth={1.75} />,
       label: "saved",
       authOnly: true,
     },
@@ -104,7 +104,11 @@ export default function Navigation() {
           }>
           <Link prefetch href={id ? "/marketplace" : "/auth/login"}>
             <div title={id ? "Marketplace" : "Login"}>
-              {id ? <FaShoppingCart /> : <FaUser />}
+              {id ? (
+                <ShoppingBag aria-hidden="true" size={20} strokeWidth={1.75} />
+              ) : (
+                <UserRound aria-hidden="true" size={20} strokeWidth={1.75} />
+              )}
               <span>{id ? "market" : "login"}</span>
             </div>
           </Link>

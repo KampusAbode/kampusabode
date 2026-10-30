@@ -18,8 +18,7 @@ import { fetchTrendBySlug, getRelativeTime } from "../../utils";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import Loader from "../../components/loader/Loader";
-import { BiLike, BiSolidLike } from "react-icons/bi";
-import { FaHeart, FaRegComment, FaShare } from "react-icons/fa";
+import { Heart, MessageCircle, Share2, ThumbsUp } from "lucide-react";
 import { getCommentsByTrendId, sendUserComment } from "../../utils/comments";
 import { format, formatDistanceToNow } from "date-fns";
 import "./trend.css";
@@ -226,17 +225,21 @@ const TrendPage = ({ params }: Params) => {
                   onClick={handleLike}
                   disabled={isLiking}
                   className={isLike ? "active" : ""}>
-                  {isLike ? <BiSolidLike /> : <BiLike />} {trendData?.likes}
+                  <ThumbsUp
+                    aria-hidden="true"
+                    fill={isLike ? "currentColor" : "none"}
+                  />{" "}
+                  {trendData?.likes}
                 </button>
                 <button onClick={scrollToComments}>
-                  <FaRegComment /> {comments?.length}
+                  <MessageCircle aria-hidden="true" /> {comments?.length}
                 </button>
                 <button onClick={handleShare}>
-                  <FaShare /> Share
+                  <Share2 aria-hidden="true" /> Share
                 </button>
                 {/*
             <button>
-              <FaHeart /> Save
+              <Heart aria-hidden="true" /> Save
             </button>*/}
               </div>
 

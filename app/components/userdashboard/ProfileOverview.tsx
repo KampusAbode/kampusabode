@@ -2,8 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { UserType } from "../../fetch/types";
 import { useUserStore } from "../../store/userStore";
-import { MdVerified, MdErrorOutline } from "react-icons/md";
-import { RiCloseCircleLine, RiVerifiedBadgeLine } from "react-icons/ri";
+import { BadgeCheck, CircleX } from "lucide-react";
 
 const ProfileOverview = ({userdata}) => {
   const { user } = useUserStore((state) => state);
@@ -28,11 +27,11 @@ const ProfileOverview = ({userdata}) => {
             <strong>Email:</strong> {user?.email}{" "}
             {userdata.emailVerified ? (
               <span className="verified">
-                <RiVerifiedBadgeLine title="Verified" />
+                <BadgeCheck aria-label="Verified" size={20} />
               </span>
             ) : (
               <span className="not-verified">
-                <RiCloseCircleLine title="Not Verified" />
+                <CircleX aria-label="Not verified" size={20} />
               </span>
             )}
           </span>

@@ -11,4 +11,27 @@ const Loader: FC = () => {
   );
 };
 
+export const CardSkeletonGrid: FC<{ className: string; count?: number }> = ({
+  className,
+  count = 6,
+}) => (
+  <div
+    className={`card-skeleton-grid ${className}`}
+    role="status"
+    aria-label="Loading results"
+    aria-busy="true"
+  >
+    {Array.from({ length: count }, (_, index) => (
+      <article className="card-skeleton" aria-hidden="true" key={index}>
+        <div className="card-skeleton-image" />
+        <div className="card-skeleton-content">
+          <div className="card-skeleton-line card-skeleton-line-wide" />
+          <div className="card-skeleton-line card-skeleton-line-medium" />
+          <div className="card-skeleton-line card-skeleton-line-short" />
+        </div>
+      </article>
+    ))}
+  </div>
+);
+
 export default Loader;

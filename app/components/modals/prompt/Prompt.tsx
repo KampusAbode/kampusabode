@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import "./prompt.css";
+import { Button } from "../../button/Button";
 
 interface PromptProps {
   message: string;
@@ -28,14 +29,22 @@ const Prompt = ({ message, isOpen, onConfirm, onCancel }: PromptProps) => {
   return (
     <div className="prompt" onClick={onCancel}>
       <div className="wrapper">
-        <p className="text-lg mb-4">{message}</p>
+        <p className="text-lg">{message}</p>
         <div>
-          <button onClick={onCancel} className="cancel">
+          <Button
+            variant="outline"
+            size="md"
+            onClick={onCancel}
+            className="cancel">
             Cancel
-          </button>
-          <button onClick={onConfirm} className="confirm btn">
+          </Button>
+          <Button
+            variant="primary"
+            size="md"
+            onClick={onConfirm}
+            className="confirm">
             Confirm
-          </button>
+          </Button>
         </div>
       </div>
     </div>

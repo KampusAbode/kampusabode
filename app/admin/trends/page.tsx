@@ -11,7 +11,7 @@ import { useUsersStore } from "../../store/usersStore";
 import { useTrendStore } from "../../store/trendStore";
 import Link from "next/link";
 import { format } from "date-fns";
-import { FaEye, FaThumbsUp } from "react-icons/fa";
+import { Eye, ThumbsUp } from "lucide-react";
 // import "./admin.css"; // assuming you want the same admin CSS
 
 const Trends = () => {
@@ -64,10 +64,10 @@ const Trends = () => {
                 </span>
                 <div className="stats">
                   <span className="trend-views">
-                    <FaEye /> {trend.views}
+                    <Eye aria-hidden="true" size={16} /> {trend.views}
                   </span>
                   <span className="trend-likes">
-                    <FaThumbsUp /> {trend?.likes}
+                    <ThumbsUp aria-hidden="true" size={16} /> {trend?.likes}
                   </span>
                 </div>
                 <span className="trend-date">

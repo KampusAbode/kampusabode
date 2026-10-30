@@ -1,4 +1,5 @@
 import "./BookingConfirmationModal.css";
+import { Button } from "../../button/Button";
 
 export default function BookingConfirmationModal({
   isOpen,
@@ -55,15 +56,16 @@ export default function BookingConfirmationModal({
         </div>
 
         <div className="modal-footer">
-          <button
-            className="btn btn-secondary"
+          <Button
+            variant="secondary"
+            size="md"
             title="cancel"
             onClick={onClose}>
             Cancel
-          </button>
-          <button className="btn" title="confirm" onClick={onConfirm}>
+          </Button>
+          <Button variant="primary" size="md" title="confirm" onClick={onConfirm}>
             Proceed
-          </button>
+          </Button>
         </div>
       </div>
     </div>

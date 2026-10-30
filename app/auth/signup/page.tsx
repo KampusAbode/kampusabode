@@ -7,11 +7,13 @@ import "../auth.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Eye, EyeOff } from "lucide-react";
 import { uploadImageToAppwrite } from "../../utils"; // Appwrite upload function
 import { UserType } from "../../fetch/types";
 import data from "../../fetch/contents";
 import { sendEmailVerification } from "firebase/auth";
+import { Button } from "../../components/button/Button";
+import IconButton from "../../components/button/IconButton";
 
 export type UserSignupInput = {
   username: string;
@@ -184,15 +186,25 @@ const SignupPage = () => {
                   placeholder="Enter your password"
                 />
                 {isPasswordVisible ? (
-                  <FaEye
-                    onClick={() => setIsPasswordVisible((prev) => !prev)}
+                  <IconButton
+                    type="button"
                     className="toggle-password"
-                  />
+                    aria-label="Hide password"
+                    aria-pressed={isPasswordVisible}
+                    onClick={() => setIsPasswordVisible((prev) => !prev)}
+                  >
+                    <Eye aria-hidden="true" size={20} strokeWidth={1.75} />
+                  </IconButton>
                 ) : (
-                  <FaEyeSlash
-                    onClick={() => setIsPasswordVisible((prev) => !prev)}
+                  <IconButton
+                    type="button"
                     className="toggle-password"
-                  />
+                    aria-label="Show password"
+                    aria-pressed={isPasswordVisible}
+                    onClick={() => setIsPasswordVisible((prev) => !prev)}
+                  >
+                    <EyeOff aria-hidden="true" size={20} strokeWidth={1.75} />
+                  </IconButton>
                 )}
               </div>
             </div>
@@ -247,13 +259,14 @@ const SignupPage = () => {
               </div>
             )}
 
-            <button
+            <Button
+              variant="primary"
+              size="lg"
               type="submit"
-              className="btn"
               title="Button"
               disabled={isSubmitting}>
               {isSubmitting ? "Signing up..." : "Sign Up"}
-            </button>
+            </Button>
           </form>
           <span>
             Already have an account?{" "}

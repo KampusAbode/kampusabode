@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { allTrends } from "../utils";
 import TrendCard from "./component/trendCard/TrendCard";
-import Loader from "../components/loader/Loader";
+import { CardSkeletonGrid } from "../components/loader/Loader";
 import { TrendType } from "../fetch/types";
 import "./trends.css";
 import { useTrendStore } from "../store/trendStore";
@@ -83,20 +83,24 @@ export default function trendsPage() {
       
       <div className="filter">
         <div className="container">
-          <span
+          <button
+            type="button"
             className={`filter-btn ${activeCategory === "all" ? "active" : ""}`}
+            aria-pressed={activeCategory === "all"}
             onClick={() => filterByCategory("all")}>
             All
-          </span>
+          </button>
           {trendcategories.map((category, index) => (
-            <span
+            <button
+              type="button"
               key={index}
               className={`filter-btn ${
                 activeCategory === category ? "active" : ""
               }`}
+              aria-pressed={activeCategory === category}
               onClick={() => filterByCategory(category)}>
               {category}
-            </span>
+            </button>
           ))}
         </div>
       </div>
@@ -110,13 +114,13 @@ export default function trendsPage() {
               ))}
             </div>
           ) : (
-            <p style={{ marginBlock: "2rem", textAlign: "center" }}>
+            <p className="empty-state">
               {`${activeCategory === "all" ? "No" : `No ${activeCategory}`}`}{" "}
               trend available.
             </p>
           )
         ) : (
-          <Loader />
+          <CardSkeletonGrid className="trends" />
         )}
       </div>
     </section>

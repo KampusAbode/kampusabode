@@ -9,9 +9,8 @@ import {
 import { usePropertiesStore } from "../../store/propertiesStore";
 import Link from "next/link";
 import Image from "next/image";
-// import { MdErrorOutline, MdVerified } from "react-icons/md";
 import Prompt from "../../components/modals/prompt/Prompt";
-import { RiCloseCircleLine, RiVerifiedBadgeLine } from "react-icons/ri";
+import { BadgeCheck, CircleX } from "lucide-react";
 import toast from "react-hot-toast";
 
 const PropertyManagement = () => {
@@ -93,11 +92,11 @@ const PropertyManagement = () => {
                   <span
                     className="verified"
                     style={{ color: property.approved ? "green" : "red" }}>
-                    <RiVerifiedBadgeLine title="Verified" />
+                    <BadgeCheck aria-label="Verified" size={20} />
                   </span>
                 ) : (
                   <span className="not-verified">
-                    <RiCloseCircleLine title="Not Verified" />
+                    <CircleX aria-label="Not verified" size={20} />
                   </span>
                 )}
               </div>

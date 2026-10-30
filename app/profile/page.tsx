@@ -11,7 +11,7 @@ import ProfileOverview from "../components/userdashboard/ProfileOverview";
 import "./profile.css";
 import Link from "next/link";
 import { useUserStore } from "../store/userStore";
-import { MdErrorOutline, MdVerified } from "react-icons/md";
+import { Button, ButtonLink } from "../components/button/Button";
 
 const ProfilePage = () => {
   const { user } = useUserStore((state) => state);
@@ -59,12 +59,12 @@ const ProfilePage = () => {
         <div className="container">
           <h4 className="page-heading">Profile</h4>
 
-          <div style={{ textAlign: "center", marginTop: "28px" }}>
+          <div className="profile-login-prompt">
             <p>Please log in to access your profile.</p>
             <Link
               prefetch
               href="/auth/login"
-              style={{ textDecoration: "underline" }}>
+              className="profile-login-link">
               Log in
             </Link>
           </div>
@@ -80,31 +80,36 @@ const ProfilePage = () => {
 
         <div className="email-status">
           {!firebaseUser.emailVerified && (
-            <div style={{ marginTop: "8px" }}>
-              <button
+            <div className="email-status__actions">
+              <Button
+                variant="secondary"
+                size="md"
                 onClick={handleResendVerification}
-                disabled={sendingVerification}
-                className="btn btn-secondary">
+                disabled={sendingVerification}>
                 {sendingVerification
                   ? "Sending..."
                   : "Resend Verification Email"}
-              </button>
+              </Button>
               {verificationSent && (
-                <p style={{ color: "#27ae60", marginTop: "8px" }}>
+                <p className="email-status__success">
                   Verification email sent! Please check your inbox.
                 </p>
               )}
               {error && (
-                <p style={{ color: "#e74c3c", marginTop: "8px" }}>{error}</p>
+                <p className="email-status__error">{error}</p>
               )}
             </div>
           )}
         </div>
 
         <div className="cp">
-          <Link prefetch href={`/profile/${user.name}`} className="btn">
+          <ButtonLink
+            prefetch
+            href={`/profile/${user.name}`}
+            variant="primary"
+            size="md">
             edit profile
-          </Link>
+          </ButtonLink>
         </div>
       </div>
     </section>

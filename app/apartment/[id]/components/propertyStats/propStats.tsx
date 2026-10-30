@@ -1,5 +1,5 @@
 import React from "react";
-import { LiaStar, LiaStarHalfAltSolid, LiaStarSolid } from "react-icons/lia";
+import { Star, StarHalf } from "lucide-react";
 
 
 const StarRating = ({ rating }: { rating: number }) => {
@@ -13,15 +13,15 @@ const StarRating = ({ rating }: { rating: number }) => {
       {Array(fullStars)
         .fill(0)
         .map((_, idx) => (
-          <LiaStarSolid key={idx} />
+          <Star key={idx} aria-hidden="true" fill="currentColor" size={16} />
         ))}
       {/* Half star */}
-      {halfStar && <LiaStarHalfAltSolid />}
+      {halfStar && <StarHalf aria-hidden="true" fill="currentColor" size={16} />}
       {/* Empty stars */}
       {Array(emptyStars)
         .fill(0)
         .map((_, idx) => (
-          <LiaStar key={fullStars + idx} />
+          <Star key={fullStars + idx} aria-hidden="true" size={16} />
         ))}
     </span>
   );

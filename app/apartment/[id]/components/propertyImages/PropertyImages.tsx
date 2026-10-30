@@ -5,8 +5,11 @@ import BookmarkButton from "../../../../components/features/bookmarkbutton/Bookm
 import ShareButton from "../../../../components/features/sharebutton/ShareButton";
 import Image from "next/image";
 import { ApartmentType } from "../../../../fetch/types";
-import { FaChevronLeft, FaChevronRight, FaPlay, FaPause } from "react-icons/fa";
+import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 import { useSwipeable } from "react-swipeable";
+import { Button } from "../../../../components/button/Button";
+import IconButton from "../../../../components/button/IconButton";
+
 function PropertyImages({
   propertyDetails,
 }: {
@@ -75,39 +78,56 @@ function PropertyImages({
           )}
 
           {currentIsVideo ? (
-  <div className="video-container">
-    <video
-      ref={videoRef}
-      src={currentMedia}
-      muted
-      playsInline
-      preload="metadata"
-      onPlay={() => setIsPlaying(true)}
-      onPause={() => setIsPlaying(false)}
-      onClick={togglePlayPause}
-    />
+            <div className="video-container">
+              <video
+                ref={videoRef}
+                src={currentMedia}
+                muted
+                playsInline
+                preload="metadata"
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
+                onClick={togglePlayPause}
+              />
 
-    <div className="video-controls" onClick={togglePlayPause}>
-      {isPlaying ? <FaPause /> : <FaPlay />}
-    </div>
-  </div>
-) : (
-  <Image
-    priority
-    src={currentMedia}
-    width={5000}
-    height={5000}
-    alt={`${propertyDetails?.title} image`}
-  />
-)}
+              <IconButton
+                type="button"
+                className="video-controls"
+                aria-label={isPlaying ? "Pause video" : "Play video"}
+                aria-pressed={isPlaying}
+                onClick={togglePlayPause}>
+                {isPlaying ? (
+                  <Pause aria-hidden="true" size={24} strokeWidth={1.75} />
+                ) : (
+                  <Play aria-hidden="true" size={24} strokeWidth={1.75} />
+                )}
+              </IconButton>
+            </div>
+          ) : (
+            <Image
+              priority
+              src={currentMedia}
+              width={5000}
+              height={5000}
+              alt={`${propertyDetails?.title} image`}
+            />
+          )}
 
           <div className="image-pagination">
-            <div className="left" onClick={decrementMediaCount}>
-              <FaChevronLeft />
-            </div>
-            <div className="right" onClick={incrementMediaCount}>
-              <FaChevronRight />
-            </div>
+            <IconButton
+              type="button"
+              className="left"
+              aria-label="Previous image"
+              onClick={decrementMediaCount}>
+              <ChevronLeft aria-hidden="true" size={20} strokeWidth={1.75} />
+            </IconButton>
+            <IconButton
+              type="button"
+              className="right"
+              aria-label="Next image"
+              onClick={incrementMediaCount}>
+              <ChevronRight aria-hidden="true" size={20} strokeWidth={1.75} />
+            </IconButton>
           </div>
 
           <div className="image-counter">
@@ -117,29 +137,34 @@ function PropertyImages({
 
         <div className="control-image">
           {allMedia.map((media: string, index: number) => (
-            <div
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
               key={index + media}
               onClick={() => setMediaCount(index)}
-              className={`thumbnail-container ${mediaCount === index ? "active" : ""}`}>
+              className={`thumbnail-container ${mediaCount === index ? "active" : ""}`}
+              aria-label={`Show media ${index + 1}`}
+              aria-pressed={mediaCount === index}>
               {isVideo(media) ? (
-  <video
-    className={`video-thumbnail ${mediaCount === index ? "active" : ""}`}
-    src={media}
-    width={60}
-    height={60}
-    muted
-    playsInline
-  />
-) : (
-  <Image
-    className={mediaCount === index ? "active" : ""}
-    src={media}
-    width={400}
-    height={400}
-    alt="property-details thumbnail"
-  />
-)}
-            </div>
+                <video
+                  className={`video-thumbnail ${mediaCount === index ? "active" : ""}`}
+                  src={media}
+                  width={60}
+                  height={60}
+                  muted
+                  playsInline
+                />
+              ) : (
+                <Image
+                  className={mediaCount === index ? "active" : ""}
+                  src={media}
+                  width={400}
+                  height={400}
+                  alt="property-details thumbnail"
+                />
+              )}
+            </Button>
           ))}
         </div>
       </div>

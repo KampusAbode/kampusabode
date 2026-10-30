@@ -5,9 +5,21 @@ import Image from "next/image";
 import { fetchPropertiesRealtime } from "../utils";
 import PropCard from "./propcard/PropCard";
 // import Filter from "../components/features/filter/Filter";
-import Loader from "../components/loader/Loader";
+import { CardSkeletonGrid } from "../components/loader/Loader";
+import { Button } from "../components/button/Button";
+import Chip from "../components/button/Chip";
+import IconButton from "../components/button/IconButton";
 import "./apartment.css";
-import { FaSearch, FaFilter, FaTimes, FaCheck } from "react-icons/fa";
+import {
+  ArrowDown,
+  ArrowUp,
+  Clock3,
+  Search,
+  SlidersHorizontal,
+  Sparkles,
+  TrendingUp,
+  X,
+} from "lucide-react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { usePropertiesStore } from "../store/propertiesStore";
 import data from "../fetch/contents";
@@ -33,11 +45,11 @@ const PropertiesPage: React.FC = () => {
   const [sortBy, setSortBy] = useState("recommended");
 
   const sortOptions = [
-    { value: "recommended", label: "Recommended", icon: "⭐" },
-    { value: "newest", label: "Newest First", icon: "🆕" },
-    { value: "price-low", label: "Price: Low to High", icon: "💰" },
-    { value: "price-high", label: "Price: High to Low", icon: "💎" },
-    { value: "popular", label: "Most Popular", icon: "🔥" },
+    { value: "recommended", label: "Recommended", icon: Sparkles },
+    { value: "newest", label: "Newest First", icon: Clock3 },
+    { value: "price-low", label: "Price: Low to High", icon: ArrowUp },
+    { value: "price-high", label: "Price: High to Low", icon: ArrowDown },
+    { value: "popular", label: "Most Popular", icon: TrendingUp },
   ];
 
   useEffect(() => {
@@ -208,93 +220,141 @@ const PropertiesPage: React.FC = () => {
 
       <div className="user-search">
         <div className="container">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={handleSearchChange}
-            onKeyDown={handleKeyDown}
-            placeholder="Search by title, type, location ..."
-          />
-          <div
-            className="search-icon"
-            onClick={() => {
-              updateSearchParams(searchQuery, activeLocation);
-              filterProperties();
-            }}>
-            <FaSearch />
+          <div className="search-controls">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              onKeyDown={handleKeyDown}
+              aria-label="Search apartments"
+              placeholder="Search by title, type, location ..."
+            />
+            <Button
+              variant="primary"
+              size="md"
+              type="button"
+              className="search-icon"
+              aria-label="Search apartments"
+              leftIcon={
+                <Search aria-hidden="true" size={20} strokeWidth={1.75} />
+              }
+              onClick={() => {
+                updateSearchParams(searchQuery, activeLocation);
+                filterProperties();
+              }}
+            />
           </div>
         </div>
       </div>
 
       <div className="filter">
-              <div className="container">
-                <button
-                  className="filter-btn active"
-                  onClick={() => setShowFilter(!showFilter)}>
-                  <FaFilter />
-                  {/* <span>Sort</span> */}
-                </button>
-                <div className="filter-locations">
-                  <span
-                    className={`filter-btn ${activeLocation === "all" ? "active" : ""}`}
-                    onClick={() => filterByLocation("all")}>
-                    all
-                  </span>
-                  {data.locations.map((location) => (
-                    <span
-                      key={location}
-                      className={`filter-btn ${
-                        activeLocation.toLowerCase() === location.toLowerCase()
-                          ? "active"
-                          : ""
-                      }`}
-                      onClick={() => filterByLocation(location.toLowerCase())}>
-                      {location}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-      
-            {/* Sliding Filter Component */}
-            <div className={`filter-slide ${showFilter ? "show" : ""}`}>
-              <div className="filter-overlay" onClick={() => setShowFilter(false)} />
-      
-              <div className="filter-content">
-                <div className="filter-header">
-                  <h3>Sort Properties</h3>
-                  <button className="close-btn" onClick={() => setShowFilter(false)}>
-                    <FaTimes />
-                  </button>
-                </div>
-      
-                <div className="sort-options">
-                  {sortOptions.map((option) => (
-                    <div
-                      key={option.value}
-                      className={`sort-option ${sortBy === option.value ? "active" : ""}`}
-                      onClick={() => handleSortChange(option.value)}>
-                      <div className="option-info">
-                        <span className="option-icon">{option.icon}</span>
-                        <span className="option-label">{option.label}</span>
-                      </div>
-                      {sortBy === option.value && <FaCheck className="check-icon" />}
-                    </div>
-                  ))}
-                </div>
-      
-                <div className="filter-footer">
-                  <button className="apply-btn" onClick={() => setShowFilter(false)}>
-                    Apply
-                  </button>
-                </div>
-              </div>
-            </div>
+        <div className="container">
+          <IconButton
+            type="button"
+            className="filter-trigger"
+            aria-label="Open sort options"
+            aria-expanded={showFilter}
+            onClick={() => setShowFilter(!showFilter)}
+          >
+            <SlidersHorizontal aria-hidden="true" size={20} strokeWidth={1.75} />
+          </IconButton>
+          <div className="filter-locations" aria-label="Filter by location">
+            <Chip
+              type="button"
+              className="filter-chip"
+              aria-pressed={activeLocation === "all"}
+              onClick={() => filterByLocation("all")}
+            >
+              all
+            </Chip>
+            {data.locations.map((location) => (
+              <Chip
+                type="button"
+                key={location}
+                className="filter-chip"
+                aria-pressed={
+                  activeLocation.toLowerCase() === location.toLowerCase()
+                }
+                onClick={() => filterByLocation(location.toLowerCase())}
+              >
+                {location}
+              </Chip>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div
+        className={`filter-slide ${showFilter ? "show" : ""}`}
+        aria-hidden={!showFilter}
+      >
+        <div
+          className="filter-overlay"
+          onClick={() => setShowFilter(false)}
+        />
+
+        <div
+          className="filter-content"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="sort-properties-title"
+        >
+          <div className="filter-header">
+            <h3 id="sort-properties-title">Sort Properties</h3>
+            <IconButton
+              type="button"
+              className="close-btn"
+              aria-label="Close sort options"
+              onClick={() => setShowFilter(false)}
+            >
+              <X aria-hidden="true" size={20} strokeWidth={1.75} />
+            </IconButton>
+          </div>
+
+          <div className="sort-options">
+            {sortOptions.map((option) => {
+              const OptionIcon = option.icon;
+
+              return (
+                <Chip
+                  key={option.value}
+                  type="button"
+                  className="sort-option"
+                  aria-pressed={sortBy === option.value}
+                  leadingIcon={
+                    <OptionIcon
+                      className="option-icon"
+                      aria-hidden="true"
+                      size={20}
+                      strokeWidth={1.75}
+                    />
+                  }
+                  onClick={() => handleSortChange(option.value)}
+                >
+                  {option.label}
+                </Chip>
+              );
+            })}
+          </div>
+
+          <div className="filter-footer">
+            <Button
+              variant="primary"
+              size="md"
+              type="button"
+              className="apply-btn"
+              onClick={() => setShowFilter(false)}
+            >
+              Apply
+            </Button>
+          </div>
+        </div>
+      </div>
 
       <div className="property-listings">
         <div className="container">
           {isLoading ? (
-            <Loader />
+            <CardSkeletonGrid className="properties" />
           ) : sortedProperties.length > 0 ? (
             <>
               <div className="results-info">
@@ -317,7 +377,7 @@ const PropertiesPage: React.FC = () => {
               </div>
             </>
           ) : (
-            <p style={{ textAlign: "center", marginBlock: "2rem" }}>
+            <p className="empty-state">
               No listed property found.
             </p>
           )}

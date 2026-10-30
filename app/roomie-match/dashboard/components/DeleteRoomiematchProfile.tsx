@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button } from "../../../components/button/Button";
 
 function DeleteRoomiematchProfile({setShowDeleteConfirm, handleDeleteProfile}: {setShowDeleteConfirm: (val: boolean) => void, handleDeleteProfile: () => void}) {
   return (
@@ -20,16 +21,20 @@ function DeleteRoomiematchProfile({setShowDeleteConfirm, handleDeleteProfile}: {
         </div>
 
         <div className="flex gap-3">
-          <button
+          <Button
+            variant="outline"
+            size="md"
             onClick={() => setShowDeleteConfirm(false)}
-            className="flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg font-medium hover:bg-gray-50 transition-colors">
+            className="flex-1">
             Cancel
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="destructive"
+            size="md"
             onClick={handleDeleteProfile}
-            className="flex-1 px-4 py-3 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors">
+            className="flex-1">
             Delete
-          </button>
+          </Button>
         </div>
       </div>
     </div>

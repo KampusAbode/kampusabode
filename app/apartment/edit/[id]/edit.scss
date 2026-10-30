@@ -13,10 +13,14 @@
         font-size: var(--font-size-xs);
       }
 
-      .btn {
+      .edit-property__submit {
         display: block;
         width: 100%;
         text-align: center;
+      }
+
+      .edit-property__status-error {
+        margin-bottom: var(--space-2);
       }
 
       .form-group {

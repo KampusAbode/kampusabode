@@ -1,56 +1,100 @@
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(5px);
+  inset: 0;
+  z-index: 99999;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 99999;
+  padding: var(--space-4);
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
 }
+
 .modal-overlay .review-modal {
-  background: var(--background-white);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
-  width: 90%;
-  max-width: 420px;
-  padding: var(--spacing);
+  width: min(100%, 420px);
+  max-height: calc(100vh - var(--space-8));
+  overflow-y: auto;
+  padding: var(--space-6);
+  border: 1px solid var(--border-color-light);
+  border-radius: var(--radius-2xl);
+  background: var(--bg-primary);
+  box-shadow: var(--shadow-lg);
   animation: fadeIn 0.25s ease-in-out;
-  z-index: 1;
 }
+
 .modal-overlay .review-modal .modal-top {
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  gap: var(--space-4);
 }
-.modal-overlay .review-modal .modal-top svg {
-  cursor: pointer;
+
+.modal-overlay .review-modal .modal-top h5 {
+  margin: 0;
 }
+
+.modal-overlay .review-modal .modal-top .ka-icon-button {
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  min-height: 44px;
+  flex: 0 0 44px;
+}
+
 .modal-overlay .review-modal .modal-body {
-  margin-block: var(--spacing-2x);
+  display: grid;
+  gap: var(--space-4);
+  margin-block: var(--space-6);
 }
+
 .modal-overlay .review-modal .modal-body .rating {
   display: flex;
-  gap: var(--spacing-h);
-  margin-bottom: var(--spacing);
+  align-items: center;
+  gap: var(--space-1);
 }
+
+.modal-overlay .review-modal .modal-body .rating .ka-icon-button {
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  min-height: 44px;
+  flex: 0 0 44px;
+  color: #facc15;
+}
+
 .modal-overlay .review-modal .modal-body .rating .rate {
-  border-radius: 100%;
+  display: grid;
   width: 40px;
   height: 40px;
-  background-color: var(--light-gray);
-  display: grid;
+  flex: 0 0 40px;
   place-items: center;
-  color: var(--text-color-p);
-  margin-left: var(--spacing);
+  margin-left: var(--space-4);
+  border-radius: var(--radius-full);
+  background: var(--gray-100);
+  color: var(--text-secondary);
 }
+
 .modal-overlay .review-modal .modal-body textarea {
   width: 100%;
   min-height: 150px;
   max-height: 150px;
+  padding: var(--space-3);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font: inherit;
   resize: none;
+}
+
+.modal-overlay .review-modal .modal-body textarea:focus-visible {
+  border-color: var(--primary-500);
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+.modal-overlay .review-modal > .ka-button {
+  width: 100%;
 }
 
 @keyframes fadeIn {
@@ -62,4 +106,20 @@
     opacity: 1;
     transform: scale(1);
   }
-}/*# sourceMappingURL=ReviewForm.css.map */
+}
+
+@media (max-width: 480px) {
+  .modal-overlay .review-modal .modal-body .rating {
+    flex-wrap: wrap;
+  }
+
+  .modal-overlay .review-modal .modal-body .rating .rate {
+    margin-left: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-overlay .review-modal {
+    animation: none;
+  }
+}

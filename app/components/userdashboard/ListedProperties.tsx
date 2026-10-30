@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { deleteApartment } from "../../utils";
-import { SlOptionsVertical } from "react-icons/sl";
+import { MoreVertical } from "lucide-react";
+import { Button } from "../button/Button";
 import Link from "next/link";
 import Image from "next/image";
 import Loader from "../loader/Loader";
@@ -103,16 +104,19 @@ const ListedProperties = () => {
                   <div className="disabled-link">No link</div>
                 )}
 
-                <div
+                <Button
+                  type="button"
+                  variant="ghost"
+                  aria-label={`More options for ${property.title}`}
+                  leftIcon={<MoreVertical />}
                   className="option-btn"
                   onClick={(e) => {
                     e.stopPropagation();
                     setActiveProperty(
                       activeProperty === property.id ? null : property.id
                     );
-                  }}>
-                  <SlOptionsVertical />
-                </div>
+                  }}
+                />
 
                 {activeProperty === property.id && (
                   <div className="options">

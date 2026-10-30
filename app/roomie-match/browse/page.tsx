@@ -6,6 +6,8 @@ import data from "../../fetch/contents";
 import RoomieCard from "../../components/roomimatch/RoomieCard";
 import { getRoomieProfiles, incrementProfileViews } from "../../utils/roomieMatchFirebase";
 import toast from "react-hot-toast";
+import { Button } from "../../components/button/Button";
+import IconButton from "../../components/button/IconButton";
 import "./BrowseRoomiematches.css";
 
 const { locations } = data;
@@ -181,17 +183,25 @@ const BrowseRoommates = () => {
               <div className="filtersCard">
                 <div className="filtersHeader">
                   <h2 className="filtersTitle">Filters</h2>
-                  <button onClick={clearFilters} className="clearButton">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={clearFilters}
+                    className="clearButton">
                     Clear All
-                  </button>
+                  </Button>
                 </div>
 
                 {/* Mobile Filter Toggle */}
-                <button
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="md"
                   onClick={() => setShowFilters(!showFilters)}
-                  className="mobileFilterToggle">
+                  className="mobileFilterToggle"
+                  aria-expanded={showFilters}>
                   {showFilters ? "Hide Filters" : "Show Filters"}
-                </button>
+                </Button>
 
                 <div
                   className={`filtersContent ${showFilters ? "" : "hidden"}`}>
@@ -318,9 +328,13 @@ const BrowseRoommates = () => {
                   <p className="emptyText">
                     Try adjusting your filters or check back later
                   </p>
-                  <button onClick={clearFilters} className="emptyButton">
+                  <Button
+                    variant="primary"
+                    size="md"
+                    onClick={clearFilters}
+                    className="emptyButton">
                     Clear Filters
-                  </button>
+                  </Button>
                 </div>
               ) : (
                 <div className="profilesGrid">
@@ -347,11 +361,13 @@ const BrowseRoommates = () => {
             <div className="modalContent" onClick={(e) => e.stopPropagation()}>
               <div className="modalInner">
                 {/* Close Button */}
-                <button
+                <IconButton
+                  type="button"
                   onClick={() => setSelectedProfile(null)}
-                  className="modalCloseButton">
-                  ×
-                </button>
+                  className="modalCloseButton"
+                  aria-label="Close roommate profile">
+                  <span aria-hidden="true">×</span>
+                </IconButton>
 
                 {/* Profile Header */}
                 <div className="modalHeader">
@@ -446,11 +462,13 @@ const BrowseRoommates = () => {
                     <p className="bioText">{selectedProfile.bio}</p>
                   </div>
 
-                  <button
+                  <Button
+                    variant="primary"
+                    size="lg"
                     onClick={() => handleWhatsAppConnect(selectedProfile)}
                     className="whatsappButton">
                     💬 Connect on WhatsApp
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>

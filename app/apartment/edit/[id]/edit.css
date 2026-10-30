@@ -13,10 +13,13 @@
   color: var(--primary-color);
   font-size: var(--font-size-xs);
 }
-.edit-property .container form .btn {
+.edit-property .container form .edit-property__submit {
   display: block;
   width: 100%;
   text-align: center;
+}
+.edit-property .container form .edit-property__status-error {
+  margin-bottom: var(--space-2);
 }
 .edit-property .container form .form-group {
   margin-block: var(--spacing-2x);

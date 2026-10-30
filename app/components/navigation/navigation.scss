@@ -47,12 +47,11 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        gap: 5px;
+        gap: var(--space-1);
 
         svg {
-          path {
-            fill: var(--text-color-p);
-          }
+          color: var(--text-color-p);
+          stroke: currentColor;
           transition: var(--transition);
         }
         span {
@@ -68,9 +67,7 @@
         border-radius: var(--border-radius);
         svg {
           transform: translateY(-8px);
-          path {
-            fill: var(--primary-color) !important;
-          }
+          color: var(--primary-600);
         }
         span {
           color: var(--primary-color);

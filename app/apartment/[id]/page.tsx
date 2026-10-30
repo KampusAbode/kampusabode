@@ -23,7 +23,8 @@ import { usePropertiesStore } from "../../store/propertiesStore";
 import { getApartmentById, getApartmentsByIds } from "../../utils";
 import { submitInspectionRequest } from "./functions/submitInspectionRequest";
 import ReviewForm from "../../components/modals/ReviewForm/ReviewForm";
-import { FaAngleRight } from "react-icons/fa";
+import { ChevronRight } from "lucide-react";
+import { Button, ButtonLink } from "../../components/button/Button";
 // import { sendInspectionEmail } from "../../../utils/sendInspectionEmail";
 
 const PropertyDetails = ({ params }: { params: { id: string } }) => {
@@ -242,10 +243,20 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
           {/* Reviews Section */}
           <div className="agent-reviews">
             <h3>
-              {`Reviews (${propReviews.length})`}{" "}
-              <button onClick={() => setIsReviewOpen(true)}>
-                Create <FaAngleRight />
-              </button>
+              {`Reviews (${propReviews.length})`}
+              <Button
+                variant="link"
+                size="sm"
+                rightIcon={
+                  <ChevronRight
+                    aria-hidden="true"
+                    size={20}
+                    strokeWidth={1.75}
+                  />
+                }
+                onClick={() => setIsReviewOpen(true)}>
+                Create
+              </Button>
             </h3>
             <div className="reviews">
               {propReviews.length ? (
@@ -346,18 +357,20 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
 
       <div className="prop-cta">
         <div className="container">
-          <button
-            className="btn"
+          <Button
+            variant="primary"
+            size="md"
             title="Book Inspection"
             onClick={() => setBookingModalOpen(true)}>
             Book Inspection
-          </button>
-          <Link
-            className="btn btn-secondary"
+          </Button>
+          <ButtonLink
+            variant="secondary"
+            size="md"
             title="Call Agent"
             href={user ? `tel:${agentDetails?.phoneNumber}` : `/auth/login`}>
             Call Agent
-          </Link>
+          </ButtonLink>
         </div>
       </div>
 

@@ -11,8 +11,7 @@ import {
   differenceInDays,
   differenceInYears,
 } from "date-fns";
-import { FiSend } from "react-icons/fi";
-import { MdBubbleChart } from "react-icons/md";
+import { LoaderCircle, Send } from "lucide-react";
 import {
   sendMessage,
   listenToMessagesForConversation,
@@ -235,7 +234,7 @@ const ChatComponent: React.FC<ChatProps> = ({
             className="btn"
             onClick={handleSendMessage}
             disabled={isLoading || message.trim() === ""}>
-            {isLoading ? <MdBubbleChart /> : <FiSend />}
+            {isLoading ? <LoaderCircle aria-hidden="true" /> : <Send aria-hidden="true" />}
           </button>
         </div>
       </div>

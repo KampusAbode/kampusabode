@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast"; // Import toast
-import { FaShareAlt } from "react-icons/fa";
+import { Share2 } from "lucide-react";
+import { Button } from "../../button/Button";
 import "./sharebutton.css";
 
 function ShareButton() {
@@ -38,12 +39,14 @@ function ShareButton() {
   };
 
   return (
-    <div
+    <Button
+      type="button"
+      variant="ghost"
       className="share-button"
       onClick={handleShare}
-      aria-label="Share this property">
-      <FaShareAlt />
-    </div>
+      aria-label="Share this property"
+      leftIcon={<Share2 />}
+    />
   );
 }
 
