@@ -6,6 +6,7 @@ import { useUserStore } from "../store/userStore";
 import { getMessagesForUser, deleteMessageFromFirebase } from "../utils";
 import MessageCard from "./components/MessageCard";
 import Prompt from "../components/modals/prompt/Prompt";
+import Chip from "../components/button/Chip";
 import "./messages.css";
 
 interface Message {
@@ -33,12 +34,12 @@ const Messages = () => {
         <div className="container">
           <h4 className="page-heading">Messages</h4>
 
-          <div style={{ textAlign: "center", marginTop: "28px" }}>
+          <div className="messages-page__login-prompt">
             <p>Please log in to access your messages.</p>
             <Link
               prefetch
               href="/auth/login"
-              style={{ textDecoration: "underline" }}>
+              className="messages-page__login-link">
               Log in
             </Link>
           </div>
@@ -92,17 +93,16 @@ const Messages = () => {
         <h2 className="page-heading">Messages</h2>
       </div>
 
-      <div className="filter">
+      <div className="filter filter-messages">
         <div className="container">
           {["all", "read", "unread"].map((filter) => (
-            <span
+            <Chip
               key={filter}
-              className={`filter-btn ${
-                filter === selectedFilter ? "active" : ""
-              }`}
+              type="button"
+              aria-pressed={filter === selectedFilter}
               onClick={() => setSelectedFilter(filter)}>
               {filter}
-            </span>
+            </Chip>
           ))}
         </div>
       </div>
@@ -118,7 +118,7 @@ const Messages = () => {
               </div>
             ))
           ) : (
-            <p style={{ textAlign: "center" }}>
+            <p className="messages-page__empty-state">
               No {selectedFilter === "all" ? "" : selectedFilter} messages.
             </p>
           )}

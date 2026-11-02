@@ -5,6 +5,8 @@ import { useUsersStore } from "../../store/usersStore";
 import { UserType } from "../../fetch/types";
 import "./mail.css"
 import toast from "react-hot-toast";
+import { Button } from "../../components/button/Button";
+import Chip from "../../components/button/Chip";
 
 export default function AdminMailPage() {
   const { users } = useUsersStore();
@@ -160,9 +162,11 @@ export default function AdminMailPage() {
               onChange={(e) => setSearchTerm(e.target.value)}
               className="search-input"
             />
-            <button onClick={handleSelectAll} className="btn-secondary">
+            <Chip
+              aria-pressed={selectAll}
+              onClick={handleSelectAll}>
               {selectAll ? "Deselect All" : "Select All"}
-            </button>
+            </Chip>
           </div>
         </div>
 
@@ -192,12 +196,11 @@ export default function AdminMailPage() {
       </div>
 
       <div className="mail-actions">
-        <button
+        <Button
           onClick={handleSendEmail}
-          disabled={sending || selectedUsers.size === 0}
-          className="btn-primary">
+          disabled={sending || selectedUsers.size === 0}>
           {sending ? "Sending..." : `Send to ${selectedUsers.size} User(s)`}
-        </button>
+        </Button>
       </div>
 
       {result && (

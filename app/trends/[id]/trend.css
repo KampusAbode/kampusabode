@@ -16,8 +16,6 @@
     grid-template-columns: 3fr 1fr;
     align-items: flex-start;
     gap: var(--spacing);
-    width: 95%;
-    max-width: 1200px !important;
   }
 }
 .trend-details-page .container .trend-details {
@@ -60,22 +58,8 @@
 }
 .trend-details-page .container .interaction-buttons {
   display: flex;
-  gap: var(--spacing);
-}
-.trend-details-page .container .interaction-buttons button {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-h);
-  border: none;
-  padding: var(--spacing-h) var(--spacing);
-  background-color: var(--light-gray);
-  border-radius: var(--border-radius-r);
-  color: var(--text-color-p);
-  cursor: pointer;
-}
-.trend-details-page .container .interaction-buttons button.active i {
-  fill: var(--text-color-h);
-  font-size: var(--font-size-lg);
+  flex-wrap: wrap;
+  gap: var(--space-4);
 }
 .trend-details-page .container .trend-description {
   margin-block: var(--spacing-2x);
@@ -163,9 +147,10 @@
   border-radius: var(--border-radius);
   border: none;
 }
-.trend-details-page .container .comments-section .send-comment .btn {
+.trend-details-page .container .comments-section .send-comment__submit {
   width: -moz-fit-content;
   width: fit-content;
+  flex-shrink: 0;
 }
 @media screen and (min-width: 1000px) {
   .trend-details-page .container .comments-section {

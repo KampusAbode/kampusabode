@@ -1,10 +1,7 @@
-.contact-page {
-  padding-block: var(--spacing);
-}
 .contact-page .header {
   background: url("/assets/deal-2.jpg") center/cover no-repeat;
   color: var(--white);
-  padding: calc(4 * var(--spacing)) var(--spacing);
+  padding: var(--space-20) var(--space-4);
   text-align: center;
   margin-bottom: var(--spacing-2x);
   position: relative;
@@ -23,4 +20,9 @@
 .contact-page .header h1,
 .contact-page .header p {
   color: var(--white);
+}
+@media (max-width: 768px) {
+  .contact-page .header {
+    padding-block: var(--space-12);
+  }
 }/*# sourceMappingURL=contact.css.map */

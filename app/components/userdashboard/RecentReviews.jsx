@@ -42,7 +42,7 @@ const RecentReviews = ({ user }) => {
       ) : (
         <ul className="reviews-list">
           {reviews.map((review, index) => (
-            <li key={index} className="review-item" style={{marginBottom: '1rem'}}>
+            <li key={index} className="review-item">
               <div className="review-author">
                 <strong>{review.date}</strong>
               </div>

@@ -162,7 +162,7 @@ export default function App() {
                   Explore
                   <ArrowRight
                     aria-hidden="true"
-                    size={17}
+                    size={20}
                     strokeWidth={1.75}
                   />
                 </Link>
@@ -261,7 +261,8 @@ export default function App() {
           </div>
           <div className="more-listing">
             <Link prefetch href="/apartment">
-              more listing               <ArrowRight aria-hidden="true" size={18} strokeWidth={1.75} />
+              more listing{" "}
+              <ArrowRight aria-hidden="true" size={20} strokeWidth={1.75} />
             </Link>
           </div>
         </div>
@@ -302,7 +303,12 @@ export default function App() {
                   </div>
 
                   <div className="rating">
-                    <BadgeCheck aria-label="Verified" role="img" />
+                    <BadgeCheck
+                      aria-label="Verified"
+                      role="img"
+                      size={20}
+                      strokeWidth={1.75}
+                    />
                   </div>
                 </div>
                 <div className="testi-content">

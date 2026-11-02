@@ -12,6 +12,7 @@ import Image from "next/image";
 import Prompt from "../../components/modals/prompt/Prompt";
 import { BadgeCheck, CircleX } from "lucide-react";
 import toast from "react-hot-toast";
+import { Button } from "../../components/button/Button";
 
 const PropertyManagement = () => {
   const { allProperties, setAllProperties } = usePropertiesStore();
@@ -101,19 +102,19 @@ const PropertyManagement = () => {
                 )}
               </div>
               <div className="actions">
-                <button
-                  className="btn btn-secondary"
+                <Button
+                  variant="secondary"
                   onClick={() =>
                     handleToggleApprove(property.id, property.approved)
                   }
                   style={{ marginRight: "1rem" }}>
                   {property.approved ? "Unapprove" : "Approve"}
-                </button>
-                <button
-                  className="btn"
+                </Button>
+                <Button
+                  variant="destructive"
                   onClick={() => handleDeleteRequest(property.id)}>
                   Delete
-                </button>
+                </Button>
               </div>
             </li>
           ))}

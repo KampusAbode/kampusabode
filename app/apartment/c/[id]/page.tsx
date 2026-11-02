@@ -1,10 +1,11 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useUserStore } from "../../../store/userStore";
 import "./propertyUploadGuide.css";
-import Link from "next/link";
+import { ButtonLink } from "../../../components/button/Button";
 
 function PropertyUploadGuide() {
   const { user } = useUserStore((state) => state);
@@ -112,12 +113,14 @@ function PropertyUploadGuide() {
         </div>
 
         <div className="upload-btn">
-          <Link
+          <ButtonLink
             prefetch
             href={`/apartment/c/${user?.id}/upload`}
-            className="btn">
-            Proceed <ArrowRight aria-hidden="true" size={20} />
-          </Link>
+            rightIcon={
+              <ArrowRight aria-hidden="true" size={20} strokeWidth={1.75} />
+            }>
+            Proceed
+          </ButtonLink>
         </div>
       </div>
     </div>

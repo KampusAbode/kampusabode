@@ -13,6 +13,7 @@ import Link from "next/link";
 import { format } from "date-fns";
 import { Eye, ThumbsUp } from "lucide-react";
 // import "./admin.css"; // assuming you want the same admin CSS
+import { ButtonLink } from "../button/Button";
 
 const Trends = () => {
   const router = useRouter();
@@ -78,11 +79,11 @@ const Trends = () => {
                 </span>
                 {/* <span className="trend-email">{trend?.content}</span> */}
               </div>
-              <Link
+              <ButtonLink
                 href={`/trends/edit/${trend?.id}`}
-                className="btn btn-primary">
+                className="admin-trend-action">
                 edit trend
-              </Link>
+              </ButtonLink>
             </li>
           ))}
         </ul>

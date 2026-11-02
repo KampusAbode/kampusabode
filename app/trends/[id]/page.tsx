@@ -18,7 +18,8 @@ import { fetchTrendBySlug, getRelativeTime } from "../../utils";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import Loader from "../../components/loader/Loader";
-import { Heart, MessageCircle, Share2, ThumbsUp } from "lucide-react";
+import { MessageCircle, Share2, ThumbsUp } from "lucide-react";
+import { Button } from "../../components/button/Button";
 import { getCommentsByTrendId, sendUserComment } from "../../utils/comments";
 import { format, formatDistanceToNow } from "date-fns";
 import "./trend.css";
@@ -221,22 +222,34 @@ const TrendPage = ({ params }: Params) => {
               </div>
 
               <div className="interaction-buttons">
-                <button
+                <Button
+                  variant={isLike ? "primary" : "secondary"}
+                  size="sm"
+                  leftIcon={
+                    <ThumbsUp
+                      size={20}
+                      strokeWidth={1.75}
+                      fill={isLike ? "currentColor" : "none"}
+                    />
+                  }
                   onClick={handleLike}
-                  disabled={isLiking}
-                  className={isLike ? "active" : ""}>
-                  <ThumbsUp
-                    aria-hidden="true"
-                    fill={isLike ? "currentColor" : "none"}
-                  />{" "}
+                  disabled={isLiking}>
                   {trendData?.likes}
-                </button>
-                <button onClick={scrollToComments}>
-                  <MessageCircle aria-hidden="true" /> {comments?.length}
-                </button>
-                <button onClick={handleShare}>
-                  <Share2 aria-hidden="true" /> Share
-                </button>
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  leftIcon={<MessageCircle size={20} strokeWidth={1.75} />}
+                  onClick={scrollToComments}>
+                  {comments?.length}
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  leftIcon={<Share2 size={20} strokeWidth={1.75} />}
+                  onClick={handleShare}>
+                  Share
+                </Button>
                 {/*
             <button>
               <Heart aria-hidden="true" /> Save
@@ -291,12 +304,13 @@ const TrendPage = ({ params }: Params) => {
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                 />
-                <button
-                  className="btn"
+                <Button
+                  className="send-comment__submit"
+                  loading={isSending}
                   onClick={handleCommentSubmit}
                   disabled={isSending || !content.trim()}>
                   {isSending ? "Sending..." : "Send"}
-                </button>
+                </Button>
               </div>
             </div>
           </div>

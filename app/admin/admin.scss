@@ -67,33 +67,6 @@
                 }
               }
             }
-            .actions {
-              display: grid;
-              grid-template-columns: 1fr 1fr 1fr;
-              gap: var(--spacing);
-              background-color: var(--light-gray);
-              // border-radius: var(--border-radius);
-              margin-top: var(--spacing-h);
-              background-color: var(--light-gray);
-
-              .action-btn {
-                padding: var(--spacing-b);
-                font-size: var(--font-size-xs);
-                text-align: center;
-                color: var(--text-color-p);
-                cursor: pointer;
-
-                &:hover {
-                  background-color: var(--gray);
-                  color: var(--text-color-h);
-                }
-
-                &.active {
-                  user-select: none;
-                  background-color: green;
-                }
-              }
-            }
           }
           @media (min-width: 768px) {
             grid-template-columns: repeat(2, 1fr);
@@ -178,13 +151,6 @@
               margin-top: var(--spacing);
               display: flex;
 
-              .btn {
-                padding: var(--spacing-h) var(--spacing);
-
-                &.btn-secondary {
-                  border: 1px solid var(primary-color);
-                }
-              }
             }
           }
         }
@@ -332,7 +298,7 @@
               }
             }
 
-            .btn {
+            .admin-trend-action {
               margin-top: var(--spacing);
             }
           }

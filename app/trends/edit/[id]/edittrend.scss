@@ -15,7 +15,7 @@
 
         label {
           display: block;
-          margin-bottom: 5px;
+          margin-bottom: var(--space-2);
           font-weight: bold;
 
           &.image-edit-label {
@@ -65,7 +65,7 @@
             justify-content: space-between;
 
             position: sticky;
-            top: 5px;
+            top: var(--space-2);
             span {
               margin: 0;
             }
@@ -96,21 +96,9 @@
         }
       }
 
-      & > button {
+      & > .trend-submit {
         width: 100%;
-        padding: 10px;
-        background-color: var(--primary-color);
-        color: var(--white);
-        border: none;
-        border-radius: var(--border-radius-btn);
-        cursor: pointer;
-        font-size: var(--font-size-md);
         margin-top: var(--spacing-2x);
-      }
-
-      button:disabled {
-        background-color: var(--gray);
-        cursor: not-allowed;
       }
     }
   }

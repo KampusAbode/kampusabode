@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useUserStore } from "../store/userStore";
 import "./saved.css";
 import Image from "next/image";
+import Chip from "../components/button/Chip";
 
 const SavedPage = () => {
   const [currentTab, setCurrentTab] = useState("properties");
@@ -24,12 +25,12 @@ const SavedPage = () => {
         <div className="container">
           <h2 className="page-heading">Saved</h2>
 
-          <div style={{ textAlign: "center", marginTop: "28px" }}>
+          <div className="saved-page__login-prompt">
             <p>Please log in to access your saved apartments.</p>
             <Link
               prefetch
               href="/auth/login"
-              style={{ textDecoration: "underline" }}>
+              className="saved-page__login-link">
               Log in
             </Link>
           </div>
@@ -92,27 +93,17 @@ const SavedPage = () => {
       );
     } else {
       return (
-        <div
-          className="no-saved"
-          style={{
-            textAlign: "center",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            height: "100vh",
-          }}>
+        <div className="no-saved">
           <Image
             priority
             src="/icons/save_apartment.png"
             alt="no saved"
             width={1200}
             height={1200}
-            style={{ width: "210px", height: "auto" }}
+            className="no-saved__illustration"
           />
 
-          <p style={{ textAlign: "center", marginTop: "2rem" }}>
-            No saved apartments yet! 🏠
-          </p>
+          <p className="no-saved__message">No saved apartments yet! 🏠</p>
         </div>
       );
     }
@@ -126,11 +117,12 @@ const SavedPage = () => {
       </div>
       <div className="tabs">
         <div className="container">
-          <span
-            onClick={() => setCurrentTab("properties")}
-            className={currentTab === "properties" ? "active" : ""}>
+          <Chip
+            type="button"
+            aria-pressed={currentTab === "properties"}
+            onClick={() => setCurrentTab("properties")}>
             properties
-          </span>
+          </Chip>
 
           {/* <span
             onClick={() => setCurrentTab("trends")}
@@ -143,9 +135,7 @@ const SavedPage = () => {
       <div className="saved-items">
         <div className="container">
           {loading ? (
-            <div
-              className="loading"
-              style={{ textAlign: "center", marginTop: "2rem" }}>
+            <div className="loading">
               <p>Loading saved apartments...</p>
             </div>
           ) : (

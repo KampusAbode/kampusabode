@@ -7,16 +7,16 @@ import { CardSkeletonGrid } from "../components/loader/Loader";
 import { TrendType } from "../fetch/types";
 import "./trends.css";
 import { useTrendStore } from "../store/trendStore";
-import data  from "../fetch/contents";
+import data from "../fetch/contents";
+import Chip from "../components/button/Chip";
 
 export default function trendsPage() {
   // const [trends, setTrends] = useState<TrendType[]>([]);
- const {trends, setTrends} = useTrendStore((state) => state);
+  const { trends, setTrends } = useTrendStore((state) => state);
   const [filteredTrends, setFilteredTrends] = useState<TrendType[]>([]);
-  // const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<string>("all");
-  const { trendcategories } = data; 
+  const { trendcategories } = data;
 
 
   useEffect(() => {
@@ -30,16 +30,6 @@ export default function trendsPage() {
     // Cleanup listener on component unmount
     return () => unsubscribe();
   }, []);
-
-  // const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setSearchQuery(event.target.value);
-  // };
-
-  // const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-  //   if (event.key === "Enter") {
-  //     searchTrends(searchQuery);
-  //   }
-  // };
 
   const filterByCategory = (category: string) => {
     setActiveCategory(category);
@@ -55,52 +45,28 @@ export default function trendsPage() {
     setLoading(false);
   };
 
-  // const searchTrends = (query: string) => {
-  //   // Implement search logic here
-  // };
-
   return (
     <section className="trends-page">
       <div className="container">
         <h2 className="page-heading">Trends</h2>
       </div>
 
-      {/* <div className="search-trends">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={handleSearchChange}
-              onKeyDown={handleKeyDown} // Run search on Enter press
-              placeholder="search trend ..."
-            />
-            <div
-              className="search-icon" 
-              onClick={() => searchTrends(searchQuery)}>
-              <FaSearch />
-            </div>
-          </div> */}
-
-      
       <div className="filter">
         <div className="container">
-          <button
+          <Chip
             type="button"
-            className={`filter-btn ${activeCategory === "all" ? "active" : ""}`}
             aria-pressed={activeCategory === "all"}
             onClick={() => filterByCategory("all")}>
             All
-          </button>
+          </Chip>
           {trendcategories.map((category, index) => (
-            <button
+            <Chip
               type="button"
               key={index}
-              className={`filter-btn ${
-                activeCategory === category ? "active" : ""
-              }`}
               aria-pressed={activeCategory === category}
               onClick={() => filterByCategory(category)}>
               {category}
-            </button>
+            </Chip>
           ))}
         </div>
       </div>

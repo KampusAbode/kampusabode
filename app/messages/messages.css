@@ -1,22 +1,15 @@
-.messages-page .container .filter-messages {
-  display: flex;
-  gap: var(--spacing);
-  margin-block: var(--spacing-2x);
-  overflow-x: scroll;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+.messages-page .filter-messages .container {
+  gap: var(--space-3);
 }
-.messages-page .container .filter-messages::-webkit-scrollbar {
-  display: none;
+.messages-page .messages-list {
+  display: grid;
+  gap: var(--space-4);
 }
-.messages-page .container .filter-messages span {
-  padding: var(--spacing-b);
-  text-transform: capitalize;
-  background: var(--light-gray);
-  border-radius: var(--border-radius-r);
-  cursor: pointer;
+.messages-page__login-prompt,
+.messages-page__empty-state {
+  margin-top: var(--space-8);
+  text-align: center;
 }
-.messages-page .container .filter-messages span.active {
-  background-color: var(--black);
-  color: var(--font-white);
+.messages-page__login-link {
+  text-decoration: underline;
 }/*# sourceMappingURL=messages.css.map */

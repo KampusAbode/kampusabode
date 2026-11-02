@@ -12,6 +12,7 @@ import dynamic from "next/dynamic";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import Loader from "../../../components/loader/Loader";
+import { Button } from "../../../components/button/Button";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
@@ -205,9 +206,12 @@ function EditTrend() {
             </select>
           </div>
 
-          <button type="submit" disabled={loading}>
+          <Button
+            type="submit"
+            className="trend-submit"
+            disabled={loading}>
             {loading ? "Updating..." : "Update Trend"}
-          </button>
+          </Button>
         </form>
       </div>
     </section>

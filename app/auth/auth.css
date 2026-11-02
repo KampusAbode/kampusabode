@@ -177,25 +177,6 @@
   width: 100%;
 }
 
-.login .container .fm form .btn,
-.signup .container .fm form .btn {
-  display: flex;
-  width: 100%;
-  min-height: 52px;
-  margin: var(--space-4) auto;
-  padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-full);
-  text-align: center;
-}
-
-.login .container .fm form .btn:disabled,
-.signup .container .fm form .btn:disabled,
-.login .container .fm form .btn.disable,
-.signup .container .fm form .btn.disable {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
 .login .container .fm > span,
 .signup .container .fm > span {
   display: block;

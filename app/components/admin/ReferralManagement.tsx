@@ -6,6 +6,8 @@ import { ReferralCode, ReferralRecord, ReferralStats } from "../../fetch/types";
 import { useUserStore } from "../../store/userStore";
 import { useUsersStore } from "../../store/usersStore";
 import "./referral-management.css";
+import { Button } from "../button/Button";
+import Chip from "../button/Chip";
 
 interface ReferralManagementProps {
   className?: string;
@@ -196,24 +198,24 @@ const ReferralManagement: React.FC<ReferralManagementProps> = ({ className }) =>
       <div className="referral-header">
         <h2>Referral Management</h2>
         <div className="tab-buttons">
-          <button
-            className={`tab-btn ${activeTab === 'codes' ? 'active' : ''}`}
+          <Chip
+            aria-pressed={activeTab === 'codes'}
             onClick={() => setActiveTab('codes')}
           >
             Referral Codes
-          </button>
-          <button
-            className={`tab-btn ${activeTab === 'records' ? 'active' : ''}`}
+          </Chip>
+          <Chip
+            aria-pressed={activeTab === 'records'}
             onClick={() => setActiveTab('records')}
           >
             Referral Records
-          </button>
-          <button
-            className={`tab-btn ${activeTab === 'stats' ? 'active' : ''}`}
+          </Chip>
+          <Chip
+            aria-pressed={activeTab === 'stats'}
             onClick={() => setActiveTab('stats')}
           >
             Statistics
-          </button>
+          </Chip>
         </div>
       </div>
 
@@ -221,12 +223,11 @@ const ReferralManagement: React.FC<ReferralManagementProps> = ({ className }) =>
         <div className="codes-section">
           <div className="section-header">
             <h3>Referral Codes</h3>
-            <button
-              className="btn btn-primary"
+            <Button
               onClick={() => setShowCreateForm(true)}
             >
               Create New Code
-            </button>
+            </Button>
           </div>
 
           {showCreateForm && (
@@ -309,12 +310,15 @@ const ReferralManagement: React.FC<ReferralManagementProps> = ({ className }) =>
                     />
                   </div>
                   <div className="form-actions">
-                    <button type="button" onClick={() => setShowCreateForm(false)}>
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      onClick={() => setShowCreateForm(false)}>
                       Cancel
-                    </button>
-                    <button type="submit" disabled={loading}>
+                    </Button>
+                    <Button type="submit" disabled={loading}>
                       {loading ? 'Creating...' : 'Create Code'}
-                    </button>
+                    </Button>
                   </div>
                 </form>
               </div>

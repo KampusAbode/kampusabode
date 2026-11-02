@@ -51,12 +51,12 @@ const Dashboard = ({ params }: DashboardPageProps) => {
       <section className="dashboard">
         <div className="container">
           <h4 className="page-heading">Dashboard</h4>
-          <div style={{ textAlign: "center", marginTop: "28px" }}>
+          <div className="dashboard__login-prompt">
             <p>Please log in to access your dashboard.</p>
             <Link
               prefetch
               href="/auth/login"
-              style={{ textDecoration: "underline" }}
+              className="dashboard__login-link"
             >
               Log in
             </Link>

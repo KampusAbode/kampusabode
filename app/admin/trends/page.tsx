@@ -12,6 +12,7 @@ import { useTrendStore } from "../../store/trendStore";
 import Link from "next/link";
 import { format } from "date-fns";
 import { Eye, ThumbsUp } from "lucide-react";
+import { ButtonLink } from "../../components/button/Button";
 // import "./admin.css"; // assuming you want the same admin CSS
 
 const Trends = () => {
@@ -78,11 +79,11 @@ const Trends = () => {
                 </span>
                 {/* <span className="trend-email">{trend?.content}</span> */}
               </div>
-              <Link
+              <ButtonLink
                 href={`/trends/edit/${trend?.id}`}
-                className="btn btn-primary">
+                className="admin-trend-action">
                 edit trend
-              </Link>
+              </ButtonLink>
             </li>
           ))}
         </ul>
