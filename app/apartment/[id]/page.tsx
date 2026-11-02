@@ -25,6 +25,7 @@ import { submitInspectionRequest } from "./functions/submitInspectionRequest";
 import ReviewForm from "../../components/modals/ReviewForm/ReviewForm";
 import { ChevronRight } from "lucide-react";
 import { Button, ButtonLink } from "../../components/button/Button";
+import { DEFAULT_USER_AVATAR } from "../../lib/constants";
 // import { sendInspectionEmail } from "../../../utils/sendInspectionEmail";
 
 const PropertyDetails = ({ params }: { params: { id: string } }) => {
@@ -201,11 +202,7 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
                   <>
                     <Image
                       priority
-                      src={
-                        agentDetails?.avatar
-                          ? agentDetails?.avatar
-                          : "/assets/user_avatar.jpg"
-                      }
+                      src={agentDetails?.avatar || DEFAULT_USER_AVATAR}
                       width={200}
                       height={200}
                       alt={`${agentDetails.name}'s profile picture`}
@@ -266,7 +263,7 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
                     <div className="bottom">
                       <div className="profile">
                         <Image
-                          src={review?.author.avatar}
+                          src={review?.author.avatar || DEFAULT_USER_AVATAR}
                           width={300}
                           height={300}
                           alt="author-profile"

@@ -15,6 +15,7 @@ import { useUserStore } from "../../store/userStore";
 import useNavStore from "../../store/menuStore";
 import Prompt from "../modals/prompt/Prompt";
 import { logoutUser } from "../../utils/auth";
+import { DEFAULT_USER_AVATAR } from "../../lib/constants";
 
 const { links } = data;
 
@@ -145,7 +146,7 @@ export default function Header() {
             aria-expanded={isNavOpen}
             aria-controls="primary-navigation">
             <Image
-              src={`${user ? user?.avatar : "/assets/user_avatar.jpg"}`}
+              src={user?.avatar || DEFAULT_USER_AVATAR}
               width={500}
               height={500}
               alt=""

@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "../button/Button";
+import { DEFAULT_USER_AVATAR } from "../../lib/constants";
 
 interface RoomieCardProps {
   profile: {
@@ -62,7 +63,7 @@ const RoomieCard: React.FC<RoomieCardProps> = ({
       <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-4 border border-gray-100">
         <div className="flex items-center gap-3 mb-3">
           <img
-            src={profile.profilePhoto}
+            src={profile.profilePhoto || DEFAULT_USER_AVATAR}
             alt={profile.fullName}
             className="w-12 h-12 rounded-full object-cover"
           />
@@ -98,7 +99,7 @@ const RoomieCard: React.FC<RoomieCardProps> = ({
         <div className="p-6">
           <div className="flex items-start gap-4 mb-4">
             <img
-              src={profile.profilePhoto}
+              src={profile.profilePhoto || DEFAULT_USER_AVATAR}
               alt={profile.fullName}
               className="w-20 h-20 rounded-full object-cover"
             />
@@ -199,7 +200,7 @@ const RoomieCard: React.FC<RoomieCardProps> = ({
       <div className="p-6">
         <div className="flex items-start gap-4 mb-4">
           <img
-            src={profile.profilePhoto}
+            src={profile.profilePhoto || DEFAULT_USER_AVATAR}
             alt={profile.fullName}
             className="w-16 h-16 rounded-full object-cover"
           />

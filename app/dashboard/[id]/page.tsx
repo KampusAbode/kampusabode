@@ -10,6 +10,7 @@ import Loader from "../../components/loader/Loader";
 import { useUserStore } from "../../store/userStore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { DEFAULT_USER_AVATAR } from "../../lib/constants";
 
 interface DashboardPageProps {
   params: {
@@ -73,7 +74,7 @@ const Dashboard = ({ params }: DashboardPageProps) => {
         <div className="welcome">
           <Image
             priority
-            src={user?.avatar || "/assets/user_avatar.jpg"}
+            src={user?.avatar || DEFAULT_USER_AVATAR}
             width={400}
             height={400}
             alt="profile picture"

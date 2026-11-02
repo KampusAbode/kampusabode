@@ -10,6 +10,7 @@ import { createRoomieProfile } from "../../utils/roomieMatchFirebase";
 import toast from "react-hot-toast";
 import { Button } from "../../components/button/Button";
 import Chip from "../../components/button/Chip";
+import { DEFAULT_USER_AVATAR } from "../../lib/constants";
 import "./CreateRoomieProfile.css";
 
 const courseOptions = [
@@ -382,13 +383,13 @@ const CreateRoomieProfile = () => {
                 <p className="profilePreviewLabel">Your profile:</p>
                 <div className="profilePreviewFlex">
                   <Image
-              src={`${user ? user?.avatar : "/assets/user_avatar.jpg"}`}
-              width={500}
-              height={500}
-              alt="Profile"
-              className="profileAvatar"
-              priority
-            />
+                    src={user?.avatar || DEFAULT_USER_AVATAR}
+                    width={500}
+                    height={500}
+                    alt="Profile"
+                    className="profileAvatar"
+                    priority
+                  />
                   <div className="profileInfo">
                     <p>{user?.name}</p>
                     <p>{user?.university}</p>
@@ -881,7 +882,7 @@ const CreateRoomieProfile = () => {
                 <div className="finalPreviewCard">
                   <div className="finalPreviewFlex">
                     <img
-                      src={user?.avatar}
+                      src={user?.avatar || DEFAULT_USER_AVATAR}
                       alt="Profile"
                       className="finalPreviewAvatar"
                     />

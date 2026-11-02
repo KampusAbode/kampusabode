@@ -8,6 +8,7 @@ import { getRoomieProfiles, incrementProfileViews } from "../../utils/roomieMatc
 import toast from "react-hot-toast";
 import { Button } from "../../components/button/Button";
 import IconButton from "../../components/button/IconButton";
+import { DEFAULT_USER_AVATAR } from "../../lib/constants";
 import "./BrowseRoomiematches.css";
 
 const { locations } = data;
@@ -372,7 +373,7 @@ const BrowseRoommates = () => {
                 {/* Profile Header */}
                 <div className="modalHeader">
                   <img
-                    src={selectedProfile.profilePhoto}
+                    src={selectedProfile.profilePhoto || DEFAULT_USER_AVATAR}
                     alt={selectedProfile.fullName}
                     className="modalAvatar"
                   />

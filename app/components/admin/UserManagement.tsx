@@ -14,6 +14,7 @@ import Link from "next/link";
 import Prompt from "../modals/prompt/Prompt";
 import { useUsersStore } from "../../store/usersStore";
 import toast from "react-hot-toast";
+import { DEFAULT_USER_AVATAR } from "../../lib/constants";
 
 const UserManagement = () => {
   const { users } = useUsersStore();
@@ -106,7 +107,7 @@ const UserManagement = () => {
                     <div className="pic">
                       <Image
                         priority
-                        src={student.avatar || "/assets/user_avatar.jpg"}
+                        src={student.avatar || DEFAULT_USER_AVATAR}
                         width={1000}
                         height={1000}
                         alt={`${student.name}`}
@@ -180,7 +181,7 @@ const UserManagement = () => {
                     <div className="pic">
                       <Image
                         priority
-                        src={agent.avatar || "/assets/user_avatar.jpg"}
+                        src={agent.avatar || DEFAULT_USER_AVATAR}
                         width={1000}
                         height={1000}
                         alt={`${agent.name}`}

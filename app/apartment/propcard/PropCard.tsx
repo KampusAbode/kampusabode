@@ -18,6 +18,7 @@ import BookmarkButton from "../../components/features/bookmarkbutton/BookmarkBut
 import { BadgeCheck, MapPin, Play, Sparkles } from "lucide-react";
 import { fetchUsersById } from "../../utils";
 import PropertyDetails from "../[id]/page";
+import { DEFAULT_USER_AVATAR } from "../../lib/constants";
 
 interface PropCardType {
   propertyData: ApartmentType;
@@ -66,7 +67,7 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
           <div className="agent-image">
             <Image
               priority
-              src={agentDetails?.avatar}
+              src={agentDetails?.avatar || DEFAULT_USER_AVATAR}
               width={800}
               height={800}
               alt={`${propertyData.title} image`}

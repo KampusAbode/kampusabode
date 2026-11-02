@@ -9,6 +9,7 @@ import Prompt from "../../components/modals/prompt/Prompt";
 import { useUsersStore } from "../../store/usersStore";
 import toast from "react-hot-toast";
 import { Button } from "../../components/button/Button";
+import { DEFAULT_USER_AVATAR } from "../../lib/constants";
 
 const WritersManagement = () => {
   const { users } = useUsersStore();
@@ -116,7 +117,7 @@ const WritersManagement = () => {
                   <div className="pic">
                     <Image
                       priority
-                      src={writer.avatar || "/assets/user_avatar.jpg"}
+                      src={writer.avatar || DEFAULT_USER_AVATAR}
                       width={1000}
                       height={1000}
                       alt={`${writer.name}`}

@@ -9,6 +9,7 @@ import Loader from "../../components/loader/Loader";
 import Image from "next/image";
 import { useUsersStore } from "../../store/usersStore";
 import { Button } from "../button/Button";
+import { DEFAULT_USER_AVATAR } from "../../lib/constants";
 
 const AgentList = () => {
   const router = useRouter();
@@ -72,7 +73,7 @@ const AgentList = () => {
                 <div className="image">
                   <Image
                     priority
-                    src={agent.avatar || "/assets/user_avatar.jpg"}
+                    src={agent.avatar || DEFAULT_USER_AVATAR}
                     width={800}
                     height={800}
                     alt={`${agent.name}'s avatar`}

@@ -15,6 +15,7 @@ import Prompt from "../../components/modals/prompt/Prompt";
 import { CirclePlus } from "lucide-react";
 import { Button } from "../../components/button/Button";
 import "./updateprofile.css";
+import { DEFAULT_USER_AVATAR } from "../../lib/constants";
 
 interface FormErrors {
   name?: string;
@@ -46,7 +47,9 @@ const CreateProfilePage = ({ params }: PageProp) => {
   const { user, setUser } = useUserStore((state) => state);
   // const { deleteAppwriteImage } = useProperties();
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>(user?.avatar);
+  const [imagePreview, setImagePreview] = useState<string>(
+    user?.avatar || DEFAULT_USER_AVATAR
+  );
 
   // Initialize formValues with user data or empty defaults
   const [formValues, setFormValues] = useState<ProfileFormValues>();
@@ -69,7 +72,7 @@ const CreateProfilePage = ({ params }: PageProp) => {
           (user.userInfo as AgentUserInfo) ||
           (user.userInfo as StudentUserInfo),
       });
-      setImagePreview(user.avatar);
+      setImagePreview(user.avatar || DEFAULT_USER_AVATAR);
     } else {
       router.back();
     }

@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import DeleteRoomiematchProfile from "./components/DeleteRoomiematchProfile";
 import { Button } from "../../components/button/Button";
+import { DEFAULT_USER_AVATAR } from "../../lib/constants";
 
 // Mock user profile data
 const mockUserProfile = {
@@ -330,7 +331,7 @@ const RoomieDashboard = () => {
           <div className="border-2 border-dashed border-gray-200 rounded-xl p-6">
             <div className="flex items-start gap-6 mb-6">
               <img
-                src={profile.profilePhoto}
+                src={profile.profilePhoto || DEFAULT_USER_AVATAR}
                 alt={profile.fullName}
                 className="w-24 h-24 rounded-full object-cover"
               />

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { UserType } from "../../fetch/types";
 import { useUserStore } from "../../store/userStore";
 import { BadgeCheck, CircleX } from "lucide-react";
+import { DEFAULT_USER_AVATAR } from "../../lib/constants";
 
 const ProfileOverview = ({userdata}) => {
   const { user } = useUserStore((state) => state);
@@ -13,7 +14,7 @@ const ProfileOverview = ({userdata}) => {
         <div className="img">
           <Image
             priority
-            src={user?.avatar || "/assets/user.svg"}
+            src={user?.avatar || DEFAULT_USER_AVATAR}
             width={600}
             height={600}
             alt="profile picture"

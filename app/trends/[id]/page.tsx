@@ -20,6 +20,7 @@ import toast from "react-hot-toast";
 import Loader from "../../components/loader/Loader";
 import { MessageCircle, Share2, ThumbsUp } from "lucide-react";
 import { Button } from "../../components/button/Button";
+import { DEFAULT_USER_AVATAR } from "../../lib/constants";
 import { getCommentsByTrendId, sendUserComment } from "../../utils/comments";
 import { format, formatDistanceToNow } from "date-fns";
 import "./trend.css";
@@ -279,7 +280,7 @@ const TrendPage = ({ params }: Params) => {
                             height={1000}
                             priority
                             src={
-                              comment.userProfile || "/assets/user_avatar.jpg"
+                              comment.userProfile || DEFAULT_USER_AVATAR
                             }
                             alt="user profile"
                           />
