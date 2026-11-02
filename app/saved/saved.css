@@ -11,7 +11,7 @@
 }
 .saved-page .tabs .container {
   display: flex;
-  gap: var(--spacing);
+  gap: var(--space-4);
   overflow-x: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -19,23 +19,36 @@
 .saved-page .tabs .container::-webkit-scrollbar {
   display: none;
 }
-.saved-page .tabs .container span {
-  padding: var(--spacing-b);
-  border-radius: var(--border-radius-r);
-  text-transform: capitalize;
-  background: var(--light-gray);
-  white-space: nowrap;
-  cursor: pointer;
-  transition: var(--transition);
+.saved-page .no-saved {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
-.saved-page .tabs .container span:hover, .saved-page .tabs .container span.active {
-  background-color: var(--black);
-  color: var(--font-white);
+.saved-page .no-saved .no-saved__illustration {
+  width: 210px;
+  height: auto;
+}
+.saved-page .no-saved .no-saved__message {
+  margin-top: var(--space-8);
+  text-align: center;
+}
+.saved-page .loading {
+  margin-top: var(--space-8);
+  text-align: center;
+}
+.saved-page__login-prompt {
+  margin-top: var(--space-8);
+  text-align: center;
+}
+.saved-page__login-link {
+  text-decoration: underline;
 }
 .saved-page .saved-items .container .saved-props {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: var(--spacing);
+  gap: var(--space-6);
 }
 .saved-page .saved-items .container .saved-props a img {
   width: 100%;
@@ -59,6 +72,6 @@
 @media screen and (max-width: 560px) {
   .saved-page .saved-items .container .saved-props {
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing);
+    gap: var(--space-4);
   }
 }/*# sourceMappingURL=saved.css.map */

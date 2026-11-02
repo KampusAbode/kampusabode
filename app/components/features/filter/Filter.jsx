@@ -1,4 +1,8 @@
 import React from 'react'
+import { Filter as FilterIcon, X } from "lucide-react";
+import { Button } from "../../button/Button";
+import Chip from "../../button/Chip";
+import IconButton from "../../button/IconButton";
 import './filter.css'
 
 function filter() {
@@ -6,29 +10,35 @@ function filter() {
     <>
       <div className="filter">
         <div className="container">
-          <button
+          <Button
+            variant="outline"
+            size="md"
             className="sort-trigger-btn"
+            leftIcon={
+              <FilterIcon aria-hidden="true" size={20} strokeWidth={1.75} />
+            }
             onClick={() => setShowFilter(!showFilter)}>
-            <FaFilter />
-            <span>Sort</span>
-          </button>
+            Sort
+          </Button>
           <div className="filter-locations">
-            <span
-              className={`filter-btn ${activeLocation === "all" ? "active" : ""}`}
+            <Chip
+              type="button"
+              className="filter-chip"
+              aria-pressed={activeLocation === "all"}
               onClick={() => filterByLocation("all")}>
               all
-            </span>
+            </Chip>
             {data.locations.map((location) => (
-              <span
+              <Chip
+                type="button"
                 key={location}
-                className={`filter-btn ${
+                className="filter-chip"
+                aria-pressed={
                   activeLocation.toLowerCase() === location.toLowerCase()
-                    ? "active"
-                    : ""
-                }`}
+                }
                 onClick={() => filterByLocation(location.toLowerCase())}>
                 {location}
-              </span>
+              </Chip>
             ))}
           </div>
         </div>
@@ -41,30 +51,41 @@ function filter() {
         <div className="filter-content">
           <div className="filter-header">
             <h3>Sort Properties</h3>
-            <button className="close-btn" onClick={() => setShowFilter(false)}>
-              <FaTimes />
-            </button>
+            <IconButton
+              type="submit"
+              className="close-btn"
+              aria-label="Close sort options"
+              onClick={() => setShowFilter(false)}>
+              <X aria-hidden="true" size={20} strokeWidth={1.75} />
+            </IconButton>
           </div>
 
           <div className="sort-options">
             {sortOptions.map((option) => (
-              <div
+              <Chip
+                type="button"
                 key={option.value}
-                className={`sort-option ${sortBy === option.value ? "active" : ""}`}
+                className="sort-option"
+                aria-pressed={sortBy === option.value}
+                leadingIcon={
+                  <span className="option-icon" aria-hidden="true">
+                    {option.icon}
+                  </span>
+                }
                 onClick={() => handleSortChange(option.value)}>
-                <div className="option-info">
-                  <span className="option-icon">{option.icon}</span>
-                  <span className="option-label">{option.label}</span>
-                </div>
-                {sortBy === option.value && <FaCheck className="check-icon" />}
-              </div>
+                {option.label}
+              </Chip>
             ))}
           </div>
 
           <div className="filter-footer">
-            <button className="apply-btn" onClick={() => setShowFilter(false)}>
+            <Button
+              variant="primary"
+              size="md"
+              className="apply-btn"
+              onClick={() => setShowFilter(false)}>
               Apply
-            </button>
+            </Button>
           </div>
         </div>
       </div>

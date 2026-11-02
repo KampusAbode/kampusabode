@@ -5,6 +5,7 @@
 import { useState } from "react";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../lib/firebaseConfig";
+import { Button } from "../../components/button/Button";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -23,42 +24,28 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div
-      className="forgot-password"
-      style={{ marginTop: "5rem", textAlign: "center" }}>
-      <div className="container" style={{ marginTop: "8rem" }}>
-        <h4 style={{ marginBlock: "2rem" }}>Forgot Password</h4>
+    <div className="forgot-password">
+      <div className="container">
+        <h4>Forgot Password</h4>
         {sent ? (
-          <p style={{ marginTop: "4rem" }}>
+          <p className="forgot-password__sent">
             ✅ A reset link has been sent to your email.
           </p>
         ) : (
-          <form
-            onSubmit={handleSubmit}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyItems: "center",
-              alignItems: "center",
-              maxWidth: "900px",
-            }}>
+          <form onSubmit={handleSubmit}>
             <input
               type="email"
               placeholder="Enter your registered email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              style={{ marginBlock: "3rem" }}
             />
-            <button
-              type="submit"
-              className="btn"
-              style={{ width: "fit-content" }}>
+            <Button type="submit" variant="primary" size="md">
               Send Reset Link
-            </button>
+            </Button>
           </form>
         )}
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {error && <p className="forgot-password__error">{error}</p>}
       </div>
     </div>
   );

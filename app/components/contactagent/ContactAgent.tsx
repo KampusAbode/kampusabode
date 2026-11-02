@@ -1,4 +1,5 @@
 'use client'
+import { Button } from "../button/Button";
 
 const ContactAgent = ({ name, content, href }) => {
   const handleContactClick = () => {
@@ -15,9 +16,13 @@ const ContactAgent = ({ name, content, href }) => {
   };
 
   return (
-    <span className="contact-seller-btn" onClick={handleContactClick}>
+    <Button
+      type="button"
+      onClick={handleContactClick}
+      aria-label={content}
+    >
       {content}
-    </span>
+    </Button>
   );
 };
 

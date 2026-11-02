@@ -2,11 +2,7 @@
   margin-bottom: var(--spacing-3x);
 
   .container {
-    max-width: 1200px;
-    padding: var(--spacing-2x);
-
     @media screen and (max-width: 768px) {
-      padding: 0;
       .student-dashboard,
       .agent-dashboard {
         .bookmarked-properties {
@@ -207,11 +203,6 @@
                 }
               }
 
-              .option-btn {
-                padding: var(--spacing);
-                cursor: pointer;
-              }
-
               .options {
                 box-shadow: var(--shadow);
                 background-color: var(--white);
@@ -222,26 +213,19 @@
                 bottom: 105%;
                 right: 0;
 
-                .option-btn {
+                .listed-properties__menu-action {
                   width: 100%;
-                  border: none;
-                  background-color: var(--white);
-                  display: block;
-                  padding: var(--spacing-b);
-                  text-align: center;
-                  text-transform: capitalize;
-                  color: var(--text-color-p);
-                  font-size: var(--font-size-sm);
-                  cursor: pointer;
-
-                  &:hover {
-                    background-color: var(--light-gray);
-                    color: var(--text-color-h);
-                  }
+                  justify-content: flex-start;
                 }
               }
             }
           }
+        }
+
+        .view-all-container {
+          display: flex;
+          justify-content: center;
+          margin-block: var(--space-8);
         }
       }
 
@@ -252,6 +236,14 @@
           }
         }
       }
+
+      .reviews-container {
+        .reviews-list {
+          display: grid;
+          gap: var(--space-4);
+        }
+      }
+
     }
   }
 }
@@ -259,7 +251,6 @@
 @media screen and (max-width: 768px) {
   .dashboard {
     .container {
-      padding: 0;
       .student-dashboard,
       .agent-dashboard {
         .bookmarked-properties {
@@ -274,10 +265,21 @@
               grid-template-columns: repeat(2, 1fr);
             }
           }
+
+
         }
       }
     }
   }
+}
+
+.dashboard__login-prompt {
+  margin-top: var(--space-8);
+  text-align: center;
+}
+
+.dashboard__login-link {
+  text-decoration: underline;
 }
 
 @media screen and (max-width: 480px) {

@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { uploadTrend } from "../../utils";
 import { useUserStore } from "../../store/userStore";
 import dynamic from "next/dynamic";
+import { Button } from "../../components/button/Button";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
@@ -167,9 +168,13 @@ function UploadTrend() {
             </select>
           </div>
 
-          <button type="submit" disabled={loading}>
+          <Button
+            type="submit"
+            className="trend-submit"
+            disabled={loading}
+            loading={loading}>
             {loading ? "Uploading..." : "Upload Trend"}
-          </button>
+          </Button>
         </form>
       </div>
     </section>

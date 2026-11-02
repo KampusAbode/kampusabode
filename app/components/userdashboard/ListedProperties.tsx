@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { deleteApartment } from "../../utils";
-import { SlOptionsVertical } from "react-icons/sl";
+import { MoreVertical } from "lucide-react";
+import { Button, ButtonLink } from "../button/Button";
+import IconButton from "../button/IconButton";
 import Link from "next/link";
 import Image from "next/image";
 import Loader from "../loader/Loader";
@@ -71,9 +73,13 @@ const ListedProperties = () => {
       <h5>
         Your Listings{" "}
         {user?.id && (
-          <Link prefetch href={`/apartment/c/${user.id}`}>
+          <ButtonLink
+            prefetch
+            href={`/apartment/c/${user.id}`}
+            variant="link"
+            size="sm">
             Upload
-          </Link>
+          </ButtonLink>
         )}
       </h5>
       <div className="property-list">
@@ -103,29 +109,36 @@ const ListedProperties = () => {
                   <div className="disabled-link">No link</div>
                 )}
 
-                <div
-                  className="option-btn"
+                <IconButton
+                  type="button"
+                  aria-label={`More options for ${property.title}`}
+                  className="listed-properties__options-trigger"
                   onClick={(e) => {
                     e.stopPropagation();
                     setActiveProperty(
                       activeProperty === property.id ? null : property.id
                     );
                   }}>
-                  <SlOptionsVertical />
-                </div>
+                  <MoreVertical size={20} strokeWidth={1.75} />
+                </IconButton>
 
                 {activeProperty === property.id && (
                   <div className="options">
-                    <Link
-                      className="option-btn"
-                      href={`/apartment/edit/${property.id}`}>
+                    <ButtonLink
+                      className="listed-properties__menu-action"
+                      href={`/apartment/edit/${property.id}`}
+                      variant="ghost"
+                      size="sm">
                       Edit
-                    </Link>
-                    <button
-                      className="option-btn"
+                    </ButtonLink>
+                    <Button
+                      type="button"
+                      className="listed-properties__menu-action"
+                      variant="ghost"
+                      size="sm"
                       onClick={() => handleDeleteClick(property.id)}>
                       Delete
-                    </button>
+                    </Button>
                   </div>
                 )}
               </li>
@@ -138,13 +151,14 @@ const ListedProperties = () => {
 
     
       {properties.length > 5 && user?.id && (
-        <div className="view-all-container" style={{ textAlign: "center", margin: "2rem 0"  }}>
-          <Link
+        <div className="view-all-container">
+          <ButtonLink
             prefetch
             href={`/dashboard/${user.id}/listings`}
-            className="view-all-link">
+            className="view-all-link"
+            variant="outline">
             View All Listings ({properties.length})
-          </Link>
+          </ButtonLink>
         </div>
       )}
 

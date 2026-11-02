@@ -11,6 +11,8 @@ import { listApartment, uploadFilesToAppwrite } from "../utils/properties";
 import { useUserStore } from "../store/userStore";
 import { ApartmentType } from "../fetch/types";
 import Prompt from "../components/modals/prompt/Prompt";
+import { Button } from "../components/button/Button";
+import Chip from "../components/button/Chip";
 import { checkIsAdmin } from "../utils";
 import "./uploadforagent.css";
 
@@ -373,42 +375,32 @@ const UploadForAgent = () => {
                   <div key={videoName}>
                     <p>Select a thumbnail for: {videoName}</p>
                     <div
-                      style={{
-                        display: "flex",
-                        gap: "16px",
-                        padding: "8px",
-                        background: "#f8f8f9",
-                        borderRadius: "8px",
-                      }}>
+                      className="video-thumbnail-picker">
                       {thumbs.map((thumb, idx) => {
                         const objectUrl = URL.createObjectURL(thumb);
                         return (
-                          <Image
+                          <Chip
                             key={thumb.name + idx}
-                            src={objectUrl}
-                            alt={`thumb-${idx}`}
-                            width={500}
-                            height={500}
-                            style={{
-                              width: 100,
-                              height: 100,
-                              objectFit: "cover",
-                              borderRadius: "8px",
-                              border:
-                                selectedThumbnails[videoName]?.name ===
-                                thumb.name
-                                  ? "2px solid green"
-                                  : "2px solid gray",
-                              cursor: "pointer",
-                            }}
+                            type="button"
+                            aria-pressed={
+                              selectedThumbnails[videoName]?.name === thumb.name
+                            }
+                            className="video-thumbnail-choice"
                             onClick={() =>
                               setSelectedThumbnails((prev) => ({
                                 ...prev,
                                 [videoName]: thumb,
                               }))
-                            }
-                            onLoad={() => URL.revokeObjectURL(objectUrl)}
-                          />
+                            }>
+                            <Image
+                              src={objectUrl}
+                              alt={`Select thumbnail ${idx + 1} for ${videoName}`}
+                              width={500}
+                              height={500}
+                              className="video-thumbnail-choice__image"
+                              onLoad={() => URL.revokeObjectURL(objectUrl)}
+                            />
+                          </Chip>
                         );
                       })}
                     </div>
@@ -542,14 +534,17 @@ const UploadForAgent = () => {
                 </div>
 
                 {status?.error && (
-                  <div className="error" style={{ marginBottom: "8px" }}>
+                  <div className="error upload-property__status-error">
                     {status.error}
                   </div>
                 )}
 
-                <button type="submit" className="btn" disabled={isSubmitting}>
+                <Button
+                  type="submit"
+                  className="upload-property__submit"
+                  disabled={isSubmitting}>
                   {isSubmitting ? "Uploading..." : "Upload Property"}
-                </button>
+                </Button>
               </Form>
 
               <Prompt

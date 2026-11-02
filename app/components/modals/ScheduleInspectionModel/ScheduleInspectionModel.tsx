@@ -5,8 +5,7 @@ import "./ScheduleInspectionModal.css";
 import { useUserStore } from "../../../store/userStore";
 import toast from "react-hot-toast";
 import { format, parseISO } from "date-fns";
-
-
+import { Button } from "../../button/Button";
 
 
 interface ScheduleInspectionModalProps {
@@ -181,16 +180,21 @@ export default function ScheduleInspectionModal({
           {successMsg && <p className="success-msg">{successMsg}</p>}
 
           <div className="modal-footer">
-            <button
+            <Button
+              variant="secondary"
+              size="md"
               type="button"
-              className="btn btn-secondary"
               onClick={onClose}
               disabled={loading}>
               Cancel
-            </button>
-            <button type="submit" className="btn" disabled={loading}>
+            </Button>
+            <Button
+              variant="primary"
+              size="md"
+              type="submit"
+              disabled={loading}>
               {loading ? "Scheduling..." : "Schedule"}
-            </button>
+            </Button>
           </div>
         </form>
       </div>

@@ -1,5 +1,86 @@
-import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
+import React from "react";
 import { HomeType, LinkType } from "./types";
+
+type BrandIconProps = React.SVGProps<SVGSVGElement>;
+
+const FacebookBrandIcon: React.FC<BrandIconProps> = (props) =>
+  React.createElement(
+    "svg",
+    {
+      viewBox: "0 0 24 24",
+      width: 20,
+      height: 20,
+      fill: "currentColor",
+      ...props,
+    },
+    React.createElement("path", {
+      d: "M13.5 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.6 1.6-1.6h1.7V3.8c-.3 0-1.4-.1-2.7-.1-2.7 0-4.5 1.6-4.5 4.6V10H6.8v3h2.8v8h3.9z",
+    }),
+  );
+
+const InstagramBrandIcon: React.FC<BrandIconProps> = (props) =>
+  React.createElement(
+    "svg",
+    {
+      viewBox: "0 0 24 24",
+      width: 20,
+      height: 20,
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: 1.75,
+      ...props,
+    },
+    React.createElement("rect", {
+      x: 3,
+      y: 3,
+      width: 18,
+      height: 18,
+      rx: 5,
+    }),
+    React.createElement("circle", { cx: 12, cy: 12, r: 4 }),
+    React.createElement("circle", {
+      cx: 17.5,
+      cy: 6.5,
+      r: 0.75,
+      fill: "currentColor",
+      stroke: "none",
+    }),
+  );
+
+const LinkedinBrandIcon: React.FC<BrandIconProps> = (props) =>
+  React.createElement(
+    "svg",
+    {
+      viewBox: "0 0 24 24",
+      width: 20,
+      height: 20,
+      fill: "currentColor",
+      ...props,
+    },
+    React.createElement("text", {
+      x: 2,
+      y: 18,
+      fontFamily: "Arial, sans-serif",
+      fontSize: 18,
+      fontWeight: 700,
+      children: "in",
+    }),
+  );
+
+const TwitterBrandIcon: React.FC<BrandIconProps> = (props) =>
+  React.createElement(
+    "svg",
+    {
+      viewBox: "0 0 24 24",
+      width: 20,
+      height: 20,
+      fill: "currentColor",
+      ...props,
+    },
+    React.createElement("path", {
+      d: "M22 5.9a8 8 0 0 1-2.4.7 4.2 4.2 0 0 0 1.8-2.3 8.3 8.3 0 0 1-2.7 1 4.1 4.1 0 0 0-7 3.8 11.6 11.6 0 0 1-8.4-4.3 4.1 4.1 0 0 0 1.3 5.5 4 4 0 0 1-1.9-.5v.1a4.1 4.1 0 0 0 3.3 4 4 4 0 0 1-1.9.1 4.1 4.1 0 0 0 3.8 2.8A8.3 8.3 0 0 1 2 18.5a11.7 11.7 0 0 0 6.3 1.8c7.6 0 11.8-6.3 11.8-11.8v-.5A8.4 8.4 0 0 0 22 5.9z",
+    }),
+  );
 
 const homeSection: HomeType = {
   hero: {
@@ -117,22 +198,22 @@ const homeSection: HomeType = {
       /* {
         name: "facebook",
         to: "https://facebook.com/kampusabode",
-        icon: FaFacebook,
+        icon: FacebookBrandIcon,
       },*/
       {
         name: "instagram",
         to: "https://instagram.com/kampusabode",
-        icon: FaInstagram,
+        icon: InstagramBrandIcon,
       },
       {
         name: "twitter",
         to: "https://twitter.com/kampus_abode",
-        icon: FaTwitter,
+        icon: TwitterBrandIcon,
       },
       /* {
         name: "linkedin",
         to: "https://linkedin.com/company/kampusabode",
-        icon: FaLinkedin,
+        icon: LinkedinBrandIcon,
       },*/
     ],
   },

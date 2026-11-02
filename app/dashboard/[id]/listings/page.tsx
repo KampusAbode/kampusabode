@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { deleteApartment } from "../../../utils";
-import { SlOptionsVertical } from "react-icons/sl";
 import Link from "next/link";
 import Image from "next/image";
 import Loader from "../../../components/loader/Loader";
@@ -104,7 +103,6 @@ const ListedProperties = () => {
                         activeProperty === property.id ? null : property.id
                       );
                     }}>
-                    <SlOptionsVertical />
                   </div> */}
 
                   {/* {activeProperty === property.id && (

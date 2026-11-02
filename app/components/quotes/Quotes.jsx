@@ -6,15 +6,13 @@ import data from "../../fetch/contents";
 import Image from "next/image";
 // import Swiper core and required modules
 import { Autoplay } from "swiper/modules";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { FaQuoteLeft } from "react-icons/fa";
-import { FaComment, FaHeart, FaArrowsRotate } from "react-icons/fa6";
+import { Heart, MessageCircle, Quote, Repeat2 } from "lucide-react";
 
 const { homeSection } = data;
 const { quotes } = homeSection;
@@ -48,18 +46,18 @@ function Quotes() {
               <i>{quote.name}</i>
             </div>
             <div className="content">
-              <FaQuoteLeft />
+              <Quote aria-hidden="true" size={20} strokeWidth={1.75} />
               <p>{quote.text}</p>
             </div>
             <div className="tractions">
               <span>
-                <FaHeart /> {quote.tractions.like}
+                <Heart aria-hidden="true" size={16} strokeWidth={1.75} /> {quote.tractions.like}
               </span>
               <span>
-                <FaComment /> {quote.tractions.comment}
+                <MessageCircle aria-hidden="true" size={16} strokeWidth={1.75} /> {quote.tractions.comment}
               </span>
               <span>
-                <FaArrowsRotate /> {quote.tractions.repost}
+                <Repeat2 aria-hidden="true" size={16} strokeWidth={1.75} /> {quote.tractions.repost}
               </span>
             </div>
           </SwiperSlide>

@@ -7,7 +7,9 @@ import { loginUser } from "../../utils";
 import Link from "next/link";
 import "../auth.css";
 import Image from "next/image";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Eye, EyeOff } from "lucide-react";
+import { Button } from "../../components/button/Button";
+import IconButton from "../../components/button/IconButton";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -104,19 +106,25 @@ const LoginPage = () => {
                   placeholder="*********"
                 />
                 {isPasswordVisible ? (
-                  <FaEye
-                    onClick={() => setIsPasswordVisible((prev) => !prev)}
+                  <IconButton
+                    type="button"
                     className="toggle-password"
-                    role="button"
                     aria-label="Toggle password visibility"
-                  />
+                    aria-pressed={isPasswordVisible}
+                    onClick={() => setIsPasswordVisible((prev) => !prev)}
+                  >
+                    <Eye aria-hidden="true" size={20} strokeWidth={1.75} />
+                  </IconButton>
                 ) : (
-                  <FaEyeSlash
-                    onClick={() => setIsPasswordVisible((prev) => !prev)}
+                  <IconButton
+                    type="button"
                     className="toggle-password"
-                    role="button"
                     aria-label="Toggle password visibility"
-                  />
+                    aria-pressed={isPasswordVisible}
+                    onClick={() => setIsPasswordVisible((prev) => !prev)}
+                  >
+                    <EyeOff aria-hidden="true" size={20} strokeWidth={1.75} />
+                  </IconButton>
                 )}
               </div>
               {errors.password && (
@@ -133,13 +141,14 @@ const LoginPage = () => {
               </Link>
             </div>
 
-            <button
-              className="btn"
+            <Button
+              variant="primary"
+              size="lg"
               title="Button"
               type="submit"
               disabled={isSubmitting}>
               {isSubmitting ? "Logging in..." : "Login"}
-            </button>
+            </Button>
           </form>
           <span>
             Don't have an account?{" "}

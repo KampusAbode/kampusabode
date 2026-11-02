@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import data from "../../fetch/contents";
 import "./footer.css";
@@ -65,9 +64,11 @@ export default function Footer() {
                 <Link
                   key={link.name}
                   href={link.to}
+                  rel="noopener noreferrer"
                   aria-label={link.name}
-                  title={link.name}>
-                  <link.icon />
+                  title={link.name}
+                >
+                  <link.icon aria-hidden="true" />
                 </Link>
               ))}
             </div>

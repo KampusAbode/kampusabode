@@ -1,14 +1,7 @@
 .dashboard {
   margin-bottom: var(--spacing-3x);
 }
-.dashboard .container {
-  max-width: 1200px;
-  padding: var(--spacing-2x);
-}
 @media screen and (max-width: 768px) {
-  .dashboard .container {
-    padding: 0;
-  }
   .dashboard .container .student-dashboard .bookmarked-properties ul,
   .dashboard .container .agent-dashboard .bookmarked-properties ul {
     grid-template-columns: 1fr 1fr;
@@ -208,11 +201,6 @@
   display: block;
   margin-bottom: var(--spacing-h);
 }
-.dashboard .container .student-dashboard .listed-properties .property-list ul li .option-btn,
-.dashboard .container .agent-dashboard .listed-properties .property-list ul li .option-btn {
-  padding: var(--spacing);
-  cursor: pointer;
-}
 .dashboard .container .student-dashboard .listed-properties .property-list ul li .options,
 .dashboard .container .agent-dashboard .listed-properties .property-list ul li .options {
   box-shadow: var(--shadow);
@@ -224,23 +212,16 @@
   bottom: 105%;
   right: 0;
 }
-.dashboard .container .student-dashboard .listed-properties .property-list ul li .options .option-btn,
-.dashboard .container .agent-dashboard .listed-properties .property-list ul li .options .option-btn {
+.dashboard .container .student-dashboard .listed-properties .property-list ul li .options .listed-properties__menu-action,
+.dashboard .container .agent-dashboard .listed-properties .property-list ul li .options .listed-properties__menu-action {
   width: 100%;
-  border: none;
-  background-color: var(--white);
-  display: block;
-  padding: var(--spacing-b);
-  text-align: center;
-  text-transform: capitalize;
-  color: var(--text-color-p);
-  font-size: var(--font-size-sm);
-  cursor: pointer;
+  justify-content: flex-start;
 }
-.dashboard .container .student-dashboard .listed-properties .property-list ul li .options .option-btn:hover,
-.dashboard .container .agent-dashboard .listed-properties .property-list ul li .options .option-btn:hover {
-  background-color: var(--light-gray);
-  color: var(--text-color-h);
+.dashboard .container .student-dashboard .listed-properties .view-all-container,
+.dashboard .container .agent-dashboard .listed-properties .view-all-container {
+  display: flex;
+  justify-content: center;
+  margin-block: var(--space-8);
 }
 .dashboard .container .student-dashboard .student-reviews ul li,
 .dashboard .container .agent-dashboard .student-reviews ul li {
@@ -248,9 +229,6 @@
 }
 
 @media screen and (max-width: 768px) {
-  .dashboard .container {
-    padding: 0;
-  }
   .dashboard .container .student-dashboard .bookmarked-properties ul,
   .dashboard .container .agent-dashboard .bookmarked-properties ul {
     grid-template-columns: 1fr 1fr;
@@ -259,6 +237,18 @@
   .dashboard .container .agent-dashboard .listed-properties .property-list ul {
     grid-template-columns: repeat(2, 1fr);
   }
+}
+.dashboard .container .student-dashboard .reviews-container .reviews-list,
+.dashboard .container .agent-dashboard .reviews-container .reviews-list {
+  display: grid;
+  gap: var(--space-4);
+}
+.dashboard__login-prompt {
+  margin-top: var(--space-8);
+  text-align: center;
+}
+.dashboard__login-link {
+  text-decoration: underline;
 }
 @media screen and (max-width: 480px) {
   .dashboard .container .student-dashboard .bookmarked-properties ul,

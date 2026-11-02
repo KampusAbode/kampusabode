@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
-import Link from "next/link";
+import { ButtonLink } from "../../components/button/Button";
 
 export default function VerifyEmailPage() {
   const router = useRouter();
@@ -52,30 +52,22 @@ export default function VerifyEmailPage() {
   }, [router]);
 
   return (
-    <div
-      className="verify-email"
-      style={{
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        gap: "2rem",
-        justifyContent: "center",
-        alignItems: "center",
-        textAlign: "center",
-      }}>
+    <div className="verify-email">
       <h2>📩 Check your email</h2>
       <p>
         We’ve sent a verification link to your email. Please check your inbox
         and click the link to verify your account.
       </p>
 
-      <Link
+      <ButtonLink
         href={gmailLink}
         target="_blank"
         rel="noopener noreferrer"
-        className="open-gmail-btn">
+        className="open-gmail-btn"
+        variant="primary"
+        size="md">
         Open Gmail App
-      </Link>
+      </ButtonLink>
     </div>
   );
 }

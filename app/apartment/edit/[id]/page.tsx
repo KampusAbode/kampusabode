@@ -21,6 +21,7 @@ import { useUserStore } from "../../../store/userStore";
 import { ApartmentType } from "../../../fetch/types";
 import toast from "react-hot-toast";
 import { availableMemory, title } from "process";
+import { Button } from "../../../components/button/Button";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const validationSchema = Yup.object().shape({
@@ -209,17 +210,17 @@ export default function EditApartment({ params }: { params: { id: string } }) {
                 </div>
 
                 {status?.error && (
-                  <div className="error" style={{ marginBottom: "8px" }}>
+                  <div className="error edit-property__status-error">
                     {status.error}
                   </div>
                 )}
 
-                <button
+                <Button
                   type="button"
-                  className="btn"
+                  className="edit-property__submit"
                   onClick={() => setPromptOpen(true)}>
                   Upload Property
-                </button>
+                </Button>
               </Form>
 
               <Prompt

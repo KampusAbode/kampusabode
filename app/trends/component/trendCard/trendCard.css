@@ -1,27 +1,17 @@
 .trend-card {
-  border-radius: var(--border-radius);
-  border: var(--border);
+  border: 1px solid var(--border-color-light);
+  border-radius: var(--radius-2xl);
+  background: var(--bg-primary);
   overflow: hidden;
-  transition: var(--transition);
-  animation: pop 0.1s ease-in forwards;
-}
-@keyframes pop {
-  from {
-    transform: translateY(10px) scale(0.97);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
+  box-shadow: var(--shadow-sm);
+  transition: transform 180ms ease-out, box-shadow 180ms ease-out;
 }
 .trend-card:hover {
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 .trend-card .trend-image {
-  aspect-ratio: 20/14;
-  border-top-left-radius: var(--border-radius);
-  border-top-right-radius: var(--border-radius);
+  aspect-ratio: 4/3;
   position: relative;
   overflow: hidden;
 }
@@ -31,39 +21,37 @@
   -o-object-fit: cover;
      object-fit: cover;
 }
+.trend-card .trend-image img {
+  transition: transform 180ms ease-out;
+}
+.trend-card .trend-image:hover img {
+  transform: scale(1.02);
+}
 .trend-card .trend-image .category {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: var(--light-gray);
-  padding: var(--spacing-h) var(--spacing);
-  border-radius: var(--border-radius-r);
-  color: var(--text-color-h);
+  top: var(--space-3);
+  right: var(--space-3);
+  background-color: var(--bg-secondary);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-full);
+  color: var(--text-primary);
 }
 .trend-card .trend-content {
-  padding: var(--spacing);
+  padding: var(--space-5);
 }
 .trend-card .trend-content .author-thumbs {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--spacing);
+  gap: var(--space-4);
 }
 .trend-card .trend-content .author-thumbs .thumbs {
   display: flex;
   align-items: center;
-  gap: var(--spacing);
-}
-.trend-card .trend-content .author-thumbs .thumbs svg {
-  cursor: pointer;
-  transition: var(--transition);
-}
-.trend-card .trend-content .author-thumbs .thumbs svg:hover, .trend-card .trend-content .author-thumbs .thumbs svg.active {
-  color: var(--primary-color);
-  transform: scale(1.2);
+  gap: var(--space-2);
 }
 .trend-card .trend-content h6 {
-  margin-top: var(--spacing);
+  margin-top: var(--space-4);
 }
 .trend-card .trend-content h6,
 .trend-card .trend-content P {
@@ -76,4 +64,19 @@
 }
 .trend-card .trend-content p {
   font-size: var(--font-size-sm);
+}
+@media (max-width: 640px) {
+  .trend-card .trend-content {
+    padding: var(--space-4);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .trend-card,
+  .trend-card .trend-image img {
+    transition: none;
+  }
+  .trend-card:hover,
+  .trend-card .trend-image:hover img {
+    transform: none;
+  }
 }/*# sourceMappingURL=trendCard.css.map */

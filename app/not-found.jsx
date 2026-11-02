@@ -1,8 +1,8 @@
 // app/not-found.tsx
 import React from "react";
-import Link from "next/link";
 import "./not-found.css";
 import Image from "next/image";
+import { ButtonLink } from "./components/button/Button";
 
 const NotFoundPage = () => {
   return (
@@ -13,9 +13,9 @@ const NotFoundPage = () => {
       <div className="not-found-content">
         <h1>Oops!</h1>
         <p>The page you're looking for doesn't exist.</p>
-        <Link prefetch href="/apartment">
-          <span className="btn">check out apartments</span>
-        </Link>
+        <ButtonLink prefetch href="/apartment">
+          check out apartments
+        </ButtonLink>
       </div>
     </div>
   );

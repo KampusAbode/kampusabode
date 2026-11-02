@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { ReferralStats } from "../../fetch/types";
 import { useUserStore } from "../../store/userStore";
 import "./referral-management.css";
+import { Button } from "../button/Button";
 
 interface ReferralOverviewProps {
   className?: string;
@@ -121,12 +122,11 @@ const ReferralOverview: React.FC<ReferralOverviewProps> = ({ className }) => {
       )}
 
       <div className="quick-actions">
-        <button 
-          className="btn btn-primary"
+        <Button
           onClick={() => window.location.href = '/admin?page=referrals'}
         >
           Manage Referrals
-        </button>
+        </Button>
       </div>
     </div>
   );

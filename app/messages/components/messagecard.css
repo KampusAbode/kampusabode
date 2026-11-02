@@ -1,12 +1,14 @@
 .message-card {
-  border-radius: var(--border-radius);
-  background-color: var(--light-gray);
-  padding: var(--spacing);
-  margin-bottom: var(--spacing);
+  border: 1px solid var(--border-color-light);
+  border-radius: var(--radius-xl);
+  background-color: var(--bg-primary);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
   cursor: pointer;
 }
 .message-card .message-header {
-  margin-bottom: var(--spacing);
+  margin-bottom: var(--space-3);
   display: flex;
   justify-content: space-between;
+  gap: var(--space-4);
 }/*# sourceMappingURL=messagecard.css.map */

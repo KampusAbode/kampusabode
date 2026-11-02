@@ -3,17 +3,17 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { FaTimes } from "react-icons/fa";
-import { TbHomeSearch } from "react-icons/tb";
-import { CiHome } from "react-icons/ci";
 import {
-  LuCircleUserRound,
-  LuLayoutDashboard,
-  LuLogOut,
-  LuMessagesSquare,
-  LuUsers,
-} from "react-icons/lu";
-import { IoChatbubblesOutline } from "react-icons/io5";
+  CircleUserRound,
+  Home,
+  LayoutDashboard,
+  LogOut,
+  MessageCircle,
+  MessagesSquare,
+  Search,
+  Users,
+  X,
+} from "lucide-react";
 import toast from "react-hot-toast";
 import "./nav.css";
 import useNavStore from "../../store/menuStore";
@@ -23,6 +23,8 @@ import { logoutUser } from "../../utils/auth";
 import { checkIsAdmin } from "../../utils";
 import Image from "next/image";
 import { useSwipeable } from "react-swipeable";
+import { Button, ButtonLink } from "../button/Button";
+import IconButton from "../button/IconButton";
 
 function Nav() {
   const pathname = usePathname();
@@ -103,6 +105,7 @@ function Nav() {
       
       <div
         {...closeHandlers}
+        id="primary-navigation"
         className={`nav-menu ${user ? "sideNav" : "notlogged"} ${
           isNavOpen ? "fadeIn" : "fadeOut"
         }`}
@@ -122,32 +125,35 @@ function Nav() {
                     />
                   </Link>
                 </div>
-                <div className="close" onClick={toggleNav}>
-                  <FaTimes />
-                </div>
+                <IconButton
+                  type="button"
+                  className="close"
+                  onClick={toggleNav}
+                  aria-label="Close navigation menu"
+                >
+                  <X aria-hidden="true" size={20} strokeWidth={1.75} />
+                </IconButton>
               </div>
 
               <div className="nav-btns">
                 {user?.userType === "agent" && isAdmin && (
-                  <Link
+                  <ButtonLink
                     href={`/apartment/c/${user.id}`}
-                    className="btn"
                     title="Button"
                     onClick={toggleNav}
                   >
                     new listing
-                  </Link>
+                  </ButtonLink>
                 )}
 
                 {isAdmin && (
-                  <Link
+                  <ButtonLink
                     href="/admin/users"
-                    className="btn"
                     title="Button"
                     onClick={toggleNav}
                   >
                     Admin
-                  </Link>
+                  </ButtonLink>
                 )}
               </div>
             </div>
@@ -166,7 +172,11 @@ function Nav() {
                   href={user ? `/dashboard/${user?.id}` : "/"}
                   onClick={toggleNav}
                 >
-                  {user ? <LuLayoutDashboard /> : <CiHome />}
+                  {user ? (
+                    <LayoutDashboard aria-hidden="true" size={20} strokeWidth={1.75} />
+                  ) : (
+                    <Home aria-hidden="true" size={20} strokeWidth={1.75} />
+                  )}
                   {user ? "dashboard" : "home"}
                 </Link>
               </li>
@@ -176,7 +186,7 @@ function Nav() {
                 className={pathname === "/apartment" ? "active" : ""}
               >
                 <Link prefetch href="/apartment" onClick={toggleNav}>
-                  <TbHomeSearch />
+                  <Search aria-hidden="true" size={20} strokeWidth={1.75} />
                   Apartment
                 </Link>
               </li>
@@ -186,7 +196,7 @@ function Nav() {
                 className={pathname === "/roomie-match" ? "active" : ""}
               >
                 <Link prefetch href="/roomie-match" onClick={toggleNav}>
-                  <LuUsers />
+                  <Users aria-hidden="true" size={20} strokeWidth={1.75} />
                   Roomie Match
                 </Link>
               </li>
@@ -197,7 +207,7 @@ function Nav() {
                   className={pathname === "/adminchatroom" ? "active" : ""}
                 >
                   <Link prefetch href="/adminchatroom" onClick={toggleNav}>
-                    <LuMessagesSquare />
+                    <MessagesSquare aria-hidden="true" size={20} strokeWidth={1.75} />
                     User Messages
                   </Link>
                 </li>
@@ -208,7 +218,7 @@ function Nav() {
                 className={pathname === "/profile" ? "active" : ""}
               >
                 <Link prefetch href="/profile" onClick={toggleNav}>
-                  <LuCircleUserRound />
+                  <CircleUserRound aria-hidden="true" size={20} strokeWidth={1.75} />
                   profile
                 </Link>
               </li>
@@ -226,7 +236,7 @@ function Nav() {
                     href={`/chat/${user.id}/${user.name}`}
                     onClick={toggleNav}
                   >
-                    <IoChatbubblesOutline />
+                    <MessageCircle aria-hidden="true" size={20} strokeWidth={1.75} />
                     chat
                   </Link>
                 </li>
@@ -238,20 +248,26 @@ function Nav() {
             <span>
               ©️ 2025. All rights reserved.
               {user ? (
-                <button
-                  className="btn btn-secondary"
+                <Button
+                  variant="link"
                   title="Logout"
                   onClick={handleLogoutClick}
+                  rightIcon={
+                    <LogOut aria-hidden="true" size={20} strokeWidth={1.75} />
+                  }
                 >
                   Logout
-                  <LuLogOut />
-                </button>
+                </Button>
               ) : (
-                <Link prefetch href="/auth/login" onClick={toggleNav}>
-                  <button className="btn btn-secondary" title="Login">
-                    Login
-                  </button>
-                </Link>
+                <ButtonLink
+                  prefetch
+                  href="/auth/login"
+                  onClick={toggleNav}
+                  title="Login"
+                  variant="link"
+                >
+                  Login
+                </ButtonLink>
               )}
             </span>
           </div>

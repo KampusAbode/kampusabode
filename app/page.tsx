@@ -8,21 +8,54 @@ import Footer from "./components/footer/Footer";
 import Link from "next/link";
 import { TrendType } from "./fetch/types";
 import { allTrends, fetchPropertiesRealtime } from "./utils";
-import { FaArrowRightLong } from "react-icons/fa6";
-import { RiVerifiedBadgeLine } from "react-icons/ri";
+import {
+  ArrowRight,
+  BadgeCheck,
+  BookOpenText,
+  House,
+  Images,
+  MapPin,
+  ShoppingBag,
+} from "lucide-react";
 import { useState, useEffect } from "react";
 import TrendCard from "./trends/component/trendCard/TrendCard";
 import gsap from "gsap";
 import { usePropertiesStore } from "./store/propertiesStore";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion, useReducedMotion } from "framer-motion";
+import { defaultTransition, fadeIn, fadeUp } from "./lib/motion";
+import { ButtonLink } from "./components/button/Button";
 gsap.registerPlugin(ScrollTrigger);
 
 const { homeSection } = data;
 const { hero, about, testimonials } = homeSection;
+const serviceIcons = [MapPin, Images, BadgeCheck];
+const productPillars = [
+  {
+    title: "Accommodation",
+    description: "Browse student housing near your university.",
+    href: "/apartment",
+    Icon: House,
+  },
+  {
+    title: "Information",
+    description: "Find practical guidance for student living.",
+    href: "/trends",
+    Icon: BookOpenText,
+  },
+  {
+    title: "Marketplace",
+    description: "Discover useful items from your campus community.",
+    href: "/marketplace",
+    Icon: ShoppingBag,
+  },
+];
 
 export default function App() {
   const [trends, setTrends] = useState<TrendType[]>([]);
   const { properties, setProperties } = usePropertiesStore();
+  const prefersReducedMotion = useReducedMotion();
+  const sectionReveal = prefersReducedMotion ? fadeIn : fadeUp;
 
   useEffect(() => {
     const unsubscribe = fetchPropertiesRealtime((fetchedProperties) => {
@@ -76,14 +109,6 @@ export default function App() {
   return (
     <>
       <section className="hero-section">
-        <video
-          src={"/assets/hero_video.mp4"}
-          className="hero_video"
-          autoPlay
-          muted
-          loop>
-          Your browser does not support the video tag.
-        </video>
         <div className="container">
           <div className="hero-content">
             <h1>
@@ -92,40 +117,104 @@ export default function App() {
             </h1>
             <p>{hero.p}</p>
             <div className="cta-hero cta">
-              <Link prefetch href="/apartment" className="btn">
-                view apartments <FaArrowRightLong />
-              </Link>
+              <ButtonLink
+                prefetch
+                href="/apartment"
+                rightIcon={<ArrowRight aria-hidden="true" />}
+              >
+                view apartments
+              </ButtonLink>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="service-section">
+      <motion.section
+        className="pillars-section"
+        variants={sectionReveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-80px" }}
+        transition={defaultTransition}
+      >
+        <div className="container">
+          <div className="heading-section">
+            <h2 className="heading">Everything for campus living</h2>
+            <p>
+              Find a place to stay, helpful student information, and essentials
+              for everyday campus life.
+            </p>
+          </div>
+          <div className="product-pillars">
+            {productPillars.map(({ title, description, href, Icon }) => (
+              <article className="product-pillar" key={title}>
+                <div className="pillar-icon">
+                  <Icon aria-hidden="true" size={24} strokeWidth={1.75} />
+                </div>
+                <h3>{title}</h3>
+                <p>{description}</p>
+                <Link
+                  prefetch
+                  href={href}
+                  className="pillar-link"
+                  aria-label={`Explore ${title}`}
+                >
+                  Explore
+                  <ArrowRight
+                    aria-hidden="true"
+                    size={20}
+                    strokeWidth={1.75}
+                  />
+                </Link>
+              </article>
+            ))}
+          </div>
+        </div>
+      </motion.section>
+
+      <motion.section
+        className="service-section"
+        variants={sectionReveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-80px" }}
+        transition={defaultTransition}
+      >
         <div className="container">
           <div className="heading-section">
             <h2 className="heading">{about.heading}</h2>
             <p>{about.waw}</p>
           </div>
           <div className="services">
-            {about.services.map((service) => (
-              <div key={service.text} className="service">
-                <Image
-                  priority
-                  src={service.icon}
-                  width={500}
-                  height={500}
-                  alt="service icon"
-                />
+            {about.services.map((service, index) => {
+              const ServiceIcon = serviceIcons[index] ?? BadgeCheck;
 
-                <h5>{service.heading}</h5>
-                <p>{service.text}</p>
-              </div>
-            ))}
+              return (
+                <div key={service.text} className="service">
+                  <div className="service-icon">
+                    <ServiceIcon
+                      aria-hidden="true"
+                      size={24}
+                      strokeWidth={1.75}
+                    />
+                  </div>
+                  <h5>{service.heading}</h5>
+                  <p>{service.text}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      <section className="recent-property-section">
+      <motion.section
+        className="recent-property-section"
+        variants={sectionReveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-80px" }}
+        transition={defaultTransition}
+      >
         <div className="container">
           <div className="heading-section">
             <h2 className="heading">recent properties</h2>
@@ -142,10 +231,10 @@ export default function App() {
               return (
                 <div key={prop.id} className="pd">
                   <Image
-                    priority
                     src={prop.images[0]}
                     width={1000}
                     height={1000}
+                    sizes="(max-width: 768px) 92vw, (max-width: 1200px) 45vw, 30vw"
                     alt="property image"
                   />
                   <div className="ct">
@@ -156,9 +245,14 @@ export default function App() {
                     />
                     <div>
                       <h6>{prop.title}</h6>
-                      <Link prefetch href={prop.url} className="btn">
-                        check out <FaArrowRightLong />
-                      </Link>
+                      <ButtonLink
+                        prefetch
+                        href={prop.url}
+                        variant="outline"
+                        rightIcon={<ArrowRight aria-hidden="true" />}
+                      >
+                        check out
+                      </ButtonLink>
                     </div>
                   </div>
                 </div>
@@ -167,11 +261,12 @@ export default function App() {
           </div>
           <div className="more-listing">
             <Link prefetch href="/apartment">
-              more listing <FaArrowRightLong />
+              more listing{" "}
+              <ArrowRight aria-hidden="true" size={20} strokeWidth={1.75} />
             </Link>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       <section className="quote-section">
         <div className="container">
@@ -195,10 +290,10 @@ export default function App() {
                 <div className="details">
                   <div className="testi-profile">
                     <Image
-                      priority
                       src={testi.image}
                       width={500}
                       height={500}
+                      sizes="64px"
                       alt="testi-img"
                     />
                     <div>
@@ -208,7 +303,12 @@ export default function App() {
                   </div>
 
                   <div className="rating">
-                    <RiVerifiedBadgeLine title="Verified" />
+                    <BadgeCheck
+                      aria-label="Verified"
+                      role="img"
+                      size={20}
+                      strokeWidth={1.75}
+                    />
                   </div>
                 </div>
                 <div className="testi-content">
@@ -247,12 +347,12 @@ export default function App() {
             Abode is here to help. With our years of experience and dedication
           </p>
           <div className="cta">
-            <Link prefetch href="/contact" className="btn">
+            <ButtonLink prefetch href="/contact">
               contact
-            </Link>
-            <Link prefetch href="/auth/signup" className="btn btn-secondary">
+            </ButtonLink>
+            <ButtonLink prefetch href="/auth/signup" variant="secondary">
               get started
-            </Link>
+            </ButtonLink>
           </div>
         </div>
       </section>

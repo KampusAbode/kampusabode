@@ -15,7 +15,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation"; // Import navigation styles
 import BookmarkButton from "../../components/features/bookmarkbutton/BookmarkButton";
-import { FaLocationDot } from "react-icons/fa6";
+import { BadgeCheck, MapPin, Play, Sparkles } from "lucide-react";
 import { fetchUsersById } from "../../utils";
 import PropertyDetails from "../[id]/page";
 
@@ -26,6 +26,8 @@ interface PropCardType {
 const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
   const [isDesktop, setIsDesktop] = useState(false);
   const [agentDetails, setAgentDetails] = useState<UserType>();
+  const isVerified =
+    "isVerified" in propertyData && propertyData.isVerified === true;
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -54,6 +56,12 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
         <div className="actions">
           <BookmarkButton propertyId={propertyData.id} />
         </div>
+        {isVerified && (
+          <span className="verified-badge">
+            <BadgeCheck aria-hidden="true" size={15} strokeWidth={1.8} />
+            Verified
+          </span>
+        )}
         {/* {agentDetails && (
           <div className="agent-image">
             <Image
@@ -82,10 +90,10 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
             {propertyData.images.map((img: string, index) => (
               <SwiperSlide key={index}>
                 <Image
-                  priority
                   src={img}
                   width={1800}
                   height={1800}
+                  sizes="(max-width: 640px) 92vw, (max-width: 1024px) 45vw, 30vw"
                   alt={`${propertyData.title} image`}
                 />
               </SwiperSlide>
@@ -123,7 +131,9 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
                     playsInline
                     preload="metadata"
                   />
-                  <div className="video-play-icon">▶</div>
+                  <div className="video-play-icon">
+                    <Play aria-hidden="true" size={24} fill="currentColor" />
+                  </div>
                 </div>
               </SwiperSlide>
             )}
@@ -138,7 +148,10 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
         <div className="location-price">
           <div>
             {/* <span className="type">{propertyData.type}</span> - */}
-            <span>{propertyData.location}</span>
+            <span className="location">
+              <MapPin aria-hidden="true" size={15} strokeWidth={1.75} />
+              {propertyData.location}
+            </span>
           </div>
 
           <span className="price">
@@ -146,7 +159,22 @@ const PropCard: React.FC<PropCardType> = ({ propertyData }) => {
             {/* {propertyData.priceType === "rent" ? "rent" : "total"} */}
           </span>
         </div>
-        <span>{propertyData.title}</span>
+        <span className="property-title">{propertyData.title}</span>
+        {Array.isArray(propertyData.amenities) &&
+          propertyData.amenities.length > 0 && (
+            <div className="amenities">
+              {propertyData.amenities.slice(0, 2).map((amenity) => (
+                <span className="amenity" key={amenity}>
+                  <Sparkles
+                    aria-hidden="true"
+                    size={14}
+                    strokeWidth={1.75}
+                  />
+                  {amenity}
+                </span>
+              ))}
+            </div>
+          )}
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "../button/Button";
 
 interface RoomieCardProps {
   profile: {
@@ -80,11 +81,13 @@ const RoomieCard: React.FC<RoomieCardProps> = ({
           <span>💰 {formatBudget(profile.budgetMin, profile.budgetMax)}</span>
         </div>
 
-        <button
+        <Button
+          variant="primary"
+          size="md"
           onClick={() => onViewProfile(profile)}
-          className="w-full px-3 py-2 text-sm bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors">
+          className="w-full">
           View Profile
-        </button>
+        </Button>
       </div>
     );
   }
@@ -170,16 +173,20 @@ const RoomieCard: React.FC<RoomieCardProps> = ({
           </div>
 
           <div className="flex gap-2">
-            <button
+            <Button
+              variant="outline"
+              size="md"
               onClick={() => onViewProfile(profile)}
-              className="flex-1 px-4 py-2 border-2 border-blue-600 text-blue-600 rounded-lg font-medium hover:bg-blue-50 transition-colors">
+              className="flex-1">
               View Full Profile
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="primary"
+              size="md"
               onClick={() => onWhatsAppConnect(profile)}
-              className="flex-1 px-4 py-2 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600 transition-colors">
+              className="flex-1">
               💬 Connect
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -260,16 +267,20 @@ const RoomieCard: React.FC<RoomieCardProps> = ({
         <p className="text-xs text-gray-400 mb-4">👁️ {profile.views} views</p>
 
         <div className="flex gap-2">
-          <button
+          <Button
+            variant="outline"
+            size="md"
             onClick={() => onViewProfile(profile)}
-            className="flex-1 px-4 py-2 border-2 border-blue-600 text-blue-600 rounded-lg font-medium hover:bg-blue-50 transition-colors text-sm">
+            className="flex-1">
             View Profile
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="primary"
+            size="md"
             onClick={() => onWhatsAppConnect(profile)}
-            className="flex-1 px-4 py-2 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600 transition-colors text-sm">
+            className="flex-1">
             💬 Connect
-          </button>
+          </Button>
         </div>
       </div>
     </div>

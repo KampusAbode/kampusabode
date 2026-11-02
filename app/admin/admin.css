@@ -46,31 +46,6 @@
      -moz-user-select: auto;
           user-select: auto;
 }
-.admin-dashboard .container .dashboard-content .user-management ul li .actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: var(--spacing);
-  background-color: var(--light-gray);
-  margin-top: var(--spacing-h);
-  background-color: var(--light-gray);
-}
-.admin-dashboard .container .dashboard-content .user-management ul li .actions .action-btn {
-  padding: var(--spacing-b);
-  font-size: var(--font-size-xs);
-  text-align: center;
-  color: var(--text-color-p);
-  cursor: pointer;
-}
-.admin-dashboard .container .dashboard-content .user-management ul li .actions .action-btn:hover {
-  background-color: var(--gray);
-  color: var(--text-color-h);
-}
-.admin-dashboard .container .dashboard-content .user-management ul li .actions .action-btn.active {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
-  background-color: green;
-}
 @media (min-width: 768px) {
   .admin-dashboard .container .dashboard-content .user-management ul {
     grid-template-columns: repeat(2, 1fr);
@@ -136,12 +111,6 @@
 .admin-dashboard .container .dashboard-content .property-management ul li .actions {
   margin-top: var(--spacing);
   display: flex;
-}
-.admin-dashboard .container .dashboard-content .property-management ul li .actions .btn {
-  padding: var(--spacing-h) var(--spacing);
-}
-.admin-dashboard .container .dashboard-content .property-management ul li .actions .btn.btn-secondary {
-  border: 1px solid var(primary-color);
 }
 .admin-dashboard .container .dashboard-content .analytics ul {
   display: grid;
@@ -265,7 +234,7 @@
   width: 12px;
   height: 12px;
 }
-.admin-dashboard .container .dashboard-content .trends ul li .btn {
+.admin-dashboard .container .dashboard-content .trends ul li .admin-trend-action {
   margin-top: var(--spacing);
 }
 @media (min-width: 520px) {

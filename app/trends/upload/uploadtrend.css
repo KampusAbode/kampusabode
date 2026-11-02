@@ -10,7 +10,7 @@
 }
 .upload-trend .container form .form-group label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: var(--space-2);
   font-weight: bold;
 }
 .upload-trend .container form .form-group label.image-upload-label {
@@ -53,7 +53,7 @@
   align-items: center;
   justify-content: space-between;
   position: sticky;
-  top: 5px;
+  top: var(--space-2);
 }
 .upload-trend .container form .form-group .quill .ql-toolbar span {
   margin: 0;
@@ -76,20 +76,9 @@
 .upload-trend .container form .form-group .quill-error .ql-container .ql-editor {
   border: 1px solid red;
 }
-.upload-trend .container form > button {
+.upload-trend .container form > .trend-submit {
   width: 100%;
-  padding: 10px;
-  background-color: var(--primary-color);
-  color: var(--white);
-  border: none;
-  border-radius: var(--border-radius-btn);
-  cursor: pointer;
-  font-size: var(--font-size-md);
   margin-top: var(--spacing-2x);
-}
-.upload-trend .container form button:disabled {
-  background-color: var(--gray);
-  cursor: not-allowed;
 }
 .upload-trend .error {
   border: 1px solid red !important;

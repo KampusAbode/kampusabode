@@ -22,13 +22,17 @@ import { useUserStore } from "../../../../store/userStore";
 import { ApartmentType } from "../../../../fetch/types";
 import data from "../../../../fetch/contents";
 import Prompt from "../../../../components/modals/prompt/Prompt";
+import { X } from "lucide-react";
+import { Button } from "../../../../components/button/Button";
+import Chip from "../../../../components/button/Chip";
+import IconButton from "../../../../components/button/IconButton";
 import "./upload.css";
 
 // Lazy load ReactQuill for better initial load performance
 const ReactQuill = dynamic(() => import("react-quill"), {
   ssr: false,
   loading: () => (
-    <div style={{ padding: "20px", background: "#f5f5f5" }}>
+    <div className="editor-loading">
       Loading editor...
     </div>
   ),
@@ -1284,8 +1288,7 @@ const UploadProperty: React.FC = () => {
             </label>
           </div>
 
-          <div
-            style={{ marginBottom: "16px", fontSize: "12px", color: "#666" }}>
+          <div className="media-requirement-note">
             {mediaState.videoFiles.length > 0 ? (
               <p>
                 ✓ Video detected: At least 1 image required (thumbnails selected
@@ -1310,22 +1313,18 @@ const UploadProperty: React.FC = () => {
                       width={200}
                       height={200}
                       className="preview-thumbnail"
-                      style={{
-                        width: "150px",
-                        height: "150px",
-                        objectFit: "cover",
-                      }}
                     />
                     <div className="media-preview-info">
                       <span className="media-name">
                         {file.name.substring(0, 15)}...
                       </span>
-                      <button
+                      <IconButton
                         type="button"
                         className="remove-media-btn"
+                        aria-label={`Remove ${file.name}`}
                         onClick={() => removeMediaFile(index)}>
-                        ✕
-                      </button>
+                        <X aria-hidden="true" size={20} strokeWidth={1.75} />
+                      </IconButton>
                     </div>
                   </div>
                 ))}
@@ -1356,12 +1355,13 @@ const UploadProperty: React.FC = () => {
                       <span className="media-name">
                         {file.name.substring(0, 15)}...
                       </span>
-                      <button
+                      <IconButton
                         type="button"
                         className="remove-media-btn"
+                        aria-label={`Remove ${file.name}`}
                         onClick={() => removeVideoFile(index)}>
-                        ✕
-                      </button>
+                        <X aria-hidden="true" size={20} strokeWidth={1.75} />
+                      </IconButton>
                     </div>
                   </div>
                 ))}
@@ -1379,53 +1379,35 @@ const UploadProperty: React.FC = () => {
                     Select thumbnail(s) for: {videoName} 
                     {selectedThumbs.length > 0 && ` (${selectedThumbs.length} selected)`}
                   </span>
-                  <p style={{ fontSize: '12px', color: '#666', marginTop: '4px' }}>
+                  <p className="thumbnail-help-text">
                     Click to select/deselect. First selected will be the main thumbnail.
                   </p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '8px' }}>
+                  <div className="video-thumbnail-options">
                     {thumbs.map((thumb, idx) => {
                       const url = mediaState.thumbnailUrlsMap[videoName]?.[idx];
                       const isSelected = selectedThumbs.some(t => t.name === thumb.name);
                       const selectionIndex = selectedThumbs.findIndex(t => t.name === thumb.name);
                       
                       return (
-                        <div key={thumb.name + idx} style={{ position: 'relative', display: 'inline-block' }}>
-                          <img
-                            className={isSelected ? "active" : ""}
-                            src={url}
-                            alt={`thumb-${idx}`}
-                            width={120}
-                            height={80}
-                            style={{ 
-                              width: 120, 
-                              height: 80, 
-                              cursor: "pointer",
-                              border: isSelected ? '3px solid #4CAF50' : '2px solid #ddd',
-                              opacity: isSelected ? 1 : 0.7,
-                              borderRadius: '4px',
-                              transition: 'all 0.2s ease'
-                            }}
+                        <div key={thumb.name + idx} className="video-thumbnail-option">
+                          <Chip
+                            type="button"
+                            aria-pressed={isSelected}
+                            aria-label={`${isSelected ? "Deselect" : "Select"} thumbnail ${idx + 1} for ${videoName}`}
+                            className="video-thumbnail-choice-button"
                             onClick={() =>
                               handleThumbnailToggle(videoName, thumb, url || "")
-                            }
-                          />
+                            }>
+                            <img
+                              className="video-thumbnail-choice"
+                              src={url}
+                              alt=""
+                              width={120}
+                              height={80}
+                            />
+                          </Chip>
                           {isSelected && (
-                            <div style={{
-                              position: 'absolute',
-                              top: '4px',
-                              right: '4px',
-                              background: '#4CAF50',
-                              color: 'white',
-                              borderRadius: '50%',
-                              width: '24px',
-                              height: '24px',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              fontSize: '12px',
-                              fontWeight: 'bold',
-                              boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                            }}>
+                            <div className="thumbnail-selection-count">
                               {selectionIndex + 1}
                             </div>
                           )}
@@ -1489,13 +1471,9 @@ const UploadProperty: React.FC = () => {
 
           <div className="form-group">
             <label>Price Type</label>
-            <div style={{ display: "flex", gap: "20px", marginTop: "8px" }}>
+            <div className="price-type-options">
               <label
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  cursor: "pointer",
-                }}>
+                className="price-type-option">
                 <input
                   type="radio"
                   name="priceType"
@@ -1507,16 +1485,11 @@ const UploadProperty: React.FC = () => {
                       priceType: e.target.value as "rent" | "total_package",
                     }))
                   }
-                  style={{ marginRight: "8px" }}
                 />
                 Rent (per year/session)
               </label>
               <label
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  cursor: "pointer",
-                }}>
+                className="price-type-option">
                 <input
                   type="radio"
                   name="priceType"
@@ -1528,7 +1501,6 @@ const UploadProperty: React.FC = () => {
                       priceType: e.target.value as "rent" | "total_package",
                     }))
                   }
-                  style={{ marginRight: "8px" }}
                 />
                 Total Package (one-time)
               </label>
@@ -1641,6 +1613,7 @@ const UploadProperty: React.FC = () => {
               multiple
               size={5}
               value={formValues.amenities}
+              className="amenities-select"
               onChange={(e) => {
                 const options = Array.from(e.target.options);
                 const selected = options
@@ -1680,20 +1653,24 @@ const UploadProperty: React.FC = () => {
           </div>
 
           {errors.images && (
-            <div className="error" style={{ marginBottom: "8px" }}>
+            <div className="error form-error-message">
               {errors.images}
             </div>
           )}
 
           {formStatus?.error && (
-            <div className="error" style={{ marginBottom: "8px" }}>
+            <div className="error form-error-message">
               {formStatus.error}
             </div>
           )}
 
-          <button type="submit" className="btn" disabled={isSubmitting}>
+          <Button
+            type="submit"
+            variant="primary"
+            size="lg"
+            disabled={isSubmitting}>
             {isSubmitting ? "Uploading..." : "Upload Property"}
-          </button>
+          </Button>
         </form>
 
         <Prompt

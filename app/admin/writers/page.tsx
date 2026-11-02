@@ -8,6 +8,7 @@ import { useUserStore } from "../../store/userStore";
 import Prompt from "../../components/modals/prompt/Prompt";
 import { useUsersStore } from "../../store/usersStore";
 import toast from "react-hot-toast";
+import { Button } from "../../components/button/Button";
 
 const WritersManagement = () => {
   const { users } = useUsersStore();
@@ -134,8 +135,12 @@ const WritersManagement = () => {
                 </div>
 
                 <div className="actions">
-                  <button
-                    className="action-btn"
+                  <Button
+                    variant={
+                      writers.find((w) => w.id === writer.id)
+                        ? "destructive"
+                        : "primary"
+                    }
                     type="button"
                     onClick={() =>
                       showPrompt(
@@ -150,7 +155,7 @@ const WritersManagement = () => {
                     {writers.find((w) => w.id === writer.id)
                       ? "Remove Writer"
                       : "Add Writer"}
-                  </button>
+                  </Button>
                 </div>
               </li>
             );

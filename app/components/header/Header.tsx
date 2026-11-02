@@ -5,7 +5,9 @@ import "./header.css";
 import data from "../../fetch/contents";
 import Link from "next/link";
 import Image from "next/image";
-import { FaBars } from "react-icons/fa";
+import { Menu } from "lucide-react";
+import { Button, ButtonLink } from "../button/Button";
+import IconButton from "../button/IconButton";
 import { usePathname, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import BackButton from "../features/backbutton/BackButton";
@@ -110,44 +112,47 @@ export default function Header() {
               ))}
             </ul>
             <div className="cta">
-              <Link
+              <ButtonLink
                 href={user ? "/contact" : "/auth/signup"}
-                className="btn btn-secondary"
-                title="Button">
+                variant="secondary">
                 {user ? "get in touch" : "signup"}
-              </Link>
+              </ButtonLink>
               {user ? (
                 user.userType === "student" ? (
-                  <span
-                    className="btn"
-                    title="Button"
-                    onClick={handleLogoutClick}>
+                  <Button type="button" onClick={handleLogoutClick}>
                     logout
-                  </span>
+                  </Button>
                 ) : user.userType === "agent" ? (
-                  <Link
+                  <ButtonLink
                     href={`/apartment/c/${user.id}`}
-                    className="sign-up-btn btn">
+                    className="sign-up-btn">
                     upload
-                  </Link>
+                  </ButtonLink>
                 ) : null
               ) : (
-                <Link prefetch href="/auth/login" className="sign-up-btn btn">
+                <ButtonLink prefetch href="/auth/login" className="sign-up-btn">
                   login
-                </Link>
+                </ButtonLink>
               )}
             </div>
           </nav>
 
-          <div className="menu" onClick={toggleNav}>
+          <IconButton
+            type="button"
+            className="menu"
+            onClick={toggleNav}
+            aria-label="Open navigation menu"
+            aria-expanded={isNavOpen}
+            aria-controls="primary-navigation">
             <Image
               src={`${user ? user?.avatar : "/assets/user_avatar.jpg"}`}
               width={500}
               height={500}
-              alt="logo"
+              alt=""
               priority
             />
-          </div>
+            <Menu aria-hidden="true" size={20} strokeWidth={1.75} />
+          </IconButton>
         </div>
       </header>
 

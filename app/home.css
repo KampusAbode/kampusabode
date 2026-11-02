@@ -17,6 +17,275 @@
   background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.1));
   z-index: -1;
 }
+:root .hero-section {
+  min-height: min(760px, 100svh - 68px);
+  height: auto;
+  padding-block: var(--space-20);
+  overflow: hidden;
+  background: radial-gradient(ellipse at 78% 24%, rgba(190, 18, 60, 0.26), transparent 34%), radial-gradient(ellipse at 18% 100%, rgba(89, 105, 132, 0.24), transparent 38%), linear-gradient(135deg, #171b22 0%, #242b36 58%, #20252d 100%);
+}
+:root .hero-section::after {
+  background: linear-gradient(90deg, rgba(19, 22, 29, 0.36), rgba(19, 22, 29, 0.04));
+}
+:root .hero-section .container {
+  text-align: left;
+}
+:root .hero-section .container .hero-content {
+  width: min(820px, 100%);
+  margin: 0;
+  padding-block: var(--space-4);
+  text-align: left;
+}
+:root .hero-section .container .hero-content h1 {
+  max-width: 820px;
+  margin: 0 0 var(--space-5);
+  padding: 0;
+  color: #fff;
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  font-weight: 650;
+  line-height: 1.04;
+  letter-spacing: -0.055em;
+  text-transform: none;
+}
+:root .hero-section .container .hero-content h1 span {
+  color: #ffb1c2;
+}
+:root .hero-section .container .hero-content p {
+  width: min(620px, 100%);
+  margin: 0 0 var(--space-8);
+  color: rgba(255, 255, 255, 0.78);
+  font-size: clamp(1rem, 1.7vw, 1.15rem);
+  line-height: 1.75;
+}
+:root .hero-section .container .hero-content .cta-hero {
+  justify-content: flex-start;
+}
+:root .service-section {
+  padding-block: var(--space-20);
+}
+:root .service-section::before,
+:root .service-section::after {
+  display: none;
+}
+:root .service-section .container {
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.6fr);
+  align-items: center;
+  gap: var(--space-12);
+}
+:root .service-section .container .heading-section {
+  margin-bottom: 0;
+}
+:root .service-section .container .heading-section .heading {
+  margin-bottom: var(--space-4);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+}
+:root .service-section .container .heading-section p {
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+:root .service-section .container .services {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: var(--space-4);
+}
+:root .service-section .container .services .service {
+  min-height: 220px;
+  padding: var(--space-6);
+  border: 1px solid var(--border-color-light);
+  border-radius: var(--radius-2xl);
+  background: var(--bg-primary);
+  box-shadow: var(--shadow-sm);
+  color: var(--text-primary);
+  transition: border-color var(--transition-base), box-shadow var(--transition-base), transform var(--transition-base);
+}
+:root .service-section .container .services .service::after {
+  display: none;
+}
+:root .service-section .container .services .service:hover {
+  border-color: var(--primary-200);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
+:root .service-section .container .services .service .service-icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  margin-bottom: var(--space-5);
+  border-radius: var(--radius-lg);
+  background: var(--primary-50);
+  color: var(--primary-700);
+}
+:root .service-section .container .services .service h5 {
+  margin-block: 0 var(--space-2);
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 650;
+}
+:root .service-section .container .services .service p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+:root .recent-property-section,
+:root .testimonials-section,
+:root .trends-section {
+  padding-block: var(--space-20);
+}
+:root .recent-property-section {
+  background: var(--bg-secondary);
+}
+:root .recent-property-section .container .properties {
+  gap: var(--space-5);
+}
+:root .recent-property-section .container .properties .pd {
+  height: 390px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-md);
+  transition: box-shadow var(--transition-base), transform var(--transition-base);
+}
+:root .recent-property-section .container .properties .pd:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
+:root .recent-property-section .container .properties .pd img {
+  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+:root .recent-property-section .container .properties .pd:hover img {
+  transform: scale(1.035);
+}
+:root .recent-property-section .container .properties .pd .ct {
+  padding: var(--space-5);
+}
+:root .recent-property-section .container .properties .pd .ct div {
+  align-items: center;
+}
+:root .recent-property-section .container .more-listing {
+  margin-top: var(--space-8);
+}
+:root .recent-property-section .container .more-listing a {
+  min-height: 44px;
+  color: var(--primary-700);
+  font-weight: 600;
+  letter-spacing: 0;
+}
+:root .quote-section {
+  padding-block: var(--space-20);
+  background: var(--bg-primary);
+}
+:root .quote-section .quote {
+  border-color: var(--border-color-light);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-sm);
+}
+:root .testimonials-section .container .testimonies {
+  gap: var(--space-5);
+}
+:root .testimonials-section .container .testimonies .testimonial-card,
+:root .trends-section .trends > a {
+  border: 1px solid var(--border-color-light);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-sm);
+}
+:root .testimonials-section .container .testimonies .testimonial-card:nth-child(odd),
+:root .testimonials-section .container .testimonies .testimonial-card:nth-child(odd):hover,
+:root .testimonials-section .container .testimonies .testimonial-card:hover {
+  transform: none;
+}
+:root .testimonials-section .container .testimonies .testimonial-card:hover {
+  box-shadow: var(--shadow-md);
+}
+:root .testimonials-section .container .testimonies .testimonial-card .details,
+:root .testimonials-section .container .testimonies .testimonial-card .testi-content {
+  padding: var(--space-5);
+}
+:root .testimonials-section .container .testimonies .testimonial-card .testi-content {
+  border-color: var(--border-color-light);
+}
+:root .testimonials-section .container .testimonies .testimonial-card .details .rating svg {
+  width: 20px;
+  height: 20px;
+  color: #138a58;
+}
+:root .testimonials-section .container .testimonies .testimonial-card .details .rating svg path {
+  fill: none;
+  stroke: currentColor;
+}
+:root .cta-section {
+  margin-block: var(--space-6);
+  padding-block: var(--space-20);
+  border-radius: var(--radius-2xl);
+  background: radial-gradient(circle at 85% 20%, rgba(255, 255, 255, 0.15), transparent 26%), linear-gradient(125deg, var(--primary-800), var(--primary-600));
+}
+:root .cta-section::before {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+:root .cta-section .container {
+  position: relative;
+}
+:root .cta-section .container p {
+  max-width: 640px;
+}
+@media (max-width: 900px) {
+  :root .service-section .container {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+}
+@media (max-width: 768px) {
+  :root .hero-section {
+    min-height: 560px;
+    padding-block: var(--space-12);
+  }
+  :root .hero-section .container .hero-content h1 {
+    font-size: clamp(2.5rem, 9vw, 4rem);
+  }
+  :root .service-section .container .services {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  :root .service-section .container .services .service {
+    min-height: 0;
+  }
+  :root .recent-property-section .container .properties,
+  :root .testimonials-section .container .testimonies,
+  :root .trends-section .trends {
+    grid-template-columns: 1fr;
+  }
+  :root .recent-property-section .container .properties .pd {
+    height: min(430px, 112vw);
+  }
+  :root .cta-section {
+    margin-inline: var(--space-4);
+  }
+  :root .service-section,
+  :root .recent-property-section,
+  :root .testimonials-section,
+  :root .trends-section,
+  :root .quote-section,
+  :root .cta-section,
+  .pillars-section {
+    padding-block: var(--space-12);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root .service-section .container .services .service,
+  :root .recent-property-section .container .properties .pd,
+  :root .recent-property-section .container .properties .pd img,
+  .pillars-section .product-pillar,
+  .pillars-section .product-pillar .pillar-link svg {
+    transition: none;
+  }
+  :root .service-section .container .services .service:hover,
+  :root .recent-property-section .container .properties .pd:hover,
+  :root .recent-property-section .container .properties .pd:hover img,
+  .pillars-section .product-pillar:hover,
+  .pillars-section .product-pillar .pillar-link:hover svg {
+    transform: none;
+  }
+}
+
 .hero-section .hero_video {
   position: absolute;
   top: 0;
@@ -277,9 +546,6 @@
 .recent-property-section .container .properties .pd .ct div h6 {
   color: var(--font-white);
 }
-.recent-property-section .container .properties .pd .ct div .btn {
-  font-size: var(--font-size-sm);
-}
 .recent-property-section .container .more-listing {
   text-align: center;
   margin-top: var(--spacing-3x);
@@ -511,12 +777,6 @@
   .hero-section .container .hero-content p {
     width: 100%;
   }
-  .hero-section .container .hero-content .cta-hero .btn {
-    border-color: var(--primary-color);
-  }
-  .hero-section .container .hero-content .cta-hero .btn-secondary {
-    border-color: var(--font-white);
-  }
   /* ========== hero section close ========== */
   /* ========== services section open ========== */
   .service-section .container {
@@ -573,4 +833,111 @@
     opacity: 0.5;
   }
   /* ========== call-to-action section open ========== */
+}
+.pillars-section {
+  padding-block: var(--space-20);
+  background: var(--bg-primary);
+}
+
+.pillars-section .container .heading-section {
+  max-width: 760px;
+  margin: 0 auto var(--space-8);
+}
+
+.pillars-section .container .heading-section .heading {
+  margin-bottom: var(--space-3);
+  color: var(--text-primary);
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+}
+
+.pillars-section .container .heading-section p {
+  width: 100%;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.pillars-section .product-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+
+.pillars-section .product-pillar {
+  display: flex;
+  min-height: 250px;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--space-5);
+  border: 1px solid var(--border-color-light);
+  border-radius: var(--radius-2xl);
+  background: linear-gradient(160deg, var(--bg-primary), var(--bg-tertiary));
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition-base), box-shadow var(--transition-base), transform var(--transition-base);
+}
+
+.pillars-section .product-pillar:hover {
+  border-color: var(--primary-200);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
+
+.pillars-section .product-pillar .pillar-icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  margin-bottom: var(--space-5);
+  border-radius: var(--radius-lg);
+  background: var(--primary-50);
+  color: var(--primary-700);
+}
+
+.pillars-section .product-pillar h3 {
+  margin-bottom: var(--space-2);
+  color: var(--text-primary);
+  font-size: 1.15rem;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+}
+
+.pillars-section .product-pillar p {
+  margin-bottom: var(--space-4);
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.pillars-section .product-pillar .pillar-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: auto;
+  color: var(--primary-700);
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.pillars-section .product-pillar .pillar-link svg {
+  transition: transform var(--transition-fast);
+}
+
+.pillars-section .product-pillar .pillar-link:hover svg {
+  transform: translateX(4px);
+}
+
+@media (max-width: 768px) {
+  .pillars-section .product-pillars {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  .pillars-section .product-pillar {
+    min-height: 215px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pillars-section .product-pillar,
+  .pillars-section .product-pillar .pillar-link svg {
+    transition: none;
+  }
 }/*# sourceMappingURL=home.css.map */

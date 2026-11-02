@@ -11,8 +11,7 @@ import {
   differenceInDays,
   differenceInYears,
 } from "date-fns";
-import { FiSend } from "react-icons/fi";
-import { MdBubbleChart } from "react-icons/md";
+import { LoaderCircle, Send } from "lucide-react";
 import {
   sendMessage,
   listenToMessagesForConversation,
@@ -23,6 +22,7 @@ import Loader from "../../../components/loader/Loader";
 import Prompt from "../../../components/modals/prompt/Prompt";
 import { useUserStore } from "../../../store/userStore";
 import Link from "next/link";
+import IconButton from "../../../components/button/IconButton";
 
 type ChatProps = {
   currentUserId: string;
@@ -55,12 +55,12 @@ const ChatComponent: React.FC<ChatProps> = ({
         <div className="container">
           <h4 className="page-heading">Chat</h4>
 
-          <div style={{ textAlign: "center", marginTop: "28px" }}>
+          <div className="chat-page__login-prompt">
             <p>Please log in to access your chat.</p>
             <Link
               prefetch
               href="/auth/login"
-              style={{ textDecoration: "underline" }}>
+              className="chat-page__login-link">
               Log in
             </Link>
           </div>
@@ -215,7 +215,7 @@ const ChatComponent: React.FC<ChatProps> = ({
               </div>
             ))
           ) : (
-            <p style={{ textAlign: "center" }}>No messages yet.</p>
+            <p className="chat-page__empty-state">No messages yet.</p>
           )}
           <div ref={messagesEndRef}></div>
         </div>
@@ -231,12 +231,18 @@ const ChatComponent: React.FC<ChatProps> = ({
             placeholder="Type your message..."
             ref={inputRef}
           />
-          <button
-            className="btn"
+          <IconButton
+            className="chat-send-button"
+            aria-label={isLoading ? "Sending message" : "Send message"}
+            aria-busy={isLoading || undefined}
             onClick={handleSendMessage}
             disabled={isLoading || message.trim() === ""}>
-            {isLoading ? <MdBubbleChart /> : <FiSend />}
-          </button>
+            {isLoading ? (
+              <LoaderCircle size={20} strokeWidth={1.75} className="chat-send-spinner" />
+            ) : (
+              <Send size={20} strokeWidth={1.75} />
+            )}
+          </IconButton>
         </div>
       </div>
 

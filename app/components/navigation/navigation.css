@@ -44,12 +44,14 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 5px;
+  gap: var(--space-1);
 }
 .navigation ul li div svg path {
-  fill: var(--text-color-p);
+  fill: none;
 }
 .navigation ul li div svg {
+  color: var(--text-color-p);
+  stroke: currentColor;
   transition: var(--transition);
 }
 .navigation ul li div span {
@@ -64,9 +66,7 @@
 }
 .navigation ul li.active svg {
   transform: translateY(-8px);
-}
-.navigation ul li.active svg path {
-  fill: var(--primary-color) !important;
+  color: var(--primary-600);
 }
 .navigation ul li.active span {
   color: var(--primary-color);

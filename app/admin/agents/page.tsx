@@ -8,6 +8,7 @@ import { UserType } from "../../fetch/types";
 import Loader from "../../components/loader/Loader";
 import Image from "next/image";
 import { useUsersStore } from "../../store/usersStore";
+import { Button } from "../../components/button/Button";
 
 const AgentList = () => {
   const router = useRouter();
@@ -90,13 +91,12 @@ const AgentList = () => {
                 <span className="agent-id">ID: {agent.id}</span>
                 {/* <span>{ agent.userInfo. }</span> */}
               </div>
-              <button
-                className="btn btn-primary"
+              <Button
                 onClick={() =>
                   router.push(`/apartment/c/${user?.id}/upload?agentId=${agent.id}`)
                 }>
                 Upload
-              </button>
+              </Button>
             </li>
           ))}
         </ul>

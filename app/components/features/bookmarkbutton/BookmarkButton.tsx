@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { updateBookmarkInDB } from "../../../utils";
-import {  FaHeart } from "react-icons/fa";
+import { Heart } from "lucide-react";
+import { Button } from "../../button/Button";
 import "./bookmarkbutton.css";
 import { useUserStore } from "../../../store/userStore";
 
@@ -68,15 +69,20 @@ const BookmarkButton = ({ propertyId }: { propertyId: string }) => {
   }
 
   return (
-    <div
-      className={`bookmark-button ${isBookmarked ? "saved" : ""} ${
-        loading ? "loading" : ""
-      }`}
-      onClick={!loading ? toggleBookmark : undefined}
+    <Button
+      type="button"
+      variant="ghost"
+      className={`bookmark-button ${isBookmarked ? "saved" : ""}`}
+      onClick={toggleBookmark}
       aria-label={isBookmarked ? "Remove from bookmarks" : "Add to bookmarks"}
-      role="button">
-      <FaHeart />
-    </div>
+      aria-pressed={isBookmarked}
+      aria-busy={loading}
+      disabled={loading}
+      loading={loading}
+      leftIcon={
+        <Heart fill={isBookmarked ? "currentColor" : "none"} />
+      }
+    />
   );
 };
 

@@ -8,6 +8,8 @@ import { StudentUserInfo } from "../../fetch/types";
 import { useUserStore } from "../../store/userStore";
 import { createRoomieProfile } from "../../utils/roomieMatchFirebase";
 import toast from "react-hot-toast";
+import { Button } from "../../components/button/Button";
+import Chip from "../../components/button/Chip";
 import "./CreateRoomieProfile.css";
 
 const courseOptions = [
@@ -341,11 +343,13 @@ const CreateRoomieProfile = () => {
                       <li key={field}>{field}</li>
                     ))}
                   </ul>
-                  <button
+                  <Button
+                    variant="link"
+                    size="md"
                     onClick={() => router.push("/profile/edit")}
                     className="warningButton">
                     Go to Profile Settings →
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -423,14 +427,15 @@ const CreateRoomieProfile = () => {
                 <div className="buttonGrid2">
                   {["male", "female", "non-binary", "prefer-not-to-say"].map(
                     (option) => (
-                      <button
+                      <Chip
                         key={option}
                         type="button"
+                        aria-pressed={formData.gender === option}
                         onClick={() => handleInputChange("gender", option)}
-                        className={`toggleButton ${formData.gender === option ? "active" : ""}`}>
+                        className="toggleButton">
                         {option.charAt(0).toUpperCase() +
                           option.slice(1).replace("-", " ")}
-                      </button>
+                      </Chip>
                     )
                   )}
                 </div>
@@ -471,22 +476,24 @@ const CreateRoomieProfile = () => {
                   <span className="required">*</span>
                 </label>
                 <div className="buttonGrid2">
-                  <button
+                  <Chip
                     type="button"
+                    aria-pressed={formData.lookingFor === "any-property"}
                     onClick={() =>
                       handleInputChange("lookingFor", "any-property")
                     }
-                    className={`toggleButton ${formData.lookingFor === "any-property" ? "active" : ""}`}>
+                    className="toggleButton">
                     Any Property
-                  </button>
-                  <button
+                  </Chip>
+                  <Chip
                     type="button"
+                    aria-pressed={formData.lookingFor === "specific-property"}
                     onClick={() =>
                       handleInputChange("lookingFor", "specific-property")
                     }
-                    className={`toggleButton ${formData.lookingFor === "specific-property" ? "active" : ""}`}>
+                    className="toggleButton">
                     Specific Property
-                  </button>
+                  </Chip>
                 </div>
                 {errors.lookingFor && (
                   <p className="errorText">{errors.lookingFor}</p>
@@ -501,15 +508,16 @@ const CreateRoomieProfile = () => {
                 <p className="helperText">Select all that apply</p>
                 <div className="buttonGrid2Md3">
                   {locations.map((location) => (
-                    <button
+                    <Chip
                       key={location}
                       type="button"
+                      aria-pressed={formData.preferredLocations.includes(location)}
                       onClick={() =>
                         toggleArrayItem("preferredLocations", location)
                       }
-                      className={`chipButton ${formData.preferredLocations.includes(location) ? "active" : ""}`}>
+                      className="chipButton">
                       {location}
-                    </button>
+                    </Chip>
                   ))}
                 </div>
                 {errors.preferredLocations && (
@@ -627,16 +635,17 @@ const CreateRoomieProfile = () => {
                     },
                     { value: "flexible", label: "⏰ Flexible", desc: "Varies" },
                   ].map((option) => (
-                    <button
+                    <Chip
                       key={option.value}
                       type="button"
+                      aria-pressed={formData.sleepSchedule === option.value}
                       onClick={() =>
                         handleInputChange("sleepSchedule", option.value)
                       }
-                      className={`toggleButtonWithDesc ${formData.sleepSchedule === option.value ? "active" : ""}`}>
-                      <div className="label">{option.label}</div>
-                      <div className="description">{option.desc}</div>
-                    </button>
+                      className="toggleButtonWithDesc">
+                      <span className="label">{option.label}</span>
+                      <span className="description">{option.desc}</span>
+                    </Chip>
                   ))}
                 </div>
                 {errors.sleepSchedule && (
@@ -679,15 +688,16 @@ const CreateRoomieProfile = () => {
                     { value: "moderate", label: "😊 Moderate" },
                     { value: "social", label: "🎉 Social" },
                   ].map((option) => (
-                    <button
+                    <Chip
                       key={option.value}
                       type="button"
+                      aria-pressed={formData.noisePreference === option.value}
                       onClick={() =>
                         handleInputChange("noisePreference", option.value)
                       }
-                      className={`toggleButton ${formData.noisePreference === option.value ? "active" : ""}`}>
+                      className="toggleButton">
                       {option.label}
-                    </button>
+                    </Chip>
                   ))}
                 </div>
                 {errors.noisePreference && (
@@ -707,15 +717,16 @@ const CreateRoomieProfile = () => {
                     { value: "frequent", label: "Frequent" },
                     { value: "flexible", label: "Flexible" },
                   ].map((option) => (
-                    <button
+                    <Chip
                       key={option.value}
                       type="button"
+                      aria-pressed={formData.guestPolicy === option.value}
                       onClick={() =>
                         handleInputChange("guestPolicy", option.value)
                       }
-                      className={`toggleButton ${formData.guestPolicy === option.value ? "active" : ""}`}>
+                      className="toggleButton">
                       {option.label}
-                    </button>
+                    </Chip>
                   ))}
                 </div>
                 {errors.guestPolicy && (
@@ -773,13 +784,14 @@ const CreateRoomieProfile = () => {
                 <p className="helperText">Select at least one</p>
                 <div className="buttonGrid2Md3">
                   {hobbyOptions.map((hobby) => (
-                    <button
+                    <Chip
                       key={hobby}
                       type="button"
+                      aria-pressed={formData.hobbies.includes(hobby)}
                       onClick={() => toggleArrayItem("hobbies", hobby)}
-                      className={`chipButton ${formData.hobbies.includes(hobby) ? "active" : ""}`}>
+                      className="chipButton">
                       {hobby}
-                    </button>
+                    </Chip>
                   ))}
                 </div>
                 {errors.hobbies && (
@@ -905,26 +917,35 @@ const CreateRoomieProfile = () => {
           {/* Navigation Buttons */}
           <div className="navigationButtons">
             {currentStep > 1 && (
-              <button type="button" onClick={handleBack} className="backButton">
+              <Button
+                type="button"
+                variant="outline"
+                size="md"
+                onClick={handleBack}
+                className="backButton">
                 Back
-              </button>
+              </Button>
             )}
 
             {currentStep < 4 ? (
-              <button
+              <Button
+                variant="primary"
+                size="md"
                 type="button"
                 onClick={handleNext}
                 className="continueButton">
                 Continue
-              </button>
+              </Button>
             ) : (
-              <button
+              <Button
+                variant="primary"
+                size="md"
                 type="button"
                 onClick={handleSubmit}
                 disabled={isSubmitting}
                 className="submitButton">
                 {isSubmitting ? "Creating Profile..." : "Create Profile 🎉"}
-              </button>
+              </Button>
             )}
           </div>
         </div>

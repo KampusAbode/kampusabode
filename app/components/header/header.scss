@@ -3,7 +3,7 @@ header {
   width: 100%;
   background-color: var(--white);
   box-shadow: var(--shadow);
-  z-index: 9999;
+  z-index: 99999;
   border-top-left-radius: var(--border-radius);
   border-top-right-radius: var(--border-radius);
   transition:
@@ -59,7 +59,7 @@ header {
       .cta {
         margin-left: var(--spacing-3x);
 
-        .btn {
+        .ka-button {
           padding-block: var(--spacing-h);
         }
       }
@@ -73,6 +73,10 @@ header {
         min-width: 40px;
         min-height: 40px;
         object-fit: cover;
+      }
+
+      .ka-icon-button__icon {
+        display: contents;
       }
     }
   }

@@ -1,14 +1,14 @@
 .trends-page .container .trends {
   display: grid;
   grid-template-columns: repeat(4, 1.5fr);
-  gap: var(--spacing);
+  gap: var(--space-6);
   margin-block: var(--spacing-2x);
 }
 
 @media screen and (max-width: 1200px) {
   .trends-page .container .trends {
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-h);
+    gap: var(--space-4);
   }
 }
 @media screen and (max-width: 900px) {
@@ -19,12 +19,5 @@
 @media screen and (max-width: 768px) {
   .trends-page .container .trends {
     grid-template-columns: 1fr 1fr;
-  }
-  .trends-page .trends-page-filter .container .search-trends {
-    grid-template-columns: 8fr 1.5fr;
-  }
-  .trends-page .trends-page-filter .container .search-trends .search-icon svg {
-    width: 20px;
-    height: 20px;
   }
 }/*# sourceMappingURL=trends.css.map */

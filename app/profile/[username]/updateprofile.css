@@ -1,8 +1,9 @@
 .profile-update {
   .container {
     /* min-height: 100vh; */
-    max-width: 900px;
     .fm {
+      max-width: 900px;
+      margin-inline: auto;
       padding-block: var(--spacing-5x);
 
       form {
@@ -87,19 +88,11 @@
             color: #d32f2f;
           }
         }
-        button {
-          margin: var(--spacing) auto;
-          padding: var(--spacing);
+        .profile-update__submit {
+          margin: var(--space-4) auto;
           width: 100%;
-          display: block;
+          display: flex;
           text-align: center;
-          /* text-decoration: ; */
-
-          &.disable {
-            user-select: none;
-            background-color: var(--light-gray);
-            cursor: not-allowed;
-          }
         }
       }
       & > span {

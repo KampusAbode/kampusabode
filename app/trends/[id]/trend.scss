@@ -15,8 +15,6 @@
       grid-template-columns: 3fr 1fr;
       align-items: flex-start;
       gap: var(--spacing);
-      width: 95%;
-      max-width: 1200px !important  ;
     }
     .trend-details {
       display: flex;
@@ -57,24 +55,8 @@
     }
     .interaction-buttons {
       display: flex;
-      gap: var(--spacing);
-
-      button {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-h);
-        border: none;
-        padding: var(--spacing-h) var(--spacing);
-        background-color: var(--light-gray);
-        border-radius: var(--border-radius-r);
-        color: var(--text-color-p);
-        cursor: pointer;
-
-        &.active i {
-          fill: var(--text-color-h);
-          font-size: var(--font-size-lg);
-        }
-      }
+      flex-wrap: wrap;
+      gap: var(--space-4);
     }
     .trend-description {
       margin-block: var(--spacing-2x);
@@ -163,8 +145,9 @@
           border-radius: var(--border-radius);
           border: none;
         }
-        .btn {
+        .send-comment__submit {
           width: fit-content;
+          flex-shrink: 0;
         }
       }
 

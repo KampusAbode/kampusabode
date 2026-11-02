@@ -9,10 +9,10 @@ const ItemCard = ({ item }: { item: ItemType }) => {
     <div className="item">
       <div className="item-image">
         <Image
-          priority
           src={item.imageUrl}
           width={800}
           height={800}
+          sizes="(max-width: 640px) 92vw, (max-width: 1024px) 45vw, 30vw"
           alt={item.name}
         />
         <span>{item.condition}</span>

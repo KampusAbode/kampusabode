@@ -12,8 +12,8 @@ import { UserType, AgentUserInfo, StudentUserInfo } from "../../fetch/types";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "../../store/userStore";
 import Prompt from "../../components/modals/prompt/Prompt";
-import { FaP } from "react-icons/fa6";
-import { FaPlusCircle } from "react-icons/fa";
+import { CirclePlus } from "lucide-react";
+import { Button } from "../../components/button/Button";
 import "./updateprofile.css";
 
 interface FormErrors {
@@ -289,7 +289,11 @@ const CreateProfilePage = ({ params }: PageProp) => {
                   aria-describedby="file-error"
                 />
                 <label htmlFor="file" className="icon-label">
-                  <FaPlusCircle />
+                  <CirclePlus
+                    aria-hidden="true"
+                    size={20}
+                    strokeWidth={1.75}
+                  />
                 </label>
               </label>
             </div>
@@ -384,13 +388,13 @@ const CreateProfilePage = ({ params }: PageProp) => {
               </div>
             )}
 
-            <button
+            <Button
               type="submit"
-              className="btn"
+              className="profile-update__submit"
               disabled={isSubmitting}
-              aria-busy={isSubmitting}>
+              loading={isSubmitting}>
               {isSubmitting ? "Updating..." : "Update Profile"}
-            </button>
+            </Button>
           </form>
         </div>
       </div>

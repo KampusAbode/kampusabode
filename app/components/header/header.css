@@ -3,7 +3,7 @@ header {
   width: 100%;
   background-color: var(--white);
   box-shadow: var(--shadow);
-  z-index: 9999;
+  z-index: 99999;
   border-top-left-radius: var(--border-radius);
   border-top-right-radius: var(--border-radius);
   transition: transform 0.3s ease, opacity 0.3s ease;
@@ -49,7 +49,7 @@ header .container nav .nav-links li a:hover {
 header .container nav .cta {
   margin-left: var(--spacing-3x);
 }
-header .container nav .cta .btn {
+header .container nav .cta .ka-button {
   padding-block: var(--spacing-h);
 }
 header .container .menu {
@@ -100,5 +100,8 @@ header .container .menu img {
        object-fit: cover;
     border-radius: 100%;
     box-shadow: var(--shadow);
+  }
+  header .container .menu .ka-icon-button__icon {
+    display: contents;
   }
 }/*# sourceMappingURL=header.css.map */

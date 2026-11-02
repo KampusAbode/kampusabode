@@ -3,9 +3,13 @@
 import "./quickservice.css";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { PiChats } from "react-icons/pi";
-import { FaPlus, FaHeadset, FaEdit } from "react-icons/fa";
-import { BsChatRightText } from "react-icons/bs";
+import {
+  Headset,
+  MessageCircle,
+  MessageSquareText,
+  Pencil,
+  Plus,
+} from "lucide-react";
 import { useUserStore } from "../../store/userStore";
 import { checkIsAdmin, checkIsWriter } from "../../utils";
 import { useEffect, useState } from "react";
@@ -44,48 +48,54 @@ const QuickService = () => {
   interface QuickServiceConfig {
     icon: React.ElementType;
     link: string;
+    label: string;
   }
 
   let config: QuickServiceConfig | undefined;
 
   if (pathname === "/apartment") {
     config = {
-      icon: user.userType === "agent" ? FaPlus : PiChats,
+      icon: user.userType === "agent" ? Plus : MessageCircle,
       link:
         user.userType === "agent"
           ? `/apartment/c/${user?.id}`
           : `/chat/${user.id}/${user.name}`,
+      label: user.userType === "agent" ? "Create a listing" : "Chat with support",
     };
   } else if (/^\/apartment\/[^/]+$/.test(pathname)) {
     config = {
-      icon: FaHeadset,
+      icon: Headset,
       link: `/chat/${user.id}/${user.name}`,
+      label: "Contact an agent",
     };
   } else if (pathname === "/messages") {
     config = {
-      icon: BsChatRightText,
+      icon: MessageSquareText,
       link: `/chat/${user.id}/${user.name}`,
+      label: "Open chat",
     };
   } else if (pathname === "/trends" && (isAdmin || isWriter)) {
     config = {
-      icon: FaPlus,
+      icon: Plus,
       link: "/trends/upload",
+      label: "Create a trend",
     };
   } else if (pathname.match(/^\/trends\/([^/]+)$/) && isWriter) {
     const trendId = pathname.match(/^\/trends\/([^/]+)$/)[1];
     config = {
-      icon: FaEdit,
+      icon: Pencil,
       link: `/trends/edit/${trendId}`,
+      label: "Edit this trend",
     };
   }
 
   if (!config) return null;
 
-  const { icon: Icon, link } = config;
+  const { icon: Icon, link, label } = config;
 
   return (
-    <Link prefetch href={link} className="quick-service" title="icon">
-      <Icon />
+    <Link prefetch href={link} className="quick-service" title={label} aria-label={label}>
+      <Icon aria-hidden="true" size={21} strokeWidth={1.75} />
     </Link>
   );
 };

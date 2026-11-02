@@ -11,9 +11,27 @@ module.exports = {
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
+      sm: 'calc(var(--radius) - 4px)',
+			xl: 'var(--radius-xl)',
+			'2xl': 'var(--radius-2xl)',
+			full: 'var(--radius-full)'
   		},
+		fontFamily: {
+			sans: ['ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif']
+		},
   		colors: {
+			brand: {
+				50: 'var(--primary-50)',
+				100: 'var(--primary-100)',
+				200: 'var(--primary-200)',
+				300: 'var(--primary-300)',
+				400: 'var(--primary-400)',
+				500: 'var(--primary-500)',
+				600: 'var(--primary-600)',
+				700: 'var(--primary-700)',
+				800: 'var(--primary-800)',
+				900: 'var(--primary-900)'
+			},
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -59,4 +77,3 @@ module.exports = {
   },
   plugins: [require("tailwindcss-animate")],
 };
-

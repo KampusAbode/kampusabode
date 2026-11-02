@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { fetchReviews } from "../../utils";
 import { db } from "../../lib/firebaseConfig";
 import { doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { Button } from "../button/Button";
 
 const ReviewManagement = () => {
   const [reviews, setReviews] = useState([]);
@@ -56,12 +57,14 @@ const ReviewManagement = () => {
                 <span className="approved">✅ Approved</span>
               ) : (
                 <>
-                  <button onClick={() => moderateReview(review.id, "approve")}>
+                  <Button onClick={() => moderateReview(review.id, "approve")}>
                     Approve
-                  </button>
-                  <button onClick={() => moderateReview(review.id, "delete")}>
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    onClick={() => moderateReview(review.id, "delete")}>
                     Delete
-                  </button>
+                  </Button>
                 </>
               )}
             </li>

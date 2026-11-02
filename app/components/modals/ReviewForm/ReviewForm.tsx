@@ -2,10 +2,11 @@
 
 import "./ReviewForm.css";
 import { useState } from "react";
-import { Star } from "lucide-react";
+import { Star, X } from "lucide-react";
 import toast from "react-hot-toast";
 import { sendReview } from "../../../utils/reviews"; // update this path if needed
-import { FaStar, FaTimes } from "react-icons/fa";
+import { Button } from "../../button/Button";
+import IconButton from "../../button/IconButton";
 
 type ReviewFormProps = {
   isOpen: boolean;
@@ -73,19 +74,31 @@ const ReviewForm = ({
         <div className="modal-top">
           <h5 className="review-header">Leave a Review</h5>
 
-          <FaTimes onClick={() => handleClose()} />
+          <IconButton
+            type="button"
+            aria-label="Close review form"
+            onClick={handleClose}
+          >
+            <X aria-hidden="true" size={20} strokeWidth={1.75} />
+          </IconButton>
         </div>
         <div className="modal-body">
           <div className="rating">
             {[1, 2, 3, 4, 5].map((star) => (
-              <FaStar
+              <IconButton
                 key={star}
-                size={20}
-                className="cursor-pointer"
-                fill={star <= rating ? "#facc15" : "none"}
-                stroke="#facc15"
-                onClick={() => setRating(star)}
-              />
+                type="button"
+                aria-label={`Rate ${star} stars`}
+                aria-pressed={rating === star}
+                onClick={() => setRating(star)}>
+                <Star
+                  size={20}
+                  strokeWidth={1.75}
+                  fill={star <= rating ? "#facc15" : "none"}
+                  stroke="#facc15"
+                  aria-hidden="true"
+                />
+              </IconButton>
             ))}
             <div className="rate">
               {rating}
@@ -97,12 +110,13 @@ const ReviewForm = ({
             onChange={(e) => setReview(e.target.value)}
           />
         </div>
-        <button
+        <Button
+          variant="primary"
+          size="md"
           onClick={handleSubmit}
-          disabled={loading}
-          className="btn btn-neutral">
+          disabled={loading}>
           {loading ? "Submitting..." : "Submit Review"}
-        </button>
+        </Button>
       </div>
     </div>
   );

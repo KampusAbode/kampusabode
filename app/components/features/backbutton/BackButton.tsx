@@ -2,7 +2,8 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { FaArrowLeftLong } from "react-icons/fa6";
+import { ArrowLeft } from "lucide-react";
+import IconButton from "../../button/IconButton";
 import "./backbutton.css";
 
 const BackButton = () => {
@@ -13,9 +14,14 @@ const BackButton = () => {
   };
 
   return (
-    <div onClick={handleBack} className="back-button" aria-label="Go Back">
-      <FaArrowLeftLong />
-    </div>
+    <IconButton
+      type="button"
+      className="back-button"
+      onClick={handleBack}
+      aria-label="Go Back"
+    >
+      <ArrowLeft aria-hidden="true" size={20} strokeWidth={1.75} />
+    </IconButton>
   );
 };
 

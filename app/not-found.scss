@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing);
+  gap: var(--space-4);
   flex-direction: column;
   height: 100vh;
   background: #f9f9f9;
@@ -18,15 +18,15 @@
 
   .not-found-content {
     text-align: center;
-    padding: var(--spacing-2x);
+    padding: var(--space-6);
 
     h1 {
-      margin-bottom: var(--spacing);
+      margin-bottom: var(--space-4);
       color: var(--primary-color);
     }
 
     p {
-      margin-bottom: var(--spacing-2x);
+      margin-bottom: var(--space-6);
     }
   }
 }

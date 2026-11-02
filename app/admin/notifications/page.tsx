@@ -1,6 +1,8 @@
 "use client";
 
 import { useNotifications } from "../../context/NotificationContext";
+import IconButton from "../../components/button/IconButton";
+import { X } from "lucide-react";
 
 const Notifications = () => {
   // Directly extract notifications and deleteNotification from the context
@@ -13,9 +15,11 @@ const Notifications = () => {
           notifications.map((notification, index) => (
             <li key={notification.id} className="notification-item">
               {notification.message}
-              <button onClick={() => deleteNotification(notification.id)}>
-                ❌
-              </button>
+              <IconButton
+                aria-label="Delete notification"
+                onClick={() => deleteNotification(notification.id)}>
+                <X size={20} strokeWidth={1.75} aria-hidden="true" />
+              </IconButton>
             </li>
           ))
         ) : (
