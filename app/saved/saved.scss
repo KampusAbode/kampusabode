@@ -10,6 +10,7 @@
 
     .container {
       display: flex;
+      min-width: 0;
       gap: var(--space-4);
       overflow-x: scroll;
       scrollbar-width: none;
@@ -19,6 +20,9 @@
         display: none;
       }
 
+      & > * {
+        flex: 0 0 auto;
+      }
     }
   }
 

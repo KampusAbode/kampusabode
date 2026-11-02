@@ -11,10 +11,14 @@
 }
 .saved-page .tabs .container {
   display: flex;
+  min-width: 0;
   gap: var(--space-4);
   overflow-x: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
+}
+.saved-page .tabs .container > * {
+  flex: 0 0 auto;
 }
 .saved-page .tabs .container::-webkit-scrollbar {
   display: none;

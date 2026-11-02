@@ -94,7 +94,7 @@
     gap: var(--space-4);
   }
 }
-@media screen and (max-width: 280px) {
+@media screen and (max-width: 480px) {
   .property-listings .properties {
     grid-template-columns: 1fr;
   }
@@ -125,7 +125,10 @@
 }
 
 .filter-chip {
+  flex: 0 0 auto;
+  max-width: 100%;
   min-height: 44px;
+  white-space: nowrap;
 }
 
 .sort-trigger-btn {

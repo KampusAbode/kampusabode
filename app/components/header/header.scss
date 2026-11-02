@@ -107,17 +107,39 @@ header {
         display: grid;
         place-items: center;
         border-radius: 100%;
-        width: 30px;
-        height: 30px;
-        background-color: var(--light-gray);
+        flex: 0 0 44px;
+        width: 44px;
+        min-width: 44px;
+        height: 44px;
+        min-height: 44px;
+        padding: 0;
+        background-color: transparent;
         cursor: pointer;
 
         img {
-          width: 33px;
-          height: 33px;
+          position: absolute;
+          inset: 4px auto auto 4px;
+          width: 36px;
+          min-width: 36px;
+          height: 36px;
+          min-height: 36px;
           object-fit: cover;
           border-radius: 100%;
           box-shadow: var(--shadow);
+        }
+
+        .ka-icon-button__icon > svg {
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          width: 16px;
+          height: 16px;
+          padding: 3px;
+          border: 2px solid var(--bg-primary);
+          border-radius: 100%;
+          background: var(--gray-100);
+          color: var(--text-primary);
+          box-sizing: content-box;
         }
       }
     }
