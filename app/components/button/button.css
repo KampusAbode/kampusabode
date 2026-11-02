@@ -129,6 +129,13 @@
   color: #fff;
 }
 
+.ka-button--primary .ka-button__label,
+.ka-button--primary .ka-button__icon,
+.ka-button--destructive .ka-button__label,
+.ka-button--destructive .ka-button__icon {
+  color: #fff;
+}
+
 .ka-button--destructive:hover:not(:disabled):not([aria-disabled="true"]) {
   background: #b91c1c;
   color: #fff;
