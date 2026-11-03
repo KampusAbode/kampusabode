@@ -5,12 +5,13 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import Image from "next/image";
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import { useRouter, useSearchParams } from "next/navigation";
 import { listApartment, uploadFilesToAppwrite } from "../utils/properties";
 import { useUserStore } from "../store/userStore";
 import { ApartmentType } from "../fetch/types";
 import Prompt from "../components/modals/prompt/Prompt";
+import InlineBanner from "../components/notifications/InlineBanner";
 import { Button } from "../components/button/Button";
 import Chip from "../components/button/Chip";
 import { checkIsAdmin } from "../utils";
@@ -45,7 +46,7 @@ const UploadForAgent = () => {
   // Access guard: only admins with a valid agentId can use this page
   useEffect(() => {
     if (!user) {
-      toast.error("Access denied. Please log in.");
+      notify.error("Access denied. Please log in.");
       router.back();
       return;
     }
@@ -57,7 +58,7 @@ const UploadForAgent = () => {
         if (admin) {
           setIsAdmin(true);
         } else {
-          toast.error("Access denied: Admins only");
+          notify.error("Access denied: Admins only");
           router.replace("/apartment");
         }
       } catch (error) {
@@ -67,7 +68,7 @@ const UploadForAgent = () => {
     checkUserPermissions(user?.id);
 
     if (!agentId) {
-      toast.error("No agent specified.");
+      notify.error("No agent specified.");
       router.back();
       return;
     }
@@ -136,7 +137,7 @@ const UploadForAgent = () => {
 
       const ctx = canvas.getContext("2d");
       if (!ctx) {
-        toast.error("Failed to get canvas context");
+        notify.error("Failed to get canvas context");
         continue;
       }
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -169,25 +170,25 @@ const UploadForAgent = () => {
     for (const file of files) {
       if (file.type.startsWith("video/")) {
         if (file.size > MAX_VIDEO_SIZE) {
-          toast.error(`${file.name} exceeds max video size of 6MB`);
+          notify.error(`${file.name} exceeds max video size of 6MB`);
           continue;
         }
         try {
           const thumbs = await extractThumbnails(file);
           if (thumbs.length === 0) {
-            toast.error(`Could not extract thumbnails from ${file.name}`);
+            notify.error(`Could not extract thumbnails from ${file.name}`);
             continue;
           }
           thumbsMap[file.name] = thumbs;
           finalVideoFiles.push(file);
         } catch (err) {
-          toast.error(`Error processing video ${file.name}`);
+          notify.error(`Error processing video ${file.name}`);
           console.error(err);
         }
       } else if (file.type.startsWith("image/")) {
         finalFiles.push(file);
       } else {
-        toast.error(`${file.name} is unsupported file type`);
+        notify.error(`${file.name} is unsupported file type`);
       }
     }
 
@@ -196,7 +197,7 @@ const UploadForAgent = () => {
       0
     );
     if (totalSize > MAX_FILE_SIZE) {
-      toast.error("Total file size exceeds 8MB");
+      notify.error("Total file size exceeds 8MB");
       return;
     }
 
@@ -314,7 +315,7 @@ const UploadForAgent = () => {
 
       const response = await listApartment(payload);
 
-      toast.success(response.success || "Property uploaded successfully");
+      notify.success(response.success || "Property uploaded successfully");
       formHelpers.resetForm();
       setMediaPreviews([]);
       setVideoFiles([]);
@@ -322,7 +323,7 @@ const UploadForAgent = () => {
       setSelectedThumbnails({});
       router.push(response.url);
     } catch (err: any) {
-      toast.error(err?.message || "Upload failed");
+      notify.error(err?.message || "Upload failed");
       formHelpers.setStatus({ error: err?.message || "Upload failed" });
     } finally {
       formHelpers.setSubmitting(false);
@@ -534,9 +535,9 @@ const UploadForAgent = () => {
                 </div>
 
                 {status?.error && (
-                  <div className="error upload-property__status-error">
+                  <InlineBanner variant="error">
                     {status.error}
-                  </div>
+                  </InlineBanner>
                 )}
 
                 <Button

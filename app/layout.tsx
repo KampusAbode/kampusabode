@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import ClientRootLayout from "./ClientRootLayout";
 import { NotificationProvider } from "./context/NotificationContext";
-import { Toaster } from "react-hot-toast";
+import NotificationSystemProvider from "./components/notifications/NotificationSystemProvider";
 import WelcomeMessage from "./components/welcome/WelcomeMessage";
 import { Analytics } from "@vercel/analytics/next";
 
@@ -54,15 +54,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Toaster
-          containerStyle={{
-            zIndex: 9999999,
-          }}
-        />
         <WelcomeMessage />
 
         <NotificationProvider>
-          <ClientRootLayout>{children}</ClientRootLayout>
+          <NotificationSystemProvider>
+            <ClientRootLayout>{children}</ClientRootLayout>
+          </NotificationSystemProvider>
         </NotificationProvider>
 
         <Analytics />

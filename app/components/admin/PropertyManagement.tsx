@@ -12,6 +12,7 @@ import Image from "next/image";
 import Prompt from "../modals/prompt/Prompt";
 import { BadgeCheck, CircleX } from "lucide-react";
 import { Button } from "../button/Button";
+import { notify } from "@/app/lib/notifications/notify";
 
 const PropertyManagement = () => {
   const { allProperties, setAllProperties } = usePropertiesStore();
@@ -46,7 +47,7 @@ const PropertyManagement = () => {
       setPromptOpen(false);
     } catch (error) {
       console.error("Error deleting property:", error);
-      alert("Failed to delete property.");
+      notify.error("Failed to delete property.");
     }
   };
 
@@ -62,7 +63,7 @@ const PropertyManagement = () => {
       );
     } catch (error) {
       console.error("Error updating property approve:", error);
-      alert("Failed to update approve.");
+      notify.error("Failed to update approval.");
     }
   };
 

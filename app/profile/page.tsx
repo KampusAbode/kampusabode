@@ -12,6 +12,7 @@ import "./profile.css";
 import Link from "next/link";
 import { useUserStore } from "../store/userStore";
 import { Button, ButtonLink } from "../components/button/Button";
+import InlineBanner from "../components/notifications/InlineBanner";
 
 const ProfilePage = () => {
   const { user } = useUserStore((state) => state);
@@ -91,12 +92,12 @@ const ProfilePage = () => {
                   : "Resend Verification Email"}
               </Button>
               {verificationSent && (
-                <p className="email-status__success">
+                <InlineBanner variant="success">
                   Verification email sent! Please check your inbox.
-                </p>
+                </InlineBanner>
               )}
               {error && (
-                <p className="email-status__error">{error}</p>
+                <InlineBanner variant="error">{error}</InlineBanner>
               )}
             </div>
           )}

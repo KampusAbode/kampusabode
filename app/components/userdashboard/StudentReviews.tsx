@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { fetchReviewsByAgentId } from "../../utils";
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import Loader from "../loader/Loader";
 import { useUserStore } from "../../store/userStore"; 
 import { ReviewType } from "../../fetch/types";
+import InlineBanner from "../notifications/InlineBanner";
 
 
 const StudentReviews = () => {
@@ -25,14 +26,14 @@ const StudentReviews = () => {
           setReviews(fetchedReviews);
         } else {
           setReviews([]);
-          toast.error("User ID is missing. Unable to fetch reviews.");
+          notify.error("User ID is missing. Unable to fetch reviews.");
         }
       } catch (err: unknown) {
         const errorMessage =
           err instanceof Error ? err.message : "An unknown error occurred.";
         console.error("Error fetching reviews:", errorMessage);
         setError(errorMessage);
-        toast.error("Failed to fetch reviews.");
+        notify.error("Failed to fetch reviews.");
       } finally {
         setLoading(false);
       }
@@ -47,7 +48,7 @@ const StudentReviews = () => {
       {loading ? (
         <Loader />
       ) : error ? (
-        <p className="error">{error}</p>
+        <InlineBanner variant="error">{error}</InlineBanner>
       ) : reviews.length > 0 ? (
         <ul>
           {reviews.map((review) => (

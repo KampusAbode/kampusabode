@@ -11,7 +11,7 @@ import Image from "next/image";
 import { useUserStore } from "../../store/userStore";
 import Prompt from "../../components/modals/prompt/Prompt";
 import { useUsersStore } from "../../store/usersStore";
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import { DEFAULT_USER_AVATAR } from "../../lib/constants";
 
 const UserManagement = () => {
@@ -45,10 +45,10 @@ const UserManagement = () => {
   ) => {
     try {
       await assignUserRole(username, userId, role, assignedBy);
-      toast.success(`Successfully assigned ${role} role to ${username}`);
+      notify.success(`Successfully assigned ${role} role to ${username}`);
       
     } catch (error) {
-      toast.error(`Failed to assign ${role} role to ${username}`);
+      notify.error(`Failed to assign ${role} role to ${username}`);
       console.error(`Error assigning ${role} role to user ${userId}:`, error);
     }
   };

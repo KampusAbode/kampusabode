@@ -9,7 +9,7 @@ import { useUserStore } from "../../../store/userStore";
 import { useTrendStore } from "../../../store/trendStore";
 import { db } from "../../../lib/firebaseConfig";
 import dynamic from "next/dynamic";
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import Image from "next/image";
 import Loader from "../../../components/loader/Loader";
 import { Button } from "../../../components/button/Button";
@@ -38,7 +38,7 @@ function EditTrend() {
 
   useEffect(() => {
     if (!user) {
-      toast.error("You must be logged in to edit a trend");
+      notify.error("You must be logged in to edit a trend");
       router.push("/auth/login");
       return;
     }
@@ -47,13 +47,13 @@ function EditTrend() {
 
     const trend = getTrendBySlug(trendSlug);
     if (!trend) {
-      toast.error("Trend not found");
+      notify.error("Trend not found");
       router.back();
       return;
     }
 
     if(trend.author_id !== user.id){
-      toast.error("You are not authorized to edit this trend");
+      notify.error("You are not authorized to edit this trend");
       router.back();
       return;
     }
@@ -71,7 +71,7 @@ function EditTrend() {
       const file = e.target.files[0];
       const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
       if (!allowedTypes.includes(file.type)) {
-        toast.error("Only JPG, JPEG, and PNG files are allowed.");
+        notify.error("Only JPG, JPEG, and PNG files are allowed.");
         return;
       }
       setImage(file);
@@ -95,7 +95,7 @@ function EditTrend() {
     if (errorFields.length > 0) {
       const fieldName =
         errorFields[0].charAt(0).toUpperCase() + errorFields[0].slice(1);
-      toast.error(
+      notify.error(
         fieldName === "Image"
           ? "Please upload an image."
           : `Please enter a valid ${fieldName}.`,
@@ -115,11 +115,11 @@ function EditTrend() {
         image,
       });
 
-      toast.success(`${trend.title} uploaded`);
+      notify.success(`${trend.title} uploaded`);
       router.push(`/trends/${trend.slug}`);
     } catch (error) {
       console.error("Upload failed:", error);
-      toast.error("Failed to upload trend.");
+      notify.error("Failed to upload trend.");
     } finally {
       setLoading(false);
     }

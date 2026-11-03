@@ -11,7 +11,7 @@ import React, {
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import * as Yup from "yup";
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   listApartment,
@@ -22,6 +22,7 @@ import { useUserStore } from "../../../../store/userStore";
 import { ApartmentType } from "../../../../fetch/types";
 import data from "../../../../fetch/contents";
 import Prompt from "../../../../components/modals/prompt/Prompt";
+import InlineBanner from "../../../../components/notifications/InlineBanner";
 import { X } from "lucide-react";
 import { Button } from "../../../../components/button/Button";
 import Chip from "../../../../components/button/Chip";
@@ -490,7 +491,7 @@ const UploadProperty: React.FC = () => {
 
     async function checkAccess() {
       if (!user) {
-        toast.error("Please log in to upload properties.");
+        notify.error("Please log in to upload properties.");
         try {
           router.back();
         } catch (e) {
@@ -506,7 +507,7 @@ const UploadProperty: React.FC = () => {
           if (abortController.signal.aborted) return;
 
           if (!isAdmin) {
-            toast.error(
+            notify.error(
               "Access denied. Only admins can upload for other agents."
             );
             router.back();
@@ -517,18 +518,18 @@ const UploadProperty: React.FC = () => {
           setIsAdminMode(true);
           setTargetAgentId(urlAgentId);
           setAccessGranted(true);
-          toast.success(
+          notify.success(
             `Admin mode: Uploading for ${urlAgentId.substring(0, 8)}`
           );
         } catch (error: any) {
           if (error.name === "AbortError") return;
           console.error("Failed to verify admin status:", error);
-          toast.error("Failed to verify permissions.");
+          notify.error("Failed to verify permissions.");
           router.back();
         }
       } else {
         if (user.userType !== "agent") {
-          toast.error("Access denied. Only agents can upload properties.");
+          notify.error("Access denied. Only agents can upload properties.");
           router.back();
           return;
         }
@@ -731,7 +732,7 @@ const UploadProperty: React.FC = () => {
         for (const file of inputFiles) {
           if (file.type.startsWith("video/")) {
             if (file.size > MAX_VIDEO_SIZE) {
-              toast.error(`${file.name} exceeds max video size of 20MB`);
+              notify.error(`${file.name} exceeds max video size of 20MB`);
               continue;
             }
 
@@ -740,13 +741,13 @@ const UploadProperty: React.FC = () => {
             );
 
             try {
-              const toastId = toast.loading(`Processing video ${file.name}...`);
+              const toastId = notify.loading(`Processing video ${file.name}...`);
               const thumbs = await extractThumbnails(file);
-              toast.dismiss(toastId);
+              notify.dismiss(toastId);
 
               if (!thumbs || thumbs.length === 0) {
                 console.error(`No thumbnails extracted from ${file.name}`);
-                toast.error(`Could not extract thumbnails from ${file.name}`);
+                notify.error(`Could not extract thumbnails from ${file.name}`);
                 newVideoFiles.push(file);
                 continue;
               }
@@ -757,7 +758,7 @@ const UploadProperty: React.FC = () => {
               newThumbMap[file.name] = thumbs;
               newThumbnailUrlsMap[file.name] = thumbs.map((t) => createURL(t));
               newVideoFiles.push(file);
-              toast.success(
+              notify.success(
                 `${thumbs.length} thumbnails ready for ${file.name}`
               );
             } catch (err: any) {
@@ -765,7 +766,7 @@ const UploadProperty: React.FC = () => {
                 `❌ Video processing failed for ${file.name}:`,
                 err
               );
-              toast.error(
+              notify.error(
                 `Error processing video: ${err?.message || "unknown error"}`
               );
               newVideoFiles.push(file);
@@ -775,7 +776,7 @@ const UploadProperty: React.FC = () => {
             const compressedFile = await compressImage(file);
             newImageFiles.push(compressedFile);
           } else {
-            toast.error(`${file.name} is unsupported file type`);
+            notify.error(`${file.name} is unsupported file type`);
           }
         }
 
@@ -784,7 +785,7 @@ const UploadProperty: React.FC = () => {
           0
         );
         if (totalSize > MAX_FILE_SIZE) {
-          toast.error(
+          notify.error(
             "Total file size exceeds 10MB. Please select smaller files."
           );
           return;
@@ -804,10 +805,10 @@ const UploadProperty: React.FC = () => {
         });
 
         setFormValues((prev) => ({ ...prev, images: newImageFiles }));
-        toast.success("Media selected and processed");
+        notify.success("Media selected and processed");
       } catch (err: any) {
         console.error("handleMediaChange error:", err);
-        toast.error(err?.message || "Error handling selected files.");
+        notify.error(err?.message || "Error handling selected files.");
       } finally {
         (e.target as HTMLInputElement).value = "";
       }
@@ -855,7 +856,7 @@ const UploadProperty: React.FC = () => {
       updatedPreviews.splice(index, 1);
       setFormValues((prev) => ({ ...prev, images: updatedPreviews }));
 
-      toast.success("Image removed");
+      notify.success("Image removed");
     },
     [mediaState, revokeURL]
   );
@@ -882,7 +883,7 @@ const UploadProperty: React.FC = () => {
         index,
       });
 
-      toast.success("Video removed");
+      notify.success("Video removed");
     },
     [mediaState, revokeURL]
   );
@@ -901,9 +902,9 @@ const UploadProperty: React.FC = () => {
       const isSelected = currentSelected.some((t) => t.name === thumb.name);
       
       if (isSelected) {
-        toast.success(`Thumbnail deselected for ${videoName}`);
+        notify.success(`Thumbnail deselected for ${videoName}`);
       } else {
-        toast.success(`Thumbnail selected for ${videoName}`);
+        notify.success(`Thumbnail selected for ${videoName}`);
       }
     },
     [mediaState.selectedThumbnails]
@@ -1020,7 +1021,7 @@ const UploadProperty: React.FC = () => {
         });
 
         setPromptOpen(true);
-        toast("Ready to upload — confirm to continue", { icon: "📤" });
+        notify.info("Ready to upload — confirm to continue");
       } catch (validationErr: any) {
         const newErrors: Record<string, string> = {};
         if (validationErr.inner && Array.isArray(validationErr.inner)) {
@@ -1035,7 +1036,7 @@ const UploadProperty: React.FC = () => {
           });
         }
         setErrors(newErrors);
-        toast.error("Please fix the highlighted errors.");
+        notify.error("Please fix the highlighted errors.");
       } finally {
         setIsSubmitting(false);
       }
@@ -1046,7 +1047,7 @@ const UploadProperty: React.FC = () => {
   // Handle confirm upload
   const handleConfirm = useCallback(async () => {
     if (!formValuesToSubmit) {
-      toast.error("No data to upload.");
+      notify.error("No data to upload.");
       return;
     }
 
@@ -1054,7 +1055,7 @@ const UploadProperty: React.FC = () => {
     setPromptOpen(false);
     setFormStatus(undefined);
 
-    const loadingId = toast.loading("Uploading property...");
+    const loadingId = notify.loading("Uploading property...");
 
     try {
       const bucketId = process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID;
@@ -1091,9 +1092,9 @@ const UploadProperty: React.FC = () => {
         );
       }
 
-      toast.loading("Uploading images...", { id: "upload-images" });
+      notify.loading("Uploading images...", { id: "upload-images" });
       const imageUrls = await uploadFilesToAppwrite(filesToUpload, bucketId);
-      toast.dismiss("upload-images");
+      notify.dismiss("upload-images");
 
       if (!imageUrls || !Array.isArray(imageUrls) || imageUrls.length === 0) {
         throw new Error(
@@ -1104,22 +1105,22 @@ const UploadProperty: React.FC = () => {
       let videoUrls: string[] = [];
       if (mediaState.videoFiles.length > 0) {
         try {
-          toast.loading("Uploading videos...", { id: "upload-videos" });
+          notify.loading("Uploading videos...", { id: "upload-videos" });
           const uploadedVideoUrls = await uploadFilesToAppwrite(
             mediaState.videoFiles,
             bucketId
           );
-          toast.dismiss("upload-videos");
+          notify.dismiss("upload-videos");
 
           if (uploadedVideoUrls && Array.isArray(uploadedVideoUrls)) {
             videoUrls = uploadedVideoUrls;
           } else {
-            toast.error("Video upload failed. Images were uploaded.");
+            notify.error("Video upload failed. Images were uploaded.");
           }
         } catch (err) {
           console.error("Video upload error:", err);
-          toast.dismiss("upload-videos");
-          toast.error("Video upload failed. Images were uploaded.");
+          notify.dismiss("upload-videos");
+          notify.error("Video upload failed. Images were uploaded.");
         }
       }
 
@@ -1149,8 +1150,8 @@ const UploadProperty: React.FC = () => {
       const redirectUrl = response.url;
       const newId = response.id;
 
-      toast.dismiss(loadingId);
-      toast.success(
+      notify.dismiss(loadingId);
+      notify.success(
         typeof successMessage === "string"
           ? successMessage
           : "Property uploaded successfully",
@@ -1192,17 +1193,17 @@ const UploadProperty: React.FC = () => {
           router.push(redirectUrl);
         } catch (e) {
           console.error("router.push failed:", e);
-          toast.success(
+          notify.success(
             "Property uploaded — but navigation failed. You can view it in your listings."
           );
         }
       } else {
-        toast.success("Property uploaded. No redirect URL returned by server.");
+        notify.success("Property uploaded. No redirect URL returned by server.");
       }
     } catch (err: any) {
       console.error("handleConfirm error:", err);
-      toast.dismiss();
-      toast.error(err?.message || "Upload failed");
+      notify.dismiss();
+      notify.error(err?.message || "Upload failed");
       setFormStatus({ error: err?.message || "Upload failed" });
     } finally {
       setIsSubmitting(false);
@@ -1659,9 +1660,9 @@ const UploadProperty: React.FC = () => {
           )}
 
           {formStatus?.error && (
-            <div className="error form-error-message">
+            <InlineBanner variant="error">
               {formStatus.error}
-            </div>
+            </InlineBanner>
           )}
 
           <Button

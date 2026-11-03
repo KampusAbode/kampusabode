@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 
 /**
  * Validates Formik values against a Yup schema and toasts only the first error.
@@ -24,7 +24,7 @@ export function validateWithYupAndToast<T extends object>(
         const message = firstError.message;
 
         errors[path] = message;
-        toast.error(message, {
+        notify.error(message, {
           id: "validation-error",
         });
       }

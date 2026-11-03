@@ -1,39 +1,20 @@
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-4);
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(5px);
-}
-
-.modal-overlay .review-modal {
-  width: min(100%, 420px);
-  max-height: calc(100vh - var(--space-8));
+.review-modal {
+  max-height: 90dvh;
   overflow-y: auto;
-  padding: var(--space-6);
-  border: 1px solid var(--border-color-light);
-  border-radius: var(--radius-2xl);
-  background: var(--bg-primary);
-  box-shadow: var(--shadow-lg);
-  animation: fadeIn 0.25s ease-in-out;
 }
 
-.modal-overlay .review-modal .modal-top {
+.review-modal .modal-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
 }
 
-.modal-overlay .review-modal .modal-top h5 {
+.review-modal .modal-top h2 {
   margin: 0;
 }
 
-.modal-overlay .review-modal .modal-top .ka-icon-button {
+.review-modal .modal-top .ka-icon-button {
   width: 44px;
   min-width: 44px;
   height: 44px;
@@ -41,19 +22,19 @@
   flex: 0 0 44px;
 }
 
-.modal-overlay .review-modal .modal-body {
+.review-modal .modal-body {
   display: grid;
   gap: var(--space-4);
   margin-block: var(--space-6);
 }
 
-.modal-overlay .review-modal .modal-body .rating {
+.review-modal .modal-body .rating {
   display: flex;
   align-items: center;
   gap: var(--space-1);
 }
 
-.modal-overlay .review-modal .modal-body .rating .ka-icon-button {
+.review-modal .modal-body .rating .ka-icon-button {
   width: 44px;
   min-width: 44px;
   height: 44px;
@@ -62,7 +43,7 @@
   color: #facc15;
 }
 
-.modal-overlay .review-modal .modal-body .rating .rate {
+.review-modal .modal-body .rating .rate {
   display: grid;
   width: 40px;
   height: 40px;
@@ -74,7 +55,7 @@
   color: var(--text-secondary);
 }
 
-.modal-overlay .review-modal .modal-body textarea {
+.review-modal .modal-body textarea {
   width: 100%;
   min-height: 150px;
   max-height: 150px;
@@ -87,39 +68,22 @@
   resize: none;
 }
 
-.modal-overlay .review-modal .modal-body textarea:focus-visible {
+.review-modal .modal-body textarea:focus-visible {
   border-color: var(--primary-500);
   outline: 2px solid var(--primary-500);
   outline-offset: 2px;
 }
 
-.modal-overlay .review-modal > .ka-button {
+.review-modal > .ka-button {
   width: 100%;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
 @media (max-width: 480px) {
-  .modal-overlay .review-modal .modal-body .rating {
+  .review-modal .modal-body .rating {
     flex-wrap: wrap;
   }
 
-  .modal-overlay .review-modal .modal-body .rating .rate {
+  .review-modal .modal-body .rating .rate {
     margin-left: auto;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .modal-overlay .review-modal {
-    animation: none;
   }
 }

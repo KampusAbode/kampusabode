@@ -16,7 +16,7 @@ import { db } from "../../lib/firebaseConfig";
 import { TrendType, CommentType } from "../../fetch/types";
 import { fetchTrendBySlug, getRelativeTime } from "../../utils";
 import Image from "next/image";
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import Loader from "../../components/loader/Loader";
 import { MessageCircle, Share2, ThumbsUp } from "lucide-react";
 import { Button } from "../../components/button/Button";
@@ -77,7 +77,7 @@ const TrendPage = ({ params }: Params) => {
         const likeDoc = await getDoc(likeRef);
         setIsLike(likeDoc.exists());
       } catch (error) {
-        toast.error(error.message || "Failed to fetch trend data.", {
+        notify.error(error.message || "Failed to fetch trend data.", {
           id: "trend-error",
         });
       } finally {
@@ -98,7 +98,7 @@ const TrendPage = ({ params }: Params) => {
 
   const handleLike = async () => {
     if (!user) {
-      toast.error("Please sign in to like this trend.", {
+      notify.error("Please sign in to like this trend.", {
         id: "trend-error",
       });
       return;
@@ -116,7 +116,7 @@ const TrendPage = ({ params }: Params) => {
         await updateDoc(trendRef, { likes: increment(-1) });
         setTrendData({ ...trendData, likes: trendData.likes - 1 });
         setIsLike(false);
-        toast.success("Like removed.");
+        notify.success("Like removed.");
       } else {
         await setDoc(likeRef, {
           userId: user.id,
@@ -125,10 +125,10 @@ const TrendPage = ({ params }: Params) => {
         await updateDoc(trendRef, { likes: increment(1) });
         setTrendData({ ...trendData, likes: trendData.likes + 1 });
         setIsLike(true);
-        toast.success("Liked!");
+        notify.success("Liked!");
       }
     } catch (error) {
-      toast.error("Failed to update like.", {
+      notify.error("Failed to update like.", {
         id: "trend-error",
       });
     } finally {
@@ -147,10 +147,10 @@ const TrendPage = ({ params }: Params) => {
         });
       } else {
         await navigator.clipboard.writeText(trendUrl);
-        toast.success("Link copied!");
+        notify.success("Link copied!");
       }
     } catch {
-      toast.error("Could not share this trend.", {
+      notify.error("Could not share this trend.", {
         id: "trend-error",
       });
     }
@@ -158,14 +158,14 @@ const TrendPage = ({ params }: Params) => {
 
   const handleCommentSubmit = async () => {
     if (!user) {
-      toast.error("Please sign in to add a comment.", {
+      notify.error("Please sign in to add a comment.", {
         id: "trend-error",
       });
       return;
     }
 
     if (!content.trim()) {
-      toast.error("Comment cannot be empty.", {
+      notify.error("Comment cannot be empty.", {
         id: "trend-error",
       });
       return;
@@ -185,9 +185,9 @@ const TrendPage = ({ params }: Params) => {
       setIsSending(true);
       await sendUserComment(newComment); // 👈 this must accept Timestamp
       setContent("");
-      toast.success("Comment added!");
+      notify.success("Comment added!");
     } catch {
-      toast.error("Failed to send comment.", {
+      notify.error("Failed to send comment.", {
         id: "trend-error",
       });
     } finally {

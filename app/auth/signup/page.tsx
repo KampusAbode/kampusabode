@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { toast } from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import { signupUser } from "../../utils";
 import "../auth.css";
 import Link from "next/link";
@@ -91,7 +91,7 @@ const SignupPage = () => {
           process.env.NEXT_PUBLIC_APPWRITE_PROPERTY_BUCKET_ID || ""
         );
       } catch (error) {
-        toast.error("Failed to upload profile picture.");
+        notify.error("Failed to upload profile picture.");
         setIsSubmitting(false);
         return;
       }
@@ -103,11 +103,11 @@ const SignupPage = () => {
       if (response?.user) {
         await sendEmailVerification(response.user);
       }
-      toast.success(`${response.message} 🎉`, { id: "email-sent" });
+      notify.success(`${response.message} 🎉`, { id: "email-sent" });
       router.push("/auth/verify-email");
       // router.push("/auth/login");
     } catch (error: any) {
-      toast.error(error.message || "An unexpected error occurred.");
+      notify.error(error.message || "An unexpected error occurred.");
     } finally {
       setIsSubmitting(false);
     }

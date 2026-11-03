@@ -1,7 +1,7 @@
 "use client";
 // REFERRAL MANAGEMENT 
 import React, { useState, useEffect } from "react";
-import { toast } from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import { ReferralCode, ReferralRecord, ReferralStats } from "../../fetch/types";
 import { useUserStore } from "../../store/userStore";
 import { useUsersStore } from "../../store/usersStore";
@@ -46,7 +46,7 @@ const ReferralManagement: React.FC<ReferralManagementProps> = ({ className }) =>
       const token = await currentUser?.getIdToken();
       
       if (!token) {
-        toast.error('Authentication required');
+        notify.error('Authentication required');
         return;
       }
       
@@ -83,7 +83,7 @@ const ReferralManagement: React.FC<ReferralManagementProps> = ({ className }) =>
       }
     } catch (error) {
       console.error('Error fetching data:', error);
-      toast.error('Failed to fetch data');
+      notify.error('Failed to fetch data');
     } finally {
       setLoading(false);
     }
@@ -142,7 +142,7 @@ const ReferralManagement: React.FC<ReferralManagementProps> = ({ className }) =>
       const token = await currentUser?.getIdToken();
       
       if (!token) {
-        toast.error('Authentication required');
+        notify.error('Authentication required');
         return;
       }
       
@@ -163,7 +163,7 @@ const ReferralManagement: React.FC<ReferralManagementProps> = ({ className }) =>
       const data = await response.json();
       
       if (data.success) {
-        toast.success('Referral code created successfully!');
+        notify.success('Referral code created successfully!');
         setShowCreateForm(false);
         setFormData({
           ownerId: '',
@@ -173,11 +173,11 @@ const ReferralManagement: React.FC<ReferralManagementProps> = ({ className }) =>
         });
         fetchData(); // Refresh the codes list
       } else {
-        toast.error(data.error || 'Failed to create referral code');
+        notify.error(data.error || 'Failed to create referral code');
       }
     } catch (error) {
       console.error('Error creating referral code:', error);
-      toast.error('Failed to create referral code');
+      notify.error('Failed to create referral code');
     } finally {
       setLoading(false);
     }

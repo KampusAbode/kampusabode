@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
+import { AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { fetchPropertiesRealtime } from "../utils";
 import PropCard from "./propcard/PropCard";
@@ -9,6 +10,7 @@ import { CardSkeletonGrid } from "../components/loader/Loader";
 import { Button } from "../components/button/Button";
 import Chip from "../components/button/Chip";
 import IconButton from "../components/button/IconButton";
+import DialogFrame from "../components/notifications/DialogFrame";
 import "./apartment.css";
 import {
   ArrowDown,
@@ -284,72 +286,65 @@ const PropertiesPage: React.FC = () => {
         </div>
       </div>
 
-      <div
-        className={`filter-slide ${showFilter ? "show" : ""}`}
-        aria-hidden={!showFilter}
-      >
-        <div
-          className="filter-overlay"
-          onClick={() => setShowFilter(false)}
-        />
+      <AnimatePresence>
+        {showFilter && (
+          <DialogFrame
+            id="sort-properties"
+            labelledBy="sort-properties-title"
+            onClose={() => setShowFilter(false)}
+            panelClassName="ka-sort-dialog">
+            <div className="filter-header">
+              <h3 id="sort-properties-title">Sort Properties</h3>
+              <IconButton
+                type="button"
+                className="close-btn"
+                aria-label="Close sort options"
+                onClick={() => setShowFilter(false)}
+              >
+                <X aria-hidden="true" size={20} strokeWidth={1.75} />
+              </IconButton>
+            </div>
 
-        <div
-          className="filter-content"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="sort-properties-title"
-        >
-          <div className="filter-header">
-            <h3 id="sort-properties-title">Sort Properties</h3>
-            <IconButton
-              type="button"
-              className="close-btn"
-              aria-label="Close sort options"
-              onClick={() => setShowFilter(false)}
-            >
-              <X aria-hidden="true" size={20} strokeWidth={1.75} />
-            </IconButton>
-          </div>
+            <div className="sort-options">
+              {sortOptions.map((option) => {
+                const OptionIcon = option.icon;
 
-          <div className="sort-options">
-            {sortOptions.map((option) => {
-              const OptionIcon = option.icon;
+                return (
+                  <Chip
+                    key={option.value}
+                    type="button"
+                    className="sort-option"
+                    aria-pressed={sortBy === option.value}
+                    leadingIcon={
+                      <OptionIcon
+                        className="option-icon"
+                        aria-hidden="true"
+                        size={20}
+                        strokeWidth={1.75}
+                      />
+                    }
+                    onClick={() => handleSortChange(option.value)}
+                  >
+                    {option.label}
+                  </Chip>
+                );
+              })}
+            </div>
 
-              return (
-                <Chip
-                  key={option.value}
-                  type="button"
-                  className="sort-option"
-                  aria-pressed={sortBy === option.value}
-                  leadingIcon={
-                    <OptionIcon
-                      className="option-icon"
-                      aria-hidden="true"
-                      size={20}
-                      strokeWidth={1.75}
-                    />
-                  }
-                  onClick={() => handleSortChange(option.value)}
-                >
-                  {option.label}
-                </Chip>
-              );
-            })}
-          </div>
-
-          <div className="filter-footer">
-            <Button
-              variant="primary"
-              size="md"
-              type="button"
-              className="apply-btn"
-              onClick={() => setShowFilter(false)}
-            >
-              Apply
-            </Button>
-          </div>
-        </div>
-      </div>
+            <div className="filter-footer">
+              <Button
+                variant="primary"
+                size="md"
+                type="button"
+                className="apply-btn"
+                onClick={() => setShowFilter(false)}
+              >
+                Apply
+              </Button>
+            </div>
+          </DialogFrame>
+        )}
+      </AnimatePresence>
 
       <div className="property-listings">
         <div className="container">

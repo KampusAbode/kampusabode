@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ChangeEvent, useState, useEffect } from "react";
-import { toast } from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import {
   updateUserProfile,
   uploadImageToAppwrite,
@@ -201,7 +201,7 @@ const CreateProfilePage = ({ params }: PageProp) => {
     e.preventDefault();
 
     if (!validateBeforeSubmit()) {
-      toast.error("Please fill in the required input before submitting.", {
+      notify.error("Please fill in the required input before submitting.", {
         id: "input-submit",
       });
       return;
@@ -241,7 +241,7 @@ const CreateProfilePage = ({ params }: PageProp) => {
       );
 
       if (Object.keys(updatedUser).length === 0 && avatarUrl === user?.avatar) {
-        toast.error("No changes made.");
+        notify.error("No changes made.");
         setIsSubmitting(false);
         return;
       }
@@ -254,12 +254,12 @@ const CreateProfilePage = ({ params }: PageProp) => {
       const newData = response.userData;
 
       if (response.success) {
-        toast.success(`${response.message} 🎉`);
+        notify.success(`${response.message} 🎉`);
         setUser(newData);
         router.push("/profile");
       }
     } catch (error: any) {
-      toast.error(error.message || "An unexpected error occurred.");
+      notify.error(error.message || "An unexpected error occurred.");
     }
 
     setIsSubmitting(false);

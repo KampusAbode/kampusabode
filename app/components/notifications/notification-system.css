@@ -1,0 +1,282 @@
+:root {
+  --notice-radius-toast: 12px;
+  --notice-radius-dialog: 16px;
+  --notice-shadow:
+    0 12px 32px rgba(32, 36, 43, 0.12), 0 2px 8px rgba(32, 36, 43, 0.06);
+  --notice-duration-toast-in: 200ms;
+  --notice-duration-toast-out: 150ms;
+  --notice-duration-dialog-in: 200ms;
+  --notice-duration-dialog-out: 150ms;
+  --notice-duration-sheet: 250ms;
+  --notice-success: #166534;
+  --notice-success-bg: #f0fdf4;
+  --notice-error: #b91c1c;
+  --notice-error-bg: #fef2f2;
+  --notice-warning: #92400e;
+  --notice-warning-bg: #fffbeb;
+  --notice-info: var(--primary-700);
+  --notice-info-bg: var(--primary-50);
+}
+
+.ka-notification-stack {
+  position: fixed;
+  z-index: 1000000;
+  top: max(16px, env(safe-area-inset-top));
+  left: 50%;
+  display: grid;
+  width: min(440px, calc(100vw - 32px));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.ka-notification {
+  display: flex;
+  min-width: 0;
+  min-height: 64px;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4);
+  border: 1px solid var(--border-color-light);
+  border-radius: var(--notice-radius-toast);
+  background: var(--bg-primary);
+  box-shadow: var(--notice-shadow);
+  color: var(--text-primary);
+  pointer-events: auto;
+}
+
+.ka-notification__icon {
+  flex: 0 0 20px;
+}
+
+.ka-notification--success .ka-notification__icon {
+  color: var(--notice-success);
+}
+.ka-notification--error .ka-notification__icon {
+  color: var(--notice-error);
+}
+.ka-notification--warning .ka-notification__icon {
+  color: var(--notice-warning);
+}
+.ka-notification--info .ka-notification__icon {
+  color: var(--notice-info);
+}
+.ka-notification--loading .ka-notification__icon {
+  color: var(--notice-info);
+  animation: ka-notice-spin 800ms linear infinite;
+}
+
+.ka-notification__message {
+  min-width: 0;
+  flex: 1;
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  overflow-wrap: anywhere;
+}
+
+.ka-notification__action.ka-button {
+  min-height: 44px;
+  padding-inline: var(--space-2);
+  color: var(--text-primary);
+  box-shadow: none;
+}
+
+.ka-notification__close.ka-icon-button {
+  flex: 0 0 44px;
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  min-height: 44px;
+}
+
+.ka-dialog-backdrop {
+  position: fixed;
+  z-index: 1000001;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--space-4);
+  background: rgba(25, 28, 33, 0.38);
+  backdrop-filter: blur(4px);
+}
+
+.ka-dialog {
+  width: min(100%, 440px);
+  padding: var(--space-6);
+  border: 1px solid var(--border-color-light);
+  border-radius: var(--notice-radius-dialog);
+  background: var(--bg-primary);
+  box-shadow: var(--notice-shadow);
+  color: var(--text-primary);
+}
+
+.ka-dialog__handle {
+  display: none;
+}
+
+.ka-dialog__title {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  letter-spacing: normal;
+  line-height: var(--leading-tight);
+}
+
+.ka-dialog__description {
+  margin: var(--space-3) 0 0;
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+}
+
+.ka-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.ka-dialog__actions .ka-button {
+  min-width: 120px;
+  min-height: 48px;
+}
+
+.ka-inline-banner {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--border-color-light);
+  border-radius: var(--radius-xl);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.ka-inline-banner > div {
+  display: grid;
+  min-width: 0;
+  flex: 1;
+  gap: var(--space-2);
+}
+
+.ka-inline-banner > div > :is(h1, h2, h3, h4, p, ul, ol) {
+  margin-block: 0;
+}
+
+.ka-inline-banner > div > ul,
+.ka-inline-banner > div > ol {
+  padding-left: var(--space-5);
+}
+
+.ka-inline-banner > div > h1,
+.ka-inline-banner > div > h2,
+.ka-inline-banner > div > h3,
+.ka-inline-banner > div > h4 {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+}
+
+.ka-inline-banner__icon {
+  flex: 0 0 20px;
+}
+
+.ka-inline-banner--success {
+  background: var(--notice-success-bg);
+  color: var(--notice-success);
+}
+.ka-inline-banner--error {
+  background: var(--notice-error-bg);
+  color: var(--notice-error);
+}
+.ka-inline-banner--warning {
+  background: var(--notice-warning-bg);
+  color: var(--notice-warning);
+}
+.ka-inline-banner--info {
+  background: var(--notice-info-bg);
+  color: var(--notice-info);
+}
+
+.ka-notifications-demo {
+  display: grid;
+  gap: var(--space-4);
+  padding-block: var(--space-10);
+}
+
+.ka-notifications-demo__actions,
+.ka-notifications-demo__banners {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.ka-notifications-demo__banners {
+  display: grid;
+  margin-top: var(--space-8);
+}
+
+.ka-inline-banner__close.ka-icon-button {
+  flex: 0 0 44px;
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  min-height: 44px;
+  margin: calc(-1 * var(--space-2));
+  color: currentColor;
+}
+
+@keyframes ka-notice-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 639px) {
+  .ka-dialog-backdrop {
+    align-items: end;
+    padding: 0;
+  }
+  .ka-dialog {
+    width: 100%;
+    max-height: 90dvh;
+    overflow-y: auto;
+    padding: var(--space-4) var(--space-5) max(var(--space-5), env(safe-area-inset-bottom));
+    border-radius: var(--notice-radius-dialog) var(--notice-radius-dialog) 0 0;
+  }
+  .ka-dialog__handle {
+    display: flex;
+    min-height: 24px;
+    justify-content: center;
+    margin: calc(-1 * var(--space-2)) 0 var(--space-3);
+    touch-action: none;
+  }
+  .ka-dialog__handle span {
+    width: 36px;
+    height: 4px;
+    border-radius: var(--radius-full);
+    background: var(--gray-300);
+  }
+  .ka-dialog__actions {
+    flex-direction: column-reverse;
+    gap: var(--space-2);
+    margin-top: var(--space-5);
+  }
+  .ka-dialog__actions .ka-button {
+    width: 100%;
+    min-height: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ka-notification--loading .ka-notification__icon {
+    animation-duration: 0.01ms;
+  }
+}

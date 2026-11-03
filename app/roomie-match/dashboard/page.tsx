@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import DeleteRoomiematchProfile from "./components/DeleteRoomiematchProfile";
 import { Button } from "../../components/button/Button";
 import { DEFAULT_USER_AVATAR } from "../../lib/constants";
+import { confirm, notify } from "@/app/lib/notifications/notify";
 
 // Mock user profile data
 const mockUserProfile = {
@@ -69,13 +70,13 @@ const RoomieDashboard = () => {
       setProfile((prev) => ({ ...prev, isVisible: !prev.isVisible }));
 
       if (!profile.isVisible) {
-        alert("✅ Your profile is now visible to other students!");
+        notify.success("Your profile is now visible to other students!");
       } else {
-        alert("🔒 Your profile is now hidden from other students.");
+        notify.info("Your profile is now hidden from other students.");
       }
     } catch (error) {
       console.error("Error toggling visibility:", error);
-      alert("Failed to update visibility. Please try again.");
+      notify.error("Failed to update visibility. Please try again.");
     } finally {
       setIsTogglingVisibility(false);
     }
@@ -83,9 +84,13 @@ const RoomieDashboard = () => {
 
   const handleMarkAsFound = async () => {
     if (
-      !confirm(
-        "Have you found a roommate? This will mark your profile as inactive."
-      )
+      !(await confirm({
+        title: "Mark your profile as inactive?",
+        description:
+          "Have you found a roommate? This will mark your profile as inactive.",
+        confirmLabel: "Mark as found",
+        destructive: true,
+      }))
     ) {
       return;
     }
@@ -99,12 +104,12 @@ const RoomieDashboard = () => {
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       setProfile((prev) => ({ ...prev, status: "found", isVisible: false }));
-      alert(
-        "🎉 Congratulations on finding a roommate! Your profile has been marked as found."
+      notify.success(
+        "Congratulations on finding a roommate! Your profile has been marked as found."
       );
     } catch (error) {
       console.error("Error updating status:", error);
-      alert("Failed to update status. Please try again.");
+      notify.error("Failed to update status. Please try again.");
     } finally {
       setIsUpdatingStatus(false);
     }
@@ -120,10 +125,10 @@ const RoomieDashboard = () => {
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       setProfile((prev) => ({ ...prev, status: "active", isVisible: true }));
-      alert("✅ Your profile has been reactivated!");
+      notify.success("Your profile has been reactivated!");
     } catch (error) {
       console.error("Error reactivating profile:", error);
-      alert("Failed to reactivate profile. Please try again.");
+      notify.error("Failed to reactivate profile. Please try again.");
     } finally {
       setIsUpdatingStatus(false);
     }
@@ -137,11 +142,11 @@ const RoomieDashboard = () => {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 500));
 
-      alert("🗑️ Your RoomieMatch profile has been deleted.");
+      notify.success("Your RoomieMatch profile has been deleted.");
       router.push("/roomie-match");
     } catch (error) {
       console.error("Error deleting profile:", error);
-      alert("Failed to delete profile. Please try again.");
+      notify.error("Failed to delete profile. Please try again.");
     } finally {
       setShowDeleteConfirm(false);
     }

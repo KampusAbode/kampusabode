@@ -6,7 +6,8 @@ import Link from "next/link";
 import Image from "next/image";
 import Loader from "../../../components/loader/Loader";
 import Prompt from "../../../components/modals/prompt/Prompt";
-import toast from "react-hot-toast";
+import InlineBanner from "../../../components/notifications/InlineBanner";
+import { notify } from "@/app/lib/notifications/notify";
 import { useUserStore } from "../../../store/userStore";
 import { useRouter } from "next/navigation";
 import "./listings.css";
@@ -39,23 +40,23 @@ const ListedProperties = () => {
         (p) => p.id === selectedPropertyId
       );
       if (!propertyToDelete) {
-        toast.error("Property not found!");
+        notify.error("Property not found!");
         return;
       }
 
       const response = await deleteApartment(propertyToDelete.id);
       if (response.success) {
-        toast.success(response.message);
+        notify.success(response.message);
         removeProperty(selectedPropertyId); // Update store
         route.refresh();
       } else {
-        toast.error(response.message || "Failed to delete property.");
+        notify.error(response.message || "Failed to delete property.");
       }
     } catch (error) {
       if (error instanceof Error) {
-        toast.error(error.message);
+        notify.error(error.message);
       } else {
-        toast.error(
+        notify.error(
           "An unexpected error occurred while deleting the property."
         );
       }
@@ -73,7 +74,7 @@ const ListedProperties = () => {
           {loading ? (
             <Loader />
           ) : error ? (
-            <p className="error">{error}</p>
+            <InlineBanner variant="error">{error}</InlineBanner>
           ) : properties.length > 0 ? (
             <ul>
               {properties.map((property) => (

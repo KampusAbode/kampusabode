@@ -7,9 +7,10 @@ import data from "../../fetch/contents";
 import { StudentUserInfo } from "../../fetch/types";
 import { useUserStore } from "../../store/userStore";
 import { createRoomieProfile } from "../../utils/roomieMatchFirebase";
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import { Button } from "../../components/button/Button";
 import Chip from "../../components/button/Chip";
+import InlineBanner from "../../components/notifications/InlineBanner";
 import { DEFAULT_USER_AVATAR } from "../../lib/constants";
 import "./CreateRoomieProfile.css";
 
@@ -304,16 +305,16 @@ const CreateRoomieProfile = () => {
 
       if (result?.success) {
         router.push("/roomie-match/browse?success=true");
-        toast.success("Profile created successfully");
+        notify.success("Profile created successfully");
       } else {
-        toast.error(result?.error);
+        notify.error(result?.error);
       };
 
       // Redirect to success page or browse page
       
     } catch (error) {
       console.error("Error creating profile:", error);
-      alert("Failed to create profile. Please try again.");
+      notify.error("Failed to create profile. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -327,34 +328,25 @@ const CreateRoomieProfile = () => {
       <div className="container">
         {/* Missing Fields Warning */}
         {missingFields.length > 0 && (
-          <div className="warningBanner">
-            <div className="warningFlex">
-              <div className="warningIcon">
-                <span>⚠️</span>
-              </div>
-              <div className="warningContent">
-                <h3 className="warningTitle">Complete Your Profile First</h3>
-                <div className="warningText">
-                  <p>
-                    Please update these fields in your profile before creating a
-                    RoomieMatch profile:
-                  </p>
-                  <ul>
-                    {missingFields.map((field) => (
-                      <li key={field}>{field}</li>
-                    ))}
-                  </ul>
-                  <Button
-                    variant="link"
-                    size="md"
-                    onClick={() => router.push("/profile/edit")}
-                    className="warningButton">
-                    Go to Profile Settings →
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <InlineBanner variant="warning">
+            <h3 className="warningTitle">Complete Your Profile First</h3>
+            <p>
+              Please update these fields in your profile before creating a
+              RoomieMatch profile:
+            </p>
+            <ul>
+              {missingFields.map((field) => (
+                <li key={field}>{field}</li>
+              ))}
+            </ul>
+            <Button
+              variant="link"
+              size="md"
+              onClick={() => router.push("/profile/edit")}
+              className="warningButton">
+              Go to Profile Settings →
+            </Button>
+          </InlineBanner>
         )}
 
         {/* Header */}

@@ -4,9 +4,10 @@ import { useState, useMemo } from "react";
 import { useUsersStore } from "../../store/usersStore";
 import { UserType } from "../../fetch/types";
 import "./mail.css"
-import toast from "react-hot-toast";
+import { confirm, notify } from "@/app/lib/notifications/notify";
 import { Button } from "../../components/button/Button";
 import Chip from "../../components/button/Chip";
+import InlineBanner from "../../components/notifications/InlineBanner";
 
 export default function AdminMailPage() {
   const { users } = useUsersStore();
@@ -50,18 +51,20 @@ export default function AdminMailPage() {
 
   const handleSendEmail = async () => {
     if (!subject.trim() || !content.trim()) {
-      toast.error("Please fill in both subject and content");
+      notify.error("Please fill in both subject and content");
       return;
     }
 
     if (selectedUsers.size === 0) {
-      toast.error("Please select at least one recipient");
+      notify.error("Please select at least one recipient");
       return;
     }
 
-    const confirmed = confirm(
-      `Send email to ${selectedUsers.size} user(s)?\n\nSubject: ${subject}`
-    );
+    const confirmed = await confirm({
+      title: `Send email to ${selectedUsers.size} user(s)?`,
+      description: `Subject: ${subject}`,
+      confirmLabel: "Send email",
+    });
     if (!confirmed) return;
 
     setSending(true);
@@ -97,7 +100,7 @@ export default function AdminMailPage() {
       setResult(data);
 
       if (data.success) {
-        toast.success(
+        notify.success(
           `Email sent successfully!\n\nSuccessful: ${data.results.successful}\nFailed: ${data.results.failed}`
         );
         setSubject("");
@@ -105,12 +108,12 @@ export default function AdminMailPage() {
         setSelectedUsers(new Set());
         setSelectAll(false);
       } else {
-        toast.error("Failed to send emails. Check console for details.");
+        notify.error("Failed to send emails. Check console for details.");
       }
     } catch (error) {
       console.error("Error sending emails:", error);
-      toast.error("An error occurred while sending emails");
-      toast.error(error);
+      notify.error("An error occurred while sending emails");
+      notify.error(error);
     } finally {
       setSending(false);
     }
@@ -204,15 +207,15 @@ export default function AdminMailPage() {
       </div>
 
       {result && (
-        <div className={`mail-result ${result.success ? "success" : "error"}`}>
-          <h4>{result.success ? "✓ Success" : "✗ Error"}</h4>
+        <InlineBanner variant={result.success ? "success" : "error"}>
+          <strong>{result.success ? "✓ Success" : "✗ Error"}</strong>
           {result.results && (
             <p>
               Total: {result.results.total} | Successful:{" "}
               {result.results.successful} | Failed: {result.results.failed}
             </p>
           )}
-        </div>
+        </InlineBanner>
       )}
     </div>
   );

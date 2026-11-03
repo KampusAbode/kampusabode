@@ -11,7 +11,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Prompt from "../../components/modals/prompt/Prompt";
 import { BadgeCheck, CircleX } from "lucide-react";
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import { Button } from "../../components/button/Button";
 
 const PropertyManagement = () => {
@@ -37,13 +37,13 @@ const PropertyManagement = () => {
           allProperties.filter((p) => p.id !== selectedPropertyId)
         );
         setPromptOpen(false);
-        toast.success(res.message || "Apartment deleted successfully");
+        notify.success(res.message || "Apartment deleted successfully");
       } else {
         throw new Error("Failed to delete property.");
       }
     } catch (error) {
       console.error("Error deleting property:", error);
-      alert("Failed to delete property.");
+      notify.error("Failed to delete property.");
     }
   };
 
@@ -59,7 +59,7 @@ const PropertyManagement = () => {
       );
     } catch (error) {
       console.error("Error updating property approve:", error);
-      alert("Failed to update approve.");
+      notify.error("Failed to update approval.");
     }
   };
 

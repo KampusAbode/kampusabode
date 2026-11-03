@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { toast } from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import { updateBookmarkInDB } from "../../../utils";
 import { Heart } from "lucide-react";
 import { Button } from "../../button/Button";
@@ -22,12 +22,12 @@ const BookmarkButton = ({ propertyId }: { propertyId: string }) => {
 
   const toggleBookmark = async () => {
     if (!user) {
-      toast.error("Please log in to bookmark apartment.");
+      notify.error("Please log in to bookmark apartment.");
       return;
     }
 
     if (user.userType !== "student" || !("savedProperties" in user.userInfo)) {
-      toast.error("Only students can bookmark properties.");
+      notify.error("Only students can bookmark properties.");
       return;
     }
 
@@ -46,17 +46,17 @@ const BookmarkButton = ({ propertyId }: { propertyId: string }) => {
       // Update state
       if (newBookmarkState) {
         addBookmark(propertyId);
-        toast.success("Apartment added to bookmarks.", { id: "bookmarked" });
+        notify.success("Apartment added to bookmarks.", { id: "bookmarked" });
       } else {
         removeBookmark(propertyId);
-        toast.success("Apartment removed from bookmarks.", {
+        notify.success("Apartment removed from bookmarks.", {
           id: "bookmarked",
         });
       }
 
       setIsBookmarked(newBookmarkState);
     } catch (error) {
-      toast.error(
+      notify.error(
         "An error occurred while updating your bookmarks. Please try again."
       );
     } finally {

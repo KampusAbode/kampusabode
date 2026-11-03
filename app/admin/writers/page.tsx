@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useUserStore } from "../../store/userStore";
 import Prompt from "../../components/modals/prompt/Prompt";
 import { useUsersStore } from "../../store/usersStore";
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import { Button } from "../../components/button/Button";
 import { DEFAULT_USER_AVATAR } from "../../lib/constants";
 
@@ -63,16 +63,16 @@ const WritersManagement = () => {
       if (isWriter) {
         // remove writer role
         await assignUserRole(student.name, student.id, "writer", user.name);
-        toast.success(`${student.name} is no longer a writer`);
+        notify.success(`${student.name} is no longer a writer`);
         setWriters((prev) => prev.filter((w) => w.id !== student.id));
       } else {
         // add writer role
         await assignUserRole(student.name, student.id, "writer", user.name);
-        toast.success(`${student.name} is now a writer`);
+        notify.success(`${student.name} is now a writer`);
         setWriters((prev) => [...prev, student]);
       }
     } catch (error) {
-      toast.error("Failed to toggle writer role");
+      notify.error("Failed to toggle writer role");
       console.error("Error toggling writer role:", error);
     }
   };

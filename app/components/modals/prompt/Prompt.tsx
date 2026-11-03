@@ -1,53 +1,43 @@
 "use client";
 
-import { useEffect } from "react";
-import "./prompt.css";
-import { Button } from "../../button/Button";
+import { AnimatePresence } from "framer-motion";
+import { useId } from "react";
+import DialogSurface from "../../notifications/DialogSurface";
 
 interface PromptProps {
   message: string;
   isOpen: boolean;
   onConfirm: () => void;
   onCancel: () => void;
+  title?: string;
+  destructive?: boolean;
 }
 
-const Prompt = ({ message, isOpen, onConfirm, onCancel }: PromptProps) => {
-  useEffect(() => {
-    const handleKeyPress = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onCancel();
-      }
-    };
-    document.addEventListener("keydown", handleKeyPress);
-    return () => {
-      document.removeEventListener("keydown", handleKeyPress);
-    };
-  }, [onCancel]);
-
-  if (!isOpen) return null;
+const Prompt = ({
+  message,
+  isOpen,
+  onConfirm,
+  onCancel,
+  title = "Please confirm",
+  destructive = false,
+}: PromptProps) => {
+  const promptId = useId();
 
   return (
-    <div className="prompt" onClick={onCancel}>
-      <div className="wrapper">
-        <p className="text-lg">{message}</p>
-        <div>
-          <Button
-            variant="outline"
-            size="md"
-            onClick={onCancel}
-            className="cancel">
-            Cancel
-          </Button>
-          <Button
-            variant="primary"
-            size="md"
-            onClick={onConfirm}
-            className="confirm">
-            Confirm
-          </Button>
-        </div>
-      </div>
-    </div>
+    <AnimatePresence>
+      {isOpen && (
+        <DialogSurface
+          key="prompt"
+          id={promptId}
+          title={title}
+          description={message}
+          confirmLabel="Confirm"
+          destructive={destructive}
+          onCancel={onCancel}
+          onConfirm={onConfirm}
+        />
+      )}
+    </AnimatePresence>
   );
 };
 

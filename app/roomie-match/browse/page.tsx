@@ -1,14 +1,16 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import data from "../../fetch/contents";
 import RoomieCard from "../../components/roomimatch/RoomieCard";
 import { getRoomieProfiles, incrementProfileViews } from "../../utils/roomieMatchFirebase";
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import { Button } from "../../components/button/Button";
 import IconButton from "../../components/button/IconButton";
 import { DEFAULT_USER_AVATAR } from "../../lib/constants";
+import DialogFrame from "../../components/notifications/DialogFrame";
 import "./BrowseRoomiematches.css";
 
 const { locations } = data;
@@ -141,7 +143,7 @@ const BrowseRoommates = () => {
   const phoneRegex = /^\+234\d{10}$/;
   if (!phoneRegex.test(number)) {
     console.error("Invalid WhatsApp number format:", number);
-    return toast.error("Invalid WhatsApp number format. Please check and try again.");
+    return notify.error("Invalid WhatsApp number format. Please check and try again.");
   }
 
   const message = encodeURIComponent(
@@ -355,11 +357,13 @@ const BrowseRoommates = () => {
         </div>
 
         {/* Profile Modal */}
-        {selectedProfile && (
-          <div
-            className="modalOverlay"
-            onClick={() => setSelectedProfile(null)}>
-            <div className="modalContent" onClick={(e) => e.stopPropagation()}>
+        <AnimatePresence>
+          {selectedProfile && (
+            <DialogFrame
+              id="roomie-profile"
+              labelledBy="roomie-profile-title"
+              onClose={() => setSelectedProfile(null)}
+              panelClassName="roomie-profile-dialog">
               <div className="modalInner">
                 {/* Close Button */}
                 <IconButton
@@ -378,7 +382,7 @@ const BrowseRoommates = () => {
                     className="modalAvatar"
                   />
                   <div className="modalHeaderInfo">
-                    <h2 className="modalName">
+                    <h2 id="roomie-profile-title" className="modalName">
                       {selectedProfile.fullName}, {selectedProfile.age}
                     </h2>
                     <p className="modalCourse">
@@ -472,9 +476,9 @@ const BrowseRoommates = () => {
                   </Button>
                 </div>
               </div>
-            </div>
-          </div>
-        )}
+            </DialogFrame>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );

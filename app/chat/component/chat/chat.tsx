@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import {
   format,
   isToday,
@@ -113,12 +113,12 @@ const ChatComponent: React.FC<ChatProps> = ({
       const res = await sendMessage(sender, receiverId, message);
       if (res?.success) {
         setMessage("");
-        toast.success("Message sent!");
+        notify.success("Message sent!");
       } else {
-        toast.error("Failed to send message.");
+        notify.error("Failed to send message.");
       }
     } catch {
-      toast.error("An error occurred.");
+      notify.error("An error occurred.");
     } finally {
       setIsLoading(false);
     }
@@ -157,7 +157,7 @@ const ChatComponent: React.FC<ChatProps> = ({
       setLongPressedMessage(message);
       setShowDeleteDialog(true);
     } else {
-      toast.error("You can only delete your messages.");
+      notify.error("You can only delete your messages.");
     }
   };
 
@@ -169,9 +169,9 @@ const ChatComponent: React.FC<ChatProps> = ({
       setMessages((prev) =>
         prev.filter((msg) => msg.id !== longPressedMessage.id)
       );
-      toast.success("Message deleted successfully.");
+      notify.success("Message deleted successfully.");
     } catch {
-      toast.error("Failed to delete the message.");
+      notify.error("Failed to delete the message.");
     } finally {
       setShowDeleteDialog(false);
       setLongPressedMessage(null);

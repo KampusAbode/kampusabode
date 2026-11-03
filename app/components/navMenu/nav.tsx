@@ -14,7 +14,7 @@ import {
   Users,
   X,
 } from "lucide-react";
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import "./nav.css";
 import useNavStore from "../../store/menuStore";
 import { useUserStore } from "../../store/userStore";
@@ -43,10 +43,10 @@ function Nav() {
       await logoutUser();
       toggleNav();
       router.push("/apartment");
-      toast.success("Logged out successfully");
+      notify.success("Logged out successfully");
       window.location.reload();
     } catch (error: any) {
-      toast.error(error?.message || "An unexpected error occurred.");
+      notify.error(error?.message || "An unexpected error occurred.");
     }
   };
 

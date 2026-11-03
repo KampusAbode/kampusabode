@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchReviewsByAuthor } from "../../utils";
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import ReviewType from "../../fetch/types";
 
 const RecentReviews = ({ user }) => {
@@ -17,7 +17,7 @@ const RecentReviews = ({ user }) => {
       } catch (err) {
         console.error("Error fetching reviews:", err);
         setError("Failed to fetch reviews.");
-        toast.error("Failed to fetch reviews.");
+        notify.error("Failed to fetch reviews.");
       } finally {
         setLoading(false);
       }

@@ -15,7 +15,7 @@ import {
   setDoc,
   deleteDoc,
 } from "firebase/firestore";
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import { useUserStore } from "../store/userStore";
 
 export type Notification = {
@@ -73,15 +73,9 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
               console.error("Error playing notification sound:", error)
             );
 
-          // Show a toast notification
-          toast(`🔔 ${newNotification.message}`, {
+          // Show the shared notification toast
+          notify.info(`🔔 ${newNotification.message}`, {
             duration: 5000,
-            position: "top-right",
-            style: {
-              borderRadius: "8px",
-              background: "#333",
-              color: "#fff",
-            },
           });
         });
       });
@@ -114,14 +108,10 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     try {
       await deleteDoc(doc(db, "notifications", id));
       setNotifications((prev) => prev.filter((notif) => notif.id !== id));
-      toast.success("Notification deleted successfully!", {
-        position: "bottom-right",
-      });
+      notify.success("Notification deleted successfully!");
     } catch (error) {
       console.error("Error deleting notification:", error);
-      toast.error("Failed to delete notification!", {
-        position: "bottom-right",
-      });
+      notify.error("Failed to delete notification!");
     }
   };
 

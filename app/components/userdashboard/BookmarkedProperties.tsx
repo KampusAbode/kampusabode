@@ -7,9 +7,10 @@ import { getApartmentsByIds } from "../../utils";
 import Loader from "../loader/Loader";
 import Link from "next/link";
 import Image from "next/image";
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import { AgentUserInfo, StudentUserInfo } from "../../fetch/types";
 import { usePropertiesStore } from "../../store/propertiesStore";
+import InlineBanner from "../notifications/InlineBanner";
 
 // Type guard to check if user is a tenant (student)
 const isUserType = (
@@ -58,7 +59,7 @@ const BookmarkedProperties = () => {
           err instanceof Error ? err.message : "An unknown error occurred.";
         console.error("Error fetching bookmarked properties:", errorMessage);
         setError(errorMessage);
-        toast.error("Failed to load bookmarked properties.");
+        notify.error("Failed to load bookmarked properties.");
       } finally {
         setLoading(false);
       }
@@ -78,7 +79,7 @@ const BookmarkedProperties = () => {
         {loading ? (
           <Loader />
         ) : error ? (
-          <p className="error">{error}</p>
+          <InlineBanner variant="error">{error}</InlineBanner>
         ) : bookmarkedProperties.length > 0 ? (
           <ul>
             {bookmarkedProperties.map((property) => (

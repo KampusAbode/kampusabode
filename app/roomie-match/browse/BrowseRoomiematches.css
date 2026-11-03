@@ -172,28 +172,14 @@
   }
 }
 
-.modalOverlay {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(32, 36, 43, 0.56);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing);
-  z-index: 50;
-}
-
-.modalContent {
-  background-color: #ffffff;
-  border-radius: 0.75rem;
-  max-width: 42rem;
-  width: 100%;
-  max-height: 90vh;
+.ka-dialog.roomie-profile-dialog {
+  width: min(100%, 672px);
+  max-height: 90dvh;
   overflow-y: auto;
 }
 
 .modalInner {
-  padding: var(--space-6);
+  min-width: 0;
 }
 
 .modalCloseButton {

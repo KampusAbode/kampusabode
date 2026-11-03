@@ -1,11 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import "./ScheduleInspectionModal.css";
 import { useUserStore } from "../../../store/userStore";
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import { format, parseISO } from "date-fns";
 import { Button } from "../../button/Button";
+import InlineBanner from "../../notifications/InlineBanner";
+import DialogFrame from "../../notifications/DialogFrame";
 
 
 interface ScheduleInspectionModalProps {
@@ -39,11 +42,9 @@ export default function ScheduleInspectionModal({
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
-  if (!isOpen) return null;
-
-  if (!user) {
-    toast.error("sign up before scheduling an inspection");
-    return
+  if (isOpen && !user) {
+    notify.error("sign up before scheduling an inspection");
+    return null;
   }
 
 
@@ -89,115 +90,126 @@ export default function ScheduleInspectionModal({
 
 
   return (
-    <div className="modal-overlay">
-      <div className="schedule-inspection-modal">
-        <div className="modal-header">
-          <h3>Schedule Inspection</h3>
-        </div>
-
-        <form className="modal-body" onSubmit={handleSubmit}>
-          <div className="modal-section">
-            <label>Apartment:</label>
-            <p>{apartmentTitle}</p>
+    <AnimatePresence>
+      {isOpen && (
+        <DialogFrame
+          id="schedule-inspection"
+          labelledBy="schedule-inspection-title"
+          closeOnBackdrop={false}
+          onClose={onClose}
+          panelClassName="schedule-inspection-modal">
+          <div className="modal-header">
+            <h2 id="schedule-inspection-title">Schedule Inspection</h2>
           </div>
 
-          <div className="modal-section">
-            <label htmlFor="name">
-              Name <span className="required">*</span>
-            </label>
-            <input
-              id="name"
-              type="text"
-              value={name}
-              placeholder="Your full name"
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </div>
+          <form className="modal-body" onSubmit={handleSubmit}>
+            <div className="modal-section">
+              <label>Apartment:</label>
+              <p>{apartmentTitle}</p>
+            </div>
 
-          <div className="modal-section">
-            <label htmlFor="email">
-              Email <span className="required">*</span>
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              placeholder="Your email"
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="modal-section">
-            <label htmlFor="phone">
-              Phone <span className="required">*</span>
-            </label>
-            <input
-              id="phone"
-              type="tel"
-              value={phone}
-              placeholder="Phone number"
-              onChange={(e) => setPhone(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="modal-section date-time">
-            <label>
-              Preferred Date and Time <span className="required">*</span>
-            </label>
-
-            <div>
+            <div className="modal-section">
+              <label htmlFor="name">
+                Name <span className="required">*</span>
+              </label>
               <input
-                id="preferredDate"
-                type="date"
-                value={preferredDate}
-                onChange={(e) => setPreferredDate(e.target.value)}
-                required
-              />
-              <input
-                id="preferredTime"
-                type="time"
-                value={preferredTime}
-                onChange={(e) => setPreferredTime(e.target.value)}
+                id="name"
+                type="text"
+                value={name}
+                placeholder="Your full name"
+                onChange={(e) => setName(e.target.value)}
                 required
               />
             </div>
-          </div>
 
-          <div className="modal-section">
-            <label htmlFor="notes">Additional Notes</label>
-            <textarea
-              id="notes"
-              placeholder="Any special requests or info"
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-            />
-          </div>
+            <div className="modal-section">
+              <label htmlFor="email">
+                Email <span className="required">*</span>
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                placeholder="Your email"
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
 
-          {errorMsg && <p className="error-msg">{errorMsg}</p>}
-          {successMsg && <p className="success-msg">{successMsg}</p>}
+            <div className="modal-section">
+              <label htmlFor="phone">
+                Phone <span className="required">*</span>
+              </label>
+              <input
+                id="phone"
+                type="tel"
+                value={phone}
+                placeholder="Phone number"
+                onChange={(e) => setPhone(e.target.value)}
+                required
+              />
+            </div>
 
-          <div className="modal-footer">
-            <Button
-              variant="secondary"
-              size="md"
-              type="button"
-              onClick={onClose}
-              disabled={loading}>
-              Cancel
-            </Button>
-            <Button
-              variant="primary"
-              size="md"
-              type="submit"
-              disabled={loading}>
-              {loading ? "Scheduling..." : "Schedule"}
-            </Button>
-          </div>
-        </form>
-      </div>
-    </div>
+            <div className="modal-section date-time">
+              <label>
+                Preferred Date and Time <span className="required">*</span>
+              </label>
+
+              <div>
+                <input
+                  id="preferredDate"
+                  type="date"
+                  value={preferredDate}
+                  onChange={(e) => setPreferredDate(e.target.value)}
+                  required
+                />
+                <input
+                  id="preferredTime"
+                  type="time"
+                  value={preferredTime}
+                  onChange={(e) => setPreferredTime(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="modal-section">
+              <label htmlFor="notes">Additional Notes</label>
+              <textarea
+                id="notes"
+                placeholder="Any special requests or info"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+              />
+            </div>
+
+            {errorMsg && (
+              <InlineBanner variant="error">{errorMsg}</InlineBanner>
+            )}
+            {successMsg && (
+              <InlineBanner variant="success">{successMsg}</InlineBanner>
+            )}
+
+            <div className="modal-footer">
+              <Button
+                variant="secondary"
+                size="md"
+                type="button"
+                onClick={onClose}
+                disabled={loading}>
+                Cancel
+              </Button>
+              <Button
+                variant="primary"
+                size="md"
+                type="submit"
+                disabled={loading}>
+                {loading ? "Scheduling..." : "Schedule"}
+              </Button>
+            </div>
+          </form>
+        </DialogFrame>
+      )}
+    </AnimatePresence>
   );
 }

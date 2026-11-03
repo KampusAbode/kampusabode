@@ -11,7 +11,7 @@ import {
   Timestamp,
   writeBatch,
 } from "firebase/firestore";
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 
 const db = getFirestore();
 
@@ -60,10 +60,7 @@ export function useNotifications(userId: string | null) {
       // 🔔 Toast new notifications (only after initial mount)
       if (!firstLoad.current && newUnseenNotifs.length > 0) {
         newUnseenNotifs.forEach((notif) => {
-          toast(notif.message, {
-            icon: "📩",
-            duration: 5000,
-          });
+          notify.info(notif.message, { duration: 5000 });
         });
       }
 

@@ -1,5 +1,5 @@
 
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 
 
 type UserData = {
@@ -62,10 +62,10 @@ export const submitInspectionRequest = async (
         agentDetails.phoneNumber
       }?text=${encodeURIComponent(message)}`
     );
- toast.success("Redirecting to WhatsApp...", { id: "whatsapp-redirect" });
+ notify.success("Redirecting to WhatsApp...", { id: "whatsapp-redirect" });
 
  if (onSuccess) onSuccess();
   } catch (err) {
-    toast.error(err.message || "Failed to book inspection");
+    notify.error(err.message || "Failed to book inspection");
   }
 };

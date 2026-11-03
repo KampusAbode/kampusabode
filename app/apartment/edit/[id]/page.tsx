@@ -19,9 +19,10 @@ import Loader from "../../../components/loader/Loader";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "../../../store/userStore";
 import { ApartmentType } from "../../../fetch/types";
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import { availableMemory, title } from "process";
 import { Button } from "../../../components/button/Button";
+import InlineBanner from "../../../components/notifications/InlineBanner";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const validationSchema = Yup.object().shape({
@@ -104,7 +105,7 @@ export default function EditApartment({ params }: { params: { id: string } }) {
   }, [id]);
 
   if (loading) return <Loader />;
-  if (error) return <p className="error">{error}</p>;
+  if (error) return <InlineBanner variant="error">{error}</InlineBanner>;
   if (!apartment) return null;
 
   // const handleImageDelete = (img) => {
@@ -136,11 +137,11 @@ export default function EditApartment({ params }: { params: { id: string } }) {
     setSubmitting(true);
     updateapartment(id, values)
       .then(() => {
-        toast.success("Apartment updated successfully!");
+        notify.success("Apartment updated successfully!");
         router.push(`/dashboard/${user?.id}`);
       })
       .catch((err) => {
-        toast.error("Update failed.");
+        notify.error("Update failed.");
         console.error(err);
       })
       .finally(() => setSubmitting(false));
@@ -210,9 +211,9 @@ export default function EditApartment({ params }: { params: { id: string } }) {
                 </div>
 
                 {status?.error && (
-                  <div className="error edit-property__status-error">
+                  <InlineBanner variant="error">
                     {status.error}
-                  </div>
+                  </InlineBanner>
                 )}
 
                 <Button

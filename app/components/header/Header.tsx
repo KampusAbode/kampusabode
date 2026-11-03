@@ -9,7 +9,7 @@ import { Menu } from "lucide-react";
 import { Button, ButtonLink } from "../button/Button";
 import IconButton from "../button/IconButton";
 import { usePathname, useRouter } from "next/navigation";
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import BackButton from "../features/backbutton/BackButton";
 import { useUserStore } from "../../store/userStore";
 import useNavStore from "../../store/menuStore";
@@ -44,10 +44,10 @@ export default function Header() {
       await logoutUser();
       toggleNav();
       router.push("/apartment");
-      toast.success("Logged out successfully");
+      notify.success("Logged out successfully");
       window.location.reload();
     } catch (error) {
-      toast.error(error?.message || "An unexpected error occurred.");
+      notify.error(error?.message || "An unexpected error occurred.");
     }
   };
 

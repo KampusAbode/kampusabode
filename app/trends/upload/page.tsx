@@ -3,7 +3,7 @@
 import "./uploadtrend.css";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import { uploadTrend } from "../../utils";
 import { useUserStore } from "../../store/userStore";
 import dynamic from "next/dynamic";
@@ -36,7 +36,7 @@ function UploadTrend() {
       const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
 
       if (!allowedTypes.includes(file.type)) {
-        toast.error("Only JPG, JPEG, and PNG files are allowed.");
+        notify.error("Only JPG, JPEG, and PNG files are allowed.");
         e.target.value = "";
         return;
       }
@@ -62,7 +62,7 @@ function UploadTrend() {
     if (errorFields.length > 0) {
       const fieldName =
         errorFields[0].charAt(0).toUpperCase() + errorFields[0].slice(1);
-      toast.error(
+      notify.error(
         fieldName === "Image"
           ? "Please upload an image."
           : `Please enter a valid ${fieldName}.`,
@@ -83,11 +83,11 @@ function UploadTrend() {
         author_id: user?.id,
       });
 
-      toast.success(`${trend.title} uploaded`);
+      notify.success(`${trend.title} uploaded`);
       router.push(`/trends/${trend.slug}`);
     } catch (error) {
       console.error("Upload failed:", error);
-      toast.error("Failed to upload trend.");
+      notify.error("Failed to upload trend.");
     } finally {
       setLoading(false);
     }

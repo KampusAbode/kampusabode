@@ -6,6 +6,7 @@ import { useState } from "react";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../lib/firebaseConfig";
 import { Button } from "../../components/button/Button";
+import InlineBanner from "../../components/notifications/InlineBanner";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -28,9 +29,9 @@ export default function ForgotPasswordPage() {
       <div className="container">
         <h4>Forgot Password</h4>
         {sent ? (
-          <p className="forgot-password__sent">
+          <InlineBanner variant="success">
             ✅ A reset link has been sent to your email.
-          </p>
+          </InlineBanner>
         ) : (
           <form onSubmit={handleSubmit}>
             <input
@@ -45,7 +46,7 @@ export default function ForgotPasswordPage() {
             </Button>
           </form>
         )}
-        {error && <p className="forgot-password__error">{error}</p>}
+        {error && <InlineBanner variant="error">{error}</InlineBanner>}
       </div>
     </div>
   );

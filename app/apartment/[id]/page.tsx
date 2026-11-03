@@ -13,7 +13,7 @@ import Image from "next/image";
 import Link from "next/link";
 import PropertyImages from "./components/propertyImages/PropertyImages";
 import { ApartmentType, ReviewType, UserType } from "../../fetch/types";
-import toast from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import { formatDistanceToNowStrict } from "date-fns";
 import BookingConfirmationModal from "../../components/modals/BookingConfirmationModal/BookingConfirmationModal";
 import { useUserStore } from "../../store/userStore";
@@ -68,7 +68,7 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
         setAgentPropertyListings(properties);
       }
     } catch (error) {
-      toast.error(
+      notify.error(
         error instanceof Error ? error.message : "An unknown error occurred",
       );
     }
@@ -80,7 +80,7 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
       const reviews = await fetchReviewsByPropertyId(id);
       setPropReviews(reviews as ReviewType[]);
     } catch (error) {
-      toast.error("Failed to fetch reviews.");
+      notify.error("Failed to fetch reviews.");
     }
   }, [id]);
 
@@ -114,7 +114,7 @@ const PropertyDetails = ({ params }: { params: { id: string } }) => {
 
   const handleBookingConfirm = () => {
     if (!user) {
-      toast.error("Please log in to confirm your booking.");
+      notify.error("Please log in to confirm your booking.");
       return;
     }
 

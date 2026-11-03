@@ -1,28 +1,9 @@
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-4);
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(5px);
-}
-
 .schedule-inspection-modal {
-  width: min(100%, 420px);
-  max-height: calc(100vh - var(--space-8));
+  max-height: 90dvh;
   overflow-y: auto;
-  padding: var(--space-6);
-  border: 1px solid var(--border-color-light);
-  border-radius: var(--radius-2xl);
-  background: var(--bg-primary);
-  box-shadow: var(--shadow-lg);
-  animation: fadeIn 0.25s ease-in-out;
 }
 
-.schedule-inspection-modal .modal-header h3 {
+.schedule-inspection-modal .modal-header h2 {
   margin: 0 0 var(--space-4);
 }
 
@@ -79,36 +60,11 @@
   resize: none;
 }
 
-.schedule-inspection-modal .error-msg,
-.schedule-inspection-modal .success-msg {
-  margin: 0;
-  line-height: var(--leading-normal);
-}
-
-.schedule-inspection-modal .error-msg {
-  color: var(--error-600);
-}
-
-.schedule-inspection-modal .success-msg {
-  color: var(--success-600);
-}
-
 .schedule-inspection-modal .modal-footer {
   display: flex;
   justify-content: flex-end;
   gap: var(--space-4);
   margin-top: var(--space-2);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
 }
 
 @media (max-width: 480px) {
@@ -118,11 +74,5 @@
 
   .schedule-inspection-modal .modal-footer .ka-button {
     width: 100%;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .schedule-inspection-modal {
-    animation: none;
   }
 }

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
+import { notify } from "@/app/lib/notifications/notify";
 import { loginUser } from "../../utils";
 import Link from "next/link";
 import "../auth.css";
@@ -55,14 +55,14 @@ const LoginPage = () => {
       const response = await loginUser({ email, password });
 
       if (response.message === "Email not found") {
-        toast.error(response.message);
+        notify.error(response.message);
       } else {
         router.push("/profile");
         // router.refresh();
-        toast.success(`${response.message} 👋`, { id: "login-successful" });
+        notify.success(`${response.message} 👋`, { id: "login-successful" });
       }
     } catch (error: any) {
-      toast.error(error.message || "An unexpected error occurred.");
+      notify.error(error.message || "An unexpected error occurred.");
     }
 
     setIsSubmitting(false);
